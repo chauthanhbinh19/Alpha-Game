@@ -6,23 +6,10 @@ using System;
 
 public class CollectionManagement : MonoBehaviour
 {
-    public Button CardsGalleryButton;
-    public Button BooksGalleryButton;
-    public Button CaptainsGalleryButton;
-    public Button CollaborationGalleryButton;
-    public Button CollaborationEquipmentGalleryButton;
-    public Button EquipmentsGalleryButton;
-    public Button MedalsGalleryButton;
-    public Button MonstersGalleryButton;
-    public Button PetsGalleryButton;
-    public Button SkillsGalleryButton;
-    public Button SymbolsGalleryButton;
-    public Button TitlesGalleryButton;
-    public Button MilitaryGalleryButton;
-    public Button SpellGalleryButton;
+    public Transform collectionMenuPanel;
     public GameObject buttonPrefab;
     public GameObject DictionaryPanel;
-    public Transform content;
+    public Transform buttonContent;
     public GameObject cardsPrefab;
     public Transform mainContent;
     public Button CloseButton;
@@ -43,20 +30,20 @@ public class CollectionManagement : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        CardsGalleryButton.onClick.AddListener(GetCardsType);
-        BooksGalleryButton.onClick.AddListener(GetBooksType);
-        CaptainsGalleryButton.onClick.AddListener(GetCaptainsType);
-        CollaborationGalleryButton.onClick.AddListener(GetCollaborationType);
-        CollaborationEquipmentGalleryButton.onClick.AddListener(GetCollaborationEquipmentsType);
-        EquipmentsGalleryButton.onClick.AddListener(GetEquipmentsType);
-        MedalsGalleryButton.onClick.AddListener(GetMedalsType);
-        MonstersGalleryButton.onClick.AddListener(GetMonstersType);
-        PetsGalleryButton.onClick.AddListener(GetPetsType);
-        SkillsGalleryButton.onClick.AddListener(GetSkillsType);
-        SymbolsGalleryButton.onClick.AddListener(GetSymbolsType);
-        TitlesGalleryButton.onClick.AddListener(GetTitlesType);
-        MilitaryGalleryButton.onClick.AddListener(GetMilitaryType);
-        SpellGalleryButton.onClick.AddListener(GetSpellType);
+        AssignButtonEvent("Button_1", GetCardsType);
+        AssignButtonEvent("Button_2", GetBooksType);
+        AssignButtonEvent("Button_3", GetPetsType);
+        AssignButtonEvent("Button_4", GetCaptainsType);
+        AssignButtonEvent("Button_5", GetCollaborationEquipmentsType);
+        AssignButtonEvent("Button_6", GetMilitaryType);
+        AssignButtonEvent("Button_7", GetSpellType);
+        AssignButtonEvent("Button_8", GetCollaborationType);
+        AssignButtonEvent("Button_9", GetMonstersType);
+        AssignButtonEvent("Button_10", GetEquipmentsType);
+        AssignButtonEvent("Button_11", GetMedalsType);
+        AssignButtonEvent("Button_12", GetSkillsType);
+        AssignButtonEvent("Button_13", GetSymbolsType);
+        AssignButtonEvent("Button_14", GetTitlesType);
 
         CloseButton.onClick.AddListener(ClosePanel);
         NextButton.onClick.AddListener(ChangeNextPage);
@@ -67,6 +54,22 @@ public class CollectionManagement : MonoBehaviour
     void Update()
     {
 
+    }
+    void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
+    {
+        Transform buttonTransform = collectionMenuPanel.Find(buttonName);
+        if (buttonTransform != null)
+        {
+            Button button = buttonTransform.GetComponent<Button>();
+            if (button != null)
+            {
+                button.onClick.AddListener(action);
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Button {buttonName} not found!");
+        }
     }
     public void GetCardsType()
     {
@@ -206,7 +209,7 @@ public class CollectionManagement : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = uniqueTypes[i];
-                GameObject button = Instantiate(buttonPrefab, content);
+                GameObject button = Instantiate(buttonPrefab, buttonContent);
 
                 Text buttonText = button.GetComponentInChildren<Text>();
                 buttonText.text = subtype.Replace("_", " ");
@@ -217,7 +220,7 @@ public class CollectionManagement : MonoBehaviour
                 if (i == 0)
                 {
                     subType = subtype;
-                    ChangeButtonBackground(button, "Button3");
+                    ChangeButtonBackground(button, "Background_V4_166");
                     int totalRecord = 0;
                     if (mainType.Equals("Cards"))
                     {
@@ -306,7 +309,7 @@ public class CollectionManagement : MonoBehaviour
                 }
                 else
                 {
-                    ChangeButtonBackground(button, "Button4");
+                    ChangeButtonBackground(button, "Background_V4_167");
                 }
             }
         }
@@ -352,14 +355,14 @@ public class CollectionManagement : MonoBehaviour
     }
     void OnButtonClick(GameObject clickedButton, string type)
     {
-        foreach (Transform child in content)
+        foreach (Transform child in buttonContent)
         {
             // Lấy component Button từ con cái
             Button button = child.GetComponent<Button>();
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, "Button4"); // Giả sử bạn có texture trắng
+                ChangeButtonBackground(button.gameObject, "Background_V4_167"); // Giả sử bạn có texture trắng
             }
         }
 
@@ -367,7 +370,7 @@ public class CollectionManagement : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ChangeButtonBackground(clickedButton, "Button3");
+        ChangeButtonBackground(clickedButton, "Background_V4_166");
         int totalRecord = 0;
 
         if (mainType.Equals("Cards"))
@@ -460,7 +463,7 @@ public class CollectionManagement : MonoBehaviour
         RawImage buttonImage = button.GetComponent<RawImage>();
         if (buttonImage != null)
         {
-            Texture texture = Resources.Load<Texture>($"UI/UI/{image}");
+            Texture texture = Resources.Load<Texture>($"UI/Background4/{image}");
             if (texture != null)
             {
                 buttonImage.texture = texture;
@@ -1182,7 +1185,7 @@ public class CollectionManagement : MonoBehaviour
     public void ClearAllButton()
     {
         // Duyệt qua tất cả các con cái của cardsContent
-        foreach (Transform child in content)
+        foreach (Transform child in buttonContent)
         {
             Destroy(child.gameObject);
         }
