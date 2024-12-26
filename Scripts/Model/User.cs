@@ -3,15 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data.Common;
 
 public class User
 {
     public GameObject signInPanel;
     public GameObject namePanel;
+    public int id;
+    public string name;
+    public string image;
+    public int level;
+    public int experiment;
+    public int vip;
+    public int power;
     public string Username { get; set; }
     public string Password { get; set; }
     public static int CurrentUserId { get; private set; }
-    public User(GameObject namepanel){
+    private static string savedUsername;
+    private static string savedPassword;
+    public List<Currency> Currencies { get; set; }
+    public User(){
+        Currencies = new List<Currency>();
+    }
+    public User(GameObject namepanel)
+    {
         this.namePanel = namepanel;
     }
 
@@ -25,7 +40,7 @@ public class User
         Username = username;
         Password = password;
         namePanel = namepanel;
-        signInPanel=signinpanel;
+        signInPanel = signinpanel;
     }
     public int RegisterUser()
     {
@@ -53,7 +68,7 @@ public class User
                 command.Parameters.AddWithValue("@username", Username);
                 command.Parameters.AddWithValue("@password", Password);
                 command.Parameters.AddWithValue("@name", "");
-                command.Parameters.AddWithValue("@image", "");
+                command.Parameters.AddWithValue("@image", "Avatar/valorpass154.png");
                 command.Parameters.AddWithValue("@level", 1);
                 command.Parameters.AddWithValue("@experiment", 0);
                 command.Parameters.AddWithValue("@vip", 0);
@@ -62,6 +77,7 @@ public class User
                 try
                 {
                     command.ExecuteNonQuery();
+                    createUserCurrency(maxId + 1);
                     Debug.Log("User registered successfully!");
                 }
                 catch (Exception ex)
@@ -86,41 +102,91 @@ public class User
         }
         return 0; // Nếu bảng rỗng, trả về 0
     }
-    public int SignInUser()
+    public User SignInUser()
     {
+        if (string.IsNullOrEmpty(Username)) Username = savedUsername;
+        if (string.IsNullOrEmpty(Password)) Password = savedPassword;
+
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string checkQuery = "Select id,name from Users WHERE username = @username and password = @password";
-            MySqlCommand command = new MySqlCommand(checkQuery, connection);
-            command.Parameters.AddWithValue("@username", Username);
-            command.Parameters.AddWithValue("@password", Password);
-
-            MySqlDataReader reader = command.ExecuteReader();
+            string userQuery = "SELECT * FROM Users WHERE username = @username AND password = @password";
+            MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
+            userCommand.Parameters.AddWithValue("@username", Username);
+            userCommand.Parameters.AddWithValue("@password", Password);
+            MySqlDataReader reader = userCommand.ExecuteReader();
             if (reader.Read())
             {
-                int userId = reader.GetInt32(0);
-                string userName = reader.GetString(1);
-                CurrentUserId = userId;
+                int userId = reader.GetInt32("id");
+                string Name = reader.GetString("name");
+                string username = reader.GetString("username");
+                string password = reader.GetString("password");
+                string Image = reader.GetString("image");
+                int Level = reader.GetInt32("level");
+                int Vip = reader.GetInt32("vip");
+                int Power = reader.GetInt32("power");
+                int Experiment = reader.GetInt32("experiment");
 
-                if (string.IsNullOrEmpty(userName))
+                CurrentUserId = userId;
+                savedUsername = username;
+                savedPassword = password;
+
+                if (string.IsNullOrEmpty(Name))
                 {
                     namePanel.SetActive(true);
                     signInPanel.SetActive(false);
-                    return 2;
-                }else{
-                    return 1;
+                    return null;
                 }
+                // Đóng `reader` trước khi thực hiện truy vấn tiếp theo
+                reader.Close();
+
+                // Lấy thông tin từ bảng `user_currency`
+                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
+                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                currencyCommand.Parameters.AddWithValue("@userId", userId);
+
+                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
+
+                List<Currency> currencies = new List<Currency>();
+                while (currencyReader.Read())
+                {
+                    string image=currencyReader.GetString("image");
+                    string name=currencyReader.GetString("name");
+                    int currencyId = currencyReader.GetInt32("currency_id");
+                    int quantity = currencyReader.GetInt32("quantity");
+                    currencies.Add(new Currency
+                    {
+                        id = currencyId,
+                        name = name,
+                        image = image,
+                        quantity = quantity
+                    });
+                }
+                currencyReader.Close();
+
+                return new User
+                {
+                    id = userId,
+                    name=Name,
+                    Username = username,
+                    Password=password,
+                    level=Level,
+                    vip=Vip,
+                    experiment=Experiment,
+                    power=Power,
+                    image=Image,    
+                    Currencies = currencies
+                };
             }
             else
             {
-                return 0;
+                return null; // Đăng nhập thất bại
             }
         }
-
     }
-    public void UpdateUserName(string newName)
+
+    public User UpdateUserName(string newName)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -134,8 +200,28 @@ public class User
             command.ExecuteNonQuery();
             namePanel.SetActive(false);
         }
+        return SignInUser();
     }
-    public int GetUserId(){
+    public int GetUserId()
+    {
         return CurrentUserId;
+    }
+    public void createUserCurrency(int id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            for (int currencyId = 1; currencyId <= 73; currencyId++) // Vòng lặp từ 1 đến 71
+            {
+                string updateQuery = "INSERT INTO user_currency (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
+                MySqlCommand command = new MySqlCommand(updateQuery, connection);
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@currency_id", currencyId);
+                command.Parameters.AddWithValue("@quantity", 1000000000);
+
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

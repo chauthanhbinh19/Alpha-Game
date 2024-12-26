@@ -9,6 +9,7 @@ public class ButtonLoader : MonoBehaviour
     public Transform mainMenuButtonPanel; // Nơi chứa các button trong scene
     public Transform galleryMenuPanel;
     public Transform collectionMenuPanel;
+    public Transform equipmentMenuPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +57,16 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(12, "Skills Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/SkillsCollection"),collectionMenuPanel);
         CreateButton(13, "Symbols Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/SymbolsCollection"),collectionMenuPanel);
         CreateButton(14, "Titles Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TitlesCollection"),collectionMenuPanel);
+        //Equipment menu
+        List<string> uniqueTypes = GetUniqueTypes();
+        if (uniqueTypes.Count > 0)
+        {
+            for (int i = 0; i < uniqueTypes.Count; i++)
+            {
+                string subtype = uniqueTypes[i];
+                CreateButtonWithName(subtype,Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/{subtype}"),equipmentMenuPanel);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -89,5 +100,40 @@ public class ButtonLoader : MonoBehaviour
         {
             nameText.text = itemName;
         }
+    }
+    private void CreateButtonWithName( string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(buttonPrefab, panel);
+        newButton.name = itemName;
+
+        // Gán màu cho itemBackground
+        RawImage  background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        if (background != null && itemBackground != null)
+        {
+            background.texture = itemBackground;
+        }
+
+        // Gán hình ảnh cho itemImage
+        RawImage  image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        // Gán tên cho itemName
+        Text nameText = newButton.transform.Find("ItemName").GetComponent<Text>();
+        if (nameText != null)
+        {
+            nameText.text = itemName.Replace("_", " ");
+        }
+    }
+    public List<string> GetUniqueTypes()
+    {
+        // if (mainType.Equals("Equipments"))
+        // {
+        //     return Equipments.GetUniqueEquipmentsTypes();
+        // }
+        return Equipments.GetUniqueEquipmentsTypes();
     }
 }
