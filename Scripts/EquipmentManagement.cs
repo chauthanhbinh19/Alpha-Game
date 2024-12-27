@@ -3,23 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class EquipmentManagement : MonoBehaviour
 {
     public GameObject equipmentMenuPanel;
-    public Transform MainContent;
-    public GameObject ItemsPrefab;
-    public GameObject EquipmentsPanelPrefab;
-    public Transform content;
-    public GameObject MainMenuPanel;
-    public Transform MainMenuContent;
-    public GameObject MainMenuShopPanel;
-    public Transform MainMenuShopContent;
-    public GameObject MainMenuEnhancementPanel;
-    public Transform MainMenuEnhancementContent;
-    public GameObject MainMenuCampaignPanel;
-    public GameObject equipmentsPrefab;
-    public GameObject equipmentsShopPrefab;
+    private Transform MainPanel;
+    private Transform EquipmentMenuPanel;
+    private GameObject ItemsPrefab;
+    private GameObject EquipmentsPanelPrefab;
+    // public Transform content;
+    private GameObject MainMenuPanel;
+    private Transform MainMenuContent;
+    private GameObject MainMenuShopPanel;
+    private Transform MainMenuShopContent;
+    private GameObject MainMenuEnhancementPanel;
+    private Transform MainMenuEnhancementContent;
+    private GameObject MainMenuCampaignPanel;
+    private GameObject equipmentsPrefab;
+    private GameObject equipmentsShopPrefab;
+    private GameObject currencyPrefab;
+    private Transform popupPanel;
+    private GameObject quantityPopupPrefab;
+    private Transform tempContent;
     private int offset;
     private int currentPage;
     private int totalPage;
@@ -31,6 +37,23 @@ public class EquipmentManagement : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        ItemsPrefab = UIManager.Instance.GetGameObject("ItemPrefab");
+        MainMenuPanel = UIManager.Instance.GetGameObject("MainMenuPanel");
+        MainMenuShopPanel = UIManager.Instance.GetGameObject("MainMenuShopPanel");
+        MainMenuEnhancementPanel = UIManager.Instance.GetGameObject("MainMenuEnhancementPanel");
+        MainMenuCampaignPanel = UIManager.Instance.GetGameObject("MainMenuCampaignPanel");
+        popupPanel=UIManager.Instance.GetTransform("popupPanel");
+        quantityPopupPrefab=UIManager.Instance.GetGameObject("quantityPopupPrefab");
+        equipmentsPrefab=UIManager.Instance.GetGameObject("equipmentsPrefab");
+        equipmentsShopPrefab=UIManager.Instance.GetGameObject("equipmentsShopPrefab");
+        currencyPrefab=UIManager.Instance.GetGameObject("currencyPrefab");
+        EquipmentMenuPanel=UIManager.Instance.GetTransform("equipmentMenuPanel");
+        EquipmentsPanelPrefab=UIManager.Instance.GetGameObject("EquipmentsPanelPrefab");
+
+        MainMenuContent = MainMenuPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
+        MainMenuShopContent = MainMenuShopPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel").GetComponent<Transform>();
+        MainMenuEnhancementContent = MainMenuEnhancementPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel").GetComponent<Transform>();
         // Lấy tất cả các button con trong equipmentMenuPanel
         Button[] buttons = equipmentMenuPanel.GetComponentsInChildren<Button>();
         foreach (Button button in buttons)
@@ -38,7 +61,7 @@ public class EquipmentManagement : MonoBehaviour
             string buttonName = button.name; // Lưu lại giá trị cục bộ để tránh lỗi closure
             int localCount = count;
             button.onClick.AddListener(() => OnButtonClick(buttonName, localCount));
-            count=count+1;
+            count = count + 1;
         }
     }
 
@@ -51,8 +74,7 @@ public class EquipmentManagement : MonoBehaviour
 
     public void OnButtonClick(string type, int count)
     {
-        equipmentsPrefab.SetActive(true);
-        GameObject equipmentObject = Instantiate(EquipmentsPanelPrefab, MainContent);
+        GameObject equipmentObject = Instantiate(EquipmentsPanelPrefab, MainPanel);
 
         Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
         Title.text = type.Replace("_", " ");
@@ -93,7 +115,7 @@ public class EquipmentManagement : MonoBehaviour
     public void OnClose()
     {
         equipmentsPrefab.SetActive(false);
-        foreach (Transform child in MainContent)
+        foreach (Transform child in MainPanel)
         {
             Destroy(child.gameObject);
         }
@@ -109,7 +131,7 @@ public class EquipmentManagement : MonoBehaviour
     {
         foreach (var equipment in equipmentList)
         {
-            GameObject equipmentObject = Instantiate(equipmentsPrefab, MainMenuContent);
+            GameObject equipmentObject = Instantiate(equipmentsPrefab, tempContent);
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = equipment.name.Replace("_", " ");
@@ -126,17 +148,17 @@ public class EquipmentManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = MainMenuContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = tempContent.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(110, 130);
         }
     }
-    private void createEquipmentsShop(List<Equipments> equipmentList)
+    private void createEquipmentsShop(List<Equipments> equipmentList, string type)
     {
         foreach (var equipment in equipmentList)
         {
-            GameObject equipmentObject = Instantiate(equipmentsShopPrefab, MainMenuShopContent);
+            GameObject equipmentObject = Instantiate(equipmentsShopPrefab, tempContent);
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = equipment.name.Replace("_", " ");
@@ -152,12 +174,27 @@ public class EquipmentManagement : MonoBehaviour
 
             RawImage currencyImage = equipmentObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = equipment.currency_image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture currencyTexture = Resources.Load<Texture>($"Currency/Purple_IV_Crystal");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyTitle = equipmentObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyTitle.text = equipment.price.ToString().Replace("_", " ");
+
+            Button buy = equipmentObject.transform.Find("Buy").GetComponent<Button>();
+            Equipments equipments = new Equipments();
+            buy.onClick.AddListener(() =>
+            {
+                // bool success = equipments.BuyEquipment(equipment.id);
+                // if (success) // Giả sử BuyEquipment trả về true nếu thành công
+                // {
+                //     FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
+                // }
+                // else
+                // {
+                //     FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
+                // }
+                GetQuantity(type, equipment.id);
+            });
         }
         // GridLayoutGroup gridLayout = MainMenuContent.GetComponent<GridLayoutGroup>();
         // if (gridLayout != null)
@@ -192,31 +229,51 @@ public class EquipmentManagement : MonoBehaviour
             gridLayout.cellSize = new Vector2(110, 130);
         }
     }
+    private void createCurrency(List<Currency> currencies, Transform CurrencyPanel)
+    {
+        foreach (var currency in currencies)
+        {
+            GameObject currencyObject = Instantiate(currencyPrefab, CurrencyPanel);
+
+            Text Title = currencyObject.transform.Find("Content").GetComponent<Text>();
+            Title.text = currency.quantity.ToString();
+
+            RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = currency.image.Replace(".png", "");
+            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+        }
+    }
     public void GetBag(string type)
     {
-        MainMenuPanel.SetActive(true);
+        GameObject MainMenuPanelObject = Instantiate(MainMenuPanel, MainPanel);
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
         List<Equipments> equipments = equipmentsManager.GetUserEquipments(type, pageSize, offset);
+        tempContent=MainMenuPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel");
         createEquipmentsBag(equipments);
 
         totalRecord = equipmentsManager.GetUserEquipmentsCount(type);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
-        Transform DictionaryPanel = MainMenuPanel.transform.Find("DictionaryCards");
+        Transform DictionaryPanel = MainMenuPanelObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
             Title.text = "Bag";
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() => ClosePanel(content, MainMenuPanel));
+            CloseButton.onClick.AddListener(() => ClosePanel(content, MainMenuPanelObject));
+
+            GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
+            gridLayout.cellSize = new Vector2(350, 130);
         }
 
-        Transform button = MainMenuPanel.transform.Find("Pagination");
+        Transform button = MainMenuPanelObject.transform.Find("Pagination");
         if (button != null)
         {
-            Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
+            Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
             Text PageText = button.transform.Find("Page").GetComponent<Text>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();
@@ -224,32 +281,34 @@ public class EquipmentManagement : MonoBehaviour
             Button PreviousButton = button.transform.Find("Previous").GetComponent<Button>();
             PreviousButton.onClick.AddListener(() => ChangePreviousPage(1, PageText, content, type));
         }
+
     }
     public void GetShop(string type)
     {
-        MainMenuShopPanel.SetActive(true);
+        GameObject MainMenuShopPanelObject = Instantiate(MainMenuShopPanel, MainPanel);
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
         List<Equipments> equipments = equipmentsManager.GetEquipmentsWithCurrency(type, pageSize, offset);
-        createEquipmentsShop(equipments);
+        tempContent=MainMenuShopPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel");
+        createEquipmentsShop(equipments, type);
 
         totalRecord = equipmentsManager.GetEquipmentsCount(type);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
-        Transform DictionaryPanel = MainMenuShopPanel.transform.Find("DictionaryCards");
+        Transform DictionaryPanel = MainMenuShopPanelObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
             Title.text = "Shop";
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() => ClosePanel(content, MainMenuShopPanel));
+            CloseButton.onClick.AddListener(() => ClosePanel(content, MainMenuShopPanelObject));
         }
 
-        Transform button = MainMenuShopPanel.transform.Find("Pagination");
+        Transform button = MainMenuShopPanelObject.transform.Find("Pagination");
         if (button != null)
         {
-            Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
+            Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
             Text PageText = button.transform.Find("Page").GetComponent<Text>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();
@@ -257,19 +316,24 @@ public class EquipmentManagement : MonoBehaviour
             Button PreviousButton = button.transform.Find("Previous").GetComponent<Button>();
             PreviousButton.onClick.AddListener(() => ChangePreviousPage(2, PageText, content, type));
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = currency.GetEquipmentsCurrency(type);
+        Transform CurrencyPanel = MainMenuShopPanelObject.transform.Find("DictionaryCards/Currency");
+        createCurrency(currencies, CurrencyPanel);
     }
     public void GetEnhancement(string type)
     {
-        MainMenuEnhancementPanel.SetActive(true);
+        GameObject MainMenuEnhancementPanelObject = Instantiate(MainMenuEnhancementPanel, MainPanel);
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
         List<Equipments> equipments = equipmentsManager.GetUserEquipments(type, pageSize, offset);
+        tempContent=MainMenuEnhancementPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel");
         createEquipmentsEnhancement(equipments);
 
         totalRecord = equipmentsManager.GetUserEquipmentsCount(type);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
-        Transform DictionaryPanel = MainMenuShopPanel.transform.Find("DictionaryCards");
+        Transform DictionaryPanel = MainMenuEnhancementPanelObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
@@ -279,10 +343,10 @@ public class EquipmentManagement : MonoBehaviour
             CloseButton.onClick.AddListener(() => ClosePanel(content, MainMenuEnhancementPanel));
         }
 
-        Transform button = MainMenuShopPanel.transform.Find("Pagination");
+        Transform button = MainMenuEnhancementPanelObject.transform.Find("Pagination");
         if (button != null)
         {
-            Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
+            Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuEnhancementContentPanel");
             Text PageText = button.transform.Find("Page").GetComponent<Text>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();
@@ -293,7 +357,6 @@ public class EquipmentManagement : MonoBehaviour
     }
     public void GetCampaign(string type)
     {
-        MainMenuCampaignPanel.SetActive(true);
         // int totalRecord = 0;
         // Equipments equipmentsManager = new Equipments();
         // List<Equipments> equipments = equipmentsManager.GetUserEquipments(type, pageSize, offset);
@@ -349,7 +412,7 @@ public class EquipmentManagement : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Equipments> equipments = equipmentManager.GetEquipmentsWithCurrency(subType, pageSize, offset);
-                createEquipmentsShop(equipments);
+                createEquipmentsShop(equipments, subType);
             }
             else if (status == 3)
             {
@@ -391,7 +454,7 @@ public class EquipmentManagement : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetEquipmentsWithCurrency(subType, pageSize, offset);
-                createEquipmentsShop(equipments);
+                createEquipmentsShop(equipments, subType);
             }
             else if (status == 3)
             {
@@ -401,11 +464,78 @@ public class EquipmentManagement : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetUserEquipments(subType, pageSize, offset);
-                createEquipmentsShop(equipments);
+                createEquipmentsShop(equipments, subType);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }
+    }
+    public void GetQuantity(string type, int id)
+    {
+        GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
+
+        Button increaseButton = quantityObject.transform.Find("IncreaseButton").GetComponent<Button>();
+        Button decreaseButton = quantityObject.transform.Find("DecreaseButton").GetComponent<Button>();
+        Button increase10Button = quantityObject.transform.Find("Increase10Button").GetComponent<Button>();
+        Button decrease10Button = quantityObject.transform.Find("Decrease10Button").GetComponent<Button>();
+        Button maxButton = quantityObject.transform.Find("MaxButton").GetComponent<Button>();
+        Button minButton = quantityObject.transform.Find("MinButton").GetComponent<Button>();
+        Button closeButton = quantityObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button confirmButton = quantityObject.transform.Find("Buy").GetComponent<Button>();
+        TextMeshProUGUI quantityText = quantityObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+
+        increaseButton.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            currentQuantity++;
+            quantityText.text = currentQuantity.ToString();
+        });
+        decreaseButton.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            if (currentQuantity > 1)
+            {
+                currentQuantity--;
+                quantityText.text = currentQuantity.ToString();
+            }
+        });
+        increase10Button.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            currentQuantity = currentQuantity + 10;
+            quantityText.text = currentQuantity.ToString();
+        });
+        decrease10Button.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            if (currentQuantity > 10)
+            {
+                currentQuantity = currentQuantity - 10;
+                quantityText.text = currentQuantity.ToString();
+            }
+        });
+        maxButton.onClick.AddListener(() =>
+        {
+            Currency currency = new Currency();
+            List<Currency> userCurrency = currency.GetEquipmentsCurrency(type);
+            Currency equipmentPrice = currency.GetEquipmentsPrice(type, id);
+            foreach (var user in userCurrency)
+            {
+                if (user.id == equipmentPrice.id)
+                {
+                    Debug.Log(user.quantity);
+                    Debug.Log(equipmentPrice.quantity);
+                    int max = (int)(user.quantity / equipmentPrice.quantity);
+                    quantityText.text = max.ToString();
+                    break;
+                }
+            }
+        });
+        minButton.onClick.AddListener(() =>
+        {
+            quantityText.text = "1";
+        });
+        closeButton.onClick.AddListener(() =>Close(popupPanel));
     }
 }

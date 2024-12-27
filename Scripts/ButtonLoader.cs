@@ -5,14 +5,19 @@ using UnityEngine.UI;
 
 public class ButtonLoader : MonoBehaviour
 {
-    public GameObject buttonPrefab; // Prefab của button
-    public Transform mainMenuButtonPanel; // Nơi chứa các button trong scene
-    public Transform galleryMenuPanel;
-    public Transform collectionMenuPanel;
-    public Transform equipmentMenuPanel;
+    private GameObject buttonPrefab; // Prefab của button
+    private Transform mainMenuButtonPanel; // Nơi chứa các button trong scene
+    private Transform galleryMenuPanel;
+    private Transform collectionMenuPanel;
+    private Transform equipmentMenuPanel;
     // Start is called before the first frame update
     void Start()
     {
+        buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
+        mainMenuButtonPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
+        galleryMenuPanel = UIManager.Instance.GetTransform("galleryMenuPanel");
+        collectionMenuPanel = UIManager.Instance.GetTransform("collectionMenuPanel");
+        equipmentMenuPanel = UIManager.Instance.GetTransform("equipmentMenuPanel");
         //Main menu
         CreateButton(1, "Cards",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/cards"), mainMenuButtonPanel);
         CreateButton(2, "Books",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/books"), mainMenuButtonPanel);

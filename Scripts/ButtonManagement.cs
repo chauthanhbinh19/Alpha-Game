@@ -7,14 +7,21 @@ using Unity.VisualScripting;
 
 public class ButtonManagement : MonoBehaviour
 {
-    public Button GalleryButton;
-    public Button CollectionButton;
-    public Button EquipmentsButton;
-    public GameObject GalleryPanel;
-    public GameObject CollectionPanel;
-    public GameObject EquipmentsPanel;
+    private Button GalleryButton;
+    private Button CollectionButton;
+    private Button EquipmentsButton;
+    private GameObject GalleryPanel;
+    private GameObject CollectionPanel;
+    private GameObject EquipmentsPanel;
     void Start()
     {
+        GalleryButton=UIManager.Instance.GetButton("GalleryButton");
+        CollectionButton=UIManager.Instance.GetButton("CollectionButton");
+        EquipmentsButton=UIManager.Instance.GetButton("EquipmentsButton");
+        GalleryPanel=UIManager.Instance.GetGameObject("GalleryPanel");
+        CollectionPanel=UIManager.Instance.GetGameObject("CollectionPanel");
+        EquipmentsPanel=UIManager.Instance.GetGameObject("EquipmentsPanel");
+
         GalleryButton.onClick.AddListener(OnGalleryButtonClick);
         CollectionButton.onClick.AddListener(OnCollectionButtonClick);
         EquipmentsButton.onClick.AddListener(onEquipmentsButtonClick);

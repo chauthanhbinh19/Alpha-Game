@@ -6,48 +6,52 @@ using System;
 
 public class GalleryManagement : MonoBehaviour
 {
-    public Transform galleryMenuPanel;
-    public GameObject buttonPrefab;
-    public GameObject DictionaryPanel;
-    public Transform buttonContent;
-    public GameObject cardsPrefab;
-    public Transform mainContent;
-    public Button CloseButton;
-    public GameObject equipmentsPrefab;
+    private Transform galleryMenuPanel;
+    private GameObject buttonPrefab;
+    private GameObject DictionaryPanel;
+    private Transform MainPanel;
+    private GameObject cardsPrefab;
+    private Transform DictionaryContentPanel;
+    private Transform TabButtonPanel;
+    private Button CloseButton;
+    private GameObject equipmentsPrefab;
     //Variable for pagination
     private int offset;
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    public Text PageText;
-    public Button NextButton;
-    public Button PreviousButton;
+    private Text PageText;
+    private Button NextButton;
+    private Button PreviousButton;
     private string mainType;
     private string subType;
-    public Text titleText;
+    private Text titleText;
     void Start()
     {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        AssignButtonEvent("Button_1", GetCardsType);
-        AssignButtonEvent("Button_2", GetBooksType);
-        AssignButtonEvent("Button_3", GetPetsType);
-        AssignButtonEvent("Button_4", GetCaptainsType);
-        AssignButtonEvent("Button_5", GetCollaborationEquipmentsType);
-        AssignButtonEvent("Button_6", GetMilitaryType);
-        AssignButtonEvent("Button_7", GetSpellType);
-        AssignButtonEvent("Button_8", GetCollaborationType);
-        AssignButtonEvent("Button_9", GetMonstersType);
-        AssignButtonEvent("Button_10", GetEquipmentsType);
-        AssignButtonEvent("Button_11", GetMedalsType);
-        AssignButtonEvent("Button_12", GetSkillsType);
-        AssignButtonEvent("Button_13", GetSymbolsType);
-        AssignButtonEvent("Button_14", GetTitlesType);
+        galleryMenuPanel = UIManager.Instance.GetTransform("galleryMenuPanel");
+        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
 
-        CloseButton.onClick.AddListener(ClosePanel);
-        NextButton.onClick.AddListener(ChangeNextPage);
-        PreviousButton.onClick.AddListener(ChangePreviousPage);
+        AssignButtonEvent("Button_1", () => GetType("Cards"));
+        AssignButtonEvent("Button_2", () => GetType("Books"));
+        AssignButtonEvent("Button_3", () => GetType("Pets"));
+        AssignButtonEvent("Button_4", () => GetType("Captains"));
+        AssignButtonEvent("Button_5", () => GetType("CollaborationEquipments"));
+        AssignButtonEvent("Button_6", () => GetType("Military"));
+        AssignButtonEvent("Button_7", () => GetType("Spell"));
+        AssignButtonEvent("Button_8", () => GetType("Collaborations"));
+        AssignButtonEvent("Button_9", () => GetType("Monsters"));
+        AssignButtonEvent("Button_10", () => GetType("Equipments"));
+        AssignButtonEvent("Button_11", () => GetType("Medals"));
+        AssignButtonEvent("Button_12", () => GetType("Skills"));
+        AssignButtonEvent("Button_13", () => GetType("Symbols"));
+        AssignButtonEvent("Button_14", () => GetType("Titles"));
         // GetCardsType();
     }
 
@@ -71,89 +75,11 @@ public class GalleryManagement : MonoBehaviour
             Debug.LogWarning($"Button {buttonName} not found!");
         }
     }
-    public void GetCardsType()
+    public void GetType(string type)
     {
-        mainType = "Cards";
-        GetButtonType();
-        titleText.text = "Cards";
-    }
-    public void GetBooksType()
-    {
-        mainType = "Books";
-        GetButtonType();
-        titleText.text = "Books";
-    }
-    public void GetCaptainsType()
-    {
-        mainType = "Captains";
-        GetButtonType();
-        titleText.text = "Captains";
-    }
-    public void GetCollaborationType()
-    {
-        mainType = "Collaboration";
-        GetButtonType();
-        titleText.text = "Collaboration";
-    }
-    public void GetCollaborationEquipmentsType()
-    {
-        mainType = "CollaborationEquipments";
-        GetButtonType();
-        titleText.text = "Collaboration Equipments";
-    }
-    public void GetEquipmentsType()
-    {
-        mainType = "Equipments";
-        GetButtonType();
-        titleText.text = "Equipments";
-    }
-    public void GetMedalsType()
-    {
-        mainType = "Medals";
-        GetButtonType();
-        titleText.text = "Medals";
-    }
-    public void GetMonstersType()
-    {
-        mainType = "Monsters";
-        GetButtonType();
-        titleText.text = "Monsters";
-    }
-    public void GetPetsType()
-    {
-        mainType = "Pets";
-        GetButtonType();
-        titleText.text = "Pets";
-    }
-    public void GetSkillsType()
-    {
-        mainType = "Skills";
-        GetButtonType();
-        titleText.text = "Skills";
-    }
-    public void GetSymbolsType()
-    {
-        mainType = "Symbols";
-        GetButtonType();
-        titleText.text = "Symbols";
-    }
-    public void GetTitlesType()
-    {
-        mainType = "Titles";
-        GetButtonType();
-        titleText.text = "Titles";
-    }
-    public void GetMilitaryType()
-    {
-        mainType = "Military";
-        GetButtonType();
-        titleText.text = "Military";
-    }
-    public void GetSpellType()
-    {
-        mainType = "Spell";
-        GetButtonType();
-        titleText.text = "Spell";
+        mainType = type; // Gán giá trị cho mainType
+        GetButtonType(); // Gọi hàm xử lý
+        titleText.text = type; // Cập nhật tiêu đề
     }
     public List<string> GetUniqueTypes()
     {
@@ -201,7 +127,18 @@ public class GalleryManagement : MonoBehaviour
     }
     public void GetButtonType()
     {
-        DictionaryPanel.SetActive(true);
+        // DictionaryPanel.SetActive(true);
+        GameObject equipmentObject = Instantiate(DictionaryPanel, MainPanel);
+        DictionaryContentPanel=equipmentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
+        TabButtonPanel=equipmentObject.transform.Find("Scroll View/Viewport/ButtonContent");
+        PageText = equipmentObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        NextButton = equipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
+        PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+        titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(ClosePanel);
+        NextButton.onClick.AddListener(ChangeNextPage);
+        PreviousButton.onClick.AddListener(ChangePreviousPage);
         List<string> uniqueTypes = GetUniqueTypes();
         if (uniqueTypes.Count > 0)
         {
@@ -209,7 +146,7 @@ public class GalleryManagement : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = uniqueTypes[i];
-                GameObject button = Instantiate(buttonPrefab, buttonContent);
+                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
 
                 Text buttonText = button.GetComponentInChildren<Text>();
                 buttonText.text = subtype.Replace("_", " ");
@@ -356,7 +293,7 @@ public class GalleryManagement : MonoBehaviour
     }
     void OnButtonClick(GameObject clickedButton, string type)
     {
-        foreach (Transform child in buttonContent)
+        foreach (Transform child in TabButtonPanel)
         {
             // Lấy component Button từ con cái
             Button button = child.GetComponent<Button>();
@@ -483,7 +420,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var card in cards)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, mainContent);
+            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
             Title.text = card.name.Replace("_", " ");
@@ -497,17 +434,17 @@ public class GalleryManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 265);
+            gridLayout.cellSize = new Vector2(200, 250);
         }
     }
     private void createBooks(List<Books> books)
     {
         foreach (var book in books)
         {
-            GameObject bookObject = Instantiate(cardsPrefab, mainContent);
+            GameObject bookObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
             Title.text = book.name.Replace("_", " ");
@@ -549,7 +486,7 @@ public class GalleryManagement : MonoBehaviour
                 Image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
             }
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 300);
@@ -559,7 +496,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var captain in captainsList)
         {
-            GameObject captainsObject = Instantiate(cardsPrefab, mainContent);
+            GameObject captainsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
             Title.text = captain.name.Replace("_", " ");
@@ -574,17 +511,17 @@ public class GalleryManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 265);
+            gridLayout.cellSize = new Vector2(200, 250);
         }
     }
     private void createCollaboration(List<Collaboration> collaborationList)
     {
         foreach (var collaboration in collaborationList)
         {
-            GameObject collaborationObject = Instantiate(cardsPrefab, mainContent);
+            GameObject collaborationObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
             Title.text = collaboration.name.Replace("_", " ");
@@ -602,7 +539,7 @@ public class GalleryManagement : MonoBehaviour
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 230);
@@ -612,7 +549,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var collaborationEquipment in collaborationEquipmentList)
         {
-            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = collaborationEquipment.name.Replace("_", " ");
@@ -626,7 +563,7 @@ public class GalleryManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
@@ -636,7 +573,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var equipment in equipmentList)
         {
-            GameObject equipmentObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject equipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = equipment.name.Replace("_", " ");
@@ -653,7 +590,7 @@ public class GalleryManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
@@ -663,7 +600,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var medal in medalsList)
         {
-            GameObject medalObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject medalObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
             Title.text = medal.name.Replace("_", " ");
@@ -687,7 +624,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var monster in monstersList)
         {
-            GameObject monstersObject = Instantiate(cardsPrefab, mainContent);
+            GameObject monstersObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = monstersObject.transform.Find("Title").GetComponent<Text>();
             Title.text = monster.name.Replace("_", " ");
@@ -700,41 +637,11 @@ public class GalleryManagement : MonoBehaviour
             RawImage rareImage = monstersObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monster.rare}");
             rareImage.texture = rareTexture;
-            // Đặt kích thước gốc
-            Image.SetNativeSize();
-            RawImage Background = monstersObject.transform.Find("Background").GetComponent<RawImage>();
-            Background.gameObject.SetActive(true);
-
-            // Thay đổi tỉ lệ
-            if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
-            {
-                Image.transform.localScale = new Vector3(0.30f, 0.30f, 0.30f);
-            }
-            else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
-            {
-                Image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
-            }
-            else if (texture.width <= 700 && texture.height <= 700)
-            {
-                Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            }
-            else if (texture.width <= 700 && texture.height <= 1100)
-            {
-                Image.transform.localScale = new Vector3(0.40f, 0.40f, 0.40f);
-            }
-            else if (texture.width > 700 && texture.height <= 700)
-            {
-                Image.transform.localScale = new Vector3(0.30f, 0.40f, 0.30f);
-            }
-            else
-            {
-                Image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
-            }
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 280);
+            gridLayout.cellSize = new Vector2(200, 250);
         }
     }
     private void createPets(List<Pets> petsList)
@@ -744,11 +651,11 @@ public class GalleryManagement : MonoBehaviour
             GameObject petsObject;
             if (pet.type.Equals("Legendary_Dragon") || pet.type.Equals("Naruto_Bijuu") || pet.type.Equals("Naruto_Susanoo") || pet.type.Equals("One_Piece_Ship") || pet.type.Equals("Prime_Monster"))
             {
-                petsObject = Instantiate(cardsPrefab, mainContent);
+                petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
                 Background.gameObject.SetActive(true);
 
-                GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(280, 280);
@@ -756,9 +663,9 @@ public class GalleryManagement : MonoBehaviour
             }
             else
             {
-                petsObject = Instantiate(equipmentsPrefab, mainContent);
+                petsObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
-                GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(200, 230);
@@ -790,7 +697,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var skill in skillsList)
         {
-            GameObject skillObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject skillObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = skillObject.transform.Find("Title").GetComponent<Text>();
             Title.text = skill.name.Replace("_", " ");
@@ -807,7 +714,7 @@ public class GalleryManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
@@ -817,7 +724,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var symbol in symbolsList)
         {
-            GameObject symbolObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject symbolObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
             Title.text = symbol.name.Replace("_", " ");
@@ -838,7 +745,7 @@ public class GalleryManagement : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
@@ -848,7 +755,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var title in titlesList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.name.Replace("_", " ");
@@ -869,7 +776,7 @@ public class GalleryManagement : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
@@ -879,7 +786,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var military in militaryList)
         {
-            GameObject militaryObject = Instantiate(cardsPrefab, mainContent);
+            GameObject militaryObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
             Title.text = military.name.Replace("_", " ");
@@ -893,17 +800,17 @@ public class GalleryManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 265);
+            gridLayout.cellSize = new Vector2(200, 250);
         }
     }
     private void createSpell(List<Spell> spellList)
     {
         foreach (var spell in spellList)
         {
-            GameObject spellObject = Instantiate(cardsPrefab, mainContent);
+            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
             Title.text = spell.name.Replace("_", " ");
@@ -917,16 +824,16 @@ public class GalleryManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 265);
+            gridLayout.cellSize = new Vector2(200, 250);
         }
     }
     public void ClearAllPrefabs()
     {
         // Duyệt qua tất cả các con cái của cardsContent
-        foreach (Transform child in mainContent)
+        foreach (Transform child in DictionaryContentPanel)
         {
             Destroy(child.gameObject);
         }
@@ -934,7 +841,7 @@ public class GalleryManagement : MonoBehaviour
     public void ClearAllButton()
     {
         // Duyệt qua tất cả các con cái của cardsContent
-        foreach (Transform child in buttonContent)
+        foreach (Transform child in TabButtonPanel)
         {
             Destroy(child.gameObject);
         }
@@ -1255,6 +1162,9 @@ public class GalleryManagement : MonoBehaviour
         ClearAllPrefabs();
         offset = 0;
         currentPage = 1;
-        DictionaryPanel.SetActive(false);
+        foreach (Transform child in MainPanel)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

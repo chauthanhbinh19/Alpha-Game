@@ -37,6 +37,7 @@ public class Equipments
     public double avoid { get; set; }
     public double absorbs_damage { get; set; }
     public double regenerate_vitality { get; set; }
+    public double accuracy { get; set; }
     public float mana { get; set; }
     public double special_health { get; set; }
     public double special_physical_attack { get; set; }
@@ -120,6 +121,7 @@ public class Equipments
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
@@ -147,8 +149,9 @@ public class Equipments
         }
         return equipmentList;
     }
-    public int GetEquipmentsCount(string type){
-        int count =0;
+    public int GetEquipmentsCount(string type)
+    {
+        int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -172,7 +175,7 @@ public class Equipments
     public List<Equipments> GetEquipmentsCollection(string type, int pageSize, int offset)
     {
         List<Equipments> equipmentList = new List<Equipments>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -180,7 +183,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = "SELECT e.*, CASE WHEN eg.equipment_id IS NULL THEN 'block' WHEN eg.status = 'pending' THEN 'pending' WHEN eg.status = 'available' THEN 'available' END AS status "
-                +"FROM equipments e LEFT JOIN equipments_gallery eg ON e.id = eg.equipment_id and eg.user_id = @userId where e.type=@type limit @limit offset @offset";
+                + "FROM equipments e LEFT JOIN equipments_gallery eg ON e.id = eg.equipment_id and eg.user_id = @userId where e.type=@type limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -216,6 +219,7 @@ public class Equipments
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
@@ -230,7 +234,7 @@ public class Equipments
                         special_mental_defense = reader.GetDouble("special_mental_defense"),
                         special_speed = reader.GetDouble("special_speed"),
                         description = reader.GetString("description"),
-                        status=reader.GetString("status"),
+                        status = reader.GetString("status"),
                     };
 
                     equipmentList.Add(equipments);
@@ -247,14 +251,14 @@ public class Equipments
     public List<Equipments> GetUserEquipments(string type, int pageSize, int offset)
     {
         List<Equipments> equipmentList = new List<Equipments>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select ue.*, e.image, e.rare, e.type from Equipments e, user_equipments ue where e.id=ue.equipment_id and ue.user_id=@userId and e.type= @type limit @limit offset @offset";
+                string query = "Select e.id, e.name, ue.*, e.image, e.rare, e.type from Equipments e, user_equipments ue where e.id=ue.equipment_id and ue.user_id=@userId and e.type= @type limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -265,7 +269,7 @@ public class Equipments
                 {
                     Equipments equipments = new Equipments
                     {
-                        id = reader.GetInt32("id"),
+                        id = reader.GetInt32("equipment_id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
@@ -290,6 +294,7 @@ public class Equipments
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
@@ -302,8 +307,7 @@ public class Equipments
                         special_atomic_defense = reader.GetDouble("special_atomic_defense"),
                         special_mental_attack = reader.GetDouble("special_mental_attack"),
                         special_mental_defense = reader.GetDouble("special_mental_defense"),
-                        special_speed = reader.GetDouble("special_speed"),
-                        description = reader.GetString("description")
+                        special_speed = reader.GetDouble("special_speed")
                     };
 
                     equipmentList.Add(equipments);
@@ -317,9 +321,10 @@ public class Equipments
         }
         return equipmentList;
     }
-    public int GetUserEquipmentsCount(string type){
-        int count =0;
-        int user_id=User.CurrentUserId;
+    public int GetUserEquipmentsCount(string type)
+    {
+        int count = 0;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -385,6 +390,7 @@ public class Equipments
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
@@ -399,8 +405,8 @@ public class Equipments
                         special_mental_defense = reader.GetDouble("special_mental_defense"),
                         special_speed = reader.GetDouble("special_speed"),
                         description = reader.GetString("description"),
-                        currency_image=reader.GetString("currency_image"),
-                        price=reader.GetDouble("price"),
+                        currency_image = reader.GetString("currency_image"),
+                        price = reader.GetDouble("price"),
                     };
 
                     equipmentList.Add(equipments);
@@ -414,4 +420,168 @@ public class Equipments
         }
         return equipmentList;
     }
+    private int GetMaxSequence(MySqlConnection connection, int equipment_id)
+    {
+        string query = "SELECT MAX(sequence) FROM user_equipments ue where ue.equipment_id=@equipment_id";
+        MySqlCommand command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@equipment_id", equipment_id);
+        object result = command.ExecuteScalar();
+
+        if (result != DBNull.Value)
+        {
+            return Convert.ToInt32(result);
+        }
+        return 0; // Nếu bảng rỗng, trả về 0
+    }
+    public Equipments GetEquipmentById(int Id)
+    {
+        Equipments equipments = null;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "select * from equipments where equipments.id=@id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    equipments = new Equipments
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        description = reader.GetString("description"),
+                    };
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return equipments;
+    }
+    public bool BuyEquipment(int Id)
+    {
+        Equipments EquipmentFromDB = GetEquipmentById(Id);
+        // Debug.Log(EquipmentFromDB);
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                INSERT INTO user_equipments (
+                    user_id, equipment_id, sequence, level, experiment, star, block, power,
+                    health, physical_attack, physical_defense, magical_attack, magical_defense, 
+                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                    mental_attack, mental_defense, speed, critical_damage, critical_rate, 
+                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana,
+                    special_health, special_physical_attack, special_physical_defense, special_magical_attack,
+                    special_magical_defense, special_chemical_attack, special_chemical_defense, special_atomic_attack,
+                    special_atomic_defense, special_mental_attack, special_mental_defense, special_speed
+                ) VALUES (
+                    @user_id, @equipment_id, @sequence, @level, @experiment, @star, @block, @power, 
+                    @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                    @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
+                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana,
+                    @special_health, @special_physical_attack, @special_physical_defense, @special_magical_attack,
+                    @special_magical_defense, @special_chemical_attack, @special_chemical_defense, @special_atomic_attack,
+                    @special_atomic_defense, @special_mental_attack, @special_mental_defense, @special_speed
+                )";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@equipment_id", Id);
+                command.Parameters.AddWithValue("@sequence", GetMaxSequence(connection, Id)+1);
+                command.Parameters.AddWithValue("@level", 0);
+                command.Parameters.AddWithValue("@experiment", 0);
+                command.Parameters.AddWithValue("@star", 0);
+                command.Parameters.AddWithValue("@block", false);
+                command.Parameters.AddWithValue("@power", EquipmentFromDB.power);
+                command.Parameters.AddWithValue("@health", EquipmentFromDB.health);
+                command.Parameters.AddWithValue("@physical_attack", EquipmentFromDB.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", EquipmentFromDB.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", EquipmentFromDB.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", EquipmentFromDB.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", EquipmentFromDB.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", EquipmentFromDB.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", EquipmentFromDB.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", EquipmentFromDB.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", EquipmentFromDB.magical_attack);
+                command.Parameters.AddWithValue("@mental_defense", EquipmentFromDB.magical_defense);
+                command.Parameters.AddWithValue("@speed", EquipmentFromDB.speed);
+                command.Parameters.AddWithValue("@critical_damage", EquipmentFromDB.critical_damage);
+                command.Parameters.AddWithValue("@critical_rate", EquipmentFromDB.critical_rate);
+                command.Parameters.AddWithValue("@armor_penetration", EquipmentFromDB.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", EquipmentFromDB.avoid);
+                command.Parameters.AddWithValue("@absorbs_damage", EquipmentFromDB.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerate_vitality", EquipmentFromDB.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", EquipmentFromDB.accuracy);
+                command.Parameters.AddWithValue("@mana", EquipmentFromDB.mana);
+                command.Parameters.AddWithValue("@special_health", EquipmentFromDB.special_health);
+                command.Parameters.AddWithValue("@special_physical_attack", EquipmentFromDB.special_physical_attack);
+                command.Parameters.AddWithValue("@special_physical_defense", EquipmentFromDB.special_physical_defense);
+                command.Parameters.AddWithValue("@special_magical_attack", EquipmentFromDB.special_magical_attack);
+                command.Parameters.AddWithValue("@special_magical_defense", EquipmentFromDB.special_magical_defense);
+                command.Parameters.AddWithValue("@special_chemical_attack", EquipmentFromDB.special_chemical_attack);
+                command.Parameters.AddWithValue("@special_chemical_defense", EquipmentFromDB.special_chemical_defense);
+                command.Parameters.AddWithValue("@special_atomic_attack", EquipmentFromDB.special_atomic_attack);
+                command.Parameters.AddWithValue("@special_atomic_defense", EquipmentFromDB.special_atomic_defense);
+                command.Parameters.AddWithValue("@special_mental_attack", EquipmentFromDB.special_mental_attack);
+                command.Parameters.AddWithValue("@special_mental_defense", EquipmentFromDB.special_mental_defense);
+                command.Parameters.AddWithValue("@special_speed", EquipmentFromDB.special_speed);
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return false;
+    }
+    
 }
