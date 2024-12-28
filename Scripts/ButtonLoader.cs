@@ -47,6 +47,8 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(12, "Skills Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/SkillsGallery"),galleryMenuPanel);
         CreateButton(13, "Symbols Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/SymbolsGallery"),galleryMenuPanel);
         CreateButton(14, "Titles Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TitlesGallery"),galleryMenuPanel);
+        CreateButton(15, "Magic Formation Circle Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"),galleryMenuPanel);
+        CreateButton(16, "Relics Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/RelicsGallery"),galleryMenuPanel);
         //Collection menu
         CreateButton(1, "Cards Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/CardsCollection"), collectionMenuPanel);
         CreateButton(2, "Books Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/BooksCollection"), collectionMenuPanel);
@@ -62,6 +64,8 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(12, "Skills Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/SkillsCollection"),collectionMenuPanel);
         CreateButton(13, "Symbols Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/SymbolsCollection"),collectionMenuPanel);
         CreateButton(14, "Titles Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TitlesCollection"),collectionMenuPanel);
+        CreateButton(15, "Magic Formation Circle Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleCollection"),collectionMenuPanel);
+        CreateButton(16, "Relics Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/RelicsCollection"),collectionMenuPanel);
         //Equipment menu
         List<string> uniqueTypes = GetUniqueTypes();
         if (uniqueTypes.Count > 0)

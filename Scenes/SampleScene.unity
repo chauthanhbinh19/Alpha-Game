@@ -3180,8 +3180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebc18ce203f3004da3316d25ccc83f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 5647053732788993068, guid: fb806378af4ab344ea79beff738865a1, type: 3}
-  buttonContent: {fileID: 0}
 --- !u!1 &743997028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7166,7 +7164,7 @@ VideoPlayer:
   m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
-  m_Looping: 1
+  m_Looping: 0
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
@@ -7416,6 +7414,8 @@ MonoBehaviour:
   CardsSecondPrefab: {fileID: 8708252175272485654, guid: e105677ccba770b408b1cf1eadc58259, type: 3}
   EquipmentSecondPrefab: {fileID: 8708252175272485654, guid: 7baad8dfa4549664a90a3caec7494394, type: 3}
   EquipmentFirstPrefab: {fileID: 8708252175272485654, guid: bf10e02aad212674b92552951a9b7f34, type: 3}
+  ElementDetailsPrefab: {fileID: 3336894875229122267, guid: a155ff5e34396694a98fbedccd46c40a, type: 3}
+  MainMenuDetailPanelPrefab: {fileID: 5745659240395072349, guid: ad6f21f2970273d4cbef5eb4a0f9e0ec, type: 3}
   GalleryButton: {fileID: 1340932424}
   CollectionButton: {fileID: 1008547561}
   EquipmentsButton: {fileID: 418390511}

@@ -40,6 +40,8 @@ public class UIManager : MonoBehaviour
     public GameObject CardsSecondPrefab;
     public GameObject EquipmentSecondPrefab;
     public GameObject EquipmentFirstPrefab;
+    public GameObject ElementDetailsPrefab;
+    public GameObject MainMenuDetailPanelPrefab;
 
     [Header("Button")]
     public Button GalleryButton;
@@ -127,6 +129,10 @@ public class UIManager : MonoBehaviour
                 return EquipmentSecondPrefab;
             case "EquipmentFirstPrefab":
                 return EquipmentFirstPrefab;
+            case "ElementDetailsPrefab":
+                return ElementDetailsPrefab;
+            case "MainMenuDetailPanelPrefab":
+                return MainMenuDetailPanelPrefab;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;
