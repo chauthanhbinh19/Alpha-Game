@@ -1152,7 +1152,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
-            GameObject magicFormationCircleObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = magicFormationCircle.name.Replace("_", " ");
@@ -1161,10 +1161,13 @@ public class GalleryManagement : MonoBehaviour
             string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+
+            RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = frameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = frameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
@@ -1184,6 +1187,7 @@ public class GalleryManagement : MonoBehaviour
             RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
             rareImage.texture = rareTexture;
+
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1195,7 +1199,7 @@ public class GalleryManagement : MonoBehaviour
     {
         foreach (var relic in relics)
         {
-            GameObject relicObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject relicObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
             Title.text = relic.name.Replace("_", " ");
@@ -1204,10 +1208,13 @@ public class GalleryManagement : MonoBehaviour
             string fileNameWithoutExtension = relic.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+
+            RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = frameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = frameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
@@ -1227,6 +1234,7 @@ public class GalleryManagement : MonoBehaviour
             RawImage rareImage = relicObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
             rareImage.texture = rareTexture;
+
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1748,7 +1756,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(card, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -1783,7 +1791,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -1840,7 +1848,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(book, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -1875,7 +1883,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -1917,7 +1925,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(captains, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -1952,7 +1960,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2014,7 +2022,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(pet, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2049,7 +2057,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2107,7 +2115,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(collaborationEquipment, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2142,7 +2150,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2184,7 +2192,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(military, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2219,7 +2227,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2261,7 +2269,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(spell, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2296,7 +2304,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2338,7 +2346,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(collaboration, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2373,7 +2381,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2415,7 +2423,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(monsters, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2450,7 +2458,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2507,7 +2515,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(equipments, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2542,7 +2550,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2600,7 +2608,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(medals, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2635,7 +2643,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2693,7 +2701,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(skills, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2728,7 +2736,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2770,7 +2778,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(symbols, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2805,7 +2813,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2863,7 +2871,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(titles, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2898,7 +2906,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -2926,7 +2934,7 @@ public class GalleryManagement : MonoBehaviour
             float aspectRatio = (float)texture.width / texture.height;
 
             // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 200f;
+            float newHeight = 300f;
             // Chiều cao cố định
             float newWidth = newHeight * aspectRatio;
 
@@ -2956,7 +2964,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(magicFormationCircle, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2991,7 +2999,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
@@ -3019,7 +3027,7 @@ public class GalleryManagement : MonoBehaviour
             float aspectRatio = (float)texture.width / texture.height;
 
             // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 200f;
+            float newHeight = 300f;
             // Chiều cao cố định
             float newWidth = newHeight * aspectRatio;
 
@@ -3049,7 +3057,7 @@ public class GalleryManagement : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(relics, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -3084,7 +3092,7 @@ public class GalleryManagement : MonoBehaviour
                     GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = property.Name;
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                     if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";

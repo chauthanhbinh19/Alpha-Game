@@ -145,6 +145,10 @@ public class Equipments
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return equipmentList;
@@ -168,6 +172,10 @@ public class Equipments
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -244,6 +252,10 @@ public class Equipments
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return equipmentList;
@@ -317,6 +329,10 @@ public class Equipments
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return equipmentList;
@@ -342,6 +358,10 @@ public class Equipments
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -416,6 +436,10 @@ public class Equipments
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return equipmentList;
@@ -436,6 +460,7 @@ public class Equipments
     public Equipments GetEquipmentById(int Id)
     {
         Equipments equipments = null;
+        // Debug.Log(Id);
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -492,8 +517,7 @@ public class Equipments
                         description = reader.GetString("description"),
                     };
                 }
-                reader.Close();
-                connection.Close();
+                return equipments;
             }
             catch (MySqlException ex)
             {
@@ -535,7 +559,7 @@ public class Equipments
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@equipment_id", Id);
-                command.Parameters.AddWithValue("@sequence", GetMaxSequence(connection, Id)+1);
+                command.Parameters.AddWithValue("@sequence", GetMaxSequence(connection, Id) + 1);
                 command.Parameters.AddWithValue("@level", 0);
                 command.Parameters.AddWithValue("@experiment", 0);
                 command.Parameters.AddWithValue("@star", 0);
@@ -580,8 +604,58 @@ public class Equipments
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return false;
     }
-    
+    public void UpdateUserCurrency(int Id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "select et.currency_id, et.price from equipments e, equipment_trade et where e.id=et.equipment_id and e.id=@id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                int currencyId = 0;
+                double price = 0;
+
+                if (reader.Read())
+                {
+                    currencyId = reader.GetInt32("currency_id");
+                    price = reader.GetDouble("price");
+                }
+                reader.Close();
+
+                // Lấy quantity hiện tại
+                query = "SELECT quantity FROM user_currency WHERE user_id = @user_id AND currency_id = @currency_id";
+                command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@currency_id", currencyId);
+                double currentQuantity = Convert.ToDouble(command.ExecuteScalar());
+                double newQuantity = currentQuantity - price;
+
+                query = "update user_currency set quantity=@quantity where user_id=@user_id and currency_id=@currency_id";
+                command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@quantity", newQuantity);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@currency_id", Id);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
 }

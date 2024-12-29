@@ -43,13 +43,13 @@ public class EquipmentManagement : MonoBehaviour
         MainMenuShopPanel = UIManager.Instance.GetGameObject("MainMenuShopPanel");
         MainMenuEnhancementPanel = UIManager.Instance.GetGameObject("MainMenuEnhancementPanel");
         MainMenuCampaignPanel = UIManager.Instance.GetGameObject("MainMenuCampaignPanel");
-        popupPanel=UIManager.Instance.GetTransform("popupPanel");
-        quantityPopupPrefab=UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        equipmentsPrefab=UIManager.Instance.GetGameObject("equipmentsPrefab");
-        equipmentsShopPrefab=UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        currencyPrefab=UIManager.Instance.GetGameObject("currencyPrefab");
-        EquipmentMenuPanel=UIManager.Instance.GetTransform("equipmentMenuPanel");
-        EquipmentsPanelPrefab=UIManager.Instance.GetGameObject("EquipmentsPanelPrefab");
+        popupPanel = UIManager.Instance.GetTransform("popupPanel");
+        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("equipmentsPrefab");
+        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
+        currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
+        EquipmentMenuPanel = UIManager.Instance.GetTransform("equipmentMenuPanel");
+        EquipmentsPanelPrefab = UIManager.Instance.GetGameObject("EquipmentsPanelPrefab");
 
         MainMenuContent = MainMenuPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
         MainMenuShopContent = MainMenuShopPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel").GetComponent<Transform>();
@@ -184,16 +184,7 @@ public class EquipmentManagement : MonoBehaviour
             Equipments equipments = new Equipments();
             buy.onClick.AddListener(() =>
             {
-                // bool success = equipments.BuyEquipment(equipment.id);
-                // if (success) // Giả sử BuyEquipment trả về true nếu thành công
-                // {
-                //     FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
-                // }
-                // else
-                // {
-                //     FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
-                // }
-                GetQuantity(type, equipment.id);
+                GetQuantity(type, equipment);
             });
         }
         // GridLayoutGroup gridLayout = MainMenuContent.GetComponent<GridLayoutGroup>();
@@ -251,7 +242,7 @@ public class EquipmentManagement : MonoBehaviour
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
         List<Equipments> equipments = equipmentsManager.GetUserEquipments(type, pageSize, offset);
-        tempContent=MainMenuPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel");
+        tempContent = MainMenuPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel");
         createEquipmentsBag(equipments);
 
         totalRecord = equipmentsManager.GetUserEquipmentsCount(type);
@@ -289,7 +280,7 @@ public class EquipmentManagement : MonoBehaviour
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
         List<Equipments> equipments = equipmentsManager.GetEquipmentsWithCurrency(type, pageSize, offset);
-        tempContent=MainMenuShopPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel");
+        tempContent = MainMenuShopPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel");
         createEquipmentsShop(equipments, type);
 
         totalRecord = equipmentsManager.GetEquipmentsCount(type);
@@ -327,7 +318,7 @@ public class EquipmentManagement : MonoBehaviour
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
         List<Equipments> equipments = equipmentsManager.GetUserEquipments(type, pageSize, offset);
-        tempContent=MainMenuEnhancementPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel");
+        tempContent = MainMenuEnhancementPanelObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel");
         createEquipmentsEnhancement(equipments);
 
         totalRecord = equipmentsManager.GetUserEquipmentsCount(type);
@@ -471,7 +462,7 @@ public class EquipmentManagement : MonoBehaviour
 
         }
     }
-    public void GetQuantity(string type, int id)
+    public void GetQuantity(string type, Equipments equipments)
     {
         GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
 
@@ -484,50 +475,79 @@ public class EquipmentManagement : MonoBehaviour
         Button closeButton = quantityObject.transform.Find("CloseButton").GetComponent<Button>();
         Button confirmButton = quantityObject.transform.Find("Buy").GetComponent<Button>();
         TextMeshProUGUI quantityText = quantityObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+        RawImage currencyImage = quantityObject.transform.Find("Price/CurrencyImage").GetComponent<RawImage>();
+        TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
+        RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
+        Currency currency = new Currency();
+        currency = currency.GetUserEquipmentsPrice(type,equipments.id);
+        string fileNameWithoutExtension = currency.image.Replace(".png", "");
+        Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        currencyImage.texture = currencyTexture;
+
+        fileNameWithoutExtension = equipments.image.Replace(".png", "");
+        Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        equipmentImage.texture = equipmentTexture;
+
+        currency = currency.GetEquipmentsPrice(type, equipments.id);
+        priceText.text = currency.quantity.ToString();
+        double originPrice = currency.quantity;
         increaseButton.onClick.AddListener(() =>
         {
             int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
             currentQuantity++;
+            price = originPrice*currentQuantity;
             quantityText.text = currentQuantity.ToString();
+            priceText.text = price.ToString();
         });
         decreaseButton.onClick.AddListener(() =>
         {
             int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
             if (currentQuantity > 1)
             {
                 currentQuantity--;
+                price = originPrice*currentQuantity;
                 quantityText.text = currentQuantity.ToString();
+                priceText.text = price.ToString();
             }
         });
         increase10Button.onClick.AddListener(() =>
         {
             int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
             currentQuantity = currentQuantity + 10;
+            price = originPrice*currentQuantity;
             quantityText.text = currentQuantity.ToString();
+            priceText.text = price.ToString();
         });
         decrease10Button.onClick.AddListener(() =>
         {
             int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
             if (currentQuantity > 10)
             {
                 currentQuantity = currentQuantity - 10;
+                price = originPrice*currentQuantity;
                 quantityText.text = currentQuantity.ToString();
+                priceText.text = price.ToString();
             }
         });
         maxButton.onClick.AddListener(() =>
         {
             Currency currency = new Currency();
             List<Currency> userCurrency = currency.GetEquipmentsCurrency(type);
-            Currency equipmentPrice = currency.GetEquipmentsPrice(type, id);
+            Currency equipmentPrice = currency.GetEquipmentsPrice(type, equipments.id);
+            double price = double.Parse(priceText.text);
             foreach (var user in userCurrency)
             {
                 if (user.id == equipmentPrice.id)
                 {
-                    Debug.Log(user.quantity);
-                    Debug.Log(equipmentPrice.quantity);
                     int max = (int)(user.quantity / equipmentPrice.quantity);
+                    price = originPrice*max;
                     quantityText.text = max.ToString();
+                    priceText.text = price.ToString();
                     break;
                 }
             }
@@ -535,7 +555,37 @@ public class EquipmentManagement : MonoBehaviour
         minButton.onClick.AddListener(() =>
         {
             quantityText.text = "1";
+            double price = double.Parse(priceText.text);
+            price = originPrice*1;
+            priceText.text = price.ToString();
         });
-        closeButton.onClick.AddListener(() =>Close(popupPanel));
+        closeButton.onClick.AddListener(() => Close(popupPanel));
+        confirmButton.onClick.AddListener(() =>
+        {
+            int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
+            bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
+
+            for (int i = 1; i <= quantity; i++) // Duyệt từ 1 đến giá trị trong quantityText
+            {
+                equipments.UpdateUserCurrency(equipments.id);
+                bool success = equipments.BuyEquipment(equipments.id); // Thực hiện mua từng món đồ
+                if (!success)
+                {
+                    allSuccess = false; // Nếu có giao dịch thất bại, đánh dấu thất bại
+                    break; // Ngừng vòng lặp nếu có lỗi
+                }
+            }
+
+            // Hiển thị thông báo dựa trên kết quả
+            if (allSuccess)
+            {
+                Close(popupPanel);
+                FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
+            }
+            else
+            {
+                FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
+            }
+        });
     }
 }
