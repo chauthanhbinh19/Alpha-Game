@@ -31,6 +31,8 @@ public class EquipmentManagement : MonoBehaviour
     private int totalPage;
     private int pageSize;
     private int count = 1;
+
+    private GameObject MainMenuShopPanelObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -276,7 +278,7 @@ public class EquipmentManagement : MonoBehaviour
     }
     public void GetShop(string type)
     {
-        GameObject MainMenuShopPanelObject = Instantiate(MainMenuShopPanel, MainPanel);
+        MainMenuShopPanelObject = Instantiate(MainMenuShopPanel, MainPanel);
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
         List<Equipments> equipments = equipmentsManager.GetEquipmentsWithCurrency(type, pageSize, offset);
@@ -579,6 +581,12 @@ public class EquipmentManagement : MonoBehaviour
             // Hiển thị thông báo dựa trên kết quả
             if (allSuccess)
             {
+                equipments.UpdateEquipmentsGallery(equipments.id);
+                Currency currency = new Currency();
+                List<Currency> currencies = currency.GetEquipmentsCurrency(type);
+                Transform CurrencyPanel = MainMenuShopPanelObject.transform.Find("DictionaryCards/Currency");
+                Close(CurrencyPanel);
+                createCurrency(currencies, CurrencyPanel);
                 Close(popupPanel);
                 FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
             }

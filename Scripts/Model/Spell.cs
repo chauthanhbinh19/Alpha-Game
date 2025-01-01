@@ -294,4 +294,62 @@ public class Spell
         }
         return count;
     }
+    public List<Spell> GetSpellRandom(string type,int pageSize)
+    {
+        List<Spell> spellList = new List<Spell>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "Select * from Spell where type= @type ORDER BY RAND() limit @limit";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", pageSize);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Spell spell = new Spell
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        percent_all_health = reader.GetDouble("percent_all_health"),
+                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
+                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
+                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
+                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
+                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
+                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
+                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
+                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
+                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
+                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
+                        percent_all_speed = reader.GetDouble("percent_all_speed"),
+                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
+                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
+                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
+                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
+                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
+                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
+                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        description = reader.GetString("description")
+                    };
+
+                    spellList.Add(spell);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return spellList;
+    }
 }

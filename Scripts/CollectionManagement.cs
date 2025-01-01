@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 using TMPro;
 using System.Reflection;
 using UnityEngine.EventSystems;
@@ -89,7 +90,7 @@ public class CollectionManagement : MonoBehaviour
     {
         mainType = type; // Gán giá trị cho mainType
         GetButtonType(); // Gọi hàm xử lý
-        titleText.text = type; // Cập nhật tiêu đề
+        titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())); 
     }
     public List<string> GetUniqueTypes()
     {
@@ -508,6 +509,7 @@ public class CollectionManagement : MonoBehaviour
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
             }
             else if (card.status.Equals("pending"))
             {
@@ -519,6 +521,13 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                card.UpdateStatusCardsGallery(card.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -853,6 +862,7 @@ public class CollectionManagement : MonoBehaviour
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
+                
             }
             else if (equipment.status.Equals("pending"))
             {
@@ -864,6 +874,13 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                equipment.UpdateStatusEquipmentsGallery(equipment.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -931,6 +948,11 @@ public class CollectionManagement : MonoBehaviour
             RawImage rareBackgroundImage = medalObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 230);
         }
     }
     private void createMonsters(List<Monsters> monstersList)

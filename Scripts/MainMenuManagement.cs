@@ -3,64 +3,77 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class MainMenuManagement : MonoBehaviour
 {
-    public Button CardsButton;
-    public Button BooksButton;
-    public Button CaptainsButton;
-    public Button CollaborationButton;
-    public Button CollaborationEquipmentButton;
-    // public Button EquipmentsButton;
-    public Button MedalsButton;
-    public Button MonstersButton;
-    public Button PetsButton;
-    public Button SkillsButton;
-    public Button SymbolsButton;
-    public Button TitlesButton;
-    public Button MilitaryButton;
-    public Button SpellButton;
-    public GameObject buttonPrefab;
-    public GameObject MainMenuPanel;
-    public Transform content;
-    public GameObject cardsPrefab;
-    public Transform mainContent;
-    public Button CloseButton;
-    public GameObject equipmentsPrefab;
+    private Transform mainMenuPanel;
+    private GameObject buttonPrefab;
+    private GameObject DictionaryPanel;
+    private Transform MainPanel;
+    private GameObject cardsPrefab;
+    private Transform DictionaryContentPanel;
+    private Button CloseButton;
+    private Button SummonButton;
+    private Button Summon10Button;
+    private GameObject equipmentsPrefab;
+    private Transform TabButtonPanel;
+    private GameObject SummonPanel;
+    private GameObject PositionPrefab;
+    private Transform PositionPanel;
+    private Transform SummonAreaPanel;
+    private Transform SummonMainMenuPanel;
     //Variable for pagination
     private int offset;
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    public Text PageText;
-    public Button NextButton;
-    public Button PreviousButton;
+    private Text PageText;
+    private Button NextButton;
+    private Button PreviousButton;
     private string mainType;
     private string subType;
-    public Text titleText;
+    private Text titleText;
+    private GachaSystem gachaSystem;
     void Start()
     {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        CardsButton.onClick.AddListener(GetCardsType);
-        BooksButton.onClick.AddListener(GetBooksType);
-        CaptainsButton.onClick.AddListener(GetCaptainsType);
-        CollaborationButton.onClick.AddListener(GetCollaborationType);
-        CollaborationEquipmentButton.onClick.AddListener(GetCollaborationEquipmentsType);
-        // EquipmentsButton.onClick.AddListener(GetEquipmentsType);
-        MedalsButton.onClick.AddListener(GetMedalsType);
-        MonstersButton.onClick.AddListener(GetMonstersType);
-        PetsButton.onClick.AddListener(GetPetsType);
-        SkillsButton.onClick.AddListener(GetSkillsType);
-        SymbolsButton.onClick.AddListener(GetSymbolsType);
-        TitlesButton.onClick.AddListener(GetTitlesType);
-        MilitaryButton.onClick.AddListener(GetMilitaryType);
-        SpellButton.onClick.AddListener(GetSpellType);
+        mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
+        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        SummonPanel = UIManager.Instance.GetGameObject("SummonPanelPrefab");
+        PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
+        SummonMainMenuPanel = UIManager.Instance.GetTransform("summonPanel");
 
-        CloseButton.onClick.AddListener(ClosePanel);
-        NextButton.onClick.AddListener(ChangeNextPage);
-        PreviousButton.onClick.AddListener(ChangePreviousPage);
+        AssignButtonEvent("Button_1", mainMenuPanel, () => GetType("Cards"));
+        AssignButtonEvent("Button_2", mainMenuPanel, () => GetType("Books"));
+        AssignButtonEvent("Button_3", mainMenuPanel, () => GetType("Pets"));
+        AssignButtonEvent("Button_4", mainMenuPanel, () => GetType("Captains"));
+        AssignButtonEvent("Button_5", mainMenuPanel, () => GetType("CollaborationEquipments"));
+        AssignButtonEvent("Button_6", mainMenuPanel, () => GetType("Military"));
+        AssignButtonEvent("Button_7", mainMenuPanel, () => GetType("Spell"));
+        AssignButtonEvent("Button_8", mainMenuPanel, () => GetType("Collaborations"));
+        AssignButtonEvent("Button_9", mainMenuPanel, () => GetType("Monsters"));
+        AssignButtonEvent("Button_10", mainMenuPanel, () => GetType("Equipments"));
+        AssignButtonEvent("Button_11", mainMenuPanel, () => GetType("Medals"));
+        AssignButtonEvent("Button_12", mainMenuPanel, () => GetType("Skills"));
+        AssignButtonEvent("Button_13", mainMenuPanel, () => GetType("Symbols"));
+        AssignButtonEvent("Button_14", mainMenuPanel, () => GetType("Titles"));
+        AssignButtonEvent("Button_15", mainMenuPanel, () => GetType("MagicFormationCircle"));
+        AssignButtonEvent("Button_16", mainMenuPanel, () => GetType("Relics"));
+        AssignButtonEvent("Button_17", mainMenuPanel, () => GetType("Bag"));
+        AssignButtonEvent("Button_18", mainMenuPanel, () => GetType("Teams"));
+        AssignButtonEvent("Button_19", SummonMainMenuPanel, () => GetType("SummonCards"));
+        AssignButtonEvent("Button_20", SummonMainMenuPanel, () => GetType("SummonBooks"));
+        AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType("SummonCaptains"));
+        AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType("SummonMonsters"));
+        AssignButtonEvent("Button_23", SummonMainMenuPanel, () => GetType("SummonMilitary"));
+        AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType("SummonSpell"));
         // GetCardsType();
     }
 
@@ -68,89 +81,27 @@ public class MainMenuManagement : MonoBehaviour
     {
 
     }
-    public void GetCardsType()
+    void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {
-        mainType = "Cards";
-        GetButtonType();
-        titleText.text = "Cards";
+        Transform buttonTransform = panel.Find(buttonName);
+        if (buttonTransform != null)
+        {
+            Button button = buttonTransform.GetComponent<Button>();
+            if (button != null)
+            {
+                button.onClick.AddListener(action);
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Button {buttonName} not found!");
+        }
     }
-    public void GetBooksType()
+    public void GetType(string type)
     {
-        mainType = "Books";
-        GetButtonType();
-        titleText.text = "Books";
-    }
-    public void GetCaptainsType()
-    {
-        mainType = "Captains";
-        GetButtonType();
-        titleText.text = "Captains";
-    }
-    public void GetCollaborationType()
-    {
-        mainType = "Collaboration";
-        GetButtonType();
-        titleText.text = "Collaboration";
-    }
-    public void GetCollaborationEquipmentsType()
-    {
-        mainType = "CollaborationEquipments";
-        GetButtonType();
-        titleText.text = "Collaboration Equipments";
-    }
-    public void GetEquipmentsType()
-    {
-        mainType = "Equipments";
-        GetButtonType();
-        titleText.text = "Equipments";
-    }
-    public void GetMedalsType()
-    {
-        mainType = "Medals";
-        GetButtonType();
-        titleText.text = "Medals";
-    }
-    public void GetMonstersType()
-    {
-        mainType = "Monsters";
-        GetButtonType();
-        titleText.text = "Monsters";
-    }
-    public void GetPetsType()
-    {
-        mainType = "Pets";
-        GetButtonType();
-        titleText.text = "Pets";
-    }
-    public void GetSkillsType()
-    {
-        mainType = "Skills";
-        GetButtonType();
-        titleText.text = "Skills";
-    }
-    public void GetSymbolsType()
-    {
-        mainType = "Symbols";
-        GetButtonType();
-        titleText.text = "Symbols";
-    }
-    public void GetTitlesType()
-    {
-        mainType = "Titles";
-        GetButtonType();
-        titleText.text = "Titles";
-    }
-    public void GetMilitaryType()
-    {
-        mainType = "Military";
-        GetButtonType();
-        titleText.text = "Military";
-    }
-    public void GetSpellType()
-    {
-        mainType = "Spell";
-        GetButtonType();
-        titleText.text = "Spell";
+        mainType = type; // Gán giá trị cho mainType
+        GetButtonType(); // Gọi hàm xử lý
+        titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())); // Cập nhật tiêu đề
     }
     public List<string> GetUniqueTypes()
     {
@@ -194,11 +145,107 @@ public class MainMenuManagement : MonoBehaviour
         {
             return Spell.GetUniqueSpellTypes();
         }
+        else if (mainType.Equals("MagicFormationCircle"))
+        {
+            return MagicFormationCircle.GetUniqueMagicFormationCircleTypes();
+        }
+        else if (mainType.Equals("Relics"))
+        {
+            return Relics.GetUniqueRelicsTypes();
+        }
+        else if (mainType.Equals("SummonCards"))
+        {
+            return Cards.GetUniqueCardTypes();
+        }
+        else if (mainType.Equals("SummonBooks"))
+        {
+            return Books.GetUniqueBookTypes();
+        }
+        else if (mainType.Equals("SummonCaptains"))
+        {
+            return Captains.GetUniqueCaptainsTypes();
+        }
+        else if (mainType.Equals("SummonMilitary"))
+        {
+            return Military.GetUniqueMilitaryTypes();
+        }
+        else if (mainType.Equals("SummonSpell"))
+        {
+            return Spell.GetUniqueSpellTypes();
+        }
         return new List<string>();
     }
     public void GetButtonType()
     {
-        MainMenuPanel.SetActive(true);
+        // MainMenuPanel.SetActive(true);
+        if (mainType.Equals("SummonCards") || mainType.Equals("SummonBooks") || mainType.Equals("SummonCaptains") ||
+        mainType.Equals("SummonMonsters") || mainType.Equals("SummonMilitary") || mainType.Equals("SummonSpell"))
+        {
+            GameObject summonObject = Instantiate(SummonPanel, MainPanel);
+            DictionaryContentPanel = summonObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
+            TabButtonPanel = summonObject.transform.Find("Scroll View/Viewport/ButtonContent");
+            PositionPanel = summonObject.transform.Find("DictionaryCards/Position");
+            titleText = summonObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+            CloseButton = summonObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            SummonButton = summonObject.transform.Find("DictionaryCards/SummonButton").GetComponent<Button>();
+            Summon10Button = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
+            CloseButton.onClick.AddListener(ClosePanel);
+            SummonAreaPanel = summonObject.transform.Find("SummonArea");
+
+            RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
+            RawImage rawImage = summonObject.transform.Find("DictionaryCards/RawImage").GetComponent<RawImage>();
+            if (mainType.Equals("SummonCards"))
+            {
+
+            }
+            else if (mainType.Equals("SummonBooks"))
+            {
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_51");
+                dictionaryBackground.texture = texture;
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_48");
+                rawImage.texture = rawTexture;
+            }
+            else if (mainType.Equals("SummonCaptains"))
+            {
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_50");
+                dictionaryBackground.texture = texture;
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_63");
+                rawImage.texture = rawTexture;
+            }
+            else if (mainType.Equals("SummonMonsters"))
+            {
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_49");
+                dictionaryBackground.texture = texture;
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_69");
+                rawImage.texture = rawTexture;
+            }
+            else if (mainType.Equals("SummonMilitary"))
+            {
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_48");
+                dictionaryBackground.texture = texture;
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_85");
+                rawImage.texture = rawTexture;
+            }
+            else if (mainType.Equals("SummonSpell"))
+            {
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_47");
+                dictionaryBackground.texture = texture;
+            }
+        }
+        else
+        {
+            GameObject mainMenuObject = Instantiate(DictionaryPanel, MainPanel);
+            DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
+            TabButtonPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
+            PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<Text>();
+            NextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
+            PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+            titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+            CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(ClosePanel);
+            NextButton.onClick.AddListener(ChangeNextPage);
+            PreviousButton.onClick.AddListener(ChangePreviousPage);
+        }
         List<string> uniqueTypes = GetUniqueTypes();
         if (uniqueTypes.Count > 0)
         {
@@ -206,7 +253,7 @@ public class MainMenuManagement : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = uniqueTypes[i];
-                GameObject button = Instantiate(buttonPrefab, content);
+                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
 
                 Text buttonText = button.GetComponentInChildren<Text>();
                 buttonText.text = subtype.Replace("_", " ");
@@ -217,7 +264,7 @@ public class MainMenuManagement : MonoBehaviour
                 if (i == 0)
                 {
                     subType = subtype;
-                    ChangeButtonBackground(button, "Button3");
+                    ChangeButtonBackground(button, "Background_V4_166");
                     int totalRecord = 0;
                     if (mainType.Equals("Cards"))
                     {
@@ -299,14 +346,109 @@ public class MainMenuManagement : MonoBehaviour
 
                         totalRecord = spellManager.GetUserSpellCount(subType);
                     }
+                    else if (mainType.Equals("MagicFormationCircle"))
+                    {
+                        MagicFormationCircle magicFormationCircleManager = new MagicFormationCircle();
+                        List<MagicFormationCircle> magicFormationCircles = magicFormationCircleManager.GetUserMagicFormationCircle(subType, pageSize, offset);
+                        createMagicFormationCircle(magicFormationCircles);
 
-                    totalPage = CalculateTotalPages(totalRecord, pageSize);
-                    PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                        totalRecord = magicFormationCircleManager.GetUserMagicFormationCircleCount(subType);
+                    }
+                    else if (mainType.Equals("Relics"))
+                    {
+                        Relics relicsManager = new Relics();
+                        List<Relics> relicsList = relicsManager.GetUserRelics(subType, pageSize, offset);
+                        createRelics(relicsList);
+
+                        totalRecord = relicsManager.GetUserRelicsCount(subType);
+                    }
+                    else if (mainType.Equals("SummonCards"))
+                    {
+                        Cards cardsManager = new Cards();
+                        List<Cards> cards = cardsManager.GetCardsRandom(subtype, 3);
+                        createCardsForSummon(cards);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                        });
+                    }
+                    else if (mainType.Equals("SummonBooks"))
+                    {
+                        Books booksManager = new Books();
+                        List<Books> books = booksManager.GetBooksRandom(subtype, 3);
+                        createBooksForSummon(books);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                        });
+                    }
+                    else if (mainType.Equals("SummonCaptains"))
+                    {
+                        Captains captainsManager = new Captains();
+                        List<Captains> captains = captainsManager.GetCaptainsRandom(subtype, 3);
+                        createCaptainsForSummon(captains);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                        });
+                    }
+                    else if (mainType.Equals("SummonMilitary"))
+                    {
+                        Military militaryManager = new Military();
+                        List<Military> military = militaryManager.GetMilitaryRandom(subtype, 3);
+                        createMilitaryForSummon(military);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                        });
+                    }
+                    else if (mainType.Equals("SummonSpell"))
+                    {
+                        Spell militaryManager = new Spell();
+                        List<Spell> spell = militaryManager.GetSpellRandom(subtype, 3);
+                        createSpellForSummon(spell);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                        });
+                    }
+
+                    if (!mainType.Equals("SummonCards") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCaptains") &&
+                    !mainType.Equals("SummonMonsters") && !mainType.Equals("SummonMilitary") && !mainType.Equals("SummonSpell"))
+                    {
+                        totalPage = CalculateTotalPages(totalRecord, pageSize);
+                        PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                    }
 
                 }
                 else
                 {
-                    ChangeButtonBackground(button, "Button4");
+                    ChangeButtonBackground(button, "Background_V4_167");
                 }
             }
         }
@@ -340,10 +482,10 @@ public class MainMenuManagement : MonoBehaviour
             else if (mainType.Equals("Titles"))
             {
                 Titles titleManager = new Titles();
-                List<Titles> titlesList = titleManager.GetTitles(pageSize, offset);
+                List<Titles> titlesList = titleManager.GetUserTitles(pageSize, offset);
                 createTitles(titlesList);
 
-                totalRecord = titleManager.GetTitlesCount();
+                totalRecord = titleManager.GetUserTitlesCount();
             }
 
             totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -353,14 +495,14 @@ public class MainMenuManagement : MonoBehaviour
     }
     void OnButtonClick(GameObject clickedButton, string type)
     {
-        foreach (Transform child in content)
+        foreach (Transform child in TabButtonPanel)
         {
             // Lấy component Button từ con cái
             Button button = child.GetComponent<Button>();
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, "Button4"); // Giả sử bạn có texture trắng
+                ChangeButtonBackground(button.gameObject, "Background_V4_167"); // Giả sử bạn có texture trắng
             }
         }
 
@@ -368,7 +510,7 @@ public class MainMenuManagement : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ChangeButtonBackground(clickedButton, "Button3");
+        ChangeButtonBackground(clickedButton, "Background_V4_166");
         int totalRecord = 0;
 
         if (mainType.Equals("Cards"))
@@ -451,9 +593,107 @@ public class MainMenuManagement : MonoBehaviour
 
             totalRecord = spellManager.GetUserSpellCount(type);
         }
+        else if (mainType.Equals("MagicFormationCircle"))
+        {
+            MagicFormationCircle magicFormationCircleManager = new MagicFormationCircle();
+            List<MagicFormationCircle> magicFormationCircles = magicFormationCircleManager.GetMagicFormationCircleCollection(type, pageSize, offset);
+            createMagicFormationCircle(magicFormationCircles);
 
-        totalPage = CalculateTotalPages(totalRecord, pageSize);
-        PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            totalRecord = magicFormationCircleManager.GetMagicFormationCircleCount(type);
+        }
+        else if (mainType.Equals("Relics"))
+        {
+            Relics relicsManager = new Relics();
+            List<Relics> relicsList = relicsManager.GetUserRelics(type, pageSize, offset);
+            createRelics(relicsList);
+
+            totalRecord = relicsManager.GetUserRelicsCount(type);
+        }
+        else if (mainType.Equals("SummonCards"))
+        {
+            Cards cardsManager = new Cards();
+            List<Cards> cards = cardsManager.GetCardsRandom(type, 3);
+            createCardsForSummon(cards);
+
+            SummonButton.onClick.RemoveAllListeners();
+            Summon10Button.onClick.RemoveAllListeners();
+
+            SummonButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+            });
+            Summon10Button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+            });
+        }
+        else if (mainType.Equals("SummonBooks"))
+        {
+            Books booksManager = new Books();
+            List<Books> books = booksManager.GetBooksRandom(type, 3);
+            createBooksForSummon(books);
+
+            SummonButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+            });
+            Summon10Button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+            });
+        }
+        else if (mainType.Equals("SummonCaptains"))
+        {
+            Captains captainsManager = new Captains();
+            List<Captains> captains = captainsManager.GetCaptainsRandom(type, 3);
+            createCaptainsForSummon(captains);
+
+            SummonButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+            });
+            Summon10Button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+            });
+        }
+        else if (mainType.Equals("SummonMilitary"))
+        {
+            Military militaryManager = new Military();
+            List<Military> military = militaryManager.GetMilitaryRandom(type, 3);
+            createMilitaryForSummon(military);
+
+            SummonButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+            });
+            Summon10Button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+            });
+        }
+        else if (mainType.Equals("SummonSpell"))
+        {
+            Spell militaryManager = new Spell();
+            List<Spell> spell = militaryManager.GetSpellRandom(type, 3);
+            createSpellForSummon(spell);
+
+            SummonButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+            });
+            Summon10Button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+            });
+        }
+
+        if (!mainType.Equals("SummonCards") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCaptains") &&
+        !mainType.Equals("SummonMonsters") && !mainType.Equals("SummonMilitary") && !mainType.Equals("SummonSpell"))
+        {
+            totalPage = CalculateTotalPages(totalRecord, pageSize);
+            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+        }
         // Debug.Log($"Button for type '{type}' clicked!");
     }
     private void ChangeButtonBackground(GameObject button, string image)
@@ -461,7 +701,7 @@ public class MainMenuManagement : MonoBehaviour
         RawImage buttonImage = button.GetComponent<RawImage>();
         if (buttonImage != null)
         {
-            Texture texture = Resources.Load<Texture>($"UI/UI/{image}");
+            Texture texture = Resources.Load<Texture>($"UI/Background4/{image}");
             if (texture != null)
             {
                 buttonImage.texture = texture;
@@ -480,7 +720,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var card in cards)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, mainContent);
+            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
             Title.text = card.name.Replace("_", " ");
@@ -494,10 +734,10 @@ public class MainMenuManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
-                gridLayout.cellSize = new Vector2(200, 270);
+                gridLayout.cellSize = new Vector2(200, 250);
             }
         }
     }
@@ -505,7 +745,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var book in books)
         {
-            GameObject bookObject = Instantiate(cardsPrefab, mainContent);
+            GameObject bookObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
             Title.text = book.name.Replace("_", " ");
@@ -548,7 +788,7 @@ public class MainMenuManagement : MonoBehaviour
             }
 
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(280, 300);
@@ -559,7 +799,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var captain in captainsList)
         {
-            GameObject captainsObject = Instantiate(cardsPrefab, mainContent);
+            GameObject captainsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
             Title.text = captain.name.Replace("_", " ");
@@ -574,10 +814,10 @@ public class MainMenuManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
-                gridLayout.cellSize = new Vector2(200, 270);
+                gridLayout.cellSize = new Vector2(200, 250);
             }
         }
     }
@@ -585,7 +825,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var collaboration in collaborationList)
         {
-            GameObject collaborationObject = Instantiate(cardsPrefab, mainContent);
+            GameObject collaborationObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
             Title.text = collaboration.name.Replace("_", " ");
@@ -603,7 +843,7 @@ public class MainMenuManagement : MonoBehaviour
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(280, 230);
@@ -614,7 +854,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var collaborationEquipment in collaborationEquipmentList)
         {
-            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = collaborationEquipment.name.Replace("_", " ");
@@ -628,7 +868,7 @@ public class MainMenuManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
@@ -639,7 +879,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var equipment in equipmentList)
         {
-            GameObject equipmentObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject equipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = equipment.name.Replace("_", " ");
@@ -656,7 +896,7 @@ public class MainMenuManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
@@ -667,7 +907,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var medal in medalsList)
         {
-            GameObject medalObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject medalObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
             Title.text = medal.name.Replace("_", " ");
@@ -691,7 +931,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var monster in monstersList)
         {
-            GameObject monstersObject = Instantiate(cardsPrefab, mainContent);
+            GameObject monstersObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = monstersObject.transform.Find("Title").GetComponent<Text>();
             Title.text = monster.name.Replace("_", " ");
@@ -736,10 +976,10 @@ public class MainMenuManagement : MonoBehaviour
             }
 
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
-                gridLayout.cellSize = new Vector2(280, 280);
+                gridLayout.cellSize = new Vector2(280, 250);
             }
         }
     }
@@ -750,11 +990,11 @@ public class MainMenuManagement : MonoBehaviour
             GameObject petsObject;
             if (pet.type.Equals("Legendary_Dragon") || pet.type.Equals("Naruto_Bijuu") || pet.type.Equals("Naruto_Susanoo") || pet.type.Equals("One_Piece_Ship") || pet.type.Equals("Prime_Monster"))
             {
-                petsObject = Instantiate(cardsPrefab, mainContent);
+                petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
                 Background.gameObject.SetActive(true);
 
-                GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(280, 280);
@@ -762,9 +1002,9 @@ public class MainMenuManagement : MonoBehaviour
             }
             else
             {
-                petsObject = Instantiate(equipmentsPrefab, mainContent);
+                petsObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
-                GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(200, 230);
@@ -796,7 +1036,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var skill in skillsList)
         {
-            GameObject skillObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject skillObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = skillObject.transform.Find("Title").GetComponent<Text>();
             Title.text = skill.name.Replace("_", " ");
@@ -813,7 +1053,7 @@ public class MainMenuManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
@@ -824,7 +1064,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var symbol in symbolsList)
         {
-            GameObject symbolObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject symbolObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
             Title.text = symbol.name.Replace("_", " ");
@@ -845,7 +1085,7 @@ public class MainMenuManagement : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
@@ -856,7 +1096,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var title in titlesList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, mainContent);
+            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.name.Replace("_", " ");
@@ -877,7 +1117,7 @@ public class MainMenuManagement : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
@@ -888,7 +1128,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var military in militaryList)
         {
-            GameObject militaryObject = Instantiate(cardsPrefab, mainContent);
+            GameObject militaryObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
             Title.text = military.name.Replace("_", " ");
@@ -902,10 +1142,10 @@ public class MainMenuManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
-                gridLayout.cellSize = new Vector2(200, 270);
+                gridLayout.cellSize = new Vector2(200, 250);
             }
         }
     }
@@ -913,7 +1153,7 @@ public class MainMenuManagement : MonoBehaviour
     {
         foreach (var spell in spellList)
         {
-            GameObject spellObject = Instantiate(cardsPrefab, mainContent);
+            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
             Title.text = spell.name.Replace("_", " ");
@@ -927,25 +1167,241 @@ public class MainMenuManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = mainContent.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
-                gridLayout.cellSize = new Vector2(200, 270);
+                gridLayout.cellSize = new Vector2(200, 250);
             }
+        }
+    }
+    private void createMagicFormationCircle(List<MagicFormationCircle> magicFormationCircles)
+    {
+        foreach (var magicFormationCircle in magicFormationCircles)
+        {
+            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = magicFormationCircle.name.Replace("_", " ");
+
+            RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+
+            RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createRelics(List<Relics> relics)
+    {
+        foreach (var relic in relics)
+        {
+            GameObject relicObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = relic.name.Replace("_", " ");
+
+            RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = relic.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+
+            RawImage rareImage = relicObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createCardsForSummon(List<Cards> cards)
+    {
+        foreach (var card in cards)
+        {
+            GameObject cardObject = Instantiate(PositionPrefab, PositionPanel);
+
+            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = card.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // Chỉnh width và height
+            RectTransform rectTransform = Image.rectTransform;
+            rectTransform.sizeDelta = new Vector2(300f, 375f);
+
+            // Chỉnh vị trí cao lên 40px
+            Vector2 currentPosition = rectTransform.anchoredPosition;
+            rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
+            // GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            // if (gridLayout != null)
+            // {
+            //     gridLayout.cellSize = new Vector2(200, 250);
+            // }
+        }
+    }
+    private void createBooksForSummon(List<Books> books)
+    {
+        foreach (var book in books)
+        {
+            GameObject bookObject = Instantiate(PositionPrefab, PositionPanel);
+
+            RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = book.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            Image.SetNativeSize();
+
+            // Chỉnh width và height
+            RectTransform rectTransform = Image.rectTransform;
+            // rectTransform.sizeDelta = new Vector2(300f, 375f);
+            if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
+            {
+                Image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            }
+            else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
+            {
+                Image.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+            }
+            else if (texture.width <= 700 && texture.height <= 700)
+            {
+                Image.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+            }
+            else if (texture.width <= 700 && texture.height <= 1100)
+            {
+                Image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            }
+            else if (texture.width > 700 && texture.height <= 700)
+            {
+                Image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            }
+            else
+            {
+                Image.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            }
+
+            // Chỉnh vị trí cao lên 40px
+            Vector2 currentPosition = rectTransform.anchoredPosition;
+            rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
+            GridLayoutGroup gridLayout = PositionPanel.GetComponent<GridLayoutGroup>();
+            if (gridLayout != null)
+            {
+                gridLayout.spacing = new Vector2(100, 0);
+            }
+        }
+    }
+    private void createCaptainsForSummon(List<Captains> captains)
+    {
+        foreach (var captain in captains)
+        {
+            GameObject captainObject = Instantiate(PositionPrefab, PositionPanel);
+
+            RawImage Image = captainObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = captain.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // Chỉnh width và height
+            RectTransform rectTransform = Image.rectTransform;
+            rectTransform.sizeDelta = new Vector2(300f, 375f);
+
+            // Chỉnh vị trí cao lên 40px
+            Vector2 currentPosition = rectTransform.anchoredPosition;
+            rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
+            // GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            // if (gridLayout != null)
+            // {
+            //     gridLayout.cellSize = new Vector2(200, 250);
+            // }
+        }
+    }
+    private void createMilitaryForSummon(List<Military> militaries)
+    {
+        foreach (var military in militaries)
+        {
+            GameObject militaryObject = Instantiate(PositionPrefab, PositionPanel);
+
+            RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = military.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // Chỉnh width và height
+            RectTransform rectTransform = Image.rectTransform;
+            rectTransform.sizeDelta = new Vector2(300f, 375f);
+
+            // Chỉnh vị trí cao lên 40px
+            Vector2 currentPosition = rectTransform.anchoredPosition;
+            rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
+            // GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            // if (gridLayout != null)
+            // {
+            //     gridLayout.cellSize = new Vector2(200, 250);
+            // }
+        }
+    }
+    private void createSpellForSummon(List<Spell> spells)
+    {
+        foreach (var spell in spells)
+        {
+            GameObject spellObject = Instantiate(PositionPrefab, PositionPanel);
+
+            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = spell.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // Chỉnh width và height
+            RectTransform rectTransform = Image.rectTransform;
+            rectTransform.sizeDelta = new Vector2(300f, 375f);
+
+            // Chỉnh vị trí cao lên 40px
+            Vector2 currentPosition = rectTransform.anchoredPosition;
+            rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
+            // GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            // if (gridLayout != null)
+            // {
+            //     gridLayout.cellSize = new Vector2(200, 250);
+            // }
         }
     }
     public void ClearAllPrefabs()
     {
         // Duyệt qua tất cả các con cái của cardsContent
-        foreach (Transform child in mainContent)
+        if (DictionaryContentPanel != null)
         {
-            Destroy(child.gameObject);
+            foreach (Transform child in DictionaryContentPanel)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        if (PositionPanel != null)
+        {
+            foreach (Transform child in PositionPanel)
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
     public void ClearAllButton()
     {
         // Duyệt qua tất cả các con cái của cardsContent
-        foreach (Transform child in content)
+        foreach (Transform child in TabButtonPanel)
         {
             Destroy(child.gameObject);
         }
@@ -1075,11 +1531,11 @@ public class MainMenuManagement : MonoBehaviour
             else if (mainType.Equals("Titles"))
             {
                 Titles symbolsManager = new Titles();
-                totalRecord = symbolsManager.GetTitlesCount();
+                totalRecord = symbolsManager.GetUserTitlesCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Titles> titlesList = symbolsManager.GetTitles(pageSize, offset);
+                List<Titles> titlesList = symbolsManager.GetUserTitles(pageSize, offset);
                 createTitles(titlesList);
             }
             else if (mainType.Equals("Military"))
@@ -1101,6 +1557,26 @@ public class MainMenuManagement : MonoBehaviour
                 offset = offset + pageSize;
                 List<Spell> spellList = spellManager.GetUserSpell(subType, pageSize, offset);
                 createSpell(spellList);
+            }
+            else if (mainType.Equals("MagicFormationCircle"))
+            {
+                MagicFormationCircle magicFormationCircleManager = new MagicFormationCircle();
+                totalRecord = magicFormationCircleManager.GetUserMagicFormationCircleCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<MagicFormationCircle> magicFormationCircles = magicFormationCircleManager.GetUserMagicFormationCircle(subType, pageSize, offset);
+                createMagicFormationCircle(magicFormationCircles);
+            }
+            else if (mainType.Equals("Relics"))
+            {
+                Relics relicsManager = new Relics();
+                totalRecord = relicsManager.GetUserRelicsCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Relics> relicsList = relicsManager.GetUserRelics(subType, pageSize, offset);
+                createRelics(relicsList);
             }
 
 
@@ -1228,11 +1704,11 @@ public class MainMenuManagement : MonoBehaviour
             else if (mainType.Equals("Titles"))
             {
                 Titles symbolsManager = new Titles();
-                totalRecord = symbolsManager.GetTitlesCount();
+                totalRecord = symbolsManager.GetUserTitlesCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Titles> titlesList = symbolsManager.GetTitles(pageSize, offset);
+                List<Titles> titlesList = symbolsManager.GetUserTitles(pageSize, offset);
                 createTitles(titlesList);
             }
             else if (mainType.Equals("Military"))
@@ -1255,6 +1731,26 @@ public class MainMenuManagement : MonoBehaviour
                 List<Spell> spellList = spellManager.GetUserSpell(subType, pageSize, offset);
                 createSpell(spellList);
             }
+            else if (mainType.Equals("MagicFormationCircle"))
+            {
+                MagicFormationCircle magicFormationCircleManager = new MagicFormationCircle();
+                totalRecord = magicFormationCircleManager.GetUserMagicFormationCircleCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<MagicFormationCircle> magicFormationCircles = magicFormationCircleManager.GetUserMagicFormationCircle(subType, pageSize, offset);
+                createMagicFormationCircle(magicFormationCircles);
+            }
+            else if (mainType.Equals("Relics"))
+            {
+                Relics relicsManager = new Relics();
+                totalRecord = relicsManager.GetUserRelicsCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Relics> relicsList = relicsManager.GetUserRelics(subType, pageSize, offset);
+                createRelics(relicsList);
+            }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -1266,6 +1762,9 @@ public class MainMenuManagement : MonoBehaviour
         ClearAllPrefabs();
         offset = 0;
         currentPage = 1;
-        MainMenuPanel.SetActive(false);
+        foreach (Transform child in MainPanel)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

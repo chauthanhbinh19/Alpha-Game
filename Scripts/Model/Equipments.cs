@@ -446,9 +446,10 @@ public class Equipments
     }
     private int GetMaxSequence(MySqlConnection connection, int equipment_id)
     {
-        string query = "SELECT MAX(sequence) FROM user_equipments ue where ue.equipment_id=@equipment_id";
+        string query = "SELECT MAX(sequence) FROM user_equipments ue where ue.equipment_id=@equipment_id and ue.user_id=@user_id";
         MySqlCommand command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@equipment_id", equipment_id);
+        command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
         object result = command.ExecuteScalar();
 
         if (result != DBNull.Value)
@@ -645,7 +646,147 @@ public class Equipments
                 command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@quantity", newQuantity);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@currency_id", Id);
+                command.Parameters.AddWithValue("@currency_id", currencyId);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void UpdateEquipmentsGallery(int Id)
+    {
+        Equipments EquipmentFromDB = GetEquipmentById(Id);
+        int percent = 0;
+        if (EquipmentFromDB.rare.Equals("LG"))
+        {
+            percent = 20;
+        }
+        else if (EquipmentFromDB.rare.Equals("UR"))
+        {
+            percent = 10;
+        }
+        else if (EquipmentFromDB.rare.Equals("SSR"))
+        {
+            percent = 5;
+        }
+        else if (EquipmentFromDB.rare.Equals("SR"))
+        {
+            percent = 2;
+        }
+        else if (EquipmentFromDB.rare.Equals("MR"))
+        {
+            percent = 30;
+        }
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra bản ghi đã tồn tại
+                string checkQuery = @"
+                SELECT COUNT(*) 
+                FROM equipments_gallery 
+                WHERE user_id = @user_id AND equipment_id = @equipment_id;
+                ";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@equipment_id", Id);
+
+                int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                if (recordCount == 0)
+                {
+                    string query = @"
+                    INSERT INTO equipments_gallery (
+                        user_id, equipment_id, status, star, power, health, physical_attack, physical_defense, 
+                        magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
+                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
+                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
+                        percent_all_mental_defense
+                    ) VALUES (
+                        @user_id, @equipment_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
+                        @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
+                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
+                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
+                        @percent_all_mental_defense
+                    );
+                    ";
+
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@equipment_id", Id);
+                    command.Parameters.AddWithValue("@status", "pending");
+                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@power", EquipmentFromDB.power);
+                    command.Parameters.AddWithValue("@health", EquipmentFromDB.health);
+                    command.Parameters.AddWithValue("@physical_attack", EquipmentFromDB.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", EquipmentFromDB.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", EquipmentFromDB.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", EquipmentFromDB.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", EquipmentFromDB.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", EquipmentFromDB.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", EquipmentFromDB.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", EquipmentFromDB.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", EquipmentFromDB.magical_attack);
+                    command.Parameters.AddWithValue("@mental_defense", EquipmentFromDB.magical_defense);
+                    command.Parameters.AddWithValue("@speed", EquipmentFromDB.speed);
+                    command.Parameters.AddWithValue("@critical_damage", EquipmentFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", EquipmentFromDB.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", EquipmentFromDB.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", EquipmentFromDB.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", EquipmentFromDB.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", EquipmentFromDB.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", EquipmentFromDB.accuracy);
+                    command.Parameters.AddWithValue("@mana", EquipmentFromDB.mana);
+                    command.Parameters.AddWithValue("@percent_all_health", percent);
+                    command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                    command.ExecuteNonQuery();
+                }
+                
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void UpdateStatusEquipmentsGallery(int Id){
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query="update equipments_gallery set status=@status where user_id=@user_id and equipment_id=@equipment_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@equipment_id", Id);
+                command.Parameters.AddWithValue("@status", "available");
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)

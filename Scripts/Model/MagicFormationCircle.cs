@@ -228,7 +228,7 @@ public class MagicFormationCircle
         }
         return magicFormationCircles;
     }
-    public List<MagicFormationCircle> GetUserMagicFormationCircle(int pageSize, int offset)
+    public List<MagicFormationCircle> GetUserMagicFormationCircle(string type, int pageSize, int offset)
     {
         List<MagicFormationCircle> magicFormationCircles = new List<MagicFormationCircle>();
         int user_id=User.CurrentUserId;
@@ -238,9 +238,10 @@ public class MagicFormationCircle
             try
             {
                 connection.Open();
-                string query = "Select m.* from magic_formation_circle m, user_magic_formation_circle um where m.id=um.mfc_id and um.user_id=@userId limit @limit offset @offset";
+                string query = "Select m.* from magic_formation_circle m, user_magic_formation_circle um where m.id=um.mfc_id and um.user_id=@userId and m.type=@type limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -296,7 +297,7 @@ public class MagicFormationCircle
         }
         return magicFormationCircles;
     }
-    public int GetUserMagicFormationCircleCount(){
+    public int GetUserMagicFormationCircleCount(string type){
         int count =0;
         int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -305,9 +306,10 @@ public class MagicFormationCircle
             try
             {
                 connection.Open();
-                string query = "Select count(*) from magic_formation_circle m, user_magic_formation_circle um where m.id=um.mfc_id and um.user_id=@userId";
+                string query = "Select count(*) from magic_formation_circle m, user_magic_formation_circle um where m.id=um.mfc_id and um.user_id=@userId and m.type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;
