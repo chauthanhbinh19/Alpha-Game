@@ -13,7 +13,7 @@ public class GachaSystem : MonoBehaviour
     private Texture backImage; // Mặt sau (image1.png)
     private bool isSummonAreaActive = false;
 
-    public void Summon(string type, Transform area, int quantity)
+    public void Summon(string name, string type, Transform area, int quantity)
     {
         if (area == null)
         {
@@ -21,12 +21,44 @@ public class GachaSystem : MonoBehaviour
             return;
         }
 
-        Cards cardsManager = new Cards();
-        cards = cardsManager.GetAllCards(type);
+        object manager = null;
+        IList items = null;
 
-        if (cards == null || cards.Count == 0)
+        // Xác định class dựa trên type
+        switch (name.ToLower())
         {
-            Debug.LogError("No cards found for type: " + type);
+            case "cards":
+                manager = new Cards();
+                items = ((Cards)manager).GetAllCards(type);
+                break;
+            case "books":
+                manager = new Books();
+                items = ((Books)manager).GetAllBooks(type);
+                break;
+            case "captains":
+                manager = new Captains();
+                items = ((Captains)manager).GetAllCaptains(type);
+                break;
+            case "monsters":
+                manager = new Monsters();
+                items = ((Monsters)manager).GetAllMonsters();
+                break;
+            case "military":
+                manager = new Military();
+                items = ((Military)manager).GetAllMilitary(type);
+                break;
+            case "spell":
+                manager = new Spell();
+                items = ((Spell)manager).GetAllSpell(type);
+                break;
+            default:
+                Debug.LogError("Invalid type: " + type);
+                return;
+        }
+
+        if (items == null || items.Count == 0)
+        {
+            Debug.LogError("No items found for type: " + type);
             return;
         }
         backImage = Resources.Load<Texture>("UI/Frame_5");
@@ -50,22 +82,68 @@ public class GachaSystem : MonoBehaviour
         }
 
         // Lấy 10 thẻ ngẫu nhiên
-        List<Cards> selectedCards = cards.OrderBy(x => Random.value).Take(quantity).ToList();
-        foreach (var card in selectedCards){
-            cardsManager.InsertUserCards(card);
-            cardsManager.UpdateCardsGallery(card.id);
+        var randomItems = items.Cast<object>().OrderBy(x => Random.value).Take(quantity).ToList();
+
+        foreach (var item in randomItems)
+        {
+            // Debug.Log("Summoned item: " + item.ToString());
+            // Thực hiện logic riêng tùy thuộc vào loại đối tượng
+            if (manager is Cards)
+            {
+                Cards cardItem = item as Cards;
+                if(cardItem != null){
+                    ((Cards)manager).InsertUserCards(cardItem);
+                }
+            }
+            else if (manager is Books)
+            {
+                Books bookItem = item as Books;
+                if (bookItem != null)
+                {
+                    ((Books)manager).InsertUserBooks(bookItem);
+                }
+            }
+            else if (manager is Captains)
+            {
+                Captains captainItem = item as Captains;
+                if (captainItem != null){
+                    ((Captains)manager).InsertUserCaptains(captainItem);
+                }
+            }
+            else if (manager is Monsters)
+            {
+                Monsters monsterItem = item as Monsters;
+                if (monsterItem != null){
+                    ((Monsters)manager).InsertUserMonsters(monsterItem);
+                }
+            }
+            else if (manager is Military)
+            {
+                Military militaryItem = item as Military;
+                if(militaryItem != null){
+                    ((Military)manager).InsertUserMilitary(militaryItem);
+                }
+            }
+            else if (manager is Spell)
+            {
+                Spell spellItem = item as Spell;
+                if (spellItem != null){
+                    ((Spell)manager).InsertUserSpell(spellItem);
+                }
+            }
+            // Thêm các xử lý tương tự cho các loại khác
         }
         // Hiển thị các thẻ bài mặt sau
-        StartCoroutine(DisplayCards(selectedCards));
+        StartCoroutine(DisplayCards(randomItems));
     }
 
-    private IEnumerator DisplayCards(List<Cards> selectedCards)
+    private IEnumerator DisplayCards(List<object> randomItems)
     {
         float delay = 0.2f; // Thời gian giữa mỗi lần hiển thị thẻ
         List<RawImage> cardImages = new List<RawImage>(); // Danh sách lưu trữ các RawImage của thẻ bài
 
         // Hiển thị tất cả các thẻ bài với mặt sau
-        foreach (Cards card in selectedCards)
+        foreach (var item in randomItems)
         {
             // Tạo một thẻ bài từ prefab
             GameObject cardObject = Instantiate(cardPrefab, summonArea);
@@ -80,8 +158,36 @@ public class GachaSystem : MonoBehaviour
             RawImage rareBackground = cardObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareBackground.gameObject.SetActive(false);
             RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
-            rareImage.texture = rareTexture;
+            if (item is Cards card)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
+                rareImage.texture = rareTexture;
+            }
+            else if (item is Books book)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
+                rareImage.texture = rareTexture;
+            }
+            else if (item is Captains captains)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captains.rare}");
+                rareImage.texture = rareTexture;
+            }
+            else if (item is Monsters monsters)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monsters.rare}");
+                rareImage.texture = rareTexture;
+            }
+            else if (item is Military military)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.rare}");
+                rareImage.texture = rareTexture;
+            }
+            else if (item is Spell spell)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+                rareImage.texture = rareTexture;
+            }
             rareImage.gameObject.SetActive(false);
             if (image != null)
             {
@@ -106,11 +212,38 @@ public class GachaSystem : MonoBehaviour
         // Lật từng thẻ bài
         foreach (var image in cardImages)
         {
-            // Tìm thẻ bài tương ứng
-            Cards card = selectedCards[cardImages.IndexOf(image)];
-
-            // Gọi Coroutine để lật thẻ
-            yield return StartCoroutine(FlipCard(image, card.image));
+            // Lấy thẻ bài tương ứng từ danh sách
+            int index = cardImages.IndexOf(image);
+            if (randomItems[index] is Cards card)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, card.image));
+            }
+            else if (randomItems[index] is Books book)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, book.image));
+            }
+            else if (randomItems[index] is Captains captain)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, captain.image));
+            }
+            else if (randomItems[index] is Monsters monster)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, monster.image));
+            }
+            else if (randomItems[index] is Military military)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, military.image));
+            }
+            else if (randomItems[index] is Spell spell)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, spell.image));
+            }
         }
     }
 

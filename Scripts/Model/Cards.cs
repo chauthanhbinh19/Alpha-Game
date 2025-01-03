@@ -106,6 +106,7 @@ public class Cards
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
@@ -191,6 +192,7 @@ public class Cards
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description"),
                         status = reader.GetString("status"),
@@ -257,6 +259,7 @@ public class Cards
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
@@ -340,6 +343,7 @@ public class Cards
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
@@ -397,6 +401,7 @@ public class Cards
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
@@ -570,6 +575,7 @@ public class Cards
                         avoid = reader.GetDouble("avoid"),
                         absorbs_damage = reader.GetDouble("absorbs_damage"),
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };

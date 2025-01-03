@@ -193,7 +193,9 @@ public class MainMenuManagement : MonoBehaviour
             SummonAreaPanel = summonObject.transform.Find("SummonArea");
 
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
-            RawImage rawImage = summonObject.transform.Find("DictionaryCards/RawImage").GetComponent<RawImage>();
+            RawImage rawImage1 = summonObject.transform.Find("DictionaryCards/RawImage1").GetComponent<RawImage>();
+            RawImage rawImage2 = summonObject.transform.Find("DictionaryCards/RawImage2").GetComponent<RawImage>();
+            RawImage background2 = summonObject.transform.Find("DictionaryCards/Background2").GetComponent<RawImage>();
             if (mainType.Equals("SummonCards"))
             {
 
@@ -203,33 +205,45 @@ public class MainMenuManagement : MonoBehaviour
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_51");
                 dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_48");
-                rawImage.texture = rawTexture;
+                rawImage1.texture = rawTexture;
+                rawImage2.texture = rawTexture;
+                background2.texture = texture;
             }
             else if (mainType.Equals("SummonCaptains"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_50");
                 dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_63");
-                rawImage.texture = rawTexture;
+                rawImage1.texture = rawTexture;
+                rawImage2.texture = rawTexture;
+                background2.texture = texture;
             }
             else if (mainType.Equals("SummonMonsters"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_49");
                 dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_69");
-                rawImage.texture = rawTexture;
+                rawImage1.texture = rawTexture;
+                rawImage2.texture = rawTexture;
+                background2.texture = texture;
             }
             else if (mainType.Equals("SummonMilitary"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_48");
                 dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_85");
-                rawImage.texture = rawTexture;
+                rawImage1.texture = rawTexture;
+                rawImage2.texture = rawTexture;
+                background2.texture = texture;
             }
             else if (mainType.Equals("SummonSpell"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_47");
                 dictionaryBackground.texture = texture;
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_94");
+                rawImage1.texture = rawTexture;
+                rawImage2.texture = rawTexture;
+                background2.texture = texture;
             }
         }
         else
@@ -370,11 +384,11 @@ public class MainMenuManagement : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                            FindObjectOfType<GachaSystem>().Summon("cards",subtype, SummonAreaPanel, 1);
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                            FindObjectOfType<GachaSystem>().Summon("cards",subtype, SummonAreaPanel, 10);
                         });
                     }
                     else if (mainType.Equals("SummonBooks"))
@@ -385,11 +399,11 @@ public class MainMenuManagement : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                            FindObjectOfType<GachaSystem>().Summon("books",subtype, SummonAreaPanel, 1);
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                            FindObjectOfType<GachaSystem>().Summon("books",subtype, SummonAreaPanel, 10);
                         });
                     }
                     else if (mainType.Equals("SummonCaptains"))
@@ -400,11 +414,11 @@ public class MainMenuManagement : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                            FindObjectOfType<GachaSystem>().Summon("captains",subtype, SummonAreaPanel, 1);
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                            FindObjectOfType<GachaSystem>().Summon("captains",subtype, SummonAreaPanel, 10);
                         });
                     }
                     else if (mainType.Equals("SummonMilitary"))
@@ -415,11 +429,11 @@ public class MainMenuManagement : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                            FindObjectOfType<GachaSystem>().Summon("military",subtype, SummonAreaPanel, 1);
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                            FindObjectOfType<GachaSystem>().Summon("military",subtype, SummonAreaPanel, 10);
                         });
                     }
                     else if (mainType.Equals("SummonSpell"))
@@ -430,11 +444,11 @@ public class MainMenuManagement : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 1);
+                            FindObjectOfType<GachaSystem>().Summon("spell",subtype, SummonAreaPanel, 1);
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(subtype, SummonAreaPanel, 10);
+                            FindObjectOfType<GachaSystem>().Summon("spell",subtype, SummonAreaPanel, 10);
                         });
                     }
 
@@ -620,11 +634,11 @@ public class MainMenuManagement : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+                FindObjectOfType<GachaSystem>().Summon("cards",type, SummonAreaPanel, 1);
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+                FindObjectOfType<GachaSystem>().Summon("cards",type, SummonAreaPanel, 10);
             });
         }
         else if (mainType.Equals("SummonBooks"))
@@ -633,13 +647,16 @@ public class MainMenuManagement : MonoBehaviour
             List<Books> books = booksManager.GetBooksRandom(type, 3);
             createBooksForSummon(books);
 
+            SummonButton.onClick.RemoveAllListeners();
+            Summon10Button.onClick.RemoveAllListeners();
+
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+                FindObjectOfType<GachaSystem>().Summon("books",type, SummonAreaPanel, 1);
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+                FindObjectOfType<GachaSystem>().Summon("books",type, SummonAreaPanel, 10);
             });
         }
         else if (mainType.Equals("SummonCaptains"))
@@ -648,13 +665,16 @@ public class MainMenuManagement : MonoBehaviour
             List<Captains> captains = captainsManager.GetCaptainsRandom(type, 3);
             createCaptainsForSummon(captains);
 
+            SummonButton.onClick.RemoveAllListeners();
+            Summon10Button.onClick.RemoveAllListeners();
+
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+                FindObjectOfType<GachaSystem>().Summon("captains",type, SummonAreaPanel, 1);
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+                FindObjectOfType<GachaSystem>().Summon("captains",type, SummonAreaPanel, 10);
             });
         }
         else if (mainType.Equals("SummonMilitary"))
@@ -663,13 +683,16 @@ public class MainMenuManagement : MonoBehaviour
             List<Military> military = militaryManager.GetMilitaryRandom(type, 3);
             createMilitaryForSummon(military);
 
+            SummonButton.onClick.RemoveAllListeners();
+            Summon10Button.onClick.RemoveAllListeners();
+
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+                FindObjectOfType<GachaSystem>().Summon("military",type, SummonAreaPanel, 1);
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+                FindObjectOfType<GachaSystem>().Summon("military",type, SummonAreaPanel, 10);
             });
         }
         else if (mainType.Equals("SummonSpell"))
@@ -678,13 +701,16 @@ public class MainMenuManagement : MonoBehaviour
             List<Spell> spell = militaryManager.GetSpellRandom(type, 3);
             createSpellForSummon(spell);
 
+            SummonButton.onClick.RemoveAllListeners();
+            Summon10Button.onClick.RemoveAllListeners();
+
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 1);
+                FindObjectOfType<GachaSystem>().Summon("spell",type, SummonAreaPanel, 1);
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(type, SummonAreaPanel, 10);
+                FindObjectOfType<GachaSystem>().Summon("spell",type, SummonAreaPanel, 10);
             });
         }
 

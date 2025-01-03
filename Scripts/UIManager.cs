@@ -14,12 +14,19 @@ public class UIManager : MonoBehaviour
     public Transform collectionMenuPanel;
     public Transform equipmentMenuPanel;
     public Transform notificationPanel; 
+    public Transform WaitingPanel;
+    public Transform MainScencePanel;
     public Transform MainPanel;
     public Transform popupPanel;
     public Transform summonPanel;
+    public Transform currencyPanel;
+    public Transform userPanel;
 
     // Prefab references
     [Header("GameObject")]
+    public GameObject SignInPanel;
+    public GameObject SignUpPanel;
+    public GameObject CreateNamePanel;
     public GameObject buttonPrefab;
     public GameObject notificationPrefab;
     public GameObject GalleryPanel;
@@ -69,6 +76,10 @@ public class UIManager : MonoBehaviour
         {
             case "MainPanel":
                 return MainPanel;
+            case "WaitingPanel":
+                return WaitingPanel;
+            case "MainScencePanel":
+                return MainScencePanel;
             case "mainMenuButtonPanel":
                 return mainMenuButtonPanel;
             case "galleryMenuPanel":
@@ -83,6 +94,10 @@ public class UIManager : MonoBehaviour
                 return popupPanel;
             case "summonPanel":
                 return summonPanel;
+            case "currencyPanel":
+                return currencyPanel;
+            case "userPanel":
+                return userPanel;
             default:
                 Debug.LogWarning($"Panel {panelName} not found.");
                 return null;
@@ -92,6 +107,12 @@ public class UIManager : MonoBehaviour
     {
         switch (prefabName)
         {
+            case "SignInPanel":
+                return SignInPanel;
+            case "SignUpPanel":
+                return SignUpPanel;
+            case "CreateNamePanel":
+                return CreateNamePanel;
             case "buttonPrefab":
                 return buttonPrefab;
             case "notificationPrefab":
