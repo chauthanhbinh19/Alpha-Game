@@ -15,6 +15,10 @@ public class AuthenticationManager : MonoBehaviour
     private Button SI_signUpButton;
     private Button SU_signInButton;
     private Button SU_signUpButton;
+    private Button startButton;
+    private Button SI_closeButton;
+    private Button SU_closeButton;
+    private Button createSignInButton;
     private GameObject signInPanel;
     private GameObject signUpPanel;
     private GameObject createNamePanel;
@@ -39,6 +43,16 @@ public class AuthenticationManager : MonoBehaviour
         currencyPanel = UIManager.Instance.GetTransform("currencyPanel");
         currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
         userPanel = UIManager.Instance.GetTransform("userPanel");
+        startButton = WaitingPanel.transform.Find("StartButton").GetComponent<Button>();
+        createSignInButton = WaitingPanel.transform.Find("SignInButton").GetComponent<Button>();
+
+        startButton.onClick.AddListener(()=>{
+            MainPanel.gameObject.SetActive(true);
+            WaitingPanel.gameObject.SetActive(false);
+        });
+        createSignInButton.onClick.AddListener(()=>{
+            createSignInPanel();
+        });
 
         if (User.CurrentUserId == 0)
         {
@@ -64,8 +78,9 @@ public class AuthenticationManager : MonoBehaviour
         if (loggedInUser != null)
         {
             // Đăng nhập thành công, hiển thị MainPanel và ẩn WaitingPanel
-            MainPanel.gameObject.SetActive(true);
-            WaitingPanel.gameObject.SetActive(false);
+            // MainPanel.gameObject.SetActive(true);
+            // WaitingPanel.gameObject.SetActive(false);
+            Destroy(currentObject);
 
             // Lưu thông tin người dùng vào nơi bạn muốn, ví dụ lưu vào một biến static hoặc quản lý trong game
             // Ví dụ: lưu vào UserManager
@@ -81,20 +96,21 @@ public class AuthenticationManager : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             avatarImage.texture = texture;
 
-            foreach (var currency in loggedInUser.Currencies)
-            {
-                if (currency.name.Equals("Diamond") || currency.name.Equals("Gold") || currency.name.Equals("Silver"))
-                {
-                    GameObject currencyObject = Instantiate(currencyPrefab, currencyPanel);
-                    RawImage currencyImage = currencyObject.transform.Find("Image").GetComponent<RawImage>();
-                    string currencyWithoutExtension = currency.image.Replace(".png", "");
-                    Texture currencyTexture = Resources.Load<Texture>($"{currencyWithoutExtension}");
-                    currencyImage.texture = currencyTexture;
+            FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
+            // foreach (var currency in loggedInUser.Currencies)
+            // {
+            //     if (currency.name.Equals("Diamond") || currency.name.Equals("Gold") || currency.name.Equals("Silver"))
+            //     {
+            //         GameObject currencyObject = Instantiate(currencyPrefab, currencyPanel);
+            //         RawImage currencyImage = currencyObject.transform.Find("Image").GetComponent<RawImage>();
+            //         string currencyWithoutExtension = currency.image.Replace(".png", "");
+            //         Texture currencyTexture = Resources.Load<Texture>($"{currencyWithoutExtension}");
+            //         currencyImage.texture = currencyTexture;
 
-                    Text currencyQuantity = currencyObject.transform.Find("Content").GetComponent<Text>();
-                    currencyQuantity.text = currency.quantity.ToString();
-                }
-            }
+            //         Text currencyQuantity = currencyObject.transform.Find("Content").GetComponent<Text>();
+            //         currencyQuantity.text = currency.quantity.ToString();
+            //     }
+            // }
         }
         else
         {
@@ -165,6 +181,10 @@ public class AuthenticationManager : MonoBehaviour
         SI_ErrorPassword = currentObject.transform.Find("ErrorPassword").GetComponent<Text>();
         SI_signUpButton.onClick.AddListener(SI_signUpButtonClicked);
         SI_signInButton.onClick.AddListener(SI_signInButtonClicked);
+        SI_closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        SI_closeButton.onClick.AddListener(()=>{
+            Destroy(currentObject);
+        });
     }
     public void createSignUpPanel(){
         currentObject = Instantiate(signUpPanel, WaitingPanel);
@@ -178,5 +198,9 @@ public class AuthenticationManager : MonoBehaviour
         SU_ErrorConfirmPassword = currentObject.transform.Find("ErrorConfirmPassword").GetComponent<Text>();
         SU_signUpButton.onClick.AddListener(SU_signUpButtonClicked);
         SU_signInButton.onClick.AddListener(SU_signInButtonClicked);
+        SU_closeButton = signUpPanel.transform.Find("CloseButton").GetComponent<Button>();
+        SU_closeButton.onClick.AddListener(()=>{
+            Destroy(currentObject);
+        });
     }
 }

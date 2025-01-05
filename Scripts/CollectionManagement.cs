@@ -18,6 +18,7 @@ public class CollectionManagement : MonoBehaviour
     private Transform DictionaryContentPanel;
     private Transform TabButtonPanel;
     private Button CloseButton;
+    private Button HomeButton;
     private GameObject equipmentsPrefab;
     private GameObject MainMenuDetailPanelPrefab;
     private GameObject ElementDetailsPrefab;
@@ -156,8 +157,16 @@ public class CollectionManagement : MonoBehaviour
         titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(ClosePanel);
+        HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener(()=>Close(MainPanel));
         NextButton.onClick.AddListener(ChangeNextPage);
         PreviousButton.onClick.AddListener(ChangePreviousPage);
+
+        Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetUserCurrency();
+        FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
         List<string> uniqueTypes = GetUniqueTypes();
         if (uniqueTypes.Count > 0)
         {
@@ -288,7 +297,7 @@ public class CollectionManagement : MonoBehaviour
         else
         {
             int totalRecord = 0;
-            if (mainType.Equals("Collaboration"))
+            if (mainType.Equals("Collaborations"))
             {
                 Collaboration collaborationManager = new Collaboration();
                 List<Collaboration> collaborations = collaborationManager.GetCollaborationCollection(pageSize, offset);
@@ -727,7 +736,7 @@ public class CollectionManagement : MonoBehaviour
             rareImage.texture = rareTexture;
 
             Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
 
             RawImage blockImage = collaborationObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = collaborationObject.transform.Find("Unlock").GetComponent<Button>();
@@ -1628,7 +1637,7 @@ public class CollectionManagement : MonoBehaviour
                 List<CollaborationEquipment> collaborationEquipments = collaborationEquipmentManager.GetCollaborationEquipmentsCollection(subType, pageSize, offset);
                 createCollaborationEquipments(collaborationEquipments);
             }
-            else if (mainType.Equals("Collaboration"))
+            else if (mainType.Equals("Collaborations"))
             {
                 Collaboration collaborationManager = new Collaboration();
                 totalRecord = collaborationManager.GetCollaborationCount();
@@ -1799,7 +1808,7 @@ public class CollectionManagement : MonoBehaviour
                 List<CollaborationEquipment> collaborationEquipments = collaborationEquipmentManager.GetCollaborationEquipmentsCollection(subType, pageSize, offset);
                 createCollaborationEquipments(collaborationEquipments);
             }
-            else if (mainType.Equals("Collaboration"))
+            else if (mainType.Equals("Collaborations"))
             {
                 Collaboration collaborationManager = new Collaboration();
                 totalRecord = collaborationManager.GetCollaborationCount();
@@ -1932,6 +1941,15 @@ public class CollectionManagement : MonoBehaviour
         offset = 0;
         currentPage = 1;
         foreach (Transform child in MainPanel)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+    public void Close(Transform content)
+    {
+        offset = 0;
+        currentPage = 1;
+        foreach (Transform child in content)
         {
             Destroy(child.gameObject);
         }

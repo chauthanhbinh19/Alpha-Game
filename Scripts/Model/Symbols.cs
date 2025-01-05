@@ -46,6 +46,7 @@ public class Symbols
     public double percent_all_mental_defense { get; set; }
     public string description { get; set; }
     public string status { get; set; }
+    public Currency currency { get; set; }
     public Symbols()
     {
 
@@ -77,7 +78,8 @@ public class Symbols
             try
             {
                 connection.Open();
-                string query = "Select * from Symbols where type =@type limit @limit offset @offset";
+                string query = @"Select * from Symbols where type =@type 
+                ORDER BY Symbols.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Symbols.name, '[0-9]+$') AS UNSIGNED), Symbols.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -168,8 +170,9 @@ public class Symbols
             try
             {
                 connection.Open();
-                string query = "SELECT s.*, CASE WHEN sg.symbol_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status "
-                +"FROM symbols s LEFT JOIN symbols_gallery sg ON s.id = sg.symbol_id and sg.user_id = @userId where s.type=@type limit @limit offset @offset";
+                string query = @"SELECT s.*, CASE WHEN sg.symbol_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status 
+                FROM symbols s LEFT JOIN symbols_gallery sg ON s.id = sg.symbol_id and sg.user_id = @userId where s.type=@type 
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -240,7 +243,8 @@ public class Symbols
             try
             {
                 connection.Open();
-                string query = "Select s.* from Symbols s, user_symbols us where s.id=us.symbol_id and us.user_id=@userId and s.type =@type limit @limit offset @offset";
+                string query = @"Select s.* from Symbols s, user_symbols us where s.id=us.symbol_id and us.user_id=@userId and s.type =@type 
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -312,6 +316,106 @@ public class Symbols
                 string query = "Select count(*) from Symbols s, user_symbols us where s.id=us.symbol_id and us.user_id=@userId and s.type =@type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
+                count = Convert.ToInt32(command.ExecuteScalar());
+
+                return count;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return count;
+    }
+    public List<Symbols> GetSymbolsWithPrice(string type,int pageSize, int offset)
+    {
+        List<Symbols> symbolsList = new List<Symbols>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select s.*, st.price, cu.image as currency_image
+                from symbols s, symbol_trade st, currency cu
+                where s.id=st.symbol_id and st.currency_id = cu.id and s.type =@type 
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", pageSize);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Symbols symbols = new Symbols
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        type = reader.GetString("type"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        mana = reader.GetFloat("mana"),
+                        percent_all_health = reader.GetDouble("percent_all_health"),
+                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
+                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
+                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
+                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
+                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
+                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
+                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
+                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
+                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
+                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
+                        description = reader.GetString("description")
+                    };
+                    symbols.currency = new Currency{
+                        image = reader.GetString("currency_image"),
+                        quantity = reader.GetInt32("price")
+                    };
+
+                    symbolsList.Add(symbols);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return symbolsList;
+    }
+    public int GetSkillsWithPriceCount(string type)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select count(*)
+                from symbols s, symbol_trade st, currency cu
+                where s.id=st.symbol_id and st.currency_id = cu.id and s.type =@type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 

@@ -40,6 +40,7 @@ public class Spell
     public float percent_all_mana { get; set; }
     public string description { get; set; }
     public string status { get; set; }
+    public Currency currency { get; set; }
     public Spell()
     {
 
@@ -71,7 +72,8 @@ public class Spell
             try
             {
                 connection.Open();
-                string query = "Select * from Spell where type= @type limit @limit offset @offset";
+                string query = @"Select * from Spell where type= @type 
+                ORDER BY Spell.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Spell.name, '[0-9]+$') AS UNSIGNED), Spell.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -155,8 +157,9 @@ public class Spell
             try
             {
                 connection.Open();
-                string query = "SELECT s.*, CASE WHEN sg.spell_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status "
-                + "FROM spell s LEFT JOIN spell_gallery sg ON s.id = sg.spell_id and sg.user_id = @userId where s.type=@type limit @limit offset @offset";
+                string query = @"SELECT s.*, CASE WHEN sg.spell_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status 
+                FROM spell s LEFT JOIN spell_gallery sg ON s.id = sg.spell_id and sg.user_id = @userId where s.type=@type 
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -219,7 +222,8 @@ public class Spell
             try
             {
                 connection.Open();
-                string query = "Select us.*, s.* from Spell s, user_spell us where s.id=us.spell_id and us.user_id=@userId and s.type= @type limit @limit offset @offset";
+                string query = @"Select us.*, s.* from Spell s, user_spell us where s.id=us.spell_id and us.user_id=@userId and s.type= @type 
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -689,5 +693,97 @@ public class Spell
                 connection.Close();
             }
         }
+    }
+    public List<Spell> GetSpellWithPrice(string type, int pageSize, int offset)
+    {
+        List<Spell> spellList = new List<Spell>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select s.*, st.price, cu.image as currency_image
+                from spell s, spell_trade st, currency cu
+                where s.id=st.spell_id and st.currency_id = cu.id and s.type =@type
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", pageSize);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Spell spell = new Spell
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        percent_all_health = reader.GetDouble("percent_all_health"),
+                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
+                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
+                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
+                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
+                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
+                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
+                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
+                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
+                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
+                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
+                        percent_all_speed = reader.GetDouble("percent_all_speed"),
+                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
+                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
+                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
+                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
+                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
+                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
+                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
+                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        description = reader.GetString("description")
+                    };
+                    spell.currency = new Currency{
+                        image = reader.GetString("currency_image"),
+                        quantity = reader.GetInt32("price")
+                    };
+
+                    spellList.Add(spell);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return spellList;
+    }
+    public int GetSpellWithPriceCount(string type)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select count(*)
+                from spell s, spell_trade st, currency cu
+                where s.id=st.spell_id and st.currency_id = cu.id and s.type =@type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
+                count = Convert.ToInt32(command.ExecuteScalar());
+
+                return count;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return count;
     }
 }

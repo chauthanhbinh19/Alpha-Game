@@ -9,10 +9,10 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [Header("Panels")]
-    public Transform mainMenuButtonPanel;
-    public Transform galleryMenuPanel;
-    public Transform collectionMenuPanel;
-    public Transform equipmentMenuPanel;
+    private Transform mainMenuButtonPanel;
+    private Transform galleryMenuPanel;
+    private Transform collectionMenuPanel;
+    private Transform equipmentMenuPanel;
     public Transform notificationPanel; 
     public Transform WaitingPanel;
     public Transform MainScencePanel;
@@ -29,9 +29,9 @@ public class UIManager : MonoBehaviour
     public GameObject CreateNamePanel;
     public GameObject buttonPrefab;
     public GameObject notificationPrefab;
-    public GameObject GalleryPanel;
-    public GameObject CollectionPanel;
-    public GameObject EquipmentsPanel;
+    private GameObject GalleryPanel;
+    private GameObject CollectionPanel;
+    private GameObject EquipmentsPanel;
     public GameObject DictionaryPanel;
     public GameObject TabButton;
     public GameObject ItemPrefab;
@@ -52,18 +52,33 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuDetailPanelPrefab;
     public GameObject SummonPanelPrefab;
     public GameObject PositionPrefab;
+    public GameObject CampaignPrefab;
+    public GameObject CampaignDetailPrefab;
+    public GameObject ShopManagerPrefab;
+    public GameObject ShopButtonPrefab;
+    public GameObject ShopPrefab;
 
     [Header("Button")]
-    public Button GalleryButton;
-    public Button CollectionButton;
-    public Button EquipmentsButton;
+    private Button GalleryButton;
+    private Button CollectionButton;
+    private Button EquipmentsButton;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Keep this object across scenes
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+            GalleryPanel = MainScencePanel.transform.Find("GalleryMenu")?.gameObject;
+            CollectionPanel = MainScencePanel.transform.Find("CollectionMenu")?.gameObject;
+            EquipmentsPanel = MainScencePanel.transform.Find("EquipmentMenu")?.gameObject;
+            GalleryButton = MainScencePanel.transform.Find("GalleryButton").GetComponent<Button>();
+            CollectionButton = MainScencePanel.transform.Find("CollectionButton").GetComponent<Button>();
+            EquipmentsButton = MainScencePanel.transform.Find("EquipmentButton").GetComponent<Button>();
+            galleryMenuPanel = MainScencePanel.transform.Find("GalleryMenu/GalleryMenuPanel");
+            collectionMenuPanel = MainScencePanel.transform.Find("CollectionMenu/CollectionMenuPanel");
+            equipmentMenuPanel = MainScencePanel.transform.Find("EquipmentMenu/Scroll View/Viewport/EquipmentMenuPanel");
+            mainMenuButtonPanel = MainScencePanel.transform.Find("MainMenu/MenuBackground/MainMenuButton");
         }
         else
         {
@@ -163,6 +178,16 @@ public class UIManager : MonoBehaviour
                 return SummonPanelPrefab;
             case "PositionPrefab":
                 return PositionPrefab;
+            case "CampaignPrefab":
+                return CampaignPrefab;
+            case "CampaignDetailPrefab":
+                return CampaignDetailPrefab;
+            case "ShopButtonPrefab":
+                return ShopButtonPrefab;
+            case "ShopManagerPrefab":
+                return ShopManagerPrefab;
+            case "ShopPrefab":
+                return ShopPrefab;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;

@@ -10,6 +10,42 @@ public class Currency
     public string name { get; set; }
     public string image { get; set; }
     public int quantity { get; set; }
+    public List<Currency> GetUserCurrency()
+    {
+        List<Currency> currencies = new List<Currency>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
+                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                currencyCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+
+                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
+                while (currencyReader.Read())
+                {
+                    string image = currencyReader.GetString("image");
+                    string name = currencyReader.GetString("name");
+                    int currencyId = currencyReader.GetInt32("currency_id");
+                    int quantity = currencyReader.GetInt32("quantity");
+                    currencies.Add(new Currency
+                    {
+                        id = currencyId,
+                        name = name,
+                        image = image,
+                        quantity = quantity
+                    });
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return currencies;
+    }
     public List<Currency> GetEquipmentsCurrency(string type)
     {
         List<Currency> currencies = new List<Currency>();
@@ -27,14 +63,15 @@ public class Currency
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Currency currency= new Currency{
+                    Currency currency = new Currency
+                    {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };  
+                };
                 return currencies;
             }
             catch (MySqlException ex)
@@ -64,13 +101,14 @@ public class Currency
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency= new Currency{
+                    currency = new Currency
+                    {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         quantity = reader.GetInt32("price"),
                     };
-                };  
+                };
                 return currency;
             }
             catch (MySqlException ex)
@@ -100,13 +138,14 @@ public class Currency
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency= new Currency{
+                    currency = new Currency
+                    {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         quantity = reader.GetInt32("quantity"),
                     };
-                };  
+                };
                 return currency;
             }
             catch (MySqlException ex)

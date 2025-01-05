@@ -46,6 +46,7 @@ public class MagicFormationCircle
     public double percent_all_mental_defense { get; set; }
     public string description { get; set; }
     public string status { get; set; }
+    public Currency currency { get; set; }
     public MagicFormationCircle()
     {
 
@@ -77,7 +78,8 @@ public class MagicFormationCircle
             try
             {
                 connection.Open();
-                string query = "Select * from magic_formation_circle where type =@type limit @limit offset @offset";
+                string query = @"Select * from magic_formation_circle where type =@type 
+                ORDER BY magic_formation_circle.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(magic_formation_circle.name, '[0-9]+$') AS UNSIGNED), magic_formation_circle.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -167,8 +169,9 @@ public class MagicFormationCircle
             try
             {
                 connection.Open();
-                string query = "SELECT m.*, CASE WHEN mg.mfc_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status "
-                +"FROM magic_formation_circle m LEFT JOIN magic_formation_circle_gallery mg ON m.id = mg.mfc_id and mg.user_id = @userId where m.type=@type limit @limit offset @offset";
+                string query = @"SELECT m.*, CASE WHEN mg.mfc_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
+                FROM magic_formation_circle m LEFT JOIN magic_formation_circle_gallery mg ON m.id = mg.mfc_id and mg.user_id = @userId where m.type=@type 
+                ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -238,7 +241,8 @@ public class MagicFormationCircle
             try
             {
                 connection.Open();
-                string query = "Select m.* from magic_formation_circle m, user_magic_formation_circle um where m.id=um.mfc_id and um.user_id=@userId and m.type=@type limit @limit offset @offset";
+                string query = @"Select m.* from magic_formation_circle m, user_magic_formation_circle um where m.id=um.mfc_id and um.user_id=@userId and m.type=@type 
+                ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -309,6 +313,105 @@ public class MagicFormationCircle
                 string query = "Select count(*) from magic_formation_circle m, user_magic_formation_circle um where m.id=um.mfc_id and um.user_id=@userId and m.type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
+                count = Convert.ToInt32(command.ExecuteScalar());
+
+                return count;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return count;
+    }
+    public List<MagicFormationCircle> GetMagicFormationCircleWithPrice(string type,int pageSize, int offset)
+    {
+        List<MagicFormationCircle> magicFormationCircles = new List<MagicFormationCircle>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select m.*, mt.price, cu.image as currency_image
+                from magic_formation_circle m, magic_formation_circle_trade mt, currency cu
+                where m.id=mt.mfc_id and mt.currency_id = cu.id and m.type =@type
+                ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", pageSize);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    MagicFormationCircle magicFormationCircle = new MagicFormationCircle
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        mana = reader.GetFloat("mana"),
+                        percent_all_health = reader.GetDouble("percent_all_health"),
+                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
+                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
+                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
+                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
+                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
+                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
+                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
+                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
+                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
+                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
+                        description = reader.GetString("description")
+                    };
+                    magicFormationCircle.currency = new Currency{
+                        image = reader.GetString("currency_image"),
+                        quantity = reader.GetInt32("price")
+                    };
+
+                    magicFormationCircles.Add(magicFormationCircle);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return magicFormationCircles;
+    }
+    public int GetMagicFormationCircleWithPriceCount(string type)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select count(*)
+                from magic_formation_circle m, magic_formation_circle_trade mt, currency cu
+                where m.id=mt.mfc_id and mt.currency_id = cu.id and m.type =@type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
