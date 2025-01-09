@@ -61,7 +61,7 @@ public class Titles
             {
                 connection.Open();
                 string query = @"Select * from Titles 
-                ORDER BY Titles.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Tiles.name, '[0-9]+$') AS UNSIGNED), Titles.name limit @limit offset @offset";
+                ORDER BY Titles.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Titles.name, '[0-9]+$') AS UNSIGNED), Titles.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);

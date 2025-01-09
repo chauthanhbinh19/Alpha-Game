@@ -50,15 +50,15 @@ public class MainMenuManagement : MonoBehaviour
         PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
         SummonMainMenuPanel = UIManager.Instance.GetTransform("summonPanel");
 
-        AssignButtonEvent("Button_1", mainMenuPanel, () => GetType("Cards"));
+        AssignButtonEvent("Button_1", mainMenuPanel, () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", mainMenuPanel, () => GetType("Books"));
         AssignButtonEvent("Button_3", mainMenuPanel, () => GetType("Pets"));
-        AssignButtonEvent("Button_4", mainMenuPanel, () => GetType("Captains"));
+        AssignButtonEvent("Button_4", mainMenuPanel, () => GetType("CardCaptains"));
         AssignButtonEvent("Button_5", mainMenuPanel, () => GetType("CollaborationEquipments"));
-        AssignButtonEvent("Button_6", mainMenuPanel, () => GetType("Military"));
-        AssignButtonEvent("Button_7", mainMenuPanel, () => GetType("Spell"));
+        AssignButtonEvent("Button_6", mainMenuPanel, () => GetType("CardMilitary"));
+        AssignButtonEvent("Button_7", mainMenuPanel, () => GetType("CardSpell"));
         AssignButtonEvent("Button_8", mainMenuPanel, () => GetType("Collaborations"));
-        AssignButtonEvent("Button_9", mainMenuPanel, () => GetType("Monsters"));
+        AssignButtonEvent("Button_9", mainMenuPanel, () => GetType("CardMonsters"));
         AssignButtonEvent("Button_10", mainMenuPanel, () => GetType("Equipments"));
         AssignButtonEvent("Button_11", mainMenuPanel, () => GetType("Medals"));
         AssignButtonEvent("Button_12", mainMenuPanel, () => GetType("Skills"));
@@ -68,12 +68,12 @@ public class MainMenuManagement : MonoBehaviour
         AssignButtonEvent("Button_16", mainMenuPanel, () => GetType("Relics"));
         AssignButtonEvent("Button_17", mainMenuPanel, () => GetType("Bag"));
         AssignButtonEvent("Button_18", mainMenuPanel, () => GetType("Teams"));
-        AssignButtonEvent("Button_19", SummonMainMenuPanel, () => GetType("SummonCards"));
+        AssignButtonEvent("Button_19", SummonMainMenuPanel, () => GetType("SummonCardHeroes"));
         AssignButtonEvent("Button_20", SummonMainMenuPanel, () => GetType("SummonBooks"));
-        AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType("SummonCaptains"));
-        AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType("SummonMonsters"));
-        AssignButtonEvent("Button_23", SummonMainMenuPanel, () => GetType("SummonMilitary"));
-        AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType("SummonSpell"));
+        AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType("SummonCardCaptains"));
+        AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType("SummonCardMonsters"));
+        AssignButtonEvent("Button_23", SummonMainMenuPanel, () => GetType("SummonCardMilitary"));
+        AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType("SummonCardSpell"));
         // GetCardsType();
     }
 
@@ -105,17 +105,17 @@ public class MainMenuManagement : MonoBehaviour
     }
     public List<string> GetUniqueTypes()
     {
-        if (mainType.Equals("Cards"))
+        if (mainType.Equals("CardHeroes"))
         {
-            return Cards.GetUniqueCardTypes();
+            return CardHeroes.GetUniqueCardHeroTypes();
         }
         else if (mainType.Equals("Books"))
         {
             return Books.GetUniqueBookTypes();
         }
-        else if (mainType.Equals("Captains"))
+        else if (mainType.Equals("CardCaptains"))
         {
-            return Captains.GetUniqueCaptainsTypes();
+            return CardCaptains.GetUniqueCardCaptainsTypes();
         }
         else if (mainType.Equals("CollaborationEquipments"))
         {
@@ -137,13 +137,13 @@ public class MainMenuManagement : MonoBehaviour
         {
             return Symbols.GetUniqueSymbolsTypes();
         }
-        else if (mainType.Equals("Military"))
+        else if (mainType.Equals("CardMilitary"))
         {
-            return Military.GetUniqueMilitaryTypes();
+            return CardMilitary.GetUniqueCardMilitaryTypes();
         }
-        else if (mainType.Equals("Spell"))
+        else if (mainType.Equals("CardSpell"))
         {
-            return Spell.GetUniqueSpellTypes();
+            return CardSpell.GetUniqueCardSpellTypes();
         }
         else if (mainType.Equals("MagicFormationCircle"))
         {
@@ -153,33 +153,33 @@ public class MainMenuManagement : MonoBehaviour
         {
             return Relics.GetUniqueRelicsTypes();
         }
-        else if (mainType.Equals("SummonCards"))
+        else if (mainType.Equals("SummonCardHeroes"))
         {
-            return Cards.GetUniqueCardTypes();
+            return CardHeroes.GetUniqueCardHeroTypes();
         }
         else if (mainType.Equals("SummonBooks"))
         {
             return Books.GetUniqueBookTypes();
         }
-        else if (mainType.Equals("SummonCaptains"))
+        else if (mainType.Equals("SummonCardCaptains"))
         {
-            return Captains.GetUniqueCaptainsTypes();
+            return CardCaptains.GetUniqueCardCaptainsTypes();
         }
-        else if (mainType.Equals("SummonMilitary"))
+        else if (mainType.Equals("SummonCardMilitary"))
         {
-            return Military.GetUniqueMilitaryTypes();
+            return CardMilitary.GetUniqueCardMilitaryTypes();
         }
-        else if (mainType.Equals("SummonSpell"))
+        else if (mainType.Equals("SummonCardSpell"))
         {
-            return Spell.GetUniqueSpellTypes();
+            return CardSpell.GetUniqueCardSpellTypes();
         }
         return new List<string>();
     }
     public void GetButtonType()
     {
         // MainMenuPanel.SetActive(true);
-        if (mainType.Equals("SummonCards") || mainType.Equals("SummonBooks") || mainType.Equals("SummonCaptains") ||
-        mainType.Equals("SummonMonsters") || mainType.Equals("SummonMilitary") || mainType.Equals("SummonSpell"))
+        if (mainType.Equals("SummonCardHeroes") || mainType.Equals("SummonBooks") || mainType.Equals("SummonCardCaptains") ||
+        mainType.Equals("SummonCardMonsters") || mainType.Equals("SummonCardMilitary") || mainType.Equals("SummonCardSpell"))
         {
             GameObject summonObject = Instantiate(SummonPanel, MainPanel);
             DictionaryContentPanel = summonObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
@@ -198,7 +198,7 @@ public class MainMenuManagement : MonoBehaviour
             RawImage rawImage1 = summonObject.transform.Find("DictionaryCards/RawImage1").GetComponent<RawImage>();
             RawImage rawImage2 = summonObject.transform.Find("DictionaryCards/RawImage2").GetComponent<RawImage>();
             RawImage background2 = summonObject.transform.Find("DictionaryCards/Background2").GetComponent<RawImage>();
-            if (mainType.Equals("SummonCards"))
+            if (mainType.Equals("SummonCardHeroes"))
             {
 
             }
@@ -211,7 +211,7 @@ public class MainMenuManagement : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals("SummonCaptains"))
+            else if (mainType.Equals("SummonCardCaptains"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_50");
                 dictionaryBackground.texture = texture;
@@ -220,7 +220,7 @@ public class MainMenuManagement : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals("SummonMonsters"))
+            else if (mainType.Equals("SummonCardMonsters"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_49");
                 dictionaryBackground.texture = texture;
@@ -229,7 +229,7 @@ public class MainMenuManagement : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals("SummonMilitary"))
+            else if (mainType.Equals("SummonCardMilitary"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_48");
                 dictionaryBackground.texture = texture;
@@ -238,7 +238,7 @@ public class MainMenuManagement : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals("SummonSpell"))
+            else if (mainType.Equals("SummonCardSpell"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_47");
                 dictionaryBackground.texture = texture;
@@ -290,13 +290,13 @@ public class MainMenuManagement : MonoBehaviour
                     subType = subtype;
                     ChangeButtonBackground(button, "Background_V4_166");
                     int totalRecord = 0;
-                    if (mainType.Equals("Cards"))
+                    if (mainType.Equals("CardHeroes"))
                     {
-                        Cards cardsManager = new Cards();
-                        List<Cards> cards = cardsManager.GetUserCards(subtype, pageSize, offset);
-                        createCards(cards);
+                        CardHeroes cardsManager = new CardHeroes();
+                        List<CardHeroes> cards = cardsManager.GetUserCardHeroes(subtype, pageSize, offset);
+                        createCardHeroes(cards);
 
-                        totalRecord = cardsManager.GetUserCardsCount(subtype);
+                        totalRecord = cardsManager.GetUserCardHeroesCount(subtype);
                     }
                     else if (mainType.Equals("Books"))
                     {
@@ -306,13 +306,13 @@ public class MainMenuManagement : MonoBehaviour
 
                         totalRecord = booksManager.GetUserBooksCount(subtype);
                     }
-                    else if (mainType.Equals("Captains"))
+                    else if (mainType.Equals("CardCaptains"))
                     {
-                        Captains captainsManager = new Captains();
-                        List<Captains> captains = captainsManager.GetUserCaptains(subtype, pageSize, offset);
-                        createCaptains(captains);
+                        CardCaptains cardCaptainsManager = new CardCaptains();
+                        List<CardCaptains> captains = cardCaptainsManager.GetUserCardCaptains(subtype, pageSize, offset);
+                        createCardCaptains(captains);
 
-                        totalRecord = captainsManager.GetUserCaptainsCount(subtype);
+                        totalRecord = cardCaptainsManager.GetUserCardCaptainsCount(subtype);
                     }
                     else if (mainType.Equals("CollaborationEquipments"))
                     {
@@ -354,21 +354,21 @@ public class MainMenuManagement : MonoBehaviour
 
                         totalRecord = symbolsManager.GetUserSymbolsCount(subtype);
                     }
-                    else if (mainType.Equals("Military"))
+                    else if (mainType.Equals("CardMilitary"))
                     {
-                        Military militaryManager = new Military();
-                        List<Military> militaryList = militaryManager.GetUserMilitary(subtype, pageSize, offset);
-                        createMilitary(militaryList);
+                        CardMilitary militaryManager = new CardMilitary();
+                        List<CardMilitary> militaryList = militaryManager.GetUserCardMilitary(subtype, pageSize, offset);
+                        createCardMilitary(militaryList);
 
-                        totalRecord = militaryManager.GetUserMilitaryCount(subType);
+                        totalRecord = militaryManager.GetUserCardMilitaryCount(subType);
                     }
-                    else if (mainType.Equals("Spell"))
+                    else if (mainType.Equals("CardSpell"))
                     {
-                        Spell spellManager = new Spell();
-                        List<Spell> spellList = spellManager.GetUserSpell(subtype, pageSize, offset);
-                        createSpell(spellList);
+                        CardSpell spellManager = new CardSpell();
+                        List<CardSpell> spellList = spellManager.GetUserCardSpell(subtype, pageSize, offset);
+                        createCardSpell(spellList);
 
-                        totalRecord = spellManager.GetUserSpellCount(subType);
+                        totalRecord = spellManager.GetUserCardSpellCount(subType);
                     }
                     else if (mainType.Equals("MagicFormationCircle"))
                     {
@@ -386,11 +386,11 @@ public class MainMenuManagement : MonoBehaviour
 
                         totalRecord = relicsManager.GetUserRelicsCount(subType);
                     }
-                    else if (mainType.Equals("SummonCards"))
+                    else if (mainType.Equals("SummonCardHeroes"))
                     {
-                        Cards cardsManager = new Cards();
-                        List<Cards> cards = cardsManager.GetCardsRandom(subtype, 3);
-                        createCardsForSummon(cards);
+                        CardHeroes cardsManager = new CardHeroes();
+                        List<CardHeroes> cards = cardsManager.GetCardHeroesRandom(subtype, 3);
+                        createCardHeroesForSummon(cards);
 
                         SummonButton.onClick.AddListener(() =>
                         {
@@ -416,11 +416,11 @@ public class MainMenuManagement : MonoBehaviour
                             FindObjectOfType<GachaSystem>().Summon("books", subtype, SummonAreaPanel, 10);
                         });
                     }
-                    else if (mainType.Equals("SummonCaptains"))
+                    else if (mainType.Equals("SummonCardCaptains"))
                     {
-                        Captains captainsManager = new Captains();
-                        List<Captains> captains = captainsManager.GetCaptainsRandom(subtype, 3);
-                        createCaptainsForSummon(captains);
+                        CardCaptains captainsManager = new CardCaptains();
+                        List<CardCaptains> captains = captainsManager.GetCardCaptainsRandom(subtype, 3);
+                        createCardCaptainsForSummon(captains);
 
                         SummonButton.onClick.AddListener(() =>
                         {
@@ -431,11 +431,11 @@ public class MainMenuManagement : MonoBehaviour
                             FindObjectOfType<GachaSystem>().Summon("captains", subtype, SummonAreaPanel, 10);
                         });
                     }
-                    else if (mainType.Equals("SummonMilitary"))
+                    else if (mainType.Equals("SummonCardMilitary"))
                     {
-                        Military militaryManager = new Military();
-                        List<Military> military = militaryManager.GetMilitaryRandom(subtype, 3);
-                        createMilitaryForSummon(military);
+                        CardMilitary militaryManager = new CardMilitary();
+                        List<CardMilitary> military = militaryManager.GetCardMilitaryRandom(subtype, 3);
+                        createCardMilitaryForSummon(military);
 
                         SummonButton.onClick.AddListener(() =>
                         {
@@ -446,11 +446,11 @@ public class MainMenuManagement : MonoBehaviour
                             FindObjectOfType<GachaSystem>().Summon("military", subtype, SummonAreaPanel, 10);
                         });
                     }
-                    else if (mainType.Equals("SummonSpell"))
+                    else if (mainType.Equals("SummonCardSpell"))
                     {
-                        Spell militaryManager = new Spell();
-                        List<Spell> spell = militaryManager.GetSpellRandom(subtype, 3);
-                        createSpellForSummon(spell);
+                        CardSpell militaryManager = new CardSpell();
+                        List<CardSpell> spell = militaryManager.GetCardSpellRandom(subtype, 3);
+                        createCardSpellForSummon(spell);
 
                         SummonButton.onClick.AddListener(() =>
                         {
@@ -462,8 +462,8 @@ public class MainMenuManagement : MonoBehaviour
                         });
                     }
 
-                    if (!mainType.Equals("SummonCards") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCaptains") &&
-                    !mainType.Equals("SummonMonsters") && !mainType.Equals("SummonMilitary") && !mainType.Equals("SummonSpell"))
+                    if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
+                    !mainType.Equals("SummonCardMonsters") && !mainType.Equals("SummonCardMilitary") && !mainType.Equals("SummonCardSpell"))
                     {
                         totalPage = CalculateTotalPages(totalRecord, pageSize);
                         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -495,13 +495,13 @@ public class MainMenuManagement : MonoBehaviour
 
                 totalRecord = medalsManager.GetUserMedalsCount();
             }
-            else if (mainType.Equals("Monsters"))
+            else if (mainType.Equals("CardMonsters"))
             {
-                Monsters monstersManager = new Monsters();
-                List<Monsters> monstersList = monstersManager.GetUserMonsters(pageSize, offset);
-                createMonsters(monstersList);
+                CardMonsters monstersManager = new CardMonsters();
+                List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(pageSize, offset);
+                createCardMonsters(monstersList);
 
-                totalRecord = monstersManager.GetUserMonstersCount();
+                totalRecord = monstersManager.GetUserCardMonstersCount();
             }
             else if (mainType.Equals("Titles"))
             {
@@ -511,11 +511,11 @@ public class MainMenuManagement : MonoBehaviour
 
                 totalRecord = titleManager.GetUserTitlesCount();
             }
-            else if (mainType.Equals("SummonMonsters"))
+            else if (mainType.Equals("SummonCardMonsters"))
             {
-                Monsters monstersManager = new Monsters();
-                List<Monsters> monsters = monstersManager.GetMonstersRandom(3);
-                createMonstersForSummon(monsters);
+                CardMonsters monstersManager = new CardMonsters();
+                List<CardMonsters> monsters = monstersManager.GetCardMonstersRandom(3);
+                createCardMonstersForSummon(monsters);
 
                 SummonButton.onClick.AddListener(() =>
                 {
@@ -527,7 +527,7 @@ public class MainMenuManagement : MonoBehaviour
                 });
             }
 
-            if(!mainType.Equals("SummonMonsters")){
+            if(!mainType.Equals("SummonCardMonsters")){
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             }
@@ -554,13 +554,13 @@ public class MainMenuManagement : MonoBehaviour
         ChangeButtonBackground(clickedButton, "Background_V4_166");
         int totalRecord = 0;
 
-        if (mainType.Equals("Cards"))
+        if (mainType.Equals("CardHeroes"))
         {
-            Cards cardsManager = new Cards();
-            List<Cards> cards = cardsManager.GetUserCards(type, pageSize, offset);
-            createCards(cards);
+            CardHeroes cardsManager = new CardHeroes();
+            List<CardHeroes> cards = cardsManager.GetUserCardHeroes(type, pageSize, offset);
+            createCardHeroes(cards);
 
-            totalRecord = cardsManager.GetUserCardsCount(type);
+            totalRecord = cardsManager.GetUserCardHeroesCount(type);
         }
         else if (mainType.Equals("Books"))
         {
@@ -570,13 +570,13 @@ public class MainMenuManagement : MonoBehaviour
 
             totalRecord = booksManager.GetUserBooksCount(type);
         }
-        else if (mainType.Equals("Captains"))
+        else if (mainType.Equals("CardCaptains"))
         {
-            Captains captainsManager = new Captains();
-            List<Captains> captains = captainsManager.GetUserCaptains(type, pageSize, offset);
-            createCaptains(captains);
+            CardCaptains captainsManager = new CardCaptains();
+            List<CardCaptains> captains = captainsManager.GetUserCardCaptains(type, pageSize, offset);
+            createCardCaptains(captains);
 
-            totalRecord = captainsManager.GetUserCaptainsCount(type);
+            totalRecord = captainsManager.GetUserCardCaptainsCount(type);
         }
         else if (mainType.Equals("CollaborationEquipments"))
         {
@@ -618,21 +618,21 @@ public class MainMenuManagement : MonoBehaviour
 
             totalRecord = symbolsManager.GetUserSymbolsCount(type);
         }
-        else if (mainType.Equals("Military"))
+        else if (mainType.Equals("CardMilitary"))
         {
-            Military militaryManager = new Military();
-            List<Military> militaryList = militaryManager.GetUserMilitary(type, pageSize, offset);
-            createMilitary(militaryList);
+            CardMilitary militaryManager = new CardMilitary();
+            List<CardMilitary> militaryList = militaryManager.GetUserCardMilitary(type, pageSize, offset);
+            createCardMilitary(militaryList);
 
-            totalRecord = militaryManager.GetUserMilitaryCount(type);
+            totalRecord = militaryManager.GetUserCardMilitaryCount(type);
         }
-        else if (mainType.Equals("Spell"))
+        else if (mainType.Equals("CardSpell"))
         {
-            Spell spellManager = new Spell();
-            List<Spell> spellList = spellManager.GetUserSpell(type, pageSize, offset);
-            createSpell(spellList);
+            CardSpell spellManager = new CardSpell();
+            List<CardSpell> spellList = spellManager.GetUserCardSpell(type, pageSize, offset);
+            createCardSpell(spellList);
 
-            totalRecord = spellManager.GetUserSpellCount(type);
+            totalRecord = spellManager.GetUserCardSpellCount(type);
         }
         else if (mainType.Equals("MagicFormationCircle"))
         {
@@ -650,11 +650,11 @@ public class MainMenuManagement : MonoBehaviour
 
             totalRecord = relicsManager.GetUserRelicsCount(type);
         }
-        else if (mainType.Equals("SummonCards"))
+        else if (mainType.Equals("SummonCardHeroes"))
         {
-            Cards cardsManager = new Cards();
-            List<Cards> cards = cardsManager.GetCardsRandom(type, 3);
-            createCardsForSummon(cards);
+            CardHeroes cardsManager = new CardHeroes();
+            List<CardHeroes> cards = cardsManager.GetCardHeroesRandom(type, 3);
+            createCardHeroesForSummon(cards);
 
             SummonButton.onClick.RemoveAllListeners();
             Summon10Button.onClick.RemoveAllListeners();
@@ -686,11 +686,11 @@ public class MainMenuManagement : MonoBehaviour
                 FindObjectOfType<GachaSystem>().Summon("books", type, SummonAreaPanel, 10);
             });
         }
-        else if (mainType.Equals("SummonCaptains"))
+        else if (mainType.Equals("SummonCardCaptains"))
         {
-            Captains captainsManager = new Captains();
-            List<Captains> captains = captainsManager.GetCaptainsRandom(type, 3);
-            createCaptainsForSummon(captains);
+            CardCaptains captainsManager = new CardCaptains();
+            List<CardCaptains> captains = captainsManager.GetCardCaptainsRandom(type, 3);
+            createCardCaptainsForSummon(captains);
 
             SummonButton.onClick.RemoveAllListeners();
             Summon10Button.onClick.RemoveAllListeners();
@@ -704,11 +704,11 @@ public class MainMenuManagement : MonoBehaviour
                 FindObjectOfType<GachaSystem>().Summon("captains", type, SummonAreaPanel, 10);
             });
         }
-        else if (mainType.Equals("SummonMilitary"))
+        else if (mainType.Equals("SummonCardMilitary"))
         {
-            Military militaryManager = new Military();
-            List<Military> military = militaryManager.GetMilitaryRandom(type, 3);
-            createMilitaryForSummon(military);
+            CardMilitary militaryManager = new CardMilitary();
+            List<CardMilitary> military = militaryManager.GetCardMilitaryRandom(type, 3);
+            createCardMilitaryForSummon(military);
 
             SummonButton.onClick.RemoveAllListeners();
             Summon10Button.onClick.RemoveAllListeners();
@@ -722,11 +722,11 @@ public class MainMenuManagement : MonoBehaviour
                 FindObjectOfType<GachaSystem>().Summon("military", type, SummonAreaPanel, 10);
             });
         }
-        else if (mainType.Equals("SummonSpell"))
+        else if (mainType.Equals("SummonCardSpell"))
         {
-            Spell militaryManager = new Spell();
-            List<Spell> spell = militaryManager.GetSpellRandom(type, 3);
-            createSpellForSummon(spell);
+            CardSpell militaryManager = new CardSpell();
+            List<CardSpell> spell = militaryManager.GetCardSpellRandom(type, 3);
+            createCardSpellForSummon(spell);
 
             SummonButton.onClick.RemoveAllListeners();
             Summon10Button.onClick.RemoveAllListeners();
@@ -741,8 +741,8 @@ public class MainMenuManagement : MonoBehaviour
             });
         }
 
-        if (!mainType.Equals("SummonCards") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCaptains") &&
-        !mainType.Equals("SummonMonsters") && !mainType.Equals("SummonMilitary") && !mainType.Equals("SummonSpell"))
+        if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
+        !mainType.Equals("SummonCardMonsters") && !mainType.Equals("SummonCardMilitary") && !mainType.Equals("SummonCardSpell"))
         {
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -769,7 +769,7 @@ public class MainMenuManagement : MonoBehaviour
             Debug.LogError("Button does not have a RawImage component.");
         }
     }
-    private void createCards(List<Cards> cards)
+    private void createCardHeroes(List<CardHeroes> cards)
     {
         foreach (var card in cards)
         {
@@ -848,7 +848,7 @@ public class MainMenuManagement : MonoBehaviour
             }
         }
     }
-    private void createCaptains(List<Captains> captainsList)
+    private void createCardCaptains(List<CardCaptains> captainsList)
     {
         foreach (var captain in captainsList)
         {
@@ -980,7 +980,7 @@ public class MainMenuManagement : MonoBehaviour
             rareBackgroundImage.gameObject.SetActive(false);
         }
     }
-    private void createMonsters(List<Monsters> monstersList)
+    private void createCardMonsters(List<CardMonsters> monstersList)
     {
         foreach (var monster in monstersList)
         {
@@ -1145,7 +1145,7 @@ public class MainMenuManagement : MonoBehaviour
             }
         }
     }
-    private void createMilitary(List<Military> militaryList)
+    private void createCardMilitary(List<CardMilitary> militaryList)
     {
         foreach (var military in militaryList)
         {
@@ -1170,7 +1170,7 @@ public class MainMenuManagement : MonoBehaviour
             }
         }
     }
-    private void createSpell(List<Spell> spellList)
+    private void createCardSpell(List<CardSpell> spellList)
     {
         foreach (var spell in spellList)
         {
@@ -1251,7 +1251,7 @@ public class MainMenuManagement : MonoBehaviour
             gridLayout.cellSize = new Vector2(200, 250);
         }
     }
-    private void createCardsForSummon(List<Cards> cards)
+    private void createCardHeroesForSummon(List<CardHeroes> cards)
     {
         foreach (var card in cards)
         {
@@ -1326,7 +1326,7 @@ public class MainMenuManagement : MonoBehaviour
             }
         }
     }
-    private void createCaptainsForSummon(List<Captains> captains)
+    private void createCardCaptainsForSummon(List<CardCaptains> captains)
     {
         foreach (var captain in captains)
         {
@@ -1351,7 +1351,7 @@ public class MainMenuManagement : MonoBehaviour
             // }
         }
     }
-    private void createMonstersForSummon(List<Monsters> monsters)
+    private void createCardMonstersForSummon(List<CardMonsters> monsters)
     {
         foreach (var monster in monsters)
         {
@@ -1376,7 +1376,7 @@ public class MainMenuManagement : MonoBehaviour
             // }
         }
     }
-    private void createMilitaryForSummon(List<Military> militaries)
+    private void createCardMilitaryForSummon(List<CardMilitary> militaries)
     {
         foreach (var military in militaries)
         {
@@ -1401,7 +1401,7 @@ public class MainMenuManagement : MonoBehaviour
             // }
         }
     }
-    private void createSpellForSummon(List<Spell> spells)
+    private void createCardSpellForSummon(List<CardSpell> spells)
     {
         foreach (var spell in spells)
         {
@@ -1464,15 +1464,15 @@ public class MainMenuManagement : MonoBehaviour
             ClearAllPrefabs();
             int totalRecord = 0;
 
-            if (mainType.Equals("Cards"))
+            if (mainType.Equals("CardHeroes"))
             {
-                Cards cardsManager = new Cards();
-                totalRecord = cardsManager.GetUserCardsCount(subType);
+                CardHeroes cardsManager = new CardHeroes();
+                totalRecord = cardsManager.GetUserCardHeroesCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Cards> cards = cardsManager.GetUserCards(subType, pageSize, offset);
-                createCards(cards);
+                List<CardHeroes> cards = cardsManager.GetUserCardHeroes(subType, pageSize, offset);
+                createCardHeroes(cards);
             }
             else if (mainType.Equals("Books"))
             {
@@ -1484,15 +1484,15 @@ public class MainMenuManagement : MonoBehaviour
                 List<Books> books = booksManager.GetUserBooks(subType, pageSize, offset);
                 createBooks(books);
             }
-            else if (mainType.Equals("Captains"))
+            else if (mainType.Equals("CardCaptains"))
             {
-                Captains captainsManager = new Captains();
-                totalRecord = captainsManager.GetUserCaptainsCount(subType);
+                CardCaptains captainsManager = new CardCaptains();
+                totalRecord = captainsManager.GetUserCardCaptainsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Captains> army = captainsManager.GetUserCaptains(subType, pageSize, offset);
-                createCaptains(army);
+                List<CardCaptains> army = captainsManager.GetUserCardCaptains(subType, pageSize, offset);
+                createCardCaptains(army);
             }
             else if (mainType.Equals("CollaborationEquipments"))
             {
@@ -1534,15 +1534,15 @@ public class MainMenuManagement : MonoBehaviour
                 List<Medals> medalsList = medalsManager.GetUserMedals(pageSize, offset);
                 createMedals(medalsList);
             }
-            else if (mainType.Equals("Monsters"))
+            else if (mainType.Equals("CardMonsters"))
             {
-                Monsters monstersManager = new Monsters();
-                totalRecord = monstersManager.GetUserMonstersCount();
+                CardMonsters monstersManager = new CardMonsters();
+                totalRecord = monstersManager.GetUserCardMonstersCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Monsters> monstersList = monstersManager.GetUserMonsters(pageSize, offset);
-                createMonsters(monstersList);
+                List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(pageSize, offset);
+                createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))
             {
@@ -1584,25 +1584,25 @@ public class MainMenuManagement : MonoBehaviour
                 List<Titles> titlesList = symbolsManager.GetUserTitles(pageSize, offset);
                 createTitles(titlesList);
             }
-            else if (mainType.Equals("Military"))
+            else if (mainType.Equals("CardMilitary"))
             {
-                Military militaryManager = new Military();
-                totalRecord = militaryManager.GetUserMilitaryCount(subType);
+                CardMilitary militaryManager = new CardMilitary();
+                totalRecord = militaryManager.GetUserCardMilitaryCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Military> militaryList = militaryManager.GetUserMilitary(subType, pageSize, offset);
-                createMilitary(militaryList);
+                List<CardMilitary> militaryList = militaryManager.GetUserCardMilitary(subType, pageSize, offset);
+                createCardMilitary(militaryList);
             }
-            else if (mainType.Equals("Spell"))
+            else if (mainType.Equals("CardSpell"))
             {
-                Spell spellManager = new Spell();
-                totalRecord = spellManager.GetUserSpellCount(subType);
+                CardSpell spellManager = new CardSpell();
+                totalRecord = spellManager.GetUserCardSpellCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Spell> spellList = spellManager.GetUserSpell(subType, pageSize, offset);
-                createSpell(spellList);
+                List<CardSpell> spellList = spellManager.GetUserCardSpell(subType, pageSize, offset);
+                createCardSpell(spellList);
             }
             else if (mainType.Equals("MagicFormationCircle"))
             {
@@ -1637,15 +1637,15 @@ public class MainMenuManagement : MonoBehaviour
             ClearAllPrefabs();
             int totalRecord = 0;
 
-            if (mainType.Equals("Cards"))
+            if (mainType.Equals("CardHeroes"))
             {
-                Cards cardsManager = new Cards();
-                totalRecord = cardsManager.GetUserCardsCount(subType);
+                CardHeroes cardsManager = new CardHeroes();
+                totalRecord = cardsManager.GetUserCardHeroesCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Cards> cards = cardsManager.GetUserCards(subType, pageSize, offset);
-                createCards(cards);
+                List<CardHeroes> cards = cardsManager.GetUserCardHeroes(subType, pageSize, offset);
+                createCardHeroes(cards);
             }
             else if (mainType.Equals("Books"))
             {
@@ -1657,15 +1657,15 @@ public class MainMenuManagement : MonoBehaviour
                 List<Books> books = booksManager.GetUserBooks(subType, pageSize, offset);
                 createBooks(books);
             }
-            else if (mainType.Equals("Captains"))
+            else if (mainType.Equals("CardCaptains"))
             {
-                Captains captainsManager = new Captains();
-                totalRecord = captainsManager.GetUserCaptainsCount(subType);
+                CardCaptains captainsManager = new CardCaptains();
+                totalRecord = captainsManager.GetUserCardCaptainsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Captains> army = captainsManager.GetUserCaptains(subType, pageSize, offset);
-                createCaptains(army);
+                List<CardCaptains> army = captainsManager.GetUserCardCaptains(subType, pageSize, offset);
+                createCardCaptains(army);
             }
             else if (mainType.Equals("CollaborationEquipments"))
             {
@@ -1707,15 +1707,15 @@ public class MainMenuManagement : MonoBehaviour
                 List<Medals> medalsList = medalsManager.GetUserMedals(pageSize, offset);
                 createMedals(medalsList);
             }
-            else if (mainType.Equals("Monsters"))
+            else if (mainType.Equals("CardMonsters"))
             {
-                Monsters monstersManager = new Monsters();
-                totalRecord = monstersManager.GetUserMonstersCount();
+                CardMonsters monstersManager = new CardMonsters();
+                totalRecord = monstersManager.GetUserCardMonstersCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Monsters> monstersList = monstersManager.GetUserMonsters(pageSize, offset);
-                createMonsters(monstersList);
+                List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(pageSize, offset);
+                createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))
             {
@@ -1757,25 +1757,25 @@ public class MainMenuManagement : MonoBehaviour
                 List<Titles> titlesList = symbolsManager.GetUserTitles(pageSize, offset);
                 createTitles(titlesList);
             }
-            else if (mainType.Equals("Military"))
+            else if (mainType.Equals("CardMilitary"))
             {
-                Military militaryManager = new Military();
-                totalRecord = militaryManager.GetUserMilitaryCount(subType);
+                CardMilitary militaryManager = new CardMilitary();
+                totalRecord = militaryManager.GetUserCardMilitaryCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Military> militaryList = militaryManager.GetUserMilitary(subType, pageSize, offset);
-                createMilitary(militaryList);
+                List<CardMilitary> militaryList = militaryManager.GetUserCardMilitary(subType, pageSize, offset);
+                createCardMilitary(militaryList);
             }
-            else if (mainType.Equals("Spell"))
+            else if (mainType.Equals("CardSpell"))
             {
-                Spell spellManager = new Spell();
-                totalRecord = spellManager.GetUserSpellCount(subType);
+                CardSpell spellManager = new CardSpell();
+                totalRecord = spellManager.GetUserCardSpellCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Spell> spellList = spellManager.GetUserSpell(subType, pageSize, offset);
-                createSpell(spellList);
+                List<CardSpell> spellList = spellManager.GetUserCardSpell(subType, pageSize, offset);
+                createCardSpell(spellList);
             }
             else if (mainType.Equals("MagicFormationCircle"))
             {

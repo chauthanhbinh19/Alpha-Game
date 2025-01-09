@@ -45,9 +45,9 @@ public class CampaignDetail
         return campaignRewards.Find(reward => reward.itemId == itemId);
     }
     // Phương thức truy vấn thẻ (cards) cho CampaignDetail
-    public List<Cards> GetCards(List<Cards> allCards)
+    public List<CardHeroes> GetCards(List<CardHeroes> allCards)
     {
-        List<Cards> result = new List<Cards>();
+        List<CardHeroes> result = new List<CardHeroes>();
         foreach (var detailCard in campaignDetailCards)
         {
             var card = allCards.Find(c => c.id == detailCard.cardId);

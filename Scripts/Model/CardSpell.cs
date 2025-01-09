@@ -5,7 +5,7 @@ using System;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 
-public class Spell
+public class CardSpell
 {
     public int id { get; set; }
     public string name { get; set; }
@@ -41,11 +41,11 @@ public class Spell
     public string description { get; set; }
     public string status { get; set; }
     public Currency currency { get; set; }
-    public Spell()
+    public CardSpell()
     {
 
     }
-    public static List<string> GetUniqueSpellTypes()
+    public static List<string> GetUniqueCardSpellTypes()
     {
         List<string> typeList = new List<string>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -53,7 +53,7 @@ public class Spell
         {
             connection.Open();
 
-            string query = "Select distinct type from Spell";
+            string query = "Select distinct type from card_spell";
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -63,17 +63,17 @@ public class Spell
         }
         return typeList;
     }
-    public List<Spell> GetSpell(string type, int pageSize, int offset)
+    public List<CardSpell> GetCardSpell(string type, int pageSize, int offset)
     {
-        List<Spell> spellList = new List<Spell>();
+        List<CardSpell> CardSpellList = new List<CardSpell>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"Select * from Spell where type= @type 
-                ORDER BY Spell.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Spell.name, '[0-9]+$') AS UNSIGNED), Spell.name limit @limit offset @offset";
+                string query = @"Select * from card_spell where type= @type 
+                ORDER BY card_spell.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(card_spell.name, '[0-9]+$') AS UNSIGNED), card_spell.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -81,7 +81,7 @@ public class Spell
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Spell spell = new Spell
+                    CardSpell CardSpell = new CardSpell
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -113,7 +113,7 @@ public class Spell
                         description = reader.GetString("description")
                     };
 
-                    spellList.Add(spell);
+                    CardSpellList.Add(CardSpell);
                 }
             }
             catch (MySqlException ex)
@@ -122,9 +122,9 @@ public class Spell
             }
 
         }
-        return spellList;
+        return CardSpellList;
     }
-    public int GetSpellCount(string type)
+    public int GetCardSpellCount(string type)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -133,7 +133,7 @@ public class Spell
             try
             {
                 connection.Open();
-                string query = "Select count(*) from spell where type= @type";
+                string query = "Select count(*) from card_spell where type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
@@ -147,9 +147,9 @@ public class Spell
         }
         return count;
     }
-    public List<Spell> GetSpellCollection(string type, int pageSize, int offset)
+    public List<CardSpell> GetCardSpellCollection(string type, int pageSize, int offset)
     {
-        List<Spell> spellList = new List<Spell>();
+        List<CardSpell> CardSpellList = new List<CardSpell>();
         int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -157,8 +157,8 @@ public class Spell
             try
             {
                 connection.Open();
-                string query = @"SELECT s.*, CASE WHEN sg.spell_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status 
-                FROM spell s LEFT JOIN spell_gallery sg ON s.id = sg.spell_id and sg.user_id = @userId where s.type=@type 
+                string query = @"SELECT s.*, CASE WHEN sg.card_spell_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status 
+                FROM card_spell s LEFT JOIN card_spell_gallery sg ON s.id = sg.card_spell_id and sg.user_id = @userId where s.type=@type 
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -168,7 +168,7 @@ public class Spell
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Spell spell = new Spell
+                    CardSpell CardSpell = new CardSpell
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -201,7 +201,7 @@ public class Spell
                         status = reader.GetString("status"),
                     };
 
-                    spellList.Add(spell);
+                    CardSpellList.Add(CardSpell);
                 }
             }
             catch (MySqlException ex)
@@ -210,11 +210,11 @@ public class Spell
             }
 
         }
-        return spellList;
+        return CardSpellList;
     }
-    public List<Spell> GetUserSpell(string type, int pageSize, int offset)
+    public List<CardSpell> GetUserCardSpell(string type, int pageSize, int offset)
     {
-        List<Spell> spellList = new List<Spell>();
+        List<CardSpell> CardSpellList = new List<CardSpell>();
         int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -222,7 +222,7 @@ public class Spell
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.* from Spell s, user_spell us where s.id=us.spell_id and us.user_id=@userId and s.type= @type 
+                string query = @"Select us.*, s.* from card_spell s, user_card_spell us where s.id=us.card_spell_id and us.user_id=@userId and s.type= @type 
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -232,9 +232,9 @@ public class Spell
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Spell spell = new Spell
+                    CardSpell CardSpell = new CardSpell
                     {
-                        id = reader.GetInt32("spell_id"),
+                        id = reader.GetInt32("card_spell_id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
@@ -268,7 +268,7 @@ public class Spell
                         description = reader.GetString("description")
                     };
 
-                    spellList.Add(spell);
+                    CardSpellList.Add(CardSpell);
                 }
             }
             catch (MySqlException ex)
@@ -277,9 +277,9 @@ public class Spell
             }
 
         }
-        return spellList;
+        return CardSpellList;
     }
-    public int GetUserSpellCount(string type)
+    public int GetUserCardSpellCount(string type)
     {
         int count = 0;
         int user_id = User.CurrentUserId;
@@ -289,7 +289,7 @@ public class Spell
             try
             {
                 connection.Open();
-                string query = "Select count(*) from spell s, user_spell us where s.id=us.spell_id and us.user_id=@userId and s.type= @type";
+                string query = "Select count(*) from card_spell s, user_card_spell us where s.id=us.card_spell_id and us.user_id=@userId and s.type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -304,23 +304,23 @@ public class Spell
         }
         return count;
     }
-    public List<Spell> GetSpellRandom(string type, int pageSize)
+    public List<CardSpell> GetCardSpellRandom(string type, int pageSize)
     {
-        List<Spell> spellList = new List<Spell>();
+        List<CardSpell> CardSpellList = new List<CardSpell>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select * from Spell where type= @type ORDER BY RAND() limit @limit";
+                string query = "Select * from card_spell where type= @type ORDER BY RAND() limit @limit";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Spell spell = new Spell
+                    CardSpell CardSpell = new CardSpell
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -352,7 +352,7 @@ public class Spell
                         description = reader.GetString("description")
                     };
 
-                    spellList.Add(spell);
+                    CardSpellList.Add(CardSpell);
                 }
             }
             catch (MySqlException ex)
@@ -361,24 +361,24 @@ public class Spell
             }
 
         }
-        return spellList;
+        return CardSpellList;
     }
-    public List<Spell> GetAllSpell(string type)
+    public List<CardSpell> GetAllCardSpell(string type)
     {
-        List<Spell> spellList = new List<Spell>();
+        List<CardSpell> CardSpellList = new List<CardSpell>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select * from Spell where type= @type";
+                string query = "Select * from card_spell where type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Spell spell = new Spell
+                    CardSpell CardSpell = new CardSpell
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -410,7 +410,7 @@ public class Spell
                         description = reader.GetString("description")
                     };
 
-                    spellList.Add(spell);
+                    CardSpellList.Add(CardSpell);
                 }
             }
             catch (MySqlException ex)
@@ -419,9 +419,9 @@ public class Spell
             }
 
         }
-        return spellList;
+        return CardSpellList;
     }
-    public bool InsertUserSpell(Spell spell)
+    public bool InsertUserCardSpell(CardSpell CardSpell)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -432,19 +432,19 @@ public class Spell
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_spell 
-                WHERE user_id = @user_id AND spell_id = @spell_id;";
+                SELECT COUNT(*) FROM user_card_spell
+                WHERE user_id = @user_id AND card_spell_id = @card_spell_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@spell_id", spell.id);
+                checkCommand.Parameters.AddWithValue("@card_spell_id", CardSpell.id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
                 {
                     string query = @"
-                    INSERT INTO user_spell (
-                        user_id, spell_id, level, experiment, star, block, quantity, power,
+                    INSERT INTO user_card_spell (
+                        user_id, card_spell_id, level, experiment, star, block, quantity, power,
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense,
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack,
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense,
@@ -453,7 +453,7 @@ public class Spell
                         percent_all_avoid, percent_all_absorbs_damage, percent_all_regenerate_vitality,
                         percent_all_accuracy, percent_all_mana
                     ) VALUES (
-                        @user_id, @spell_id, @level, @experiment, @star, @block, @quantity, @power,
+                        @user_id, @card_spell_id, @level, @experiment, @star, @block, @quantity, @power,
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense,
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack,
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense,
@@ -465,46 +465,46 @@ public class Spell
                     ";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@spell_id", spell.id);
+                    command.Parameters.AddWithValue("@card_spell_id", CardSpell.id);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@quantity", 1);
-                    command.Parameters.AddWithValue("@power", spell.power);
-                    command.Parameters.AddWithValue("@percent_all_health", spell.percent_all_health);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", spell.percent_all_physical_attack);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", spell.percent_all_physical_defense);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", spell.percent_all_magical_attack);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", spell.percent_all_magical_defense);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", spell.percent_all_chemical_attack);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", spell.percent_all_chemical_defense);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", spell.percent_all_atomic_attack);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", spell.percent_all_atomic_defense);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", spell.percent_all_mental_attack);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", spell.percent_all_mental_defense);
-                    command.Parameters.AddWithValue("@percent_all_speed", spell.percent_all_speed);
-                    command.Parameters.AddWithValue("@percent_all_critical_damage", spell.percent_all_critical_damage);
-                    command.Parameters.AddWithValue("@percent_all_critical_rate", spell.percent_all_critical_rate);
-                    command.Parameters.AddWithValue("@percent_all_armor_penetration", spell.percent_all_armor_penetration);
-                    command.Parameters.AddWithValue("@percent_all_avoid", spell.percent_all_avoid);
-                    command.Parameters.AddWithValue("@percent_all_absorbs_damage", spell.percent_all_absorbs_damage);
-                    command.Parameters.AddWithValue("@percent_all_regenerate_vitality", spell.percent_all_regenerate_vitality);
-                    command.Parameters.AddWithValue("@percent_all_accuracy", spell.percent_all_accuracy);
-                    command.Parameters.AddWithValue("@percent_all_mana", spell.percent_all_mana);
+                    command.Parameters.AddWithValue("@power", CardSpell.power);
+                    command.Parameters.AddWithValue("@percent_all_health", CardSpell.percent_all_health);
+                    command.Parameters.AddWithValue("@percent_all_physical_attack", CardSpell.percent_all_physical_attack);
+                    command.Parameters.AddWithValue("@percent_all_physical_defense", CardSpell.percent_all_physical_defense);
+                    command.Parameters.AddWithValue("@percent_all_magical_attack", CardSpell.percent_all_magical_attack);
+                    command.Parameters.AddWithValue("@percent_all_magical_defense", CardSpell.percent_all_magical_defense);
+                    command.Parameters.AddWithValue("@percent_all_chemical_attack", CardSpell.percent_all_chemical_attack);
+                    command.Parameters.AddWithValue("@percent_all_chemical_defense", CardSpell.percent_all_chemical_defense);
+                    command.Parameters.AddWithValue("@percent_all_atomic_attack", CardSpell.percent_all_atomic_attack);
+                    command.Parameters.AddWithValue("@percent_all_atomic_defense", CardSpell.percent_all_atomic_defense);
+                    command.Parameters.AddWithValue("@percent_all_mental_attack", CardSpell.percent_all_mental_attack);
+                    command.Parameters.AddWithValue("@percent_all_mental_defense", CardSpell.percent_all_mental_defense);
+                    command.Parameters.AddWithValue("@percent_all_speed", CardSpell.percent_all_speed);
+                    command.Parameters.AddWithValue("@percent_all_critical_damage", CardSpell.percent_all_critical_damage);
+                    command.Parameters.AddWithValue("@percent_all_critical_rate", CardSpell.percent_all_critical_rate);
+                    command.Parameters.AddWithValue("@percent_all_armor_penetration", CardSpell.percent_all_armor_penetration);
+                    command.Parameters.AddWithValue("@percent_all_avoid", CardSpell.percent_all_avoid);
+                    command.Parameters.AddWithValue("@percent_all_absorbs_damage", CardSpell.percent_all_absorbs_damage);
+                    command.Parameters.AddWithValue("@percent_all_regenerate_vitality", CardSpell.percent_all_regenerate_vitality);
+                    command.Parameters.AddWithValue("@percent_all_accuracy", CardSpell.percent_all_accuracy);
+                    command.Parameters.AddWithValue("@percent_all_mana", CardSpell.percent_all_mana);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
-                    UPDATE user_spell
+                    UPDATE user_card_spell
                     SET quantity = quantity + 1
-                    WHERE user_id = @user_id AND spell_id = @spell_id;";
+                    WHERE user_id = @user_id AND card_spell_id = @card_spell_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@spell_id", spell.id);
+                    updateCommand.Parameters.AddWithValue("@card_spell_id", CardSpell.id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -518,22 +518,22 @@ public class Spell
         }
         return true;
     }
-    public Spell GetSpellById(int Id)
+    public CardSpell GetCardSpellById(int Id)
     {
-        Spell spell = new Spell();
+        CardSpell CardSpell = new CardSpell();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select * from spell where spell.id=@id";
+                string query = "Select * from card_spell where card_spell.id=@id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    spell = new Spell
+                    CardSpell = new CardSpell
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -552,29 +552,29 @@ public class Spell
             }
 
         }
-        return spell;
+        return CardSpell;
     }
-    public void UpdateSpellGallery(int Id)
+    public void UpdateCardSpellGallery(int Id)
     {
-        Spell SpellFromDB = GetSpellById(Id);
+        CardSpell CardSpellFromDB = GetCardSpellById(Id);
         int percent = 0;
-        if (SpellFromDB.rare.Equals("LG"))
+        if (CardSpellFromDB.rare.Equals("LG"))
         {
             percent = 20;
         }
-        else if (SpellFromDB.rare.Equals("UR"))
+        else if (CardSpellFromDB.rare.Equals("UR"))
         {
             percent = 10;
         }
-        else if (SpellFromDB.rare.Equals("SSR"))
+        else if (CardSpellFromDB.rare.Equals("SSR"))
         {
             percent = 5;
         }
-        else if (SpellFromDB.rare.Equals("SR"))
+        else if (CardSpellFromDB.rare.Equals("SR"))
         {
             percent = 2;
         }
-        else if (SpellFromDB.rare.Equals("MR"))
+        else if (CardSpellFromDB.rare.Equals("MR"))
         {
             percent = 30;
         }
@@ -588,20 +588,20 @@ public class Spell
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM spell_gallery 
-                WHERE user_id = @user_id AND spell_id = @spell_id;
+                FROM card_spell_gallery 
+                WHERE user_id = @user_id AND card_spell_id = @card_spell_id;
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@spell_id", Id);
+                checkCommand.Parameters.AddWithValue("@card_spell_id", Id);
 
                 int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
 
                 if (recordCount == 0)
                 {
                     string query = @"
-                    INSERT INTO spell_gallery (
-                        user_id, spell_id, status, star, power, health, physical_attack, physical_defense, 
+                    INSERT INTO card_spell_gallery (
+                        user_id, card_spell_id, status, star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
                         absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
@@ -609,7 +609,7 @@ public class Spell
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
                         percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @spell_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @card_spell_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
                         @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
@@ -621,7 +621,7 @@ public class Spell
 
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@spell_id", Id);
+                    command.Parameters.AddWithValue("@card_spell_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@power", 195500120);
@@ -669,7 +669,7 @@ public class Spell
             }
         }
     }
-    public void UpdateStatusSpellGallery(int Id)
+    public void UpdateStatusCardSpellGallery(int Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -677,10 +677,10 @@ public class Spell
             try
             {
                 connection.Open();
-                string query = "update spell_gallery set status=@status where user_id=@user_id and spell_id=@spell_id";
+                string query = "update card_spell_gallery set status=@status where user_id=@user_id and card_spell_id=@card_spell_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@spell_id", Id);
+                command.Parameters.AddWithValue("@CardSpell_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
                 command.ExecuteNonQuery();
             }
@@ -694,9 +694,9 @@ public class Spell
             }
         }
     }
-    public List<Spell> GetSpellWithPrice(string type, int pageSize, int offset)
+    public List<CardSpell> GetCardSpellWithPrice(string type, int pageSize, int offset)
     {
-        List<Spell> spellList = new List<Spell>();
+        List<CardSpell> CardSpellList = new List<CardSpell>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -704,8 +704,8 @@ public class Spell
             {
                 connection.Open();
                 string query = @"select s.*, st.price, cu.image as currency_image
-                from spell s, spell_trade st, currency cu
-                where s.id=st.spell_id and st.currency_id = cu.id and s.type =@type
+                from card_spell s, card_spell_trade st, currency cu
+                where s.id=st.card_spell_id and st.currency_id = cu.id and s.type =@type
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
@@ -714,7 +714,7 @@ public class Spell
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Spell spell = new Spell
+                    CardSpell CardSpell = new CardSpell
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -745,12 +745,12 @@ public class Spell
                         percent_all_mana = reader.GetFloat("percent_all_mana"),
                         description = reader.GetString("description")
                     };
-                    spell.currency = new Currency{
+                    CardSpell.currency = new Currency{
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
                     };
 
-                    spellList.Add(spell);
+                    CardSpellList.Add(CardSpell);
                 }
             }
             catch (MySqlException ex)
@@ -759,9 +759,9 @@ public class Spell
             }
 
         }
-        return spellList;
+        return CardSpellList;
     }
-    public int GetSpellWithPriceCount(string type)
+    public int GetCardSpellWithPriceCount(string type)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -771,8 +771,8 @@ public class Spell
             {
                 connection.Open();
                 string query = @"select count(*)
-                from spell s, spell_trade st, currency cu
-                where s.id=st.spell_id and st.currency_id = cu.id and s.type =@type;";
+                from card_spell s, card_spell_trade st, currency cu
+                where s.id=st.card_spell_id and st.currency_id = cu.id and s.type =@type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());

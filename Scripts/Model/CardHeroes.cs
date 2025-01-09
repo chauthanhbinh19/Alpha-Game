@@ -5,7 +5,7 @@ using System;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 
-public class Captains
+public class CardHeroes
 {
     public int id { get; set; }
     public string name { get; set; }
@@ -41,11 +41,11 @@ public class Captains
     public string description { get; set; }
     public string status { get; set; }
     public Currency currency { get; set; }
-    public Captains()
+    public CardHeroes()
     {
 
     }
-    public static List<string> GetUniqueCaptainsTypes()
+    public static List<string> GetUniqueCardHeroTypes()
     {
         List<string> typeList = new List<string>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -53,7 +53,7 @@ public class Captains
         {
             connection.Open();
 
-            string query = "Select distinct type from Captains";
+            string query = "Select distinct type from card_heroes";
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -63,17 +63,17 @@ public class Captains
         }
         return typeList;
     }
-    public List<Captains> GetCaptains(string type,int pageSize, int offset)
+    public List<CardHeroes> GetCardHeroes(string type, int pageSize, int offset)
     {
-        List<Captains> captainsList = new List<Captains>();
+        List<CardHeroes> CardHeroesList = new List<CardHeroes>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"Select * from captains where type= @type 
-                ORDER BY captains.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(captains.name, '[0-9]+$') AS UNSIGNED), captains.name limit @limit offset @offset";
+                string query = @"Select * from card_heroes where type= @type 
+                ORDER BY card_heroes.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(card_heroes.name, '[0-9]+$') AS UNSIGNED), card_heroes.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -81,7 +81,7 @@ public class Captains
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Captains captain = new Captains
+                    CardHeroes card = new CardHeroes
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -113,7 +113,7 @@ public class Captains
                         description = reader.GetString("description")
                     };
 
-                    captainsList.Add(captain);
+                    CardHeroesList.Add(card);
                 }
             }
             catch (MySqlException ex)
@@ -122,17 +122,18 @@ public class Captains
             }
 
         }
-        return captainsList;
+        return CardHeroesList;
     }
-    public int GetCaptainsCount(string type){
-        int count =0;
+    public int GetCardHeroesCount(string type)
+    {
+        int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Captains where type= @type";
+                string query = "Select count(*) from card_heroes where type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
@@ -146,18 +147,18 @@ public class Captains
         }
         return count;
     }
-    public List<Captains> GetCaptainsCollection(string type,int pageSize, int offset)
+    public List<CardHeroes> GetCardHeroesCollection(string type, int pageSize, int offset)
     {
-        List<Captains> captainsList = new List<Captains>();
-        int user_id=User.CurrentUserId;
+        List<CardHeroes> CardHeroesList = new List<CardHeroes>();
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT c.*, CASE WHEN cg.captain_id IS NULL THEN 'block' WHEN cg.status = 'pending' THEN 'pending' WHEN cg.status = 'available' THEN 'available' END AS status
-                FROM captains c LEFT JOIN captains_gallery cg ON c.id = cg.captain_id and cg.user_id = @userId where c.type=@type 
+                string query = @"SELECT c.*, CASE WHEN cg.card_hero_id IS NULL THEN 'block' WHEN cg.status = 'pending' THEN 'pending' WHEN cg.status = 'available' THEN 'available' END AS status 
+                FROM card_heroes c LEFT JOIN card_heroes_gallery cg ON c.id = cg.card_hero_id and cg.user_id = @userId where c.type=@type
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -167,7 +168,7 @@ public class Captains
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Captains captain = new Captains
+                    CardHeroes card = new CardHeroes
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -197,10 +198,10 @@ public class Captains
                         accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description"),
-                        status=reader.GetString("status")
+                        status = reader.GetString("status"),
                     };
 
-                    captainsList.Add(captain);
+                    CardHeroesList.Add(card);
                 }
             }
             catch (MySqlException ex)
@@ -209,19 +210,19 @@ public class Captains
             }
 
         }
-        return captainsList;
+        return CardHeroesList;
     }
-    public List<Captains> GetUserCaptains(string type,int pageSize, int offset)
+    public List<CardHeroes> GetUserCardHeroes(string type, int pageSize, int offset)
     {
-        List<Captains> captainsList = new List<Captains>();
-        int user_id=User.CurrentUserId;
+        List<CardHeroes> CardHeroesList = new List<CardHeroes>();
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"Select uc.*, c.* from captains c, user_captains uc where c.id=uc.captain_id and uc.user_id=@userId and c.type= @type 
+                string query = @"Select uc.*, c.* from user_card_heroes uc, card_heroes c where uc.card_hero_id=c.id and uc.user_id =@userId and c.type= @type 
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -231,9 +232,9 @@ public class Captains
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Captains captain = new Captains
+                    CardHeroes card = new CardHeroes
                     {
-                        id = reader.GetInt32("captain_id"),
+                        id = reader.GetInt32("card_id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
@@ -267,7 +268,7 @@ public class Captains
                         description = reader.GetString("description")
                     };
 
-                    captainsList.Add(captain);
+                    CardHeroesList.Add(card);
                 }
             }
             catch (MySqlException ex)
@@ -276,18 +277,19 @@ public class Captains
             }
 
         }
-        return captainsList;
+        return CardHeroesList;
     }
-    public int GetUserCaptainsCount(string type){
-        int count =0;
-        int user_id=User.CurrentUserId;
+    public int GetUserCardHeroesCount(string type)
+    {
+        int count = 0;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Captains c, user_captains uc where c.id=uc.captain_id and uc.user_id=@userId and c.type= @type";
+                string query = "Select count(*) from card_heroes c, user_card_heroes uc where c.id=uc.card_hero_id and uc.user_id=@userId and type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -302,23 +304,23 @@ public class Captains
         }
         return count;
     }
-    public List<Captains> GetCaptainsRandom(string type,int pageSize)
+    public List<CardHeroes> GetCardHeroesRandom(string type, int pageSize)
     {
-        List<Captains> captainsList = new List<Captains>();
+        List<CardHeroes> CardHeroesList = new List<CardHeroes>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select * from captains where type= @type ORDER BY RAND() limit @limit";
+                string query = "Select * from card_heroes where type= @type ORDER BY RAND() limit @limit";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Captains captain = new Captains
+                    CardHeroes card = new CardHeroes
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -350,7 +352,7 @@ public class Captains
                         description = reader.GetString("description")
                     };
 
-                    captainsList.Add(captain);
+                    CardHeroesList.Add(card);
                 }
             }
             catch (MySqlException ex)
@@ -359,24 +361,24 @@ public class Captains
             }
 
         }
-        return captainsList;
+        return CardHeroesList;
     }
-    public List<Captains> GetAllCaptains(string type)
+    public List<CardHeroes> GetAllCardHeroes(string type)
     {
-        List<Captains> captainsList = new List<Captains>();
+        List<CardHeroes> CardHeroesList = new List<CardHeroes>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select * from captains where type= @type";
+                string query = "Select * from card_heroes where type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Captains captain = new Captains
+                    CardHeroes card = new CardHeroes
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -408,7 +410,7 @@ public class Captains
                         description = reader.GetString("description")
                     };
 
-                    captainsList.Add(captain);
+                    CardHeroesList.Add(card);
                 }
             }
             catch (MySqlException ex)
@@ -417,9 +419,9 @@ public class Captains
             }
 
         }
-        return captainsList;
+        return CardHeroesList;
     }
-    public bool InsertUserCaptains(Captains captains)
+    public bool InsertUserCardHeroes(CardHeroes CardHeroes)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -430,70 +432,70 @@ public class Captains
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_captains 
-                WHERE user_id = @user_id AND captain_id = @captain_id;";
+                SELECT COUNT(*) FROM user_card_heroes
+                WHERE user_id = @user_id AND card_hero_id = @card_hero_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@captain_id", captains.id);
+                checkCommand.Parameters.AddWithValue("@card_hero_id", CardHeroes.id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
                 {
                     string query = @"
-                INSERT INTO user_captains (
-                    user_id, captain_id, level, experiment, star, block, quantity, power, health, physical_attack, 
+                INSERT INTO user_card_heroes (
+                    user_id, card_hero_id, level, experiment, star, block, quantity, power, health, physical_attack, 
                     physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
                     atomic_defense, mental_attack, mental_defense, speed, critical_damage, critical_rate, 
                     armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
                 ) VALUES (
-                    @user_id, @captain_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
+                    @user_id, @card_hero_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
                     @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
                     @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
                     @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@captain_id", captains.id);
+                    command.Parameters.AddWithValue("@card_hero_id", CardHeroes.id);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@quantity", 1);
-                    command.Parameters.AddWithValue("@power", captains.power);
-                    command.Parameters.AddWithValue("@health", captains.health);
-                    command.Parameters.AddWithValue("@physical_attack", captains.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", captains.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", captains.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", captains.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", captains.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", captains.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", captains.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", captains.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", captains.mental_attack);
-                    command.Parameters.AddWithValue("@mental_defense", captains.mental_defense);
-                    command.Parameters.AddWithValue("@speed", captains.speed);
-                    command.Parameters.AddWithValue("@critical_damage", captains.critical_damage);
-                    command.Parameters.AddWithValue("@critical_rate", captains.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", captains.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", captains.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", captains.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", captains.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", captains.accuracy);
-                    command.Parameters.AddWithValue("@mana", captains.mana);
+                    command.Parameters.AddWithValue("@power", CardHeroes.power);
+                    command.Parameters.AddWithValue("@health", CardHeroes.health);
+                    command.Parameters.AddWithValue("@physical_attack", CardHeroes.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", CardHeroes.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", CardHeroes.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", CardHeroes.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", CardHeroes.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", CardHeroes.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", CardHeroes.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", CardHeroes.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", CardHeroes.mental_attack);
+                    command.Parameters.AddWithValue("@mental_defense", CardHeroes.mental_defense);
+                    command.Parameters.AddWithValue("@speed", CardHeroes.speed);
+                    command.Parameters.AddWithValue("@critical_damage", CardHeroes.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", CardHeroes.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", CardHeroes.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", CardHeroes.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", CardHeroes.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", CardHeroes.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", CardHeroes.accuracy);
+                    command.Parameters.AddWithValue("@mana", CardHeroes.mana);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
-                    UPDATE user_captains
+                    UPDATE user_card_heroes
                     SET quantity = quantity + 1
-                    WHERE user_id = @user_id AND captain_id = @captain_id;";
+                    WHERE user_id = @user_id AND card_hero_id = @card_hero_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@captain_id", captains.id);
+                    updateCommand.Parameters.AddWithValue("@card_hero_id", CardHeroes.id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -507,22 +509,50 @@ public class Captains
         }
         return true;
     }
-    public Captains GetCaptainsById(int Id)
+    public int GetMaxQuantity(int Id)
     {
-        Captains captain = new Captains();
+        int count = 0;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select * from captains where captains.id=@id";
+                string query = "Select MAX(quantity) from user_card_heroes uc where uc.user_id=@userId and uc.card_hero_id=@card_hero_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@card_hero_id", Id);
+                object result = command.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    return Convert.ToInt32(result);
+                }
+                return 0; // Nếu bảng rỗng, trả về 0
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return count;
+    }
+    public CardHeroes GetCardHeroesById(int Id)
+    {
+        CardHeroes card = new CardHeroes();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "Select * from card_heroes where card_heroes.id=@id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    captain = new Captains
+                    card = new CardHeroes
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -561,29 +591,29 @@ public class Captains
             }
 
         }
-        return captain;
+        return card;
     }
-    public void UpdateCaptainsGallery(int Id)
+    public void UpdateCardHeroesGallery(int Id)
     {
-        Captains CaptainFromDB = GetCaptainsById(Id);
+        CardHeroes CardFromDB = GetCardHeroesById(Id);
         int percent = 0;
-        if (CaptainFromDB.rare.Equals("LG"))
+        if (CardFromDB.rare.Equals("LG"))
         {
             percent = 20;
         }
-        else if (CaptainFromDB.rare.Equals("UR"))
+        else if (CardFromDB.rare.Equals("UR"))
         {
             percent = 10;
         }
-        else if (CaptainFromDB.rare.Equals("SSR"))
+        else if (CardFromDB.rare.Equals("SSR"))
         {
             percent = 5;
         }
-        else if (CaptainFromDB.rare.Equals("SR"))
+        else if (CardFromDB.rare.Equals("SR"))
         {
             percent = 2;
         }
-        else if (CaptainFromDB.rare.Equals("MR"))
+        else if (CardFromDB.rare.Equals("MR"))
         {
             percent = 30;
         }
@@ -597,20 +627,20 @@ public class Captains
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM captains_gallery 
-                WHERE user_id = @user_id AND captain_id = @captain_id;
+                FROM card_heroes_gallery 
+                WHERE user_id = @user_id AND card_id = @card_id;
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@captain_id", Id);
+                checkCommand.Parameters.AddWithValue("@card_id", Id);
 
                 int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
 
                 if (recordCount == 0)
                 {
                     string query = @"
-                    INSERT INTO captains_gallery (
-                        user_id, captain_id, status, star, power, health, physical_attack, physical_defense, 
+                    INSERT INTO card_heroes_gallery (
+                        user_id, card_hero_id, status, star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
                         absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
@@ -618,7 +648,7 @@ public class Captains
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
                         percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @captain_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @card_hero_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
                         @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
@@ -630,30 +660,30 @@ public class Captains
 
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@captain_id", Id);
+                    command.Parameters.AddWithValue("@card_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@power", CaptainFromDB.power);
-                    command.Parameters.AddWithValue("@health", CaptainFromDB.health);
-                    command.Parameters.AddWithValue("@physical_attack", CaptainFromDB.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", CaptainFromDB.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", CaptainFromDB.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", CaptainFromDB.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", CaptainFromDB.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", CaptainFromDB.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", CaptainFromDB.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", CaptainFromDB.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", CaptainFromDB.magical_attack);
-                    command.Parameters.AddWithValue("@mental_defense", CaptainFromDB.magical_defense);
-                    command.Parameters.AddWithValue("@speed", CaptainFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage", CaptainFromDB.critical_damage);
-                    command.Parameters.AddWithValue("@critical_rate", CaptainFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", CaptainFromDB.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", CaptainFromDB.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", CaptainFromDB.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", CaptainFromDB.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", CaptainFromDB.accuracy);
-                    command.Parameters.AddWithValue("@mana", CaptainFromDB.mana);
+                    command.Parameters.AddWithValue("@power", CardFromDB.power);
+                    command.Parameters.AddWithValue("@health", CardFromDB.health);
+                    command.Parameters.AddWithValue("@physical_attack", CardFromDB.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", CardFromDB.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", CardFromDB.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", CardFromDB.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", CardFromDB.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", CardFromDB.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", CardFromDB.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", CardFromDB.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", CardFromDB.magical_attack);
+                    command.Parameters.AddWithValue("@mental_defense", CardFromDB.magical_defense);
+                    command.Parameters.AddWithValue("@speed", CardFromDB.speed);
+                    command.Parameters.AddWithValue("@critical_damage", CardFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", CardFromDB.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", CardFromDB.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", CardFromDB.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", CardFromDB.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", CardFromDB.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", CardFromDB.accuracy);
+                    command.Parameters.AddWithValue("@mana", CardFromDB.mana);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -678,7 +708,7 @@ public class Captains
             }
         }
     }
-    public void UpdateStatusCaptainsGallery(int Id)
+    public void UpdateStatusCardHeroesGallery(int Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -686,10 +716,10 @@ public class Captains
             try
             {
                 connection.Open();
-                string query = "update captains_gallery set status=@status where user_id=@user_id and captain_id=@captain_id";
+                string query = "update card_heroes_gallery set status=@status where user_id=@user_id and card_hero_id=@card_hero_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@captain_id", Id);
+                command.Parameters.AddWithValue("@card_hero_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
                 command.ExecuteNonQuery();
             }
@@ -703,9 +733,9 @@ public class Captains
             }
         }
     }
-    public List<Captains> GetCaptainsWithPrice(string type,int pageSize, int offset)
+    public List<CardHeroes> GetCardHeroesWithPrice(string type, int pageSize, int offset)
     {
-        List<Captains> captainsList = new List<Captains>();
+        List<CardHeroes> CardHeroesList = new List<CardHeroes>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -713,8 +743,8 @@ public class Captains
             {
                 connection.Open();
                 string query = @"select c.*, ct.price, cu.image as currency_image
-                from captains c, captain_trade ct, currency cu
-                where c.id=ct.captain_id and ct.currency_id = cu.id and c.type =@type
+                from card_heroes c, card_hero_trade ct, currency cu
+                where c.id=ct.card_id and ct.currency_id = cu.id and c.type =@type
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
@@ -723,7 +753,7 @@ public class Captains
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Captains captain = new Captains
+                    CardHeroes card = new CardHeroes
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
@@ -754,12 +784,12 @@ public class Captains
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
-                    captain.currency = new Currency{
+                    card.currency = new Currency{
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
                     };
 
-                    captainsList.Add(captain);
+                    CardHeroesList.Add(card);
                 }
             }
             catch (MySqlException ex)
@@ -768,9 +798,9 @@ public class Captains
             }
 
         }
-        return captainsList;
+        return CardHeroesList;
     }
-    public int GetCaptainsWithPriceCount(string type)
+    public int GetCardHeroesWithPriceCount(string type)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -780,8 +810,8 @@ public class Captains
             {
                 connection.Open();
                 string query = @"select count(*)
-                from captains c, captain_trade ct, currency cu
-                where c.id=ct.captain_id and ct.currency_id = cu.id and c.type =@type;";
+                from card_heroes c, card_hero_trade ct, currency cu
+                where c.id=ct.card_id and ct.currency_id = cu.id and c.type =@type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());

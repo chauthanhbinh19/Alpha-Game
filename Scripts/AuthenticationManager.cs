@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class AuthenticationManager : MonoBehaviour
 {
+    public static AuthenticationManager Instance { get; private set; }
     private InputField SI_usernameInput;
     private InputField SI_passwordInput;
     private InputField SU_usernameInput;
@@ -33,6 +34,17 @@ public class AuthenticationManager : MonoBehaviour
     private Transform currencyPanel;
     private GameObject currencyPrefab;
     GameObject currentObject;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         MainPanel = UIManager.Instance.GetTransform("MainScencePanel");
@@ -53,7 +65,6 @@ public class AuthenticationManager : MonoBehaviour
         createSignInButton.onClick.AddListener(()=>{
             createSignInPanel();
         });
-
         if (User.CurrentUserId == 0)
         {
             // Kiểm tra xem SignInPanel đã tồn tại chưa
@@ -81,6 +92,8 @@ public class AuthenticationManager : MonoBehaviour
             // MainPanel.gameObject.SetActive(true);
             // WaitingPanel.gameObject.SetActive(false);
             Destroy(currentObject);
+            // WaitingPanel.gameObject.SetActive(false);
+            // MainPanel.gameObject.SetActive(true);
 
             // Lưu thông tin người dùng vào nơi bạn muốn, ví dụ lưu vào một biến static hoặc quản lý trong game
             // Ví dụ: lưu vào UserManager
@@ -201,6 +214,16 @@ public class AuthenticationManager : MonoBehaviour
         SU_closeButton = signUpPanel.transform.Find("CloseButton").GetComponent<Button>();
         SU_closeButton.onClick.AddListener(()=>{
             Destroy(currentObject);
+        });
+    }
+    public void createCreateNamePanel(){
+        currentObject = Instantiate(createNamePanel, WaitingPanel);
+        InputField nameInput = currentObject.transform.Find("NameInput").GetComponent<InputField>();
+        Button startButton = currentObject.transform.Find("Start").GetComponent<Button>();
+
+        startButton.onClick.AddListener(()=>{
+            User user = new User();
+            user.UpdateUserName(nameInput.text);
         });
     }
 }

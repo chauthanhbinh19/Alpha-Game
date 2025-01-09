@@ -74,7 +74,7 @@ public class ShopManager : MonoBehaviour
         titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         titleText.text = "Shop";
         CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(()=> Destroy(currentObject));
+        CloseButton.onClick.AddListener(() => Destroy(currentObject));
         HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() => Destroy(currentObject));
         Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
@@ -84,15 +84,15 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, "Cards", Resources.Load<Texture2D>($"UI/Button/CardsGallery"), tempContent);
+        CreateButton(1, "Card Heroes", Resources.Load<Texture2D>($"UI/Button/CardsGallery"), tempContent);
         CreateButton(2, "Books", Resources.Load<Texture2D>($"UI/Button/BooksGallery"), tempContent);
         CreateButton(3, "Pets", Resources.Load<Texture2D>($"UI/Button/PetsGallery"), tempContent);
-        CreateButton(4, "Captains", Resources.Load<Texture2D>($"UI/Button/CaptainsGallery"), tempContent);
+        CreateButton(4, "Card Captains", Resources.Load<Texture2D>($"UI/Button/CaptainsGallery"), tempContent);
         CreateButton(5, "Collaboration Equipments", Resources.Load<Texture2D>($"UI/Button/CollaborationEquipmentsGallery"), tempContent);
-        CreateButton(6, "Military", Resources.Load<Texture2D>($"UI/Button/MilitaryGallery"), tempContent);
-        CreateButton(7, "Spell", Resources.Load<Texture2D>($"UI/Button/SpellGallery"), tempContent);
+        CreateButton(6, "Card Military", Resources.Load<Texture2D>($"UI/Button/MilitaryGallery"), tempContent);
+        CreateButton(7, "Card Spell", Resources.Load<Texture2D>($"UI/Button/SpellGallery"), tempContent);
         CreateButton(8, "Collaborations", Resources.Load<Texture2D>($"UI/Button/CollaborationsGallery"), tempContent);
-        CreateButton(9, "Monsters", Resources.Load<Texture2D>($"UI/Button/MonstersGallery"), tempContent);
+        CreateButton(9, "Card Monsters", Resources.Load<Texture2D>($"UI/Button/MonstersGallery"), tempContent);
         CreateButton(10, "Borders", Resources.Load<Texture2D>($"UI/Button/BorderGallery"), tempContent);
         CreateButton(11, "Medals", Resources.Load<Texture2D>($"UI/Button/MedalsGallery"), tempContent);
         CreateButton(12, "Skills", Resources.Load<Texture2D>($"UI/Button/SkillsGallery"), tempContent);
@@ -103,15 +103,15 @@ public class ShopManager : MonoBehaviour
         CreateButton(17, "Items", Resources.Load<Texture2D>($"UI/Button/ItemsGallery"), tempContent);
         CreateButton(18, "Achievements", Resources.Load<Texture2D>($"UI/Button/AchievementGallery"), tempContent);
 
-        AssignButtonEvent("Button_1", tempContent, () => GetType("Cards"));
+        AssignButtonEvent("Button_1", tempContent, () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", tempContent, () => GetType("Books"));
         AssignButtonEvent("Button_3", tempContent, () => GetType("Pets"));
-        AssignButtonEvent("Button_4", tempContent, () => GetType("Captains"));
+        AssignButtonEvent("Button_4", tempContent, () => GetType("CardCaptains"));
         AssignButtonEvent("Button_5", tempContent, () => GetType("CollaborationEquipments"));
-        AssignButtonEvent("Button_6", tempContent, () => GetType("Military"));
-        AssignButtonEvent("Button_7", tempContent, () => GetType("Spell"));
+        AssignButtonEvent("Button_6", tempContent, () => GetType("CardMilitary"));
+        AssignButtonEvent("Button_7", tempContent, () => GetType("CardSpell"));
         AssignButtonEvent("Button_8", tempContent, () => GetType("Collaborations"));
-        AssignButtonEvent("Button_9", tempContent, () => GetType("Monsters"));
+        AssignButtonEvent("Button_9", tempContent, () => GetType("CardMonsters"));
         AssignButtonEvent("Button_10", tempContent, () => GetType("Borders"));
         AssignButtonEvent("Button_11", tempContent, () => GetType("Medals"));
         AssignButtonEvent("Button_12", tempContent, () => GetType("Skills"));
@@ -150,17 +150,17 @@ public class ShopManager : MonoBehaviour
     }
     public List<string> GetUniqueTypes()
     {
-        if (mainType.Equals("Cards"))
+        if (mainType.Equals("CardHeroes"))
         {
-            return Cards.GetUniqueCardTypes();
+            return CardHeroes.GetUniqueCardHeroTypes();
         }
         else if (mainType.Equals("Books"))
         {
             return Books.GetUniqueBookTypes();
         }
-        else if (mainType.Equals("Captains"))
+        else if (mainType.Equals("CardCaptains"))
         {
-            return Captains.GetUniqueCaptainsTypes();
+            return CardCaptains.GetUniqueCardCaptainsTypes();
         }
         else if (mainType.Equals("CollaborationEquipments"))
         {
@@ -182,13 +182,13 @@ public class ShopManager : MonoBehaviour
         {
             return Symbols.GetUniqueSymbolsTypes();
         }
-        else if (mainType.Equals("Military"))
+        else if (mainType.Equals("CardMilitary"))
         {
-            return Military.GetUniqueMilitaryTypes();
+            return CardMilitary.GetUniqueCardMilitaryTypes();
         }
-        else if (mainType.Equals("Spell"))
+        else if (mainType.Equals("CardSpell"))
         {
-            return Spell.GetUniqueSpellTypes();
+            return CardSpell.GetUniqueCardSpellTypes();
         }
         else if (mainType.Equals("MagicFormationCircle"))
         {
@@ -211,9 +211,9 @@ public class ShopManager : MonoBehaviour
         PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(()=> Destroy(equipmentObject));
+        CloseButton.onClick.AddListener(() => Destroy(equipmentObject));
         HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(()=>Close(MainPanel));
+        HomeButton.onClick.AddListener(() => Close(MainPanel));
         NextButton.onClick.AddListener(ChangeNextPage);
         PreviousButton.onClick.AddListener(ChangePreviousPage);
 
@@ -243,13 +243,13 @@ public class ShopManager : MonoBehaviour
                     subType = subtype;
                     ChangeButtonBackground(button, "Background_V4_166");
                     int totalRecord = 0;
-                    if (mainType.Equals("Cards"))
+                    if (mainType.Equals("CardHeroes"))
                     {
-                        Cards cardsManager = new Cards();
-                        List<Cards> cards = cardsManager.GetCardsWithPrice(subtype, pageSize, offset);
-                        createCards(cards);
+                        CardHeroes cardsManager = new CardHeroes();
+                        List<CardHeroes> cards = cardsManager.GetCardHeroesWithPrice(subtype, pageSize, offset);
+                        createCardHeroes(cards);
 
-                        totalRecord = cardsManager.GetCardsWithPriceCount(subtype);
+                        totalRecord = cardsManager.GetCardHeroesWithPriceCount(subtype);
                     }
                     else if (mainType.Equals("Books"))
                     {
@@ -259,13 +259,13 @@ public class ShopManager : MonoBehaviour
 
                         totalRecord = booksManager.GetBookssWithPriceCount(subtype);
                     }
-                    else if (mainType.Equals("Captains"))
+                    else if (mainType.Equals("CardCaptains"))
                     {
-                        Captains captainsManager = new Captains();
-                        List<Captains> captains = captainsManager.GetCaptainsWithPrice(subtype, pageSize, offset);
-                        createCaptains(captains);
+                        CardCaptains captainsManager = new CardCaptains();
+                        List<CardCaptains> captains = captainsManager.GetCardCaptainsWithPrice(subtype, pageSize, offset);
+                        createCardCaptains(captains);
 
-                        totalRecord = captainsManager.GetCaptainsWithPriceCount(subtype);
+                        totalRecord = captainsManager.GetCardCaptainsWithPriceCount(subtype);
                     }
                     else if (mainType.Equals("CollaborationEquipments"))
                     {
@@ -307,21 +307,21 @@ public class ShopManager : MonoBehaviour
 
                         totalRecord = symbolsManager.GetSkillsWithPriceCount(subtype);
                     }
-                    else if (mainType.Equals("Military"))
+                    else if (mainType.Equals("CardMilitary"))
                     {
-                        Military militaryManager = new Military();
-                        List<Military> militaryList = militaryManager.GetMilitaryWithPrice(subtype, pageSize, offset);
-                        createMilitary(militaryList);
+                        CardMilitary militaryManager = new CardMilitary();
+                        List<CardMilitary> militaryList = militaryManager.GetCardMilitaryWithPrice(subtype, pageSize, offset);
+                        createCardMilitary(militaryList);
 
-                        totalRecord = militaryManager.GetMilitaryWithPriceCount(subType);
+                        totalRecord = militaryManager.GetCardMilitaryWithPriceCount(subType);
                     }
-                    else if (mainType.Equals("Spell"))
+                    else if (mainType.Equals("CardSpell"))
                     {
-                        Spell spellManager = new Spell();
-                        List<Spell> spellList = spellManager.GetSpellWithPrice(subtype, pageSize, offset);
-                        createSpell(spellList);
+                        CardSpell spellManager = new CardSpell();
+                        List<CardSpell> spellList = spellManager.GetCardSpellWithPrice(subtype, pageSize, offset);
+                        createCardSpell(spellList);
 
-                        totalRecord = spellManager.GetSpellWithPriceCount(subType);
+                        totalRecord = spellManager.GetCardSpellWithPriceCount(subType);
                     }
                     else if (mainType.Equals("MagicFormationCircle"))
                     {
@@ -369,13 +369,13 @@ public class ShopManager : MonoBehaviour
 
                 totalRecord = medalsManager.GetMedalsWithPriceCount();
             }
-            else if (mainType.Equals("Monsters"))
+            else if (mainType.Equals("CardMonsters"))
             {
-                Monsters monstersManager = new Monsters();
-                List<Monsters> monstersList = monstersManager.GetMonstersWithPrice(pageSize, offset);
-                createMonsters(monstersList);
+                CardMonsters monstersManager = new CardMonsters();
+                List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(pageSize, offset);
+                createCardMonsters(monstersList);
 
-                totalRecord = monstersManager.GetMonstersWithPriceCount();
+                totalRecord = monstersManager.GetCardMonstersWithPriceCount();
             }
             else if (mainType.Equals("Titles"))
             {
@@ -427,13 +427,13 @@ public class ShopManager : MonoBehaviour
         ChangeButtonBackground(clickedButton, "Background_V4_166");
         int totalRecord = 0;
 
-        if (mainType.Equals("Cards"))
+        if (mainType.Equals("CardHeroes"))
         {
-            Cards cardsManager = new Cards();
-            List<Cards> cards = cardsManager.GetCardsWithPrice(type, pageSize, offset);
-            createCards(cards);
+            CardHeroes cardsManager = new CardHeroes();
+            List<CardHeroes> cards = cardsManager.GetCardHeroesWithPrice(type, pageSize, offset);
+            createCardHeroes(cards);
 
-            totalRecord = cardsManager.GetCardsWithPriceCount(type);
+            totalRecord = cardsManager.GetCardHeroesWithPriceCount(type);
         }
         else if (mainType.Equals("Books"))
         {
@@ -443,13 +443,13 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = booksManager.GetBookssWithPriceCount(type);
         }
-        else if (mainType.Equals("Captains"))
+        else if (mainType.Equals("CardCaptains"))
         {
-            Captains captainsManager = new Captains();
-            List<Captains> captains = captainsManager.GetCaptainsWithPrice(type, pageSize, offset);
-            createCaptains(captains);
+            CardCaptains captainsManager = new CardCaptains();
+            List<CardCaptains> captains = captainsManager.GetCardCaptainsWithPrice(type, pageSize, offset);
+            createCardCaptains(captains);
 
-            totalRecord = captainsManager.GetCaptainsWithPriceCount(type);
+            totalRecord = captainsManager.GetCardCaptainsWithPriceCount(type);
         }
         else if (mainType.Equals("CollaborationEquipments"))
         {
@@ -491,21 +491,21 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = symbolsManager.GetSkillsWithPriceCount(type);
         }
-        else if (mainType.Equals("Military"))
+        else if (mainType.Equals("CardMilitary"))
         {
-            Military militaryManager = new Military();
-            List<Military> militaryList = militaryManager.GetMilitaryWithPrice(type, pageSize, offset);
-            createMilitary(militaryList);
+            CardMilitary militaryManager = new CardMilitary();
+            List<CardMilitary> militaryList = militaryManager.GetCardMilitaryWithPrice(type, pageSize, offset);
+            createCardMilitary(militaryList);
 
-            totalRecord = militaryManager.GetMilitaryWithPriceCount(type);
+            totalRecord = militaryManager.GetCardMilitaryWithPriceCount(type);
         }
-        else if (mainType.Equals("Spell"))
+        else if (mainType.Equals("CardSpell"))
         {
-            Spell spellManager = new Spell();
-            List<Spell> spellList = spellManager.GetSpellWithPrice(type, pageSize, offset);
-            createSpell(spellList);
+            CardSpell spellManager = new CardSpell();
+            List<CardSpell> spellList = spellManager.GetCardSpellWithPrice(type, pageSize, offset);
+            createCardSpell(spellList);
 
-            totalRecord = spellManager.GetSpellWithPriceCount(type);
+            totalRecord = spellManager.GetCardSpellWithPriceCount(type);
         }
         else if (mainType.Equals("MagicFormationCircle"))
         {
@@ -548,7 +548,7 @@ public class ShopManager : MonoBehaviour
             Debug.LogError("Button does not have a RawImage component.");
         }
     }
-    private void createCards(List<Cards> cards)
+    private void createCardHeroes(List<CardHeroes> cards)
     {
         foreach (var card in cards)
         {
@@ -640,7 +640,7 @@ public class ShopManager : MonoBehaviour
             currencyText.text = book.currency.quantity.ToString();
         }
     }
-    private void createCaptains(List<Captains> captainsList)
+    private void createCardCaptains(List<CardCaptains> captainsList)
     {
         foreach (var captain in captainsList)
         {
@@ -871,7 +871,7 @@ public class ShopManager : MonoBehaviour
             currencyText.text = medal.currency.quantity.ToString();
         }
     }
-    private void createMonsters(List<Monsters> monstersList)
+    private void createCardMonsters(List<CardMonsters> monstersList)
     {
         foreach (var monster in monstersList)
         {
@@ -1135,7 +1135,7 @@ public class ShopManager : MonoBehaviour
             currencyText.text = title.currency.quantity.ToString();
         }
     }
-    private void createMilitary(List<Military> militaryList)
+    private void createCardMilitary(List<CardMilitary> militaryList)
     {
         foreach (var military in militaryList)
         {
@@ -1181,7 +1181,7 @@ public class ShopManager : MonoBehaviour
             currencyText.text = military.currency.quantity.ToString();
         }
     }
-    private void createSpell(List<Spell> spellList)
+    private void createCardSpell(List<CardSpell> spellList)
     {
         foreach (var spell in spellList)
         {
@@ -1447,15 +1447,15 @@ public class ShopManager : MonoBehaviour
             ClearAllPrefabs();
             int totalRecord = 0;
 
-            if (mainType.Equals("Cards"))
+            if (mainType.Equals("CardHeroes"))
             {
-                Cards cardsManager = new Cards();
-                totalRecord = cardsManager.GetCardsWithPriceCount(subType);
+                CardHeroes cardsManager = new CardHeroes();
+                totalRecord = cardsManager.GetCardHeroesWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Cards> cards = cardsManager.GetCardsWithPrice(subType, pageSize, offset);
-                createCards(cards);
+                List<CardHeroes> cards = cardsManager.GetCardHeroesWithPrice(subType, pageSize, offset);
+                createCardHeroes(cards);
             }
             else if (mainType.Equals("Books"))
             {
@@ -1467,15 +1467,15 @@ public class ShopManager : MonoBehaviour
                 List<Books> books = booksManager.GetBooksWithPrice(subType, pageSize, offset);
                 createBooks(books);
             }
-            else if (mainType.Equals("Captains"))
+            else if (mainType.Equals("CardCaptains"))
             {
-                Captains captainsManager = new Captains();
-                totalRecord = captainsManager.GetCaptainsWithPriceCount(subType);
+                CardCaptains captainsManager = new CardCaptains();
+                totalRecord = captainsManager.GetCardCaptainsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Captains> army = captainsManager.GetCaptainsWithPrice(subType, pageSize, offset);
-                createCaptains(army);
+                List<CardCaptains> army = captainsManager.GetCardCaptainsWithPrice(subType, pageSize, offset);
+                createCardCaptains(army);
             }
             else if (mainType.Equals("CollaborationEquipments"))
             {
@@ -1517,15 +1517,15 @@ public class ShopManager : MonoBehaviour
                 List<Medals> medalsList = medalsManager.GetMedalsWithPrice(pageSize, offset);
                 createMedals(medalsList);
             }
-            else if (mainType.Equals("Monsters"))
+            else if (mainType.Equals("CardMonsters"))
             {
-                Monsters monstersManager = new Monsters();
-                totalRecord = monstersManager.GetMonstersWithPriceCount();
+                CardMonsters monstersManager = new CardMonsters();
+                totalRecord = monstersManager.GetCardMonstersWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Monsters> monstersList = monstersManager.GetMonstersWithPrice(pageSize, offset);
-                createMonsters(monstersList);
+                List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(pageSize, offset);
+                createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))
             {
@@ -1567,25 +1567,25 @@ public class ShopManager : MonoBehaviour
                 List<Titles> titlesList = symbolsManager.GetTitlesWithPrice(pageSize, offset);
                 createTitles(titlesList);
             }
-            else if (mainType.Equals("Military"))
+            else if (mainType.Equals("CardMilitary"))
             {
-                Military militaryManager = new Military();
-                totalRecord = militaryManager.GetMilitaryWithPriceCount(subType);
+                CardMilitary militaryManager = new CardMilitary();
+                totalRecord = militaryManager.GetCardMilitaryWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Military> militaryList = militaryManager.GetMilitaryWithPrice(subType, pageSize, offset);
-                createMilitary(militaryList);
+                List<CardMilitary> militaryList = militaryManager.GetCardMilitaryWithPrice(subType, pageSize, offset);
+                createCardMilitary(militaryList);
             }
-            else if (mainType.Equals("Spell"))
+            else if (mainType.Equals("CardSpell"))
             {
-                Spell spellManager = new Spell();
-                totalRecord = spellManager.GetSpellWithPriceCount(subType);
+                CardSpell spellManager = new CardSpell();
+                totalRecord = spellManager.GetCardSpellWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Spell> spellList = spellManager.GetSpellWithPrice(subType, pageSize, offset);
-                createSpell(spellList);
+                List<CardSpell> spellList = spellManager.GetCardSpellWithPrice(subType, pageSize, offset);
+                createCardSpell(spellList);
             }
             else if (mainType.Equals("MagicFormationCircle"))
             {
@@ -1614,7 +1614,7 @@ public class ShopManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Borders> borders = bordersManager.GetBordersWithPrice( pageSize, offset);
+                List<Borders> borders = bordersManager.GetBordersWithPrice(pageSize, offset);
                 createBorders(borders);
             }
             else if (mainType.Equals("Achievements"))
@@ -1622,9 +1622,9 @@ public class ShopManager : MonoBehaviour
                 Achievements achievementsManager = new Achievements();
                 totalRecord = achievementsManager.GetAchievementsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage +1;
+                currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Achievements> achievements = achievementsManager.GetAchievementsWithPrice( pageSize, offset);
+                List<Achievements> achievements = achievementsManager.GetAchievementsWithPrice(pageSize, offset);
                 createAchievements(achievements);
             }
 
@@ -1640,15 +1640,15 @@ public class ShopManager : MonoBehaviour
             ClearAllPrefabs();
             int totalRecord = 0;
 
-            if (mainType.Equals("Cards"))
+            if (mainType.Equals("CardHeroes"))
             {
-                Cards cardsManager = new Cards();
-                totalRecord = cardsManager.GetCardsWithPriceCount(subType);
+                CardHeroes cardsManager = new CardHeroes();
+                totalRecord = cardsManager.GetCardHeroesWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Cards> cards = cardsManager.GetCardsWithPrice(subType, pageSize, offset);
-                createCards(cards);
+                List<CardHeroes> cards = cardsManager.GetCardHeroesWithPrice(subType, pageSize, offset);
+                createCardHeroes(cards);
             }
             else if (mainType.Equals("Books"))
             {
@@ -1660,15 +1660,15 @@ public class ShopManager : MonoBehaviour
                 List<Books> books = booksManager.GetBooksWithPrice(subType, pageSize, offset);
                 createBooks(books);
             }
-            else if (mainType.Equals("Captains"))
+            else if (mainType.Equals("CardCaptains"))
             {
-                Captains captainsManager = new Captains();
-                totalRecord = captainsManager.GetCaptainsWithPriceCount(subType);
+                CardCaptains captainsManager = new CardCaptains();
+                totalRecord = captainsManager.GetCardCaptainsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Captains> army = captainsManager.GetCaptainsWithPrice(subType, pageSize, offset);
-                createCaptains(army);
+                List<CardCaptains> army = captainsManager.GetCardCaptainsWithPrice(subType, pageSize, offset);
+                createCardCaptains(army);
             }
             else if (mainType.Equals("CollaborationEquipments"))
             {
@@ -1710,15 +1710,15 @@ public class ShopManager : MonoBehaviour
                 List<Medals> medalsList = medalsManager.GetMedalsWithPrice(pageSize, offset);
                 createMedals(medalsList);
             }
-            else if (mainType.Equals("Monsters"))
+            else if (mainType.Equals("CardMonsters"))
             {
-                Monsters monstersManager = new Monsters();
-                totalRecord = monstersManager.GetMonstersWithPriceCount();
+                CardMonsters monstersManager = new CardMonsters();
+                totalRecord = monstersManager.GetCardMonstersWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Monsters> monstersList = monstersManager.GetMonstersWithPrice(pageSize, offset);
-                createMonsters(monstersList);
+                List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(pageSize, offset);
+                createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))
             {
@@ -1760,25 +1760,25 @@ public class ShopManager : MonoBehaviour
                 List<Titles> titlesList = symbolsManager.GetTitlesWithPrice(pageSize, offset);
                 createTitles(titlesList);
             }
-            else if (mainType.Equals("Military"))
+            else if (mainType.Equals("CardMilitary"))
             {
-                Military militaryManager = new Military();
-                totalRecord = militaryManager.GetMilitaryWithPriceCount(subType);
+                CardMilitary militaryManager = new CardMilitary();
+                totalRecord = militaryManager.GetCardMilitaryWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Military> militaryList = militaryManager.GetMilitaryWithPrice(subType, pageSize, offset);
-                createMilitary(militaryList);
+                List<CardMilitary> militaryList = militaryManager.GetCardMilitaryWithPrice(subType, pageSize, offset);
+                createCardMilitary(militaryList);
             }
-            else if (mainType.Equals("Spell"))
+            else if (mainType.Equals("CardSpell"))
             {
-                Spell spellManager = new Spell();
-                totalRecord = spellManager.GetSpellWithPriceCount(subType);
+                CardSpell spellManager = new CardSpell();
+                totalRecord = spellManager.GetCardSpellWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Spell> spellList = spellManager.GetSpellWithPrice(subType, pageSize, offset);
-                createSpell(spellList);
+                List<CardSpell> spellList = spellManager.GetCardSpellWithPrice(subType, pageSize, offset);
+                createCardSpell(spellList);
             }
             else if (mainType.Equals("MagicFormationCircle"))
             {
@@ -1807,7 +1807,7 @@ public class ShopManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Borders> borders = bordersManager.GetBordersWithPrice( pageSize, offset);
+                List<Borders> borders = bordersManager.GetBordersWithPrice(pageSize, offset);
                 createBorders(borders);
             }
             else if (mainType.Equals("Achievements"))
@@ -1817,7 +1817,7 @@ public class ShopManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Achievements> achievements = achievementsManager.GetAchievementsWithPrice( pageSize, offset);
+                List<Achievements> achievements = achievementsManager.GetAchievementsWithPrice(pageSize, offset);
                 createAchievements(achievements);
             }
 
@@ -1848,20 +1848,20 @@ public class ShopManager : MonoBehaviour
     public void PopupDetails(object data)
     {
         // Kiểm tra kiểu của data và ép kiểu phù hợp
-        if (data is Cards card)
+        if (data is CardHeroes card)
         {
             // Xử lý đối tượng Card
-            ShowCardDetails(card);
+            ShowCardHeroDetails(card);
         }
         else if (data is Books book)
         {
             // Xử lý đối tượng Book
             ShowBookDetails(book);
         }
-        else if (data is Captains captain)
+        else if (data is CardCaptains captain)
         {
             // Xử lý đối tượng Captain
-            ShowCaptainDetails(captain);
+            ShowCardCaptainDetails(captain);
         }
         else if (data is Pets pet)
         {
@@ -1873,25 +1873,25 @@ public class ShopManager : MonoBehaviour
             // Xử lý đối tượng CollaborationEquipment
             ShowCollaborationEquipmentDetails(collaborationEquipmentsequipment);
         }
-        else if (data is Military military)
+        else if (data is CardMilitary military)
         {
             // Xử lý đối tượng Military
-            ShowMilitaryDetails(military);
+            ShowCardMilitaryDetails(military);
         }
-        else if (data is Spell spell)
+        else if (data is CardSpell spell)
         {
             // Xử lý đối tượng Spell
-            ShowSpellDetails(spell);
+            ShowCardSpellDetails(spell);
         }
         else if (data is Collaboration collaboration)
         {
             // Xử lý đối tượng Collaboration
             ShowCollaborationDetails(collaboration);
         }
-        else if (data is Monsters monster)
+        else if (data is CardMonsters monster)
         {
             // Xử lý đối tượng Monster
-            ShowMonsterDetails(monster);
+            ShowCardMonsterDetails(monster);
         }
         else if (data is Equipments equipment)
         {
@@ -1948,7 +1948,7 @@ public class ShopManager : MonoBehaviour
     {
         Destroy(popup); // Hủy popupObject khi nút CloseButton được nhấn
     }
-    private void ShowCardDetails(Cards card)
+    private void ShowCardHeroDetails(CardHeroes card)
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
@@ -2117,7 +2117,7 @@ public class ShopManager : MonoBehaviour
             }
         }
     }
-    private void ShowCaptainDetails(Captains captains)
+    private void ShowCardCaptainDetails(CardCaptains captains)
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
@@ -2384,7 +2384,7 @@ public class ShopManager : MonoBehaviour
             }
         }
     }
-    private void ShowMilitaryDetails(Military military)
+    private void ShowCardMilitaryDetails(CardMilitary military)
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
@@ -2461,7 +2461,7 @@ public class ShopManager : MonoBehaviour
             }
         }
     }
-    private void ShowSpellDetails(Spell spell)
+    private void ShowCardSpellDetails(CardSpell spell)
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
@@ -2615,7 +2615,7 @@ public class ShopManager : MonoBehaviour
             }
         }
     }
-    private void ShowMonsterDetails(Monsters monsters)
+    private void ShowCardMonsterDetails(CardMonsters monsters)
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);

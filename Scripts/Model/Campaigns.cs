@@ -34,9 +34,9 @@ public class Campaigns
         return campaignDetails.Find(detail => detail.id == detailId);
     }
     // Phương thức truy vấn các thẻ (cards) của chiến dịch
-    public List<Cards> GetCardsForCampaign(List<Cards> allCards)
+    public List<CardHeroes> GetCardsForCampaign(List<CardHeroes> allCards)
     {
-        List<Cards> cards = new List<Cards>();
+        List<CardHeroes> cards = new List<CardHeroes>();
         foreach (var campaignDetail in campaignDetails)
         {
             cards.AddRange(campaignDetail.GetCards(allCards));

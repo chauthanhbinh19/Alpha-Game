@@ -44,7 +44,7 @@ public class UserCampaign
         return null;
     }
     // Phương thức truy vấn thẻ (cards) của UserCampaign
-    public List<Cards> GetCards(List<Campaigns> allCampaigns, List<Cards> allCards)
+    public List<CardHeroes> GetCards(List<Campaigns> allCampaigns, List<CardHeroes> allCards)
     {
         var campaign = GetCampaign(allCampaigns);
         return campaign?.GetCardsForCampaign(allCards);
@@ -168,7 +168,7 @@ public class UserCampaign
                             cardId = reader.GetInt32("card_id"),
                             chapter = reader.GetString("chapter"),
                         };
-                        campaignDetailCard.cards=new Cards{
+                        campaignDetailCard.cards=new CardHeroes{
                             image = reader.GetString("image"),
                         };
                         cd.campaignDetailCards.Add(campaignDetailCard);

@@ -134,8 +134,8 @@ public class User
 
                 if (string.IsNullOrEmpty(Name))
                 {
-                    namePanel.SetActive(true);
-                    signInPanel.SetActive(false);
+                    AuthenticationManager.Instance.createCreateNamePanel();
+                    // signInPanel.SetActive(false);
                     return null;
                 }
                 // Đóng `reader` trước khi thực hiện truy vấn tiếp theo
@@ -165,8 +165,7 @@ public class User
                 }
                 currencyReader.Close();
 
-                return new User
-                {
+                User user = new User{
                     id = userId,
                     name=Name,
                     Username = username,
@@ -178,6 +177,8 @@ public class User
                     image=Image,    
                     Currencies = currencies
                 };
+                // Debug.Log(user);
+                return user;
             }
             else
             {
