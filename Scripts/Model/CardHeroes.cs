@@ -744,7 +744,7 @@ public class CardHeroes
                 connection.Open();
                 string query = @"select c.*, ct.price, cu.image as currency_image
                 from card_heroes c, card_hero_trade ct, currency cu
-                where c.id=ct.card_id and ct.currency_id = cu.id and c.type =@type
+                where c.id=ct.card_hero_id and ct.currency_id = cu.id and c.type =@type
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
@@ -811,7 +811,7 @@ public class CardHeroes
                 connection.Open();
                 string query = @"select count(*)
                 from card_heroes c, card_hero_trade ct, currency cu
-                where c.id=ct.card_id and ct.currency_id = cu.id and c.type =@type;";
+                where c.id=ct.card_hero_id and ct.currency_id = cu.id and c.type =@type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());

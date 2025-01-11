@@ -22,6 +22,7 @@ public class ShopManager : MonoBehaviour
     private GameObject equipmentsShopPrefab;
     private GameObject MainMenuDetailPanelPrefab;
     private GameObject ElementDetailsPrefab;
+    private GameObject NumberDetailPrefab;
     private Button CloseButton;
     private Button HomeButton;
     private int offset;
@@ -49,7 +50,8 @@ public class ShopManager : MonoBehaviour
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         MainMenuDetailPanelPrefab = UIManager.Instance.GetGameObject("MainMenuDetailPanelPrefab");
         ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
-        AssignButtonEvent("Button_25", SummonMainMenuPanel, () => CreateShopButton());
+        NumberDetailPrefab = UIManager.Instance.GetGameObject("NumberDetailPrefab");
+        AssignButtonEvent("Button_28", SummonMainMenuPanel, () => CreateShopButton());
     }
 
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
@@ -102,6 +104,9 @@ public class ShopManager : MonoBehaviour
         CreateButton(16, "Relics", Resources.Load<Texture2D>($"UI/Button/RelicsGallery"), tempContent);
         CreateButton(17, "Items", Resources.Load<Texture2D>($"UI/Button/ItemsGallery"), tempContent);
         CreateButton(18, "Achievements", Resources.Load<Texture2D>($"UI/Button/AchievementGallery"), tempContent);
+        CreateButton(19, "Card Colonels", Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"), tempContent);
+        CreateButton(20, "Card Generals", Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"), tempContent);
+        CreateButton(21, "Card Admirals", Resources.Load<Texture2D>($"UI/Button/teachings_of_diligence"), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", tempContent, () => GetType("Books"));
@@ -121,6 +126,9 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_16", tempContent, () => GetType("Relics"));
         AssignButtonEvent("Button_17", tempContent, () => GetType("Items"));
         AssignButtonEvent("Button_18", tempContent, () => GetType("Achievements"));
+        AssignButtonEvent("Button_19", tempContent, () => GetType("CardColonels"));
+        AssignButtonEvent("Button_20", tempContent, () => GetType("CardGenerals"));
+        AssignButtonEvent("Button_21", tempContent, () => GetType("CardAdmirals"));
     }
     private void CreateButton(int index, string itemName, Texture2D itemImage, Transform panel)
     {
@@ -197,6 +205,18 @@ public class ShopManager : MonoBehaviour
         else if (mainType.Equals("Relics"))
         {
             return Relics.GetUniqueRelicsTypes();
+        }
+        else if (mainType.Equals("CardColonels"))
+        {
+            return CardColonels.GetUniqueCardColonelsTypes();
+        }
+        else if (mainType.Equals("CardGenerals"))
+        {
+            return CardGenerals.GetUniqueCardGeneralsTypes();
+        }
+        else if (mainType.Equals("CardAdmirals"))
+        {
+            return CardAdmirals.GetUniqueCardAdmiralsTypes();
         }
         return new List<string>();
     }
@@ -338,6 +358,30 @@ public class ShopManager : MonoBehaviour
                         createRelics(relicsList);
 
                         totalRecord = relicsManager.GetRelicsWithPriceCount(subType);
+                    }
+                    else if (mainType.Equals("CardColonels"))
+                    {
+                        CardColonels colonelsManager = new CardColonels();
+                        List<CardColonels> colonels = colonelsManager.GetCardColonelsWithPrice(subtype, pageSize, offset);
+                        createCardColonels(colonels);
+
+                        totalRecord = colonelsManager.GetCardColonelsWithPriceCount(subtype);
+                    }
+                    else if (mainType.Equals("CardGenerals"))
+                    {
+                        CardGenerals generalsManager = new CardGenerals();
+                        List<CardGenerals> relicsList = generalsManager.GetCardGeneralsWithPrice(subtype, pageSize, offset);
+                        createCardGenerals(relicsList);
+
+                        totalRecord = generalsManager.GetCardGeneralsWithPriceCount(subtype);
+                    }
+                    else if (mainType.Equals("CardAdmirals"))
+                    {
+                        CardAdmirals admiralsManager = new CardAdmirals();
+                        List<CardAdmirals> relicsList = admiralsManager.GetCardAdmiralsWithPrice(subtype, pageSize, offset);
+                        createCardAdmirals(relicsList);
+
+                        totalRecord = admiralsManager.GetCardAdmiralsWithPriceCount(subtype);
                     }
 
                     totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -522,6 +566,30 @@ public class ShopManager : MonoBehaviour
             createRelics(relicsList);
 
             totalRecord = relicsManager.GetRelicsWithPriceCount(subType);
+        }
+        else if (mainType.Equals("CardColonels"))
+        {
+            CardColonels colonelsManager = new CardColonels();
+            List<CardColonels> colonels = colonelsManager.GetCardColonelsWithPrice(type, pageSize, offset);
+            createCardColonels(colonels);
+
+            totalRecord = colonelsManager.GetCardColonelsWithPriceCount(type);
+        }
+        else if (mainType.Equals("CardGenerals"))
+        {
+            CardGenerals generalsManager = new CardGenerals();
+            List<CardGenerals> relicsList = generalsManager.GetCardGeneralsWithPrice(type, pageSize, offset);
+            createCardGenerals(relicsList);
+
+            totalRecord = generalsManager.GetCardGeneralsWithPriceCount(type);
+        }
+        else if (mainType.Equals("CardAdmirals"))
+        {
+            CardAdmirals admiralsManager = new CardAdmirals();
+            List<CardAdmirals> relicsList = admiralsManager.GetCardAdmiralsWithPrice(type, pageSize, offset);
+            createCardAdmirals(relicsList);
+
+            totalRecord = admiralsManager.GetCardAdmiralsWithPriceCount(type);
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1419,6 +1487,147 @@ public class ShopManager : MonoBehaviour
             currencyText.text = achievement.currency.quantity.ToString();
         }
     }
+    private void createCardColonels(List<CardColonels> cardColonels)
+    {
+        foreach (var achievement in cardColonels)
+        {
+            GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = achievementObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = achievement.name.Replace("_", " ");
+
+            RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = achievement.image.Replace(".png", "");
+            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => PopupDetails(achievement));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
+            // rareImage.texture = rareTexture;
+
+            RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = achievement.currency.image.Replace(".png", "");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
+            currencyText.text = achievement.currency.quantity.ToString();
+        }
+    }
+    private void createCardGenerals(List<CardGenerals> cardGenerals)
+    {
+        foreach (var achievement in cardGenerals)
+        {
+            GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = achievementObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = achievement.name.Replace("_", " ");
+
+            RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = achievement.image.Replace(".png", "");
+            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => PopupDetails(achievement));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
+            // rareImage.texture = rareTexture;
+
+            RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = achievement.currency.image.Replace(".png", "");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
+            currencyText.text = achievement.currency.quantity.ToString();
+        }
+    }
+    private void createCardAdmirals(List<CardAdmirals> cardAdmirals)
+    {
+        foreach (var achievement in cardAdmirals)
+        {
+            GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = achievementObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = achievement.name.Replace("_", " ");
+
+            RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = achievement.image.Replace(".png", "");
+            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => PopupDetails(achievement));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
+            // rareImage.texture = rareTexture;
+
+            RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = achievement.currency.image.Replace(".png", "");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
+            currencyText.text = achievement.currency.quantity.ToString();
+        }
+    }
     public void ClearAllPrefabs()
     {
         // Duyệt qua tất cả các con cái của cardsContent
@@ -1851,7 +2060,7 @@ public class ShopManager : MonoBehaviour
         if (data is CardHeroes card)
         {
             // Xử lý đối tượng Card
-            ShowCardHeroDetails(card);
+            ShowCardHeroesDetails(card);
         }
         else if (data is Books book)
         {
@@ -1928,6 +2137,21 @@ public class ShopManager : MonoBehaviour
             // Xử lý đối tượng Title
             ShowRelicsDetails(relics);
         }
+        else if (data is CardColonels colonels)
+        {
+            // Xử lý đối tượng colonels
+            ShowCardColonelsDetails(colonels);
+        }
+        else if (data is CardGenerals generals)
+        {
+            // Xử lý đối tượng Generals
+            ShowCardGeneralsDetails(generals);
+        }
+        else if (data is CardAdmirals admirals)
+        {
+            // Xử lý đối tượng admirals
+            ShowCardAdmiralsDetails(admirals);
+        }
         else
         {
             Debug.LogError("Không hỗ trợ loại dữ liệu này!");
@@ -1948,12 +2172,15 @@ public class ShopManager : MonoBehaviour
     {
         Destroy(popup); // Hủy popupObject khi nút CloseButton được nhấn
     }
-    private void ShowCardHeroDetails(CardHeroes card)
+    private void ShowCardHeroesDetails(CardHeroes card)
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = card.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -1982,7 +2209,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(card, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2010,6 +2241,11 @@ public class ShopManager : MonoBehaviour
                     RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
                     rectTransform.sizeDelta = new Vector2(600, 100);
                     rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
+                    GridLayoutGroup gridLayout = descriptionPopupPanel.GetComponent<GridLayoutGroup>();
+                    if (gridLayout != null)
+                    {
+                        gridLayout.cellSize = new Vector2(670, 800);
+                    }
                 }
                 else
                 {
@@ -2029,8 +2265,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = book.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2074,7 +2313,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(book, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2102,6 +2345,11 @@ public class ShopManager : MonoBehaviour
                     RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
                     rectTransform.sizeDelta = new Vector2(600, 100);
                     rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
+                    GridLayoutGroup gridLayout = descriptionPopupPanel.GetComponent<GridLayoutGroup>();
+                    if (gridLayout != null)
+                    {
+                        gridLayout.cellSize = new Vector2(670, 800);
+                    }
                 }
                 else
                 {
@@ -2121,8 +2369,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = captains.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2151,7 +2402,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(captains, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2198,8 +2453,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = pet.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2248,7 +2506,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(pet, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2295,8 +2557,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2341,7 +2606,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(collaborationEquipment, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2388,8 +2657,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = military.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2418,7 +2690,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(military, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2465,8 +2741,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = spell.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2495,7 +2774,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(spell, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2542,8 +2825,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = collaboration.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2572,7 +2858,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(collaboration, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2619,8 +2909,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = monsters.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2649,7 +2942,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(monsters, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2696,8 +2993,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = equipments.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2741,7 +3041,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(equipments, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2788,8 +3092,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = medals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2834,7 +3141,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(medals, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2881,8 +3192,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = skills.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -2927,7 +3241,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(skills, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -2974,8 +3292,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = symbols.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -3004,7 +3325,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(symbols, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -3051,8 +3376,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = titles.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -3097,7 +3425,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(titles, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -3144,8 +3476,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -3190,7 +3525,11 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(magicFormationCircle, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -3237,8 +3576,11 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform elementPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/NumberDetail/ElementDetails/Scroll View/Viewport/Content");
-        Transform descriptionPopupPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content/DescriptionDetail");
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = relics.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
@@ -3283,7 +3625,263 @@ public class ShopManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(relics, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("sequence") && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block") && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name") && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type") && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            {
+                if (property.Name.Equals("description"))
+                {
+                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
+                    GameObject descriptionTextObject = new GameObject("DescriptionText");
+                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
+
+                    // Thêm component TextMeshProUGUI vào đối tượng mới
+                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
+
+                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
+                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
+                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
+                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
+
+                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
+                    // Đổi màu chữ bằng mã hex #844000
+                    Color color;
+                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
+                    {
+                        descriptionText.color = color; // Gán màu cho text
+                    }
+
+                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
+                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
+                    rectTransform.sizeDelta = new Vector2(600, 100);
+                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
+                }
+                else
+                {
+                    // Tạo một element mới từ prefab
+                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                    // Gán tên thuộc tính vào TitleText
+                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+                    // Gán giá trị thuộc tính vào ContentText
+                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
+                }
+            }
+        }
+    }
+    private void ShowCardColonelsDetails(CardColonels colonels)
+    {
+        // Tạo popup từ prefab
+        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
+
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = colonels.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = colonels.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = colonels.power.ToString();
+
+        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = skills.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{colonels.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = colonels.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(colonels, null);
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            {
+                if (property.Name.Equals("description"))
+                {
+                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
+                    GameObject descriptionTextObject = new GameObject("DescriptionText");
+                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
+
+                    // Thêm component TextMeshProUGUI vào đối tượng mới
+                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
+
+                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
+                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
+                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
+                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
+
+                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
+                    // Đổi màu chữ bằng mã hex #844000
+                    Color color;
+                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
+                    {
+                        descriptionText.color = color; // Gán màu cho text
+                    }
+
+                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
+                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
+                    rectTransform.sizeDelta = new Vector2(600, 100);
+                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
+                }
+                else
+                {
+                    // Tạo một element mới từ prefab
+                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                    // Gán tên thuộc tính vào TitleText
+                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+                    // Gán giá trị thuộc tính vào ContentText
+                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
+                }
+            }
+        }
+    }
+    private void ShowCardGeneralsDetails(CardGenerals generals)
+    {
+        // Tạo popup từ prefab
+        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
+
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = generals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = generals.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = generals.power.ToString();
+
+        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = skills.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{generals.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = generals.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(generals, null);
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            {
+                if (property.Name.Equals("description"))
+                {
+                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
+                    GameObject descriptionTextObject = new GameObject("DescriptionText");
+                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
+
+                    // Thêm component TextMeshProUGUI vào đối tượng mới
+                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
+
+                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
+                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
+                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
+                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
+
+                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
+                    // Đổi màu chữ bằng mã hex #844000
+                    Color color;
+                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
+                    {
+                        descriptionText.color = color; // Gán màu cho text
+                    }
+
+                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
+                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
+                    rectTransform.sizeDelta = new Vector2(600, 100);
+                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
+                }
+                else
+                {
+                    // Tạo một element mới từ prefab
+                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                    // Gán tên thuộc tính vào TitleText
+                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+                    // Gán giá trị thuộc tính vào ContentText
+                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
+                }
+            }
+        }
+    }
+    private void ShowCardAdmiralsDetails(CardAdmirals admirals)
+    {
+        // Tạo popup từ prefab
+        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
+
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = admirals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = admirals.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = admirals.power.ToString();
+
+        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = skills.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admirals.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = admirals.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(admirals, null);
+            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
+            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
+            && !property.Name.Equals("star") && !property.Name.Equals("level"))
             {
                 if (property.Name.Equals("description"))
                 {

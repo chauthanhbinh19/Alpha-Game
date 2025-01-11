@@ -59,7 +59,7 @@ public class MainMenuManagement : MonoBehaviour
         AssignButtonEvent("Button_7", mainMenuPanel, () => GetType("CardSpell"));
         AssignButtonEvent("Button_8", mainMenuPanel, () => GetType("Collaborations"));
         AssignButtonEvent("Button_9", mainMenuPanel, () => GetType("CardMonsters"));
-        AssignButtonEvent("Button_10", mainMenuPanel, () => GetType("Equipments"));
+        // AssignButtonEvent("Button_10", mainMenuPanel, () => GetType("Equipments"));
         AssignButtonEvent("Button_11", mainMenuPanel, () => GetType("Medals"));
         AssignButtonEvent("Button_12", mainMenuPanel, () => GetType("Skills"));
         AssignButtonEvent("Button_13", mainMenuPanel, () => GetType("Symbols"));
@@ -68,12 +68,16 @@ public class MainMenuManagement : MonoBehaviour
         AssignButtonEvent("Button_16", mainMenuPanel, () => GetType("Relics"));
         AssignButtonEvent("Button_17", mainMenuPanel, () => GetType("Bag"));
         AssignButtonEvent("Button_18", mainMenuPanel, () => GetType("Teams"));
-        AssignButtonEvent("Button_19", SummonMainMenuPanel, () => GetType("SummonCardHeroes"));
-        AssignButtonEvent("Button_20", SummonMainMenuPanel, () => GetType("SummonBooks"));
-        AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType("SummonCardCaptains"));
-        AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType("SummonCardMonsters"));
-        AssignButtonEvent("Button_23", SummonMainMenuPanel, () => GetType("SummonCardMilitary"));
-        AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType("SummonCardSpell"));
+        AssignButtonEvent("Button_19", mainMenuPanel, () => GetType("CardColonels"));
+        AssignButtonEvent("Button_20", mainMenuPanel, () => GetType("CardGenerals"));
+        AssignButtonEvent("Button_21", mainMenuPanel, () => GetType("CardAdmirals"));
+
+        AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType("SummonCardHeroes"));
+        AssignButtonEvent("Button_23", SummonMainMenuPanel, () => GetType("SummonBooks"));
+        AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType("SummonCardCaptains"));
+        AssignButtonEvent("Button_25", SummonMainMenuPanel, () => GetType("SummonCardMonsters"));
+        AssignButtonEvent("Button_26", SummonMainMenuPanel, () => GetType("SummonCardMilitary"));
+        AssignButtonEvent("Button_27", SummonMainMenuPanel, () => GetType("SummonCardSpell"));
         // GetCardsType();
     }
 
@@ -153,6 +157,18 @@ public class MainMenuManagement : MonoBehaviour
         {
             return Relics.GetUniqueRelicsTypes();
         }
+        else if (mainType.Equals("CardColonels"))
+        {
+            return CardColonels.GetUniqueCardColonelsTypes();
+        }
+        else if (mainType.Equals("CardGenerals"))
+        {
+            return CardGenerals.GetUniqueCardGeneralsTypes();
+        }
+        else if (mainType.Equals("CardAdmirals"))
+        {
+            return CardAdmirals.GetUniqueCardAdmiralsTypes();
+        }
         else if (mainType.Equals("SummonCardHeroes"))
         {
             return CardHeroes.GetUniqueCardHeroTypes();
@@ -191,7 +207,7 @@ public class MainMenuManagement : MonoBehaviour
             Summon10Button = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
             CloseButton.onClick.AddListener(ClosePanel);
             HomeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(()=>Close(MainPanel));
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
             SummonAreaPanel = summonObject.transform.Find("SummonArea");
 
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
@@ -260,7 +276,7 @@ public class MainMenuManagement : MonoBehaviour
             CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(ClosePanel);
             HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(()=>Close(MainPanel));
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
             NextButton.onClick.AddListener(ChangeNextPage);
             PreviousButton.onClick.AddListener(ChangePreviousPage);
 
@@ -385,6 +401,30 @@ public class MainMenuManagement : MonoBehaviour
                         createRelics(relicsList);
 
                         totalRecord = relicsManager.GetUserRelicsCount(subType);
+                    }
+                    else if (mainType.Equals("CardColonels"))
+                    {
+                        CardColonels colonelsManager = new CardColonels();
+                        List<CardColonels> colonels = colonelsManager.GetUserCardColonels(subtype, pageSize, offset);
+                        createCardColonels(colonels);
+
+                        totalRecord = colonelsManager.GetUserCardColonelsCount(subType);
+                    }
+                    else if (mainType.Equals("CardGenerals"))
+                    {
+                        CardGenerals generalsManager = new CardGenerals();
+                        List<CardGenerals> relicsList = generalsManager.GetUserCardGenerals(subtype, pageSize, offset);
+                        createCardGenerals(relicsList);
+
+                        totalRecord = generalsManager.GetUserCardGeneralsCount(subType);
+                    }
+                    else if (mainType.Equals("CardAdmirals"))
+                    {
+                        CardAdmirals admiralsManager = new CardAdmirals();
+                        List<CardAdmirals> relicsList = admiralsManager.GetUserCardAdmirals(subtype, pageSize, offset);
+                        createCardAdmirals(relicsList);
+
+                        totalRecord = admiralsManager.GetUserCardAdmiralsCount(subType);
                     }
                     else if (mainType.Equals("SummonCardHeroes"))
                     {
@@ -527,7 +567,8 @@ public class MainMenuManagement : MonoBehaviour
                 });
             }
 
-            if(!mainType.Equals("SummonCardMonsters")){
+            if (!mainType.Equals("SummonCardMonsters"))
+            {
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             }
@@ -649,6 +690,30 @@ public class MainMenuManagement : MonoBehaviour
             createRelics(relicsList);
 
             totalRecord = relicsManager.GetUserRelicsCount(type);
+        }
+        else if (mainType.Equals("CardColonels"))
+        {
+            CardColonels colonelsManager = new CardColonels();
+            List<CardColonels> colonels = colonelsManager.GetUserCardColonels(type, pageSize, offset);
+            createCardColonels(colonels);
+
+            totalRecord = colonelsManager.GetUserCardColonelsCount(type);
+        }
+        else if (mainType.Equals("CardGenerals"))
+        {
+            CardGenerals generalsManager = new CardGenerals();
+            List<CardGenerals> relicsList = generalsManager.GetUserCardGenerals(type, pageSize, offset);
+            createCardGenerals(relicsList);
+
+            totalRecord = generalsManager.GetUserCardGeneralsCount(type);
+        }
+        else if (mainType.Equals("CardAdmirals"))
+        {
+            CardAdmirals admiralsManager = new CardAdmirals();
+            List<CardAdmirals> relicsList = admiralsManager.GetUserCardAdmirals(type, pageSize, offset);
+            createCardAdmirals(relicsList);
+
+            totalRecord = admiralsManager.GetUserCardAdmiralsCount(type);
         }
         else if (mainType.Equals("SummonCardHeroes"))
         {
@@ -1244,6 +1309,78 @@ public class MainMenuManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
             rareImage.texture = rareTexture;
 
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createCardColonels(List<CardColonels> cardColonels)
+    {
+        foreach (var spell in cardColonels)
+        {
+            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+
+            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = spell.name.Replace("_", " ");
+
+            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = spell.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            rareImage.texture = rareTexture;
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createCardGenerals(List<CardGenerals> cardGenerals)
+    {
+        foreach (var spell in cardGenerals)
+        {
+            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+
+            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = spell.name.Replace("_", " ");
+
+            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = spell.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            rareImage.texture = rareTexture;
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createCardAdmirals(List<CardAdmirals> cardAdmirals)
+    {
+        foreach (var spell in cardAdmirals)
+        {
+            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+
+            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = spell.name.Replace("_", " ");
+
+            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = spell.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

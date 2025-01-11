@@ -688,7 +688,7 @@ public class CardMonsters
             {
                 connection.Open();
                 string query = @"select m.*, mt.price, cu.image as currency_image
-                from card_monsters m, card_monsters_trade mt, currency cu
+                from card_monsters m, card_monster_trade mt, currency cu
                 where m.id=mt.card_monster_id and mt.currency_id = cu.id
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset;";
                 MySqlCommand command = new MySqlCommand(query, connection);

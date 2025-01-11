@@ -199,7 +199,8 @@ public class User
             command.Parameters.AddWithValue("@id", CurrentUserId);
 
             command.ExecuteNonQuery();
-            namePanel.SetActive(false);
+            // namePanel.SetActive(false);
+            AuthenticationManager.Instance.deleteCreateNamePanel();
         }
         return SignInUser();
     }

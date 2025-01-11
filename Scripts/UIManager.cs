@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour
     public GameObject ShopManagerPrefab;
     public GameObject ShopButtonPrefab;
     public GameObject ShopPrefab;
+    public GameObject NumberDetailPrefab;
 
     [Header("Button")]
     private Button GalleryButton;
@@ -188,6 +189,8 @@ public class UIManager : MonoBehaviour
                 return ShopManagerPrefab;
             case "ShopPrefab":
                 return ShopPrefab;
+            case "NumberDetailPrefab":
+                return NumberDetailPrefab;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;

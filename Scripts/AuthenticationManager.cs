@@ -217,6 +217,7 @@ public class AuthenticationManager : MonoBehaviour
         });
     }
     public void createCreateNamePanel(){
+        Destroy(currentObject);
         currentObject = Instantiate(createNamePanel, WaitingPanel);
         InputField nameInput = currentObject.transform.Find("NameInput").GetComponent<InputField>();
         Button startButton = currentObject.transform.Find("Start").GetComponent<Button>();
@@ -224,6 +225,22 @@ public class AuthenticationManager : MonoBehaviour
         startButton.onClick.AddListener(()=>{
             User user = new User();
             user.UpdateUserName(nameInput.text);
+            User loggedInUser = user.SignInUser();
+            Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
+            nameText.text = loggedInUser.name;
+            Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
+            levelText.text = loggedInUser.level.ToString();
+            Text powerText = userPanel.transform.Find("PowerText").GetComponent<Text>();
+            powerText.text = loggedInUser.power.ToString();
+            RawImage avatarImage = userPanel.transform.Find("AvatarImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = loggedInUser.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            avatarImage.texture = texture;
+
+            FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
         });
+    }
+    public void deleteCreateNamePanel(){
+        Destroy(currentObject);
     }
 }

@@ -30,7 +30,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(7, "Card Spell",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Spell"),mainMenuButtonPanel);
         CreateButton(8, "Collaborations",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Collaboration"), mainMenuButtonPanel);
         CreateButton(9, "Card Monsters",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Monsters"),mainMenuButtonPanel);
-        CreateButton(10, "Equipments",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/equipments"), mainMenuButtonPanel);
+        // CreateButton(10, "Equipments",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/equipments"), mainMenuButtonPanel);
         CreateButton(11, "Medals",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Bag"),mainMenuButtonPanel);
         CreateButton(12, "Skills",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Skills"),mainMenuButtonPanel);
         CreateButton(13, "Symbols",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Symbols"),mainMenuButtonPanel);
@@ -39,14 +39,17 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(16, "Relics",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Relics"),mainMenuButtonPanel);
         CreateButton(17, "Bag",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Bag"),mainMenuButtonPanel);
         CreateButton(18, "Teams",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Teams"), mainMenuButtonPanel);
+        CreateButton(19, "Card Colonels Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/philosophies_of_conflict"),mainMenuButtonPanel);
+        CreateButton(20, "Card Generals Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/philosophies_of_contention"),mainMenuButtonPanel);
+        CreateButton(21, "Card Admirals Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/philosophies_of_diligence"),mainMenuButtonPanel);
 
-        CreateButton(19, "Summon Card Heroes",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonCards"),summonPanel);
-        CreateButton(20, "Summon Books",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonBooks"),summonPanel);
-        CreateButton(21, "Summon CardCaptains",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonCaptains"),summonPanel);
-        CreateButton(22, "Summon Card Monsters",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonMonsters"),summonPanel);
-        CreateButton(23, "Summon Card Military",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonMilitary"),summonPanel);
-        CreateButton(24, "Summon Card Spell",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonSpell"),summonPanel);
-        CreateButton(25, "Shop",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Shop"),summonPanel);
+        CreateButton(22, "Summon Card Heroes",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonCards"),summonPanel);
+        CreateButton(23, "Summon Books",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonBooks"),summonPanel);
+        CreateButton(24, "Summon CardCaptains",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonCaptains"),summonPanel);
+        CreateButton(25, "Summon Card Monsters",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonMonsters"),summonPanel);
+        CreateButton(26, "Summon Card Military",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonMilitary"),summonPanel);
+        CreateButton(27, "Summon Card Spell",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonSpell"),summonPanel);
+        CreateButton(28, "Shop",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Shop"),summonPanel);
         //Gallery menu
         CreateButton(1, "Card Heroes Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/CardsGallery"), galleryMenuPanel);
         CreateButton(2, "Books Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/BooksGallery"), galleryMenuPanel);
@@ -64,6 +67,9 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(14, "Titles Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TitlesGallery"),galleryMenuPanel);
         CreateButton(15, "Magic Formation Circle Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"),galleryMenuPanel);
         CreateButton(16, "Relics Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/RelicsGallery"),galleryMenuPanel);
+        CreateButton(17, "Card Colonels Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"),galleryMenuPanel);
+        CreateButton(18, "Card Generals Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"),galleryMenuPanel);
+        CreateButton(19, "Card Admirals Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/teachings_of_diligence"),galleryMenuPanel);
         //Collection menu
         CreateButton(1, "Card Heroes Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/CardsCollection"), collectionMenuPanel);
         CreateButton(2, "Books Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/BooksCollection"), collectionMenuPanel);
@@ -81,6 +87,9 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(14, "Titles Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TitlesCollection"),collectionMenuPanel);
         CreateButton(15, "Magic Formation Circle Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleCollection"),collectionMenuPanel);
         CreateButton(16, "Relics Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/RelicsCollection"),collectionMenuPanel);
+        CreateButton(17, "Card Colonels Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/guide_to_conflict"),collectionMenuPanel);
+        CreateButton(18, "Card Generals Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/guide_to_contention"),collectionMenuPanel);
+        CreateButton(19, "Card Admirals Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/guide_to_diligence"),collectionMenuPanel);
         //Equipment menu
         List<string> uniqueTypes = GetUniqueTypes();
         if (uniqueTypes.Count > 0)

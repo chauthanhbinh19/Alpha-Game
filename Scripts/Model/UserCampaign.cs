@@ -149,9 +149,9 @@ public class UserCampaign
                 foreach (CampaignDetail cd in campaignDetails)
                 {
                     query = @"
-                select distinct cdc.*, cards.image
-                from campaigns c, campaign_details cd, campaign_detail_cards cdc, cards
-                where c.id = cd.campaign_id and cd.chapter=c.chapter and c.chapter = @chapter and c.type =@type and cards.id=cdc.card_id
+                select distinct cdc.*, card_heroes.image
+                from campaigns c, campaign_details cd, campaign_detail_card_heroes cdc, card_heroes
+                where c.id = cd.campaign_id and cd.chapter=c.chapter and c.chapter = @chapter and c.type =@type and card_heroes.id=cdc.card_hero_id
 	            and cdc.campaign_id = c.id and cdc.campaign_detail_id and cdc.campaign_detail_id=@campaign_detail_id and cdc.chapter= @chapter1;";
                     command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@chapter", chapter);
@@ -165,7 +165,7 @@ public class UserCampaign
                         {
                             campaignId = reader.GetInt32("campaign_id"),
                             campaignDetailId = reader.GetInt32("campaign_detail_id"),
-                            cardId = reader.GetInt32("card_id"),
+                            cardId = reader.GetInt32("card_hero_id"),
                             chapter = reader.GetString("chapter"),
                         };
                         campaignDetailCard.cards=new CardHeroes{

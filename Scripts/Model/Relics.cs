@@ -171,7 +171,7 @@ public class Relics
                 connection.Open();
                 string query = @"SELECT m.*, CASE WHEN mg.relic_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
                 FROM relics m LEFT JOIN relics_gallery mg ON m.id = mg.relic_id and mg.user_id = @userId where m.type=@type 
-                ORDER BY r.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(r.name, '[0-9]+$') AS UNSIGNED), r.name limit @limit offset @offset";
+                ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@userId", user_id);
