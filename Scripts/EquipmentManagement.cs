@@ -29,6 +29,8 @@ public class EquipmentManagement : MonoBehaviour
     private GameObject campaignPrefab;
     private GameObject campaignDetailPrefab;
     private GameObject cardsPrefab;
+    private GameObject ReceivedNotification;
+    private GameObject ItemThird;
     private int offset;
     private int currentPage;
     private int totalPage;
@@ -57,6 +59,8 @@ public class EquipmentManagement : MonoBehaviour
         campaignPrefab = UIManager.Instance.GetGameObject("CampaignPrefab");
         campaignDetailPrefab = UIManager.Instance.GetGameObject("CampaignDetailPrefab");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        ReceivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
+        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
 
         MainMenuContent = MainMenuPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
         MainMenuShopContent = MainMenuShopPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel").GetComponent<Transform>();
@@ -142,6 +146,9 @@ public class EquipmentManagement : MonoBehaviour
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = equipment.name.Replace("_", " ");
+
+            Text Power = equipmentObject.transform.Find("Power").GetComponent<Text>();
+            Power.text = equipment.power.ToString();
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = equipment.image.Replace(".png", "");
@@ -314,7 +321,7 @@ public class EquipmentManagement : MonoBehaviour
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Destroy(currentObject));
             Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(() =>Close(MainPanel));
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
 
             GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
             gridLayout.cellSize = new Vector2(350, 130);
@@ -354,7 +361,7 @@ public class EquipmentManagement : MonoBehaviour
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Destroy(currentObject));
             Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(() =>Close(MainPanel));
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
         }
 
         Transform button = currentObject.transform.Find("Pagination");
@@ -392,7 +399,7 @@ public class EquipmentManagement : MonoBehaviour
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Destroy(currentObject));
             Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(() =>Close(MainPanel));
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
         }
 
         Transform button = currentObject.transform.Find("Pagination");
@@ -430,7 +437,7 @@ public class EquipmentManagement : MonoBehaviour
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Destroy(currentObject));
             Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(() =>Close(MainPanel));
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
         }
 
         // Transform button = MainMenuShopPanel.transform.Find("Pagination");
@@ -651,18 +658,49 @@ public class EquipmentManagement : MonoBehaviour
             // Hiển thị thông báo dựa trên kết quả
             if (allSuccess)
             {
-                equipments.UpdateEquipmentsGallery(equipments.id);
+                equipments.InsertEquipmentsGallery(equipments.id);
                 Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                 Close(CurrencyPanel);
                 FindObjectOfType<CurrencyManager>().GetEquipmentsCurrency(type, CurrencyPanel);
                 Close(popupPanel);
-                FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
+                // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
+                GameObject receivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);
+
+                AddCloseEvent(receivedNotificationObject);
+                Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
+                GameObject itemObject = Instantiate(ItemThird, itemContent);
+
+                RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
+                fileNameWithoutExtension = equipments.image.Replace(".png", "");
+                Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                eImage.texture = equipmentTexture;
+
+                Text eQuantity = itemObject.transform.Find("Quantity").GetComponent<Text>();
+                eQuantity.text = quantity.ToString();
             }
             else
             {
                 FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
             }
         });
+    }
+    private void AddCloseEvent(GameObject obj)
+    {
+        EventTrigger trigger = obj.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            trigger = obj.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerClick
+        };
+        entry.callback.AddListener((data) =>
+        {
+           Destroy(obj);
+        });
+        trigger.triggers.Add(entry);
     }
     void AddClickListener(EventTrigger trigger, System.Action callback)
     {
@@ -713,7 +751,8 @@ public class EquipmentManagement : MonoBehaviour
             rectTransform.sizeDelta = new Vector2(100, 100);
             // Debug.Log(campaignReward.items.image);
         }
-        foreach(CampaignDetailCard campaignDetailCardcard in campaignDetail.campaignDetailCards){
+        foreach (CampaignDetailCard campaignDetailCardcard in campaignDetail.campaignDetailCards)
+        {
             GameObject cardObject = Instantiate(cardsPrefab, enemyGroup);
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = campaignDetailCardcard.cards.image.Replace(".png", "");

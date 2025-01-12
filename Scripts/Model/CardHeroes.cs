@@ -234,7 +234,7 @@ public class CardHeroes
                 {
                     CardHeroes card = new CardHeroes
                     {
-                        id = reader.GetInt32("card_id"),
+                        id = reader.GetInt32("card_hero_id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
@@ -593,7 +593,7 @@ public class CardHeroes
         }
         return card;
     }
-    public void UpdateCardHeroesGallery(int Id)
+    public void InsertCardHeroesGallery(int Id)
     {
         CardHeroes CardFromDB = GetCardHeroesById(Id);
         int percent = 0;
@@ -628,11 +628,11 @@ public class CardHeroes
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM card_heroes_gallery 
-                WHERE user_id = @user_id AND card_id = @card_id;
+                WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@card_id", Id);
+                checkCommand.Parameters.AddWithValue("@card_hero_id", Id);
 
                 int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
 
@@ -640,7 +640,7 @@ public class CardHeroes
                 {
                     string query = @"
                     INSERT INTO card_heroes_gallery (
-                        user_id, card_hero_id, status, star, power, health, physical_attack, physical_defense, 
+                        user_id, card_hero_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
                         absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
@@ -648,7 +648,7 @@ public class CardHeroes
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
                         percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @card_hero_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @card_hero_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
                         @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
@@ -662,7 +662,8 @@ public class CardHeroes
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@card_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@current_star", 0);
+                    command.Parameters.AddWithValue("@temp_star", 0);
                     command.Parameters.AddWithValue("@power", CardFromDB.power);
                     command.Parameters.AddWithValue("@health", CardFromDB.health);
                     command.Parameters.AddWithValue("@physical_attack", CardFromDB.physical_attack);

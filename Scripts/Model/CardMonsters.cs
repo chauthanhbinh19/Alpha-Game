@@ -538,7 +538,7 @@ public class CardMonsters
         }
         return monster;
     }
-    public void UpdateCardMonstersGallery(int Id)
+    public void InsertCardMonstersGallery(int Id)
     {
         CardMonsters MonsterFromDB = GetCardMonstersById(Id);
         int percent = 0;

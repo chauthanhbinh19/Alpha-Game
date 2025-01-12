@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour
     private Transform SummonMainMenuPanel;
     private Transform TabButtonPanel;
     private Transform currentContent;
+    private Transform currencyPanel;
     private GameObject ShopButtonPrefab;
     private GameObject ShopManagerPrefab;
     private GameObject currentObject;
@@ -23,6 +24,10 @@ public class ShopManager : MonoBehaviour
     private GameObject MainMenuDetailPanelPrefab;
     private GameObject ElementDetailsPrefab;
     private GameObject NumberDetailPrefab;
+    private Transform popupPanel;
+    private GameObject quantityPopupPrefab;
+    private GameObject ReceivedNotification;
+    private GameObject ItemThird;
     private Button CloseButton;
     private Button HomeButton;
     private int offset;
@@ -51,7 +56,11 @@ public class ShopManager : MonoBehaviour
         MainMenuDetailPanelPrefab = UIManager.Instance.GetGameObject("MainMenuDetailPanelPrefab");
         ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
         NumberDetailPrefab = UIManager.Instance.GetGameObject("NumberDetailPrefab");
-        AssignButtonEvent("Button_28", SummonMainMenuPanel, () => CreateShopButton());
+        popupPanel = UIManager.Instance.GetTransform("popupPanel");
+        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
+        ReceivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
+        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        AssignButtonEvent("Button_31", SummonMainMenuPanel, () => CreateShopButton());
     }
 
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
@@ -226,6 +235,7 @@ public class ShopManager : MonoBehaviour
         GameObject equipmentObject = Instantiate(ShopPrefab, MainPanel);
         currentContent = equipmentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         TabButtonPanel = equipmentObject.transform.Find("Scroll View/Viewport/Content");
+        currencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
         PageText = equipmentObject.transform.Find("Pagination/Page").GetComponent<Text>();
         NextButton = equipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
@@ -237,11 +247,11 @@ public class ShopManager : MonoBehaviour
         NextButton.onClick.AddListener(ChangeNextPage);
         PreviousButton.onClick.AddListener(ChangePreviousPage);
 
-        Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
-        Currency currency = new Currency();
-        List<Currency> currencies = new List<Currency>();
-        currencies = currency.GetUserCurrency();
-        FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
+        // Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
+        // Currency currency = new Currency();
+        // List<Currency> currencies = new List<Currency>();
+        // currencies = currency.GetUserCurrency();
+        // FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         List<string> uniqueTypes = GetUniqueTypes();
         if (uniqueTypes.Count > 0)
@@ -661,6 +671,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = cardObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = card.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardHeroesCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createBooks(List<Books> books)
     {
@@ -707,6 +721,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = bookObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = book.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetBooksCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCardCaptains(List<CardCaptains> captainsList)
     {
@@ -753,6 +771,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = captainsObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = captain.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardCaptainsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCollaboration(List<Collaboration> collaborationList)
     {
@@ -800,6 +822,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = collaborationObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = collaboration.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCollaborationsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCollaborationEquipments(List<CollaborationEquipment> collaborationEquipmentList)
     {
@@ -845,6 +871,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = collaborationEquipmentObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = collaborationEquipment.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCollaborationEquipmentsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createEquipments(List<Equipments> equipmentList)
     {
@@ -938,6 +968,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = medalObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = medal.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetMedalsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCardMonsters(List<CardMonsters> monstersList)
     {
@@ -983,6 +1017,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = monstersObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = monster.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardMonstersCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createPets(List<Pets> petsList)
     {
@@ -1058,6 +1096,10 @@ public class ShopManager : MonoBehaviour
             currencyText.text = pet.currency.quantity.ToString();
 
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetPetsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createSkills(List<Skills> skillsList)
     {
@@ -1106,6 +1148,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = skillObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = skill.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetSkillsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createSymbols(List<Symbols> symbolsList)
     {
@@ -1153,6 +1199,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = symbolObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = symbol.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetSymbolsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createTitles(List<Titles> titlesList)
     {
@@ -1202,6 +1252,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = titleObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = title.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetTitlesCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCardMilitary(List<CardMilitary> militaryList)
     {
@@ -1248,6 +1302,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = militaryObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = military.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardMilitaryCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCardSpell(List<CardSpell> spellList)
     {
@@ -1294,6 +1352,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = spellObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = spell.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardSpellCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createMagicFormationCircle(List<MagicFormationCircle> magicFormationCircles)
     {
@@ -1343,6 +1405,10 @@ public class ShopManager : MonoBehaviour
             currencyText.text = magicFormationCircle.currency.quantity.ToString();
 
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetMagicFormationCircleCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createRelics(List<Relics> relics)
     {
@@ -1392,6 +1458,10 @@ public class ShopManager : MonoBehaviour
             currencyText.text = relic.currency.quantity.ToString();
 
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetRelicsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createBorders(List<Borders> borders)
     {
@@ -1439,6 +1509,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = borderObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = border.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetBordersCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createAchievements(List<Achievements> achievements)
     {
@@ -1486,6 +1560,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = achievement.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetAchievementsCurrency();
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCardColonels(List<CardColonels> cardColonels)
     {
@@ -1533,6 +1611,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = achievement.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardColonelsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCardGenerals(List<CardGenerals> cardGenerals)
     {
@@ -1580,6 +1662,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = achievement.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardGeneralsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     private void createCardAdmirals(List<CardAdmirals> cardAdmirals)
     {
@@ -1627,6 +1713,10 @@ public class ShopManager : MonoBehaviour
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = achievement.currency.quantity.ToString();
         }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardAdmiralsCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
     public void ClearAllPrefabs()
     {
@@ -3923,5 +4013,166 @@ public class ShopManager : MonoBehaviour
                 }
             }
         }
+    }
+    public void GetQuantity(string type, Equipments equipments)
+    {
+        GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
+
+        Button increaseButton = quantityObject.transform.Find("IncreaseButton").GetComponent<Button>();
+        Button decreaseButton = quantityObject.transform.Find("DecreaseButton").GetComponent<Button>();
+        Button increase10Button = quantityObject.transform.Find("Increase10Button").GetComponent<Button>();
+        Button decrease10Button = quantityObject.transform.Find("Decrease10Button").GetComponent<Button>();
+        Button maxButton = quantityObject.transform.Find("MaxButton").GetComponent<Button>();
+        Button minButton = quantityObject.transform.Find("MinButton").GetComponent<Button>();
+        Button closeButton = quantityObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button confirmButton = quantityObject.transform.Find("Buy").GetComponent<Button>();
+        TextMeshProUGUI quantityText = quantityObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+        RawImage currencyImage = quantityObject.transform.Find("Price/CurrencyImage").GetComponent<RawImage>();
+        TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
+        RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
+
+        Currency currency = new Currency();
+        currency = currency.GetUserEquipmentsPrice(type, equipments.id);
+        string fileNameWithoutExtension = currency.image.Replace(".png", "");
+        Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        currencyImage.texture = currencyTexture;
+
+        fileNameWithoutExtension = equipments.image.Replace(".png", "");
+        Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        equipmentImage.texture = equipmentTexture;
+
+        currency = currency.GetEquipmentsPrice(type, equipments.id);
+        priceText.text = currency.quantity.ToString();
+        double originPrice = currency.quantity;
+        increaseButton.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
+            currentQuantity++;
+            price = originPrice * currentQuantity;
+            quantityText.text = currentQuantity.ToString();
+            priceText.text = price.ToString();
+        });
+        decreaseButton.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
+            if (currentQuantity > 1)
+            {
+                currentQuantity--;
+                price = originPrice * currentQuantity;
+                quantityText.text = currentQuantity.ToString();
+                priceText.text = price.ToString();
+            }
+        });
+        increase10Button.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
+            currentQuantity = currentQuantity + 10;
+            price = originPrice * currentQuantity;
+            quantityText.text = currentQuantity.ToString();
+            priceText.text = price.ToString();
+        });
+        decrease10Button.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
+            if (currentQuantity > 10)
+            {
+                currentQuantity = currentQuantity - 10;
+                price = originPrice * currentQuantity;
+                quantityText.text = currentQuantity.ToString();
+                priceText.text = price.ToString();
+            }
+        });
+        maxButton.onClick.AddListener(() =>
+        {
+            Currency currency = new Currency();
+            List<Currency> userCurrency = currency.GetEquipmentsCurrency(type);
+            Currency equipmentPrice = currency.GetEquipmentsPrice(type, equipments.id);
+            double price = double.Parse(priceText.text);
+            foreach (var user in userCurrency)
+            {
+                if (user.id == equipmentPrice.id)
+                {
+                    int max = (int)(user.quantity / equipmentPrice.quantity);
+                    price = originPrice * max;
+                    quantityText.text = max.ToString();
+                    priceText.text = price.ToString();
+                    break;
+                }
+            }
+        });
+        minButton.onClick.AddListener(() =>
+        {
+            quantityText.text = "1";
+            double price = double.Parse(priceText.text);
+            price = originPrice * 1;
+            priceText.text = price.ToString();
+        });
+        closeButton.onClick.AddListener(() => Close(popupPanel));
+        confirmButton.onClick.AddListener(() =>
+        {
+            int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
+            bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
+
+            for (int i = 1; i <= quantity; i++) // Duyệt từ 1 đến giá trị trong quantityText
+            {
+                equipments.UpdateUserCurrency(equipments.id);
+                bool success = equipments.BuyEquipment(equipments.id); // Thực hiện mua từng món đồ
+                if (!success)
+                {
+                    allSuccess = false; // Nếu có giao dịch thất bại, đánh dấu thất bại
+                    break; // Ngừng vòng lặp nếu có lỗi
+                }
+            }
+
+            // Hiển thị thông báo dựa trên kết quả
+            if (allSuccess)
+            {
+                equipments.InsertEquipmentsGallery(equipments.id);
+                Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
+                Close(CurrencyPanel);
+                FindObjectOfType<CurrencyManager>().GetEquipmentsCurrency(type, CurrencyPanel);
+                Close(popupPanel);
+                // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
+                GameObject receivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);
+
+                AddCloseEvent(receivedNotificationObject);
+                Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
+                GameObject itemObject = Instantiate(ItemThird, itemContent);
+
+                RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
+                fileNameWithoutExtension = equipments.image.Replace(".png", "");
+                Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                eImage.texture = equipmentTexture;
+
+                Text eQuantity = itemObject.transform.Find("Quantity").GetComponent<Text>();
+                eQuantity.text = quantity.ToString();
+            }
+            else
+            {
+                FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
+            }
+        });
+    }
+    private void AddCloseEvent(GameObject obj)
+    {
+        EventTrigger trigger = obj.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            trigger = obj.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerClick
+        };
+        entry.callback.AddListener((data) =>
+        {
+           Destroy(obj);
+        });
+        trigger.triggers.Add(entry);
     }
 }

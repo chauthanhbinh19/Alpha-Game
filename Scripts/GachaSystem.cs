@@ -7,11 +7,10 @@ using UnityEngine.EventSystems;
 
 public class GachaSystem : MonoBehaviour
 {
-    private List<CardHeroes> cards; // Danh sách thẻ bài
     private GameObject cardPrefab; // Prefab đại diện cho một thẻ bài
     private Transform summonArea; // Khu vực hiển thị thẻ bài
     private Texture backImage; // Mặt sau (image1.png)
-    private bool isSummonAreaActive = false;
+    // private bool isSummonAreaActive = false;
 
     public void Summon(string name, string type, Transform area, int quantity)
     {
@@ -51,6 +50,18 @@ public class GachaSystem : MonoBehaviour
                 manager = new CardSpell();
                 items = ((CardSpell)manager).GetAllCardSpell(type);
                 break;
+            case "colonels":
+                manager = new CardColonels();
+                items = ((CardColonels)manager).GetAllCardColonels(type);
+                break;
+            case "generals":
+                manager = new CardGenerals();
+                items = ((CardGenerals)manager).GetAllCardGenerals(type);
+                break;
+            case "admirals":
+                manager = new CardAdmirals();
+                items = ((CardAdmirals)manager).GetAllCardAdmirals(type);
+                break;
             default:
                 Debug.LogError("Invalid type: " + type);
                 return;
@@ -70,7 +81,7 @@ public class GachaSystem : MonoBehaviour
 
         summonArea = area;
         summonArea.gameObject.SetActive(true);
-        isSummonAreaActive = true;
+        // isSummonAreaActive = true;
         AddCloseEvent();
 
         cardPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
@@ -131,6 +142,27 @@ public class GachaSystem : MonoBehaviour
                     ((CardSpell)manager).InsertUserCardSpell(spellItem);
                 }
             }
+            else if (manager is CardColonels)
+            {
+                CardColonels spellItem = item as CardColonels;
+                if (spellItem != null){
+                    ((CardColonels)manager).InsertUserCardColonels(spellItem);
+                }
+            }
+            else if (manager is CardGenerals)
+            {
+                CardGenerals spellItem = item as CardGenerals;
+                if (spellItem != null){
+                    ((CardGenerals)manager).InsertUserCardGenerals(spellItem);
+                }
+            }
+            else if (manager is CardAdmirals)
+            {
+                CardAdmirals spellItem = item as CardAdmirals;
+                if (spellItem != null){
+                    ((CardAdmirals)manager).InsertUserCardAdmirals(spellItem);
+                }
+            }
             // Thêm các xử lý tương tự cho các loại khác
         }
         // Hiển thị các thẻ bài mặt sau
@@ -188,6 +220,21 @@ public class GachaSystem : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
                 rareImage.texture = rareTexture;
             }
+            else if (item is CardColonels colonels)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{colonels.rare}");
+                rareImage.texture = rareTexture;
+            }
+            else if (item is CardGenerals generals)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{generals.rare}");
+                rareImage.texture = rareTexture;
+            }
+            else if (item is CardAdmirals admirals)
+            {
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admirals.rare}");
+                rareImage.texture = rareTexture;
+            }
             rareImage.gameObject.SetActive(false);
             if (image != null)
             {
@@ -243,6 +290,21 @@ public class GachaSystem : MonoBehaviour
             {
                 // Gọi Coroutine để lật thẻ
                 yield return StartCoroutine(FlipCard(image, spell.image));
+            }
+            else if (randomItems[index] is CardColonels colonels)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, colonels.image));
+            }
+            else if (randomItems[index] is CardGenerals generals)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, generals.image));
+            }
+            else if (randomItems[index] is CardAdmirals admirals)
+            {
+                // Gọi Coroutine để lật thẻ
+                yield return StartCoroutine(FlipCard(image, admirals.image));
             }
         }
     }
@@ -321,7 +383,7 @@ public class GachaSystem : MonoBehaviour
         entry.callback.AddListener((data) =>
         {
             summonArea.gameObject.SetActive(false);
-            isSummonAreaActive = false;
+            // isSummonAreaActive = false;
             foreach (Transform child in summonArea)
             {
                 Destroy(child.gameObject);

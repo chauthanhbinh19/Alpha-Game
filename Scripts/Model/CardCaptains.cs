@@ -563,7 +563,7 @@ public class CardCaptains
         }
         return captain;
     }
-    public void UpdateCardCaptainsGallery(int Id)
+    public void InsertCardCaptainsGallery(int Id)
     {
         CardCaptains CaptainFromDB = GetCardCaptainsById(Id);
         int percent = 0;
@@ -610,7 +610,7 @@ public class CardCaptains
                 {
                     string query = @"
                     INSERT INTO card_captain_gallery (
-                        user_id, card_captain_id, status, star, power, health, physical_attack, physical_defense, 
+                        user_id, card_captain_id, status, current_star, tem_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
                         absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
@@ -618,7 +618,7 @@ public class CardCaptains
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
                         percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @card_captain_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @card_captain_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
                         @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
@@ -632,7 +632,8 @@ public class CardCaptains
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@card_captain_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@current_star", 0);
+                    command.Parameters.AddWithValue("@temp_star", 0);
                     command.Parameters.AddWithValue("@power", CaptainFromDB.power);
                     command.Parameters.AddWithValue("@health", CaptainFromDB.health);
                     command.Parameters.AddWithValue("@physical_attack", CaptainFromDB.physical_attack);

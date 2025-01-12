@@ -2899,7 +2899,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 220, y: 230}
+  m_AnchoredPosition: {x: 250, y: 230}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1252748778
@@ -3640,7 +3640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 220, y: 230}
+  m_AnchoredPosition: {x: 250, y: 230}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1579507646
@@ -4577,6 +4577,9 @@ MonoBehaviour:
   ShopButtonPrefab: {fileID: 1661859481911484232, guid: 64bf442555edc7341837bd308a582111, type: 3}
   ShopPrefab: {fileID: 5745659240395072349, guid: 6a2ef13c58868a14494b761c0ee02865, type: 3}
   NumberDetailPrefab: {fileID: 2994152938922929080, guid: 62317fd3196f42345979ccde2b26d708, type: 3}
+  TabButton2: {fileID: 5647053732788993068, guid: d9eb1d1e942d7084b8bf771fa9da8f65, type: 3}
+  ReceivedNotification: {fileID: 8708252175272485654, guid: 115686d87506464429e315c61210e148, type: 3}
+  ItemThird: {fileID: 1661859481911484232, guid: 54415496c6d2d2545bbbbf1053e792f9, type: 3}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0

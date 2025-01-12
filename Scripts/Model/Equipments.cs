@@ -659,7 +659,7 @@ public class Equipments
             }
         }
     }
-    public void UpdateEquipmentsGallery(int Id)
+    public void InsertEquipmentsGallery(int Id)
     {
         Equipments EquipmentFromDB = GetEquipmentById(Id);
         int percent = 0;

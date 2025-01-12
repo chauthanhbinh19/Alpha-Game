@@ -399,4 +399,29 @@ public class Collaboration
         }
         return count;
     }
+    public void UpdateStatusCollaborationsGallery(int Id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "update collaborations_gallery set status=@status where user_id=@user_id and collaboration_id=@collaboration_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@collaboration_id", Id);
+                command.Parameters.AddWithValue("@status", "available");
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
 }

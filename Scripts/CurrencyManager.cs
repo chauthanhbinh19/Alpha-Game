@@ -13,7 +13,7 @@ public class CurrencyManager : MonoBehaviour
         currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
     }
 
-    private void createCurrency(List<Currency> currencies, Transform CurrencyPanel)
+    public void createCurrency(List<Currency> currencies, Transform CurrencyPanel)
     {
         foreach (var currency in currencies)
         {

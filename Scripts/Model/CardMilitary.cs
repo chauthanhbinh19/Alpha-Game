@@ -563,7 +563,7 @@ public class CardMilitary
         }
         return CardMilitary;
     }
-    public void UpdateCardMilitaryGallery(int Id)
+    public void InsertCardMilitaryGallery(int Id)
     {
         CardMilitary CardMilitaryFromDB = GetCardMilitaryById(Id);
         int percent = 0;
@@ -610,7 +610,7 @@ public class CardMilitary
                 {
                     string query = @"
                     INSERT INTO card_military_gallery (
-                        user_id, card_military_id, status, star, power, health, physical_attack, physical_defense, 
+                        user_id, card_military_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
                         absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
@@ -618,7 +618,7 @@ public class CardMilitary
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
                         percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @card_military_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @card_military_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
                         @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
@@ -632,7 +632,8 @@ public class CardMilitary
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@card_military_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@current_star", 0);
+                    command.Parameters.AddWithValue("@temp_star", 0);
                     command.Parameters.AddWithValue("@power", CardMilitaryFromDB.power);
                     command.Parameters.AddWithValue("@health", CardMilitaryFromDB.health);
                     command.Parameters.AddWithValue("@physical_attack", CardMilitaryFromDB.physical_attack);

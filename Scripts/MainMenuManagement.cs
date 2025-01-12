@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 using System.Linq;
 
 public class MainMenuManagement : MonoBehaviour
@@ -19,6 +20,7 @@ public class MainMenuManagement : MonoBehaviour
     private Button Summon10Button;
     private GameObject equipmentsPrefab;
     private Transform TabButtonPanel;
+    private GameObject buttonPrefab2;
     private GameObject SummonPanel;
     private GameObject PositionPrefab;
     private Transform PositionPanel;
@@ -35,6 +37,7 @@ public class MainMenuManagement : MonoBehaviour
     private string mainType;
     private string subType;
     private Text titleText;
+    private string buttonType;
     void Start()
     {
         offset = 0;
@@ -42,6 +45,7 @@ public class MainMenuManagement : MonoBehaviour
         pageSize = 100;
         mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        buttonPrefab2 = UIManager.Instance.GetGameObject("TabButton2");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
@@ -78,6 +82,9 @@ public class MainMenuManagement : MonoBehaviour
         AssignButtonEvent("Button_25", SummonMainMenuPanel, () => GetType("SummonCardMonsters"));
         AssignButtonEvent("Button_26", SummonMainMenuPanel, () => GetType("SummonCardMilitary"));
         AssignButtonEvent("Button_27", SummonMainMenuPanel, () => GetType("SummonCardSpell"));
+        AssignButtonEvent("Button_28", SummonMainMenuPanel, () => GetType("SummonCardColonels"));
+        AssignButtonEvent("Button_29", SummonMainMenuPanel, () => GetType("SummonCardGenerals"));
+        AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType("SummonCardAdmirals"));
         // GetCardsType();
     }
 
@@ -189,14 +196,28 @@ public class MainMenuManagement : MonoBehaviour
         {
             return CardSpell.GetUniqueCardSpellTypes();
         }
+        else if (mainType.Equals("SummonCardColonels"))
+        {
+            return CardColonels.GetUniqueCardColonelsTypes();
+        }
+        else if (mainType.Equals("SummonCardGenerals"))
+        {
+            return CardGenerals.GetUniqueCardGeneralsTypes();
+        }
+        else if (mainType.Equals("SummonCardAdmirals"))
+        {
+            return CardAdmirals.GetUniqueCardAdmiralsTypes();
+        }
         return new List<string>();
     }
     public void GetButtonType()
     {
         // MainMenuPanel.SetActive(true);
         if (mainType.Equals("SummonCardHeroes") || mainType.Equals("SummonBooks") || mainType.Equals("SummonCardCaptains") ||
+        mainType.Equals("SummonCardColonels") || mainType.Equals("SummonCardGenerals") || mainType.Equals("SummonCardAdmirals") ||
         mainType.Equals("SummonCardMonsters") || mainType.Equals("SummonCardMilitary") || mainType.Equals("SummonCardSpell"))
         {
+            buttonType = "button2";
             GameObject summonObject = Instantiate(SummonPanel, MainPanel);
             DictionaryContentPanel = summonObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             TabButtonPanel = summonObject.transform.Find("Scroll View/Viewport/ButtonContent");
@@ -218,7 +239,7 @@ public class MainMenuManagement : MonoBehaviour
             {
 
             }
-            else if (mainType.Equals("SummonBooks"))
+            else if (mainType.Equals("SummonBooks") || mainType.Equals("SummonCardColonels"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_51");
                 dictionaryBackground.texture = texture;
@@ -227,7 +248,7 @@ public class MainMenuManagement : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals("SummonCardCaptains"))
+            else if (mainType.Equals("SummonCardCaptains") || mainType.Equals("SummonCardGenerals"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_50");
                 dictionaryBackground.texture = texture;
@@ -236,7 +257,7 @@ public class MainMenuManagement : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals("SummonCardMonsters"))
+            else if (mainType.Equals("SummonCardMonsters") || mainType.Equals("SummonCardAdmirals"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_49");
                 dictionaryBackground.texture = texture;
@@ -266,6 +287,7 @@ public class MainMenuManagement : MonoBehaviour
         }
         else
         {
+            buttonType = "button1";
             GameObject mainMenuObject = Instantiate(DictionaryPanel, MainPanel);
             DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             TabButtonPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
@@ -293,10 +315,19 @@ public class MainMenuManagement : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = uniqueTypes[i];
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
-
-                Text buttonText = button.GetComponentInChildren<Text>();
-                buttonText.text = subtype.Replace("_", " ");
+                GameObject button = null;
+                if (buttonType.Equals("button1"))
+                {
+                    button = Instantiate(buttonPrefab, TabButtonPanel);
+                    Text buttonText = button.GetComponentInChildren<Text>();
+                    buttonText.text = subtype.Replace("_", " ");
+                }
+                else if (buttonType.Equals("button2"))
+                {
+                    button = Instantiate(buttonPrefab2, TabButtonPanel);
+                    TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI >();
+                    buttonText.text = subtype.Replace("_", " ");
+                }
 
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() => OnButtonClick(button, subtype));
@@ -304,7 +335,14 @@ public class MainMenuManagement : MonoBehaviour
                 if (i == 0)
                 {
                     subType = subtype;
-                    ChangeButtonBackground(button, "Background_V4_166");
+                    if (buttonType.Equals("button1"))
+                    {
+                        ChangeButtonBackground(button, "Background_V4_166");
+                    }
+                    else if (buttonType.Equals("button2"))
+                    {
+                        ChangeButtonBackground(button, "Background_V4_211");
+                    }
                     int totalRecord = 0;
                     if (mainType.Equals("CardHeroes"))
                     {
@@ -501,8 +539,54 @@ public class MainMenuManagement : MonoBehaviour
                             FindObjectOfType<GachaSystem>().Summon("spell", subtype, SummonAreaPanel, 10);
                         });
                     }
+                    else if (mainType.Equals("SummonCardColonels"))
+                    {
+                        CardColonels colonelsManager = new CardColonels();
+                        List<CardColonels> colonels = colonelsManager.GetCardColonelsRandom(subtype, 3);
+                        createCardColonelsForSummon(colonels);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon("colonels", subtype, SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon("colonels", subtype, SummonAreaPanel, 10);
+                        });
+                    }
+                    else if (mainType.Equals("SummonCardGenerals"))
+                    {
+                        CardGenerals generalsManager = new CardGenerals();
+                        List<CardGenerals> relicsList = generalsManager.GetCardGeneralsRandom(subtype, 3);
+                        createCardGeneralsForSummon(relicsList);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon("generals", subtype, SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon("generals", subtype, SummonAreaPanel, 10);
+                        });
+                    }
+                    else if (mainType.Equals("SummonCardAdmirals"))
+                    {
+                        CardAdmirals admiralsManager = new CardAdmirals();
+                        List<CardAdmirals> relicsList = admiralsManager.GetCardAdmiralsRandom(subtype, 3);
+                        createCardAdmiralsForSummon(relicsList);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon("admirals", subtype, SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon("admirals", subtype, SummonAreaPanel, 10);
+                        });
+                    }
 
                     if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
+                    !mainType.Equals("SummonCardColonels") && !mainType.Equals("SummonCardGenerals") && !mainType.Equals("SummonCardAdmirals") &&
                     !mainType.Equals("SummonCardMonsters") && !mainType.Equals("SummonCardMilitary") && !mainType.Equals("SummonCardSpell"))
                     {
                         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -512,7 +596,14 @@ public class MainMenuManagement : MonoBehaviour
                 }
                 else
                 {
-                    ChangeButtonBackground(button, "Background_V4_167");
+                    if (buttonType.Equals("button1"))
+                    {
+                        ChangeButtonBackground(button, "Background_V4_167");
+                    }
+                    else if (buttonType.Equals("button2"))
+                    {
+                        ChangeButtonBackground(button, "Background_V4_210");
+                    }
                 }
             }
         }
@@ -584,7 +675,14 @@ public class MainMenuManagement : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, "Background_V4_167"); // Giả sử bạn có texture trắng
+                if (buttonType.Equals("button1"))
+                {
+                    ChangeButtonBackground(button.gameObject, "Background_V4_167");
+                }
+                else if (buttonType.Equals("button2"))
+                {
+                    ChangeButtonBackground(button.gameObject, "Background_V4_210");
+                }
             }
         }
 
@@ -592,7 +690,14 @@ public class MainMenuManagement : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ChangeButtonBackground(clickedButton, "Background_V4_166");
+        if (buttonType.Equals("button1"))
+        {
+            ChangeButtonBackground(clickedButton, "Background_V4_166");
+        }
+        else if (buttonType.Equals("button2"))
+        {
+            ChangeButtonBackground(clickedButton, "Background_V4_211");
+        }
         int totalRecord = 0;
 
         if (mainType.Equals("CardHeroes"))
@@ -805,8 +910,63 @@ public class MainMenuManagement : MonoBehaviour
                 FindObjectOfType<GachaSystem>().Summon("spell", type, SummonAreaPanel, 10);
             });
         }
+        else if (mainType.Equals("SummonCardColonels"))
+        {
+            CardColonels colonelsManager = new CardColonels();
+            List<CardColonels> colonels = colonelsManager.GetCardColonelsRandom(type, 3);
+            createCardColonelsForSummon(colonels);
+
+            SummonButton.onClick.RemoveAllListeners();
+            Summon10Button.onClick.RemoveAllListeners();
+
+            SummonButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon("colonels", type, SummonAreaPanel, 1);
+            });
+            Summon10Button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon("colonels", type, SummonAreaPanel, 10);
+            });
+        }
+        else if (mainType.Equals("SummonCardGenerals"))
+        {
+            CardGenerals generalsManager = new CardGenerals();
+            List<CardGenerals> relicsList = generalsManager.GetCardGeneralsRandom(type, 3);
+            createCardGeneralsForSummon(relicsList);
+
+            SummonButton.onClick.RemoveAllListeners();
+            Summon10Button.onClick.RemoveAllListeners();
+
+            SummonButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon("generals", type, SummonAreaPanel, 1);
+            });
+            Summon10Button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon("generals", type, SummonAreaPanel, 10);
+            });
+        }
+        else if (mainType.Equals("SummonCardAdmirals"))
+        {
+            CardAdmirals admiralsManager = new CardAdmirals();
+            List<CardAdmirals> relicsList = admiralsManager.GetCardAdmiralsRandom(type, 3);
+            createCardAdmiralsForSummon(relicsList);
+
+            SummonButton.onClick.RemoveAllListeners();
+            Summon10Button.onClick.RemoveAllListeners();
+
+            SummonButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon("admirals", type, SummonAreaPanel, 1);
+            });
+            Summon10Button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GachaSystem>().Summon("admirals", type, SummonAreaPanel, 10);
+            });
+        }
 
         if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
+        !mainType.Equals("SummonCardColonels") && !mainType.Equals("SummonCardGenerals") && !mainType.Equals("SummonCardAdmirals") &&
         !mainType.Equals("SummonCardMonsters") && !mainType.Equals("SummonCardMilitary") && !mainType.Equals("SummonCardSpell"))
         {
             totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1561,6 +1721,66 @@ public class MainMenuManagement : MonoBehaviour
             // {
             //     gridLayout.cellSize = new Vector2(200, 250);
             // }
+        }
+    }
+    private void createCardColonelsForSummon(List<CardColonels> colonels)
+    {
+        foreach (var captain in colonels)
+        {
+            GameObject captainObject = Instantiate(PositionPrefab, PositionPanel);
+
+            RawImage Image = captainObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = captain.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // Chỉnh width và height
+            RectTransform rectTransform = Image.rectTransform;
+            rectTransform.sizeDelta = new Vector2(300f, 375f);
+
+            // Chỉnh vị trí cao lên 40px
+            Vector2 currentPosition = rectTransform.anchoredPosition;
+            rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
+        }
+    }
+    private void createCardGeneralsForSummon(List<CardGenerals> generals)
+    {
+        foreach (var captain in generals)
+        {
+            GameObject captainObject = Instantiate(PositionPrefab, PositionPanel);
+
+            RawImage Image = captainObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = captain.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // Chỉnh width và height
+            RectTransform rectTransform = Image.rectTransform;
+            rectTransform.sizeDelta = new Vector2(300f, 375f);
+
+            // Chỉnh vị trí cao lên 40px
+            Vector2 currentPosition = rectTransform.anchoredPosition;
+            rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
+        }
+    }
+    private void createCardAdmiralsForSummon(List<CardAdmirals> admirals)
+    {
+        foreach (var captain in admirals)
+        {
+            GameObject captainObject = Instantiate(PositionPrefab, PositionPanel);
+
+            RawImage Image = captainObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = captain.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // Chỉnh width và height
+            RectTransform rectTransform = Image.rectTransform;
+            rectTransform.sizeDelta = new Vector2(300f, 375f);
+
+            // Chỉnh vị trí cao lên 40px
+            Vector2 currentPosition = rectTransform.anchoredPosition;
+            rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
         }
     }
     public void ClearAllPrefabs()

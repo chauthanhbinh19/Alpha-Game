@@ -49,7 +49,10 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(25, "Summon Card Monsters",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonMonsters"),summonPanel);
         CreateButton(26, "Summon Card Military",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonMilitary"),summonPanel);
         CreateButton(27, "Summon Card Spell",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonSpell"),summonPanel);
-        CreateButton(28, "Shop",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Shop"),summonPanel);
+        CreateButton(28, "Summon Card Colonels",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonColonels"),summonPanel);
+        CreateButton(29, "Summon Card Generals",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonGenerals"),summonPanel);
+        CreateButton(30, "Summon Card Admirals",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/SummonAdmirals"),summonPanel);
+        CreateButton(31, "Shop",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Shop"),summonPanel);
         //Gallery menu
         CreateButton(1, "Card Heroes Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/CardsGallery"), galleryMenuPanel);
         CreateButton(2, "Books Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/BooksGallery"), galleryMenuPanel);

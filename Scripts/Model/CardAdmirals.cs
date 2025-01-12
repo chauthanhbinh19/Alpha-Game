@@ -431,11 +431,11 @@ public class CardAdmirals
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) FROM user_card_admirals
-                WHERE user_id = @user_id AND card_admirals_id = @card_admirals_id;";
+                WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@card_admirals_id", CardAdmirals.id);
+                checkCommand.Parameters.AddWithValue("@card_admiral_id", CardAdmirals.id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -563,7 +563,7 @@ public class CardAdmirals
         }
         return captain;
     }
-    public void UpdateCardAdmiralsGallery(int Id)
+    public void InsertCardAdmiralsGallery(int Id)
     {
         CardAdmirals CaptainFromDB = GetCardAdmiralsById(Id);
         int percent = 0;
@@ -610,7 +610,7 @@ public class CardAdmirals
                 {
                     string query = @"
                     INSERT INTO card_admirals_gallery (
-                        user_id, card_admiral_id, status, star, power, health, physical_attack, physical_defense, 
+                        user_id, card_admiral_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
                         absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
@@ -618,7 +618,7 @@ public class CardAdmirals
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
                         percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @card_admiral_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @card_admiral_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
                         @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
@@ -632,7 +632,8 @@ public class CardAdmirals
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@card_admiral_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@current_star", 0);
+                    command.Parameters.AddWithValue("@temp_star", 0);
                     command.Parameters.AddWithValue("@power", CaptainFromDB.power);
                     command.Parameters.AddWithValue("@health", CaptainFromDB.health);
                     command.Parameters.AddWithValue("@physical_attack", CaptainFromDB.physical_attack);

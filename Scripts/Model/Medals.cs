@@ -399,4 +399,29 @@ public class Medals
         }
         return count;
     }
+    public void UpdateStatusMedalsGallery(int Id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "update medals_gallery set status=@status where user_id=@user_id and medal_id=@medal_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@medal_id", Id);
+                command.Parameters.AddWithValue("@status", "available");
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
 }

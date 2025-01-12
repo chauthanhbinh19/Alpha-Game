@@ -424,4 +424,29 @@ public class Relics
         }
         return count;
     }
+    public void UpdateStatusRelicsGallery(int Id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "update relics_gallery set status=@status where user_id=@user_id and relic_id=@relic_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@relic_id", Id);
+                command.Parameters.AddWithValue("@status", "available");
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
 }

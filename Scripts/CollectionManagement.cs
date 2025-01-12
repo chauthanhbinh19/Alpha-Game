@@ -691,6 +691,12 @@ public class CollectionManagement : MonoBehaviour
             {
                 Image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
             }
+            Unlock.onClick.AddListener(()=>{
+                book.UpdateStatusBooksGallery(book.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -754,6 +760,12 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+            Unlock.onClick.AddListener(()=>{
+                captain.UpdateStatusCardCaptainsGallery(captain.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -820,6 +832,12 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+            Unlock.onClick.AddListener(()=>{
+                collaboration.UpdateStatusCollaborationsGallery(collaboration.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -882,6 +900,12 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+            Unlock.onClick.AddListener(()=>{
+                collaborationEquipment.UpdateStatusCollaborationEquipmentsGallery(collaborationEquipment.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1022,6 +1046,12 @@ public class CollectionManagement : MonoBehaviour
             RawImage rareBackgroundImage = medalObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
+            Unlock.onClick.AddListener(()=>{
+                medal.UpdateStatusMedalsGallery(medal.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1084,6 +1114,12 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+            Unlock.onClick.AddListener(()=>{
+                monster.UpdateStatusCardMonstersGallery(monster.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1176,6 +1212,12 @@ public class CollectionManagement : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
             rareImage.texture = rareTexture;
 
+            Unlock.onClick.AddListener(()=>{
+                pet.UpdateStatusPetsGallery(pet.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
     }
     private void createSkills(List<Skills> skillsList)
@@ -1236,6 +1278,13 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                skill.UpdateStatusSkillsGallery(skill.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1305,6 +1354,13 @@ public class CollectionManagement : MonoBehaviour
             RawImage rareBackgroundImage = symbolObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
+
+            Unlock.onClick.AddListener(()=>{
+                symbol.UpdateStatusSymbolsGallery(symbol.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1373,6 +1429,13 @@ public class CollectionManagement : MonoBehaviour
             RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
+
+            Unlock.onClick.AddListener(()=>{
+                title.UpdateStatusTitlesGallery(title.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1435,6 +1498,13 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                military.UpdateStatusCardMilitaryGallery(military.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1497,6 +1567,13 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                spell.UpdateStatusCardSpellGallery(spell.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1563,6 +1640,12 @@ public class CollectionManagement : MonoBehaviour
                 Unlock.gameObject.SetActive(false);
             }
 
+            Unlock.onClick.AddListener(()=>{
+                magicFormationCircle.UpdateStatusMagicFormationCircleGallery(magicFormationCircle.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1627,6 +1710,13 @@ public class CollectionManagement : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                relic.UpdateStatusRelicsGallery(relic.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1636,15 +1726,15 @@ public class CollectionManagement : MonoBehaviour
     }
     private void createCardColonels(List<CardColonels> cardColonels)
     {
-        foreach (var spell in cardColonels)
+        foreach (var colonel in cardColonels)
         {
             GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
+            Title.text = colonel.name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spell.image.Replace(".png", "");
+            string fileNameWithoutExtension = colonel.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
@@ -1654,7 +1744,7 @@ public class CollectionManagement : MonoBehaviour
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(spell));
+            AddClickListener(eventTrigger, () => PopupDetails(colonel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1668,26 +1758,33 @@ public class CollectionManagement : MonoBehaviour
             eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{colonel.rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = spellObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = spellObject.transform.Find("Unlock").GetComponent<Button>();
-            if (spell.status.Equals("available"))
+            if (colonel.status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
             }
-            else if (spell.status.Equals("pending"))
+            else if (colonel.status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (spell.status.Equals("block"))
+            else if (colonel.status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                colonel.UpdateStatusCardColonelsGallery(colonel.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1697,15 +1794,15 @@ public class CollectionManagement : MonoBehaviour
     }
     private void createCardGenerals(List<CardGenerals> cardGenerals)
     {
-        foreach (var spell in cardGenerals)
+        foreach (var general in cardGenerals)
         {
             GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
+            Title.text = general.name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spell.image.Replace(".png", "");
+            string fileNameWithoutExtension = general.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
@@ -1715,7 +1812,7 @@ public class CollectionManagement : MonoBehaviour
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(spell));
+            AddClickListener(eventTrigger, () => PopupDetails(general));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1729,26 +1826,33 @@ public class CollectionManagement : MonoBehaviour
             eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{general.rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = spellObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = spellObject.transform.Find("Unlock").GetComponent<Button>();
-            if (spell.status.Equals("available"))
+            if (general.status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
             }
-            else if (spell.status.Equals("pending"))
+            else if (general.status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (spell.status.Equals("block"))
+            else if (general.status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                general.UpdateStatusCardGeneralsGallery(general.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -1758,15 +1862,15 @@ public class CollectionManagement : MonoBehaviour
     }
     private void createCardAdmirals(List<CardAdmirals> cardAdmirals)
     {
-        foreach (var spell in cardAdmirals)
+        foreach (var admiral in cardAdmirals)
         {
             GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
+            Title.text = admiral.name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spell.image.Replace(".png", "");
+            string fileNameWithoutExtension = admiral.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
@@ -1776,7 +1880,7 @@ public class CollectionManagement : MonoBehaviour
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(spell));
+            AddClickListener(eventTrigger, () => PopupDetails(admiral));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1790,26 +1894,33 @@ public class CollectionManagement : MonoBehaviour
             eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admiral.rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = spellObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = spellObject.transform.Find("Unlock").GetComponent<Button>();
-            if (spell.status.Equals("available"))
+            if (admiral.status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
             }
-            else if (spell.status.Equals("pending"))
+            else if (admiral.status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (spell.status.Equals("block"))
+            else if (admiral.status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
+
+            Unlock.onClick.AddListener(()=>{
+                admiral.UpdateStatusCardAdmiralsGallery(admiral.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
