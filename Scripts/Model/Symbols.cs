@@ -32,6 +32,7 @@ public class Symbols
     public double avoid { get; set; }
     public double absorbs_damage { get; set; }
     public double regenerate_vitality { get; set; }
+    public double accuracy { get; set; }
     public float mana { get; set; }
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
@@ -328,6 +329,93 @@ public class Symbols
         }
         return count;
     }
+    public bool InsertUserSymbols(Symbols symbols)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM user_symbols 
+                WHERE user_id = @user_id AND symbol_id = @symbol_id;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@symbol_id", symbols.id);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO user_symbols (
+                    user_id, symbol_id, level, experiment, star, quantity, power, health, physical_attack, 
+                    physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage, critical_rate, 
+                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
+                ) VALUES (
+                    @user_id, @symbol_id, @level, @experiment, @star, @quantity, @power, @health, @physical_attack, 
+                    @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
+                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@symbol_id", symbols.id);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@experiment", 0);
+                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@quantity", 1);
+                    command.Parameters.AddWithValue("@power", symbols.power);
+                    command.Parameters.AddWithValue("@health", symbols.health);
+                    command.Parameters.AddWithValue("@physical_attack", symbols.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", symbols.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", symbols.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", symbols.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", symbols.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", symbols.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", symbols.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", symbols.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", symbols.mental_attack);
+                    command.Parameters.AddWithValue("@mental_defense", symbols.mental_defense);
+                    command.Parameters.AddWithValue("@speed", symbols.speed);
+                    command.Parameters.AddWithValue("@critical_damage", symbols.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", symbols.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", symbols.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", symbols.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", symbols.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", symbols.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", symbols.accuracy);
+                    command.Parameters.AddWithValue("@mana", symbols.mana);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+                else
+                {
+                    // Nếu bản ghi đã tồn tại, thực hiện UPDATE
+                    string updateQuery = @"
+                    UPDATE user_symbols
+                    SET quantity = quantity + 1
+                    WHERE user_id = @user_id AND symbol_id = @symbol_id;";
+
+                    MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@symbol_id", symbols.id);
+
+                    updateCommand.ExecuteNonQuery();
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return true;
+    }
     public List<Symbols> GetSymbolsWithPrice(string type,int pageSize, int offset)
     {
         List<Symbols> symbolsList = new List<Symbols>();
@@ -337,7 +425,7 @@ public class Symbols
             try
             {
                 connection.Open();
-                string query = @"select s.*, st.price, cu.image as currency_image
+                string query = @"select s.*, st.price, cu.image as currency_image, cu.id as currency_id
                 from symbols s, symbol_trade st, currency cu
                 where s.id=st.symbol_id and st.currency_id = cu.id and s.type =@type 
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
@@ -388,6 +476,7 @@ public class Symbols
                         description = reader.GetString("description")
                     };
                     symbols.currency = new Currency{
+                        id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
                     };
@@ -427,6 +516,155 @@ public class Symbols
             }
         }
         return count;
+    }
+    public Symbols GetSymbolsById(int Id)
+    {
+        Symbols symbols = new Symbols();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "Select * from symbols where id=@id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    symbols = new Symbols
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        description = reader.GetString("description")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return symbols;
+    }
+    public void InsertSymbolsGallery(int Id)
+    {
+        Symbols SymbolFromDB = GetSymbolsById(Id);
+        int percent = 20;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra bản ghi đã tồn tại
+                string checkQuery = @"
+                SELECT COUNT(*) 
+                FROM symbols_gallery 
+                WHERE user_id = @user_id AND symbol_id = @symbol_id;
+                ";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@symbol_id", Id);
+
+                int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                if (recordCount == 0)
+                {
+                    string query = @"
+                    INSERT INTO symbols_gallery (
+                        user_id, symbol_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                        magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
+                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
+                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
+                        percent_all_mental_defense
+                    ) VALUES (
+                        @user_id, @symbol_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                        @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
+                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
+                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
+                        @percent_all_mental_defense
+                    );
+                    ";
+
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@symbol_id", Id);
+                    command.Parameters.AddWithValue("@status", "pending");
+                    command.Parameters.AddWithValue("@current_star", 0);
+                    command.Parameters.AddWithValue("@temp_star", 0);
+                    command.Parameters.AddWithValue("@power", SymbolFromDB.power);
+                    command.Parameters.AddWithValue("@health", SymbolFromDB.health);
+                    command.Parameters.AddWithValue("@physical_attack", SymbolFromDB.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", SymbolFromDB.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", SymbolFromDB.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", SymbolFromDB.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", SymbolFromDB.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", SymbolFromDB.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", SymbolFromDB.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", SymbolFromDB.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", SymbolFromDB.magical_attack);
+                    command.Parameters.AddWithValue("@mental_defense", SymbolFromDB.magical_defense);
+                    command.Parameters.AddWithValue("@speed", SymbolFromDB.speed);
+                    command.Parameters.AddWithValue("@critical_damage", SymbolFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", SymbolFromDB.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", SymbolFromDB.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", SymbolFromDB.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", SymbolFromDB.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", SymbolFromDB.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", SymbolFromDB.accuracy);
+                    command.Parameters.AddWithValue("@mana", SymbolFromDB.mana);
+                    command.Parameters.AddWithValue("@percent_all_health", percent);
+                    command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
     public void UpdateStatusSymbolsGallery(int Id)
     {

@@ -59,8 +59,11 @@ public class UIManager : MonoBehaviour
     public GameObject ShopPrefab;
     public GameObject NumberDetailPrefab;
     public GameObject TabButton2;
+    public GameObject TabButton3;
     public GameObject ReceivedNotification;
     public GameObject ItemThird;
+    public GameObject TeamsPrefab;
+    public GameObject CardsThirdPrefab;
 
     [Header("Button")]
     private Button GalleryButton;
@@ -170,6 +173,8 @@ public class UIManager : MonoBehaviour
                 return CardsPrefab;
             case "CardsSecondPrefab":
                 return CardsSecondPrefab;
+            case "CardsThirdPrefab":
+                return CardsThirdPrefab;
             case "EquipmentSecondPrefab":
                 return EquipmentSecondPrefab;
             case "EquipmentFirstPrefab":
@@ -196,10 +201,14 @@ public class UIManager : MonoBehaviour
                 return NumberDetailPrefab;
             case "TabButton2":
                 return TabButton2;
+            case "TabButton3":
+                return TabButton3;
             case "ReceivedNotification":
                 return ReceivedNotification;
             case "ItemThird":
                 return ItemThird;
+            case "TeamsPrefab":
+                return TeamsPrefab;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;

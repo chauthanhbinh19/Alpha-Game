@@ -12,6 +12,7 @@ public class User
     public int id;
     public string name;
     public string image;
+    public string border;
     public int level;
     public int experiment;
     public int vip;
@@ -62,13 +63,14 @@ public class User
             else
             {
                 int maxId = GetMaxId(connection);
-                string query = "INSERT INTO users VALUES (@id, @username, @password, @name, @image, @level, @experiment, @vip, @power)";
+                string query = "INSERT INTO users VALUES (@id, @username, @password, @name, @image, @border, @level, @experiment, @vip, @power)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", maxId + 1);
                 command.Parameters.AddWithValue("@username", Username);
                 command.Parameters.AddWithValue("@password", Password);
                 command.Parameters.AddWithValue("@name", "");
                 command.Parameters.AddWithValue("@image", "Avatar/valorpass154.png");
+                command.Parameters.AddWithValue("@border", "Border/Activity_Border_4.png");
                 command.Parameters.AddWithValue("@level", 1);
                 command.Parameters.AddWithValue("@experiment", 0);
                 command.Parameters.AddWithValue("@vip", 0);
@@ -78,6 +80,9 @@ public class User
                 {
                     command.ExecuteNonQuery();
                     createUserCurrency(maxId + 1);
+                    Borders borders = new Borders();
+                    borders.InsertUserBordersById(359);
+                    borders.InsertBordersGallery(359);
                     Debug.Log("User registered successfully!");
                 }
                 catch (Exception ex)
@@ -123,6 +128,7 @@ public class User
                 string username = reader.GetString("username");
                 string password = reader.GetString("password");
                 string Image = reader.GetString("image");
+                string border = reader.GetString("border");
                 int Level = reader.GetInt32("level");
                 int Vip = reader.GetInt32("vip");
                 int Power = reader.GetInt32("power");
@@ -174,10 +180,82 @@ public class User
                     vip=Vip,
                     experiment=Experiment,
                     power=Power,
-                    image=Image,    
+                    image=Image, 
+                    border = border,   
                     Currencies = currencies
                 };
                 // Debug.Log(user);
+                return user;
+            }
+            else
+            {
+                return null; // Đăng nhập thất bại
+            }
+        }
+    }
+    public User GetUserById(int Id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            string userQuery = "SELECT * FROM Users WHERE id=@id";
+            MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
+            userCommand.Parameters.AddWithValue("@id", Id);
+            MySqlDataReader reader = userCommand.ExecuteReader();
+            if (reader.Read())
+            {
+                int userId = reader.GetInt32("id");
+                string Name = reader.GetString("name");
+                string username = reader.GetString("username");
+                string password = reader.GetString("password");
+                string Image = reader.GetString("image");
+                string border = reader.GetString("border");
+                int Level = reader.GetInt32("level");
+                int Vip = reader.GetInt32("vip");
+                int Power = reader.GetInt32("power");
+                int Experiment = reader.GetInt32("experiment");
+
+                // Đóng `reader` trước khi thực hiện truy vấn tiếp theo
+                reader.Close();
+
+                // Lấy thông tin từ bảng `user_currency`
+                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
+                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                currencyCommand.Parameters.AddWithValue("@userId", userId);
+
+                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
+
+                List<Currency> currencies = new List<Currency>();
+                while (currencyReader.Read())
+                {
+                    string image=currencyReader.GetString("image");
+                    string name=currencyReader.GetString("name");
+                    int currencyId = currencyReader.GetInt32("currency_id");
+                    int quantity = currencyReader.GetInt32("quantity");
+                    currencies.Add(new Currency
+                    {
+                        id = currencyId,
+                        name = name,
+                        image = image,
+                        quantity = quantity
+                    });
+                }
+                currencyReader.Close();
+
+                User user = new User{
+                    id = userId,
+                    name=Name,
+                    Username = username,
+                    Password=password,
+                    level=Level,
+                    vip=Vip,
+                    experiment=Experiment,
+                    power=Power,
+                    image=Image, 
+                    border = border,   
+                    Currencies = currencies
+                };
                 return user;
             }
             else

@@ -38,12 +38,72 @@ public class CardGenerals
     public double regenerate_vitality { get; set; }
     public double accuracy { get; set; }
     public float mana { get; set; }
+    public double all_power { get; set; }
+    public double all_health { get; set; }
+    public double all_physical_attack { get; set; }
+    public double all_physical_defense { get; set; }
+    public double all_magical_attack { get; set; }
+    public double all_magical_defense { get; set; }
+    public double all_chemical_attack { get; set; }
+    public double all_chemical_defense { get; set; }
+    public double all_atomic_attack { get; set; }
+    public double all_atomic_defense { get; set; }
+    public double all_mental_attack { get; set; }
+    public double all_mental_defense { get; set; }
+    public double all_speed { get; set; }
+    public double all_critical_damage { get; set; }
+    public double all_critical_rate { get; set; }
+    public double all_armor_penetration { get; set; }
+    public double all_avoid { get; set; }
+    public double all_absorbs_damage { get; set; }
+    public double all_regenerate_vitality { get; set; }
+    public double all_accuracy { get; set; }
+    public float all_mana { get; set; }
     public string description { get; set; }
     public string status { get; set; }
     public Currency currency { get; set; }
     public CardGenerals()
     {
-
+        power = -1;
+        health = -1;
+        physical_attack = -1;
+        physical_defense = -1;
+        magical_attack = -1;
+        magical_defense = -1;
+        chemical_attack = -1;
+        chemical_defense = -1;
+        atomic_attack = -1;
+        atomic_defense = -1;
+        mental_attack = -1;
+        mental_defense = -1;
+        speed = -1;
+        critical_damage = -1;
+        critical_rate = -1;
+        armor_penetration = -1;
+        avoid = -1;
+        absorbs_damage = -1;
+        regenerate_vitality = -1;
+        accuracy = -1;
+        all_power = -1;
+        all_health = -1;
+        all_physical_attack = -1;
+        all_physical_defense = -1;
+        all_magical_attack = -1;
+        all_magical_defense = -1;
+        all_chemical_attack = -1;
+        all_chemical_defense = -1;
+        all_atomic_attack = -1;
+        all_atomic_defense = -1;
+        all_mental_attack = -1;
+        all_mental_defense = -1;
+        all_speed = -1;
+        all_critical_damage = -1;
+        all_critical_rate = -1;
+        all_armor_penetration = -1;
+        all_avoid = -1;
+        all_absorbs_damage = -1;
+        all_regenerate_vitality = -1;
+        all_accuracy = -1;
     }
     public static List<string> GetUniqueCardGeneralsTypes()
     {
@@ -221,7 +281,9 @@ public class CardGenerals
             try
             {
                 connection.Open();
-                string query = @"Select uc.*, c.* from card_generals c, user_card_generals uc where c.id=uc.card_general_id and uc.user_id=@userId and c.type= @type 
+                string query = @"Select uc.*, c.*, fcg.* from card_generals c, user_card_generals uc, fact_card_generals fcg
+                where c.id=uc.card_general_id and uc.user_id=@userId and c.type= @type and fcg.user_id=uc.user_id
+                and fcg.user_card_general_id=uc.card_general_id
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -264,7 +326,28 @@ public class CardGenerals
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
                         accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
-                        description = reader.GetString("description")
+                        description = reader.GetString("description"),
+                        all_power = reader.GetDouble("all_power"),
+                        all_health = reader.GetDouble("all_health"),
+                        all_physical_attack = reader.GetDouble("all_physical_attack"),
+                        all_physical_defense = reader.GetDouble("all_physical_defense"),
+                        all_magical_attack = reader.GetDouble("all_magical_attack"),
+                        all_magical_defense = reader.GetDouble("all_magical_defense"),
+                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
+                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
+                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
+                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
+                        all_mental_attack = reader.GetDouble("all_mental_attack"),
+                        all_mental_defense = reader.GetDouble("all_mental_defense"),
+                        all_speed = reader.GetDouble("all_speed"),
+                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_rate = reader.GetDouble("all_critical_rate"),
+                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
+                        all_avoid = reader.GetDouble("all_avoid"),
+                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
+                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
+                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_mana = reader.GetFloat("all_mana"),
                     };
 
                     CardGeneralsList.Add(captain);
@@ -482,6 +565,7 @@ public class CardGenerals
                     command.Parameters.AddWithValue("@accuracy", CardGenerals.accuracy);
                     command.Parameters.AddWithValue("@mana", CardGenerals.mana);
                     MySqlDataReader reader = command.ExecuteReader();
+                    InsertFactCardGenerals(CardGenerals);
                 }
                 else
                 {
@@ -504,6 +588,62 @@ public class CardGenerals
                 Debug.LogError("Error: " + ex.Message);
             }
 
+        }
+        return true;
+    }
+    public bool InsertFactCardGenerals(CardGenerals cardGenerals)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                INSERT INTO fact_card_generals (
+                    user_id, user_card_general_id, all_power,
+                    all_health, all_physical_attack, all_physical_defense, all_magical_attack, all_magical_defense,
+                    all_chemical_attack, all_chemical_defense, all_atomic_attack, all_atomic_defense,
+                    all_mental_attack, all_mental_defense, all_speed, all_critical_damage, all_critical_rate,
+                    all_armor_penetration, all_avoid, all_absorbs_damage, all_regenerate_vitality, all_accuracy, all_mana
+                ) VALUES (
+                    @user_id, @user_card_general_id, @all_power,
+                    @all_health, @all_physical_attack, @all_physical_defense, @all_magical_attack, @all_magical_defense,
+                    @all_chemical_attack, @all_chemical_defense, @all_atomic_attack, @all_atomic_defense,
+                    @all_mental_attack, @all_mental_defense, @all_speed, @all_critical_damage, @all_critical_rate,
+                    @all_armor_penetration, @all_avoid, @all_absorbs_damage, @all_regenerate_vitality, @all_accuracy, @all_mana
+                );";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.id);
+                command.Parameters.AddWithValue("@all_power", cardGenerals.power);
+                command.Parameters.AddWithValue("@all_health", cardGenerals.health);
+                command.Parameters.AddWithValue("@all_physical_attack", cardGenerals.physical_attack);
+                command.Parameters.AddWithValue("@all_physical_defense", cardGenerals.physical_defense);
+                command.Parameters.AddWithValue("@all_magical_attack", cardGenerals.magical_attack);
+                command.Parameters.AddWithValue("@all_magical_defense", cardGenerals.magical_defense);
+                command.Parameters.AddWithValue("@all_chemical_attack", cardGenerals.chemical_attack);
+                command.Parameters.AddWithValue("@all_chemical_defense", cardGenerals.chemical_defense);
+                command.Parameters.AddWithValue("@all_atomic_attack", cardGenerals.atomic_attack);
+                command.Parameters.AddWithValue("@all_atomic_defense", cardGenerals.atomic_defense);
+                command.Parameters.AddWithValue("@all_mental_attack", cardGenerals.mental_attack);
+                command.Parameters.AddWithValue("@all_mental_defense", cardGenerals.mental_defense);
+                command.Parameters.AddWithValue("@all_speed", cardGenerals.speed);
+                command.Parameters.AddWithValue("@all_critical_damage", cardGenerals.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_rate", cardGenerals.critical_rate);
+                command.Parameters.AddWithValue("@all_armor_penetration", cardGenerals.armor_penetration);
+                command.Parameters.AddWithValue("@all_avoid", cardGenerals.avoid);
+                command.Parameters.AddWithValue("@all_absorbs_damage", cardGenerals.absorbs_damage);
+                command.Parameters.AddWithValue("@all_regenerate_vitality", cardGenerals.regenerate_vitality);
+                command.Parameters.AddWithValue("@all_accuracy", cardGenerals.accuracy);
+                command.Parameters.AddWithValue("@all_mana", cardGenerals.mana);
+                command.ExecuteNonQuery();
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
         }
         return true;
     }
@@ -713,7 +853,7 @@ public class CardGenerals
             try
             {
                 connection.Open();
-                string query = @"select c.*, ct.price, cu.image as currency_image
+                string query = @"select c.*, ct.price, cu.image as currency_image, cu.id as currency_id
                 from card_generals c, card_general_trade ct, currency cu
                 where c.id=ct.card_general_id and ct.currency_id = cu.id and c.type =@type
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset;";
@@ -756,6 +896,7 @@ public class CardGenerals
                         description = reader.GetString("description")
                     };
                     captain.currency = new Currency{
+                        id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
                     };

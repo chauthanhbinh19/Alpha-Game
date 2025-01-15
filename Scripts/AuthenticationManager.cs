@@ -109,6 +109,11 @@ public class AuthenticationManager : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             avatarImage.texture = texture;
 
+            RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = loggedInUser.border.Replace(".png", "");
+            Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            borderImage.texture = borderTexture;
+
             FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
             // foreach (var currency in loggedInUser.Currencies)
             // {
@@ -237,6 +242,10 @@ public class AuthenticationManager : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             avatarImage.texture = texture;
 
+            RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = loggedInUser.border.Replace(".png", "");
+            Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            borderImage.texture = borderTexture;
             FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
         });
     }

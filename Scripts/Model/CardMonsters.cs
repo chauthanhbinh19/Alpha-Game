@@ -38,12 +38,72 @@ public class CardMonsters
     public double regenerate_vitality { get; set; }
     public double accuracy { get; set; }
     public float mana { get; set; }
+    public double all_power { get; set; }
+    public double all_health { get; set; }
+    public double all_physical_attack { get; set; }
+    public double all_physical_defense { get; set; }
+    public double all_magical_attack { get; set; }
+    public double all_magical_defense { get; set; }
+    public double all_chemical_attack { get; set; }
+    public double all_chemical_defense { get; set; }
+    public double all_atomic_attack { get; set; }
+    public double all_atomic_defense { get; set; }
+    public double all_mental_attack { get; set; }
+    public double all_mental_defense { get; set; }
+    public double all_speed { get; set; }
+    public double all_critical_damage { get; set; }
+    public double all_critical_rate { get; set; }
+    public double all_armor_penetration { get; set; }
+    public double all_avoid { get; set; }
+    public double all_absorbs_damage { get; set; }
+    public double all_regenerate_vitality { get; set; }
+    public double all_accuracy { get; set; }
+    public float all_mana { get; set; }
     public string description { get; set; }
     public string status { get; set; }
     public Currency currency { get; set; }
     public CardMonsters()
     {
-
+        power = -1;
+        health = -1;
+        physical_attack = -1;
+        physical_defense = -1;
+        magical_attack = -1;
+        magical_defense = -1;
+        chemical_attack = -1;
+        chemical_defense = -1;
+        atomic_attack = -1;
+        atomic_defense = -1;
+        mental_attack = -1;
+        mental_defense = -1;
+        speed = -1;
+        critical_damage = -1;
+        critical_rate = -1;
+        armor_penetration = -1;
+        avoid = -1;
+        absorbs_damage = -1;
+        regenerate_vitality = -1;
+        accuracy = -1;
+        all_power = -1;
+        all_health = -1;
+        all_physical_attack = -1;
+        all_physical_defense = -1;
+        all_magical_attack = -1;
+        all_magical_defense = -1;
+        all_chemical_attack = -1;
+        all_chemical_defense = -1;
+        all_atomic_attack = -1;
+        all_atomic_defense = -1;
+        all_mental_attack = -1;
+        all_mental_defense = -1;
+        all_speed = -1;
+        all_critical_damage = -1;
+        all_critical_rate = -1;
+        all_armor_penetration = -1;
+        all_avoid = -1;
+        all_absorbs_damage = -1;
+        all_regenerate_vitality = -1;
+        all_accuracy = -1;
     }
     public List<CardMonsters> GetCardMonsters(int pageSize, int offset)
     {
@@ -200,7 +260,9 @@ public class CardMonsters
             try
             {
                 connection.Open();
-                string query = @"Select um.*, m.* from card_monsters m, user_card_monsters um where m.id=um.card_monster_id and um.user_id=@userId 
+                string query = @"Select um.*, m.*, fcm.* from card_monsters m, user_card_monsters um, fact_card_monsters fcm
+                where m.id=um.card_monster_id and um.user_id=@userId and fcm.user_id=um.user_id
+                and fcm.user_card_monster_id=um.card_monster_id
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -242,7 +304,28 @@ public class CardMonsters
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
                         accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
-                        description = reader.GetString("description")
+                        description = reader.GetString("description"),
+                        all_power = reader.GetDouble("all_power"),
+                        all_health = reader.GetDouble("all_health"),
+                        all_physical_attack = reader.GetDouble("all_physical_attack"),
+                        all_physical_defense = reader.GetDouble("all_physical_defense"),
+                        all_magical_attack = reader.GetDouble("all_magical_attack"),
+                        all_magical_defense = reader.GetDouble("all_magical_defense"),
+                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
+                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
+                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
+                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
+                        all_mental_attack = reader.GetDouble("all_mental_attack"),
+                        all_mental_defense = reader.GetDouble("all_mental_defense"),
+                        all_speed = reader.GetDouble("all_speed"),
+                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_rate = reader.GetDouble("all_critical_rate"),
+                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
+                        all_avoid = reader.GetDouble("all_avoid"),
+                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
+                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
+                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_mana = reader.GetFloat("all_mana"),
                     };
 
                     CardMonstersList.Add(CardMonsters);
@@ -457,6 +540,7 @@ public class CardMonsters
                     command.Parameters.AddWithValue("@accuracy", CardMonsters.accuracy);
                     command.Parameters.AddWithValue("@mana", CardMonsters.mana);
                     MySqlDataReader reader = command.ExecuteReader();
+                    InsertFactCardMonsters(CardMonsters);
                 }
                 else
                 {
@@ -479,6 +563,62 @@ public class CardMonsters
                 Debug.LogError("Error: " + ex.Message);
             }
 
+        }
+        return true;
+    }
+    public bool InsertFactCardMonsters(CardMonsters cardMonsters)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                INSERT INTO fact_card_monsters (
+                    user_id, user_card_monster_id, all_power,
+                    all_health, all_physical_attack, all_physical_defense, all_magical_attack, all_magical_defense,
+                    all_chemical_attack, all_chemical_defense, all_atomic_attack, all_atomic_defense,
+                    all_mental_attack, all_mental_defense, all_speed, all_critical_damage, all_critical_rate,
+                    all_armor_penetration, all_avoid, all_absorbs_damage, all_regenerate_vitality, all_accuracy, all_mana
+                ) VALUES (
+                    @user_id, @user_card_monster_id, @all_power,
+                    @all_health, @all_physical_attack, @all_physical_defense, @all_magical_attack, @all_magical_defense,
+                    @all_chemical_attack, @all_chemical_defense, @all_atomic_attack, @all_atomic_defense,
+                    @all_mental_attack, @all_mental_defense, @all_speed, @all_critical_damage, @all_critical_rate,
+                    @all_armor_penetration, @all_avoid, @all_absorbs_damage, @all_regenerate_vitality, @all_accuracy, @all_mana
+                );";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.id);
+                command.Parameters.AddWithValue("@all_power", cardMonsters.power);
+                command.Parameters.AddWithValue("@all_health", cardMonsters.health);
+                command.Parameters.AddWithValue("@all_physical_attack", cardMonsters.physical_attack);
+                command.Parameters.AddWithValue("@all_physical_defense", cardMonsters.physical_defense);
+                command.Parameters.AddWithValue("@all_magical_attack", cardMonsters.magical_attack);
+                command.Parameters.AddWithValue("@all_magical_defense", cardMonsters.magical_defense);
+                command.Parameters.AddWithValue("@all_chemical_attack", cardMonsters.chemical_attack);
+                command.Parameters.AddWithValue("@all_chemical_defense", cardMonsters.chemical_defense);
+                command.Parameters.AddWithValue("@all_atomic_attack", cardMonsters.atomic_attack);
+                command.Parameters.AddWithValue("@all_atomic_defense", cardMonsters.atomic_defense);
+                command.Parameters.AddWithValue("@all_mental_attack", cardMonsters.mental_attack);
+                command.Parameters.AddWithValue("@all_mental_defense", cardMonsters.mental_defense);
+                command.Parameters.AddWithValue("@all_speed", cardMonsters.speed);
+                command.Parameters.AddWithValue("@all_critical_damage", cardMonsters.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_rate", cardMonsters.critical_rate);
+                command.Parameters.AddWithValue("@all_armor_penetration", cardMonsters.armor_penetration);
+                command.Parameters.AddWithValue("@all_avoid", cardMonsters.avoid);
+                command.Parameters.AddWithValue("@all_absorbs_damage", cardMonsters.absorbs_damage);
+                command.Parameters.AddWithValue("@all_regenerate_vitality", cardMonsters.regenerate_vitality);
+                command.Parameters.AddWithValue("@all_accuracy", cardMonsters.accuracy);
+                command.Parameters.AddWithValue("@all_mana", cardMonsters.mana);
+                command.ExecuteNonQuery();
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
         }
         return true;
     }
@@ -577,7 +717,7 @@ public class CardMonsters
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@monster_id", Id);
+                checkCommand.Parameters.AddWithValue("@card_monster_id", Id);
 
                 int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
 
@@ -585,7 +725,7 @@ public class CardMonsters
                 {
                     string query = @"
                     INSERT INTO card_monsters_gallery (
-                        user_id, card_monster_id, status, star, power, health, physical_attack, physical_defense, 
+                        user_id, card_monster_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
                         absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
@@ -593,7 +733,7 @@ public class CardMonsters
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
                         percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @card_monster_id, @status, @star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @card_monster_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
                         @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
@@ -607,7 +747,8 @@ public class CardMonsters
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@card_monster_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@current_star", 0);
+                    command.Parameters.AddWithValue("@temp_star", 0);
                     command.Parameters.AddWithValue("@power", MonsterFromDB.power);
                     command.Parameters.AddWithValue("@health", MonsterFromDB.health);
                     command.Parameters.AddWithValue("@physical_attack", MonsterFromDB.physical_attack);
@@ -687,7 +828,7 @@ public class CardMonsters
             try
             {
                 connection.Open();
-                string query = @"select m.*, mt.price, cu.image as currency_image
+                string query = @"select m.*, mt.price, cu.image as currency_image, cu.id as currency_id
                 from card_monsters m, card_monster_trade mt, currency cu
                 where m.id=mt.card_monster_id and mt.currency_id = cu.id
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset;";
@@ -729,6 +870,7 @@ public class CardMonsters
                         description = reader.GetString("description")
                     };
                     CardMonsters.currency = new Currency{
+                        id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
                     };

@@ -704,7 +704,7 @@ public class CardSpell
             try
             {
                 connection.Open();
-                string query = @"select s.*, st.price, cu.image as currency_image
+                string query = @"select s.*, st.price, cu.image as currency_image, cu.id as currency_id
                 from card_spell s, card_spell_trade st, currency cu
                 where s.id=st.card_spell_id and st.currency_id = cu.id and s.type =@type
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
@@ -747,6 +747,7 @@ public class CardSpell
                         description = reader.GetString("description")
                     };
                     CardSpell.currency = new Currency{
+                        id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
                     };

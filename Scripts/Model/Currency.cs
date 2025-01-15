@@ -46,6 +46,75 @@ public class Currency
         }
         return currencies;
     }
+    public Currency GetUserCurrencyById(int Id)
+    {
+        Currency currencies = new Currency();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id and c.id=@id;";
+                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                currencyCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                currencyCommand.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
+                while (currencyReader.Read())
+                {
+                    string image = currencyReader.GetString("image");
+                    string name = currencyReader.GetString("name");
+                    int currencyId = currencyReader.GetInt32("currency_id");
+                    int quantity = currencyReader.GetInt32("quantity");
+                    currencies = new Currency
+                    {
+                        id = currencyId,
+                        name = name,
+                        image = image,
+                        quantity = quantity
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return currencies;
+    }
+    public void UpdateUserCurrency(int currency_id, double price)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                // Lấy quantity hiện tại
+                string query = "SELECT quantity FROM user_currency WHERE user_id = @user_id AND currency_id = @currency_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@currency_id", currency_id);
+                double currentQuantity = Convert.ToDouble(command.ExecuteScalar());
+                double newQuantity = currentQuantity - price;
+
+                query = "update user_currency set quantity=@quantity where user_id=@user_id and currency_id=@currency_id";
+                command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@quantity", newQuantity);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@currency_id", currency_id);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
     public List<Currency> GetEquipmentsCurrency(string type)
     {
         List<Currency> currencies = new List<Currency>();
@@ -156,7 +225,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCardHeroesPrice(int Id)
+    public Currency GetUserCardHeroesPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -165,7 +234,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM card_heroes ch
                 left JOIN card_hero_trade et ON ch.id = et.card_hero_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -194,7 +263,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCardCaptainsPrice(int Id)
+    public Currency GetUserCardCaptainsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -203,7 +272,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM card_captains ch
                 left JOIN card_captain_trade et ON ch.id = et.card_captain_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -232,7 +301,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCardColonelsPrice(int Id)
+    public Currency GetUserCardColonelsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -241,7 +310,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM card_colonels ch
                 left JOIN card_colonel_trade et ON ch.id = et.card_colonel_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -270,7 +339,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCardGeneralsPrice(int Id)
+    public Currency GetUserCardGeneralsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -279,7 +348,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM card_generals ch
                 left JOIN card_general_trade et ON ch.id = et.card_general_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -308,7 +377,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCardAdmiralsPrice(int Id)
+    public Currency GetUserCardAdmiralsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -317,7 +386,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM card_admirals ch
                 left JOIN card_admiral_trade et ON ch.id = et.card_admiral_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -346,7 +415,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCardMonstersPrice(int Id)
+    public Currency GetUserCardMonstersPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -355,7 +424,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM card_monsters ch
                 left JOIN card_monster_trade et ON ch.id = et.card_monster_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -384,7 +453,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCardMilitaryPrice(int Id)
+    public Currency GetUserCardMilitaryPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -393,7 +462,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM card_military ch
                 left JOIN card_military_trade et ON ch.id = et.card_military_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -422,7 +491,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCardSpellPrice(int Id)
+    public Currency GetUserCardSpellPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -431,7 +500,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM card_spell ch
                 left JOIN card_spell_trade et ON ch.id = et.card_spell_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -460,7 +529,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetBooksPrice(int Id)
+    public Currency GetUserBooksPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -469,7 +538,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM books ch
                 left JOIN book_trade et ON ch.id = et.book_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -498,7 +567,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetAchievementsPrice(int Id)
+    public Currency GetUserAchievementsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -507,7 +576,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM achievements ch
                 left JOIN achievement_trade et ON ch.id = et.achievement_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -536,7 +605,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetBordersPrice(int Id)
+    public Currency GetUserBordersPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -545,7 +614,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM borders ch
                 left JOIN border_trade et ON ch.id = et.border_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -574,7 +643,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCollaborationsPrice(int Id)
+    public Currency GetUserCollaborationsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -583,7 +652,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM collaborations ch
                 left JOIN collaboration_trade et ON ch.id = et.collaboration_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -612,7 +681,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetCollaborationEquipmentsPrice(int Id)
+    public Currency GetUserCollaborationEquipmentsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -621,7 +690,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM collaboration_equipments ch
                 left JOIN collaboration_equipment_trade et ON ch.id = et.collaboration_equipment_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -650,7 +719,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetItemsPrice(int Id)
+    public Currency GetUserItemsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -659,7 +728,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM items ch
                 left JOIN item_trade et ON ch.id = et.item_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -688,7 +757,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetMagicFormationCirclePrice(int Id)
+    public Currency GetUserMagicFormationCirclePrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -697,7 +766,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM magic_formation_circle ch
                 left JOIN magic_formation_circle_trade et ON ch.id = et.mfc_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -726,7 +795,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetMedalsPrice(int Id)
+    public Currency GetUserMedalsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -735,7 +804,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM medals ch
                 left JOIN medal_circle_trade et ON ch.id = et.medal_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -764,7 +833,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetPetsPrice(int Id)
+    public Currency GetUserPetsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -773,7 +842,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM pets ch
                 left JOIN pet_trade et ON ch.id = et.pet_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -802,7 +871,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetRelicsPrice(int Id)
+    public Currency GetUserRelicsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -811,7 +880,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM relics ch
                 left JOIN relic_trade et ON ch.id = et.relic_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -840,7 +909,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetSkillsPrice(int Id)
+    public Currency GetUserSkillsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -849,7 +918,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM skills ch
                 left JOIN skill_trade et ON ch.id = et.skill_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -878,7 +947,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetSymbolsPrice(int Id)
+    public Currency GetUserSymbolsPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +956,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM symbols ch
                 left JOIN symbol_trade et ON ch.id = et.symbol_id
                 left JOIN currency c ON c.id = et.currency_id
@@ -916,7 +985,7 @@ public class Currency
         }
         return currency;
     }
-    public Currency GetTitlesPrice(int Id)
+    public Currency GetUserTitlesPrice(int Id)
     {
         Currency currency = new Currency();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -925,7 +994,7 @@ public class Currency
             try
             {
                 connection.Open();
-                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, et.price AS trade_price
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
                 FROM titles ch
                 left JOIN title_trade et ON ch.id = et.title_id
                 left JOIN currency c ON c.id = et.currency_id

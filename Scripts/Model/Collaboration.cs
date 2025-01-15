@@ -32,6 +32,7 @@ public class Collaboration
     public double avoid { get; set; }
     public double absorbs_damage { get; set; }
     public double regenerate_vitality { get; set; }
+    public double accuracy { get; set; }
     public float mana { get; set; }
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
@@ -302,6 +303,93 @@ public class Collaboration
         }
         return count;
     }
+    public bool InsertUserCollaborations(Collaboration collaboration)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM user_collaborations 
+                WHERE user_id = @user_id AND collaboration_id = @collaboration_id;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@collaboration_id", collaboration.id);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO user_collaborations (
+                    user_id, collaboration_id, level, experiment, star, quantity, power, health, physical_attack, 
+                    physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage, critical_rate, 
+                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
+                ) VALUES (
+                    @user_id, @collaboration_id, @level, @experiment, @star, @quantity, @power, @health, @physical_attack, 
+                    @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
+                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@collaboration_id", collaboration.id);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@experiment", 0);
+                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@quantity", 1);
+                    command.Parameters.AddWithValue("@power", collaboration.power);
+                    command.Parameters.AddWithValue("@health", collaboration.health);
+                    command.Parameters.AddWithValue("@physical_attack", collaboration.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", collaboration.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", collaboration.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", collaboration.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", collaboration.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", collaboration.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", collaboration.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", collaboration.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", collaboration.mental_attack);
+                    command.Parameters.AddWithValue("@mental_defense", collaboration.mental_defense);
+                    command.Parameters.AddWithValue("@speed", collaboration.speed);
+                    command.Parameters.AddWithValue("@critical_damage", collaboration.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", collaboration.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", collaboration.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", collaboration.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", collaboration.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", collaboration.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", collaboration.accuracy);
+                    command.Parameters.AddWithValue("@mana", collaboration.mana);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+                else
+                {
+                    // Nếu bản ghi đã tồn tại, thực hiện UPDATE
+                    string updateQuery = @"
+                    UPDATE user_collaborations
+                    SET quantity = quantity + 1
+                    WHERE user_id = @user_id AND collaboration_id = @collaboration_id;";
+
+                    MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@collaboration_id", collaboration.id);
+
+                    updateCommand.ExecuteNonQuery();
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return true;
+    }
     public List<Collaboration> GetCollaborationWithPrice(int pageSize, int offset)
     {
         List<Collaboration> collaborationList = new List<Collaboration>();
@@ -311,7 +399,7 @@ public class Collaboration
             try
             {
                 connection.Open();
-                string query = @"select c.*, ct.price, cu.image as currency_image
+                string query = @"select c.*, ct.price, cu.image as currency_image, cu.id as currency_id
                 from collaborations c, collaboration_trade ct, currency cu
                 where c.id=ct.collaboration_id and ct.currency_id = cu.id
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset;";
@@ -360,6 +448,7 @@ public class Collaboration
                         description = reader.GetString("description")
                     };
                     collaboration.currency = new Currency{
+                        id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
                     };
@@ -398,6 +487,155 @@ public class Collaboration
             }
         }
         return count;
+    }
+    public Collaboration GetCollaborationsById(int Id)
+    {
+        Collaboration collaboration = new Collaboration();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "Select * from collaborations where id=@id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    collaboration = new Collaboration
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        description = reader.GetString("description")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return collaboration;
+    }
+    public void InsertCollaborationsGallery(int Id)
+    {
+        Collaboration collaborationFromDB = GetCollaborationsById(Id);
+        int percent = 20;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra bản ghi đã tồn tại
+                string checkQuery = @"
+                SELECT COUNT(*) 
+                FROM collaborations_gallery 
+                WHERE user_id = @user_id AND collaboration_id = @collaboration_id;
+                ";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@collaboration_id", Id);
+
+                int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                if (recordCount == 0)
+                {
+                    string query = @"
+                    INSERT INTO collaborations_gallery (
+                        user_id, collaboration_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                        magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
+                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
+                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
+                        percent_all_mental_defense
+                    ) VALUES (
+                        @user_id, @collaboration_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                        @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
+                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
+                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
+                        @percent_all_mental_defense
+                    );
+                    ";
+
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@collaboration_id", Id);
+                    command.Parameters.AddWithValue("@status", "pending");
+                    command.Parameters.AddWithValue("@current_star", 0);
+                    command.Parameters.AddWithValue("@temp_star", 0);
+                    command.Parameters.AddWithValue("@power", collaborationFromDB.power);
+                    command.Parameters.AddWithValue("@health", collaborationFromDB.health);
+                    command.Parameters.AddWithValue("@physical_attack", collaborationFromDB.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", collaborationFromDB.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", collaborationFromDB.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", collaborationFromDB.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", collaborationFromDB.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", collaborationFromDB.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", collaborationFromDB.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", collaborationFromDB.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", collaborationFromDB.magical_attack);
+                    command.Parameters.AddWithValue("@mental_defense", collaborationFromDB.magical_defense);
+                    command.Parameters.AddWithValue("@speed", collaborationFromDB.speed);
+                    command.Parameters.AddWithValue("@critical_damage", collaborationFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", collaborationFromDB.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", collaborationFromDB.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", collaborationFromDB.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", collaborationFromDB.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", collaborationFromDB.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", collaborationFromDB.accuracy);
+                    command.Parameters.AddWithValue("@mana", collaborationFromDB.mana);
+                    command.Parameters.AddWithValue("@percent_all_health", percent);
+                    command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                    command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                    command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
     public void UpdateStatusCollaborationsGallery(int Id)
     {

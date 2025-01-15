@@ -639,15 +639,16 @@ public class ShopManager : MonoBehaviour
             string fileNameWithoutExtension = card.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            RawImage FrameImage = cardObject.transform.Find("Frame").GetComponent<RawImage>();
             // Lấy EventTrigger của RawImage
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(card));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(card, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -670,6 +671,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = cardObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = card.currency.quantity.ToString();
+
+            Button buy = cardObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(card.currency.quantity, card);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -690,14 +697,15 @@ public class ShopManager : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = bookObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(book));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(book, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -720,6 +728,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = bookObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = book.currency.quantity.ToString();
+
+            Button buy = bookObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(book.currency.quantity, book);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -740,14 +754,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = captainsObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(captain));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(captain, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -770,6 +785,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = captainsObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = captain.currency.quantity.ToString();
+
+            Button buy = captainsObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(captain.currency.quantity, captain);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -790,14 +811,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = collaborationObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(collaboration));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(collaboration, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -821,6 +843,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = collaborationObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = collaboration.currency.quantity.ToString();
+
+            Button buy = collaborationObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(collaboration.currency.quantity, collaboration);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -840,14 +868,15 @@ public class ShopManager : MonoBehaviour
             string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = collaborationEquipmentObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(collaborationEquipment));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(collaborationEquipment, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -870,6 +899,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = collaborationEquipmentObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = collaborationEquipment.currency.quantity.ToString();
+
+            Button buy = collaborationEquipmentObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(collaborationEquipment.currency.quantity, collaborationEquipment);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -890,14 +925,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = equipmentObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(equipment));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(equipment, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -915,6 +951,12 @@ public class ShopManager : MonoBehaviour
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
             rareImage.texture = rareTexture;
+
+            // Button buy = equipmentObject.transform.Find("Buy").GetComponent<Button>();
+            // buy.onClick.AddListener(() =>
+            // {
+            //     GetQuantity(equipment.currency.quantity, e);
+            // });
         }
         // GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         // if (gridLayout != null)
@@ -936,14 +978,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = medalObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(medal));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(medal, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -967,6 +1010,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = medalObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = medal.currency.quantity.ToString();
+
+            Button buy = medalObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(medal.currency.quantity, medal);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -986,14 +1035,15 @@ public class ShopManager : MonoBehaviour
             string fileNameWithoutExtension = monster.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = monstersObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(monster));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(monster, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1016,6 +1066,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = monstersObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = monster.currency.quantity.ToString();
+
+            Button buy = monstersObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(monster.currency.quantity, monster);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1058,14 +1114,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = petsObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(pet));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(pet, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1095,6 +1152,11 @@ public class ShopManager : MonoBehaviour
             Text currencyText = petsObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = pet.currency.quantity.ToString();
 
+            Button buy = petsObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(pet.currency.quantity, pet);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1115,14 +1177,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = skillObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(skill));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(skill, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1147,6 +1210,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = skillObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = skill.currency.quantity.ToString();
+
+            Button buy = skillObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(skill.currency.quantity, skill);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1167,14 +1236,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = symbolObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(symbol));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(symbol, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1198,6 +1268,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = symbolObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = symbol.currency.quantity.ToString();
+
+            Button buy = symbolObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(symbol.currency.quantity, symbol);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1220,14 +1296,15 @@ public class ShopManager : MonoBehaviour
             Image.texture = texture;
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = titleObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(title));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(title, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1251,6 +1328,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = titleObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = title.currency.quantity.ToString();
+
+            Button buy = titleObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(title.currency.quantity, title);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1270,14 +1353,15 @@ public class ShopManager : MonoBehaviour
             string fileNameWithoutExtension = military.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = militaryObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(military));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(military, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1301,6 +1385,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = militaryObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = military.currency.quantity.ToString();
+
+            Button buy = militaryObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(military.currency.quantity, military);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1320,14 +1410,15 @@ public class ShopManager : MonoBehaviour
             string fileNameWithoutExtension = spell.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = spellObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(spell));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(spell, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1351,6 +1442,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = spellObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = spell.currency.quantity.ToString();
+
+            Button buy = spellObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(spell.currency.quantity, spell);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1370,17 +1467,17 @@ public class ShopManager : MonoBehaviour
             string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-
+            RawImage FrameImage = magicFormationCircleObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(magicFormationCircle));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(magicFormationCircle, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1404,6 +1501,12 @@ public class ShopManager : MonoBehaviour
             Text currencyText = magicFormationCircleObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = magicFormationCircle.currency.quantity.ToString();
 
+            Button buy = magicFormationCircleObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(magicFormationCircle.currency.quantity, magicFormationCircle);
+            });
+
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1423,17 +1526,17 @@ public class ShopManager : MonoBehaviour
             string fileNameWithoutExtension = relic.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-
+            RawImage FrameImage = relicObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(relic));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(relic, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1457,6 +1560,11 @@ public class ShopManager : MonoBehaviour
             Text currencyText = relicObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = relic.currency.quantity.ToString();
 
+            Button buy = relicObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(relic.currency.quantity, relic);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1477,14 +1585,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = borderObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(border));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(border, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1508,6 +1617,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = borderObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = border.currency.quantity.ToString();
+
+            Button buy = borderObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(border.currency.quantity, border);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1528,14 +1643,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(achievement));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(achievement, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1559,6 +1675,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = achievement.currency.quantity.ToString();
+
+            Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(achievement.currency.quantity, achievement);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1579,14 +1701,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(achievement));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(achievement, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1610,6 +1733,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = achievement.currency.quantity.ToString();
+
+            Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(achievement.currency.quantity, achievement);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1630,14 +1759,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(achievement));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(achievement, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1661,6 +1791,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = achievement.currency.quantity.ToString();
+
+            Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(achievement.currency.quantity, achievement);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -1681,14 +1817,15 @@ public class ShopManager : MonoBehaviour
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupDetails(achievement));
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(achievement, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1712,6 +1849,12 @@ public class ShopManager : MonoBehaviour
 
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = achievement.currency.quantity.ToString();
+
+            Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(achievement.currency.quantity, achievement);
+            });
         }
         Currency currency = new Currency();
         List<Currency> currencies = new List<Currency>();
@@ -2144,110 +2287,6 @@ public class ShopManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    public void PopupDetails(object data)
-    {
-        // Kiểm tra kiểu của data và ép kiểu phù hợp
-        if (data is CardHeroes card)
-        {
-            // Xử lý đối tượng Card
-            ShowCardHeroesDetails(card);
-        }
-        else if (data is Books book)
-        {
-            // Xử lý đối tượng Book
-            ShowBookDetails(book);
-        }
-        else if (data is CardCaptains captain)
-        {
-            // Xử lý đối tượng Captain
-            ShowCardCaptainDetails(captain);
-        }
-        else if (data is Pets pet)
-        {
-            // Xử lý đối tượng Pet
-            ShowPetDetails(pet);
-        }
-        else if (data is CollaborationEquipment collaborationEquipmentsequipment)
-        {
-            // Xử lý đối tượng CollaborationEquipment
-            ShowCollaborationEquipmentDetails(collaborationEquipmentsequipment);
-        }
-        else if (data is CardMilitary military)
-        {
-            // Xử lý đối tượng Military
-            ShowCardMilitaryDetails(military);
-        }
-        else if (data is CardSpell spell)
-        {
-            // Xử lý đối tượng Spell
-            ShowCardSpellDetails(spell);
-        }
-        else if (data is Collaboration collaboration)
-        {
-            // Xử lý đối tượng Collaboration
-            ShowCollaborationDetails(collaboration);
-        }
-        else if (data is CardMonsters monster)
-        {
-            // Xử lý đối tượng Monster
-            ShowCardMonsterDetails(monster);
-        }
-        else if (data is Equipments equipment)
-        {
-            // Xử lý đối tượng Equipment
-            ShowEquipmentDetails(equipment);
-        }
-        else if (data is Medals medal)
-        {
-            // Xử lý đối tượng Medal
-            ShowMedalDetails(medal);
-        }
-        else if (data is Skills skill)
-        {
-            // Xử lý đối tượng Skill
-            ShowSkillDetails(skill);
-        }
-        else if (data is Symbols symbol)
-        {
-            // Xử lý đối tượng Symbol
-            ShowSymbolDetails(symbol);
-        }
-        else if (data is Titles title)
-        {
-            // Xử lý đối tượng Title
-            ShowTitleDetails(title);
-        }
-        else if (data is MagicFormationCircle magicFormationCircle)
-        {
-            // Xử lý đối tượng Title
-            ShowMagicFormationCircleDetails(magicFormationCircle);
-        }
-        else if (data is Relics relics)
-        {
-            // Xử lý đối tượng Title
-            ShowRelicsDetails(relics);
-        }
-        else if (data is CardColonels colonels)
-        {
-            // Xử lý đối tượng colonels
-            ShowCardColonelsDetails(colonels);
-        }
-        else if (data is CardGenerals generals)
-        {
-            // Xử lý đối tượng Generals
-            ShowCardGeneralsDetails(generals);
-        }
-        else if (data is CardAdmirals admirals)
-        {
-            // Xử lý đối tượng admirals
-            ShowCardAdmiralsDetails(admirals);
-        }
-        else
-        {
-            Debug.LogError("Không hỗ trợ loại dữ liệu này!");
-        }
-
-    }
     // Hàm thêm sự kiện click vào EventTrigger
     void AddClickListener(EventTrigger trigger, System.Action callback)
     {
@@ -2258,1763 +2297,7 @@ public class ShopManager : MonoBehaviour
         entry.callback.AddListener((data) => { callback(); });
         trigger.triggers.Add(entry);
     }
-    void ClosePopup(GameObject popup)
-    {
-        Destroy(popup); // Hủy popupObject khi nút CloseButton được nhấn
-    }
-    private void ShowCardHeroesDetails(CardHeroes card)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = card.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = card.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = card.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = card.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = card.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(card, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                    GridLayoutGroup gridLayout = descriptionPopupPanel.GetComponent<GridLayoutGroup>();
-                    if (gridLayout != null)
-                    {
-                        gridLayout.cellSize = new Vector2(670, 800);
-                    }
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowBookDetails(Books book)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = book.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 700f; // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = book.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = book.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = book.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = book.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(book, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                    GridLayoutGroup gridLayout = descriptionPopupPanel.GetComponent<GridLayoutGroup>();
-                    if (gridLayout != null)
-                    {
-                        gridLayout.cellSize = new Vector2(670, 800);
-                    }
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCardCaptainDetails(CardCaptains captains)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = captains.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = captains.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = captains.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = captains.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captains.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = captains.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(captains, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowPetDetails(Pets pet)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = pet.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 200f;
-            if (pet.type.Equals("Legendary_Dragon") || pet.type.Equals("Naruto_Bijuu") || pet.type.Equals("Naruto_Susanoo") || pet.type.Equals("One_Piece_Ship") || pet.type.Equals("Prime_Monster"))
-            {
-                newHeight = 700f;
-            }
-            // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = pet.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = pet.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = pet.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{pet.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = pet.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(pet, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCollaborationEquipmentDetails(CollaborationEquipment collaborationEquipment)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 200f;
-            // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = collaborationEquipment.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = collaborationEquipment.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = collaborationEquipment.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = collaborationEquipment.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(collaborationEquipment, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCardMilitaryDetails(CardMilitary military)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = military.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = military.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = military.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = military.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = military.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(military, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCardSpellDetails(CardSpell spell)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = spell.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = spell.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = spell.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = spell.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = spell.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(spell, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCollaborationDetails(Collaboration collaboration)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = collaboration.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = collaboration.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = collaboration.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = collaboration.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaboration.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = collaboration.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(collaboration, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCardMonsterDetails(CardMonsters monsters)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = monsters.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = monsters.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = monsters.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = monsters.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monsters.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = monsters.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(monsters, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowEquipmentDetails(Equipments equipments)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = equipments.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 200f;
-            // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = equipments.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = equipments.power.ToString();
-
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = equipments.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipments.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = equipments.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(equipments, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowMedalDetails(Medals medals)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = medals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 200f;
-            // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = medals.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = medals.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = medals.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{medals.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = medals.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(medals, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowSkillDetails(Skills skills)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = skills.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 200f;
-            // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = skills.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = skills.power.ToString();
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skills.rare}");
-        rareImage.texture = rareTexture;
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = skills.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(skills, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowSymbolDetails(Symbols symbols)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = symbols.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = symbols.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = symbols.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbols.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = symbols.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(symbols, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowTitleDetails(Titles titles)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = titles.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 200f;
-            // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = titles.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = titles.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{titles.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = titles.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(titles, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowMagicFormationCircleDetails(MagicFormationCircle magicFormationCircle)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 300f;
-            // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = magicFormationCircle.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = magicFormationCircle.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = magicFormationCircle.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(magicFormationCircle, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowRelicsDetails(Relics relics)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = relics.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-        if (texture != null)
-        {
-            // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
-
-            // Tính tỉ lệ khung hình
-            float aspectRatio = (float)texture.width / texture.height;
-
-            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
-            float newHeight = 300f;
-            // Chiều cao cố định
-            float newWidth = newHeight * aspectRatio;
-
-            // Cập nhật kích thước cho RectTransform
-            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = relics.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = relics.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relics.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = relics.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(relics, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCardColonelsDetails(CardColonels colonels)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = colonels.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = colonels.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = colonels.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{colonels.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = colonels.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(colonels, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCardGeneralsDetails(CardGenerals generals)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = generals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = generals.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = generals.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{generals.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = generals.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(generals, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    private void ShowCardAdmiralsDetails(CardAdmirals admirals)
-    {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = admirals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        Image.texture = texture;
-
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = admirals.name;
-
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = admirals.power.ToString();
-
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
-
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admirals.rare}");
-        rareImage.texture = rareTexture;
-
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
-
-        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-        PropertyInfo[] properties = admirals.GetType().GetProperties();
-        foreach (var property in properties)
-        {
-            // Lấy giá trị của thuộc tính
-            object value = property.GetValue(admirals, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString("#844000", out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
-        }
-    }
-    public void GetQuantity(string type, Equipments equipments)
+    public void GetQuantity(int price, object obj)
     {
         GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
 
@@ -4031,19 +2314,55 @@ public class ShopManager : MonoBehaviour
         TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
+        // Lấy thuộc tính `Id` và `Image` từ object
+        var idProperty = obj.GetType().GetProperty("id");
+        var imageProperty = obj.GetType().GetProperty("image");
+        var currencyProperty = obj.GetType().GetProperty("currency");
         Currency currency = new Currency();
-        currency = currency.GetUserEquipmentsPrice(type, equipments.id);
-        string fileNameWithoutExtension = currency.image.Replace(".png", "");
-        Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        currencyImage.texture = currencyTexture;
 
-        fileNameWithoutExtension = equipments.image.Replace(".png", "");
-        Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        equipmentImage.texture = equipmentTexture;
+        if (idProperty != null && imageProperty != null && currencyProperty != null)
+        {
+            int id = (int)idProperty.GetValue(obj);
+            string image = (string)imageProperty.GetValue(obj);
 
-        currency = currency.GetEquipmentsPrice(type, equipments.id);
-        priceText.text = currency.quantity.ToString();
-        double originPrice = currency.quantity;
+            // Lấy đối tượng currency từ obj
+            var currencyObject = currencyProperty.GetValue(obj);
+
+            if (currencyObject != null)
+            {
+                // Lấy thuộc tính "image" từ currencyObject
+                var currencyImageProperty = currencyObject.GetType().GetProperty("image");
+                if (currencyImageProperty != null)
+                {
+                    string currencyImageValue = (string)currencyImageProperty.GetValue(currencyObject);
+
+                    if (!string.IsNullOrEmpty(currencyImageValue))
+                    {
+                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
+                        currencyImage.texture = currencyTexture;
+                    }
+                }
+            }
+
+            // Xử lý image của obj
+            if (!string.IsNullOrEmpty(image))
+            {
+                string fileNameWithoutExtension = image.Replace(".png", "");
+                Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                equipmentImage.texture = entityTexture;
+            }
+
+            priceText.text = price.ToString();
+        }
+
+        else
+        {
+            Debug.LogError("Object không có thuộc tính Id hoặc Image");
+        }
+
+        priceText.text = price.ToString();
+        double originPrice = price;
         increaseButton.onClick.AddListener(() =>
         {
             int currentQuantity = int.Parse(quantityText.text);
@@ -4088,21 +2407,97 @@ public class ShopManager : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency currency = new Currency();
-            List<Currency> userCurrency = currency.GetEquipmentsCurrency(type);
-            Currency equipmentPrice = currency.GetEquipmentsPrice(type, equipments.id);
-            double price = double.Parse(priceText.text);
-            foreach (var user in userCurrency)
+            Currency userCurrency = new Currency();
+            if (obj is Equipments equipment)
             {
-                if (user.id == equipmentPrice.id)
-                {
-                    int max = (int)(user.quantity / equipmentPrice.quantity);
-                    price = originPrice * max;
-                    quantityText.text = max.ToString();
-                    priceText.text = price.ToString();
-                    break;
-                }
+                // userCurrency = currency.GetUserCurrencyById(equipment.c);
             }
+            else if (obj is CardHeroes cardHeroes)
+            {
+                userCurrency = currency.GetUserCurrencyById(cardHeroes.currency.id);
+            }
+            else if (obj is CardCaptains cardCaptains)
+            {
+                userCurrency = currency.GetUserCurrencyById(cardCaptains.currency.id);
+            }
+            else if (obj is CardColonels cardColonels)
+            {
+                userCurrency = currency.GetUserCurrencyById(cardColonels.currency.id);
+            }
+            else if (obj is CardGenerals cardGenerals)
+            {
+                userCurrency = currency.GetUserCurrencyById(cardGenerals.currency.id);
+            }
+            else if (obj is CardAdmirals cardAdmirals)
+            {
+                userCurrency = currency.GetUserCurrencyById(cardAdmirals.currency.id);
+            }
+            else if (obj is Books books)
+            {
+                userCurrency = currency.GetUserCurrencyById(books.currency.id);
+            }
+            else if (obj is CardMonsters cardMonsters)
+            {
+                userCurrency = currency.GetUserCurrencyById(cardMonsters.currency.id);
+            }
+            else if (obj is CardMilitary cardMilitary)
+            {
+                userCurrency = currency.GetUserCurrencyById(cardMilitary.currency.id);
+            }
+            else if (obj is CardSpell cardSpell)
+            {
+                userCurrency = currency.GetUserCurrencyById(cardSpell.currency.id);
+            }
+            else if (obj is Achievements achievements)
+            {
+                userCurrency = currency.GetUserCurrencyById(achievements.currency.id);
+            }
+            else if (obj is Borders borders)
+            {
+                userCurrency = currency.GetUserCurrencyById(borders.currency.id);
+            }
+            else if (obj is Collaboration collaboration)
+            {
+                userCurrency = currency.GetUserCurrencyById(collaboration.currency.id);
+            }
+            else if (obj is CollaborationEquipment collaborationEquipment)
+            {
+                userCurrency = currency.GetUserCurrencyById(collaborationEquipment.currency.id);
+            }
+            else if (obj is Titles titles)
+            {
+                userCurrency = currency.GetUserCurrencyById(titles.currency.id);
+            }
+            else if (obj is Symbols symbols)
+            {
+                userCurrency = currency.GetUserCurrencyById(symbols.currency.id);
+            }
+            else if (obj is Medals medals)
+            {
+                userCurrency = currency.GetUserCurrencyById(medals.currency.id);
+            }
+            else if (obj is MagicFormationCircle magicFormationCircle)
+            {
+                userCurrency = currency.GetUserCurrencyById(magicFormationCircle.currency.id);
+            }
+            else if (obj is Relics relics)
+            {
+                userCurrency = currency.GetUserCurrencyById(relics.currency.id);
+            }
+            else if (obj is Pets pets)
+            {
+                userCurrency = currency.GetUserCurrencyById(pets.currency.id);
+            }
+            else if (obj is Skills skill)
+            {
+                userCurrency = currency.GetUserCurrencyById(skill.currency.id);
+            }
+            // double price = double.Parse(priceText.text);
+
+            int max = (int)(userCurrency.quantity / price);
+            double newprice = originPrice * max;
+            quantityText.text = max.ToString();
+            priceText.text = newprice.ToString();
         });
         minButton.onClick.AddListener(() =>
         {
@@ -4119,22 +2514,352 @@ public class ShopManager : MonoBehaviour
 
             for (int i = 1; i <= quantity; i++) // Duyệt từ 1 đến giá trị trong quantityText
             {
-                equipments.UpdateUserCurrency(equipments.id);
-                bool success = equipments.BuyEquipment(equipments.id); // Thực hiện mua từng món đồ
-                if (!success)
+                if (obj is Equipments equipment)
                 {
-                    allSuccess = false; // Nếu có giao dịch thất bại, đánh dấu thất bại
-                    break; // Ngừng vòng lặp nếu có lỗi
+                    equipment.UpdateUserCurrency(equipment.id);
+                    bool success = equipment.BuyEquipment((int)idProperty.GetValue(obj));
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardHeroes cardHeroes)
+                {
+                    currency.UpdateUserCurrency(cardHeroes.currency.id, price);
+                    bool success = cardHeroes.InsertUserCardHeroes(cardHeroes);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardCaptains cardCaptains)
+                {
+                    currency.UpdateUserCurrency(cardCaptains.currency.id, price);
+                    bool success = cardCaptains.InsertUserCardCaptains(cardCaptains);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardColonels cardColonels)
+                {
+                    currency.UpdateUserCurrency(cardColonels.currency.id, price);
+                    bool success = cardColonels.InsertUserCardColonels(cardColonels);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardGenerals cardGenerals)
+                {
+                    currency.UpdateUserCurrency(cardGenerals.currency.id, price);
+                    bool success = cardGenerals.InsertUserCardGenerals(cardGenerals);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardAdmirals cardAdmirals)
+                {
+                    currency.UpdateUserCurrency(cardAdmirals.currency.id, price);
+                    bool success = cardAdmirals.InsertUserCardAdmirals(cardAdmirals);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Books books)
+                {
+                    currency.UpdateUserCurrency(books.currency.id, price);
+                    bool success = books.InsertUserBooks(books);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardMonsters cardMonsters)
+                {
+                    currency.UpdateUserCurrency(cardMonsters.currency.id, price);
+                    bool success = cardMonsters.InsertUserCardMonsters(cardMonsters);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardMilitary cardMilitary)
+                {
+                    currency.UpdateUserCurrency(cardMilitary.currency.id, price);
+                    bool success = cardMilitary.InsertUserCardMilitary(cardMilitary);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardSpell cardSpell)
+                {
+                    currency.UpdateUserCurrency(cardSpell.currency.id, price);
+                    bool success = cardSpell.InsertUserCardSpell(cardSpell);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Achievements achievements)
+                {
+                    currency.UpdateUserCurrency(achievements.currency.id, price);
+                    bool success = achievements.InsertUserAchievements(achievements);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Borders borders)
+                {
+                    currency.UpdateUserCurrency(borders.currency.id, price);
+                    bool success = borders.InsertUserBorders(borders);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Collaboration collaboration)
+                {
+                    currency.UpdateUserCurrency(collaboration.currency.id, price);
+                    bool success = collaboration.InsertUserCollaborations(collaboration);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CollaborationEquipment collaborationEquipment)
+                {
+                    currency.UpdateUserCurrency(collaborationEquipment.currency.id, price);
+                    bool success = collaborationEquipment.InsertUserCollaborationEquipments(collaborationEquipment);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Titles titles)
+                {
+                    currency.UpdateUserCurrency(titles.currency.id, price);
+                    bool success = titles.InsertUserTitles(titles);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Symbols symbols)
+                {
+                    currency.UpdateUserCurrency(symbols.currency.id, price);
+                    bool success = symbols.InsertUserSymbols(symbols);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Medals medals)
+                {
+                    currency.UpdateUserCurrency(medals.currency.id, price);
+                    bool success = medals.InsertUserMedals(medals);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is MagicFormationCircle magicFormationCircle)
+                {
+                    currency.UpdateUserCurrency(magicFormationCircle.currency.id, price);
+                    bool success = magicFormationCircle.InsertUserMacgicFormationCircle(magicFormationCircle);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Relics relics)
+                {
+                    currency.UpdateUserCurrency(relics.currency.id, price);
+                    bool success = relics.InsertUserReclis(relics);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Pets pets)
+                {
+                    currency.UpdateUserCurrency(pets.currency.id, price);
+                    bool success = pets.InsertUserPets(pets);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Skills skill)
+                {
+                    currency.UpdateUserCurrency(skill.currency.id, price);
+                    bool success = skill.InsertUserSkills(skill);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
                 }
             }
 
             // Hiển thị thông báo dựa trên kết quả
             if (allSuccess)
             {
-                equipments.InsertEquipmentsGallery(equipments.id);
+                String fileNameWithoutExtension = "";
                 Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
+                List<Currency> currencies = new List<Currency>();
+                if (obj is Equipments equipment)
+                {
+                    equipment.InsertEquipmentsGallery(equipment.id);
+                    FindObjectOfType<CurrencyManager>().GetEquipmentsCurrency(subType, CurrencyPanel);
+                    fileNameWithoutExtension = equipment.image.Replace(".png", "");
+                }
+                else if (obj is CardHeroes cardHeroes)
+                {
+                    cardHeroes.InsertCardHeroesGallery(cardHeroes.id);
+                    currencies = currency.GetCardHeroesCurrency(subType);
+                    fileNameWithoutExtension = cardHeroes.image.Replace(".png", "");
+                }
+                else if (obj is CardCaptains cardCaptains)
+                {
+                    cardCaptains.InsertCardCaptainsGallery(cardCaptains.id);
+                    currencies = currency.GetCardCaptainsCurrency(subType);
+                    fileNameWithoutExtension = cardCaptains.image.Replace(".png", "");
+                }
+                else if (obj is CardColonels cardColonels)
+                {
+                    cardColonels.InsertCardColonelsGallery(cardColonels.id);
+                    currencies = currency.GetCardColonelsCurrency(subType);
+                    fileNameWithoutExtension = cardColonels.image.Replace(".png", "");
+                }
+                else if (obj is CardGenerals cardGenerals)
+                {
+                    cardGenerals.InsertCardGeneralsGallery(cardGenerals.id);
+                    currencies = currency.GetCardGeneralsCurrency(subType);
+                    fileNameWithoutExtension = cardGenerals.image.Replace(".png", "");
+                }
+                else if (obj is CardAdmirals cardAdmirals)
+                {
+                    cardAdmirals.InsertCardAdmiralsGallery(cardAdmirals.id);
+                    currencies = currency.GetCardAdmiralsCurrency(subType);
+                    fileNameWithoutExtension = cardAdmirals.image.Replace(".png", "");
+                }
+                else if (obj is Books books)
+                {
+                    books.InsertBooksGallery(books.id);
+                    currencies = currency.GetBooksCurrency(subType);
+                    fileNameWithoutExtension = books.image.Replace(".png", "");
+                }
+                else if (obj is CardMonsters cardMonsters)
+                {
+                    cardMonsters.InsertCardMonstersGallery(cardMonsters.id);
+                    currencies = currency.GetCardMonstersCurrency(subType);
+                    fileNameWithoutExtension = cardMonsters.image.Replace(".png", "");
+                }
+                else if (obj is CardMilitary cardMilitary)
+                {
+                    cardMilitary.InsertCardMilitaryGallery(cardMilitary.id);
+                    currencies = currency.GetCardMilitaryCurrency(subType);
+                    fileNameWithoutExtension = cardMilitary.image.Replace(".png", "");
+                }
+                else if (obj is CardSpell cardSpell)
+                {
+                    cardSpell.InsertCardSpellGallery(cardSpell.id);
+                    currencies = currency.GetCardMilitaryCurrency(subType);
+                    fileNameWithoutExtension = cardSpell.image.Replace(".png", "");
+                }
+                else if (obj is Achievements achievements)
+                {
+                    // achievements.InsertUserAchievements(achievements);
+                    currencies = currency.GetAchievementsCurrency();
+                    fileNameWithoutExtension = achievements.image.Replace(".png", "");
+                }
+                else if (obj is Borders borders)
+                {
+                    borders.InsertBordersGallery(borders.id);
+                    currencies = currency.GetBooksCurrency(subType);
+                    fileNameWithoutExtension = borders.image.Replace(".png", "");
+                }
+                else if (obj is Collaboration collaboration)
+                {
+                    collaboration.InsertCollaborationsGallery(collaboration.id);
+                    currencies = currency.GetCardMilitaryCurrency(subType);
+                    fileNameWithoutExtension = collaboration.image.Replace(".png", "");
+                }
+                else if (obj is CollaborationEquipment collaborationEquipment)
+                {
+                    collaborationEquipment.InsertCollaborationEquipmentsGallery(collaborationEquipment.id);
+                    currencies = currency.GetCollaborationEquipmentsCurrency(subType);
+                    fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", "");
+                }
+                else if (obj is Titles titles)
+                {
+                    titles.InsertTitlesGallery(titles.id);
+                    currencies = currency.GetTitlesCurrency(subType);
+                    fileNameWithoutExtension = titles.image.Replace(".png", "");
+                }
+                else if (obj is Symbols symbols)
+                {
+                    symbols.InsertSymbolsGallery(symbols.id);
+                    currencies = currency.GetSymbolsCurrency(subType);
+                    fileNameWithoutExtension = symbols.image.Replace(".png", "");
+                }
+                else if (obj is Medals medals)
+                {
+                    medals.InsertMedalsGallery(medals.id);
+                    currencies = currency.GetMedalsCurrency(subType);
+                    fileNameWithoutExtension = medals.image.Replace(".png", "");
+                }
+                else if (obj is MagicFormationCircle magicFormationCircle)
+                {
+                    magicFormationCircle.InsertCollaborationsGallery(magicFormationCircle.id);
+                    currencies = currency.GetMagicFormationCircleCurrency(subType);
+                    fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
+                }
+                else if (obj is Relics relics)
+                {
+                    relics.InsertRelicsGallery(relics.id);
+                    currencies = currency.GetRelicsCurrency(subType);
+                    fileNameWithoutExtension = relics.image.Replace(".png", "");
+                }
+                else if (obj is Pets pets)
+                {
+                    pets.InsertPetsGallery(pets.id);
+                    currencies = currency.GetPetsCurrency(subType);
+                    fileNameWithoutExtension = pets.image.Replace(".png", "");
+                }
+                else if (obj is Skills skill)
+                {
+                    skill.InsertSkillsGallery(skill.id);
+                    currencies = currency.GetSkillsCurrency(subType);
+                    fileNameWithoutExtension = skill.image.Replace(".png", "");
+                }
                 Close(CurrencyPanel);
-                FindObjectOfType<CurrencyManager>().GetEquipmentsCurrency(type, CurrencyPanel);
+                FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
                 Close(popupPanel);
                 // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                 GameObject receivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);
@@ -4144,7 +2869,6 @@ public class ShopManager : MonoBehaviour
                 GameObject itemObject = Instantiate(ItemThird, itemContent);
 
                 RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = equipments.image.Replace(".png", "");
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
@@ -4171,7 +2895,7 @@ public class ShopManager : MonoBehaviour
         };
         entry.callback.AddListener((data) =>
         {
-           Destroy(obj);
+            Destroy(obj);
         });
         trigger.triggers.Add(entry);
     }
