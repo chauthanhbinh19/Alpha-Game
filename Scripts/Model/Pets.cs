@@ -17,6 +17,7 @@ public class Pets
     public int experiment { get; set; }
     public int quantity { get; set; }
     public int block { get; set; }
+    public string position { get; set; }
     public double power { get; set; }
     public double health { get; set; }
     public double physical_attack { get; set; }
@@ -60,6 +61,7 @@ public class Pets
     public double all_accuracy { get; set; }
     public float all_mana { get; set; }
     public string description { get; set; }
+    public int team_id { get; set; }
     public string status { get; set; }
     public Currency currency { get; set; }
     public Pets()
@@ -104,6 +106,7 @@ public class Pets
         all_absorbs_damage = -1;
         all_regenerate_vitality = -1;
         all_accuracy = -1;
+        team_id=-1;
     }
     public static List<string> GetUniquePetsTypes()
     {
@@ -281,10 +284,14 @@ public class Pets
             try
             {
                 connection.Open();
-                string query = @"Select up.*, p.image, p.rare, p.type, fp.* from Pets p, user_pets up, fact_pets fp
-                where p.id=up.pet_id and up.user_id=@userId and p.type= @type and fp.user_id=uc.user_id
-                and fp.user_pet_id=uc.pet_id
-                ORDER BY p.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name limit @limit offset @offset";
+                string query = @"SELECT up.*, p.image, p.rare, p.type, fp.*
+                FROM user_pets up
+                LEFT JOIN Pets p ON p.id = up.pet_id
+                LEFT JOIN fact_pets fp ON fp.user_id = up.user_id AND fp.user_pet_id = up.pet_id
+                WHERE up.user_id = @userId AND p.type = @type
+                ORDER BY p.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name
+                LIMIT @limit OFFSET @offset;
+                ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -301,6 +308,96 @@ public class Pets
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
+                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        description = reader.GetString("description"),
+                        all_power = reader.GetDouble("all_power"),
+                        all_health = reader.GetDouble("all_health"),
+                        all_physical_attack = reader.GetDouble("all_physical_attack"),
+                        all_physical_defense = reader.GetDouble("all_physical_defense"),
+                        all_magical_attack = reader.GetDouble("all_magical_attack"),
+                        all_magical_defense = reader.GetDouble("all_magical_defense"),
+                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
+                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
+                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
+                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
+                        all_mental_attack = reader.GetDouble("all_mental_attack"),
+                        all_mental_defense = reader.GetDouble("all_mental_defense"),
+                        all_speed = reader.GetDouble("all_speed"),
+                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_rate = reader.GetDouble("all_critical_rate"),
+                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
+                        all_avoid = reader.GetDouble("all_avoid"),
+                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
+                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
+                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_mana = reader.GetFloat("all_mana"),
+                    };
+
+                    petsList.Add(pet);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return petsList;
+    }
+    public List<Pets> GetUserPetsTeam(int teamId)
+    {
+        List<Pets> petsList = new List<Pets>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT up.*, p.image, p.rare, p.type, fp.*
+                FROM user_pets up
+                LEFT JOIN Pets p ON p.id = up.pet_id
+                LEFT JOIN fact_pets fp ON fp.user_id = up.user_id AND fp.user_pet_id = up.pet_id
+                WHERE up.user_id = @userId AND fp.team_id = @team_id
+                ORDER BY p.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name;
+                ";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                command.Parameters.AddWithValue("@team_id", teamId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Pets pet = new Pets
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -492,6 +589,31 @@ public class Pets
                 command.Parameters.AddWithValue("@all_regenerate_vitality", pets.regenerate_vitality);
                 command.Parameters.AddWithValue("@all_accuracy", pets.accuracy);
                 command.Parameters.AddWithValue("@all_mana", pets.mana);
+                command.ExecuteNonQuery();
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateTeamFactCardPets(int team_id, int card_id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                Update fact_card_pets set team_id=@team_id where user_id=@user_id 
+                and user_card_pet_id=@user_card_pet_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@team_id", team_id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_card_pet_id", card_id);
                 command.ExecuteNonQuery();
 
             }

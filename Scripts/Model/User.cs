@@ -80,9 +80,12 @@ public class User
                 {
                     command.ExecuteNonQuery();
                     createUserCurrency(maxId + 1);
+                    CurrentUserId=maxId+1;
                     Borders borders = new Borders();
                     borders.InsertUserBordersById(359);
                     borders.InsertBordersGallery(359);
+                    Teams team= new Teams();
+                    team.InsertUserTeams();
                     Debug.Log("User registered successfully!");
                 }
                 catch (Exception ex)

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class DropdownManager : MonoBehaviour
 {
-    public static void PopulateDropdown(TMP_Dropdown tmpDropdown, List<string> options)
+    public static void PopulateDropdown(TMP_Dropdown tmpDropdown, List<string> options, UnityAction<int> onValueChangedCallback = null)
     {
         if (tmpDropdown == null)
         {
@@ -38,6 +39,14 @@ public class DropdownManager : MonoBehaviour
 
         // Hide the template again after adjustments
         template.gameObject.SetActive(false);
+        // Remove any existing callbacks
+        tmpDropdown.onValueChanged.RemoveAllListeners();
+
+        // Add the provided callback
+        if (onValueChangedCallback != null)
+        {
+            tmpDropdown.onValueChanged.AddListener(onValueChangedCallback);
+        }
     }
 
     public static void AddDropdownListener(GameObject dropdownObject, System.Action<int> onSelectCallback)

@@ -17,6 +17,7 @@ public class CardSpell
     public int experiment { get; set; }
     public int quantity { get; set; }
     public bool block { get; set; }
+    public string position { get; set; }
     public double power { get; set; }
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
@@ -40,6 +41,7 @@ public class CardSpell
     public float percent_all_mana { get; set; }
     public string description { get; set; }
     public string status { get; set; }
+    public int team_id { get; set; }
     public Currency currency { get; set; }
     public CardSpell()
     {
