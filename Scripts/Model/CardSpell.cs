@@ -37,15 +37,83 @@ public class CardSpell
     public double percent_all_avoid { get; set; }
     public double percent_all_absorbs_damage { get; set; }
     public double percent_all_regenerate_vitality { get; set; }
-    public double percent_all_accuracy{ get; set; }
+    public double percent_all_accuracy { get; set; }
     public float percent_all_mana { get; set; }
+    public double all_power { get; set; }
+    public double all_percent_health { get; set; }
+    public double all_percent_physical_attack { get; set; }
+    public double all_percent_physical_defense { get; set; }
+    public double all_percent_magical_attack { get; set; }
+    public double all_percent_magical_defense { get; set; }
+    public double all_percent_chemical_attack { get; set; }
+    public double all_percent_chemical_defense { get; set; }
+    public double all_percent_atomic_attack { get; set; }
+    public double all_percent_atomic_defense { get; set; }
+    public double all_percent_mental_attack { get; set; }
+    public double all_percent_mental_defense { get; set; }
+    public double all_percent_speed { get; set; }
+    public double all_percent_critical_damage { get; set; }
+    public double all_percent_critical_rate { get; set; }
+    public double all_percent_armor_penetration { get; set; }
+    public double all_percent_avoid { get; set; }
+    public double all_percent_absorbs_damage { get; set; }
+    public double all_percent_regenerate_vitality { get; set; }
+    public double all_percent_accuracy { get; set; }
+    public float all_percent_mana { get; set; }
     public string description { get; set; }
     public string status { get; set; }
     public int team_id { get; set; }
     public Currency currency { get; set; }
     public CardSpell()
     {
-
+        id = -1;
+        star = -1;
+        level = -1;
+        experiment = -1;
+        quantity = -1;
+        power = -1;
+        percent_all_health = -1;
+        percent_all_physical_attack = -1;
+        percent_all_physical_defense = -1;
+        percent_all_magical_attack = -1;
+        percent_all_magical_defense = -1;
+        percent_all_chemical_attack = -1;
+        percent_all_chemical_defense = -1;
+        percent_all_atomic_attack = -1;
+        percent_all_atomic_defense = -1;
+        percent_all_mental_attack = -1;
+        percent_all_mental_defense = -1;
+        percent_all_speed = -1;
+        percent_all_critical_damage = -1;
+        percent_all_critical_rate = -1;
+        percent_all_armor_penetration = -1;
+        percent_all_avoid = -1;
+        percent_all_absorbs_damage = -1;
+        percent_all_regenerate_vitality = -1;
+        percent_all_accuracy = -1;
+        percent_all_mana = -1;
+        all_power = -1;
+        all_percent_health = -1;
+        all_percent_physical_attack = -1;
+        all_percent_physical_defense = -1;
+        all_percent_magical_attack = -1;
+        all_percent_magical_defense = -1;
+        all_percent_chemical_attack = -1;
+        all_percent_chemical_defense = -1;
+        all_percent_atomic_attack = -1;
+        all_percent_atomic_defense = -1;
+        all_percent_mental_attack = -1;
+        all_percent_mental_defense = -1;
+        all_percent_speed = -1;
+        all_percent_critical_damage = -1;
+        all_percent_critical_rate = -1;
+        all_percent_armor_penetration = -1;
+        all_percent_avoid = -1;
+        all_percent_absorbs_damage = -1;
+        all_percent_regenerate_vitality = -1;
+        all_percent_accuracy = -1;
+        all_percent_mana = -1;
+        team_id = -1;
     }
     public static List<string> GetUniqueCardSpellTypes()
     {
@@ -224,8 +292,13 @@ public class CardSpell
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.* from card_spell s, user_card_spell us where s.id=us.card_spell_id and us.user_id=@userId and s.type= @type 
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
+                string query = @"Select us.*, s.* , fcs.*
+                FROM user_card_spell us
+                LEFT JOIN card_spell s ON us.card_spell_id = s.id 
+                LEFT JOIN fact_card_spell fcs ON fcs.user_id = us.user_id AND fcs.user_card_spell_id = us.card_spell_id
+                WHERE us.user_id = @userId AND s.type = @type
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name 
+                limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
@@ -246,6 +319,8 @@ public class CardSpell
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         block = reader.GetBoolean("block"),
+                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
                         power = reader.GetDouble("power"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
@@ -267,7 +342,28 @@ public class CardSpell
                         percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
                         percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
                         percent_all_mana = reader.GetFloat("percent_all_mana"),
-                        description = reader.GetString("description")
+                        description = reader.GetString("description"),
+                        all_power = reader.GetDouble("all_power"),
+                        all_percent_health = reader.GetDouble("percent_all_health"),
+                        all_percent_physical_attack = reader.GetDouble("all_percent_physical_attack"),
+                        all_percent_physical_defense = reader.GetDouble("all_percent_physical_defense"),
+                        all_percent_magical_attack = reader.GetDouble("all_percent_magical_attack"),
+                        all_percent_magical_defense = reader.GetDouble("all_percent_magical_defense"),
+                        all_percent_chemical_attack = reader.GetDouble("all_percent_chemical_attack"),
+                        all_percent_chemical_defense = reader.GetDouble("all_percent_chemical_defense"),
+                        all_percent_atomic_attack = reader.GetDouble("all_percent_atomic_attack"),
+                        all_percent_atomic_defense = reader.GetDouble("all_percent_atomic_defense"),
+                        all_percent_mental_attack = reader.GetDouble("all_percent_mental_attack"),
+                        all_percent_mental_defense = reader.GetDouble("all_percent_mental_defense"),
+                        all_percent_speed = reader.GetDouble("all_percent_speed"),
+                        all_percent_critical_damage = reader.GetDouble("all_percent_critical_damage"),
+                        all_percent_critical_rate = reader.GetDouble("all_percent_critical_rate"),
+                        all_percent_armor_penetration = reader.GetDouble("all_percent_armor_penetration"),
+                        all_percent_avoid = reader.GetDouble("all_percent_avoid"),
+                        all_percent_absorbs_damage = reader.GetDouble("all_percent_absorbs_damage"),
+                        all_percent_regenerate_vitality = reader.GetDouble("all_percent_regenerate_vitality"),
+                        all_percent_accuracy = reader.GetDouble("all_percent_accuracy"),
+                        all_percent_mana = reader.GetFloat("all_percent_mana"),
                     };
 
                     CardSpellList.Add(CardSpell);
@@ -280,6 +376,124 @@ public class CardSpell
 
         }
         return CardSpellList;
+    }
+    public List<CardSpell> GetUserCardSpellTeam(int teamId)
+    {
+        List<CardSpell> CardSpellList = new List<CardSpell>();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select us.*, s.*, fcs.* 
+                FROM user_card_spell us
+                LEFT JOIN card_spell s ON us.card_spell_id = s.id 
+                LEFT JOIN fact_card_spell fcs ON fcs.user_id = us.user_id AND fcs.user_card_spell_id = us.card_spell_id
+                WHERE us.user_id = @userId AND fcs.team_id = @team_id
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name ";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@team_id", teamId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    CardSpell CardSpell = new CardSpell
+                    {
+                        id = reader.GetInt32("card_spell_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        quantity = reader.GetInt32("quantity"),
+                        block = reader.GetBoolean("block"),
+                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
+                        power = reader.GetDouble("power"),
+                        percent_all_health = reader.GetDouble("percent_all_health"),
+                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
+                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
+                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
+                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
+                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
+                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
+                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
+                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
+                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
+                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
+                        percent_all_speed = reader.GetDouble("percent_all_speed"),
+                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
+                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
+                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
+                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
+                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
+                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
+                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
+                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        description = reader.GetString("description"),
+                        all_power = reader.GetDouble("all_power"),
+                        all_percent_health = reader.GetDouble("percent_all_health"),
+                        all_percent_physical_attack = reader.GetDouble("all_percent_physical_attack"),
+                        all_percent_physical_defense = reader.GetDouble("all_percent_physical_defense"),
+                        all_percent_magical_attack = reader.GetDouble("all_percent_magical_attack"),
+                        all_percent_magical_defense = reader.GetDouble("all_percent_magical_defense"),
+                        all_percent_chemical_attack = reader.GetDouble("all_percent_chemical_attack"),
+                        all_percent_chemical_defense = reader.GetDouble("all_percent_chemical_defense"),
+                        all_percent_atomic_attack = reader.GetDouble("all_percent_atomic_attack"),
+                        all_percent_atomic_defense = reader.GetDouble("all_percent_atomic_defense"),
+                        all_percent_mental_attack = reader.GetDouble("all_percent_mental_attack"),
+                        all_percent_mental_defense = reader.GetDouble("all_percent_mental_defense"),
+                        all_percent_speed = reader.GetDouble("all_percent_speed"),
+                        all_percent_critical_damage = reader.GetDouble("all_percent_critical_damage"),
+                        all_percent_critical_rate = reader.GetDouble("all_percent_critical_rate"),
+                        all_percent_armor_penetration = reader.GetDouble("all_percent_armor_penetration"),
+                        all_percent_avoid = reader.GetDouble("all_percent_avoid"),
+                        all_percent_absorbs_damage = reader.GetDouble("all_percent_absorbs_damage"),
+                        all_percent_regenerate_vitality = reader.GetDouble("all_percent_regenerate_vitality"),
+                        all_percent_accuracy = reader.GetDouble("all_percent_accuracy"),
+                        all_percent_mana = reader.GetFloat("all_percent_mana"),
+                    };
+
+                    CardSpellList.Add(CardSpell);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return CardSpellList;
+    }
+    public bool UpdateTeamFactCardSpell(int? team_id,string position, int card_id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                Update fact_card_spell set team_id=@team_id, position=@position where user_id=@user_id 
+                and user_card_spell_id=@user_card_spell_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@team_id", team_id);
+                command.Parameters.AddWithValue("@position", position);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_card_spell_id", card_id);
+                command.ExecuteNonQuery();
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
     }
     public int GetUserCardSpellCount(string type)
     {
@@ -495,6 +709,7 @@ public class CardSpell
                     command.Parameters.AddWithValue("@percent_all_accuracy", CardSpell.percent_all_accuracy);
                     command.Parameters.AddWithValue("@percent_all_mana", CardSpell.percent_all_mana);
                     MySqlDataReader reader = command.ExecuteReader();
+                    InsertFactCardSpell(CardSpell);
                 }
                 else
                 {
@@ -510,6 +725,70 @@ public class CardSpell
 
                     updateCommand.ExecuteNonQuery();
                 }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return true;
+    }
+    public bool InsertFactCardSpell(CardSpell CardSpell)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                    INSERT INTO fact_card_spell (
+                        user_id, user_card_spell_id, all_power,
+                        all_percent_health, all_percent_physical_attack, all_percent_physical_defense,
+                        all_percent_magical_attack, all_percent_magical_defense, all_percent_chemical_attack,
+                        all_percent_chemical_defense, all_percent_atomic_attack, all_percent_atomic_defense,
+                        all_percent_mental_attack, all_percent_mental_defense, all_percent_speed,
+                        all_percent_critical_damage, all_percent_critical_rate, all_percent_armor_penetration,
+                        all_percent_avoid, all_percent_absorbs_damage, all_percent_regenerate_vitality,
+                        all_percent_accuracy, all_percent_mana
+                    ) VALUES (
+                        @user_id, @user_card_spell_id, @power,
+                        @all_percent_health, @all_percent_physical_attack, @all_percent_physical_defense,
+                        @all_percent_magical_attack, @all_percent_magical_defense, @all_percent_chemical_attack,
+                        @all_percent_chemical_defense, @all_percent_atomic_attack, @all_percent_atomic_defense,
+                        @all_percent_mental_attack, @all_percent_mental_defense, @all_percent_speed,
+                        @all_percent_critical_damage, @all_percent_critical_rate, @all_percent_armor_penetration,
+                        @all_percent_avoid, @all_percent_absorbs_damage, @all_percent_regenerate_vitality,
+                        @all_percent_accuracy, @all_percent_mana
+                    );
+                    ";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_card_spell_id", CardSpell.id);
+                command.Parameters.AddWithValue("@power", CardSpell.power);
+                command.Parameters.AddWithValue("@all_percent_health", CardSpell.percent_all_health);
+                command.Parameters.AddWithValue("@all_percent_physical_attack", CardSpell.percent_all_physical_attack);
+                command.Parameters.AddWithValue("@all_percent_physical_defense", CardSpell.percent_all_physical_defense);
+                command.Parameters.AddWithValue("@all_percent_magical_attack", CardSpell.percent_all_magical_attack);
+                command.Parameters.AddWithValue("@all_percent_magical_defense", CardSpell.percent_all_magical_defense);
+                command.Parameters.AddWithValue("@all_percent_chemical_attack", CardSpell.percent_all_chemical_attack);
+                command.Parameters.AddWithValue("@all_percent_chemical_defense", CardSpell.percent_all_chemical_defense);
+                command.Parameters.AddWithValue("@all_percent_atomic_attack", CardSpell.percent_all_atomic_attack);
+                command.Parameters.AddWithValue("@all_percent_atomic_defense", CardSpell.percent_all_atomic_defense);
+                command.Parameters.AddWithValue("@all_percent_mental_attack", CardSpell.percent_all_mental_attack);
+                command.Parameters.AddWithValue("@all_percent_mental_defense", CardSpell.percent_all_mental_defense);
+                command.Parameters.AddWithValue("@all_percent_speed", CardSpell.percent_all_speed);
+                command.Parameters.AddWithValue("@all_percent_critical_damage", CardSpell.percent_all_critical_damage);
+                command.Parameters.AddWithValue("@all_percent_critical_rate", CardSpell.percent_all_critical_rate);
+                command.Parameters.AddWithValue("@all_percent_armor_penetration", CardSpell.percent_all_armor_penetration);
+                command.Parameters.AddWithValue("@all_percent_avoid", CardSpell.percent_all_avoid);
+                command.Parameters.AddWithValue("@all_percent_absorbs_damage", CardSpell.percent_all_absorbs_damage);
+                command.Parameters.AddWithValue("@all_percent_regenerate_vitality", CardSpell.percent_all_regenerate_vitality);
+                command.Parameters.AddWithValue("@all_percent_accuracy", CardSpell.percent_all_accuracy);
+                command.Parameters.AddWithValue("@all_percent_mana", CardSpell.percent_all_mana);
+                command.ExecuteNonQuery();
 
             }
             catch (MySqlException ex)
@@ -748,7 +1027,8 @@ public class CardSpell
                         percent_all_mana = reader.GetFloat("percent_all_mana"),
                         description = reader.GetString("description")
                     };
-                    CardSpell.currency = new Currency{
+                    CardSpell.currency = new Currency
+                    {
                         id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")

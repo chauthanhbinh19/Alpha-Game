@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEditor.UI;
 
 public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -9,7 +10,10 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public Texture cardTexture;
     public int team_id;
     public object obj;
+    public Transform InTeam;
     private Vector2 originalPosition;
+    // Delegate để gọi lại hàm
+    public System.Action OnDragEnd; // Callback khi kết thúc kéo
 
     private void Start()
     {
@@ -41,6 +45,10 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
+        InTeam.gameObject.SetActive(true);
+
+        // Gọi lại hàm callback
+        OnDragEnd?.Invoke();
     }
     // Phương thức để cập nhật team_id
     public void UpdateTeamId(int newTeamId)

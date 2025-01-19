@@ -44,6 +44,9 @@ public class MainMenuManager : MonoBehaviour
     private string buttonType;
     private string selectedOptionName;
     private int team_id;
+    private int team_limit;
+    private int team_offset;
+    private Transform choseTeam;
     List<CardDragHandler> cardDragHandlers = new List<CardDragHandler>();
     void Start()
     {
@@ -1852,14 +1855,14 @@ public class MainMenuManager : MonoBehaviour
         TextMeshProUGUI teamMembers = teamsObject.transform.Find("DictionaryCards/TeamMembersText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI typeText = teamsObject.transform.Find("DictionaryCards/TypeText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI teamTitleText = teamsObject.transform.Find("DictionaryCards/TeamTitleText").GetComponent<TextMeshProUGUI>();
-        Transform choseTeam = teamsObject.transform.Find("DictionaryCards/ChoseTeam");
+        choseTeam = teamsObject.transform.Find("DictionaryCards/ChoseTeam");
         Button nextButton = teamsObject.transform.Find("DictionaryCards/NextButton").GetComponent<Button>();
         Button previousButton = teamsObject.transform.Find("DictionaryCards/PreviousButton").GetComponent<Button>();
         Text pageText = teamsObject.transform.Find("Pagination/Page").GetComponent<Text>();
 
         int team = 1;
-        int team_limit = 10;
-        int team_offset = 0;
+        team_limit = 10;
+        team_offset = 0;
         int page = 1;
         team_id = 1;
         string type = "CardHeroes";
@@ -1892,7 +1895,7 @@ public class MainMenuManager : MonoBehaviour
         });
         typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
         List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
-        CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+        CreatePosition(type, team, positionContent, user.level, teamsObject);
         createCardTeams(cardObjects, choseTeam);
         selectedOptionName = dropdownType.options[dropdownType.value].text;
         int totalRecord = cardHeroes.GetUserCardHeroesCount(selectedOptionName);
@@ -1911,9 +1914,16 @@ public class MainMenuManager : MonoBehaviour
             type = "CardHeroes";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardHeroes c = new CardHeroes();
-            List<CardHeroes> cardHeroesList = c.GetUserCardHeroesTeam(team);
-            cardObjects = cardHeroesList.Cast<object>().ToList();
-            CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+            CreatePosition(type, team, positionContent, user.level, teamsObject);
+
+            selectedOptionName = dropdownType.options[dropdownType.value].text;
+            List<CardHeroes> cardHeroesList2 = c.GetUserCardHeroes(selectedOptionName, team_limit, team_offset);
+            cardObjects = cardHeroesList2.Cast<object>().ToList();
+            createCardTeams(cardObjects, choseTeam);
+
+            totalRecord = c.GetUserCardHeroesCount(selectedOptionName);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+            pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
         AssignButtonEvent("Button_2", tempLeftContent, () =>
         {
@@ -1927,9 +1937,16 @@ public class MainMenuManager : MonoBehaviour
             type = "CardCaptains";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardCaptains c = new CardCaptains();
-            List<CardCaptains> cardHeroesList = c.GetUserCardCaptainsTeam(team);
-            cardObjects = cardHeroesList.Cast<object>().ToList();
-            CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+            CreatePosition(type, team, positionContent, user.level, teamsObject);
+
+            selectedOptionName = dropdownType.options[dropdownType.value].text;
+            List<CardCaptains> cardHeroesList2 = c.GetUserCardCaptains(selectedOptionName, team_limit, team_offset);
+            cardObjects = cardHeroesList2.Cast<object>().ToList();
+            createCardTeams(cardObjects, choseTeam);
+
+            totalRecord = c.GetUserCardCaptainsCount(selectedOptionName);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+            pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
         AssignButtonEvent("Button_3", tempLeftContent, () =>
         {
@@ -1943,9 +1960,16 @@ public class MainMenuManager : MonoBehaviour
             type = "CardColonels";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardColonels c = new CardColonels();
-            List<CardColonels> cardHeroesList = c.GetUserCardColonelsTeam(team);
-            cardObjects = cardHeroesList.Cast<object>().ToList();
-            CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+            CreatePosition(type, team, positionContent, user.level, teamsObject);
+
+            selectedOptionName = dropdownType.options[dropdownType.value].text;
+            List<CardColonels> cardHeroesList2 = c.GetUserCardColonels(selectedOptionName, team_limit, team_offset);
+            cardObjects = cardHeroesList2.Cast<object>().ToList();
+            createCardTeams(cardObjects, choseTeam);
+
+            totalRecord = c.GetUserCardColonelsCount(selectedOptionName);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+            pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
         AssignButtonEvent("Button_4", tempLeftContent, () =>
         {
@@ -1959,9 +1983,16 @@ public class MainMenuManager : MonoBehaviour
             type = "CardGenerals";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardGenerals c = new CardGenerals();
-            List<CardGenerals> cardHeroesList = c.GetUserCardGeneralsTeam(team);
-            cardObjects = cardHeroesList.Cast<object>().ToList();
-            CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+            CreatePosition(type, team, positionContent, user.level, teamsObject);
+
+            selectedOptionName = dropdownType.options[dropdownType.value].text;
+            List<CardGenerals> cardHeroesList2 = c.GetUserCardGenerals(selectedOptionName, team_limit, team_offset);
+            cardObjects = cardHeroesList2.Cast<object>().ToList();
+            createCardTeams(cardObjects, choseTeam);
+
+            totalRecord = c.GetUserCardGeneralsCount(selectedOptionName);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+            pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
         AssignButtonEvent("Button_5", tempLeftContent, () =>
         {
@@ -1975,9 +2006,16 @@ public class MainMenuManager : MonoBehaviour
             type = "CardAdmirals";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardAdmirals c = new CardAdmirals();
-            List<CardAdmirals> cardHeroesList = c.GetUserCardAdmiralsTeam(team);
-            cardObjects = cardHeroesList.Cast<object>().ToList();
-            CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+            CreatePosition(type, team, positionContent, user.level, teamsObject);
+
+            selectedOptionName = dropdownType.options[dropdownType.value].text;
+            List<CardAdmirals> cardHeroesList2 = c.GetUserCardAdmirals(selectedOptionName, team_limit, team_offset);
+            cardObjects = cardHeroesList2.Cast<object>().ToList();
+            createCardTeams(cardObjects, choseTeam);
+
+            totalRecord = c.GetUserCardAdmiralsCount(selectedOptionName);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+            pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
         AssignButtonEvent("Button_6", tempLeftContent, () =>
         {
@@ -1991,9 +2029,16 @@ public class MainMenuManager : MonoBehaviour
             type = "CardMonsters";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardMonsters c = new CardMonsters();
-            List<CardMonsters> cardHeroesList = c.GetUserCardMonstersTeam(team);
-            cardObjects = cardHeroesList.Cast<object>().ToList();
-            CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+            CreatePosition(type, team, positionContent, user.level, teamsObject);
+
+            // selectedOptionName = dropdownType.options[dropdownType.value].text;
+            List<CardMonsters> cardHeroesList2 = c.GetUserCardMonsters(team_limit, team_offset);
+            cardObjects = cardHeroesList2.Cast<object>().ToList();
+            createCardTeams(cardObjects, choseTeam);
+
+            totalRecord = c.GetUserCardMonstersCount();
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+            pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
         AssignButtonEvent("Button_7", tempLeftContent, () =>
         {
@@ -2007,9 +2052,16 @@ public class MainMenuManager : MonoBehaviour
             type = "CardMilitary";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardMilitary c = new CardMilitary();
-            List<CardMilitary> cardHeroesList = c.GetUserCardMilitaryTeam(team);
-            cardObjects = cardHeroesList.Cast<object>().ToList();
-            CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+            CreatePosition(type, team, positionContent, user.level, teamsObject);
+
+            selectedOptionName = dropdownType.options[dropdownType.value].text;
+            List<CardMilitary> cardHeroesList2 = c.GetUserCardMilitary(selectedOptionName, team_limit, team_offset);
+            cardObjects = cardHeroesList2.Cast<object>().ToList();
+            createCardTeams(cardObjects, choseTeam);
+
+            totalRecord = c.GetUserCardMilitaryCount(selectedOptionName);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+            pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
         AssignButtonEvent("Button_8", tempLeftContent, () =>
         {
@@ -2022,7 +2074,17 @@ public class MainMenuManager : MonoBehaviour
             });
             type = "CardSpell";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
-            CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+            CardSpell c = new CardSpell();
+            CreatePosition(type, team, positionContent, user.level, teamsObject);
+
+            selectedOptionName = dropdownType.options[dropdownType.value].text;
+            List<CardSpell> cardHeroesList2 = c.GetUserCardSpell(selectedOptionName, team_limit, team_offset);
+            cardObjects = cardHeroesList2.Cast<object>().ToList();
+            createCardTeams(cardObjects, choseTeam);
+
+            totalRecord = c.GetUserCardSpellCount(selectedOptionName);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+            pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
 
         Teams teams = new Teams();
@@ -2044,11 +2106,8 @@ public class MainMenuManager : MonoBehaviour
                 team = teamIndex;
                 teamTitleText.text = "Team " + teamIndex;
                 team_id = teamIndex;
-                CardHeroes c = new CardHeroes();
-                List<CardHeroes> cardHeroesList = c.GetUserCardHeroesTeam(team);
-                cardObjects = cardHeroesList.Cast<object>().ToList();
                 GetTeamsButton(button, tempRightContent);
-                CreatePosition(cardObjects, type, team, positionContent, user.level, teamsObject);
+                CreatePosition(type, team, positionContent, user.level, teamsObject);
                 UpdateTeamForAllCards(teamIndex);
             });
         }
@@ -2058,62 +2117,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 team_offset = team_offset + team_limit;
                 page = page + 1;
-                if (type.Equals("CardHeroes"))
-                {
-                    CardHeroes cardHeroes = new CardHeroes();
-                    List<CardHeroes> cardHeroesList = cardHeroes.GetUserCardHeroes(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardCaptains"))
-                {
-                    CardCaptains cardCaptains = new CardCaptains();
-                    List<CardCaptains> cardCaptainsList = cardCaptains.GetUserCardCaptains(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardCaptainsList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardColonels"))
-                {
-                    CardColonels cardColonels = new CardColonels();
-                    List<CardColonels> cardColonelsList = cardColonels.GetUserCardColonels(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardColonelsList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardGenerals"))
-                {
-                    CardGenerals cardGenerals = new CardGenerals();
-                    List<CardGenerals> cardGeneralsList = cardGenerals.GetUserCardGenerals(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardGeneralsList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardAdmirals"))
-                {
-                    CardAdmirals cardAdmirals = new CardAdmirals();
-                    List<CardAdmirals> cardAdmiralsList = cardAdmirals.GetUserCardAdmirals(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardAdmiralsList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardMonsters"))
-                {
-                    CardMonsters cardMonsters = new CardMonsters();
-                    List<CardMonsters> cardMonstersList = cardMonsters.GetUserCardMonsters(team_limit, team_offset);
-                    List<object> cardObjects = cardMonstersList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardMilitary"))
-                {
-                    CardMilitary cardMilitary = new CardMilitary();
-                    List<CardMilitary> cardMilitaryList = cardMilitary.GetUserCardMilitary(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardMilitaryList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardSpell"))
-                {
-                    CardSpell cardSpell = new CardSpell();
-                    List<CardSpell> cardSpellList = cardSpell.GetUserCardSpell(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardSpellList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
+                LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 pageText.text = page.ToString() + "/" + totalPage.ToString();
             }
         });
@@ -2123,62 +2127,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 team_offset = team_offset - team_limit;
                 page = page - 1;
-                if (type.Equals("CardHeroes"))
-                {
-                    CardHeroes cardHeroes = new CardHeroes();
-                    List<CardHeroes> cardHeroesList = cardHeroes.GetUserCardHeroes(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardCaptains"))
-                {
-                    CardCaptains cardCaptains = new CardCaptains();
-                    List<CardCaptains> cardCaptainsList = cardCaptains.GetUserCardCaptains(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardCaptainsList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardColonels"))
-                {
-                    CardColonels cardColonels = new CardColonels();
-                    List<CardColonels> cardColonelsList = cardColonels.GetUserCardColonels(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardColonelsList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardGenerals"))
-                {
-                    CardGenerals cardGenerals = new CardGenerals();
-                    List<CardGenerals> cardGeneralsList = cardGenerals.GetUserCardGenerals(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardGeneralsList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardAdmirals"))
-                {
-                    CardAdmirals cardAdmirals = new CardAdmirals();
-                    List<CardAdmirals> cardAdmiralsList = cardAdmirals.GetUserCardAdmirals(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardAdmiralsList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardMonsters"))
-                {
-                    CardMonsters cardMonsters = new CardMonsters();
-                    List<CardMonsters> cardMonstersList = cardMonsters.GetUserCardMonsters(team_limit, team_offset);
-                    List<object> cardObjects = cardMonstersList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardMilitary"))
-                {
-                    CardMilitary cardMilitary = new CardMilitary();
-                    List<CardMilitary> cardMilitaryList = cardMilitary.GetUserCardMilitary(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardMilitaryList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
-                else if (type.Equals("CardSpell"))
-                {
-                    CardSpell cardSpell = new CardSpell();
-                    List<CardSpell> cardSpellList = cardSpell.GetUserCardSpell(selectedOptionName, team_limit, team_offset);
-                    List<object> cardObjects = cardSpellList.Cast<object>().ToList();
-                    createCardTeams(cardObjects, choseTeam);
-                }
+                LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 pageText.text = page.ToString() + "/" + totalPage.ToString();
             }
         });
@@ -2665,8 +2614,6 @@ public class MainMenuManager : MonoBehaviour
         onOffsetUpdated?.Invoke(team_offset);
         onCurrentPageUpdated?.Invoke(page);
         pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-        // Gọi callback selectedOption với giá trị hiện tại (nếu cần thiết)
-        dropdownType.onValueChanged.Invoke(dropdownType.value);
     });
     }
     public void GetTeamsButton(GameObject clickedButton, Transform panel)
@@ -2683,7 +2630,71 @@ public class MainMenuManager : MonoBehaviour
         }
         ChangeButtonBackground(clickedButton, "Background_V4_166");
     }
-    public void CreatePosition(List<object> obj, string type, int team, Transform panel, int level, GameObject teamsObject)
+    private void LoadCardDataByType(string type, string selectedOptionName, int team_limit, int team_offset, Transform choseTeam)
+    {
+        List<object> cardObjects = null;
+
+        switch (type)
+        {
+            case "CardHeroes":
+                CardHeroes cardHeroes = new CardHeroes();
+                List<CardHeroes> cardHeroesList = cardHeroes.GetUserCardHeroes(selectedOptionName, team_limit, team_offset);
+                cardObjects = cardHeroesList.Cast<object>().ToList();
+                break;
+
+            case "CardCaptains":
+                CardCaptains cardCaptains = new CardCaptains();
+                List<CardCaptains> cardCaptainsList = cardCaptains.GetUserCardCaptains(selectedOptionName, team_limit, team_offset);
+                cardObjects = cardCaptainsList.Cast<object>().ToList();
+                break;
+
+            case "CardColonels":
+                CardColonels cardColonels = new CardColonels();
+                List<CardColonels> cardColonelsList = cardColonels.GetUserCardColonels(selectedOptionName, team_limit, team_offset);
+                cardObjects = cardColonelsList.Cast<object>().ToList();
+                break;
+
+            case "CardGenerals":
+                CardGenerals cardGenerals = new CardGenerals();
+                List<CardGenerals> cardGeneralsList = cardGenerals.GetUserCardGenerals(selectedOptionName, team_limit, team_offset);
+                cardObjects = cardGeneralsList.Cast<object>().ToList();
+                break;
+
+            case "CardAdmirals":
+                CardAdmirals cardAdmirals = new CardAdmirals();
+                List<CardAdmirals> cardAdmiralsList = cardAdmirals.GetUserCardAdmirals(selectedOptionName, team_limit, team_offset);
+                cardObjects = cardAdmiralsList.Cast<object>().ToList();
+                break;
+
+            case "CardMonsters":
+                CardMonsters cardMonsters = new CardMonsters();
+                List<CardMonsters> cardMonstersList = cardMonsters.GetUserCardMonsters(team_limit, team_offset);
+                cardObjects = cardMonstersList.Cast<object>().ToList();
+                break;
+
+            case "CardMilitary":
+                CardMilitary cardMilitary = new CardMilitary();
+                List<CardMilitary> cardMilitaryList = cardMilitary.GetUserCardMilitary(selectedOptionName, team_limit, team_offset);
+                cardObjects = cardMilitaryList.Cast<object>().ToList();
+                break;
+
+            case "CardSpell":
+                CardSpell cardSpell = new CardSpell();
+                List<CardSpell> cardSpellList = cardSpell.GetUserCardSpell(selectedOptionName, team_limit, team_offset);
+                cardObjects = cardSpellList.Cast<object>().ToList();
+                break;
+
+            default:
+                Debug.LogWarning("Unknown type: " + type);
+                break;
+        }
+
+        if (cardObjects != null)
+        {
+            createCardTeams(cardObjects, choseTeam);
+        }
+    }
+    public void CreatePosition(string type, int team, Transform panel, int level, GameObject teamsObject)
     {
         int maxLevelForTeam = team * 100;
         int minLevelForTeam = maxLevelForTeam - 99;
@@ -2693,19 +2704,24 @@ public class MainMenuManager : MonoBehaviour
         }
         if (type.Equals("CardHeroes"))
         {
-            List<CardHeroes> cardHeroesList = new List<CardHeroes>();
-            if (obj is List<object> objectList)
-            {
-                cardHeroesList = objectList
-                    .OfType<CardHeroes>() // Lọc và chuyển đổi các phần tử có kiểu CardHeroes
-                    .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
-                    .ToList();
-            }
+            CardHeroes c = new CardHeroes();
+            List<CardHeroes> cardHeroesList = c.GetUserCardHeroesTeam(team);
+            cardHeroesList = cardHeroesList
+                .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
+                .ToList();
+
             int iterations = Mathf.Clamp(level - minLevelForTeam + 1, 0, 100);
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, panel);
                 RawImage image = positionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage PositionBackground = positionObject.transform.Find("PositionBackground").GetComponent<RawImage>();
+                Button positionButton = positionObject.transform.Find("PositionButton").GetComponent<Button>();
+                positionButton.gameObject.SetActive(true);
+                PositionBackground.gameObject.SetActive(true);
+                RawImage LeaveBackground = positionObject.transform.Find("LeaveBackground").GetComponent<RawImage>();
+                Button leaveButton = positionObject.transform.Find("LeaveButton").GetComponent<Button>();
+                TMP_Text buttonText = positionButton.GetComponentInChildren<TMP_Text>();
 
                 // Tìm cardHeroes có position trùng với vị trí i
                 CardHeroes matchingCardHero = cardHeroesList.FirstOrDefault(cardHero =>
@@ -2718,19 +2734,69 @@ public class MainMenuManager : MonoBehaviour
                     }
                     return false;
                 });
-
+                string positionText = "";
                 if (matchingCardHero != null)
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = matchingCardHero.image.Replace(".png", "");
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
+
+                    LeaveBackground.gameObject.SetActive(true);
+                    leaveButton.gameObject.SetActive(true);
+
+                    positionText = matchingCardHero.position;
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        buttonText.text = "Back";
+                    }
                 }
                 else
                 {
                     // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
                     image.texture = null; // Hoặc đặt texture mặc định
+                    buttonText.text = "Front";
                 }
+
+                positionButton.onClick.AddListener(() =>
+                {
+                    CardHeroes cardHeroes = new CardHeroes();
+
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        positionText = "B" + positionText.Substring(1); // Đổi 'F' thành 'B'
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        positionText = "F" + positionText.Substring(1); // Đổi 'B' thành 'F'
+                    }
+
+                    if (buttonText.text == "Back")
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (buttonText.text == "Front")
+                    {
+                        buttonText.text = "Back";
+                    }
+                    cardHeroes.UpdateTeamFactCardHeroes(team, positionText, matchingCardHero.id);
+
+                });
+
+                leaveButton.onClick.AddListener(() =>
+                {
+                    CardHeroes cardHeroes = new CardHeroes();
+                    image.texture = null;
+                    cardHeroes.UpdateTeamFactCardHeroes(null, null, matchingCardHero.id);
+                    CreatePosition(type, team, panel, level, teamsObject);
+                    LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
+                });
 
                 // Kiểm tra và gán CardDropHandler
                 if (positionObject.GetComponent<CardDropHandler>() == null)
@@ -2738,24 +2804,36 @@ public class MainMenuManager : MonoBehaviour
                     CardDropHandler dropHandler = positionObject.AddComponent<CardDropHandler>();
                     dropHandler.teamsObject = teamsObject;
                     dropHandler.position_id = i + 1;
+                    if (matchingCardHero != null)
+                    {
+                        dropHandler.card_id = matchingCardHero.id;
+                    }
+                    dropHandler.OnDropEnd = () =>
+                    {
+                        CreatePosition(type, team, panel, level, teamsObject);
+                    };
                 }
             }
         }
         else if (type.Equals("CardCaptains"))
         {
-            List<CardCaptains> cardCaptainsList = new List<CardCaptains>();
-            if (obj is List<object> objectList)
-            {
-                cardCaptainsList = objectList
-                    .OfType<CardCaptains>() // Lọc và chuyển đổi các phần tử có kiểu CardHeroes
-                    .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
-                    .ToList();
-            }
+            CardCaptains c = new CardCaptains();
+            List<CardCaptains> cardCaptainsList = c.GetUserCardCaptainsTeam(team);
+            cardCaptainsList = cardCaptainsList
+                .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
+                .ToList();
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, panel);
                 RawImage image = positionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage PositionBackground = positionObject.transform.Find("PositionBackground").GetComponent<RawImage>();
+                Button positionButton = positionObject.transform.Find("PositionButton").GetComponent<Button>();
+                positionButton.gameObject.SetActive(true);
+                PositionBackground.gameObject.SetActive(true);
+                RawImage LeaveBackground = positionObject.transform.Find("LeaveBackground").GetComponent<RawImage>();
+                Button leaveButton = positionObject.transform.Find("LeaveButton").GetComponent<Button>();
+                TMP_Text buttonText = positionButton.GetComponentInChildren<TMP_Text>();
 
                 // Tìm cardHeroes có position trùng với vị trí i
                 CardCaptains matchingCardCaptain = cardCaptainsList.FirstOrDefault(cardHero =>
@@ -2768,19 +2846,69 @@ public class MainMenuManager : MonoBehaviour
                     }
                     return false;
                 });
-
+                string positionText = "";
                 if (matchingCardCaptain != null)
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = matchingCardCaptain.image.Replace(".png", "");
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
+
+                    LeaveBackground.gameObject.SetActive(true);
+                    leaveButton.gameObject.SetActive(true);
+
+                    positionText = matchingCardCaptain.position;
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        buttonText.text = "Back";
+                    }
                 }
                 else
                 {
                     // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
                     image.texture = null; // Hoặc đặt texture mặc định
+                    buttonText.text = "Front";
                 }
+
+                positionButton.onClick.AddListener(() =>
+                {
+                    CardCaptains cardCaptains = new CardCaptains();
+
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        positionText = "B" + positionText.Substring(1); // Đổi 'F' thành 'B'
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        positionText = "F" + positionText.Substring(1); // Đổi 'B' thành 'F'
+                    }
+
+                    if (buttonText.text == "Back")
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (buttonText.text == "Front")
+                    {
+                        buttonText.text = "Back";
+                    }
+                    cardCaptains.UpdateTeamFactCardCaptains(team, positionText, matchingCardCaptain.id);
+
+                });
+
+                leaveButton.onClick.AddListener(() =>
+                {
+                    CardCaptains cardCaptains = new CardCaptains();
+                    image.texture = null;
+                    cardCaptains.UpdateTeamFactCardCaptains(null, null, matchingCardCaptain.id);
+                    CreatePosition(type, team, panel, level, teamsObject);
+                    LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
+                });
 
                 // Kiểm tra và gán CardDropHandler
                 if (positionObject.GetComponent<CardDropHandler>() == null)
@@ -2788,24 +2916,36 @@ public class MainMenuManager : MonoBehaviour
                     CardDropHandler dropHandler = positionObject.AddComponent<CardDropHandler>();
                     dropHandler.teamsObject = teamsObject;
                     dropHandler.position_id = i + 1;
+                    if (matchingCardCaptain != null)
+                    {
+                        dropHandler.card_id = matchingCardCaptain.id;
+                    }
+                    dropHandler.OnDropEnd = () =>
+                    {
+                        CreatePosition(type, team, panel, level, teamsObject);
+                    };
                 }
             }
         }
         else if (type.Equals("CardColonels"))
         {
-            List<CardColonels> cardColonelsList = new List<CardColonels>();
-            if (obj is List<object> objectList)
-            {
-                cardColonelsList = objectList
-                    .OfType<CardColonels>() // Lọc và chuyển đổi các phần tử có kiểu CardHeroes
-                    .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
-                    .ToList();
-            }
+            CardColonels c = new CardColonels();
+            List<CardColonels> cardColonelsList = c.GetUserCardColonelsTeam(team);
+            cardColonelsList = cardColonelsList
+                .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
+                .ToList();
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, panel);
                 RawImage image = positionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage PositionBackground = positionObject.transform.Find("PositionBackground").GetComponent<RawImage>();
+                Button positionButton = positionObject.transform.Find("PositionButton").GetComponent<Button>();
+                positionButton.gameObject.SetActive(true);
+                PositionBackground.gameObject.SetActive(true);
+                RawImage LeaveBackground = positionObject.transform.Find("LeaveBackground").GetComponent<RawImage>();
+                Button leaveButton = positionObject.transform.Find("LeaveButton").GetComponent<Button>();
+                TMP_Text buttonText = positionButton.GetComponentInChildren<TMP_Text>();
 
                 // Tìm cardHeroes có position trùng với vị trí i
                 CardColonels matchingCardColonel = cardColonelsList.FirstOrDefault(cardHero =>
@@ -2818,19 +2958,69 @@ public class MainMenuManager : MonoBehaviour
                     }
                     return false;
                 });
-
+                string positionText = "";
                 if (matchingCardColonel != null)
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = matchingCardColonel.image.Replace(".png", "");
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
+
+                    LeaveBackground.gameObject.SetActive(true);
+                    leaveButton.gameObject.SetActive(true);
+
+                    positionText = matchingCardColonel.position;
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        buttonText.text = "Back";
+                    }
                 }
                 else
                 {
                     // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
                     image.texture = null; // Hoặc đặt texture mặc định
+                    buttonText.text = "Front";
                 }
+
+                positionButton.onClick.AddListener(() =>
+                {
+                    CardColonels cardColonels = new CardColonels();
+
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        positionText = "B" + positionText.Substring(1); // Đổi 'F' thành 'B'
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        positionText = "F" + positionText.Substring(1); // Đổi 'B' thành 'F'
+                    }
+
+                    if (buttonText.text == "Back")
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (buttonText.text == "Front")
+                    {
+                        buttonText.text = "Back";
+                    }
+                    cardColonels.UpdateTeamFactCardColonels(team, positionText, matchingCardColonel.id);
+
+                });
+
+                leaveButton.onClick.AddListener(() =>
+                {
+                    CardColonels cardColonels = new CardColonels();
+                    image.texture = null;
+                    cardColonels.UpdateTeamFactCardColonels(null, null, matchingCardColonel.id);
+                    CreatePosition(type, team, panel, level, teamsObject);
+                    LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
+                });
 
                 // Kiểm tra và gán CardDropHandler
                 if (positionObject.GetComponent<CardDropHandler>() == null)
@@ -2838,24 +3028,36 @@ public class MainMenuManager : MonoBehaviour
                     CardDropHandler dropHandler = positionObject.AddComponent<CardDropHandler>();
                     dropHandler.teamsObject = teamsObject;
                     dropHandler.position_id = i + 1;
+                    if (matchingCardColonel != null)
+                    {
+                        dropHandler.card_id = matchingCardColonel.id;
+                    }
+                    dropHandler.OnDropEnd = () =>
+                    {
+                        CreatePosition(type, team, panel, level, teamsObject);
+                    };
                 }
             }
         }
         else if (type.Equals("CardGenerals"))
         {
-            List<CardGenerals> cardGeneralsList = new List<CardGenerals>();
-            if (obj is List<object> objectList)
-            {
-                cardGeneralsList = objectList
-                    .OfType<CardGenerals>() // Lọc và chuyển đổi các phần tử có kiểu CardHeroes
-                    .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
-                    .ToList();
-            }
+            CardGenerals c = new CardGenerals();
+            List<CardGenerals> cardGeneralsList = c.GetUserCardGeneralsTeam(team);
+            cardGeneralsList = cardGeneralsList
+                .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
+                .ToList();
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, panel);
                 RawImage image = positionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage PositionBackground = positionObject.transform.Find("PositionBackground").GetComponent<RawImage>();
+                Button positionButton = positionObject.transform.Find("PositionButton").GetComponent<Button>();
+                positionButton.gameObject.SetActive(true);
+                PositionBackground.gameObject.SetActive(true);
+                RawImage LeaveBackground = positionObject.transform.Find("LeaveBackground").GetComponent<RawImage>();
+                Button leaveButton = positionObject.transform.Find("LeaveButton").GetComponent<Button>();
+                TMP_Text buttonText = positionButton.GetComponentInChildren<TMP_Text>();
 
                 // Tìm cardHeroes có position trùng với vị trí i
                 CardGenerals matchingCardGeneral = cardGeneralsList.FirstOrDefault(cardHero =>
@@ -2868,19 +3070,69 @@ public class MainMenuManager : MonoBehaviour
                     }
                     return false;
                 });
-
+                string positionText = "";
                 if (matchingCardGeneral != null)
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = matchingCardGeneral.image.Replace(".png", "");
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
+
+                    LeaveBackground.gameObject.SetActive(true);
+                    leaveButton.gameObject.SetActive(true);
+
+                    positionText = matchingCardGeneral.position;
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        buttonText.text = "Back";
+                    }
                 }
                 else
                 {
                     // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
                     image.texture = null; // Hoặc đặt texture mặc định
+                    buttonText.text = "Front";
                 }
+
+                positionButton.onClick.AddListener(() =>
+                {
+                    CardGenerals cardGenerals = new CardGenerals();
+
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        positionText = "B" + positionText.Substring(1); // Đổi 'F' thành 'B'
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        positionText = "F" + positionText.Substring(1); // Đổi 'B' thành 'F'
+                    }
+
+                    if (buttonText.text == "Back")
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (buttonText.text == "Front")
+                    {
+                        buttonText.text = "Back";
+                    }
+                    cardGenerals.UpdateTeamFactCardGenerals(team, positionText, matchingCardGeneral.id);
+
+                });
+
+                leaveButton.onClick.AddListener(() =>
+                {
+                    CardGenerals cardGenerals = new CardGenerals();
+                    image.texture = null;
+                    cardGenerals.UpdateTeamFactCardGenerals(null, null, matchingCardGeneral.id);
+                    CreatePosition(type, team, panel, level, teamsObject);
+                    LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
+                });
 
                 // Kiểm tra và gán CardDropHandler
                 if (positionObject.GetComponent<CardDropHandler>() == null)
@@ -2888,24 +3140,36 @@ public class MainMenuManager : MonoBehaviour
                     CardDropHandler dropHandler = positionObject.AddComponent<CardDropHandler>();
                     dropHandler.teamsObject = teamsObject;
                     dropHandler.position_id = i + 1;
+                    if (matchingCardGeneral != null)
+                    {
+                        dropHandler.card_id = matchingCardGeneral.id;
+                    }
+                    dropHandler.OnDropEnd = () =>
+                    {
+                        CreatePosition(type, team, panel, level, teamsObject);
+                    };
                 }
             }
         }
         else if (type.Equals("CardAdmirals"))
         {
-            List<CardAdmirals> cardAdmiralsList = new List<CardAdmirals>();
-            if (obj is List<object> objectList)
-            {
-                cardAdmiralsList = objectList
-                    .OfType<CardAdmirals>() // Lọc và chuyển đổi các phần tử có kiểu CardHeroes
-                    .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
-                    .ToList();
-            }
+            CardAdmirals c = new CardAdmirals();
+            List<CardAdmirals> cardAdmiralsList = c.GetUserCardAdmiralsTeam(team);
+            cardAdmiralsList = cardAdmiralsList
+                .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
+                .ToList();
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, panel);
                 RawImage image = positionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage PositionBackground = positionObject.transform.Find("PositionBackground").GetComponent<RawImage>();
+                Button positionButton = positionObject.transform.Find("PositionButton").GetComponent<Button>();
+                positionButton.gameObject.SetActive(true);
+                PositionBackground.gameObject.SetActive(true);
+                RawImage LeaveBackground = positionObject.transform.Find("LeaveBackground").GetComponent<RawImage>();
+                Button leaveButton = positionObject.transform.Find("LeaveButton").GetComponent<Button>();
+                TMP_Text buttonText = positionButton.GetComponentInChildren<TMP_Text>();
 
                 // Tìm cardHeroes có position trùng với vị trí i
                 CardAdmirals matchingCardAdmiral = cardAdmiralsList.FirstOrDefault(cardHero =>
@@ -2918,19 +3182,69 @@ public class MainMenuManager : MonoBehaviour
                     }
                     return false;
                 });
-
+                string positionText = "";
                 if (matchingCardAdmiral != null)
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = matchingCardAdmiral.image.Replace(".png", "");
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
+
+                    LeaveBackground.gameObject.SetActive(true);
+                    leaveButton.gameObject.SetActive(true);
+
+                    positionText = matchingCardAdmiral.position;
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        buttonText.text = "Back";
+                    }
                 }
                 else
                 {
                     // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
                     image.texture = null; // Hoặc đặt texture mặc định
+                    buttonText.text = "Front";
                 }
+
+                positionButton.onClick.AddListener(() =>
+                {
+                    CardAdmirals cardAdmirals = new CardAdmirals();
+
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        positionText = "B" + positionText.Substring(1); // Đổi 'F' thành 'B'
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        positionText = "F" + positionText.Substring(1); // Đổi 'B' thành 'F'
+                    }
+
+                    if (buttonText.text == "Back")
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (buttonText.text == "Front")
+                    {
+                        buttonText.text = "Back";
+                    }
+                    cardAdmirals.UpdateTeamFactCardAdmirals(team, positionText, matchingCardAdmiral.id);
+
+                });
+
+                leaveButton.onClick.AddListener(() =>
+                {
+                    CardAdmirals cardAdmirals = new CardAdmirals();
+                    image.texture = null;
+                    cardAdmirals.UpdateTeamFactCardAdmirals(null, null, matchingCardAdmiral.id);
+                    CreatePosition(type, team, panel, level, teamsObject);
+                    LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
+                });
 
                 // Kiểm tra và gán CardDropHandler
                 if (positionObject.GetComponent<CardDropHandler>() == null)
@@ -2938,24 +3252,36 @@ public class MainMenuManager : MonoBehaviour
                     CardDropHandler dropHandler = positionObject.AddComponent<CardDropHandler>();
                     dropHandler.teamsObject = teamsObject;
                     dropHandler.position_id = i + 1;
+                    if (matchingCardAdmiral != null)
+                    {
+                        dropHandler.card_id = matchingCardAdmiral.id;
+                    }
+                    dropHandler.OnDropEnd = () =>
+                    {
+                        CreatePosition(type, team, panel, level, teamsObject);
+                    };
                 }
             }
         }
         else if (type.Equals("CardMonsters"))
         {
-            List<CardMonsters> cardMonstersList = new List<CardMonsters>();
-            if (obj is List<object> objectList)
-            {
-                cardMonstersList = objectList
-                    .OfType<CardMonsters>() // Lọc và chuyển đổi các phần tử có kiểu CardHeroes
-                    .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
-                    .ToList();
-            }
+            CardMonsters c = new CardMonsters();
+            List<CardMonsters> cardMonstersList = c.GetUserCardMonstersTeam(team);
+            cardMonstersList = cardMonstersList
+                .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
+                .ToList();
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 2), 0, 50);
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, panel);
                 RawImage image = positionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage PositionBackground = positionObject.transform.Find("PositionBackground").GetComponent<RawImage>();
+                Button positionButton = positionObject.transform.Find("PositionButton").GetComponent<Button>();
+                positionButton.gameObject.SetActive(true);
+                PositionBackground.gameObject.SetActive(true);
+                RawImage LeaveBackground = positionObject.transform.Find("LeaveBackground").GetComponent<RawImage>();
+                Button leaveButton = positionObject.transform.Find("LeaveButton").GetComponent<Button>();
+                TMP_Text buttonText = positionButton.GetComponentInChildren<TMP_Text>();
 
                 // Tìm cardHeroes có position trùng với vị trí i
                 CardMonsters matchingCardMonster = cardMonstersList.FirstOrDefault(cardHero =>
@@ -2968,19 +3294,69 @@ public class MainMenuManager : MonoBehaviour
                     }
                     return false;
                 });
-
+                string positionText = "";
                 if (matchingCardMonster != null)
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = matchingCardMonster.image.Replace(".png", "");
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
+
+                    LeaveBackground.gameObject.SetActive(true);
+                    leaveButton.gameObject.SetActive(true);
+
+                    positionText = matchingCardMonster.position;
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        buttonText.text = "Back";
+                    }
                 }
                 else
                 {
                     // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
                     image.texture = null; // Hoặc đặt texture mặc định
+                    buttonText.text = "Front";
                 }
+
+                positionButton.onClick.AddListener(() =>
+                {
+                    CardMonsters cardMonsters = new CardMonsters();
+
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        positionText = "B" + positionText.Substring(1); // Đổi 'F' thành 'B'
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        positionText = "F" + positionText.Substring(1); // Đổi 'B' thành 'F'
+                    }
+
+                    if (buttonText.text == "Back")
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (buttonText.text == "Front")
+                    {
+                        buttonText.text = "Back";
+                    }
+                    cardMonsters.UpdateTeamFactCardMonsters(team, positionText, matchingCardMonster.id);
+
+                });
+
+                leaveButton.onClick.AddListener(() =>
+                {
+                    CardMonsters cardMonsters = new CardMonsters();
+                    image.texture = null;
+                    cardMonsters.UpdateTeamFactCardMonsters(null, null, matchingCardMonster.id);
+                    CreatePosition(type, team, panel, level, teamsObject);
+                    LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
+                });
 
                 // Kiểm tra và gán CardDropHandler
                 if (positionObject.GetComponent<CardDropHandler>() == null)
@@ -2988,24 +3364,36 @@ public class MainMenuManager : MonoBehaviour
                     CardDropHandler dropHandler = positionObject.AddComponent<CardDropHandler>();
                     dropHandler.teamsObject = teamsObject;
                     dropHandler.position_id = i + 1;
+                    if (matchingCardMonster != null)
+                    {
+                        dropHandler.card_id = matchingCardMonster.id;
+                    }
+                    dropHandler.OnDropEnd = () =>
+                    {
+                        CreatePosition(type, team, panel, level, teamsObject);
+                    };
                 }
             }
         }
         else if (type.Equals("CardMilitary"))
         {
-            List<CardMilitary> cardMilitaryList = new List<CardMilitary>();
-            if (obj is List<object> objectList)
-            {
-                cardMilitaryList = objectList
-                    .OfType<CardMilitary>() // Lọc và chuyển đổi các phần tử có kiểu CardHeroes
-                    .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
-                    .ToList();
-            }
+            CardMilitary c = new CardMilitary();
+            List<CardMilitary> cardMilitaryList = c.GetUserCardMilitaryTeam(team);
+            cardMilitaryList = cardMilitaryList
+                .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
+                .ToList();
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, panel);
                 RawImage image = positionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage PositionBackground = positionObject.transform.Find("PositionBackground").GetComponent<RawImage>();
+                Button positionButton = positionObject.transform.Find("PositionButton").GetComponent<Button>();
+                positionButton.gameObject.SetActive(true);
+                PositionBackground.gameObject.SetActive(true);
+                RawImage LeaveBackground = positionObject.transform.Find("LeaveBackground").GetComponent<RawImage>();
+                Button leaveButton = positionObject.transform.Find("LeaveButton").GetComponent<Button>();
+                TMP_Text buttonText = positionButton.GetComponentInChildren<TMP_Text>();
 
                 // Tìm cardHeroes có position trùng với vị trí i
                 CardMilitary matchingCardMilitary = cardMilitaryList.FirstOrDefault(cardHero =>
@@ -3018,19 +3406,69 @@ public class MainMenuManager : MonoBehaviour
                     }
                     return false;
                 });
-
+                string positionText = "";
                 if (matchingCardMilitary != null)
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = matchingCardMilitary.image.Replace(".png", "");
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
+
+                    LeaveBackground.gameObject.SetActive(true);
+                    leaveButton.gameObject.SetActive(true);
+
+                    positionText = matchingCardMilitary.position;
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        buttonText.text = "Back";
+                    }
                 }
                 else
                 {
                     // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
                     image.texture = null; // Hoặc đặt texture mặc định
+                    buttonText.text = "Front";
                 }
+
+                positionButton.onClick.AddListener(() =>
+                {
+                    CardMilitary CardMilitary = new CardMilitary();
+
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        positionText = "B" + positionText.Substring(1); // Đổi 'F' thành 'B'
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        positionText = "F" + positionText.Substring(1); // Đổi 'B' thành 'F'
+                    }
+
+                    if (buttonText.text == "Back")
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (buttonText.text == "Front")
+                    {
+                        buttonText.text = "Back";
+                    }
+                    CardMilitary.UpdateTeamFactCardMilitary(team, positionText, matchingCardMilitary.id);
+
+                });
+
+                leaveButton.onClick.AddListener(() =>
+                {
+                    CardMilitary cardMilitary = new CardMilitary();
+                    image.texture = null;
+                    cardMilitary.UpdateTeamFactCardMilitary(null, null, matchingCardMilitary.id);
+                    CreatePosition(type, team, panel, level, teamsObject);
+                    LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
+                });
 
                 // Kiểm tra và gán CardDropHandler
                 if (positionObject.GetComponent<CardDropHandler>() == null)
@@ -3038,24 +3476,36 @@ public class MainMenuManager : MonoBehaviour
                     CardDropHandler dropHandler = positionObject.AddComponent<CardDropHandler>();
                     dropHandler.teamsObject = teamsObject;
                     dropHandler.position_id = i + 1;
+                    if (matchingCardMilitary != null)
+                    {
+                        dropHandler.card_id = matchingCardMilitary.id;
+                    }
+                    dropHandler.OnDropEnd = () =>
+                    {
+                        CreatePosition(type, team, panel, level, teamsObject);
+                    };
                 }
             }
         }
         else if (type.Equals("CardSpell"))
         {
-            List<CardSpell> cardSpellList = new List<CardSpell>();
-            if (obj is List<object> objectList)
-            {
-                cardSpellList = objectList
-                    .OfType<CardSpell>() // Lọc và chuyển đổi các phần tử có kiểu CardHeroes
-                    .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
-                    .ToList();
-            }
+            CardSpell c = new CardSpell();
+            List<CardSpell> cardSpellList = c.GetUserCardSpellTeam(team);
+            cardSpellList = cardSpellList
+                .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
+                .ToList();
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, panel);
                 RawImage image = positionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage PositionBackground = positionObject.transform.Find("PositionBackground").GetComponent<RawImage>();
+                Button positionButton = positionObject.transform.Find("PositionButton").GetComponent<Button>();
+                positionButton.gameObject.SetActive(true);
+                PositionBackground.gameObject.SetActive(true);
+                RawImage LeaveBackground = positionObject.transform.Find("LeaveBackground").GetComponent<RawImage>();
+                Button leaveButton = positionObject.transform.Find("LeaveButton").GetComponent<Button>();
+                TMP_Text buttonText = positionButton.GetComponentInChildren<TMP_Text>();
 
                 // Tìm cardHeroes có position trùng với vị trí i
                 CardSpell matchingCardSpell = cardSpellList.FirstOrDefault(cardHero =>
@@ -3068,19 +3518,69 @@ public class MainMenuManager : MonoBehaviour
                     }
                     return false;
                 });
-
+                string positionText = "";
                 if (matchingCardSpell != null)
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = matchingCardSpell.image.Replace(".png", "");
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
+
+                    LeaveBackground.gameObject.SetActive(true);
+                    leaveButton.gameObject.SetActive(true);
+
+                    positionText = matchingCardSpell.position;
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        buttonText.text = "Back";
+                    }
                 }
                 else
                 {
                     // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
                     image.texture = null; // Hoặc đặt texture mặc định
+                    buttonText.text = "Front";
                 }
+
+                positionButton.onClick.AddListener(() =>
+                {
+                    CardSpell cardSpell = new CardSpell();
+
+                    // Kiểm tra và thay đổi ký tự đầu tiên
+                    if (positionText.StartsWith("F"))
+                    {
+                        positionText = "B" + positionText.Substring(1); // Đổi 'F' thành 'B'
+                    }
+                    else if (positionText.StartsWith("B"))
+                    {
+                        positionText = "F" + positionText.Substring(1); // Đổi 'B' thành 'F'
+                    }
+
+                    if (buttonText.text == "Back")
+                    {
+                        buttonText.text = "Front";
+                    }
+                    else if (buttonText.text == "Front")
+                    {
+                        buttonText.text = "Back";
+                    }
+                    cardSpell.UpdateTeamFactCardSpell(team, positionText, matchingCardSpell.id);
+
+                });
+
+                leaveButton.onClick.AddListener(() =>
+                {
+                    CardSpell cardSpell = new CardSpell();
+                    image.texture = null;
+                    cardSpell.UpdateTeamFactCardSpell(null, null, matchingCardSpell.id);
+                    CreatePosition(type, team, panel, level, teamsObject);
+                    LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
+                });
 
                 // Kiểm tra và gán CardDropHandler
                 if (positionObject.GetComponent<CardDropHandler>() == null)
@@ -3088,6 +3588,14 @@ public class MainMenuManager : MonoBehaviour
                     CardDropHandler dropHandler = positionObject.AddComponent<CardDropHandler>();
                     dropHandler.teamsObject = teamsObject;
                     dropHandler.position_id = i + 1;
+                    if (matchingCardSpell != null)
+                    {
+                        dropHandler.card_id = matchingCardSpell.id;
+                    }
+                    dropHandler.OnDropEnd = () =>
+                    {
+                        CreatePosition(type, team, panel, level, teamsObject);
+                    };
                 }
             }
         }
@@ -3117,15 +3625,27 @@ public class MainMenuManager : MonoBehaviour
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardHeroes.rare}");
                 rareImage.texture = rareTexture;
-
-                if (cardObject.GetComponent<CardDragHandler>() == null)
+                Transform InTeam = cardObject.transform.Find("InTeam");
+                if (cardHeroes.team_id != -1)
                 {
-                    CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
-                    dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
-                    dragHandler.obj = cardHeroes;
-                    dragHandler.team_id = team_id;
+                    InTeam.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (cardObject.GetComponent<CardDragHandler>() == null)
+                    {
+                        CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
+                        dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
+                        dragHandler.obj = cardHeroes;
+                        dragHandler.team_id = team_id;
+                        dragHandler.InTeam = InTeam;
+                        dragHandler.OnDragEnd = () =>
+                        {
+                            LoadCardDataByType("CardHeroes", selectedOptionName, team_limit, team_offset, choseTeam);
+                        };
 
-                    cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                    }
                 }
             }
             else if (item is CardCaptains cardCaptains)
@@ -3145,15 +3665,27 @@ public class MainMenuManager : MonoBehaviour
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardCaptains.rare}");
                 rareImage.texture = rareTexture;
-
-                if (cardObject.GetComponent<CardDragHandler>() == null)
+                Transform InTeam = cardObject.transform.Find("InTeam");
+                if (cardCaptains.team_id != -1)
                 {
-                    CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
-                    dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
-                    dragHandler.obj = cardCaptains;
-                    dragHandler.team_id = team_id;
+                    InTeam.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (cardObject.GetComponent<CardDragHandler>() == null)
+                    {
+                        CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
+                        dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
+                        dragHandler.obj = cardCaptains;
+                        dragHandler.team_id = team_id;
+                        dragHandler.InTeam = InTeam;
+                        dragHandler.OnDragEnd = () =>
+                        {
+                            LoadCardDataByType("CardCaptains", selectedOptionName, team_limit, team_offset, choseTeam);
+                        };
 
-                    cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                    }
                 }
             }
             else if (item is CardColonels cardColonels)
@@ -3173,15 +3705,27 @@ public class MainMenuManager : MonoBehaviour
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardColonels.rare}");
                 rareImage.texture = rareTexture;
-
-                if (cardObject.GetComponent<CardDragHandler>() == null)
+                Transform InTeam = cardObject.transform.Find("InTeam");
+                if (cardColonels.team_id != -1)
                 {
-                    CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
-                    dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
-                    dragHandler.obj = cardColonels;
-                    dragHandler.team_id = team_id;
+                    InTeam.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (cardObject.GetComponent<CardDragHandler>() == null)
+                    {
+                        CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
+                        dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
+                        dragHandler.obj = cardColonels;
+                        dragHandler.team_id = team_id;
+                        dragHandler.InTeam = InTeam;
+                        dragHandler.OnDragEnd = () =>
+                        {
+                            LoadCardDataByType("CardColonels", selectedOptionName, team_limit, team_offset, choseTeam);
+                        };
 
-                    cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                    }
                 }
             }
             else if (item is CardGenerals cardGenerals)
@@ -3201,15 +3745,27 @@ public class MainMenuManager : MonoBehaviour
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardGenerals.rare}");
                 rareImage.texture = rareTexture;
-
-                if (cardObject.GetComponent<CardDragHandler>() == null)
+                Transform InTeam = cardObject.transform.Find("InTeam");
+                if (cardGenerals.team_id != -1)
                 {
-                    CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
-                    dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
-                    dragHandler.obj = cardGenerals;
-                    dragHandler.team_id = team_id;
+                    InTeam.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (cardObject.GetComponent<CardDragHandler>() == null)
+                    {
+                        CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
+                        dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
+                        dragHandler.obj = cardGenerals;
+                        dragHandler.team_id = team_id;
+                        dragHandler.InTeam = InTeam;
+                        dragHandler.OnDragEnd = () =>
+                        {
+                            LoadCardDataByType("CardGenerals", selectedOptionName, team_limit, team_offset, choseTeam);
+                        };
 
-                    cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                    }
                 }
             }
             else if (item is CardAdmirals cardAdmirals)
@@ -3229,15 +3785,27 @@ public class MainMenuManager : MonoBehaviour
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmirals.rare}");
                 rareImage.texture = rareTexture;
-
-                if (cardObject.GetComponent<CardDragHandler>() == null)
+                Transform InTeam = cardObject.transform.Find("InTeam");
+                if (cardAdmirals.team_id != -1)
                 {
-                    CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
-                    dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
-                    dragHandler.obj = cardAdmirals;
-                    dragHandler.team_id = team_id;
+                    InTeam.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (cardObject.GetComponent<CardDragHandler>() == null)
+                    {
+                        CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
+                        dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
+                        dragHandler.obj = cardAdmirals;
+                        dragHandler.team_id = team_id;
+                        dragHandler.InTeam = InTeam;
+                        dragHandler.OnDragEnd = () =>
+                        {
+                            LoadCardDataByType("CardAdmirals", selectedOptionName, team_limit, team_offset, choseTeam);
+                        };
 
-                    cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                    }
                 }
             }
             else if (item is CardMonsters cardMonsters)
@@ -3257,15 +3825,27 @@ public class MainMenuManager : MonoBehaviour
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonsters.rare}");
                 rareImage.texture = rareTexture;
-
-                if (cardObject.GetComponent<CardDragHandler>() == null)
+                Transform InTeam = cardObject.transform.Find("InTeam");
+                if (cardMonsters.team_id != -1)
                 {
-                    CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
-                    dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
-                    dragHandler.obj = cardMonsters;
-                    dragHandler.team_id = team_id;
+                    InTeam.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (cardObject.GetComponent<CardDragHandler>() == null)
+                    {
+                        CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
+                        dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
+                        dragHandler.obj = cardMonsters;
+                        dragHandler.team_id = team_id;
+                        dragHandler.InTeam = InTeam;
+                        dragHandler.OnDragEnd = () =>
+                        {
+                            LoadCardDataByType("CardMonsters", selectedOptionName, team_limit, team_offset, choseTeam);
+                        };
 
-                    cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                    }
                 }
             }
             else if (item is CardMilitary cardMilitary)
@@ -3285,15 +3865,27 @@ public class MainMenuManager : MonoBehaviour
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMilitary.rare}");
                 rareImage.texture = rareTexture;
-
-                if (cardObject.GetComponent<CardDragHandler>() == null)
+                Transform InTeam = cardObject.transform.Find("InTeam");
+                if (cardMilitary.team_id != -1)
                 {
-                    CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
-                    dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
-                    dragHandler.obj = cardMilitary;
-                    dragHandler.team_id = team_id;
+                    InTeam.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (cardObject.GetComponent<CardDragHandler>() == null)
+                    {
+                        CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
+                        dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
+                        dragHandler.obj = cardMilitary;
+                        dragHandler.team_id = team_id;
+                        dragHandler.InTeam = InTeam;
+                        dragHandler.OnDragEnd = () =>
+                        {
+                            LoadCardDataByType("CardMilitary", selectedOptionName, team_limit, team_offset, choseTeam);
+                        };
 
-                    cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                    }
                 }
             }
             else if (item is CardSpell cardSpell)
@@ -3313,15 +3905,27 @@ public class MainMenuManager : MonoBehaviour
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.rare}");
                 rareImage.texture = rareTexture;
-
-                if (cardObject.GetComponent<CardDragHandler>() == null)
+                Transform InTeam = cardObject.transform.Find("InTeam");
+                if (cardSpell.team_id != -1)
                 {
-                    CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
-                    dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
-                    dragHandler.obj = cardSpell;
-                    dragHandler.team_id = team_id;
+                    InTeam.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (cardObject.GetComponent<CardDragHandler>() == null)
+                    {
+                        CardDragHandler dragHandler = cardObject.AddComponent<CardDragHandler>();
+                        dragHandler.cardTexture = texture; // Lưu texture để sử dụng khi kéo
+                        dragHandler.obj = cardSpell;
+                        dragHandler.team_id = team_id;
+                        dragHandler.InTeam = InTeam;
+                        dragHandler.OnDragEnd = () =>
+                        {
+                            LoadCardDataByType("CardSpell", selectedOptionName, team_limit, team_offset, choseTeam);
+                        };
 
-                    cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                    }
                 }
             }
         }

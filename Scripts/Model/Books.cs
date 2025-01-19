@@ -749,7 +749,7 @@ public class Books
         }
         return true;
     }
-    public bool UpdateTeamFactBooks(int team_id, string position, int book_id)
+    public bool UpdateTeamFactBooks(int? team_id, string position, int book_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))

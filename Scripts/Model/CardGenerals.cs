@@ -462,7 +462,7 @@ public class CardGenerals
         }
         return CardGeneralsList;
     }
-    public bool UpdateTeamFactCardGenerals(int team_id,string position, int card_id)
+    public bool UpdateTeamFactCardGenerals(int? team_id,string position, int card_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))

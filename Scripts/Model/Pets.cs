@@ -599,7 +599,7 @@ public class Pets
         }
         return true;
     }
-    public bool UpdateTeamFactCardPets(int team_id, int card_id)
+    public bool UpdateTeamFactCardPets(int? team_id, int card_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
