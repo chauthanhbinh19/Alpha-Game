@@ -591,7 +591,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3bcc44016f2754f910c265e9e3b59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionImage: {fileID: 0}
+  teamsObject: {fileID: 0}
+  position_id: 0
+  card_id: 0
 --- !u!114 &193593332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,6 +606,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d4cccb5d1317246b5d2690cedc45a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardTexture: {fileID: 0}
+  team_id: 0
+  InTeam: {fileID: 0}
 --- !u!1 &258740890
 GameObject:
   m_ObjectHideFlags: 0
@@ -4742,6 +4747,7 @@ MonoBehaviour:
   ShopButtonPrefab: {fileID: 1661859481911484232, guid: 64bf442555edc7341837bd308a582111, type: 3}
   ShopPrefab: {fileID: 5745659240395072349, guid: 6a2ef13c58868a14494b761c0ee02865, type: 3}
   NumberDetailPrefab: {fileID: 2994152938922929080, guid: 62317fd3196f42345979ccde2b26d708, type: 3}
+  NumberDetail2Prefab: {fileID: 2994152938922929080, guid: 9b3f86b97b196084db2d20d454d46205, type: 3}
   TabButton2: {fileID: 5647053732788993068, guid: d9eb1d1e942d7084b8bf771fa9da8f65, type: 3}
   TabButton3: {fileID: 5647053732788993068, guid: 1e580788d16b1784b801738fb4345d81, type: 3}
   ReceivedNotification: {fileID: 8708252175272485654, guid: 115686d87506464429e315c61210e148, type: 3}

@@ -10,6 +10,7 @@ public class PopupDetailsManager : MonoBehaviour
     private GameObject MainMenuDetailPanelPrefab;
     private GameObject ElementDetailsPrefab;
     private GameObject NumberDetailPrefab;
+    private GameObject NumberDetail2Prefab;
     private Transform MainPanel;
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,7 @@ public class PopupDetailsManager : MonoBehaviour
         MainMenuDetailPanelPrefab = UIManager.Instance.GetGameObject("MainMenuDetailPanelPrefab");
         ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
         NumberDetailPrefab = UIManager.Instance.GetGameObject("NumberDetailPrefab");
+        NumberDetail2Prefab = UIManager.Instance.GetGameObject("NumberDetail2Prefab");
     }
 
     // Update is called once per frame
@@ -148,8 +150,10 @@ public class PopupDetailsManager : MonoBehaviour
         // Tạo popup từ prefab
         GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
         Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
         GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
         GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
         Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
         Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
@@ -182,9 +186,8 @@ public class PopupDetailsManager : MonoBehaviour
             object value = property.GetValue(card, null);
             if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
             && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("power") && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image") && !property.Name.Equals("rare") && !property.Name.Equals("type")
-            && !property.Name.Equals("star") && !property.Name.Equals("level"))
+            && !property.Name.Equals("status") && !property.Name.Equals("name")
+            && !property.Name.Equals("image"))
             {
                 if (property.Name.Equals("description"))
                 {
@@ -217,6 +220,22 @@ public class PopupDetailsManager : MonoBehaviour
                     {
                         gridLayout.cellSize = new Vector2(670, 800);
                     }
+                }
+                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
+                || property.Name.Equals("star") || property.Name.Equals("level"))
+                {
+                    // Tạo một element mới từ prefab
+                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
+
+                    // Gán tên thuộc tính vào TitleText
+                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                    if (elementTitleText != null)
+                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+
+                    // Gán giá trị thuộc tính vào ContentText
+                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                    if (elementContentText != null)
+                        elementContentText.text = value != null ? value.ToString() : "";
                 }
                 else
                 {
