@@ -271,8 +271,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291940817
-  m_fontColor: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -594,6 +594,7 @@ MonoBehaviour:
   teamsObject: {fileID: 0}
   position_id: 0
   card_id: 0
+  card_all_power: 0
 --- !u!114 &193593332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1162,6 +1163,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437658273}
   m_CullTransparentMesh: 1
+--- !u!1 &474294457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 474294458}
+  - component: {fileID: 474294459}
+  m_Layer: 5
+  m_Name: PowerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &474294458
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1596468443}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &474294459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23e76abbd8baf54fbc5dd1d54afc82b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &490600150
 GameObject:
   m_ObjectHideFlags: 0
@@ -2233,7 +2283,7 @@ GameObject:
   - component: {fileID: 827517981}
   - component: {fileID: 827517980}
   m_Layer: 5
-  m_Name: Background1
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2272,14 +2322,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 52d8a644da6754141b15c0a994f942e8, type: 3}
+  m_Texture: {fileID: 2800000, guid: bb822ab94727b3a45af411709d3ca696, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -2622,8 +2672,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 804, y: 258}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 804, y: 450}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1007387250
 MonoBehaviour:
@@ -3016,8 +3066,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: 230}
-  m_SizeDelta: {x: 40, y: 40}
+  m_AnchoredPosition: {x: 250, y: 240}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1252748778
 MonoBehaviour:
@@ -3095,7 +3145,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: e5d334d0e92691e4a8c88d94e4f4d2b4, type: 3}
+  m_Texture: {fileID: 2800000, guid: b41bb2092043c2346ba4b1c2d1aa378e, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -3688,8 +3738,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 804, y: 136}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 804, y: 350}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1560771740
 MonoBehaviour:
@@ -3806,8 +3856,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: 230}
-  m_SizeDelta: {x: 40, y: 40}
+  m_AnchoredPosition: {x: 250, y: 240}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1579507646
 MonoBehaviour:
@@ -3885,7 +3935,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: e5d334d0e92691e4a8c88d94e4f4d2b4, type: 3}
+  m_Texture: {fileID: 2800000, guid: b41bb2092043c2346ba4b1c2d1aa378e, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -4007,6 +4057,7 @@ RectTransform:
   - {fileID: 1468034301}
   - {fileID: 258740891}
   - {fileID: 193593330}
+  - {fileID: 474294458}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4051,7 +4102,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -593, y: 15}
+  m_SizeDelta: {x: -593, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1625598058
 MonoBehaviour:
@@ -4286,8 +4337,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: 331}
-  m_SizeDelta: {x: 40, y: 40}
+  m_AnchoredPosition: {x: 360, y: 330}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1683047170
 MonoBehaviour:
@@ -4365,7 +4416,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: e5d334d0e92691e4a8c88d94e4f4d2b4, type: 3}
+  m_Texture: {fileID: 2800000, guid: b41bb2092043c2346ba4b1c2d1aa378e, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -4719,11 +4770,11 @@ MonoBehaviour:
   SignInPanel: {fileID: 8077603324956915409, guid: ffba330ce17dad94f8e50c5acf8aa0fd, type: 3}
   SignUpPanel: {fileID: 9111842742865002696, guid: e2dcc82f04bde2143a10aa3f21a8f143, type: 3}
   CreateNamePanel: {fileID: 3409556556158698642, guid: 122a04808d070f147bcdc638676117f4, type: 3}
-  buttonPrefab: {fileID: 1661859481911484232, guid: 3e6f4cc94b6b4c4488a5edc36f3050b6, type: 3}
+  buttonPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
   notificationPrefab: {fileID: 4396780963310463639, guid: 374ea8fa5bec11a42aa4f2b6abdb31a7, type: 3}
   DictionaryPanel: {fileID: 2811263719116212137, guid: f34ea97fb5ef75c499afec85e84a2afd, type: 3}
   TabButton: {fileID: 5647053732788993068, guid: fb806378af4ab344ea79beff738865a1, type: 3}
-  ItemPrefab: {fileID: 1661859481911484232, guid: 3e6f4cc94b6b4c4488a5edc36f3050b6, type: 3}
+  ItemPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
   MainMenuPanel: {fileID: 5745659240395072349, guid: 8ec5c1f07054d9a40b65cba0c5fc841c, type: 3}
   MainMenuShopPanel: {fileID: 5745659240395072349, guid: 067511f2229109143b46b3a4bb085c43, type: 3}
   MainMenuEnhancementPanel: {fileID: 5745659240395072349, guid: 2f8c9d891eab0bf4dbbaa4852f78c5ab, type: 3}
@@ -4738,7 +4789,9 @@ MonoBehaviour:
   EquipmentSecondPrefab: {fileID: 8708252175272485654, guid: 7baad8dfa4549664a90a3caec7494394, type: 3}
   EquipmentFirstPrefab: {fileID: 8708252175272485654, guid: bf10e02aad212674b92552951a9b7f34, type: 3}
   ElementDetailsPrefab: {fileID: 3336894875229122267, guid: a155ff5e34396694a98fbedccd46c40a, type: 3}
+  ElementDetails2Prefab: {fileID: 3336894875229122267, guid: 07c7005436ff44c48bb5de685d4f0deb, type: 3}
   MainMenuDetailPanelPrefab: {fileID: 5745659240395072349, guid: ad6f21f2970273d4cbef5eb4a0f9e0ec, type: 3}
+  MainMenuDetailPanel2Prefab: {fileID: 5745659240395072349, guid: 148a9d7bca605584599581cd2cb66295, type: 3}
   SummonPanelPrefab: {fileID: 5745659240395072349, guid: 5852b77f84057c04b92f8c963ea40e14, type: 3}
   PositionPrefab: {fileID: 8828003423608059818, guid: b3246aa49e91dd34da83edffb62f12dc, type: 3}
   CampaignPrefab: {fileID: 8594526395594420836, guid: 31ae70ae8ff76534eb0b7933276464a2, type: 3}
@@ -4750,10 +4803,14 @@ MonoBehaviour:
   NumberDetail2Prefab: {fileID: 2994152938922929080, guid: 9b3f86b97b196084db2d20d454d46205, type: 3}
   TabButton2: {fileID: 5647053732788993068, guid: d9eb1d1e942d7084b8bf771fa9da8f65, type: 3}
   TabButton3: {fileID: 5647053732788993068, guid: 1e580788d16b1784b801738fb4345d81, type: 3}
+  TabButton4: {fileID: 5647053732788993068, guid: ab3b3413090512f4eb1fcc8acdfd586d, type: 3}
   ReceivedNotification: {fileID: 8708252175272485654, guid: 115686d87506464429e315c61210e148, type: 3}
   ItemThird: {fileID: 1661859481911484232, guid: 54415496c6d2d2545bbbbf1053e792f9, type: 3}
   TeamsPrefab: {fileID: 5745659240395072349, guid: 401d4a58adbdf454fbce4a3f7b34f5de, type: 3}
   CardsThirdPrefab: {fileID: 8708252175272485654, guid: d14cac826ab808c4986bc7daaf402d7d, type: 3}
+  TypePrefab: {fileID: 1661859481911484232, guid: 2840113ef6e6c3448b15846a5b4b774a, type: 3}
+  StarPrefab: {fileID: 1661859481911484232, guid: 11f1658caea6e42488ac72d1ed68d131, type: 3}
+  PowerPrefab: {fileID: 1661859481911484232, guid: 3e6f4cc94b6b4c4488a5edc36f3050b6, type: 3}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0
@@ -4935,6 +4992,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2112044464}
   - component: {fileID: 2112044465}
+  - component: {fileID: 2112044466}
   m_Layer: 5
   m_Name: PopupDetailsManager
   m_TagString: Untagged
@@ -4972,6 +5030,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a97d5a9effb77164c9c695185f35e440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2112044466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112044463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27258af109d22a4ebc13db3d896a3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2124865761

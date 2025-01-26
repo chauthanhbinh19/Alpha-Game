@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
+using UnityEditor.Scripting;
 
 public class CardSpell
 {
@@ -19,6 +20,26 @@ public class CardSpell
     public bool block { get; set; }
     public string position { get; set; }
     public double power { get; set; }
+    public double health { get; set; }
+    public double physical_attack { get; set; }
+    public double physical_defense { get; set; }
+    public double magical_attack { get; set; }
+    public double magical_defense { get; set; }
+    public double chemical_attack { get; set; }
+    public double chemical_defense { get; set; }
+    public double atomic_attack { get; set; }
+    public double atomic_defense { get; set; }
+    public double mental_attack { get; set; }
+    public double mental_defense { get; set; }
+    public double speed { get; set; }
+    public double critical_damage { get; set; }
+    public double critical_rate { get; set; }
+    public double armor_penetration { get; set; }
+    public double avoid { get; set; }
+    public double absorbs_damage { get; set; }
+    public double regenerate_vitality { get; set; }
+    public double accuracy { get; set; }
+    public float mana {get; set;}
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
     public double percent_all_physical_defense { get; set; }
@@ -72,6 +93,26 @@ public class CardSpell
         experiment = -1;
         quantity = -1;
         power = -1;
+        health = -1;
+        physical_attack = -1;
+        physical_defense = -1;
+        magical_attack = -1;
+        magical_defense = -1;
+        chemical_attack = -1;
+        chemical_defense = -1;
+        atomic_attack = -1;
+        atomic_defense = -1;
+        mental_attack = -1;
+        mental_defense = -1;
+        speed = -1;
+        critical_damage = -1;
+        critical_rate = -1;
+        armor_penetration = -1;
+        avoid = -1;
+        absorbs_damage = -1;
+        regenerate_vitality = -1;
+        accuracy = -1;
+        mana = -1;
         percent_all_health = -1;
         percent_all_physical_attack = -1;
         percent_all_physical_defense = -1;
@@ -469,6 +510,34 @@ public class CardSpell
         }
         return CardSpellList;
     }
+    public Dictionary<string, int> GetUniqueCardSpellTypesTeam(int teamId)
+    {
+        var result = new Dictionary<string, int>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = @"SELECT distinct c.type, count(c.type) as number
+            FROM user_card_spell uc
+            LEFT JOIN card_spell c ON uc.card_spell_id = c.id 
+            LEFT JOIN fact_card_spell fch ON fch.user_id = uc.user_id AND fch.user_card_spell_id = uc.card_spell_id
+            WHERE uc.user_id =@userId and fch.team_id=@team_id
+            group by c.type, c.type";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+            command.Parameters.AddWithValue("@team_id", teamId);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string type = reader["type"].ToString();
+                int number = Convert.ToInt32(reader["number"]);
+
+                result[type] = number;
+            }
+        }
+        return result;
+    }
     public bool UpdateTeamFactCardSpell(int? team_id,string position, int card_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -686,7 +755,7 @@ public class CardSpell
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 1);
+                    command.Parameters.AddWithValue("@quantity", 0);
                     command.Parameters.AddWithValue("@power", CardSpell.power);
                     command.Parameters.AddWithValue("@percent_all_health", CardSpell.percent_all_health);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", CardSpell.percent_all_physical_attack);
@@ -1069,5 +1138,78 @@ public class CardSpell
             }
         }
         return count;
+    }
+    public CardSpell SumPowerCardSpellGallery()
+    {
+        CardSpell sumCardSpell = new CardSpell();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
+                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
+                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
+                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
+                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
+                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
+                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
+                FROM card_spell_gallery where user_id=@user_id and status = 'available';";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumCardSpell.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumCardSpell.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumCardSpell.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumCardSpell.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumCardSpell.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumCardSpell.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumCardSpell.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumCardSpell.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumCardSpell.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumCardSpell.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumCardSpell.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumCardSpell.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumCardSpell.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumCardSpell.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumCardSpell.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumCardSpell.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
+                        sumCardSpell.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
+                        sumCardSpell.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
+                        sumCardSpell.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
+                        sumCardSpell.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                        sumCardSpell.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumCardSpell.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumCardSpell.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumCardSpell.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumCardSpell.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumCardSpell.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumCardSpell.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumCardSpell.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumCardSpell.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumCardSpell.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumCardSpell.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumCardSpell.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumCardSpell;
     }
 }

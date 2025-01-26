@@ -63,6 +63,17 @@ public class Books
     public string description { get; set; }
     public string status { get; set; }
     public int team_id { get; set; }
+    public double percent_all_health { get; set; }
+    public double percent_all_physical_attack { get; set; }
+    public double percent_all_physical_defense { get; set; }
+    public double percent_all_magical_attack { get; set; }
+    public double percent_all_magical_defense { get; set; }
+    public double percent_all_chemical_attack { get; set; }
+    public double percent_all_chemical_defense { get; set; }
+    public double percent_all_atomic_attack { get; set; }
+    public double percent_all_atomic_defense { get; set; }
+    public double percent_all_mental_attack { get; set; }
+    public double percent_all_mental_defense { get; set; }
     public Currency currency { get; set; }
     public Books()
     {
@@ -106,7 +117,48 @@ public class Books
         all_absorbs_damage = -1;
         all_regenerate_vitality = -1;
         all_accuracy = -1;
-        team_id=-1;
+        team_id = -1;
+        percent_all_health = -1;
+        percent_all_physical_attack = -1;
+        percent_all_physical_defense = -1;
+        percent_all_magical_attack = -1;
+        percent_all_magical_defense = -1;
+        percent_all_chemical_attack = -1;
+        percent_all_chemical_defense = -1;
+        percent_all_atomic_attack = -1;
+        percent_all_atomic_defense = -1;
+        percent_all_mental_attack = -1;
+        percent_all_mental_defense = -1;
+    }
+    public List<Books> GetFinalPower(List<Books> BooksList)
+    {
+        PowerManager powerManager = new PowerManager();
+        powerManager = powerManager.GetUserStats();
+        foreach (var c in BooksList)
+        {
+            c.all_power = powerManager.GetFinalBooksPower(c);
+            c.all_health = c.all_health + powerManager.health + c.all_health * powerManager.percent_all_health/100;
+            c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100;
+            c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100;
+            c.all_magical_attack = c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100;
+            c.all_magical_defense = c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100;
+            c.all_chemical_attack = c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100;
+            c.all_chemical_defense = c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100;
+            c.all_atomic_attack = c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100;
+            c.all_atomic_defense = c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100;
+            c.all_mental_attack = c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100;
+            c.all_mental_defense = c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100;
+            c.all_speed = c.all_speed + powerManager.speed;
+            c.all_critical_damage = c.all_critical_damage + powerManager.critical_damage;
+            c.all_critical_rate = c.all_critical_rate + powerManager.critical_rate;
+            c.all_armor_penetration = c.all_armor_penetration + powerManager.armor_penetration;
+            c.all_avoid = c.all_avoid + powerManager.avoid;
+            c.all_absorbs_damage = c.all_absorbs_damage + powerManager.absorbs_damage;
+            c.all_regenerate_vitality = c.all_regenerate_vitality + powerManager.regenerate_vitality;
+            c.all_accuracy = c.all_accuracy + powerManager.accuracy;
+            c.all_mana = c.all_mana + powerManager.mana;
+        }
+        return BooksList;
     }
     public static List<string> GetUniqueBookTypes()
     {
@@ -126,7 +178,7 @@ public class Books
         }
         return typeList;
     }
-    public List<Books> GetBooks(string type,int pageSize, int offset)
+    public List<Books> GetBooks(string type, int pageSize, int offset)
     {
         List<Books> bookslist = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -187,8 +239,9 @@ public class Books
         }
         return bookslist;
     }
-    public int GetBooksCount(string type){
-        int count =0;
+    public int GetBooksCount(string type)
+    {
+        int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -209,10 +262,10 @@ public class Books
         }
         return count;
     }
-    public List<Books> GetBooksCollection(string type,int pageSize, int offset)
+    public List<Books> GetBooksCollection(string type, int pageSize, int offset)
     {
         List<Books> bookslist = new List<Books>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -260,7 +313,7 @@ public class Books
                         accuracy = reader.GetDouble("accuracy"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description"),
-                        status=reader.GetString("status"),
+                        status = reader.GetString("status"),
                     };
 
                     bookslist.Add(book);
@@ -274,10 +327,10 @@ public class Books
         }
         return bookslist;
     }
-    public List<Books> GetUserBooks(string type,int pageSize, int offset)
+    public List<Books> GetUserBooks(string type, int pageSize, int offset)
     {
         List<Books> bookslist = new List<Books>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -361,6 +414,7 @@ public class Books
 
                     bookslist.Add(book);
                 }
+                bookslist = GetFinalPower(bookslist);
             }
             catch (MySqlException ex)
             {
@@ -373,7 +427,7 @@ public class Books
     public List<Books> GetUserBooksTeam(int teamId)
     {
         List<Books> bookslist = new List<Books>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -454,6 +508,7 @@ public class Books
 
                     bookslist.Add(book);
                 }
+                bookslist = GetFinalPower(bookslist);
             }
             catch (MySqlException ex)
             {
@@ -463,9 +518,38 @@ public class Books
         }
         return bookslist;
     }
-    public int GetUserBooksCount(string type){
-        int count =0;
-        int user_id=User.CurrentUserId;
+    public Dictionary<string, int> GetUniqueBookTypesTeam(int teamId)
+    {
+        var result = new Dictionary<string, int>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = @"SELECT distinct c.type, count(c.type) as number
+            FROM user_card_books uc
+            LEFT JOIN books c ON uc.book_id = c.id 
+            LEFT JOIN fact_books fch ON fch.user_id = uc.user_id AND fch.user_book_id = uc.book_id
+            WHERE uc.user_id =@userId and fch.team_id=@team_id
+            group by c.type, c.type";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+            command.Parameters.AddWithValue("@team_id", teamId);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string type = reader["type"].ToString();
+                int number = Convert.ToInt32(reader["number"]);
+
+                result[type] = number;
+            }
+        }
+        return result;
+    }
+    public int GetUserBooksCount(string type)
+    {
+        int count = 0;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -487,7 +571,7 @@ public class Books
         }
         return count;
     }
-    public List<Books> GetBooksRandom(string type,int pageSize)
+    public List<Books> GetBooksRandom(string type, int pageSize)
     {
         List<Books> bookslist = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -644,7 +728,7 @@ public class Books
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 1);
+                    command.Parameters.AddWithValue("@quantity", 0);
                     command.Parameters.AddWithValue("@power", books.power);
                     command.Parameters.AddWithValue("@health", books.health);
                     command.Parameters.AddWithValue("@physical_attack", books.physical_attack);
@@ -972,7 +1056,7 @@ public class Books
             }
         }
     }
-    public List<Books> GetBooksWithPrice(string type,int pageSize, int offset)
+    public List<Books> GetBooksWithPrice(string type, int pageSize, int offset)
     {
         List<Books> bookslist = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1023,7 +1107,8 @@ public class Books
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
-                    book.currency = new Currency{
+                    book.currency = new Currency
+                    {
                         id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
@@ -1064,5 +1149,78 @@ public class Books
             }
         }
         return count;
+    }
+    public Books SumPowerBooksGallery()
+    {
+        Books sumBooks = new Books();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
+                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
+                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
+                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
+                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
+                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
+                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
+                FROM books_gallery where user_id=@user_id and status = 'available';";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumBooks.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumBooks.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumBooks.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumBooks.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumBooks.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumBooks.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumBooks.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumBooks.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumBooks.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumBooks.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumBooks.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumBooks.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumBooks.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumBooks.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumBooks.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumBooks.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
+                        sumBooks.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
+                        sumBooks.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
+                        sumBooks.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
+                        sumBooks.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                        sumBooks.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumBooks.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumBooks.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumBooks.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumBooks.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumBooks.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumBooks.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumBooks.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumBooks.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumBooks.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumBooks.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumBooks.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumBooks;
     }
 }

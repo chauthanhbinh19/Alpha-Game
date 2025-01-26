@@ -84,6 +84,8 @@ public class User
                     Borders borders = new Borders();
                     borders.InsertUserBordersById(359);
                     borders.InsertBordersGallery(359);
+                    PowerManager powerManager = new PowerManager();
+                    powerManager.InsertUserStats();
                     Teams team= new Teams();
                     team.InsertUserTeams();
                     Debug.Log("User registered successfully!");

@@ -41,10 +41,31 @@ public class CollaborationEquipment
     public float mana { get; set; }
     public string description { get; set; }
     public string status { get; set; }
+    public double percent_all_health { get; set; }
+    public double percent_all_physical_attack { get; set; }
+    public double percent_all_physical_defense { get; set; }
+    public double percent_all_magical_attack { get; set; }
+    public double percent_all_magical_defense { get; set; }
+    public double percent_all_chemical_attack { get; set; }
+    public double percent_all_chemical_defense { get; set; }
+    public double percent_all_atomic_attack { get; set; }
+    public double percent_all_atomic_defense { get; set; }
+    public double percent_all_mental_attack { get; set; }
+    public double percent_all_mental_defense { get; set; }
     public Currency currency { get; set; }
     public CollaborationEquipment()
     {
-
+        percent_all_health = -1;
+        percent_all_physical_attack = -1;
+        percent_all_physical_defense = -1;
+        percent_all_magical_attack = -1;
+        percent_all_magical_defense = -1;
+        percent_all_chemical_attack = -1;
+        percent_all_chemical_defense = -1;
+        percent_all_atomic_attack = -1;
+        percent_all_atomic_defense = -1;
+        percent_all_mental_attack = -1;
+        percent_all_mental_defense = -1;
     }
     public static List<string> GetUniqueCollaborationEquipmentTypes()
     {
@@ -64,7 +85,7 @@ public class CollaborationEquipment
         }
         return typeList;
     }
-    public List<CollaborationEquipment> GetCollaborationEquipments(string type,int pageSize, int offset)
+    public List<CollaborationEquipment> GetCollaborationEquipments(string type, int pageSize, int offset)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -124,8 +145,9 @@ public class CollaborationEquipment
         }
         return collaborationEquipmentList;
     }
-    public int GetCollaborationEquipmentCount(string type){
-        int count =0;
+    public int GetCollaborationEquipmentCount(string type)
+    {
+        int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -146,10 +168,10 @@ public class CollaborationEquipment
         }
         return count;
     }
-    public List<CollaborationEquipment> GetCollaborationEquipmentsCollection(string type,int pageSize, int offset)
+    public List<CollaborationEquipment> GetCollaborationEquipmentsCollection(string type, int pageSize, int offset)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -196,7 +218,7 @@ public class CollaborationEquipment
                         regenerate_vitality = reader.GetDouble("regenerate_vitality"),
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description"),
-                        status=reader.GetString("status"),
+                        status = reader.GetString("status"),
                     };
 
                     collaborationEquipmentList.Add(collaborationEquipment);
@@ -210,17 +232,17 @@ public class CollaborationEquipment
         }
         return collaborationEquipmentList;
     }
-    public List<CollaborationEquipment> GetUserCollaborationEquipments(string type,int pageSize, int offset)
+    public List<CollaborationEquipment> GetUserCollaborationEquipments(string type, int pageSize, int offset)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"Select uce.*, ce.image, ce.rare, ce.type from collaboration_equipments ce, user_collaboration_equipments uce where ce.id=uce.collaboration_equipment_id and uce.user_id=@userId and ce.type= @type 
+                string query = @"Select uce.*, ce.image, ce.rare, ce.type, ce.name from collaboration_equipments ce, user_collaboration_equipments uce where ce.id=uce.collaboration_equipment_id and uce.user_id=@userId and ce.type= @type 
                 ORDER BY ce.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(ce.name, '[0-9]+$') AS UNSIGNED), ce.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -232,7 +254,7 @@ public class CollaborationEquipment
                 {
                     CollaborationEquipment collaborationEquipment = new CollaborationEquipment
                     {
-                        id = reader.GetInt32("id"),
+                        id = reader.GetInt32("collaboration_equipment_id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
@@ -276,9 +298,10 @@ public class CollaborationEquipment
         }
         return collaborationEquipmentList;
     }
-    public int GetUserCollaborationEquipmentCount(string type){
-        int count =0;
-        int user_id=User.CurrentUserId;
+    public int GetUserCollaborationEquipmentCount(string type)
+    {
+        int count = 0;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -322,50 +345,76 @@ public class CollaborationEquipment
             try
             {
                 connection.Open();
-                string query = @"
+                string checkQuery = @"
+                SELECT COUNT(*) FROM user_collaboration_equipments 
+                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
                 INSERT INTO user_collaboration_equipments (
-                    user_id, collaboration_equipment_id, sequence, level, experiment, star, block, power,
+                    user_id, collaboration_equipment_id, quantity, level, experiment, star, block, power,
                     health, physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage, critical_rate, 
                     armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
                 ) VALUES (
-                    @user_id, @collaboration_equipment_id, @sequence, @level, @experiment, @star, @block, @power, 
+                    @user_id, @collaboration_equipment_id, @quantity, @level, @experiment, @star, @block, @power, 
                     @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                     @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
                     @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
                 )";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
-                command.Parameters.AddWithValue("@sequence", GetMaxSequence(connection, collaborationEquipment.id) + 1);
-                command.Parameters.AddWithValue("@level", 0);
-                command.Parameters.AddWithValue("@experiment", 0);
-                command.Parameters.AddWithValue("@star", 0);
-                command.Parameters.AddWithValue("@block", false);
-                command.Parameters.AddWithValue("@power", collaborationEquipment.power);
-                command.Parameters.AddWithValue("@health", collaborationEquipment.health);
-                command.Parameters.AddWithValue("@physical_attack", collaborationEquipment.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", collaborationEquipment.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", collaborationEquipment.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", collaborationEquipment.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", collaborationEquipment.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", collaborationEquipment.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", collaborationEquipment.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", collaborationEquipment.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", collaborationEquipment.magical_attack);
-                command.Parameters.AddWithValue("@mental_defense", collaborationEquipment.magical_defense);
-                command.Parameters.AddWithValue("@speed", collaborationEquipment.speed);
-                command.Parameters.AddWithValue("@critical_damage", collaborationEquipment.critical_damage);
-                command.Parameters.AddWithValue("@critical_rate", collaborationEquipment.critical_rate);
-                command.Parameters.AddWithValue("@armor_penetration", collaborationEquipment.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", collaborationEquipment.avoid);
-                command.Parameters.AddWithValue("@absorbs_damage", collaborationEquipment.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerate_vitality", collaborationEquipment.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", collaborationEquipment.accuracy);
-                command.Parameters.AddWithValue("@mana", collaborationEquipment.mana);
-                command.ExecuteNonQuery();
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@experiment", 0);
+                    command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@block", false);
+                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@power", collaborationEquipment.power);
+                    command.Parameters.AddWithValue("@health", collaborationEquipment.health);
+                    command.Parameters.AddWithValue("@physical_attack", collaborationEquipment.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", collaborationEquipment.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", collaborationEquipment.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", collaborationEquipment.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", collaborationEquipment.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", collaborationEquipment.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", collaborationEquipment.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", collaborationEquipment.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", collaborationEquipment.magical_attack);
+                    command.Parameters.AddWithValue("@mental_defense", collaborationEquipment.magical_defense);
+                    command.Parameters.AddWithValue("@speed", collaborationEquipment.speed);
+                    command.Parameters.AddWithValue("@critical_damage", collaborationEquipment.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", collaborationEquipment.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", collaborationEquipment.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", collaborationEquipment.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", collaborationEquipment.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", collaborationEquipment.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", collaborationEquipment.accuracy);
+                    command.Parameters.AddWithValue("@mana", collaborationEquipment.mana);
+                    command.ExecuteNonQuery();
+                }
+                else{
+                    // Nếu bản ghi đã tồn tại, thực hiện UPDATE
+                    string updateQuery = @"
+                    UPDATE user_collaboration_equipments
+                    SET quantity = quantity + 1
+                    WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;";
+
+                    MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
+
+                    updateCommand.ExecuteNonQuery();
+                }
+
                 return true;
             }
             catch (MySqlException ex)
@@ -379,7 +428,7 @@ public class CollaborationEquipment
         }
         return false;
     }
-    public List<CollaborationEquipment> GetCollaborationEquipmentsWithPrice(string type,int pageSize, int offset)
+    public List<CollaborationEquipment> GetCollaborationEquipmentsWithPrice(string type, int pageSize, int offset)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -429,7 +478,8 @@ public class CollaborationEquipment
                         mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
-                    collaborationEquipment.currency = new Currency{
+                    collaborationEquipment.currency = new Currency
+                    {
                         id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
@@ -561,12 +611,12 @@ public class CollaborationEquipment
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM collaborations_gallery 
-                WHERE user_id = @user_id AND collaboration_id = @collaboration_id;
+                FROM collaboration_equipments_gallery 
+                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@collaboration_id", Id);
+                checkCommand.Parameters.AddWithValue("@collaboration_equipment_id", Id);
 
                 int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
 
@@ -667,5 +717,134 @@ public class CollaborationEquipment
                 connection.Close();
             }
         }
+    }
+    public CollaborationEquipment SumPowerCollaborationEquipmentsGallery()
+    {
+        CollaborationEquipment sumCollaborationEquipments = new CollaborationEquipment();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
+                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
+                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
+                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
+                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
+                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
+                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
+                FROM collaboration_equipments_gallery where user_id=@user_id and status = 'available';";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumCollaborationEquipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumCollaborationEquipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumCollaborationEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumCollaborationEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumCollaborationEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumCollaborationEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumCollaborationEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumCollaborationEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumCollaborationEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumCollaborationEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumCollaborationEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumCollaborationEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumCollaborationEquipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumCollaborationEquipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumCollaborationEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumCollaborationEquipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
+                        sumCollaborationEquipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
+                        sumCollaborationEquipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
+                        sumCollaborationEquipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
+                        sumCollaborationEquipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                        sumCollaborationEquipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumCollaborationEquipments.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumCollaborationEquipments.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumCollaborationEquipments.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumCollaborationEquipments.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumCollaborationEquipments.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumCollaborationEquipments.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumCollaborationEquipments.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumCollaborationEquipments.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumCollaborationEquipments.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumCollaborationEquipments.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumCollaborationEquipments.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumCollaborationEquipments;
+    }
+    public CollaborationEquipment SumPowerUserCollaborationEquipments()
+    {
+        CollaborationEquipment sumCollaborationEquipments = new CollaborationEquipment();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
+                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
+                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
+                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
+                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
+                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana  
+                FROM user_collaboration_equipments where user_id=@user_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumCollaborationEquipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumCollaborationEquipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumCollaborationEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumCollaborationEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumCollaborationEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumCollaborationEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumCollaborationEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumCollaborationEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumCollaborationEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumCollaborationEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumCollaborationEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumCollaborationEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumCollaborationEquipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumCollaborationEquipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumCollaborationEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumCollaborationEquipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
+                        sumCollaborationEquipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
+                        sumCollaborationEquipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
+                        sumCollaborationEquipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
+                        sumCollaborationEquipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                        sumCollaborationEquipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumCollaborationEquipments;
     }
 }
