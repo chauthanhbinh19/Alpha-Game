@@ -235,7 +235,7 @@ public class Skills
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.image, s.rare, s.type from Skills s,user_skill us where s.id=us.skill_id and us.user_id=@userId and s.type= @type 
+                string query = @"Select us.*, s.image, s.rare, s.type from Skills s,user_skills us where s.id=us.skill_id and us.user_id=@userId and s.type= @type 
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -295,7 +295,7 @@ public class Skills
             try
             {
                 connection.Open();
-                string query = "Select count(*) from skills s, user_skill us where s.id=us.skill_id and us.user_id=@userId and s.type= @type";
+                string query = "Select count(*) from skills s, user_skills us where s.id=us.skill_id and us.user_id=@userId and s.type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);

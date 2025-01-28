@@ -20,6 +20,7 @@ public class User
     public string Username { get; set; }
     public string Password { get; set; }
     public static int CurrentUserId { get; private set; }
+    public static int CurrentUserLevel { get; private set; }
     private static string savedUsername;
     private static string savedPassword;
     public List<Currency> Currencies { get; set; }
@@ -142,6 +143,7 @@ public class User
                 CurrentUserId = userId;
                 savedUsername = username;
                 savedPassword = password;
+                CurrentUserLevel = Level;
 
                 if (string.IsNullOrEmpty(Name))
                 {
