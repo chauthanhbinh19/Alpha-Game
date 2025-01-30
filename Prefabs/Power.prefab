@@ -40,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 140}
+  m_SizeDelta: {x: 800, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5761837054593709679
 CanvasRenderer:
@@ -65,9 +65,9 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 30
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 3
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 3db3a015118bcae4cb1d0e3d7f005b6e, type: 3}
+  m_Texture: {fileID: 2800000, guid: 1752981950d573c40a81a5a5dafa9201, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -409,7 +409,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 100}
+  m_SizeDelta: {x: 170, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6505011000012122789
 CanvasRenderer:

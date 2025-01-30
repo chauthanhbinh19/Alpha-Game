@@ -1166,11 +1166,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 currentCard = cardHeroes.GetUserCardHeroesById(cardHeroes.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
-                int experimentCondition = currentLevel * 100;
-                if (currentLevel == 0)
-                {
-                    experimentCondition = 1 * 100;
-                }
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 foreach (Items items1 in items)
                 {
                     int expPerBottle = 0;
@@ -1203,7 +1199,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 }
                 CardHeroes newCard = new CardHeroes();
                 newCard = cardHeroes.GetNewPower(cardHeroes, 0.1);
-                cardHeroes.UpdateCardHeroesLevel(newCard, currentLevel);
+                cardHeroes.UpdateCardHeroesLevel(newCard, currentLevel+1);
                 cardHeroes.UpdateFactCardHeroes(newCard);
                 totalExperiment -= experimentCondition;
                 currentLevel = currentLevel + 1;
@@ -1218,67 +1214,72 @@ public class MainMenuDetailsManager : MonoBehaviour
                 CardHeroes currentCard = cardHeroes.GetUserCardHeroesById(cardHeroes.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
-                int maxLevel = 100000;
-                int experimentCondition = currentLevel * 100;
+                int originalLevel = currentLevel;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
+                int maxLevel = 100000; // Điều kiện 3: Không vượt quá 100000
 
-                // Đảm bảo level 0 có điều kiện đặc biệt
-                if (currentLevel == 0)
+                while (currentLevel < userMaxLevel && currentLevel < maxLevel)
                 {
-                    experimentCondition = 1 * 100;
-                }
+                    int requiredExp = experimentCondition - totalExperiment; // EXP cần để lên cấp
+                    bool canLevelUp = false;
 
-                foreach (Items items1 in items)
-                {
-                    int expPerBottle = items1.GetItemExp(items1.name);
-                    if (expPerBottle > 0)
+                    foreach (Items items1 in items)
                     {
-                        while (items1.quantity > 0 && currentLevel < maxLevel && currentLevel < User.CurrentUserLevel && totalExperiment >= experimentCondition)
+                        int expPerBottle = items1.GetItemExp(items1.name);
+
+                        if (expPerBottle > 0 && items1.quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                         {
-                            int requiredExp = experimentCondition - totalExperiment;
+                            int totalExpFromThisItem = expPerBottle * items1.quantity;
 
-                            if (requiredExp <= expPerBottle)
+                            if (requiredExp <= totalExpFromThisItem)
                             {
-                                // Nếu vật phẩm này đủ nâng cấp
                                 totalExperiment += requiredExp;
-                                items1.quantity -= 1; // Giảm 1 vật phẩm
-                                totalExperiment -= experimentCondition;
-
-                                currentLevel++; // Tăng level
-                                experimentCondition = currentLevel * 100;
+                                items1.quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
+                                canLevelUp = true;
+                                break;
                             }
                             else
                             {
-                                // Nếu không đủ nâng cấp
-                                totalExperiment += expPerBottle;
-                                items1.quantity -= 1;
+                                totalExperiment += totalExpFromThisItem;
+                                items1.quantity = 0;
                             }
                         }
+                    }
 
-                        // Nếu đạt max level hoặc hết vật phẩm, thoát vòng lặp
-                        if (currentLevel >= maxLevel || currentLevel >= User.CurrentUserLevel)
-                        {
-                            break;
-                        }
+                    if (canLevelUp)
+                    {
+                        totalExperiment -= experimentCondition;
+                        currentLevel++;
+                        experimentCondition = currentLevel * 100;
+                    }
+                    else
+                    {
+                        break; // Không đủ EXP để lên cấp tiếp
                     }
                 }
 
-                // Cập nhật vật phẩm sau khi sử dụng
+                // Cập nhật số lượng item còn lại trong cơ sở dữ liệu
                 foreach (Items items1 in items)
                 {
                     item.UpdateUserItemsQuantity(items1);
                 }
 
-                // Tạo thẻ mới và cập nhật thông số
-                CardHeroes newCard = cardHeroes.GetNewPower(cardHeroes, 0.1);
+                // Tính số cấp đã tăng
+                int levelsGained = currentLevel - originalLevel;
+
+                // Cập nhật cấp độ và trạng thái của thẻ bài
+                CardHeroes newCard = cardHeroes.GetNewPower(cardHeroes, levelsGained * 0.1);
                 cardHeroes.UpdateCardHeroesLevel(newCard, currentLevel);
                 cardHeroes.UpdateFactCardHeroes(newCard);
 
-                // Đóng các UI cũ và cập nhật UI mới
+                // Cập nhật giao diện
                 Close(LevelElementContent);
                 Close(LevelMaterialContent);
                 GetLevel(obj);
                 CreateLevelUI(currentLevel);
             });
+
 
         }
         else if (obj is Books book)

@@ -853,7 +853,7 @@ public class CardHeroes
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@card_hero_id", cardHeroes.id);
-                command.Parameters.AddWithValue("@level", cardLevel + 1);
+                command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", cardHeroes.power);
                 command.Parameters.AddWithValue("@health", cardHeroes.health);
                 command.Parameters.AddWithValue("@physicalAttack", cardHeroes.physical_attack);

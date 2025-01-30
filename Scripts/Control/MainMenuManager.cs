@@ -274,7 +274,7 @@ public class MainMenuManager : MonoBehaviour
             else if (mainType.Equals("SummonBooks") || mainType.Equals("SummonCardColonels"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_51");
-                dictionaryBackground.texture = texture;
+                // dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_48");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
@@ -283,7 +283,7 @@ public class MainMenuManager : MonoBehaviour
             else if (mainType.Equals("SummonCardCaptains") || mainType.Equals("SummonCardGenerals"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_50");
-                dictionaryBackground.texture = texture;
+                // dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_63");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
@@ -292,7 +292,7 @@ public class MainMenuManager : MonoBehaviour
             else if (mainType.Equals("SummonCardMonsters") || mainType.Equals("SummonCardAdmirals"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_49");
-                dictionaryBackground.texture = texture;
+                // dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_69");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
@@ -301,7 +301,7 @@ public class MainMenuManager : MonoBehaviour
             else if (mainType.Equals("SummonCardMilitary"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_48");
-                dictionaryBackground.texture = texture;
+                // dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_85");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
@@ -310,7 +310,7 @@ public class MainMenuManager : MonoBehaviour
             else if (mainType.Equals("SummonCardSpell"))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_47");
-                dictionaryBackground.texture = texture;
+                // dictionaryBackground.texture = texture;
                 Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_94");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;

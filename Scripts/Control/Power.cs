@@ -76,7 +76,8 @@ public class Power : MonoBehaviour
         // {
         //     nextPowerText.gameObject.SetActive(false);
         // }
-        nextPowerText.gameObject.SetActive(false);
+        // nextPowerText.gameObject.SetActive(false);
+        nextPowerText.text="";
 
         // Chờ thêm trước khi toàn bộ object biến mất
         yield return new WaitForSeconds(duration / 2);

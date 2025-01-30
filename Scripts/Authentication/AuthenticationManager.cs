@@ -59,8 +59,7 @@ public class AuthenticationManager : MonoBehaviour
         createSignInButton = WaitingPanel.transform.Find("SignInButton").GetComponent<Button>();
 
         startButton.onClick.AddListener(()=>{
-            MainPanel.gameObject.SetActive(true);
-            WaitingPanel.gameObject.SetActive(false);
+            FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, MainPanel);
         });
         createSignInButton.onClick.AddListener(()=>{
             createSignInPanel();

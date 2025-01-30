@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     public Transform summonPanel;
     public Transform currencyPanel;
     public Transform userPanel;
+    public Transform LoadingPanel;
+
 
     // Prefab references
     [Header("GameObject")]
@@ -71,6 +73,7 @@ public class UIManager : MonoBehaviour
     public GameObject TypePrefab;
     public GameObject StarPrefab;
     public GameObject PowerPrefab;
+    public GameObject LoadingPanelPrefab;
 
     [Header("Button")]
     private Button GalleryButton;
@@ -127,6 +130,8 @@ public class UIManager : MonoBehaviour
                 return currencyPanel;
             case "userPanel":
                 return userPanel;
+            case "LoadingPanel":
+                return LoadingPanel;
             default:
                 Debug.LogWarning($"Panel {panelName} not found.");
                 return null;
@@ -230,6 +235,8 @@ public class UIManager : MonoBehaviour
                 return ElementDetails2Prefab;
             case "PowerPrefab":
                 return PowerPrefab;
+            case "LoadingPanelPrefab":
+                return LoadingPanelPrefab;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;
