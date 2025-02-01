@@ -80,6 +80,110 @@ public class Equipments
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
     }
+    public Equipments GetNewLevelPower(Equipments c, double coefficient)
+    {
+        Equipments orginCard = new Equipments();
+        orginCard = orginCard.GetEquipmentById(c.id);
+        Equipments equipments = new Equipments
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        equipments.power = 0.5 * (
+            equipments.health +
+            equipments.physical_attack +
+            equipments.physical_defense +
+            equipments.magical_attack +
+            equipments.magical_defense +
+            equipments.chemical_attack +
+            equipments.chemical_defense +
+            equipments.atomic_attack +
+            equipments.atomic_defense +
+            equipments.mental_attack +
+            equipments.mental_defense +
+            equipments.speed +
+            equipments.critical_damage +
+            equipments.critical_rate +
+            equipments.armor_penetration +
+            equipments.avoid +
+            equipments.absorbs_damage +
+            equipments.regenerate_vitality +
+            equipments.accuracy +
+            equipments.mana
+        );
+        return equipments;
+    }
+    public Equipments GetNewBreakthroughPower(Equipments c, double coefficient)
+    {
+        Equipments orginCard = new Equipments();
+        orginCard = orginCard.GetEquipmentById(c.id);
+        Equipments equipments = new Equipments
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        equipments.power = 0.5 * (
+            equipments.health +
+            equipments.physical_attack +
+            equipments.physical_defense +
+            equipments.magical_attack +
+            equipments.magical_defense +
+            equipments.chemical_attack +
+            equipments.chemical_defense +
+            equipments.atomic_attack +
+            equipments.atomic_defense +
+            equipments.mental_attack +
+            equipments.mental_defense +
+            equipments.speed +
+            equipments.critical_damage +
+            equipments.critical_rate +
+            equipments.armor_penetration +
+            equipments.avoid +
+            equipments.absorbs_damage +
+            equipments.regenerate_vitality +
+            equipments.accuracy +
+            equipments.mana
+        );
+        return equipments;
+    }
     public static List<string> GetUniqueEquipmentsTypes()
     {
         List<string> typeList = new List<string>();
@@ -548,6 +652,61 @@ public class Equipments
         }
         return equipments;
     }
+    public Equipments GetUserEquipmentsById(int Id)
+    {
+        Equipments card = new Equipments();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_equipments where equipment_id=@id 
+                and user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
+    }
     public bool BuyEquipment(int Id)
     {
         Equipments EquipmentFromDB = GetEquipmentById(Id);
@@ -632,6 +791,119 @@ public class Equipments
             }
         }
         return false;
+    }
+    public bool UpdateEquipmentsLevel(Equipments equipments, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_equipments
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND equipment_id = @equipment_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@equipment_id", equipments.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", equipments.power);
+                command.Parameters.AddWithValue("@health", equipments.health);
+                command.Parameters.AddWithValue("@physicalAttack", equipments.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", equipments.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", equipments.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", equipments.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", equipments.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", equipments.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", equipments.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", equipments.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", equipments.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", equipments.mental_defense);
+                command.Parameters.AddWithValue("@speed", equipments.speed);
+                command.Parameters.AddWithValue("@criticalDamage", equipments.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", equipments.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", equipments.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", equipments.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", equipments.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", equipments.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", equipments.accuracy);
+                command.Parameters.AddWithValue("@mana", equipments.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateEquipmentsBreakthrough(Equipments equipments, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_equipments
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND equipment_id = @equipment_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@equipment_id", equipments.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", equipments.power);
+                command.Parameters.AddWithValue("@health", equipments.health);
+                command.Parameters.AddWithValue("@physicalAttack", equipments.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", equipments.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", equipments.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", equipments.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", equipments.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", equipments.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", equipments.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", equipments.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", equipments.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", equipments.mental_defense);
+                command.Parameters.AddWithValue("@speed", equipments.speed);
+                command.Parameters.AddWithValue("@criticalDamage", equipments.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", equipments.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", equipments.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", equipments.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", equipments.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", equipments.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", equipments.accuracy);
+                command.Parameters.AddWithValue("@mana", equipments.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
     }
     public void UpdateUserCurrency(int Id)
     {

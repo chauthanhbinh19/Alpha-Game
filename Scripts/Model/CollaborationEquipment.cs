@@ -67,6 +67,110 @@ public class CollaborationEquipment
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
     }
+    public CollaborationEquipment GetNewLevelPower(CollaborationEquipment c, double coefficient)
+    {
+        CollaborationEquipment orginCard = new CollaborationEquipment();
+        orginCard = orginCard.GetCollaborationEquipmentsById(c.id);
+        CollaborationEquipment collaborationEquipment = new CollaborationEquipment
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        collaborationEquipment.power = 0.5 * (
+            collaborationEquipment.health +
+            collaborationEquipment.physical_attack +
+            collaborationEquipment.physical_defense +
+            collaborationEquipment.magical_attack +
+            collaborationEquipment.magical_defense +
+            collaborationEquipment.chemical_attack +
+            collaborationEquipment.chemical_defense +
+            collaborationEquipment.atomic_attack +
+            collaborationEquipment.atomic_defense +
+            collaborationEquipment.mental_attack +
+            collaborationEquipment.mental_defense +
+            collaborationEquipment.speed +
+            collaborationEquipment.critical_damage +
+            collaborationEquipment.critical_rate +
+            collaborationEquipment.armor_penetration +
+            collaborationEquipment.avoid +
+            collaborationEquipment.absorbs_damage +
+            collaborationEquipment.regenerate_vitality +
+            collaborationEquipment.accuracy +
+            collaborationEquipment.mana
+        );
+        return collaborationEquipment;
+    }
+    public CollaborationEquipment GetNewBreakthroughPower(CollaborationEquipment c, double coefficient)
+    {
+        CollaborationEquipment orginCard = new CollaborationEquipment();
+        orginCard = orginCard.GetCollaborationEquipmentsById(c.id);
+        CollaborationEquipment collaborationEquipment = new CollaborationEquipment
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        collaborationEquipment.power = 0.5 * (
+            collaborationEquipment.health +
+            collaborationEquipment.physical_attack +
+            collaborationEquipment.physical_defense +
+            collaborationEquipment.magical_attack +
+            collaborationEquipment.magical_defense +
+            collaborationEquipment.chemical_attack +
+            collaborationEquipment.chemical_defense +
+            collaborationEquipment.atomic_attack +
+            collaborationEquipment.atomic_defense +
+            collaborationEquipment.mental_attack +
+            collaborationEquipment.mental_defense +
+            collaborationEquipment.speed +
+            collaborationEquipment.critical_damage +
+            collaborationEquipment.critical_rate +
+            collaborationEquipment.armor_penetration +
+            collaborationEquipment.avoid +
+            collaborationEquipment.absorbs_damage +
+            collaborationEquipment.regenerate_vitality +
+            collaborationEquipment.accuracy +
+            collaborationEquipment.mana
+        );
+        return collaborationEquipment;
+    }
     public static List<string> GetUniqueCollaborationEquipmentTypes()
     {
         List<string> typeList = new List<string>();
@@ -242,7 +346,7 @@ public class CollaborationEquipment
             try
             {
                 connection.Open();
-                string query = @"Select uce.*, ce.image, ce.rare, ce.type, ce.name from collaboration_equipments ce, user_collaboration_equipments uce where ce.id=uce.collaboration_equipment_id and uce.user_id=@userId and ce.type= @type 
+                string query = @"Select uce.*, ce.image, ce.rare, ce.type, ce.name, ce.description from collaboration_equipments ce, user_collaboration_equipments uce where ce.id=uce.collaboration_equipment_id and uce.user_id=@userId and ce.type= @type 
                 ORDER BY ce.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(ce.name, '[0-9]+$') AS UNSIGNED), ce.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -428,6 +532,119 @@ public class CollaborationEquipment
         }
         return false;
     }
+    public bool UpdateCollaborationEquipmentsLevel(CollaborationEquipment collaborationEquipment, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_collaboration_equipments
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", collaborationEquipment.power);
+                command.Parameters.AddWithValue("@health", collaborationEquipment.health);
+                command.Parameters.AddWithValue("@physicalAttack", collaborationEquipment.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", collaborationEquipment.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", collaborationEquipment.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", collaborationEquipment.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", collaborationEquipment.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", collaborationEquipment.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", collaborationEquipment.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", collaborationEquipment.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", collaborationEquipment.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", collaborationEquipment.mental_defense);
+                command.Parameters.AddWithValue("@speed", collaborationEquipment.speed);
+                command.Parameters.AddWithValue("@criticalDamage", collaborationEquipment.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", collaborationEquipment.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", collaborationEquipment.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", collaborationEquipment.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", collaborationEquipment.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", collaborationEquipment.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", collaborationEquipment.accuracy);
+                command.Parameters.AddWithValue("@mana", collaborationEquipment.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipment collaborationEquipment, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_collaboration_equipments
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", collaborationEquipment.power);
+                command.Parameters.AddWithValue("@health", collaborationEquipment.health);
+                command.Parameters.AddWithValue("@physicalAttack", collaborationEquipment.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", collaborationEquipment.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", collaborationEquipment.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", collaborationEquipment.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", collaborationEquipment.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", collaborationEquipment.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", collaborationEquipment.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", collaborationEquipment.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", collaborationEquipment.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", collaborationEquipment.mental_defense);
+                command.Parameters.AddWithValue("@speed", collaborationEquipment.speed);
+                command.Parameters.AddWithValue("@criticalDamage", collaborationEquipment.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", collaborationEquipment.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", collaborationEquipment.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", collaborationEquipment.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", collaborationEquipment.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", collaborationEquipment.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", collaborationEquipment.accuracy);
+                command.Parameters.AddWithValue("@mana", collaborationEquipment.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public List<CollaborationEquipment> GetCollaborationEquipmentsWithPrice(string type, int pageSize, int offset)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();
@@ -576,6 +793,61 @@ public class CollaborationEquipment
 
         }
         return collaborationEquipment;
+    }
+    public CollaborationEquipment GetUserCollaborationEquipmentsById(int Id)
+    {
+        CollaborationEquipment card = new CollaborationEquipment();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_collaboration_equipments where user_collaboration_equipments.collaboration_equipment_id=@id 
+                and user_collaboration_equipments.user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new CollaborationEquipment
+                    {
+                        id = reader.GetInt32("collaboration_equipment_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertCollaborationEquipmentsGallery(int Id)
     {

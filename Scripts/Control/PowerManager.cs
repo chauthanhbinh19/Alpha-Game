@@ -558,6 +558,19 @@ public class PowerManager
         accuracy = accuracy + achievements.accuracy;
         mana = mana + achievements.mana;
 
+        //Percent
+        achievements = achievements.SumPowerAchievementsPercent();
+        percent_all_health = percent_all_health + achievements.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + achievements.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + achievements.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + achievements.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + achievements.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + achievements.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + achievements.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + achievements.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + achievements.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + achievements.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + achievements.percent_all_mental_defense;
     }
     public void GetBooksPower()
     {
@@ -659,6 +672,20 @@ public class PowerManager
         regenerate_vitality = regenerate_vitality + borders.regenerate_vitality;
         accuracy = accuracy + borders.accuracy;
         mana = mana + borders.mana;
+
+        //Percent
+        borders = borders.SumPowerBordersPercent();
+        percent_all_health = percent_all_health + borders.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + borders.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + borders.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + borders.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + borders.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + borders.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + borders.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + borders.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + borders.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + borders.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + borders.percent_all_mental_defense;
     }
     public void GetCardHeroesPower()
     {
@@ -1025,6 +1052,20 @@ public class PowerManager
         regenerate_vitality = regenerate_vitality + collaboration.regenerate_vitality;
         accuracy = accuracy + collaboration.accuracy;
         mana = mana + collaboration.mana;
+
+        //Percent
+        collaboration = collaboration.SumPowerCollaborationsPercent();
+        percent_all_health = percent_all_health + collaboration.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + collaboration.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + collaboration.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + collaboration.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + collaboration.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + collaboration.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + collaboration.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + collaboration.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + collaboration.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + collaboration.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + collaboration.percent_all_mental_defense;
     }
     public void GetCollaborationEquipmentsPower()
     {
@@ -1163,6 +1204,20 @@ public class PowerManager
         percent_all_atomic_defense = percent_all_atomic_defense + magicFormationCircle.percent_all_atomic_defense;
         percent_all_mental_attack = percent_all_mental_attack + magicFormationCircle.percent_all_mental_attack;
         percent_all_mental_defense = percent_all_mental_defense + magicFormationCircle.percent_all_mental_defense;
+
+        //Percent
+        magicFormationCircle = magicFormationCircle.SumPowerMagicFormationCirclePercent();
+        percent_all_health = percent_all_health + magicFormationCircle.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + magicFormationCircle.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + magicFormationCircle.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + magicFormationCircle.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + magicFormationCircle.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + magicFormationCircle.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + magicFormationCircle.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + magicFormationCircle.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + magicFormationCircle.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + magicFormationCircle.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + magicFormationCircle.percent_all_mental_defense;
     }
     public void GetRelicsPower()
     {
@@ -1190,6 +1245,20 @@ public class PowerManager
         regenerate_vitality = regenerate_vitality + relics.regenerate_vitality;
         accuracy = accuracy + relics.accuracy;
         mana = mana + relics.mana;
+        percent_all_health = percent_all_health + relics.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + relics.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + relics.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + relics.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + relics.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + relics.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + relics.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + relics.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + relics.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + relics.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + relics.percent_all_mental_defense;
+
+        //Percent
+        relics = relics.SumPowerRelicsPercent();
         percent_all_health = percent_all_health + relics.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + relics.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + relics.percent_all_physical_defense;
@@ -1263,6 +1332,20 @@ public class PowerManager
         regenerate_vitality = regenerate_vitality + medals.regenerate_vitality;
         accuracy = accuracy + medals.accuracy;
         mana = mana + medals.mana;
+
+        //Percent
+        medals = medals.SumPowerMedalsPercent();
+        percent_all_health = percent_all_health + medals.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + medals.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + medals.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + medals.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + medals.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + medals.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + medals.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + medals.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + medals.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + medals.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + medals.percent_all_mental_defense;
     }
     public void GetPetsPower()
     {
@@ -1363,6 +1446,20 @@ public class PowerManager
         regenerate_vitality = regenerate_vitality + symbols.regenerate_vitality;
         accuracy = accuracy + symbols.accuracy;
         mana = mana + symbols.mana;
+
+        //Percent
+        symbols = symbols.SumPowerSymbolsPercent();
+        percent_all_health = percent_all_health + symbols.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + symbols.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + symbols.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + symbols.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + symbols.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + symbols.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + symbols.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + symbols.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + symbols.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + symbols.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + symbols.percent_all_mental_defense;
     }
     public void GetSkillsPower()
     {
@@ -1463,5 +1560,19 @@ public class PowerManager
         regenerate_vitality = regenerate_vitality + titles.regenerate_vitality;
         accuracy = accuracy + titles.accuracy;
         mana = mana + titles.mana;
+
+        //Percent
+        titles = titles.SumPowerTitlesPercent();
+        percent_all_health = percent_all_health + titles.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + titles.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + titles.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + titles.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + titles.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + titles.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + titles.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + titles.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + titles.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + titles.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + titles.percent_all_mental_defense;
     }
 }

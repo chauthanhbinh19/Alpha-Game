@@ -160,6 +160,110 @@ public class CardColonels
         }
         return CardColonelsList;
     }
+    public CardColonels GetNewLevelPower(CardColonels c, double coefficient)
+    {
+        CardColonels orginCard = new CardColonels();
+        orginCard = orginCard.GetCardColonelsById(c.id);
+        CardColonels cardColonels = new CardColonels
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        cardColonels.power = 0.5 * (
+            cardColonels.health +
+            cardColonels.physical_attack +
+            cardColonels.physical_defense +
+            cardColonels.magical_attack +
+            cardColonels.magical_defense +
+            cardColonels.chemical_attack +
+            cardColonels.chemical_defense +
+            cardColonels.atomic_attack +
+            cardColonels.atomic_defense +
+            cardColonels.mental_attack +
+            cardColonels.mental_defense +
+            cardColonels.speed +
+            cardColonels.critical_damage +
+            cardColonels.critical_rate +
+            cardColonels.armor_penetration +
+            cardColonels.avoid +
+            cardColonels.absorbs_damage +
+            cardColonels.regenerate_vitality +
+            cardColonels.accuracy +
+            cardColonels.mana
+        );
+        return cardColonels;
+    }
+    public CardColonels GetNewBreakthroughPower(CardColonels c, double coefficient)
+    {
+        CardColonels orginCard = new CardColonels();
+        orginCard = orginCard.GetCardColonelsById(c.id);
+        CardColonels cardColonels = new CardColonels
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        cardColonels.power = 0.5 * (
+            cardColonels.health +
+            cardColonels.physical_attack +
+            cardColonels.physical_defense +
+            cardColonels.magical_attack +
+            cardColonels.magical_defense +
+            cardColonels.chemical_attack +
+            cardColonels.chemical_defense +
+            cardColonels.atomic_attack +
+            cardColonels.atomic_defense +
+            cardColonels.mental_attack +
+            cardColonels.mental_defense +
+            cardColonels.speed +
+            cardColonels.critical_damage +
+            cardColonels.critical_rate +
+            cardColonels.armor_penetration +
+            cardColonels.avoid +
+            cardColonels.absorbs_damage +
+            cardColonels.regenerate_vitality +
+            cardColonels.accuracy +
+            cardColonels.mana
+        );
+        return cardColonels;
+    }
     public static List<string> GetUniqueCardColonelsTypes()
     {
         List<string> typeList = new List<string>();
@@ -774,6 +878,119 @@ public class CardColonels
         }
         return true;
     }
+    public bool UpdateCardColonelsLevel(CardColonels cardColonels, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_card_colonels
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND card_colonel_id = @card_colonel_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_colonel_id", cardColonels.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", cardColonels.power);
+                command.Parameters.AddWithValue("@health", cardColonels.health);
+                command.Parameters.AddWithValue("@physicalAttack", cardColonels.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", cardColonels.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", cardColonels.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", cardColonels.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", cardColonels.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", cardColonels.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", cardColonels.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", cardColonels.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", cardColonels.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", cardColonels.mental_defense);
+                command.Parameters.AddWithValue("@speed", cardColonels.speed);
+                command.Parameters.AddWithValue("@criticalDamage", cardColonels.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", cardColonels.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", cardColonels.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", cardColonels.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", cardColonels.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", cardColonels.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", cardColonels.accuracy);
+                command.Parameters.AddWithValue("@mana", cardColonels.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateCardColonelsBreakthrough(CardColonels cardColonels, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_card_colonels
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND card_colonel_id = @card_colonel_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_colonel_id", cardColonels.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", cardColonels.power);
+                command.Parameters.AddWithValue("@health", cardColonels.health);
+                command.Parameters.AddWithValue("@physicalAttack", cardColonels.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", cardColonels.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", cardColonels.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", cardColonels.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", cardColonels.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", cardColonels.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", cardColonels.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", cardColonels.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", cardColonels.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", cardColonels.mental_defense);
+                command.Parameters.AddWithValue("@speed", cardColonels.speed);
+                command.Parameters.AddWithValue("@criticalDamage", cardColonels.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", cardColonels.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", cardColonels.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", cardColonels.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", cardColonels.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", cardColonels.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", cardColonels.accuracy);
+                command.Parameters.AddWithValue("@mana", cardColonels.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public bool InsertFactCardColonels(CardColonels cardColonels)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -822,6 +1039,62 @@ public class CardColonels
                 command.Parameters.AddWithValue("@all_mana", cardColonels.mana);
                 command.ExecuteNonQuery();
 
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateFactCardColonels(CardColonels cardColonels)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE fact_card_colonels
+                SET 
+                    all_power = @all_power, all_health = @all_health, all_physical_attack = @all_physical_attack,
+                    all_physical_defense = @all_physical_defense, all_magical_attack = @all_magical_attack,
+                    all_magical_defense = @all_magical_defense, all_chemical_attack = @all_chemical_attack,
+                    all_chemical_defense = @all_chemical_defense, all_atomic_attack = @all_atomic_attack,
+                    all_atomic_defense = @all_atomic_defense, all_mental_attack = @all_mental_attack,
+                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, all_critical_damage = @all_critical_damage,
+                    all_critical_rate = @all_critical_rate, all_armor_penetration = @all_armor_penetration,
+                    all_avoid = @all_avoid, all_absorbs_damage = @all_absorbs_damage, 
+                    all_regenerate_vitality = @all_regenerate_vitality, 
+                    all_accuracy = @all_accuracy, all_mana = @all_mana
+                WHERE 
+                    user_id = @user_id AND user_card_colonel_id = @user_card_colonel_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.id);
+                command.Parameters.AddWithValue("@all_power", cardColonels.power);
+                command.Parameters.AddWithValue("@all_health", cardColonels.health);
+                command.Parameters.AddWithValue("@all_physical_attack", cardColonels.physical_attack);
+                command.Parameters.AddWithValue("@all_physical_defense", cardColonels.physical_defense);
+                command.Parameters.AddWithValue("@all_magical_attack", cardColonels.magical_attack);
+                command.Parameters.AddWithValue("@all_magical_defense", cardColonels.magical_defense);
+                command.Parameters.AddWithValue("@all_chemical_attack", cardColonels.chemical_attack);
+                command.Parameters.AddWithValue("@all_chemical_defense", cardColonels.chemical_defense);
+                command.Parameters.AddWithValue("@all_atomic_attack", cardColonels.atomic_attack);
+                command.Parameters.AddWithValue("@all_atomic_defense", cardColonels.atomic_defense);
+                command.Parameters.AddWithValue("@all_mental_attack", cardColonels.mental_attack);
+                command.Parameters.AddWithValue("@all_mental_defense", cardColonels.mental_defense);
+                command.Parameters.AddWithValue("@all_speed", cardColonels.speed);
+                command.Parameters.AddWithValue("@all_critical_damage", cardColonels.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_rate", cardColonels.critical_rate);
+                command.Parameters.AddWithValue("@all_armor_penetration", cardColonels.armor_penetration);
+                command.Parameters.AddWithValue("@all_avoid", cardColonels.avoid);
+                command.Parameters.AddWithValue("@all_absorbs_damage", cardColonels.absorbs_damage);
+                command.Parameters.AddWithValue("@all_regenerate_vitality", cardColonels.regenerate_vitality);
+                command.Parameters.AddWithValue("@all_accuracy", cardColonels.accuracy);
+                command.Parameters.AddWithValue("@all_mana", cardColonels.mana);
+                command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
             {
@@ -911,6 +1184,61 @@ public class CardColonels
 
         }
         return captain;
+    }
+    public CardColonels GetUserCardColonelsById(int Id)
+    {
+        CardColonels card = new CardColonels();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_card_colonels where user_card_colonels.card_colonel_id=@id 
+                and user_card_colonels.user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new CardColonels
+                    {
+                        id = reader.GetInt32("card_colonel_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertCardColonelsGallery(int Id)
     {

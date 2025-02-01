@@ -160,6 +160,110 @@ public class Books
         }
         return BooksList;
     }
+    public Books GetNewLevelPower(Books c, double coefficient)
+    {
+        Books orginCard = new Books();
+        orginCard = orginCard.GetBooksById(c.id);
+        Books books = new Books
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        books.power = 0.5 * (
+            books.health +
+            books.physical_attack +
+            books.physical_defense +
+            books.magical_attack +
+            books.magical_defense +
+            books.chemical_attack +
+            books.chemical_defense +
+            books.atomic_attack +
+            books.atomic_defense +
+            books.mental_attack +
+            books.mental_defense +
+            books.speed +
+            books.critical_damage +
+            books.critical_rate +
+            books.armor_penetration +
+            books.avoid +
+            books.absorbs_damage +
+            books.regenerate_vitality +
+            books.accuracy +
+            books.mana
+        );
+        return books;
+    }
+    public Books GetNewBreakthroughPower(Books c, double coefficient)
+    {
+        Books orginCard = new Books();
+        orginCard = orginCard.GetBooksById(c.id);
+        Books books = new Books
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        books.power = 0.5 * (
+            books.health +
+            books.physical_attack +
+            books.physical_defense +
+            books.magical_attack +
+            books.magical_defense +
+            books.chemical_attack +
+            books.chemical_defense +
+            books.atomic_attack +
+            books.atomic_defense +
+            books.mental_attack +
+            books.mental_defense +
+            books.speed +
+            books.critical_damage +
+            books.critical_rate +
+            books.armor_penetration +
+            books.avoid +
+            books.absorbs_damage +
+            books.regenerate_vitality +
+            books.accuracy +
+            books.mana
+        );
+        return books;
+    }
     public static List<string> GetUniqueBookTypes()
     {
         List<string> typeList = new List<string>();
@@ -777,6 +881,119 @@ public class Books
         }
         return true;
     }
+    public bool UpdateBooksLevel(Books books, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_books
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND book_id = @book_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@book_id", books.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", books.power);
+                command.Parameters.AddWithValue("@health", books.health);
+                command.Parameters.AddWithValue("@physicalAttack", books.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", books.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", books.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", books.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", books.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", books.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", books.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", books.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", books.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", books.mental_defense);
+                command.Parameters.AddWithValue("@speed", books.speed);
+                command.Parameters.AddWithValue("@criticalDamage", books.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", books.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", books.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", books.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", books.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", books.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", books.accuracy);
+                command.Parameters.AddWithValue("@mana", books.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateBooksBreakthrough(Books books, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_books
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND book_id = @book_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@book_id", books.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", books.power);
+                command.Parameters.AddWithValue("@health", books.health);
+                command.Parameters.AddWithValue("@physicalAttack", books.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", books.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", books.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", books.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", books.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", books.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", books.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", books.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", books.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", books.mental_defense);
+                command.Parameters.AddWithValue("@speed", books.speed);
+                command.Parameters.AddWithValue("@criticalDamage", books.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", books.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", books.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", books.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", books.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", books.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", books.accuracy);
+                command.Parameters.AddWithValue("@mana", books.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public bool InsertFactBooks(Books books)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -825,6 +1042,62 @@ public class Books
                 command.Parameters.AddWithValue("@all_mana", books.mana);
                 command.ExecuteNonQuery();
 
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateFactBooks(Books books)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE fact_books
+                SET 
+                    all_power = @all_power, all_health = @all_health, all_physical_attack = @all_physical_attack,
+                    all_physical_defense = @all_physical_defense, all_magical_attack = @all_magical_attack,
+                    all_magical_defense = @all_magical_defense, all_chemical_attack = @all_chemical_attack,
+                    all_chemical_defense = @all_chemical_defense, all_atomic_attack = @all_atomic_attack,
+                    all_atomic_defense = @all_atomic_defense, all_mental_attack = @all_mental_attack,
+                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, all_critical_damage = @all_critical_damage,
+                    all_critical_rate = @all_critical_rate, all_armor_penetration = @all_armor_penetration,
+                    all_avoid = @all_avoid, all_absorbs_damage = @all_absorbs_damage, 
+                    all_regenerate_vitality = @all_regenerate_vitality, 
+                    all_accuracy = @all_accuracy, all_mana = @all_mana
+                WHERE 
+                    user_id = @user_id AND user_book_id = @user_book_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_book_id", books.id);
+                command.Parameters.AddWithValue("@all_power", books.power);
+                command.Parameters.AddWithValue("@all_health", books.health);
+                command.Parameters.AddWithValue("@all_physical_attack", books.physical_attack);
+                command.Parameters.AddWithValue("@all_physical_defense", books.physical_defense);
+                command.Parameters.AddWithValue("@all_magical_attack", books.magical_attack);
+                command.Parameters.AddWithValue("@all_magical_defense", books.magical_defense);
+                command.Parameters.AddWithValue("@all_chemical_attack", books.chemical_attack);
+                command.Parameters.AddWithValue("@all_chemical_defense", books.chemical_defense);
+                command.Parameters.AddWithValue("@all_atomic_attack", books.atomic_attack);
+                command.Parameters.AddWithValue("@all_atomic_defense", books.atomic_defense);
+                command.Parameters.AddWithValue("@all_mental_attack", books.mental_attack);
+                command.Parameters.AddWithValue("@all_mental_defense", books.mental_defense);
+                command.Parameters.AddWithValue("@all_speed", books.speed);
+                command.Parameters.AddWithValue("@all_critical_damage", books.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_rate", books.critical_rate);
+                command.Parameters.AddWithValue("@all_armor_penetration", books.armor_penetration);
+                command.Parameters.AddWithValue("@all_avoid", books.avoid);
+                command.Parameters.AddWithValue("@all_absorbs_damage", books.absorbs_damage);
+                command.Parameters.AddWithValue("@all_regenerate_vitality", books.regenerate_vitality);
+                command.Parameters.AddWithValue("@all_accuracy", books.accuracy);
+                command.Parameters.AddWithValue("@all_mana", books.mana);
+                command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
             {
@@ -914,6 +1187,61 @@ public class Books
 
         }
         return book;
+    }
+    public Books GetUserBooksById(int Id)
+    {
+        Books card = new Books();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_books where user_books.book_id=@id 
+                and user_books.user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new Books
+                    {
+                        id = reader.GetInt32("book_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertBooksGallery(int Id)
     {

@@ -12,6 +12,10 @@ public class PopupDetailsManager : MonoBehaviour
     private GameObject NumberDetailPrefab;
     private GameObject NumberDetail2Prefab;
     private Transform MainPanel;
+    private GameObject popupObject;
+    private Transform firstPopupPanel;
+    private Transform elementPopupPanel;
+    private Transform descriptionPopupPanel;
     private string descriptionColor="#844000";
     // Start is called before the first frame update
     void Start()
@@ -30,6 +34,14 @@ public class PopupDetailsManager : MonoBehaviour
     public void PopupDetails(object data, Transform panel)
     {
         MainPanel = panel;
+        popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
+        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
+        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
+        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
+        elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
         // Kiểm tra kiểu của data và ép kiểu phù hợp
         if (data is CardHeroes card)
         {
@@ -148,16 +160,6 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardHeroesDetails(CardHeroes card)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = card.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -185,96 +187,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(card, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                    GridLayoutGroup gridLayout = descriptionPopupPanel.GetComponent<GridLayoutGroup>();
-                    if (gridLayout != null)
-                    {
-                        gridLayout.cellSize = new Vector2(670, 800);
-                    }
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                        }
-                    }
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowBookDetails(Books book)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = book.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -317,96 +234,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(book, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                    GridLayoutGroup gridLayout = descriptionPopupPanel.GetComponent<GridLayoutGroup>();
-                    if (gridLayout != null)
-                    {
-                        gridLayout.cellSize = new Vector2(670, 800);
-                    }
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                        }
-                    }
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCardCaptainDetails(CardCaptains captains)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = captains.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -434,91 +266,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(captains, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                        }
-                    }
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowPetDetails(Pets pet)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = pet.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -566,90 +318,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(pet, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                        }
-                    }
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCollaborationEquipmentDetails(CollaborationEquipment collaborationEquipment)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -693,80 +366,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(collaborationEquipment, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCardMilitaryDetails(CardMilitary military)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = military.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -794,91 +398,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(military, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                        }
-                    }
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCardSpellDetails(CardSpell spell)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = spell.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -906,80 +430,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(spell, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCollaborationDetails(Collaboration collaboration)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = collaboration.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1007,80 +462,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(collaboration, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCardMonsterDetails(CardMonsters monsters)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = monsters.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1108,91 +494,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(monsters, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                        }
-                    }
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowEquipmentDetails(Equipments equipments)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = equipments.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1235,80 +541,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(equipments, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowMedalDetails(Medals medals)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = medals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1352,80 +589,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(medals, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowSkillDetails(Skills skills)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = skills.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1469,80 +637,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(skills, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowSymbolDetails(Symbols symbols)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = symbols.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1570,80 +669,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(symbols, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowTitleDetails(Titles titles)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = titles.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1687,80 +717,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(titles, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowBorderDetails(Borders borders)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = borders.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1804,80 +765,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(borders, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowAchievementDetails(Achievements achievements)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = achievements.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1921,80 +813,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(achievements, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowMagicFormationCircleDetails(MagicFormationCircle magicFormationCircle)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -2038,80 +861,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(magicFormationCircle, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowRelicsDetails(Relics relics)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = relics.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -2155,80 +909,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(relics, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null) elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null) elementContentText.text = value != null ? value.ToString() : "null";
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCardColonelsDetails(CardColonels colonels)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = colonels.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -2256,91 +941,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(colonels, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                        }
-                    }
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCardGeneralsDetails(CardGenerals generals)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = generals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -2368,91 +973,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(generals, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
-            {
-                if (property.Name.Equals("description"))
-                {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
-
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                        }
-                    }
-                }
-            }
+            CreatePropertyUI(1, property, value);
         }
     }
     private void ShowCardAdmiralsDetails(CardAdmirals admirals)
     {
-        // Tạo popup từ prefab
-        GameObject popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = admirals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -2480,7 +1005,11 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(admirals, null);
-            if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            CreatePropertyUI(1, property, value);
+        }
+    }
+    public void CreatePropertyUI(int status, PropertyInfo property, object value){
+        if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
             && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
             && !property.Name.Equals("status") && !property.Name.Equals("name")
             && !property.Name.Equals("image"))
@@ -2551,6 +1080,5 @@ public class PopupDetailsManager : MonoBehaviour
                     }
                 }
             }
-        }
     }
 }

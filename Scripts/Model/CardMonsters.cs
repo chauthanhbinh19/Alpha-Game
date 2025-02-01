@@ -160,6 +160,110 @@ public class CardMonsters
         }
         return CardMonstersList;
     }
+    public CardMonsters GetNewLevelPower(CardMonsters c, double coefficient)
+    {
+        CardMonsters orginCard = new CardMonsters();
+        orginCard = orginCard.GetCardMonstersById(c.id);
+        CardMonsters cardMonsters = new CardMonsters
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        cardMonsters.power = 0.5 * (
+            cardMonsters.health +
+            cardMonsters.physical_attack +
+            cardMonsters.physical_defense +
+            cardMonsters.magical_attack +
+            cardMonsters.magical_defense +
+            cardMonsters.chemical_attack +
+            cardMonsters.chemical_defense +
+            cardMonsters.atomic_attack +
+            cardMonsters.atomic_defense +
+            cardMonsters.mental_attack +
+            cardMonsters.mental_defense +
+            cardMonsters.speed +
+            cardMonsters.critical_damage +
+            cardMonsters.critical_rate +
+            cardMonsters.armor_penetration +
+            cardMonsters.avoid +
+            cardMonsters.absorbs_damage +
+            cardMonsters.regenerate_vitality +
+            cardMonsters.accuracy +
+            cardMonsters.mana
+        );
+        return cardMonsters;
+    }
+    public CardMonsters GetNewBreakthroughPower(CardMonsters c, double coefficient)
+    {
+        CardMonsters orginCard = new CardMonsters();
+        orginCard = orginCard.GetCardMonstersById(c.id);
+        CardMonsters cardMonsters = new CardMonsters
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        cardMonsters.power = 0.5 * (
+            cardMonsters.health +
+            cardMonsters.physical_attack +
+            cardMonsters.physical_defense +
+            cardMonsters.magical_attack +
+            cardMonsters.magical_defense +
+            cardMonsters.chemical_attack +
+            cardMonsters.chemical_defense +
+            cardMonsters.atomic_attack +
+            cardMonsters.atomic_defense +
+            cardMonsters.mental_attack +
+            cardMonsters.mental_defense +
+            cardMonsters.speed +
+            cardMonsters.critical_damage +
+            cardMonsters.critical_rate +
+            cardMonsters.armor_penetration +
+            cardMonsters.avoid +
+            cardMonsters.absorbs_damage +
+            cardMonsters.regenerate_vitality +
+            cardMonsters.accuracy +
+            cardMonsters.mana
+        );
+        return cardMonsters;
+    }
     public List<CardMonsters> GetCardMonsters(int pageSize, int offset)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
@@ -749,6 +853,119 @@ public class CardMonsters
         }
         return true;
     }
+    public bool UpdateCardMonstersLevel(CardMonsters cardMonsters, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_card_monsters
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND card_monster_id = @card_monster_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_monster_id", cardMonsters.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", cardMonsters.power);
+                command.Parameters.AddWithValue("@health", cardMonsters.health);
+                command.Parameters.AddWithValue("@physicalAttack", cardMonsters.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", cardMonsters.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", cardMonsters.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", cardMonsters.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", cardMonsters.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", cardMonsters.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", cardMonsters.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", cardMonsters.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", cardMonsters.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", cardMonsters.mental_defense);
+                command.Parameters.AddWithValue("@speed", cardMonsters.speed);
+                command.Parameters.AddWithValue("@criticalDamage", cardMonsters.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", cardMonsters.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", cardMonsters.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", cardMonsters.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", cardMonsters.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", cardMonsters.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", cardMonsters.accuracy);
+                command.Parameters.AddWithValue("@mana", cardMonsters.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateCardMonstersBreakthrough(CardMonsters cardMonsters, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_card_monsters
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND card_monster_id = @card_monster_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_monster_id", cardMonsters.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", cardMonsters.power);
+                command.Parameters.AddWithValue("@health", cardMonsters.health);
+                command.Parameters.AddWithValue("@physicalAttack", cardMonsters.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", cardMonsters.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", cardMonsters.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", cardMonsters.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", cardMonsters.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", cardMonsters.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", cardMonsters.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", cardMonsters.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", cardMonsters.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", cardMonsters.mental_defense);
+                command.Parameters.AddWithValue("@speed", cardMonsters.speed);
+                command.Parameters.AddWithValue("@criticalDamage", cardMonsters.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", cardMonsters.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", cardMonsters.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", cardMonsters.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", cardMonsters.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", cardMonsters.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", cardMonsters.accuracy);
+                command.Parameters.AddWithValue("@mana", cardMonsters.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public bool InsertFactCardMonsters(CardMonsters cardMonsters)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -797,6 +1014,62 @@ public class CardMonsters
                 command.Parameters.AddWithValue("@all_mana", cardMonsters.mana);
                 command.ExecuteNonQuery();
 
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateFactCardMonsters(CardMonsters cardMonsters)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE fact_card_monsters
+                SET 
+                    all_power = @all_power, all_health = @all_health, all_physical_attack = @all_physical_attack,
+                    all_physical_defense = @all_physical_defense, all_magical_attack = @all_magical_attack,
+                    all_magical_defense = @all_magical_defense, all_chemical_attack = @all_chemical_attack,
+                    all_chemical_defense = @all_chemical_defense, all_atomic_attack = @all_atomic_attack,
+                    all_atomic_defense = @all_atomic_defense, all_mental_attack = @all_mental_attack,
+                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, all_critical_damage = @all_critical_damage,
+                    all_critical_rate = @all_critical_rate, all_armor_penetration = @all_armor_penetration,
+                    all_avoid = @all_avoid, all_absorbs_damage = @all_absorbs_damage, 
+                    all_regenerate_vitality = @all_regenerate_vitality, 
+                    all_accuracy = @all_accuracy, all_mana = @all_mana
+                WHERE 
+                    user_id = @user_id AND user_card_monster_id = @user_card_monster_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.id);
+                command.Parameters.AddWithValue("@all_power", cardMonsters.power);
+                command.Parameters.AddWithValue("@all_health", cardMonsters.health);
+                command.Parameters.AddWithValue("@all_physical_attack", cardMonsters.physical_attack);
+                command.Parameters.AddWithValue("@all_physical_defense", cardMonsters.physical_defense);
+                command.Parameters.AddWithValue("@all_magical_attack", cardMonsters.magical_attack);
+                command.Parameters.AddWithValue("@all_magical_defense", cardMonsters.magical_defense);
+                command.Parameters.AddWithValue("@all_chemical_attack", cardMonsters.chemical_attack);
+                command.Parameters.AddWithValue("@all_chemical_defense", cardMonsters.chemical_defense);
+                command.Parameters.AddWithValue("@all_atomic_attack", cardMonsters.atomic_attack);
+                command.Parameters.AddWithValue("@all_atomic_defense", cardMonsters.atomic_defense);
+                command.Parameters.AddWithValue("@all_mental_attack", cardMonsters.mental_attack);
+                command.Parameters.AddWithValue("@all_mental_defense", cardMonsters.mental_defense);
+                command.Parameters.AddWithValue("@all_speed", cardMonsters.speed);
+                command.Parameters.AddWithValue("@all_critical_damage", cardMonsters.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_rate", cardMonsters.critical_rate);
+                command.Parameters.AddWithValue("@all_armor_penetration", cardMonsters.armor_penetration);
+                command.Parameters.AddWithValue("@all_avoid", cardMonsters.avoid);
+                command.Parameters.AddWithValue("@all_absorbs_damage", cardMonsters.absorbs_damage);
+                command.Parameters.AddWithValue("@all_regenerate_vitality", cardMonsters.regenerate_vitality);
+                command.Parameters.AddWithValue("@all_accuracy", cardMonsters.accuracy);
+                command.Parameters.AddWithValue("@all_mana", cardMonsters.mana);
+                command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
             {
@@ -886,6 +1159,61 @@ public class CardMonsters
 
         }
         return monster;
+    }
+    public CardMonsters GetUserCardMonstersById(int Id)
+    {
+        CardMonsters card = new CardMonsters();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_card_monsters where user_card_monsters.card_monster_id=@id 
+                and user_card_monsters.user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new CardMonsters
+                    {
+                        id = reader.GetInt32("card_monster_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertCardMonstersGallery(int Id)
     {

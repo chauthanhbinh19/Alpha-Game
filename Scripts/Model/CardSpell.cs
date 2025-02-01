@@ -156,6 +156,112 @@ public class CardSpell
         all_percent_mana = -1;
         team_id = -1;
     }
+    public CardSpell GetNewLevelPower(CardSpell c, double coefficient)
+    {
+        coefficient = coefficient * 0.001;
+        CardSpell orginCard = new CardSpell();
+        orginCard = orginCard.GetCardSpellById(c.id);
+        CardSpell cardHeroes = new CardSpell
+        {
+            id = c.id,
+            percent_all_health = c.percent_all_health + orginCard.percent_all_health * coefficient,
+            percent_all_physical_attack = c.percent_all_physical_attack + orginCard.percent_all_physical_attack * coefficient,
+            percent_all_physical_defense = c.percent_all_physical_defense + orginCard.percent_all_physical_defense * coefficient,
+            percent_all_magical_attack = c.percent_all_magical_attack + orginCard.percent_all_magical_attack * coefficient,
+            percent_all_magical_defense = c.percent_all_magical_defense + orginCard.percent_all_magical_defense * coefficient,
+            percent_all_chemical_attack = c.percent_all_chemical_attack + orginCard.percent_all_chemical_attack * coefficient,
+            percent_all_chemical_defense = c.percent_all_chemical_defense + orginCard.percent_all_chemical_defense * coefficient,
+            percent_all_atomic_attack = c.percent_all_atomic_attack + orginCard.percent_all_atomic_attack * coefficient,
+            percent_all_atomic_defense = c.percent_all_atomic_defense + orginCard.percent_all_atomic_defense * coefficient,
+            percent_all_mental_attack = c.percent_all_mental_attack + orginCard.percent_all_mental_attack * coefficient,
+            percent_all_mental_defense = c.percent_all_mental_defense + orginCard.percent_all_mental_defense * coefficient,
+            percent_all_speed = c.percent_all_speed + orginCard.percent_all_speed * coefficient,
+            percent_all_critical_damage = c.percent_all_critical_damage + orginCard.percent_all_critical_damage * coefficient,
+            percent_all_critical_rate = c.percent_all_critical_rate + orginCard.percent_all_critical_rate * coefficient,
+            percent_all_armor_penetration = c.percent_all_armor_penetration + orginCard.percent_all_armor_penetration * coefficient,
+            percent_all_avoid = c.percent_all_avoid + orginCard.percent_all_avoid * coefficient,
+            percent_all_absorbs_damage = c.percent_all_absorbs_damage + orginCard.percent_all_absorbs_damage * coefficient,
+            percent_all_regenerate_vitality = c.percent_all_regenerate_vitality + orginCard.percent_all_regenerate_vitality * coefficient,
+            percent_all_accuracy = c.percent_all_accuracy + orginCard.percent_all_accuracy * coefficient,
+            percent_all_mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        cardHeroes.power = 0.5 * (
+            cardHeroes.percent_all_health +
+            cardHeroes.percent_all_physical_attack +
+            cardHeroes.percent_all_physical_defense +
+            cardHeroes.percent_all_magical_attack +
+            cardHeroes.percent_all_magical_defense +
+            cardHeroes.percent_all_chemical_attack +
+            cardHeroes.percent_all_chemical_defense +
+            cardHeroes.percent_all_atomic_attack +
+            cardHeroes.percent_all_atomic_defense +
+            cardHeroes.percent_all_mental_attack +
+            cardHeroes.percent_all_mental_defense +
+            cardHeroes.percent_all_speed +
+            cardHeroes.percent_all_critical_damage +
+            cardHeroes.percent_all_critical_rate +
+            cardHeroes.percent_all_armor_penetration +
+            cardHeroes.percent_all_avoid +
+            cardHeroes.percent_all_absorbs_damage +
+            cardHeroes.percent_all_regenerate_vitality +
+            cardHeroes.percent_all_accuracy +
+            cardHeroes.percent_all_mana
+        );
+        return cardHeroes;
+    }
+    public CardSpell GetNewBreakthroughPower(CardSpell c, double coefficient)
+    {
+        coefficient = coefficient * 0.001;
+        CardSpell orginCard = new CardSpell();
+        orginCard = orginCard.GetCardSpellById(c.id);
+        CardSpell cardHeroes = new CardSpell
+        {
+            id = c.id,
+            percent_all_health = c.percent_all_health + orginCard.percent_all_health * coefficient,
+            percent_all_physical_attack = c.percent_all_physical_attack + orginCard.percent_all_physical_attack * coefficient,
+            percent_all_physical_defense = c.percent_all_physical_defense + orginCard.percent_all_physical_defense * coefficient,
+            percent_all_magical_attack = c.percent_all_magical_attack + orginCard.percent_all_magical_attack * coefficient,
+            percent_all_magical_defense = c.percent_all_magical_defense + orginCard.percent_all_magical_defense * coefficient,
+            percent_all_chemical_attack = c.percent_all_chemical_attack + orginCard.percent_all_chemical_attack * coefficient,
+            percent_all_chemical_defense = c.percent_all_chemical_defense + orginCard.percent_all_chemical_defense * coefficient,
+            percent_all_atomic_attack = c.percent_all_atomic_attack + orginCard.percent_all_atomic_attack * coefficient,
+            percent_all_atomic_defense = c.percent_all_atomic_defense + orginCard.percent_all_atomic_defense * coefficient,
+            percent_all_mental_attack = c.percent_all_mental_attack + orginCard.percent_all_mental_attack * coefficient,
+            percent_all_mental_defense = c.percent_all_mental_defense + orginCard.percent_all_mental_defense * coefficient,
+            percent_all_speed = c.percent_all_speed + orginCard.percent_all_speed * coefficient,
+            percent_all_critical_damage = c.percent_all_critical_damage + orginCard.percent_all_critical_damage * coefficient,
+            percent_all_critical_rate = c.percent_all_critical_rate + orginCard.percent_all_critical_rate * coefficient,
+            percent_all_armor_penetration = c.percent_all_armor_penetration + orginCard.percent_all_armor_penetration * coefficient,
+            percent_all_avoid = c.percent_all_avoid + orginCard.percent_all_avoid * coefficient,
+            percent_all_absorbs_damage = c.percent_all_absorbs_damage + orginCard.percent_all_absorbs_damage * coefficient,
+            percent_all_regenerate_vitality = c.percent_all_regenerate_vitality + orginCard.percent_all_regenerate_vitality * coefficient,
+            percent_all_accuracy = c.percent_all_accuracy + orginCard.percent_all_accuracy * coefficient,
+            percent_all_mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        cardHeroes.power = 0.5 * (
+            cardHeroes.percent_all_health +
+            cardHeroes.percent_all_physical_attack +
+            cardHeroes.percent_all_physical_defense +
+            cardHeroes.percent_all_magical_attack +
+            cardHeroes.percent_all_magical_defense +
+            cardHeroes.percent_all_chemical_attack +
+            cardHeroes.percent_all_chemical_defense +
+            cardHeroes.percent_all_atomic_attack +
+            cardHeroes.percent_all_atomic_defense +
+            cardHeroes.percent_all_mental_attack +
+            cardHeroes.percent_all_mental_defense +
+            cardHeroes.percent_all_speed +
+            cardHeroes.percent_all_critical_damage +
+            cardHeroes.percent_all_critical_rate +
+            cardHeroes.percent_all_armor_penetration +
+            cardHeroes.percent_all_avoid +
+            cardHeroes.percent_all_absorbs_damage +
+            cardHeroes.percent_all_regenerate_vitality +
+            cardHeroes.percent_all_accuracy +
+            cardHeroes.percent_all_mana
+        );
+        return cardHeroes;
+    }
     public static List<string> GetUniqueCardSpellTypes()
     {
         List<string> typeList = new List<string>();
@@ -804,6 +910,119 @@ public class CardSpell
         }
         return true;
     }
+    public bool UpdateCardSpellLevel(CardSpell cardSpell, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_card_spell
+                SET level = @level,
+                    power = @power, percent_all_health = @health, percent_all_physical_attack = @physicalAttack,
+                    percent_all_physical_defense = @physicalDefense, percent_all_magical_attack = @magicalAttack,
+                    percent_all_magical_defense = @magicalDefense, percent_all_chemical_attack = @chemicalAttack,
+                    percent_all_chemical_defense = @chemicalDefense, percent_all_atomic_attack = @atomicAttack,
+                    percent_all_atomic_defense = @atomicDefense, percent_all_mental_attack = @mentalAttack,
+                    percent_all_mental_defense = @mentalDefense, percent_all_speed = @speed, percent_all_critical_damage = @criticalDamage,
+                    percent_all_critical_rate = @criticalRate, percent_all_armor_penetration = @armorPenetration,
+                    percent_all_avoid = @avoid, percent_all_absorbs_damage = @absorbsDamage, percent_all_regenerate_vitality = @regenerateVitality, 
+                    percent_all_accuracy = @accuracy, percent_all_mana = @mana
+                WHERE 
+                    user_id = @user_id AND card_spell_id = @card_spell_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_spell_id", cardSpell.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", cardSpell.power);
+                command.Parameters.AddWithValue("@health", cardSpell.health);
+                command.Parameters.AddWithValue("@physicalAttack", cardSpell.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", cardSpell.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", cardSpell.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", cardSpell.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", cardSpell.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", cardSpell.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", cardSpell.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", cardSpell.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", cardSpell.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", cardSpell.mental_defense);
+                command.Parameters.AddWithValue("@speed", cardSpell.speed);
+                command.Parameters.AddWithValue("@criticalDamage", cardSpell.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", cardSpell.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", cardSpell.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", cardSpell.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", cardSpell.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", cardSpell.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", cardSpell.accuracy);
+                command.Parameters.AddWithValue("@mana", cardSpell.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateCardSpellBreakthrough(CardSpell cardSpell, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_card_spell
+                SET star = @star, quantity=@quantity,
+                    power = @power, percent_all_health = @health, percent_all_physical_attack = @physicalAttack,
+                    percent_all_physical_defense = @physicalDefense, percent_all_magical_attack = @magicalAttack,
+                    percent_all_magical_defense = @magicalDefense, percent_all_chemical_attack = @chemicalAttack,
+                    percent_all_chemical_defense = @chemicalDefense, percent_all_atomic_attack = @atomicAttack,
+                    percent_all_atomic_defense = @atomicDefense, percent_all_mental_attack = @mentalAttack,
+                    percent_all_mental_defense = @mentalDefense, percent_all_speed = @speed, percent_all_critical_damage = @criticalDamage,
+                    percent_all_critical_rate = @criticalRate, percent_all_armor_penetration = @armorPenetration,
+                    percent_all_avoid = @avoid, percent_all_absorbs_damage = @absorbsDamage, percent_all_regenerate_vitality = @regenerateVitality, 
+                    percent_all_accuracy = @accuracy, percent_all_mana = @mana
+                WHERE 
+                    user_id = @user_id AND card_spell_id = @card_spell_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_spell_id", cardSpell.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", cardSpell.power);
+                command.Parameters.AddWithValue("@health", cardSpell.health);
+                command.Parameters.AddWithValue("@physicalAttack", cardSpell.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", cardSpell.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", cardSpell.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", cardSpell.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", cardSpell.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", cardSpell.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", cardSpell.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", cardSpell.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", cardSpell.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", cardSpell.mental_defense);
+                command.Parameters.AddWithValue("@speed", cardSpell.speed);
+                command.Parameters.AddWithValue("@criticalDamage", cardSpell.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", cardSpell.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", cardSpell.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", cardSpell.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", cardSpell.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", cardSpell.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", cardSpell.accuracy);
+                command.Parameters.AddWithValue("@mana", cardSpell.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public bool InsertFactCardSpell(CardSpell CardSpell)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -868,6 +1087,62 @@ public class CardSpell
         }
         return true;
     }
+    public bool UpdateFactCardSpell(CardSpell cardSpell)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE fact_card_spell
+                SET 
+                    all_power = @all_power, all_health = @all_health, all_physical_attack = @all_physical_attack,
+                    all_physical_defense = @all_physical_defense, all_magical_attack = @all_magical_attack,
+                    all_magical_defense = @all_magical_defense, all_chemical_attack = @all_chemical_attack,
+                    all_chemical_defense = @all_chemical_defense, all_atomic_attack = @all_atomic_attack,
+                    all_atomic_defense = @all_atomic_defense, all_mental_attack = @all_mental_attack,
+                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, all_critical_damage = @all_critical_damage,
+                    all_critical_rate = @all_critical_rate, all_armor_penetration = @all_armor_penetration,
+                    all_avoid = @all_avoid, all_absorbs_damage = @all_absorbs_damage, 
+                    all_regenerate_vitality = @all_regenerate_vitality, 
+                    all_accuracy = @all_accuracy, all_mana = @all_mana
+                WHERE 
+                    user_id = @user_id AND user_card_spell_id = @user_card_spell_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.id);
+                command.Parameters.AddWithValue("@all_power", cardSpell.power);
+                command.Parameters.AddWithValue("@all_health", cardSpell.health);
+                command.Parameters.AddWithValue("@all_physical_attack", cardSpell.physical_attack);
+                command.Parameters.AddWithValue("@all_physical_defense", cardSpell.physical_defense);
+                command.Parameters.AddWithValue("@all_magical_attack", cardSpell.magical_attack);
+                command.Parameters.AddWithValue("@all_magical_defense", cardSpell.magical_defense);
+                command.Parameters.AddWithValue("@all_chemical_attack", cardSpell.chemical_attack);
+                command.Parameters.AddWithValue("@all_chemical_defense", cardSpell.chemical_defense);
+                command.Parameters.AddWithValue("@all_atomic_attack", cardSpell.atomic_attack);
+                command.Parameters.AddWithValue("@all_atomic_defense", cardSpell.atomic_defense);
+                command.Parameters.AddWithValue("@all_mental_attack", cardSpell.mental_attack);
+                command.Parameters.AddWithValue("@all_mental_defense", cardSpell.mental_defense);
+                command.Parameters.AddWithValue("@all_speed", cardSpell.speed);
+                command.Parameters.AddWithValue("@all_critical_damage", cardSpell.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_rate", cardSpell.critical_rate);
+                command.Parameters.AddWithValue("@all_armor_penetration", cardSpell.armor_penetration);
+                command.Parameters.AddWithValue("@all_avoid", cardSpell.avoid);
+                command.Parameters.AddWithValue("@all_absorbs_damage", cardSpell.absorbs_damage);
+                command.Parameters.AddWithValue("@all_regenerate_vitality", cardSpell.regenerate_vitality);
+                command.Parameters.AddWithValue("@all_accuracy", cardSpell.accuracy);
+                command.Parameters.AddWithValue("@all_mana", cardSpell.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public CardSpell GetCardSpellById(int Id)
     {
         CardSpell CardSpell = new CardSpell();
@@ -903,6 +1178,61 @@ public class CardSpell
 
         }
         return CardSpell;
+    }
+    public CardSpell GetUserCardSpellById(int Id)
+    {
+        CardSpell card = new CardSpell();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_card_spell where card_spell_id=@id 
+                and user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new CardSpell
+                    {
+                        id = reader.GetInt32("card_spell_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("percent_all_health"),
+                        physical_attack = reader.GetDouble("percent_all_physical_attack"),
+                        physical_defense = reader.GetDouble("percent_all_physical_defense"),
+                        magical_attack = reader.GetDouble("percent_all_magical_attack"),
+                        magical_defense = reader.GetDouble("percent_all_magical_defense"),
+                        chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
+                        chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
+                        atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
+                        atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
+                        mental_attack = reader.GetDouble("percent_all_mental_attack"),
+                        mental_defense = reader.GetDouble("percent_all_mental_defense"),
+                        speed = reader.GetDouble("percent_all_speed"),
+                        critical_damage = reader.GetDouble("percent_all_critical_damage"),
+                        critical_rate = reader.GetDouble("percent_all_critical_rate"),
+                        armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
+                        avoid = reader.GetDouble("percent_all_avoid"),
+                        absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
+                        accuracy = reader.GetDouble("percent_all_accuracy"),
+                        mana = reader.GetFloat("percent_all_mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertCardSpellGallery(int Id)
     {

@@ -91,4 +91,178 @@ public class Items
         }
         return expPerBottle;
     }
+    public List<Items> GetItemForLevel(string type)
+    {
+        Items item = new Items();
+        List<Items> items = new List<Items>();
+        switch (type)
+        {
+            case "CardHeroes":
+                items.Add(item.GetUserItemByName("Exp Bottle lv1"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv2"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv3"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv4"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv5"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv6"));
+                break;
+            case "Books":
+                items.Add(item.GetUserItemByName("Exp Books"));
+                break;
+            case "CardCaptains":
+                items.Add(item.GetUserItemByName("Exp Bottle lv1"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv2"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv3"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv4"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv5"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv6"));
+                break;
+            case "Pets":
+                items.Add(item.GetUserItemByName("Exp Pets"));
+                break;
+            case "CollaborationEquipment":
+                items.Add(item.GetUserItemByName("Exp Collaboration Equipments"));
+                break;
+            case "CardMilitary":
+                items.Add(item.GetUserItemByName("Exp Card Military"));
+                break;
+            case "CardSpell":
+                items.Add(item.GetUserItemByName("Exp Spell"));
+                break;
+            case "Collaboration":
+                items.Add(item.GetUserItemByName("Exp Collaborations"));
+                break;
+            case "CardMonsters":
+                items.Add(item.GetUserItemByName("Exp Card Monsters"));
+                break;
+            case "Equipments":
+                items.Add(item.GetUserItemByName("Exp Equipments"));
+                break;
+            case "Medals":
+                items.Add(item.GetUserItemByName("Exp Medals"));
+                break;
+            case "Skills":
+                items.Add(item.GetUserItemByName("Exp Skills"));
+                break;
+            case "Symbols":
+                items.Add(item.GetUserItemByName("Exp Symbols"));
+                break;
+            case "Titles":
+                items.Add(item.GetUserItemByName("Exp Titles"));
+                break;
+            case "MagicFormationCircle":
+                items.Add(item.GetUserItemByName("Exp Magic Formation Circle"));
+                break;
+            case "Relics":
+                items.Add(item.GetUserItemByName("Exp Relics"));
+                break;
+            case "CardColonels":
+                items.Add(item.GetUserItemByName("Exp Bottle lv1"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv2"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv3"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv4"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv5"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv6"));
+                break;
+            case "CardGenerals":
+                items.Add(item.GetUserItemByName("Exp Bottle lv1"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv2"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv3"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv4"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv5"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv6"));
+                break;
+            case "CardAdmirals":
+                items.Add(item.GetUserItemByName("Exp Bottle lv1"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv2"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv3"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv4"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv5"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv6"));
+                break;
+            case "Achievements":
+                items.Add(item.GetUserItemByName("Exp Achievements"));
+                break;
+            default:
+                items.Add(item.GetUserItemByName("Exp Bottle lv1"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv2"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv3"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv4"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv5"));
+                items.Add(item.GetUserItemByName("Exp Bottle lv6"));
+                break;
+        }
+        return items;
+    }
+    public List<Items> GetItemForBreakthourgh(string type)
+    {
+        Items item = new Items();
+        List<Items> items = new List<Items>();
+        switch (type)
+        {
+            case "CardHeroes":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Books":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "CardCaptains":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Pets":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "CollaborationEquipment":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "CardMilitary":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "CardSpell":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Collaboration":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "CardMonsters":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Equipments":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Medals":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Skills":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Symbols":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Titles":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "MagicFormationCircle":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Relics":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "CardColonels":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "CardGenerals":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "CardAdmirals":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            case "Achievements":
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+            default:
+                items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+        }
+        return items;
+    }
 }

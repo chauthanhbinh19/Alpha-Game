@@ -13,6 +13,9 @@ public class Medals
     public string rare { get; set; }
     public string type { get; set; }
     public int star { get; set; }
+    public int level { get; set; }
+    public int experiment { get; set; }
+    public int quantity { get; set; }
     public double power { get; set; }
     public double health { get; set; }
     public double physical_attack { get; set; }
@@ -61,6 +64,110 @@ public class Medals
         percent_all_atomic_defense = -1;
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
+    }
+    public Medals GetNewLevelPower(Medals c, double coefficient)
+    {
+        Medals orginCard = new Medals();
+        orginCard = orginCard.GetMedalsById(c.id);
+        Medals medals = new Medals
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        medals.power = 0.5 * (
+            medals.health +
+            medals.physical_attack +
+            medals.physical_defense +
+            medals.magical_attack +
+            medals.magical_defense +
+            medals.chemical_attack +
+            medals.chemical_defense +
+            medals.atomic_attack +
+            medals.atomic_defense +
+            medals.mental_attack +
+            medals.mental_defense +
+            medals.speed +
+            medals.critical_damage +
+            medals.critical_rate +
+            medals.armor_penetration +
+            medals.avoid +
+            medals.absorbs_damage +
+            medals.regenerate_vitality +
+            medals.accuracy +
+            medals.mana
+        );
+        return medals;
+    }
+    public Medals GetNewBreakthroughPower(Medals c, double coefficient)
+    {
+        Medals orginCard = new Medals();
+        orginCard = orginCard.GetMedalsById(c.id);
+        Medals medals = new Medals
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        medals.power = 0.5 * (
+            medals.health +
+            medals.physical_attack +
+            medals.physical_defense +
+            medals.magical_attack +
+            medals.magical_defense +
+            medals.chemical_attack +
+            medals.chemical_defense +
+            medals.atomic_attack +
+            medals.atomic_defense +
+            medals.mental_attack +
+            medals.mental_defense +
+            medals.speed +
+            medals.critical_damage +
+            medals.critical_rate +
+            medals.armor_penetration +
+            medals.avoid +
+            medals.absorbs_damage +
+            medals.regenerate_vitality +
+            medals.accuracy +
+            medals.mana
+        );
+        return medals;
     }
     public List<Medals> GetMedals(int pageSize, int offset)
     {
@@ -245,6 +352,10 @@ public class Medals
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        star = reader.GetInt32("star"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -400,6 +511,119 @@ public class Medals
         }
         return true;
     }
+    public bool UpdateMedalsLevel(Medals medals, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_medals
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND medal_id = @medal_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@medal_id", medals.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", medals.power);
+                command.Parameters.AddWithValue("@health", medals.health);
+                command.Parameters.AddWithValue("@physicalAttack", medals.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", medals.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", medals.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", medals.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", medals.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", medals.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", medals.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", medals.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", medals.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", medals.mental_defense);
+                command.Parameters.AddWithValue("@speed", medals.speed);
+                command.Parameters.AddWithValue("@criticalDamage", medals.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", medals.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", medals.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", medals.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", medals.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", medals.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", medals.accuracy);
+                command.Parameters.AddWithValue("@mana", medals.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateMedalsBreakthrough(Medals medals, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_medals
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND medal_id = @medal_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@medal_id", medals.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", medals.power);
+                command.Parameters.AddWithValue("@health", medals.health);
+                command.Parameters.AddWithValue("@physicalAttack", medals.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", medals.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", medals.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", medals.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", medals.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", medals.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", medals.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", medals.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", medals.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", medals.mental_defense);
+                command.Parameters.AddWithValue("@speed", medals.speed);
+                command.Parameters.AddWithValue("@criticalDamage", medals.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", medals.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", medals.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", medals.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", medals.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", medals.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", medals.accuracy);
+                command.Parameters.AddWithValue("@mana", medals.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public List<Medals> GetMedalsWithPrice(int pageSize, int offset)
     {
         List<Medals> medalsList = new List<Medals>();
@@ -550,6 +774,61 @@ public class Medals
 
         }
         return medals;
+    }
+    public Medals GetUserMedalsById(int Id)
+    {
+        Medals card = new Medals();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_medals where medal_id=@id 
+                and user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new Medals
+                    {
+                        id = reader.GetInt32("medal_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertMedalsGallery(int Id)
     {
@@ -790,6 +1069,51 @@ public class Medals
                         sumMedals.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
                         sumMedals.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
                         sumMedals.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumMedals;
+    }
+    public Medals SumPowerMedalsPercent()
+    {
+        Medals sumMedals = new Medals();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select SUM(a.percent_all_health) AS total_percent_all_health, SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
+                SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
+                SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
+                SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
+                from medals a, user_medals ua
+                where a.id=ua.medal_id and ua.user_id=@user_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumMedals.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumMedals.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumMedals.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumMedals.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumMedals.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumMedals.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumMedals.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumMedals.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumMedals.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumMedals.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumMedals.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
 

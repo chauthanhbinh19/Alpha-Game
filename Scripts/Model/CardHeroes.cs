@@ -160,7 +160,59 @@ public class CardHeroes
         }
         return CardHeroesList;
     }
-    public CardHeroes GetNewPower(CardHeroes c, double coefficient)
+    public CardHeroes GetNewLevelPower(CardHeroes c, double coefficient)
+    {
+        CardHeroes orginCard = new CardHeroes();
+        orginCard = orginCard.GetCardHeroesById(c.id);
+        CardHeroes cardHeroes = new CardHeroes
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        cardHeroes.power = 0.5 * (
+            cardHeroes.health +
+            cardHeroes.physical_attack +
+            cardHeroes.physical_defense +
+            cardHeroes.magical_attack +
+            cardHeroes.magical_defense +
+            cardHeroes.chemical_attack +
+            cardHeroes.chemical_defense +
+            cardHeroes.atomic_attack +
+            cardHeroes.atomic_defense +
+            cardHeroes.mental_attack +
+            cardHeroes.mental_defense +
+            cardHeroes.speed +
+            cardHeroes.critical_damage +
+            cardHeroes.critical_rate +
+            cardHeroes.armor_penetration +
+            cardHeroes.avoid +
+            cardHeroes.absorbs_damage +
+            cardHeroes.regenerate_vitality +
+            cardHeroes.accuracy +
+            cardHeroes.mana
+        );
+        return cardHeroes;
+    }
+    public CardHeroes GetNewBreakthroughPower(CardHeroes c, double coefficient)
     {
         CardHeroes orginCard = new CardHeroes();
         orginCard = orginCard.GetCardHeroesById(c.id);
@@ -854,6 +906,63 @@ public class CardHeroes
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@card_hero_id", cardHeroes.id);
                 command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", cardHeroes.power);
+                command.Parameters.AddWithValue("@health", cardHeroes.health);
+                command.Parameters.AddWithValue("@physicalAttack", cardHeroes.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", cardHeroes.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", cardHeroes.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", cardHeroes.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", cardHeroes.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", cardHeroes.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", cardHeroes.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", cardHeroes.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", cardHeroes.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", cardHeroes.mental_defense);
+                command.Parameters.AddWithValue("@speed", cardHeroes.speed);
+                command.Parameters.AddWithValue("@criticalDamage", cardHeroes.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", cardHeroes.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", cardHeroes.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", cardHeroes.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", cardHeroes.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", cardHeroes.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", cardHeroes.accuracy);
+                command.Parameters.AddWithValue("@mana", cardHeroes.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateCardHeroesBreakthrough(CardHeroes cardHeroes, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_card_heroes
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND card_hero_id = @card_hero_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_hero_id", cardHeroes.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", cardHeroes.power);
                 command.Parameters.AddWithValue("@health", cardHeroes.health);
                 command.Parameters.AddWithValue("@physicalAttack", cardHeroes.physical_attack);

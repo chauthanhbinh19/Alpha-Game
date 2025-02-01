@@ -160,6 +160,110 @@ public class Pets
         }
         return PetsList;
     }
+    public Pets GetNewLevelPower(Pets c, double coefficient)
+    {
+        Pets orginCard = new Pets();
+        orginCard = orginCard.GetPetsById(c.id);
+        Pets pets = new Pets
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        pets.power = 0.5 * (
+            pets.health +
+            pets.physical_attack +
+            pets.physical_defense +
+            pets.magical_attack +
+            pets.magical_defense +
+            pets.chemical_attack +
+            pets.chemical_defense +
+            pets.atomic_attack +
+            pets.atomic_defense +
+            pets.mental_attack +
+            pets.mental_defense +
+            pets.speed +
+            pets.critical_damage +
+            pets.critical_rate +
+            pets.armor_penetration +
+            pets.avoid +
+            pets.absorbs_damage +
+            pets.regenerate_vitality +
+            pets.accuracy +
+            pets.mana
+        );
+        return pets;
+    }
+    public Pets GetNewBreakthroughPower(Pets c, double coefficient)
+    {
+        Pets orginCard = new Pets();
+        orginCard = orginCard.GetPetsById(c.id);
+        Pets pets = new Pets
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        pets.power = 0.5 * (
+            pets.health +
+            pets.physical_attack +
+            pets.physical_defense +
+            pets.magical_attack +
+            pets.magical_defense +
+            pets.chemical_attack +
+            pets.chemical_defense +
+            pets.atomic_attack +
+            pets.atomic_defense +
+            pets.mental_attack +
+            pets.mental_defense +
+            pets.speed +
+            pets.critical_damage +
+            pets.critical_rate +
+            pets.armor_penetration +
+            pets.avoid +
+            pets.absorbs_damage +
+            pets.regenerate_vitality +
+            pets.accuracy +
+            pets.mana
+        );
+        return pets;
+    }
     public static List<string> GetUniquePetsTypes()
     {
         List<string> typeList = new List<string>();
@@ -625,6 +729,119 @@ public class Pets
         }
         return false;
     }
+    public bool UpdatePetsLevel(Pets pets, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_pets
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND pet_id = @pet_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@pet_id", pets.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", pets.power);
+                command.Parameters.AddWithValue("@health", pets.health);
+                command.Parameters.AddWithValue("@physicalAttack", pets.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", pets.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", pets.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", pets.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", pets.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", pets.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", pets.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", pets.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", pets.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", pets.mental_defense);
+                command.Parameters.AddWithValue("@speed", pets.speed);
+                command.Parameters.AddWithValue("@criticalDamage", pets.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", pets.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", pets.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", pets.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", pets.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", pets.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", pets.accuracy);
+                command.Parameters.AddWithValue("@mana", pets.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdatePetsBreakthrough(Pets pets, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_pets
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND pet_id = @pet_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@pet_id", pets.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", pets.power);
+                command.Parameters.AddWithValue("@health", pets.health);
+                command.Parameters.AddWithValue("@physicalAttack", pets.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", pets.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", pets.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", pets.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", pets.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", pets.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", pets.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", pets.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", pets.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", pets.mental_defense);
+                command.Parameters.AddWithValue("@speed", pets.speed);
+                command.Parameters.AddWithValue("@criticalDamage", pets.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", pets.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", pets.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", pets.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", pets.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", pets.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", pets.accuracy);
+                command.Parameters.AddWithValue("@mana", pets.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public bool InsertFactPets(Pets pets)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -673,6 +890,62 @@ public class Pets
                 command.Parameters.AddWithValue("@all_mana", pets.mana);
                 command.ExecuteNonQuery();
 
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateFactPets(Pets pets)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE fact_pets
+                SET 
+                    all_power = @all_power, all_health = @all_health, all_physical_attack = @all_physical_attack,
+                    all_physical_defense = @all_physical_defense, all_magical_attack = @all_magical_attack,
+                    all_magical_defense = @all_magical_defense, all_chemical_attack = @all_chemical_attack,
+                    all_chemical_defense = @all_chemical_defense, all_atomic_attack = @all_atomic_attack,
+                    all_atomic_defense = @all_atomic_defense, all_mental_attack = @all_mental_attack,
+                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, all_critical_damage = @all_critical_damage,
+                    all_critical_rate = @all_critical_rate, all_armor_penetration = @all_armor_penetration,
+                    all_avoid = @all_avoid, all_absorbs_damage = @all_absorbs_damage, 
+                    all_regenerate_vitality = @all_regenerate_vitality, 
+                    all_accuracy = @all_accuracy, all_mana = @all_mana
+                WHERE 
+                    user_id = @user_id AND user_pet_id = @user_pet_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_pet_id", pets.id);
+                command.Parameters.AddWithValue("@all_power", pets.power);
+                command.Parameters.AddWithValue("@all_health", pets.health);
+                command.Parameters.AddWithValue("@all_physical_attack", pets.physical_attack);
+                command.Parameters.AddWithValue("@all_physical_defense", pets.physical_defense);
+                command.Parameters.AddWithValue("@all_magical_attack", pets.magical_attack);
+                command.Parameters.AddWithValue("@all_magical_defense", pets.magical_defense);
+                command.Parameters.AddWithValue("@all_chemical_attack", pets.chemical_attack);
+                command.Parameters.AddWithValue("@all_chemical_defense", pets.chemical_defense);
+                command.Parameters.AddWithValue("@all_atomic_attack", pets.atomic_attack);
+                command.Parameters.AddWithValue("@all_atomic_defense", pets.atomic_defense);
+                command.Parameters.AddWithValue("@all_mental_attack", pets.mental_attack);
+                command.Parameters.AddWithValue("@all_mental_defense", pets.mental_defense);
+                command.Parameters.AddWithValue("@all_speed", pets.speed);
+                command.Parameters.AddWithValue("@all_critical_damage", pets.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_rate", pets.critical_rate);
+                command.Parameters.AddWithValue("@all_armor_penetration", pets.armor_penetration);
+                command.Parameters.AddWithValue("@all_avoid", pets.avoid);
+                command.Parameters.AddWithValue("@all_absorbs_damage", pets.absorbs_damage);
+                command.Parameters.AddWithValue("@all_regenerate_vitality", pets.regenerate_vitality);
+                command.Parameters.AddWithValue("@all_accuracy", pets.accuracy);
+                command.Parameters.AddWithValue("@all_mana", pets.mana);
+                command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
             {
@@ -854,6 +1127,61 @@ public class Pets
 
         }
         return pets;
+    }
+    public Pets GetUserPetsById(int Id)
+    {
+        Pets card = new Pets();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_pets where user_pets.pet_id=@id 
+                and user_pets.user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new Pets
+                    {
+                        id = reader.GetInt32("pet_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertPetsGallery(int Id)
     {

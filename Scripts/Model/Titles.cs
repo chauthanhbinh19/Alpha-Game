@@ -13,6 +13,9 @@ public class Titles
     public string rare { get; set; }
     public string type { get; set; }
     public int star { get; set; }
+    public int level { get; set; }
+    public int experiment { get; set; }
+    public int quantity { get; set; }
     public double power { get; set; }
     public double health { get; set; }
     public double physical_attack { get; set; }
@@ -61,6 +64,110 @@ public class Titles
         percent_all_atomic_defense = -1;
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
+    }
+    public Titles GetNewLevelPower(Titles c, double coefficient)
+    {
+        Titles orginCard = new Titles();
+        orginCard = orginCard.GetTitlesById(c.id);
+        Titles titles = new Titles
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        titles.power = 0.5 * (
+            titles.health +
+            titles.physical_attack +
+            titles.physical_defense +
+            titles.magical_attack +
+            titles.magical_defense +
+            titles.chemical_attack +
+            titles.chemical_defense +
+            titles.atomic_attack +
+            titles.atomic_defense +
+            titles.mental_attack +
+            titles.mental_defense +
+            titles.speed +
+            titles.critical_damage +
+            titles.critical_rate +
+            titles.armor_penetration +
+            titles.avoid +
+            titles.absorbs_damage +
+            titles.regenerate_vitality +
+            titles.accuracy +
+            titles.mana
+        );
+        return titles;
+    }
+    public Titles GetNewBreakthroughPower(Titles c, double coefficient)
+    {
+        Titles orginCard = new Titles();
+        orginCard = orginCard.GetTitlesById(c.id);
+        Titles titles = new Titles
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        titles.power = 0.5 * (
+            titles.health +
+            titles.physical_attack +
+            titles.physical_defense +
+            titles.magical_attack +
+            titles.magical_defense +
+            titles.chemical_attack +
+            titles.chemical_defense +
+            titles.atomic_attack +
+            titles.atomic_defense +
+            titles.mental_attack +
+            titles.mental_defense +
+            titles.speed +
+            titles.critical_damage +
+            titles.critical_rate +
+            titles.armor_penetration +
+            titles.avoid +
+            titles.absorbs_damage +
+            titles.regenerate_vitality +
+            titles.accuracy +
+            titles.mana
+        );
+        return titles;
     }
     public List<Titles> GetTitles(int pageSize, int offset)
     {
@@ -246,6 +353,10 @@ public class Titles
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        star = reader.GetInt32("star"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -401,6 +512,119 @@ public class Titles
         }
         return true;
     }
+    public bool UpdateTitlesLevel(Titles titles, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_titles
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND title_id = @title_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@title_id", titles.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", titles.power);
+                command.Parameters.AddWithValue("@health", titles.health);
+                command.Parameters.AddWithValue("@physicalAttack", titles.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", titles.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", titles.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", titles.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", titles.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", titles.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", titles.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", titles.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", titles.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", titles.mental_defense);
+                command.Parameters.AddWithValue("@speed", titles.speed);
+                command.Parameters.AddWithValue("@criticalDamage", titles.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", titles.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", titles.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", titles.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", titles.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", titles.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", titles.accuracy);
+                command.Parameters.AddWithValue("@mana", titles.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateTitlesBreakthrough(Titles titles, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_titles
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND title_id = @title_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@title_id", titles.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", titles.power);
+                command.Parameters.AddWithValue("@health", titles.health);
+                command.Parameters.AddWithValue("@physicalAttack", titles.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", titles.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", titles.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", titles.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", titles.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", titles.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", titles.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", titles.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", titles.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", titles.mental_defense);
+                command.Parameters.AddWithValue("@speed", titles.speed);
+                command.Parameters.AddWithValue("@criticalDamage", titles.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", titles.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", titles.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", titles.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", titles.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", titles.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", titles.accuracy);
+                command.Parameters.AddWithValue("@mana", titles.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public List<Titles> GetTitlesWithPrice(int pageSize, int offset)
     {
         List<Titles> titlesList = new List<Titles>();
@@ -551,6 +775,61 @@ public class Titles
 
         }
         return titles;
+    }
+    public Titles GetUserTitlesById(int Id)
+    {
+        Titles card = new Titles();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_titles where user_titles.title_id=@id 
+                and user_titles.user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new Titles
+                    {
+                        id = reader.GetInt32("title_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertTitlesGallery(int Id)
     {
@@ -791,6 +1070,51 @@ public class Titles
                         sumTitles.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
                         sumTitles.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
                         sumTitles.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumTitles;
+    }
+    public Titles SumPowerTitlesPercent()
+    {
+        Titles sumTitles = new Titles();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select SUM(a.percent_all_health) AS total_percent_all_health, SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
+                SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
+                SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
+                SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
+                from titles a, user_titles ua
+                where a.id=ua.title_id and ua.user_id=@user_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumTitles.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumTitles.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumTitles.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumTitles.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumTitles.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumTitles.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumTitles.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumTitles.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumTitles.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumTitles.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumTitles.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
 

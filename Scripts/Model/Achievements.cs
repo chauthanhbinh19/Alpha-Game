@@ -13,6 +13,9 @@ public class Achievements
     public string rare { get; set; }
     public string type { get; set; }
     public int star { get; set; }
+    public int level { get; set; }
+    public int experiment { get; set; }
+    public int quantity { get; set; }
     public double power { get; set; }
     public double health { get; set; }
     public double physical_attack { get; set; }
@@ -51,6 +54,110 @@ public class Achievements
     public Achievements()
     {
 
+    }
+    public Achievements GetNewLevelPower(Achievements c, double coefficient)
+    {
+        Achievements orginCard = new Achievements();
+        orginCard = orginCard.GetAchievementsById(c.id);
+        Achievements achievements = new Achievements
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        achievements.power = 0.5 * (
+            achievements.health +
+            achievements.physical_attack +
+            achievements.physical_defense +
+            achievements.magical_attack +
+            achievements.magical_defense +
+            achievements.chemical_attack +
+            achievements.chemical_defense +
+            achievements.atomic_attack +
+            achievements.atomic_defense +
+            achievements.mental_attack +
+            achievements.mental_defense +
+            achievements.speed +
+            achievements.critical_damage +
+            achievements.critical_rate +
+            achievements.armor_penetration +
+            achievements.avoid +
+            achievements.absorbs_damage +
+            achievements.regenerate_vitality +
+            achievements.accuracy +
+            achievements.mana
+        );
+        return achievements;
+    }
+    public Achievements GetNewBreakthroughPower(Achievements c, double coefficient)
+    {
+        Achievements orginCard = new Achievements();
+        orginCard = orginCard.GetAchievementsById(c.id);
+        Achievements achievements = new Achievements
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        achievements.power = 0.5 * (
+            achievements.health +
+            achievements.physical_attack +
+            achievements.physical_defense +
+            achievements.magical_attack +
+            achievements.magical_defense +
+            achievements.chemical_attack +
+            achievements.chemical_defense +
+            achievements.atomic_attack +
+            achievements.atomic_defense +
+            achievements.mental_attack +
+            achievements.mental_defense +
+            achievements.speed +
+            achievements.critical_damage +
+            achievements.critical_rate +
+            achievements.armor_penetration +
+            achievements.avoid +
+            achievements.absorbs_damage +
+            achievements.regenerate_vitality +
+            achievements.accuracy +
+            achievements.mana
+        );
+        return achievements;
     }
     public List<Achievements> GetAchievement(int pageSize, int offset)
     {
@@ -118,8 +225,9 @@ public class Achievements
         }
         return achievementList;
     }
-    public int GetAchievementCount(){
-        int count =0;
+    public int GetAchievementCount()
+    {
+        int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -142,7 +250,7 @@ public class Achievements
     public List<Achievements> GetAchievementCollection(int pageSize, int offset)
     {
         List<Achievements> achievementsList = new List<Achievements>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -150,7 +258,7 @@ public class Achievements
             {
                 connection.Open();
                 string query = "SELECT c.*, CASE WHEN cg.collaboration_id IS NULL THEN 'block' WHEN cg.status = 'pending' THEN 'pending' WHEN cg.status = 'available' THEN 'available' END AS status "
-                +"FROM achievements c LEFT JOIN collaborations_gallery cg ON c.id = cg.collaboration_id and cg.user_id = @userId limit @limit offset @offset";
+                + "FROM achievements c LEFT JOIN collaborations_gallery cg ON c.id = cg.collaboration_id and cg.user_id = @userId limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -195,7 +303,7 @@ public class Achievements
                         percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
                         percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
                         description = reader.GetString("description"),
-                        status=reader.GetString("status"),
+                        status = reader.GetString("status"),
                     };
 
                     achievementsList.Add(achievement);
@@ -209,17 +317,17 @@ public class Achievements
         }
         return achievementsList;
     }
-    public List<Collaboration> GetUserCollaboration(int pageSize, int offset)
+    public List<Achievements> GetUserAchievements(int pageSize, int offset)
     {
-        List<Collaboration> collaborationList = new List<Collaboration>();
-        int user_id=User.CurrentUserId;
+        List<Achievements> achievementsList = new List<Achievements>();
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = "Select * from collaborations c, user_collaborations uc where uc.collaboration_id=c.id and uc.user_id =@userId limit @limit offset @offset";
+                string query = "Select * from achievements c, user_achievements uc where uc.achievement_id=c.id and uc.user_id =@userId limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -227,11 +335,15 @@ public class Achievements
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Collaboration collaboration = new Collaboration
+                    Achievements achievements = new Achievements
                     {
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        star = reader.GetInt32("star"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -266,7 +378,7 @@ public class Achievements
                         description = reader.GetString("description")
                     };
 
-                    collaborationList.Add(collaboration);
+                    achievementsList.Add(achievements);
                 }
             }
             catch (MySqlException ex)
@@ -275,11 +387,12 @@ public class Achievements
             }
 
         }
-        return collaborationList;
+        return achievementsList;
     }
-    public int GetUserCollaborationCount(){
-        int count =0;
-        int user_id=User.CurrentUserId;
+    public int GetUserCollaborationCount()
+    {
+        int count = 0;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -387,6 +500,230 @@ public class Achievements
         }
         return true;
     }
+    public bool UpdateAchievementLevel(Achievements achievements, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_achievements
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND achievement_id = @achievement_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@achievement_id", achievements.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", achievements.power);
+                command.Parameters.AddWithValue("@health", achievements.health);
+                command.Parameters.AddWithValue("@physicalAttack", achievements.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", achievements.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", achievements.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", achievements.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", achievements.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", achievements.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", achievements.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", achievements.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", achievements.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", achievements.mental_defense);
+                command.Parameters.AddWithValue("@speed", achievements.speed);
+                command.Parameters.AddWithValue("@criticalDamage", achievements.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", achievements.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", achievements.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", achievements.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", achievements.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", achievements.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", achievements.accuracy);
+                command.Parameters.AddWithValue("@mana", achievements.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateAchievementsBreakthrough(Achievements achievements, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_achievements
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND achievement_id = @achievement_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@achievement_id", achievements.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", achievements.power);
+                command.Parameters.AddWithValue("@health", achievements.health);
+                command.Parameters.AddWithValue("@physicalAttack", achievements.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", achievements.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", achievements.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", achievements.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", achievements.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", achievements.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", achievements.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", achievements.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", achievements.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", achievements.mental_defense);
+                command.Parameters.AddWithValue("@speed", achievements.speed);
+                command.Parameters.AddWithValue("@criticalDamage", achievements.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", achievements.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", achievements.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", achievements.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", achievements.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", achievements.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", achievements.accuracy);
+                command.Parameters.AddWithValue("@mana", achievements.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public Achievements GetAchievementsById(int Id)
+    {
+        Achievements card = new Achievements();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "Select * from achievements where id=@id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new Achievements
+                    {
+                        id = reader.GetInt32("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        description = reader.GetString("description")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
+    }
+    public Achievements GetUserAchievementsById(int Id)
+    {
+        Achievements card = new Achievements();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_achievements where achievement_id=@id 
+                and user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new Achievements
+                    {
+                        id = reader.GetInt32("achievement_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
+    }
     public List<Achievements> GetAchievementsWithPrice(int pageSize, int offset)
     {
         List<Achievements> achievements = new List<Achievements>();
@@ -444,7 +781,8 @@ public class Achievements
                         percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
                         description = reader.GetString("description")
                     };
-                    achievement.currency = new Currency{
+                    achievement.currency = new Currency
+                    {
                         id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
@@ -530,6 +868,51 @@ public class Achievements
                         sumAchievements.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
                         sumAchievements.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
                         sumAchievements.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumAchievements;
+    }
+    public Achievements SumPowerAchievementsPercent()
+    {
+        Achievements sumAchievements = new Achievements();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select SUM(a.percent_all_health) AS total_percent_all_health, SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
+                SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
+                SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
+                SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
+                from achievements a, user_achievements ua
+                where a.id=ua.achievement_id and ua.user_id=@user_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumAchievements.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumAchievements.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumAchievements.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumAchievements.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumAchievements.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumAchievements.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumAchievements.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumAchievements.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumAchievements.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumAchievements.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumAchievements.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
 

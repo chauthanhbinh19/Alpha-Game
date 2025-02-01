@@ -13,6 +13,9 @@ public class Symbols
     public string rare { get; set; }
     public string type { get; set; }
     public int star { get; set; }
+    public int level { get; set; }
+    public int experiment { get; set; }
+    public int quantity { get; set; }
     public double power { get; set; }
     public double health { get; set; }
     public double physical_attack { get; set; }
@@ -61,6 +64,110 @@ public class Symbols
         percent_all_atomic_defense = -1;
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
+    }
+    public Symbols GetNewLevelPower(Symbols c, double coefficient)
+    {
+        Symbols orginCard = new Symbols();
+        orginCard = orginCard.GetSymbolsById(c.id);
+        Symbols symbols = new Symbols
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        symbols.power = 0.5 * (
+            symbols.health +
+            symbols.physical_attack +
+            symbols.physical_defense +
+            symbols.magical_attack +
+            symbols.magical_defense +
+            symbols.chemical_attack +
+            symbols.chemical_defense +
+            symbols.atomic_attack +
+            symbols.atomic_defense +
+            symbols.mental_attack +
+            symbols.mental_defense +
+            symbols.speed +
+            symbols.critical_damage +
+            symbols.critical_rate +
+            symbols.armor_penetration +
+            symbols.avoid +
+            symbols.absorbs_damage +
+            symbols.regenerate_vitality +
+            symbols.accuracy +
+            symbols.mana
+        );
+        return symbols;
+    }
+    public Symbols GetNewBreakthroughPower(Symbols c, double coefficient)
+    {
+        Symbols orginCard = new Symbols();
+        orginCard = orginCard.GetSymbolsById(c.id);
+        Symbols symbols = new Symbols
+        {
+            id = c.id,
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
+        };
+        symbols.power = 0.5 * (
+            symbols.health +
+            symbols.physical_attack +
+            symbols.physical_defense +
+            symbols.magical_attack +
+            symbols.magical_defense +
+            symbols.chemical_attack +
+            symbols.chemical_defense +
+            symbols.atomic_attack +
+            symbols.atomic_defense +
+            symbols.mental_attack +
+            symbols.mental_defense +
+            symbols.speed +
+            symbols.critical_damage +
+            symbols.critical_rate +
+            symbols.armor_penetration +
+            symbols.avoid +
+            symbols.absorbs_damage +
+            symbols.regenerate_vitality +
+            symbols.accuracy +
+            symbols.mana
+        );
+        return symbols;
     }
     public static List<string> GetUniqueSymbolsTypes()
     {
@@ -270,6 +377,10 @@ public class Symbols
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -426,6 +537,119 @@ public class Symbols
         }
         return true;
     }
+    public bool UpdateSymbolsLevel(Symbols symbols, int cardLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_symbols
+                SET level = @level,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND symbol_id = @symbol_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@symbol_id", symbols.id);
+                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@power", symbols.power);
+                command.Parameters.AddWithValue("@health", symbols.health);
+                command.Parameters.AddWithValue("@physicalAttack", symbols.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", symbols.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", symbols.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", symbols.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", symbols.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", symbols.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", symbols.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", symbols.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", symbols.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", symbols.mental_defense);
+                command.Parameters.AddWithValue("@speed", symbols.speed);
+                command.Parameters.AddWithValue("@criticalDamage", symbols.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", symbols.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", symbols.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", symbols.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", symbols.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", symbols.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", symbols.accuracy);
+                command.Parameters.AddWithValue("@mana", symbols.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
+    public bool UpdateSymbolsBreakthrough(Symbols symbols, int star, int quantity)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"
+                UPDATE user_symbols
+                SET star = @star, quantity=@quantity,
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
+                WHERE 
+                    user_id = @user_id AND symbol_id = @symbol_id;;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@symbol_id", symbols.id);
+                command.Parameters.AddWithValue("@star", star);
+                command.Parameters.AddWithValue("@quantity", quantity);
+                command.Parameters.AddWithValue("@power", symbols.power);
+                command.Parameters.AddWithValue("@health", symbols.health);
+                command.Parameters.AddWithValue("@physicalAttack", symbols.physical_attack);
+                command.Parameters.AddWithValue("@physicalDefense", symbols.physical_defense);
+                command.Parameters.AddWithValue("@magicalAttack", symbols.magical_attack);
+                command.Parameters.AddWithValue("@magicalDefense", symbols.magical_defense);
+                command.Parameters.AddWithValue("@chemicalAttack", symbols.chemical_attack);
+                command.Parameters.AddWithValue("@chemicalDefense", symbols.chemical_defense);
+                command.Parameters.AddWithValue("@atomicAttack", symbols.atomic_attack);
+                command.Parameters.AddWithValue("@atomicDefense", symbols.atomic_defense);
+                command.Parameters.AddWithValue("@mentalAttack", symbols.mental_attack);
+                command.Parameters.AddWithValue("@mentalDefense", symbols.mental_defense);
+                command.Parameters.AddWithValue("@speed", symbols.speed);
+                command.Parameters.AddWithValue("@criticalDamage", symbols.critical_damage);
+                command.Parameters.AddWithValue("@criticalRate", symbols.critical_rate);
+                command.Parameters.AddWithValue("@armorPenetration", symbols.armor_penetration);
+                command.Parameters.AddWithValue("@avoid", symbols.avoid);
+                command.Parameters.AddWithValue("@absorbsDamage", symbols.absorbs_damage);
+                command.Parameters.AddWithValue("@regenerateVitality", symbols.regenerate_vitality);
+                command.Parameters.AddWithValue("@accuracy", symbols.accuracy);
+                command.Parameters.AddWithValue("@mana", symbols.mana);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return true;
+    }
     public List<Symbols> GetSymbolsWithPrice(string type,int pageSize, int offset)
     {
         List<Symbols> symbolsList = new List<Symbols>();
@@ -579,6 +803,61 @@ public class Symbols
 
         }
         return symbols;
+    }
+    public Symbols GetUserSymbolsById(int Id)
+    {
+        Symbols card = new Symbols();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select * from user_symbols where user_symbols.symbol_id=@id 
+                and user_symbols.user_id=@user_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    card = new Symbols
+                    {
+                        id = reader.GetInt32("symbol_id"),
+                        level = reader.GetInt32("level"),
+                        experiment = reader.GetInt32("experiment"),
+                        star = reader.GetInt32("star"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return card;
     }
     public void InsertSymbolsGallery(int Id)
     {
@@ -819,6 +1098,51 @@ public class Symbols
                         sumSymbols.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
                         sumSymbols.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
                         sumSymbols.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumSymbols;
+    }
+    public Symbols SumPowerSymbolsPercent()
+    {
+        Symbols sumSymbols = new Symbols();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select SUM(a.percent_all_health) AS total_percent_all_health, SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
+                SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
+                SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
+                SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
+                from symbols a, user_symbols ua
+                where a.id=ua.symbol_id and ua.user_id=@user_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumSymbols.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumSymbols.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumSymbols.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumSymbols.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumSymbols.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumSymbols.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumSymbols.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumSymbols.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumSymbols.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumSymbols.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumSymbols.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
 
