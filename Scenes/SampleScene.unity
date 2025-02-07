@@ -1173,6 +1173,9 @@ GameObject:
   m_Component:
   - component: {fileID: 474294458}
   - component: {fileID: 474294459}
+  - component: {fileID: 474294462}
+  - component: {fileID: 474294461}
+  - component: {fileID: 474294460}
   m_Layer: 5
   m_Name: PowerManager
   m_TagString: Untagged
@@ -1210,6 +1213,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b23e76abbd8baf54fbc5dd1d54afc82b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7214e59d5a8cc345a715541a750d0db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06e5ec0aac045b149bfc2c82671a8ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16c5b3fbc2b5f354d9831659ea12a199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &490600150
@@ -4863,6 +4902,9 @@ MonoBehaviour:
   StarPrefab: {fileID: 1661859481911484232, guid: 11f1658caea6e42488ac72d1ed68d131, type: 3}
   PowerPrefab: {fileID: 1661859481911484232, guid: 3e6f4cc94b6b4c4488a5edc36f3050b6, type: 3}
   LoadingPanelPrefab: {fileID: 5490652922311943017, guid: 6838c378af7e73b46bfa50ce6176ac4b, type: 3}
+  MainMenuEquipmentPanelPrefab: {fileID: 5745659240395072349, guid: 4ff89cf8d4ddac545b42e175836e17fd, type: 3}
+  MainMenuAptitudePanelPrefab: {fileID: 5745659240395072349, guid: 97a53e1423c2f4549905a57b6c7af8c8, type: 3}
+  MainMenuUpgradePanelPrefab: {fileID: 5745659240395072349, guid: 3c9a90c1fed6a6f4580281842ba89975, type: 3}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0

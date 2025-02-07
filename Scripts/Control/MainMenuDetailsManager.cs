@@ -76,7 +76,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         buttonGroupPanel = currentObject.transform.Find("DictionaryCards/ButtonGroup1");
         HomeButton.onClick.AddListener(() => Close(MainPanel));
-        CreateButtonGroup();
+        CreateButtonGroup(data);
         // Kiểm tra kiểu của data và ép kiểu phù hợp
         if (data is CardHeroes card)
         {
@@ -336,11 +336,21 @@ public class MainMenuDetailsManager : MonoBehaviour
             nameText.text = itemName;
         }
     }
-    public void CreateButtonGroup()
+    public void CreateButtonGroup(object data)
     {
         CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
         CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
         CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+        AssignButtonEvent("Button_1", buttonGroupPanel,()=>{
+            FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+        });
+        AssignButtonEvent("Button_2", buttonGroupPanel,()=>{
+            FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+        });
+        AssignButtonEvent("Button_3", buttonGroupPanel,()=>{
+            FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+        });
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {

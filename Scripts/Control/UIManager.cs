@@ -74,6 +74,12 @@ public class UIManager : MonoBehaviour
     public GameObject StarPrefab;
     public GameObject PowerPrefab;
     public GameObject LoadingPanelPrefab;
+    public GameObject MainMenuEquipmentPanelPrefab;
+
+    public GameObject MainMenuAptitudePanelPrefab;
+
+    public GameObject MainMenuUpgradePanelPrefab;
+
 
     [Header("Button")]
     private Button GalleryButton;
@@ -237,6 +243,12 @@ public class UIManager : MonoBehaviour
                 return PowerPrefab;
             case "LoadingPanelPrefab":
                 return LoadingPanelPrefab;
+            case "MainMenuAptitudePanelPrefab":
+                return MainMenuAptitudePanelPrefab;
+            case "MainMenuEquipmentPanelPrefab":
+                return MainMenuEquipmentPanelPrefab;
+            case "MainMenuUpgradePanelPrefab":
+                return MainMenuUpgradePanelPrefab;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;
