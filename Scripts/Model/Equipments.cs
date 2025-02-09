@@ -66,6 +66,7 @@ public class Equipments
     public double percent_all_atomic_defense { get; set; }
     public double percent_all_mental_attack { get; set; }
     public double percent_all_mental_defense { get; set; }
+    public int position { get; set; }
     public Equipments()
     {
         percent_all_health = -1;
@@ -79,6 +80,7 @@ public class Equipments
         percent_all_atomic_defense = -1;
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
+        position = -1;
     }
     public Equipments GetNewLevelPower(Equipments c, double coefficient)
     {
@@ -106,7 +108,19 @@ public class Equipments
             absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
             regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
             accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            special_health = c.special_health + orginCard.special_health * coefficient,
+            special_physical_attack = c.special_physical_attack + orginCard.special_physical_attack * coefficient,
+            special_physical_defense = c.special_physical_defense + orginCard.special_physical_defense * coefficient,
+            special_magical_attack = c.special_magical_attack + orginCard.special_magical_attack * coefficient,
+            special_magical_defense = c.special_magical_defense + orginCard.special_magical_defense * coefficient,
+            special_chemical_attack = c.special_chemical_attack + orginCard.special_chemical_attack * coefficient,
+            special_chemical_defense = c.special_chemical_defense + orginCard.special_chemical_defense * coefficient,
+            special_atomic_attack = c.special_atomic_attack + orginCard.special_atomic_attack * coefficient,
+            special_atomic_defense = c.special_atomic_defense + orginCard.special_atomic_defense * coefficient,
+            special_mental_attack = c.special_mental_attack + orginCard.special_mental_attack * coefficient,
+            special_mental_defense = c.special_mental_defense + orginCard.special_mental_defense * coefficient,
+            special_speed = c.special_speed + orginCard.special_speed * coefficient,
         };
         equipments.power = 0.5 * (
             equipments.health +
@@ -128,7 +142,19 @@ public class Equipments
             equipments.absorbs_damage +
             equipments.regenerate_vitality +
             equipments.accuracy +
-            equipments.mana
+            equipments.mana +
+            equipments.special_health +
+            equipments.special_physical_attack +
+            equipments.special_physical_defense +
+            equipments.special_magical_attack +
+            equipments.special_magical_defense +
+            equipments.special_chemical_attack +
+            equipments.special_chemical_defense +
+            equipments.special_atomic_attack +
+            equipments.special_atomic_defense +
+            equipments.special_mental_attack +
+            equipments.special_mental_defense +
+            equipments.special_speed
         );
         return equipments;
     }
@@ -158,7 +184,19 @@ public class Equipments
             absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
             regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
             accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            special_health = c.special_health + orginCard.special_health * coefficient,
+            special_physical_attack = c.special_physical_attack + orginCard.special_physical_attack * coefficient,
+            special_physical_defense = c.special_physical_defense + orginCard.special_physical_defense * coefficient,
+            special_magical_attack = c.special_magical_attack + orginCard.special_magical_attack * coefficient,
+            special_magical_defense = c.special_magical_defense + orginCard.special_magical_defense * coefficient,
+            special_chemical_attack = c.special_chemical_attack + orginCard.special_chemical_attack * coefficient,
+            special_chemical_defense = c.special_chemical_defense + orginCard.special_chemical_defense * coefficient,
+            special_atomic_attack = c.special_atomic_attack + orginCard.special_atomic_attack * coefficient,
+            special_atomic_defense = c.special_atomic_defense + orginCard.special_atomic_defense * coefficient,
+            special_mental_attack = c.special_mental_attack + orginCard.special_mental_attack * coefficient,
+            special_mental_defense = c.special_mental_defense + orginCard.special_mental_defense * coefficient,
+            special_speed = c.special_speed + orginCard.special_speed * coefficient,
         };
         equipments.power = 0.5 * (
             equipments.health +
@@ -180,7 +218,19 @@ public class Equipments
             equipments.absorbs_damage +
             equipments.regenerate_vitality +
             equipments.accuracy +
-            equipments.mana
+            equipments.mana +
+            equipments.special_health +
+            equipments.special_physical_attack +
+            equipments.special_physical_defense +
+            equipments.special_magical_attack +
+            equipments.special_magical_defense +
+            equipments.special_chemical_attack +
+            equipments.special_chemical_defense +
+            equipments.special_atomic_attack +
+            equipments.special_atomic_defense +
+            equipments.special_mental_attack +
+            equipments.special_mental_defense +
+            equipments.special_speed
         );
         return equipments;
     }
@@ -1057,7 +1107,7 @@ public class Equipments
                     command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
                     command.ExecuteNonQuery();
                 }
-                
+
             }
             catch (MySqlException ex)
             {
@@ -1069,14 +1119,15 @@ public class Equipments
             }
         }
     }
-    public void UpdateStatusEquipmentsGallery(int Id){
+    public void UpdateStatusEquipmentsGallery(int Id)
+    {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query="update equipments_gallery set status=@status where user_id=@user_id and equipment_id=@equipment_id";
+                string query = "update equipments_gallery set status=@status where user_id=@user_id and equipment_id=@equipment_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@equipment_id", Id);
@@ -1165,5 +1216,2158 @@ public class Equipments
             }
         }
         return sumEquipments;
+    }
+    public void InsertCardHeroesEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM card_heroes_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM card_heroes_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+                Debug.Log(Id);
+                Debug.Log(equipments.id);
+                Debug.Log(equipments.sequence);
+                Debug.Log(position);
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO card_heroes_equipment (user_id, card_hero_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @card_hero_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@card_hero_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertCardCaptainsEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM card_captains_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM card_captains_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO card_captains_equipment (user_id, card_captain_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @card_captain_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@card_captain_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertCardColonelsEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM card_colonels_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM card_colonels_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO card_colonels_equipment (user_id, card_colonel_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @card_colonel_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@card_colonel_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertCardGeneralsEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM card_generals_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM card_generals_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO card_generals_equipment (user_id, card_general_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @card_general_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@card_general_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertCardAdmiralsEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM card_admirals_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM card_admirals_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO card_admirals_equipment (user_id, card_admiral_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @card_admiral_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@card_admiral_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertCardMonstersEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM card_monsters_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM card_monsters_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO card_monsters_equipment (user_id, card_monster_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @card_monster_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@card_monster_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertCardMilitaryEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM card_military_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM card_military_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO card_military_equipment (user_id, card_military_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @card_military_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@card_military_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertCardSpellEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM card_spell_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM card_spell_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO card_spell_equipment (user_id, card_spell_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @card_spell_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@card_spell_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertBooksEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM books_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM books_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO books_equipment (user_id, book_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @book_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@book_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void InsertPetsEquipments(int Id, Equipments equipments, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                string checkQuery = @"SELECT COUNT(*) FROM pets_equipment 
+                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                checkCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // Nếu tồn tại, xóa các bản ghi cũ trước
+                if (count > 0)
+                {
+                    string deleteQuery = @"DELETE FROM pets_equipment 
+                                       WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                    MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                    deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                    deleteCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                    deleteCommand.ExecuteNonQuery();
+                }
+
+                // Chèn dữ liệu mới vào bảng
+                string insertQuery = @"INSERT INTO pets_equipment (user_id, pet_id, equipment_id, sequence, position)
+                                   VALUES (@user_id, @pet_id, @equipment_id, @sequence, @position)";
+                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                insertCommand.Parameters.AddWithValue("@pet_id", Id);
+                insertCommand.Parameters.AddWithValue("@equipment_id", equipments.id);
+                insertCommand.Parameters.AddWithValue("@sequence", equipments.sequence);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public List<Equipments> GetCardHeroesEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_heroes_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.card_hero_id = @card_hero_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_hero_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetCardCaptainsEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_captains_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.card_captain_id = @card_captain_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_captain_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetCardColonelsEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_colonels_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.card_colonel_id = @card_colonel_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_colonel_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetCardGeneralsEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_generals_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.card_general_id = @card_general_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_general_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetCardAdmiralsEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_admirals_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.card_admiral_id = @card_admiral_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_admiral_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetCardMonstersEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_monsters_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.card_monster_id = @card_monster_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_monster_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetCardMilitaryEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_military_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.card_military_id = @card_military_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_military_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetCardSpellEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_spell_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.card_spell_id = @card_spell_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@card_spell_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetBooksEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_books_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.book_id = @book_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@book_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetPetsEquipments(int card_id, string type)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_pets_equipment che ON che.equipment_id = ue.equipment_id 
+                    AND che.sequence = ue.sequence
+                WHERE che.pet_id = @pet_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@pet_id", card_id);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.GetInt32("position")
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllCardHeroesEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join card_heroes_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllCardCaptainsEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join card_captains_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllCardColonelsEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join card_colonels_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllCardGeneralsEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join card_generals_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllCardAdmiralsEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join card_admirals_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllCardMonstersEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join card_monsters_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllCardMilitaryEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join card_military_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllCardSpellEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join card_spell_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllBooksEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join books_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
+    }
+    public List<Equipments> GetAllPetsEquipments(string type, int limit, int offset)
+    {
+        List<Equipments> equipmentList = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                from equipments e left join user_equipments ue on e.id = ue.equipment_id
+                left join pets_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
+                and che.user_id = ue.user_id
+                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", limit);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Equipments equipments = new Equipments
+                    {
+                        id = reader.GetInt32("equipment_id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
+                        type = reader.GetString("type"),
+                        star = reader.GetInt32("star"),
+                        sequence = reader.GetInt32("sequence"),
+                        power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
+                        special_health = reader.GetDouble("special_health"),
+                        special_physical_attack = reader.GetDouble("special_physical_attack"),
+                        special_physical_defense = reader.GetDouble("special_physical_defense"),
+                        special_magical_attack = reader.GetDouble("special_magical_attack"),
+                        special_magical_defense = reader.GetDouble("special_magical_defense"),
+                        special_chemical_attack = reader.GetDouble("special_chemical_attack"),
+                        special_chemical_defense = reader.GetDouble("special_chemical_defense"),
+                        special_atomic_attack = reader.GetDouble("special_atomic_attack"),
+                        special_atomic_defense = reader.GetDouble("special_atomic_defense"),
+                        special_mental_attack = reader.GetDouble("special_mental_attack"),
+                        special_mental_defense = reader.GetDouble("special_mental_defense"),
+                        special_speed = reader.GetDouble("special_speed"),
+                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
+                    };
+
+                    equipmentList.Add(equipments);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return equipmentList;
     }
 }

@@ -125,7 +125,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public void OnClose()
     {
-        equipmentsPrefab.SetActive(false);
+        // equipmentsPrefab.SetActive(false);
         foreach (Transform child in MainPanel)
         {
             Destroy(child.gameObject);
@@ -459,9 +459,9 @@ public class EquipmentManager : MonoBehaviour
     }
     public void ChangeNextPage(int status, Text PageText, Transform content, string subType)
     {
-        Close(content);
         if (currentPage < totalPage)
         {
+            Close(content);
             int totalRecord = 0;
 
             if (status == 1)
@@ -501,9 +501,9 @@ public class EquipmentManager : MonoBehaviour
     }
     public void ChangePreviousPage(int status, Text PageText, Transform content, string subType)
     {
-        Close(content);
         if (currentPage > 1)
         {
+            Close(content);
             int totalRecord = 0;
 
             if (status == 1)
@@ -565,6 +565,7 @@ public class EquipmentManager : MonoBehaviour
         currencyImage.texture = currencyTexture;
 
         fileNameWithoutExtension = equipments.image.Replace(".png", "");
+        fileNameWithoutExtension = equipments.image.Replace(".jpg", "");
         Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         equipmentImage.texture = equipmentTexture;
 

@@ -75,10 +75,18 @@ public class UIManager : MonoBehaviour
     public GameObject PowerPrefab;
     public GameObject LoadingPanelPrefab;
     public GameObject MainMenuEquipmentPanelPrefab;
-
     public GameObject MainMenuAptitudePanelPrefab;
-
     public GameObject MainMenuUpgradePanelPrefab;
+    public GameObject PopupEquipmentsPanelPrefab;
+    public GameObject EquipmentsWearingPrefab;
+    public GameObject Slot1Prefab;
+    public GameObject Slot4Prefab;
+    public GameObject Slot6Prefab;
+    public GameObject Slot8Prefab;
+    public GameObject Slot10Prefab;
+    public GameObject Slot12Prefab;
+    public GameObject Slot14Prefab;
+    public GameObject Slot16Prefab;
 
 
     [Header("Button")]
@@ -249,6 +257,30 @@ public class UIManager : MonoBehaviour
                 return MainMenuEquipmentPanelPrefab;
             case "MainMenuUpgradePanelPrefab":
                 return MainMenuUpgradePanelPrefab;
+            case "PopupEquipmentsPanelPrefab":
+                return PopupEquipmentsPanelPrefab;
+            case "EquipmentsWearingPrefab":
+                return EquipmentsWearingPrefab;
+            case "Slot1Prefab":
+                return Slot1Prefab;
+            case "Slot4Prefab":
+                return Slot4Prefab;
+            case "Slot6Prefab":
+                return Slot6Prefab;
+            case "Slot8Prefab":
+                return Slot8Prefab;
+            case "Slot10Prefab":
+                return Slot10Prefab;
+            case "Slot12Prefab":
+                return Slot12Prefab;
+            case "Slot14Prefab":
+                return Slot14Prefab;
+            case "Slot16Prefab":
+                return Slot16Prefab;
+            // case "MainMenuUpgradePanelPrefab":
+            //     return MainMenuUpgradePanelPrefab;
+            // case "MainMenuUpgradePanelPrefab":
+            //     return MainMenuUpgradePanelPrefab;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;
