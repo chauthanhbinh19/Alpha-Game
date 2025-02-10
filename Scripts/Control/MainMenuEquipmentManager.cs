@@ -25,6 +25,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private GameObject Slot14Prefab;
     private GameObject Slot16Prefab;
     private GameObject popupEquipmentObject;
+    private RawImage mainImage;
     private int mainId;
     private string mainType;
     private int pageSize;
@@ -57,6 +58,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         currentObject = Instantiate(MainMenuEquipmentPanelPrefab, MainPanel);
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
+        mainImage = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
@@ -376,11 +378,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetCardHeroesEquipments(cardHeroes.id, mainType);
+        string fileNameWithoutExtension = cardHeroes.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardHeroes, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -543,11 +549,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetCardCaptainsEquipments(cardCaptains.id, mainType);
+        string fileNameWithoutExtension = cardCaptains.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardCaptains, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -710,11 +720,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetCardColonelsEquipments(cardColonels.id, mainType);
+        string fileNameWithoutExtension = cardColonels.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardColonels, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -877,11 +891,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetCardGeneralsEquipments(cardGenerals.id, mainType);
+        string fileNameWithoutExtension = cardGenerals.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardGenerals, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -1044,11 +1062,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetCardAdmiralsEquipments(cardAdmirals.id, mainType);
+        string fileNameWithoutExtension = cardAdmirals.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardAdmirals, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -1211,11 +1233,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetCardMonstersEquipments(cardMonsters.id, mainType);
+        string fileNameWithoutExtension = cardMonsters.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardMonsters, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -1378,11 +1404,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetCardMilitaryEquipments(cardMilitary.id, mainType);
+        string fileNameWithoutExtension = cardMilitary.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardMilitary, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -1545,11 +1575,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetCardSpellEquipments(cardSpell.id, mainType);
+        string fileNameWithoutExtension = cardSpell.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardSpell, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -1712,11 +1746,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetBooksEquipments(books.id, mainType);
+        string fileNameWithoutExtension = books.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(books, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -1879,11 +1917,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = equipments.GetPetsEquipments(pets.id, mainType);
+        string fileNameWithoutExtension = pets.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        mainImage.texture = texture;
         if (CheckSlotForEquipments(mainType) == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(pets, EquipmentSlot1Button, 1, equipmentList);
+            mainImage.gameObject.SetActive(false);
         }
         else if (CheckSlotForEquipments(mainType) == 4)
         {
@@ -2164,53 +2206,103 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Destroy(popupEquipmentObject);
                 if (data is CardHeroes cardHeroes)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardHeroesEquipments(mainId, equipment, position);
                     CreateCardHeroesEquipments(cardHeroes);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is CardCaptains cardCaptains)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardCaptainsEquipments(mainId, equipment, position);
                     CreateCardCaptainsEquipments(cardCaptains);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is CardColonels cardColonels)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardColonelsEquipments(mainId, equipment, position);
                     CreateCardColonelsEquipments(cardColonels);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is CardGenerals cardGenerals)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardGeneralsEquipments(mainId, equipment, position);
                     CreateCardGeneralsEquipments(cardGenerals);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is CardAdmirals cardAdmirals)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardAdmiralsEquipments(mainId, equipment, position);
                     CreateCardAdmiralsEquipments(cardAdmirals);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is CardMonsters cardMonsters)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardMonstersEquipments(mainId, equipment, position);
                     CreateCardMonstersEquipments(cardMonsters);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is CardMilitary cardMilitary)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardMilitaryEquipments(mainId, equipment, position);
                     CreateCardMilitaryEquipments(cardMilitary);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is CardSpell cardSpell)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardSpellEquipments(mainId, equipment, position);
                     CreateCardSpellEquipments(cardSpell);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is Books books)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertBooksEquipments(mainId, equipment, position);
                     CreateBooksEquipments(books);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
                 else if (data is Pets pets)
                 {
+                    PowerManager powerManager = new PowerManager();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     equipment.InsertPetsEquipments(mainId, equipment, position);
                     CreatePetsEquipments(pets);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
                 }
 
                 Destroy(popupEquipmentObject);

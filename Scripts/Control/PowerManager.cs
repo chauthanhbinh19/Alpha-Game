@@ -310,7 +310,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor(0.5* (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
@@ -335,7 +335,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
@@ -360,7 +360,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
@@ -385,7 +385,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
@@ -410,7 +410,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
@@ -435,7 +435,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
@@ -460,7 +460,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
@@ -485,7 +485,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor(0.5* (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
@@ -510,7 +510,7 @@ public class PowerManager
     {
         PowerManager powerManager = new PowerManager();
         powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+        return power = Math.Floor(0.5* (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
             (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
             (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
             (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +

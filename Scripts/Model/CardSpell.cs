@@ -156,6 +156,58 @@ public class CardSpell
         all_percent_mana = -1;
         team_id = -1;
     }
+    // public List<CardSpell> GetAllEquipmentPower(List<CardSpell> CardSpellList)
+    // {
+    //     Equipments equipments = new Equipments();
+    //     foreach (var c in CardSpellList)
+    //     {
+    //         equipments = equipments.GetAllEquipmentsByCardSpellId(c.id);
+    //         c.all_health = c.all_health + equipments.health + equipments.special_health;
+    //         c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
+    //         c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
+    //         c.all_magical_attack = c.all_magical_attack + equipments.magical_attack + equipments.special_magical_attack;
+    //         c.all_magical_defense = c.all_magical_defense + equipments.magical_defense + equipments.special_magical_defense;
+    //         c.all_chemical_attack = c.all_chemical_attack + equipments.chemical_attack + equipments.special_chemical_attack;
+    //         c.all_chemical_defense = c.all_chemical_defense + equipments.chemical_defense + equipments.special_chemical_defense;
+    //         c.all_atomic_attack = c.all_atomic_attack + equipments.atomic_attack + equipments.special_atomic_attack;
+    //         c.all_atomic_defense = c.all_atomic_defense + equipments.atomic_defense + equipments.special_atomic_defense;
+    //         c.all_mental_attack = c.all_mental_attack + equipments.mental_attack + equipments.special_mental_attack;
+    //         c.all_mental_defense = c.all_mental_defense + equipments.mental_defense + equipments.special_mental_defense;
+    //         c.all_speed = c.all_speed + equipments.speed;
+    //         c.all_critical_damage = c.all_critical_damage + equipments.critical_damage;
+    //         c.all_critical_rate = c.all_critical_rate + equipments.critical_rate;
+    //         c.all_armor_penetration = c.all_armor_penetration + equipments.armor_penetration;
+    //         c.all_avoid = c.all_avoid + equipments.avoid;
+    //         c.all_absorbs_damage = c.all_absorbs_damage + equipments.absorbs_damage;
+    //         c.all_regenerate_vitality = c.all_regenerate_vitality + equipments.regenerate_vitality;
+    //         c.all_accuracy = c.all_accuracy + equipments.accuracy;
+    //         c.all_mana = c.all_mana + equipments.mana;
+
+    //         c.power = 0.5 * (
+    //         c.health +
+    //         c.physical_attack +
+    //         c.physical_defense +
+    //         c.magical_attack +
+    //         c.magical_defense +
+    //         c.chemical_attack +
+    //         c.chemical_defense +
+    //         c.atomic_attack +
+    //         c.atomic_defense +
+    //         c.mental_attack +
+    //         c.mental_defense +
+    //         c.speed +
+    //         c.critical_damage +
+    //         c.critical_rate +
+    //         c.armor_penetration +
+    //         c.avoid +
+    //         c.absorbs_damage +
+    //         c.regenerate_vitality +
+    //         c.accuracy +
+    //         c.mana
+    //     );
+    //     }
+    //     return CardSpellList;
+    // }
     public CardSpell GetNewLevelPower(CardSpell c, double coefficient)
     {
         coefficient = coefficient * 0.001;

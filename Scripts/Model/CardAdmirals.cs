@@ -160,6 +160,58 @@ public class CardAdmirals
         }
         return CardAdmiralsList;
     }
+    public List<CardAdmirals> GetAllEquipmentPower(List<CardAdmirals> CardAdmiralsList)
+    {
+        Equipments equipments = new Equipments();
+        foreach (var c in CardAdmiralsList)
+        {
+            equipments = equipments.GetAllEquipmentsByCardAdmiralsId(c.id);
+            c.all_health = c.all_health + equipments.health + equipments.special_health;
+            c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
+            c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
+            c.all_magical_attack = c.all_magical_attack + equipments.magical_attack + equipments.special_magical_attack;
+            c.all_magical_defense = c.all_magical_defense + equipments.magical_defense + equipments.special_magical_defense;
+            c.all_chemical_attack = c.all_chemical_attack + equipments.chemical_attack + equipments.special_chemical_attack;
+            c.all_chemical_defense = c.all_chemical_defense + equipments.chemical_defense + equipments.special_chemical_defense;
+            c.all_atomic_attack = c.all_atomic_attack + equipments.atomic_attack + equipments.special_atomic_attack;
+            c.all_atomic_defense = c.all_atomic_defense + equipments.atomic_defense + equipments.special_atomic_defense;
+            c.all_mental_attack = c.all_mental_attack + equipments.mental_attack + equipments.special_mental_attack;
+            c.all_mental_defense = c.all_mental_defense + equipments.mental_defense + equipments.special_mental_defense;
+            c.all_speed = c.all_speed + equipments.speed;
+            c.all_critical_damage = c.all_critical_damage + equipments.critical_damage;
+            c.all_critical_rate = c.all_critical_rate + equipments.critical_rate;
+            c.all_armor_penetration = c.all_armor_penetration + equipments.armor_penetration;
+            c.all_avoid = c.all_avoid + equipments.avoid;
+            c.all_absorbs_damage = c.all_absorbs_damage + equipments.absorbs_damage;
+            c.all_regenerate_vitality = c.all_regenerate_vitality + equipments.regenerate_vitality;
+            c.all_accuracy = c.all_accuracy + equipments.accuracy;
+            c.all_mana = c.all_mana + equipments.mana;
+
+            c.all_power = Math.Floor(0.5 * (
+            c.all_health +
+            c.all_physical_attack +
+            c.all_physical_defense +
+            c.all_magical_attack +
+            c.all_magical_defense +
+            c.all_chemical_attack +
+            c.all_chemical_defense +
+            c.all_atomic_attack +
+            c.all_atomic_defense +
+            c.all_mental_attack +
+            c.all_mental_defense +
+            c.all_speed +
+            c.all_critical_damage +
+            c.all_critical_rate +
+            c.all_armor_penetration +
+            c.all_avoid +
+            c.all_absorbs_damage +
+            c.all_regenerate_vitality +
+            c.all_accuracy +
+            c.all_mana)
+        );
+        }
+        return CardAdmiralsList;
+    }
     public CardAdmirals GetNewLevelPower(CardAdmirals c, double coefficient)
     {
         CardAdmirals orginCard = new CardAdmirals();
@@ -518,6 +570,7 @@ public class CardAdmirals
                     CardAdmiralsList.Add(captain);
                 }
                 CardAdmiralsList = GetFinalPower(CardAdmiralsList);
+                CardAdmiralsList = GetAllEquipmentPower(CardAdmiralsList);
             }
             catch (MySqlException ex)
             {
@@ -610,7 +663,7 @@ public class CardAdmirals
 
                     CardAdmiralsList.Add(captain);
                 }
-                CardAdmiralsList = GetFinalPower(CardAdmiralsList);
+                CardAdmiralsList = GetAllEquipmentPower(CardAdmiralsList);
             }
             catch (MySqlException ex)
             {

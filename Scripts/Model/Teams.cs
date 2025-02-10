@@ -590,24 +590,30 @@ public class Teams
             }
             CardHeroes cardHeroes = new CardHeroes();
             CardHeroesList = cardHeroes.GetFinalPower(CardHeroesList);
+            CardHeroesList = cardHeroes.GetAllEquipmentPower(CardHeroesList);
 
             CardCaptains cardCaptains = new CardCaptains();
             CardCaptainsList = cardCaptains.GetFinalPower(CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetAllEquipmentPower(CardCaptainsList);
 
             CardColonels cardColonels = new CardColonels();
             CardColonelsList = cardColonels.GetFinalPower(CardColonelsList);
 
             CardGenerals cardGenerals = new CardGenerals();
             CardGeneralsList = cardGenerals.GetFinalPower(CardGeneralsList);
+            CardColonelsList = cardColonels.GetAllEquipmentPower(CardColonelsList);
 
             CardAdmirals cardAdmirals = new CardAdmirals();
             CardAdmiralsList = cardAdmirals.GetFinalPower(CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetAllEquipmentPower(CardAdmiralsList);
 
             CardMonsters cardMonsters = new CardMonsters();
             CardMonstersList = cardMonsters.GetFinalPower(CardMonstersList);
+            CardMonstersList = cardMonsters.GetAllEquipmentPower(CardMonstersList);
 
             CardMilitary cardMilitary = new CardMilitary();
             CardMilitaryList = cardMilitary.GetFinalPower(CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetAllEquipmentPower(CardMilitaryList);
 
             foreach(CardHeroes c in CardHeroesList){
                 totalPower = totalPower + c.all_power;
