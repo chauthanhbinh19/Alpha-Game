@@ -39,7 +39,7 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform descriptionPopupPanel;
     private Transform buttonGroupPanel;
     private string mainType;
-    private string descriptionColor = "#844000";
+    private string descriptionColor = "#F9EED9";
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
     // Start is called before the first frame update
@@ -338,19 +338,196 @@ public class MainMenuDetailsManager : MonoBehaviour
     }
     public void CreateButtonGroup(object data)
     {
-        CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-        CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-        CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+        if (data is CardHeroes cardHeroes)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
 
-        AssignButtonEvent("Button_1", buttonGroupPanel,()=>{
-            FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-        });
-        AssignButtonEvent("Button_2", buttonGroupPanel,()=>{
-            FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-        });
-        AssignButtonEvent("Button_3", buttonGroupPanel,()=>{
-            FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-        });
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is CardCaptains cardCaptains)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is CardColonels cardColonels)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is CardGenerals cardGenerals)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is CardAdmirals cardAdmirals)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is CardMonsters cardMonsters)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is CardMilitary cardMilitary)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is CardSpell cardSpell)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is Books books)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
+        else if (data is Pets pets)
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+        }
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {
@@ -1093,6 +1270,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = collaborationEquipment.name;
@@ -1189,6 +1367,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = collaboration.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = collaboration.name;
@@ -1253,6 +1432,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = equipment.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = equipment.name;
@@ -1285,6 +1465,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = medal.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = medal.name;
@@ -1317,6 +1498,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = skill.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = skill.name;
@@ -1349,6 +1531,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = symbol.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = symbol.name;
@@ -1381,6 +1564,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = title.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = title.name;
@@ -1413,6 +1597,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = magicFormationCircle.name;
@@ -1445,6 +1630,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = relics.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = relics.name;
@@ -1573,6 +1759,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             string fileNameWithoutExtension = achievements.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+            ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             name.text = achievements.name;
@@ -5832,5 +6019,17 @@ public class MainMenuDetailsManager : MonoBehaviour
         bool status = false;
 
         return status;
+    }
+    public void ChangeSizeImage(RawImage Image, Texture texture)
+    {
+        // Lấy tỷ lệ khung hình của ảnh gốc
+        float aspectRatio = (float)texture.height / texture.width;
+
+        // Chiều rộng cố định là 250
+        float newWidth = 250f;
+        float newHeight = newWidth * aspectRatio; // Tính chiều cao dựa theo tỷ lệ
+
+        // Cập nhật kích thước ảnh
+        Image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
     }
 }

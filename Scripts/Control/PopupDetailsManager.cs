@@ -16,7 +16,7 @@ public class PopupDetailsManager : MonoBehaviour
     private Transform firstPopupPanel;
     private Transform elementPopupPanel;
     private Transform descriptionPopupPanel;
-    private string descriptionColor="#844000";
+    private string descriptionColor="#F9EED9";
     // Start is called before the first frame update
     void Start()
     {

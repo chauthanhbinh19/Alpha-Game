@@ -565,7 +565,7 @@ public class EquipmentManager : MonoBehaviour
         currencyImage.texture = currencyTexture;
 
         fileNameWithoutExtension = equipments.image.Replace(".png", "");
-        fileNameWithoutExtension = equipments.image.Replace(".jpg", "");
+        fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
         Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         equipmentImage.texture = equipmentTexture;
 

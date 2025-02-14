@@ -68,6 +68,7 @@ public class UIManager : MonoBehaviour
     public GameObject TabButton4;
     public GameObject ReceivedNotification;
     public GameObject ItemThird;
+    public GameObject TabButton5;
     public GameObject TeamsPrefab;
     public GameObject CardsThirdPrefab;
     public GameObject TypePrefab;
@@ -87,6 +88,7 @@ public class UIManager : MonoBehaviour
     public GameObject Slot12Prefab;
     public GameObject Slot14Prefab;
     public GameObject Slot16Prefab;
+    public GameObject AptitudeSlotPrefab;
 
 
     [Header("Button")]
@@ -277,10 +279,10 @@ public class UIManager : MonoBehaviour
                 return Slot14Prefab;
             case "Slot16Prefab":
                 return Slot16Prefab;
-            // case "MainMenuUpgradePanelPrefab":
-            //     return MainMenuUpgradePanelPrefab;
-            // case "MainMenuUpgradePanelPrefab":
-            //     return MainMenuUpgradePanelPrefab;
+            case "AptitudeSlotPrefab":
+                return AptitudeSlotPrefab;
+            case "TabButton5":
+                return TabButton5;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;

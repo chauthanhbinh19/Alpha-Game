@@ -12,6 +12,7 @@ public class Equipments
     public string image { get; set; }
     public string rare { get; set; }
     public string type { get; set; }
+    public string set { get; set; }
     public int star { get; set; }
     public int sequence { get; set; }
     public int level { get; set; }
@@ -632,6 +633,37 @@ public class Equipments
             return Convert.ToInt32(result);
         }
         return 0; // Nếu bảng rỗng, trả về 0
+    }
+    public static List<String> GetEquipmentsSet(string type)
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select distinct (e.equipmentSet) 
+                from Equipments e 
+                where e.type= @type";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    typeList.Add(reader.GetString(0));
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return typeList;
     }
     public Equipments GetEquipmentById(int Id)
     {
@@ -1727,7 +1759,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_heroes_equipment che ON che.equipment_id = ue.equipment_id 
@@ -1749,6 +1781,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -1811,7 +1844,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_captains_equipment che ON che.equipment_id = ue.equipment_id 
@@ -1833,6 +1866,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -1895,7 +1929,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_colonels_equipment che ON che.equipment_id = ue.equipment_id 
@@ -1917,6 +1951,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -1979,7 +2014,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_generals_equipment che ON che.equipment_id = ue.equipment_id 
@@ -2001,6 +2036,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2063,7 +2099,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_admirals_equipment che ON che.equipment_id = ue.equipment_id 
@@ -2085,6 +2121,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2147,7 +2184,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_monsters_equipment che ON che.equipment_id = ue.equipment_id 
@@ -2169,6 +2206,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2231,7 +2269,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_military_equipment che ON che.equipment_id = ue.equipment_id 
@@ -2253,6 +2291,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2315,7 +2354,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_spell_equipment che ON che.equipment_id = ue.equipment_id 
@@ -2337,6 +2376,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2399,7 +2439,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_books_equipment che ON che.equipment_id = ue.equipment_id 
@@ -2421,6 +2461,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2483,7 +2524,7 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_pets_equipment che ON che.equipment_id = ue.equipment_id 
@@ -2505,6 +2546,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2557,7 +2599,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardHeroesEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllCardHeroesEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2566,16 +2608,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join card_heroes_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -2586,6 +2631,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2638,7 +2684,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardCaptainsEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllCardCaptainsEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2647,16 +2693,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join card_captains_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -2667,6 +2716,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2719,7 +2769,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardColonelsEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllCardColonelsEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2728,16 +2778,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join card_colonels_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -2748,6 +2801,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2800,7 +2854,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardGeneralsEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllCardGeneralsEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2809,16 +2863,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join card_generals_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -2829,6 +2886,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2881,7 +2939,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardAdmiralsEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllCardAdmiralsEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2890,16 +2948,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join card_admirals_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -2910,6 +2971,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -2962,7 +3024,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardMonstersEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllCardMonstersEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2971,16 +3033,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join card_monsters_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -2991,6 +3056,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -3043,7 +3109,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardMilitaryEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllCardMilitaryEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3052,16 +3118,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join card_military_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -3072,6 +3141,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -3124,7 +3194,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardSpellEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllCardSpellEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3133,16 +3203,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join card_spell_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -3153,6 +3226,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -3205,7 +3279,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllBooksEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllBooksEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3214,16 +3288,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join books_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -3234,6 +3311,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
@@ -3286,7 +3364,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllPetsEquipments(string type, int limit, int offset)
+    public List<Equipments> GetAllPetsEquipments(string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3295,16 +3373,19 @@ public class Equipments
             try
             {
                 connection.Open();
-                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
+                string query = @"select e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, case when che.equipment_id is null then 'NOT EQUIP' else 'EQUIP' END AS STATUS
                 from equipments e left join user_equipments ue on e.id = ue.equipment_id
                 left join pets_equipment che on che.equipment_id = ue.equipment_id and che.sequence = ue.sequence 
                 and che.user_id = ue.user_id
-                where ue.user_id = @user_id and e.type = @type limit @limit offset @offset";
+                where ue.user_id = @user_id and e.type = @type AND (@status = 'ALL' 
+         OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+         OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@status", status);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -3315,6 +3396,7 @@ public class Equipments
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
+                        set = reader.GetString("equipmentSet"),
                         star = reader.GetInt32("star"),
                         sequence = reader.GetInt32("sequence"),
                         power = reader.GetDouble("power"),
