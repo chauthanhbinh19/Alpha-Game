@@ -8,10 +8,12 @@ public class Power : MonoBehaviour
 {
     public static Power Instance { get; private set; }
     private GameObject PowerPrefab;
+    private GameObject powerObject;
     private Transform popupPanel;
     private double countDuration = 1;
     private VertexGradient greenGradient;
     private VertexGradient redGradient;
+    private Coroutine countCoroutine;
     private void Awake()
     {
         if (Instance == null)
@@ -49,7 +51,8 @@ public class Power : MonoBehaviour
     public void ShowPower(double currentPower, double nextPower, int status)
     {
         Canvas.ForceUpdateCanvases(); // Cập nhật Canvas ngay lập tức
-        GameObject powerObject = Instantiate(PowerPrefab, popupPanel);
+        // Destroy(powerObject);
+        powerObject = Instantiate(PowerPrefab, popupPanel);
         TextMeshProUGUI currentPowerText = powerObject.transform.Find("CurrentPowerText").GetComponent<TextMeshProUGUI>();
         currentPowerText.text = currentPower.ToString();
 
@@ -65,7 +68,7 @@ public class Power : MonoBehaviour
             nextPowerText.text = "-" + nextPower.ToString();
         }
 
-        StartCoroutine(CountTo(currentPower, nextPower, currentPowerText, status));
+        countCoroutine = StartCoroutine(CountTo(currentPower, nextPower, currentPowerText, status));
         StartCoroutine(HandlePowerDisplay(powerObject, nextPowerText, 2f)); // Hiển thị trong 1 giây
     }
     private IEnumerator HandlePowerDisplay(GameObject powerObject, TextMeshProUGUI nextPowerText, float duration)
@@ -77,7 +80,7 @@ public class Power : MonoBehaviour
         //     nextPowerText.gameObject.SetActive(false);
         // }
         // nextPowerText.gameObject.SetActive(false);
-        nextPowerText.text="";
+        nextPowerText.text = "";
 
         // Chờ thêm trước khi toàn bộ object biến mất
         yield return new WaitForSeconds(duration / 2);

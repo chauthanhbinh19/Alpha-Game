@@ -136,18 +136,20 @@ public class CardMonsters
         powerManager = powerManager.GetUserStats();
         foreach (var c in CardMonstersList)
         {
+            CardMonsters card = new CardMonsters();
+            card = card.GetUserCardMonstersById(c.id);
             c.all_power = powerManager.GetFinalCardMonstersPower(c);
-            c.all_health = c.all_health + powerManager.health + c.all_health * powerManager.percent_all_health/100;
-            c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100;
-            c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100;
-            c.all_magical_attack = c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100;
-            c.all_magical_defense = c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100;
-            c.all_chemical_attack = c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100;
-            c.all_chemical_defense = c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100;
-            c.all_atomic_attack = c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100;
-            c.all_atomic_defense = c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100;
-            c.all_mental_attack = c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100;
-            c.all_mental_defense = c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100;
+            c.all_health = c.all_health + powerManager.health + card.health * powerManager.percent_all_health / 100;
+            c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + card.physical_attack * powerManager.percent_all_physical_attack / 100;
+            c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + card.physical_defense * powerManager.percent_all_physical_defense / 100;
+            c.all_magical_attack = c.all_magical_attack + powerManager.magical_attack + card.magical_attack * powerManager.percent_all_magical_attack / 100;
+            c.all_magical_defense = c.all_magical_defense + powerManager.magical_defense + card.magical_defense * powerManager.percent_all_magical_defense / 100;
+            c.all_chemical_attack = c.all_chemical_attack + powerManager.chemical_attack + card.chemical_attack * powerManager.percent_all_chemical_attack / 100;
+            c.all_chemical_defense = c.all_chemical_defense + powerManager.chemical_defense + card.chemical_defense * powerManager.percent_all_chemical_defense / 100;
+            c.all_atomic_attack = c.all_atomic_attack + powerManager.atomic_attack + card.atomic_attack * powerManager.percent_all_atomic_attack / 100;
+            c.all_atomic_defense = c.all_atomic_defense + powerManager.atomic_defense + card.atomic_defense * powerManager.percent_all_atomic_defense / 100;
+            c.all_mental_attack = c.all_mental_attack + powerManager.mental_attack + card.mental_attack * powerManager.percent_all_mental_attack / 100;
+            c.all_mental_defense = c.all_mental_defense + powerManager.mental_defense + card.mental_defense * powerManager.percent_all_mental_defense / 100;
             c.all_speed = c.all_speed + powerManager.speed;
             c.all_critical_damage = c.all_critical_damage + powerManager.critical_damage;
             c.all_critical_rate = c.all_critical_rate + powerManager.critical_rate;
@@ -186,6 +188,60 @@ public class CardMonsters
             c.all_regenerate_vitality = c.all_regenerate_vitality + equipments.regenerate_vitality;
             c.all_accuracy = c.all_accuracy + equipments.accuracy;
             c.all_mana = c.all_mana + equipments.mana;
+
+            c.all_power = Math.Floor(0.5 * (
+            c.all_health +
+            c.all_physical_attack +
+            c.all_physical_defense +
+            c.all_magical_attack +
+            c.all_magical_defense +
+            c.all_chemical_attack +
+            c.all_chemical_defense +
+            c.all_atomic_attack +
+            c.all_atomic_defense +
+            c.all_mental_attack +
+            c.all_mental_defense +
+            c.all_speed +
+            c.all_critical_damage +
+            c.all_critical_rate +
+            c.all_armor_penetration +
+            c.all_avoid +
+            c.all_absorbs_damage +
+            c.all_regenerate_vitality +
+            c.all_accuracy +
+            c.all_mana)
+        );
+        }
+        return CardMonstersList;
+    }
+    public List<CardMonsters> GetAllRankPower(List<CardMonsters> CardMonstersList)
+    {
+        Rank rank = new Rank();
+        foreach (var c in CardMonstersList)
+        {
+            CardMonsters card = new CardMonsters();
+            card = card.GetUserCardMonstersById(c.id);
+            rank = rank.GetSumCardMonstersRank(c.id);
+            c.all_health = c.all_health + rank.health + card.health * rank.percent_all_health/100;
+            c.all_physical_attack = c.all_physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack/100;
+            c.all_physical_defense = c.all_physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense/100;
+            c.all_magical_attack = c.all_magical_attack + rank.magical_attack + card.magical_attack * rank.percent_all_magical_attack/100;
+            c.all_magical_defense = c.all_magical_defense + rank.magical_defense + card.magical_defense * rank.percent_all_magical_defense/100;
+            c.all_chemical_attack = c.all_chemical_attack + rank.chemical_attack + card.chemical_attack * rank.percent_all_chemical_attack/100;
+            c.all_chemical_defense = c.all_chemical_defense + rank.chemical_defense + card.chemical_defense * rank.percent_all_chemical_defense/100;
+            c.all_atomic_attack = c.all_atomic_attack + rank.atomic_attack + card.atomic_attack * rank.percent_all_atomic_attack/100;
+            c.all_atomic_defense = c.all_atomic_defense + rank.atomic_defense + card.atomic_defense * rank.percent_all_atomic_defense/100;
+            c.all_mental_attack = c.all_mental_attack + rank.mental_attack + card.mental_attack * rank.percent_all_mental_attack/100;
+            c.all_mental_defense = c.all_mental_defense + rank.mental_defense + card.mental_defense * rank.percent_all_mental_defense/100;
+            c.all_speed = c.all_speed + rank.speed;
+            c.all_critical_damage = c.all_critical_damage + rank.critical_damage;
+            c.all_critical_rate = c.all_critical_rate + rank.critical_rate;
+            c.all_armor_penetration = c.all_armor_penetration + rank.armor_penetration;
+            c.all_avoid = c.all_avoid + rank.avoid;
+            c.all_absorbs_damage = c.all_absorbs_damage + rank.absorbs_damage;
+            c.all_regenerate_vitality = c.all_regenerate_vitality + rank.regenerate_vitality;
+            c.all_accuracy = c.all_accuracy + rank.accuracy;
+            c.all_mana = c.all_mana + rank.mana;
 
             c.all_power = Math.Floor(0.5 * (
             c.all_health +
@@ -549,6 +605,7 @@ public class CardMonsters
                 }
                 CardMonstersList = GetFinalPower(CardMonstersList);
                 CardMonstersList = GetAllEquipmentPower(CardMonstersList);
+                CardMonstersList = GetAllRankPower(CardMonstersList);
             }
             catch (MySqlException ex)
             {
@@ -641,7 +698,9 @@ public class CardMonsters
 
                     CardMonstersList.Add(CardMonsters);
                 }
+                CardMonstersList = GetFinalPower(CardMonstersList);
                 CardMonstersList = GetAllEquipmentPower(CardMonstersList);
+                CardMonstersList = GetAllRankPower(CardMonstersList);
             }
             catch (MySqlException ex)
             {

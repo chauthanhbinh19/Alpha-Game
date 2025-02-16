@@ -747,7 +747,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -812,7 +812,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -908,7 +908,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -973,7 +973,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1069,7 +1069,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1134,7 +1134,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1230,7 +1230,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1295,7 +1295,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1391,7 +1391,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1456,7 +1456,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", rank.type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1552,7 +1552,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1617,7 +1617,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", rank.type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1713,7 +1713,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1778,7 +1778,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1874,7 +1874,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -1939,7 +1939,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -2035,7 +2035,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -2100,7 +2100,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -2196,7 +2196,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
-                            updateCmd.Parameters.AddWithValue("@rank_level", 1);
+                            updateCmd.Parameters.AddWithValue("@rank_level", rank.level);
                             updateCmd.Parameters.AddWithValue("@power", rank.power);
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -2261,7 +2261,7 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level);
+                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
@@ -2304,5 +2304,825 @@ public class Rank
                 Debug.LogError("Error: " + ex.Message);
             }
         }
+    }
+    public Rank GetSumCardHeroesRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_heroes_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumCardCaptainsRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_captains_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumCardColonelsRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_colonels_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumCardGeneralsRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_generals_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumCardAdmiralsRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_admirals_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumCardMonstersRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_monsters_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumCardMilitaryRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_military_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumCardSpellRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_spell_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumBooksRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_books_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
+    }
+    public Rank GetSumPetsRank(int card_id)
+    {
+        Rank rank = new Rank();
+        int user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS power, SUM(health) AS health,
+                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed, SUM(critical_damage) AS critical_damage,
+                SUM(critical_rate) AS critical_rate, SUM(armor_penetration) AS armor_penetration,
+                SUM(avoid) AS avoid, SUM(absorbs_damage) AS absorbs_damage,
+                SUM(regenerate_vitality) AS regenerate_vitality, SUM(accuracy) AS accuracy,
+                SUM(mana) AS mana, SUM(percent_all_health) AS percent_all_health,
+                SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                SUM(percent_all_chemical_attack) AS percent_all_chemical_attack, SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
+            FROM user_card_heroes_rank 
+            WHERE user_id = @user_id AND user_card_hero_id = @card_id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@card_id", card_id);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            rank.power = reader.GetDouble("power");
+                            rank.health = reader.GetDouble("health");
+                            rank.physical_attack = reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.GetDouble("mental_defense");
+                            rank.speed = reader.GetDouble("speed");
+                            rank.critical_damage = reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.GetDouble("accuracy");
+                            rank.mana = reader.GetFloat("mana");
+                            rank.percent_all_health = reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return rank;
     }
 }

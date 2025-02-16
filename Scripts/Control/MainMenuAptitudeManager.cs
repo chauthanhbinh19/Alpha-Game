@@ -226,6 +226,8 @@ public class MainMenuAptitudeManager : MonoBehaviour
         items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType, rank.level);
         SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 500;
@@ -236,7 +238,12 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
                 UpLevel(cardHeroes, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateCardHeroesEquipments(cardHeroes);
             }
@@ -245,14 +252,18 @@ public class MainMenuAptitudeManager : MonoBehaviour
         {
             int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
             int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
-
             if (items.quantity >= materialQuantity)
             {
                 items.quantity = items.quantity - materialQuantity;
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
                 UpLevel(cardHeroes, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateCardHeroesEquipments(cardHeroes);
             }
@@ -263,64 +274,468 @@ public class MainMenuAptitudeManager : MonoBehaviour
         Rank rank = new Rank();
         rank = rank.GetBooksRank(mainType, books.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(books, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateBooksEquipments(books);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(books, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateBooksEquipments(books);
+            }
+        });
     }
     public void CreateCardCaptainsEquipments(CardCaptains cardCaptains)
     {
         Rank rank = new Rank();
         rank = rank.GetCardCaptainsRank(mainType, cardCaptains.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardCaptains, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardCaptainsEquipments(cardCaptains);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardCaptains, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardCaptainsEquipments(cardCaptains);
+            }
+        });
     }
     public void CreatePetsEquipments(Pets pets)
     {
         Rank rank = new Rank();
         rank = rank.GetPetsRank(mainType, pets.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
-
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(pets, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreatePetsEquipments(pets);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(pets, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreatePetsEquipments(pets);
+            }
+        });
     }
     public void CreateCardMilitaryEquipments(CardMilitary cardMilitary)
     {
         Rank rank = new Rank();
         rank = rank.GetCardMilitaryRank(mainType, cardMilitary.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardMilitary, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardMilitaryEquipments(cardMilitary);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardMilitary, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardMilitaryEquipments(cardMilitary);
+            }
+        });
     }
     public void CreateCardSpellEquipments(CardSpell cardSpell)
     {
         Rank rank = new Rank();
         rank = rank.GetCardMonstersRank(mainType, cardSpell.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardSpell, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardSpellEquipments(cardSpell);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardSpell, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardSpellEquipments(cardSpell);
+            }
+        });
     }
     public void CreateCardMonstersEquipments(CardMonsters cardMonsters)
     {
         Rank rank = new Rank();
         rank = rank.GetCardMonstersRank(mainType, cardMonsters.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardMonsters, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardMonstersEquipments(cardMonsters);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardMonsters, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardMonstersEquipments(cardMonsters);
+            }
+        });
     }
     public void CreateCardColonelsEquipments(CardColonels cardColonels)
     {
         Rank rank = new Rank();
         rank = rank.GetCardColonelsRank(mainType, cardColonels.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardColonels, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardColonelsEquipments(cardColonels);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardColonels, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardColonelsEquipments(cardColonels);
+            }
+        });
     }
     public void CreateCardGeneralsEquipments(CardGenerals cardGenerals)
     {
         Rank rank = new Rank();
         rank = rank.GetCardGeneralsRank(mainType, cardGenerals.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardGenerals, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardGeneralsEquipments(cardGenerals);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardGenerals, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardGeneralsEquipments(cardGenerals);
+            }
+        });
     }
     public void CreateCardAdmiralsEquipments(CardAdmirals cardAdmirals)
     {
         Rank rank = new Rank();
         rank = rank.GetCardAdmiralsRank(mainType, cardAdmirals.id);
         slotObject = Instantiate(AptitudeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
         SetAptitudeUI(slotObject, mainType);
+        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 500;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardAdmirals, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardAdmiralsEquipments(cardAdmirals);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(cardAdmirals, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateCardAdmiralsEquipments(cardAdmirals);
+            }
+        });
     }
     public void InstantiateAptitudeUI(GameObject gameObject, string type)
     {
@@ -388,6 +803,8 @@ public class MainMenuAptitudeManager : MonoBehaviour
         int materialQuantity = (level == 0) ? 1 : (level % levelsPerSkill == 0 ? levelsPerSkill : level % levelsPerSkill);
         Transform OneLevelMaterial = currentObject.transform.Find("DictionaryCards/OneLevelMaterial");
         Transform MaxLevelMaterial = currentObject.transform.Find("DictionaryCards/MaxLevelMaterial");
+        Close(OneLevelMaterial);
+        Close(MaxLevelMaterial);
         GameObject oneLevelMaterialObject = Instantiate(ElementDetails2Prefab, OneLevelMaterial);
         GameObject maxLevelMaterialObject = Instantiate(ElementDetails2Prefab, MaxLevelMaterial);
 
@@ -573,6 +990,7 @@ public class MainMenuAptitudeManager : MonoBehaviour
             rank.regenerate_vitality = rank.regenerate_vitality + 1500000 * level;
             rank.accuracy = rank.accuracy + 0.1 * level;
         }
+        rank.level = rank.level + level;
         return rank;
     }
     public void UpLevel(object data, Rank rank, string type)

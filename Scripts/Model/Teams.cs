@@ -71,6 +71,8 @@ public class Teams
         List<CardAdmirals> CardAdmiralsList = new List<CardAdmirals>();
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         List<CardMilitary> CardMilitaryList = new List<CardMilitary>();
+        List<Books> BooksList = new List<Books>();
+        List<Pets> PetsList = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -579,6 +581,149 @@ public class Teams
                 CardMilitaryList.Add(military);
             }
             reader.Close();
+            userQuery = @"SELECT uc.*, c.*, fch.*
+                FROM user_books uc
+                LEFT JOIN books c ON uc.book_id = c.id 
+                LEFT JOIN fact_books fch ON fch.user_id = uc.user_id AND fch.user_book_id = uc.book_id
+                WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
+            command = new MySqlCommand(userQuery, connection);
+            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Books books1 = new Books
+                {
+                    id = reader.GetInt32("book_id"),
+                    name = reader.GetString("name"),
+                    image = reader.GetString("image"),
+                    rare = reader.GetString("rare"),
+                    type = reader.GetString("type"),
+                    star = reader.GetInt32("star"),
+                    level = reader.GetInt32("level"),
+                    experiment = reader.GetInt32("experiment"),
+                    quantity = reader.GetInt32("quantity"),
+                    block = reader.GetBoolean("block"),
+                    team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                    position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
+                    power = reader.GetDouble("power"),
+                    health = reader.GetDouble("health"),
+                    physical_attack = reader.GetDouble("physical_attack"),
+                    physical_defense = reader.GetDouble("physical_defense"),
+                    magical_attack = reader.GetDouble("magical_attack"),
+                    magical_defense = reader.GetDouble("magical_defense"),
+                    chemical_attack = reader.GetDouble("chemical_attack"),
+                    chemical_defense = reader.GetDouble("chemical_defense"),
+                    atomic_attack = reader.GetDouble("atomic_attack"),
+                    atomic_defense = reader.GetDouble("atomic_defense"),
+                    mental_attack = reader.GetDouble("mental_attack"),
+                    mental_defense = reader.GetDouble("mental_defense"),
+                    speed = reader.GetDouble("speed"),
+                    critical_damage = reader.GetDouble("critical_damage"),
+                    critical_rate = reader.GetDouble("critical_rate"),
+                    armor_penetration = reader.GetDouble("armor_penetration"),
+                    avoid = reader.GetDouble("avoid"),
+                    absorbs_damage = reader.GetDouble("absorbs_damage"),
+                    regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                    accuracy = reader.GetDouble("accuracy"),
+                    mana = reader.GetFloat("mana"),
+                    description = reader.GetString("description"),
+                    all_power = reader.GetDouble("all_power"),
+                    all_health = reader.GetDouble("all_health"),
+                    all_physical_attack = reader.GetDouble("all_physical_attack"),
+                    all_physical_defense = reader.GetDouble("all_physical_defense"),
+                    all_magical_attack = reader.GetDouble("all_magical_attack"),
+                    all_magical_defense = reader.GetDouble("all_magical_defense"),
+                    all_chemical_attack = reader.GetDouble("all_chemical_attack"),
+                    all_chemical_defense = reader.GetDouble("all_chemical_defense"),
+                    all_atomic_attack = reader.GetDouble("all_atomic_attack"),
+                    all_atomic_defense = reader.GetDouble("all_atomic_defense"),
+                    all_mental_attack = reader.GetDouble("all_mental_attack"),
+                    all_mental_defense = reader.GetDouble("all_mental_defense"),
+                    all_speed = reader.GetDouble("all_speed"),
+                    all_critical_damage = reader.GetDouble("all_critical_damage"),
+                    all_critical_rate = reader.GetDouble("all_critical_rate"),
+                    all_armor_penetration = reader.GetDouble("all_armor_penetration"),
+                    all_avoid = reader.GetDouble("all_avoid"),
+                    all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
+                    all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
+                    all_accuracy = reader.GetDouble("all_accuracy"),
+                    all_mana = reader.GetFloat("all_mana"),
+                };
+
+                BooksList.Add(books1);
+            }
+            reader.Close();
+            userQuery = @"SELECT uc.*, c.*, fch.*
+                FROM user_pets uc
+                LEFT JOIN pets c ON uc.pet_id = c.id 
+                LEFT JOIN fact_pets fch ON fch.user_id = uc.user_id AND fch.user_pet_id = uc.pet_id
+                WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
+            command = new MySqlCommand(userQuery, connection);
+            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Pets pets1 = new Pets
+                {
+                    id = reader.GetInt32("card_military_id"),
+                    name = reader.GetString("name"),
+                    image = reader.GetString("image"),
+                    rare = reader.GetString("rare"),
+                    type = reader.GetString("type"),
+                    star = reader.GetInt32("star"),
+                    level = reader.GetInt32("level"),
+                    experiment = reader.GetInt32("experiment"),
+                    quantity = reader.GetInt32("quantity"),
+                    team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                    position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
+                    power = reader.GetDouble("power"),
+                    health = reader.GetDouble("health"),
+                    physical_attack = reader.GetDouble("physical_attack"),
+                    physical_defense = reader.GetDouble("physical_defense"),
+                    magical_attack = reader.GetDouble("magical_attack"),
+                    magical_defense = reader.GetDouble("magical_defense"),
+                    chemical_attack = reader.GetDouble("chemical_attack"),
+                    chemical_defense = reader.GetDouble("chemical_defense"),
+                    atomic_attack = reader.GetDouble("atomic_attack"),
+                    atomic_defense = reader.GetDouble("atomic_defense"),
+                    mental_attack = reader.GetDouble("mental_attack"),
+                    mental_defense = reader.GetDouble("mental_defense"),
+                    speed = reader.GetDouble("speed"),
+                    critical_damage = reader.GetDouble("critical_damage"),
+                    critical_rate = reader.GetDouble("critical_rate"),
+                    armor_penetration = reader.GetDouble("armor_penetration"),
+                    avoid = reader.GetDouble("avoid"),
+                    absorbs_damage = reader.GetDouble("absorbs_damage"),
+                    regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                    accuracy = reader.GetDouble("accuracy"),
+                    mana = reader.GetFloat("mana"),
+                    description = reader.GetString("description"),
+                    all_power = reader.GetDouble("all_power"),
+                    all_health = reader.GetDouble("all_health"),
+                    all_physical_attack = reader.GetDouble("all_physical_attack"),
+                    all_physical_defense = reader.GetDouble("all_physical_defense"),
+                    all_magical_attack = reader.GetDouble("all_magical_attack"),
+                    all_magical_defense = reader.GetDouble("all_magical_defense"),
+                    all_chemical_attack = reader.GetDouble("all_chemical_attack"),
+                    all_chemical_defense = reader.GetDouble("all_chemical_defense"),
+                    all_atomic_attack = reader.GetDouble("all_atomic_attack"),
+                    all_atomic_defense = reader.GetDouble("all_atomic_defense"),
+                    all_mental_attack = reader.GetDouble("all_mental_attack"),
+                    all_mental_defense = reader.GetDouble("all_mental_defense"),
+                    all_speed = reader.GetDouble("all_speed"),
+                    all_critical_damage = reader.GetDouble("all_critical_damage"),
+                    all_critical_rate = reader.GetDouble("all_critical_rate"),
+                    all_armor_penetration = reader.GetDouble("all_armor_penetration"),
+                    all_avoid = reader.GetDouble("all_avoid"),
+                    all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
+                    all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
+                    all_accuracy = reader.GetDouble("all_accuracy"),
+                    all_mana = reader.GetFloat("all_mana"),
+                };
+
+                PetsList.Add(pets1);
+            }
+            reader.Close();
             userQuery = "select sum(all_power) as all_power from fact_card_spell fch, teams t where fch.user_id=@user_id and fch.team_id=t.team_id";
             command = new MySqlCommand(userQuery, connection);
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -591,29 +736,47 @@ public class Teams
             CardHeroes cardHeroes = new CardHeroes();
             CardHeroesList = cardHeroes.GetFinalPower(CardHeroesList);
             CardHeroesList = cardHeroes.GetAllEquipmentPower(CardHeroesList);
+            CardHeroesList = cardHeroes.GetAllRankPower(CardHeroesList);
 
             CardCaptains cardCaptains = new CardCaptains();
             CardCaptainsList = cardCaptains.GetFinalPower(CardCaptainsList);
             CardCaptainsList = cardCaptains.GetAllEquipmentPower(CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetAllRankPower(CardCaptainsList);
 
             CardColonels cardColonels = new CardColonels();
             CardColonelsList = cardColonels.GetFinalPower(CardColonelsList);
+            CardColonelsList = cardColonels.GetAllEquipmentPower(CardColonelsList);
+            CardColonelsList = cardColonels.GetAllRankPower(CardColonelsList);
 
             CardGenerals cardGenerals = new CardGenerals();
             CardGeneralsList = cardGenerals.GetFinalPower(CardGeneralsList);
-            CardColonelsList = cardColonels.GetAllEquipmentPower(CardColonelsList);
+            CardGeneralsList = cardGenerals.GetAllEquipmentPower(CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetAllRankPower(CardGeneralsList);
 
             CardAdmirals cardAdmirals = new CardAdmirals();
             CardAdmiralsList = cardAdmirals.GetFinalPower(CardAdmiralsList);
             CardAdmiralsList = cardAdmirals.GetAllEquipmentPower(CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetAllRankPower(CardAdmiralsList);
 
             CardMonsters cardMonsters = new CardMonsters();
             CardMonstersList = cardMonsters.GetFinalPower(CardMonstersList);
             CardMonstersList = cardMonsters.GetAllEquipmentPower(CardMonstersList);
+            CardMonstersList = cardMonsters.GetAllRankPower(CardMonstersList);
 
             CardMilitary cardMilitary = new CardMilitary();
             CardMilitaryList = cardMilitary.GetFinalPower(CardMilitaryList);
             CardMilitaryList = cardMilitary.GetAllEquipmentPower(CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetAllRankPower(CardMilitaryList);
+
+            Books books = new Books();
+            BooksList = books.GetFinalPower(BooksList);
+            BooksList = books.GetAllEquipmentPower(BooksList);
+            BooksList = books.GetAllRankPower(BooksList);
+
+            Pets pets = new Pets();
+            PetsList = pets.GetFinalPower(PetsList);
+            PetsList = pets.GetAllEquipmentPower(PetsList);
+            PetsList = pets.GetAllRankPower(PetsList);
 
             foreach(CardHeroes c in CardHeroesList){
                 totalPower = totalPower + c.all_power;
@@ -634,6 +797,12 @@ public class Teams
                 totalPower = totalPower + c.all_power;
             }
             foreach(CardMilitary c in CardMilitaryList){
+                totalPower = totalPower + c.all_power;
+            }
+            foreach(Books c in BooksList){
+                totalPower = totalPower + c.all_power;
+            }
+            foreach(Pets c in PetsList){
                 totalPower = totalPower + c.all_power;
             }
         }
