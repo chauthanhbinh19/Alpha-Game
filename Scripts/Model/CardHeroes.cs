@@ -1013,7 +1013,7 @@ public class CardHeroes
                     avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
                     accuracy = @accuracy, mana = @mana
                 WHERE 
-                    user_id = @user_id AND card_hero_id = @card_hero_id;;";
+                    user_id = @user_id AND card_hero_id = @card_hero_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@card_hero_id", cardHeroes.id);
@@ -1069,7 +1069,7 @@ public class CardHeroes
                     avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
                     accuracy = @accuracy, mana = @mana
                 WHERE 
-                    user_id = @user_id AND card_hero_id = @card_hero_id;;";
+                    user_id = @user_id AND card_hero_id = @card_hero_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@card_hero_id", cardHeroes.id);
@@ -1183,7 +1183,7 @@ public class CardHeroes
                     all_regenerate_vitality = @all_regenerate_vitality, 
                     all_accuracy = @all_accuracy, all_mana = @all_mana
                 WHERE 
-                    user_id = @user_id AND user_card_hero_id = @user_card_hero_id;;";
+                    user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.id);

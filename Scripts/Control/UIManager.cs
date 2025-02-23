@@ -78,6 +78,8 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuEquipmentPanelPrefab;
     public GameObject MainMenuAptitudePanelPrefab;
     public GameObject MainMenuUpgradePanelPrefab;
+    public GameObject MainMenuAffinityPanelPrefab;
+    public GameObject MainMenuBlessingPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject EquipmentsWearingPrefab;
     public GameObject Slot1Prefab;
@@ -89,6 +91,7 @@ public class UIManager : MonoBehaviour
     public GameObject Slot14Prefab;
     public GameObject Slot16Prefab;
     public GameObject AptitudeSlotPrefab;
+    public GameObject UpgradeSlotPrefab;
 
 
     [Header("Button")]
@@ -259,6 +262,10 @@ public class UIManager : MonoBehaviour
                 return MainMenuEquipmentPanelPrefab;
             case "MainMenuUpgradePanelPrefab":
                 return MainMenuUpgradePanelPrefab;
+            case "MainMenuAffinityPanelPrefab":
+                return MainMenuAffinityPanelPrefab;
+            case "MainMenuBlessingPanelPrefab":
+                return MainMenuBlessingPanelPrefab;
             case "PopupEquipmentsPanelPrefab":
                 return PopupEquipmentsPanelPrefab;
             case "EquipmentsWearingPrefab":
@@ -281,6 +288,8 @@ public class UIManager : MonoBehaviour
                 return Slot16Prefab;
             case "AptitudeSlotPrefab":
                 return AptitudeSlotPrefab;
+            case "UpgradeSlotPrefab":
+                return UpgradeSlotPrefab;
             case "TabButton5":
                 return TabButton5;
             default:

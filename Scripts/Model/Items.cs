@@ -89,6 +89,62 @@ public class Items
         {
             expPerBottle = 100000;
         }
+        else if (item.Equals("Affinity 1"))
+        {
+            expPerBottle = 100000;
+        }
+        else if (item.Equals("Affinity 2"))
+        {
+            expPerBottle = 100000;
+        }
+        else if (item.Equals("Affinity 3"))
+        {
+            expPerBottle = 100000;
+        }
+        else if (item.Equals("Affinity 4"))
+        {
+            expPerBottle = 100000;
+        }
+        else if (item.Equals("Affinity 5"))
+        {
+            expPerBottle = 100000;
+        }
+        else if (item.Equals("Affinity 6"))
+        {
+            expPerBottle = 100000;
+        }
+        else if (item.Equals("Affinity 7"))
+        {
+            expPerBottle = 100000;
+        }
+        else if (item.Equals("Affinity 8"))
+        {
+            expPerBottle = 50000;
+        }
+        else if (item.Equals("Affinity 9"))
+        {
+            expPerBottle = 50000;
+        }
+        else if (item.Equals("Affinity 10"))
+        {
+            expPerBottle = 10000;
+        }
+        else if (item.Equals("Affinity 11"))
+        {
+            expPerBottle = 10000;
+        }
+        else if (item.Equals("Affinity 12"))
+        {
+            expPerBottle = 10000;
+        }
+        else if (item.Equals("Affinity 13"))
+        {
+            expPerBottle = 1000;
+        }
+        else if (item.Equals("Affinity 14"))
+        {
+            expPerBottle = 1000;
+        }
         return expPerBottle;
     }
     public List<Items> GetItemForLevel(string type)
@@ -261,6 +317,34 @@ public class Items
                 break;
             default:
                 items.Add(item.GetUserItemByName("Breakthrough Token"));
+                break;
+        }
+        return items;
+    }
+    public List<Items> GetItemForRank(string type)
+    {
+        Items item = new Items();
+        List<Items> items = new List<Items>();
+        switch (type)
+        {
+            case "Affinity":
+                items.Add(item.GetUserItemByName("Affinity 1"));
+                items.Add(item.GetUserItemByName("Affinity 2"));
+                items.Add(item.GetUserItemByName("Affinity 3"));
+                items.Add(item.GetUserItemByName("Affinity 4"));
+                items.Add(item.GetUserItemByName("Affinity 5"));
+                items.Add(item.GetUserItemByName("Affinity 6"));
+                items.Add(item.GetUserItemByName("Affinity 7"));
+                items.Add(item.GetUserItemByName("Affinity 8"));
+                items.Add(item.GetUserItemByName("Affinity 9"));
+                items.Add(item.GetUserItemByName("Affinity 10"));
+                items.Add(item.GetUserItemByName("Affinity 11"));
+                items.Add(item.GetUserItemByName("Affinity 12"));
+                items.Add(item.GetUserItemByName("Affinity 13"));
+                items.Add(item.GetUserItemByName("Affinity 14"));
+                break;
+            default:
+                items.Add(item.GetUserItemByName("Affinity 1"));
                 break;
         }
         return items;

@@ -84,14 +84,29 @@ public class CardSpell
     public string description { get; set; }
     public string status { get; set; }
     public int team_id { get; set; }
+    public double all_health { get; set; }
+    public double all_physical_attack { get; set; }
+    public double all_physical_defense { get; set; }
+    public double all_magical_attack { get; set; }
+    public double all_magical_defense { get; set; }
+    public double all_chemical_attack { get; set; }
+    public double all_chemical_defense { get; set; }
+    public double all_atomic_attack { get; set; }
+    public double all_atomic_defense { get; set; }
+    public double all_mental_attack { get; set; }
+    public double all_mental_defense { get; set; }
+    public double all_speed { get; set; }
+    public double all_critical_damage { get; set; }
+    public double all_critical_rate { get; set; }
+    public double all_armor_penetration { get; set; }
+    public double all_avoid { get; set; }
+    public double all_absorbs_damage { get; set; }
+    public double all_regenerate_vitality { get; set; }
+    public double all_accuracy { get; set; }
+    public float all_mana { get; set; }
     public Currency currency { get; set; }
     public CardSpell()
     {
-        id = -1;
-        star = -1;
-        level = -1;
-        experiment = -1;
-        quantity = -1;
         power = -1;
         health = -1;
         physical_attack = -1;
@@ -112,7 +127,27 @@ public class CardSpell
         absorbs_damage = -1;
         regenerate_vitality = -1;
         accuracy = -1;
-        mana = -1;
+        all_power = -1;
+        all_health = -1;
+        all_physical_attack = -1;
+        all_physical_defense = -1;
+        all_magical_attack = -1;
+        all_magical_defense = -1;
+        all_chemical_attack = -1;
+        all_chemical_defense = -1;
+        all_atomic_attack = -1;
+        all_atomic_defense = -1;
+        all_mental_attack = -1;
+        all_mental_defense = -1;
+        all_speed = -1;
+        all_critical_damage = -1;
+        all_critical_rate = -1;
+        all_armor_penetration = -1;
+        all_avoid = -1;
+        all_absorbs_damage = -1;
+        all_regenerate_vitality = -1;
+        all_accuracy = -1;
+        team_id = -1;
         percent_all_health = -1;
         percent_all_physical_attack = -1;
         percent_all_physical_defense = -1;
@@ -124,195 +159,248 @@ public class CardSpell
         percent_all_atomic_defense = -1;
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
-        percent_all_speed = -1;
-        percent_all_critical_damage = -1;
-        percent_all_critical_rate = -1;
-        percent_all_armor_penetration = -1;
-        percent_all_avoid = -1;
-        percent_all_absorbs_damage = -1;
-        percent_all_regenerate_vitality = -1;
-        percent_all_accuracy = -1;
-        percent_all_mana = -1;
-        all_power = -1;
-        all_percent_health = -1;
-        all_percent_physical_attack = -1;
-        all_percent_physical_defense = -1;
-        all_percent_magical_attack = -1;
-        all_percent_magical_defense = -1;
-        all_percent_chemical_attack = -1;
-        all_percent_chemical_defense = -1;
-        all_percent_atomic_attack = -1;
-        all_percent_atomic_defense = -1;
-        all_percent_mental_attack = -1;
-        all_percent_mental_defense = -1;
-        all_percent_speed = -1;
-        all_percent_critical_damage = -1;
-        all_percent_critical_rate = -1;
-        all_percent_armor_penetration = -1;
-        all_percent_avoid = -1;
-        all_percent_absorbs_damage = -1;
-        all_percent_regenerate_vitality = -1;
-        all_percent_accuracy = -1;
-        all_percent_mana = -1;
-        team_id = -1;
     }
-    // public List<CardSpell> GetAllEquipmentPower(List<CardSpell> CardSpellList)
-    // {
-    //     Equipments equipments = new Equipments();
-    //     foreach (var c in CardSpellList)
-    //     {
-    //         equipments = equipments.GetAllEquipmentsByCardSpellId(c.id);
-    //         c.all_health = c.all_health + equipments.health + equipments.special_health;
-    //         c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
-    //         c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
-    //         c.all_magical_attack = c.all_magical_attack + equipments.magical_attack + equipments.special_magical_attack;
-    //         c.all_magical_defense = c.all_magical_defense + equipments.magical_defense + equipments.special_magical_defense;
-    //         c.all_chemical_attack = c.all_chemical_attack + equipments.chemical_attack + equipments.special_chemical_attack;
-    //         c.all_chemical_defense = c.all_chemical_defense + equipments.chemical_defense + equipments.special_chemical_defense;
-    //         c.all_atomic_attack = c.all_atomic_attack + equipments.atomic_attack + equipments.special_atomic_attack;
-    //         c.all_atomic_defense = c.all_atomic_defense + equipments.atomic_defense + equipments.special_atomic_defense;
-    //         c.all_mental_attack = c.all_mental_attack + equipments.mental_attack + equipments.special_mental_attack;
-    //         c.all_mental_defense = c.all_mental_defense + equipments.mental_defense + equipments.special_mental_defense;
-    //         c.all_speed = c.all_speed + equipments.speed;
-    //         c.all_critical_damage = c.all_critical_damage + equipments.critical_damage;
-    //         c.all_critical_rate = c.all_critical_rate + equipments.critical_rate;
-    //         c.all_armor_penetration = c.all_armor_penetration + equipments.armor_penetration;
-    //         c.all_avoid = c.all_avoid + equipments.avoid;
-    //         c.all_absorbs_damage = c.all_absorbs_damage + equipments.absorbs_damage;
-    //         c.all_regenerate_vitality = c.all_regenerate_vitality + equipments.regenerate_vitality;
-    //         c.all_accuracy = c.all_accuracy + equipments.accuracy;
-    //         c.all_mana = c.all_mana + equipments.mana;
+    public List<CardSpell> GetFinalPower(List<CardSpell> CardSpellList)
+    {
+        PowerManager powerManager = new PowerManager();
+        powerManager = powerManager.GetUserStats();
+        foreach (var c in CardSpellList)
+        {
+            CardSpell card = new CardSpell();
+            card = card.GetUserCardSpellById(c.id);
+            c.all_power = powerManager.GetFinalCardSpellPower(c);
+            c.all_health = c.all_health + powerManager.health + card.health * powerManager.percent_all_health / 100;
+            c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + card.physical_attack * powerManager.percent_all_physical_attack / 100;
+            c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + card.physical_defense * powerManager.percent_all_physical_defense / 100;
+            c.all_magical_attack = c.all_magical_attack + powerManager.magical_attack + card.magical_attack * powerManager.percent_all_magical_attack / 100;
+            c.all_magical_defense = c.all_magical_defense + powerManager.magical_defense + card.magical_defense * powerManager.percent_all_magical_defense / 100;
+            c.all_chemical_attack = c.all_chemical_attack + powerManager.chemical_attack + card.chemical_attack * powerManager.percent_all_chemical_attack / 100;
+            c.all_chemical_defense = c.all_chemical_defense + powerManager.chemical_defense + card.chemical_defense * powerManager.percent_all_chemical_defense / 100;
+            c.all_atomic_attack = c.all_atomic_attack + powerManager.atomic_attack + card.atomic_attack * powerManager.percent_all_atomic_attack / 100;
+            c.all_atomic_defense = c.all_atomic_defense + powerManager.atomic_defense + card.atomic_defense * powerManager.percent_all_atomic_defense / 100;
+            c.all_mental_attack = c.all_mental_attack + powerManager.mental_attack + card.mental_attack * powerManager.percent_all_mental_attack / 100;
+            c.all_mental_defense = c.all_mental_defense + powerManager.mental_defense + card.mental_defense * powerManager.percent_all_mental_defense / 100;
+            c.all_speed = c.all_speed + powerManager.speed;
+            c.all_critical_damage = c.all_critical_damage + powerManager.critical_damage;
+            c.all_critical_rate = c.all_critical_rate + powerManager.critical_rate;
+            c.all_armor_penetration = c.all_armor_penetration + powerManager.armor_penetration;
+            c.all_avoid = c.all_avoid + powerManager.avoid;
+            c.all_absorbs_damage = c.all_absorbs_damage + powerManager.absorbs_damage;
+            c.all_regenerate_vitality = c.all_regenerate_vitality + powerManager.regenerate_vitality;
+            c.all_accuracy = c.all_accuracy + powerManager.accuracy;
+            c.all_mana = c.all_mana + powerManager.mana;
+        }
+        return CardSpellList;
+    }
+    public List<CardSpell> GetAllEquipmentPower(List<CardSpell> CardSpellList)
+    {
+        Equipments equipments = new Equipments();
+        foreach (var c in CardSpellList)
+        {
+            equipments = equipments.GetAllEquipmentsByCardSpellId(c.id);
+            c.all_health = c.all_health + equipments.health + equipments.special_health;
+            c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
+            c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
+            c.all_magical_attack = c.all_magical_attack + equipments.magical_attack + equipments.special_magical_attack;
+            c.all_magical_defense = c.all_magical_defense + equipments.magical_defense + equipments.special_magical_defense;
+            c.all_chemical_attack = c.all_chemical_attack + equipments.chemical_attack + equipments.special_chemical_attack;
+            c.all_chemical_defense = c.all_chemical_defense + equipments.chemical_defense + equipments.special_chemical_defense;
+            c.all_atomic_attack = c.all_atomic_attack + equipments.atomic_attack + equipments.special_atomic_attack;
+            c.all_atomic_defense = c.all_atomic_defense + equipments.atomic_defense + equipments.special_atomic_defense;
+            c.all_mental_attack = c.all_mental_attack + equipments.mental_attack + equipments.special_mental_attack;
+            c.all_mental_defense = c.all_mental_defense + equipments.mental_defense + equipments.special_mental_defense;
+            c.all_speed = c.all_speed + equipments.speed;
+            c.all_critical_damage = c.all_critical_damage + equipments.critical_damage;
+            c.all_critical_rate = c.all_critical_rate + equipments.critical_rate;
+            c.all_armor_penetration = c.all_armor_penetration + equipments.armor_penetration;
+            c.all_avoid = c.all_avoid + equipments.avoid;
+            c.all_absorbs_damage = c.all_absorbs_damage + equipments.absorbs_damage;
+            c.all_regenerate_vitality = c.all_regenerate_vitality + equipments.regenerate_vitality;
+            c.all_accuracy = c.all_accuracy + equipments.accuracy;
+            c.all_mana = c.all_mana + equipments.mana;
 
-    //         c.power = 0.5 * (
-    //         c.health +
-    //         c.physical_attack +
-    //         c.physical_defense +
-    //         c.magical_attack +
-    //         c.magical_defense +
-    //         c.chemical_attack +
-    //         c.chemical_defense +
-    //         c.atomic_attack +
-    //         c.atomic_defense +
-    //         c.mental_attack +
-    //         c.mental_defense +
-    //         c.speed +
-    //         c.critical_damage +
-    //         c.critical_rate +
-    //         c.armor_penetration +
-    //         c.avoid +
-    //         c.absorbs_damage +
-    //         c.regenerate_vitality +
-    //         c.accuracy +
-    //         c.mana
-    //     );
-    //     }
-    //     return CardSpellList;
-    // }
+            c.all_power = Math.Floor(0.5 * (
+            c.all_health +
+            c.all_physical_attack +
+            c.all_physical_defense +
+            c.all_magical_attack +
+            c.all_magical_defense +
+            c.all_chemical_attack +
+            c.all_chemical_defense +
+            c.all_atomic_attack +
+            c.all_atomic_defense +
+            c.all_mental_attack +
+            c.all_mental_defense +
+            c.all_speed +
+            c.all_critical_damage +
+            c.all_critical_rate +
+            c.all_armor_penetration +
+            c.all_avoid +
+            c.all_absorbs_damage +
+            c.all_regenerate_vitality +
+            c.all_accuracy +
+            c.all_mana)
+        );
+        }
+        return CardSpellList;
+    }
+    public List<CardSpell> GetAllRankPower(List<CardSpell> CardSpellList)
+    {
+        Rank rank = new Rank();
+        foreach (var c in CardSpellList)
+        {
+            CardSpell card = new CardSpell();
+            card = card.GetUserCardSpellById(c.id);
+            rank = rank.GetSumCardSpellRank(c.id);
+            c.all_health = c.all_health + rank.health + card.health * rank.percent_all_health/100;
+            c.all_physical_attack = c.all_physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack/100;
+            c.all_physical_defense = c.all_physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense/100;
+            c.all_magical_attack = c.all_magical_attack + rank.magical_attack + card.magical_attack * rank.percent_all_magical_attack/100;
+            c.all_magical_defense = c.all_magical_defense + rank.magical_defense + card.magical_defense * rank.percent_all_magical_defense/100;
+            c.all_chemical_attack = c.all_chemical_attack + rank.chemical_attack + card.chemical_attack * rank.percent_all_chemical_attack/100;
+            c.all_chemical_defense = c.all_chemical_defense + rank.chemical_defense + card.chemical_defense * rank.percent_all_chemical_defense/100;
+            c.all_atomic_attack = c.all_atomic_attack + rank.atomic_attack + card.atomic_attack * rank.percent_all_atomic_attack/100;
+            c.all_atomic_defense = c.all_atomic_defense + rank.atomic_defense + card.atomic_defense * rank.percent_all_atomic_defense/100;
+            c.all_mental_attack = c.all_mental_attack + rank.mental_attack + card.mental_attack * rank.percent_all_mental_attack/100;
+            c.all_mental_defense = c.all_mental_defense + rank.mental_defense + card.mental_defense * rank.percent_all_mental_defense/100;
+            c.all_speed = c.all_speed + rank.speed;
+            c.all_critical_damage = c.all_critical_damage + rank.critical_damage;
+            c.all_critical_rate = c.all_critical_rate + rank.critical_rate;
+            c.all_armor_penetration = c.all_armor_penetration + rank.armor_penetration;
+            c.all_avoid = c.all_avoid + rank.avoid;
+            c.all_absorbs_damage = c.all_absorbs_damage + rank.absorbs_damage;
+            c.all_regenerate_vitality = c.all_regenerate_vitality + rank.regenerate_vitality;
+            c.all_accuracy = c.all_accuracy + rank.accuracy;
+            c.all_mana = c.all_mana + rank.mana;
+
+            c.all_power = Math.Floor(0.5 * (
+            c.all_health +
+            c.all_physical_attack +
+            c.all_physical_defense +
+            c.all_magical_attack +
+            c.all_magical_defense +
+            c.all_chemical_attack +
+            c.all_chemical_defense +
+            c.all_atomic_attack +
+            c.all_atomic_defense +
+            c.all_mental_attack +
+            c.all_mental_defense +
+            c.all_speed +
+            c.all_critical_damage +
+            c.all_critical_rate +
+            c.all_armor_penetration +
+            c.all_avoid +
+            c.all_absorbs_damage +
+            c.all_regenerate_vitality +
+            c.all_accuracy +
+            c.all_mana)
+        );
+        }
+        return CardSpellList;
+    }
     public CardSpell GetNewLevelPower(CardSpell c, double coefficient)
     {
-        coefficient = coefficient * 0.001;
         CardSpell orginCard = new CardSpell();
         orginCard = orginCard.GetCardSpellById(c.id);
-        CardSpell cardHeroes = new CardSpell
+        CardSpell cardSpell = new CardSpell
         {
             id = c.id,
-            percent_all_health = c.percent_all_health + orginCard.percent_all_health * coefficient,
-            percent_all_physical_attack = c.percent_all_physical_attack + orginCard.percent_all_physical_attack * coefficient,
-            percent_all_physical_defense = c.percent_all_physical_defense + orginCard.percent_all_physical_defense * coefficient,
-            percent_all_magical_attack = c.percent_all_magical_attack + orginCard.percent_all_magical_attack * coefficient,
-            percent_all_magical_defense = c.percent_all_magical_defense + orginCard.percent_all_magical_defense * coefficient,
-            percent_all_chemical_attack = c.percent_all_chemical_attack + orginCard.percent_all_chemical_attack * coefficient,
-            percent_all_chemical_defense = c.percent_all_chemical_defense + orginCard.percent_all_chemical_defense * coefficient,
-            percent_all_atomic_attack = c.percent_all_atomic_attack + orginCard.percent_all_atomic_attack * coefficient,
-            percent_all_atomic_defense = c.percent_all_atomic_defense + orginCard.percent_all_atomic_defense * coefficient,
-            percent_all_mental_attack = c.percent_all_mental_attack + orginCard.percent_all_mental_attack * coefficient,
-            percent_all_mental_defense = c.percent_all_mental_defense + orginCard.percent_all_mental_defense * coefficient,
-            percent_all_speed = c.percent_all_speed + orginCard.percent_all_speed * coefficient,
-            percent_all_critical_damage = c.percent_all_critical_damage + orginCard.percent_all_critical_damage * coefficient,
-            percent_all_critical_rate = c.percent_all_critical_rate + orginCard.percent_all_critical_rate * coefficient,
-            percent_all_armor_penetration = c.percent_all_armor_penetration + orginCard.percent_all_armor_penetration * coefficient,
-            percent_all_avoid = c.percent_all_avoid + orginCard.percent_all_avoid * coefficient,
-            percent_all_absorbs_damage = c.percent_all_absorbs_damage + orginCard.percent_all_absorbs_damage * coefficient,
-            percent_all_regenerate_vitality = c.percent_all_regenerate_vitality + orginCard.percent_all_regenerate_vitality * coefficient,
-            percent_all_accuracy = c.percent_all_accuracy + orginCard.percent_all_accuracy * coefficient,
-            percent_all_mana = c.mana + orginCard.mana * (float)coefficient
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
         };
-        cardHeroes.power = 0.5 * (
-            cardHeroes.percent_all_health +
-            cardHeroes.percent_all_physical_attack +
-            cardHeroes.percent_all_physical_defense +
-            cardHeroes.percent_all_magical_attack +
-            cardHeroes.percent_all_magical_defense +
-            cardHeroes.percent_all_chemical_attack +
-            cardHeroes.percent_all_chemical_defense +
-            cardHeroes.percent_all_atomic_attack +
-            cardHeroes.percent_all_atomic_defense +
-            cardHeroes.percent_all_mental_attack +
-            cardHeroes.percent_all_mental_defense +
-            cardHeroes.percent_all_speed +
-            cardHeroes.percent_all_critical_damage +
-            cardHeroes.percent_all_critical_rate +
-            cardHeroes.percent_all_armor_penetration +
-            cardHeroes.percent_all_avoid +
-            cardHeroes.percent_all_absorbs_damage +
-            cardHeroes.percent_all_regenerate_vitality +
-            cardHeroes.percent_all_accuracy +
-            cardHeroes.percent_all_mana
+        cardSpell.power = 0.5 * (
+            cardSpell.health +
+            cardSpell.physical_attack +
+            cardSpell.physical_defense +
+            cardSpell.magical_attack +
+            cardSpell.magical_defense +
+            cardSpell.chemical_attack +
+            cardSpell.chemical_defense +
+            cardSpell.atomic_attack +
+            cardSpell.atomic_defense +
+            cardSpell.mental_attack +
+            cardSpell.mental_defense +
+            cardSpell.speed +
+            cardSpell.critical_damage +
+            cardSpell.critical_rate +
+            cardSpell.armor_penetration +
+            cardSpell.avoid +
+            cardSpell.absorbs_damage +
+            cardSpell.regenerate_vitality +
+            cardSpell.accuracy +
+            cardSpell.mana
         );
-        return cardHeroes;
+        return cardSpell;
     }
     public CardSpell GetNewBreakthroughPower(CardSpell c, double coefficient)
     {
-        coefficient = coefficient * 0.001;
         CardSpell orginCard = new CardSpell();
         orginCard = orginCard.GetCardSpellById(c.id);
-        CardSpell cardHeroes = new CardSpell
+        CardSpell cardSpell = new CardSpell
         {
             id = c.id,
-            percent_all_health = c.percent_all_health + orginCard.percent_all_health * coefficient,
-            percent_all_physical_attack = c.percent_all_physical_attack + orginCard.percent_all_physical_attack * coefficient,
-            percent_all_physical_defense = c.percent_all_physical_defense + orginCard.percent_all_physical_defense * coefficient,
-            percent_all_magical_attack = c.percent_all_magical_attack + orginCard.percent_all_magical_attack * coefficient,
-            percent_all_magical_defense = c.percent_all_magical_defense + orginCard.percent_all_magical_defense * coefficient,
-            percent_all_chemical_attack = c.percent_all_chemical_attack + orginCard.percent_all_chemical_attack * coefficient,
-            percent_all_chemical_defense = c.percent_all_chemical_defense + orginCard.percent_all_chemical_defense * coefficient,
-            percent_all_atomic_attack = c.percent_all_atomic_attack + orginCard.percent_all_atomic_attack * coefficient,
-            percent_all_atomic_defense = c.percent_all_atomic_defense + orginCard.percent_all_atomic_defense * coefficient,
-            percent_all_mental_attack = c.percent_all_mental_attack + orginCard.percent_all_mental_attack * coefficient,
-            percent_all_mental_defense = c.percent_all_mental_defense + orginCard.percent_all_mental_defense * coefficient,
-            percent_all_speed = c.percent_all_speed + orginCard.percent_all_speed * coefficient,
-            percent_all_critical_damage = c.percent_all_critical_damage + orginCard.percent_all_critical_damage * coefficient,
-            percent_all_critical_rate = c.percent_all_critical_rate + orginCard.percent_all_critical_rate * coefficient,
-            percent_all_armor_penetration = c.percent_all_armor_penetration + orginCard.percent_all_armor_penetration * coefficient,
-            percent_all_avoid = c.percent_all_avoid + orginCard.percent_all_avoid * coefficient,
-            percent_all_absorbs_damage = c.percent_all_absorbs_damage + orginCard.percent_all_absorbs_damage * coefficient,
-            percent_all_regenerate_vitality = c.percent_all_regenerate_vitality + orginCard.percent_all_regenerate_vitality * coefficient,
-            percent_all_accuracy = c.percent_all_accuracy + orginCard.percent_all_accuracy * coefficient,
-            percent_all_mana = c.mana + orginCard.mana * (float)coefficient
+            health = c.health + orginCard.health * coefficient,
+            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
+            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
+            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
+            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
+            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
+            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
+            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
+            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
+            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
+            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
+            speed = c.speed + orginCard.speed * coefficient,
+            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
+            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
+            avoid = c.avoid + orginCard.avoid * coefficient,
+            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
+            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
+            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient
         };
-        cardHeroes.power = 0.5 * (
-            cardHeroes.percent_all_health +
-            cardHeroes.percent_all_physical_attack +
-            cardHeroes.percent_all_physical_defense +
-            cardHeroes.percent_all_magical_attack +
-            cardHeroes.percent_all_magical_defense +
-            cardHeroes.percent_all_chemical_attack +
-            cardHeroes.percent_all_chemical_defense +
-            cardHeroes.percent_all_atomic_attack +
-            cardHeroes.percent_all_atomic_defense +
-            cardHeroes.percent_all_mental_attack +
-            cardHeroes.percent_all_mental_defense +
-            cardHeroes.percent_all_speed +
-            cardHeroes.percent_all_critical_damage +
-            cardHeroes.percent_all_critical_rate +
-            cardHeroes.percent_all_armor_penetration +
-            cardHeroes.percent_all_avoid +
-            cardHeroes.percent_all_absorbs_damage +
-            cardHeroes.percent_all_regenerate_vitality +
-            cardHeroes.percent_all_accuracy +
-            cardHeroes.percent_all_mana
+        cardSpell.power = 0.5 * (
+            cardSpell.health +
+            cardSpell.physical_attack +
+            cardSpell.physical_defense +
+            cardSpell.magical_attack +
+            cardSpell.magical_defense +
+            cardSpell.chemical_attack +
+            cardSpell.chemical_defense +
+            cardSpell.atomic_attack +
+            cardSpell.atomic_defense +
+            cardSpell.mental_attack +
+            cardSpell.mental_defense +
+            cardSpell.speed +
+            cardSpell.critical_damage +
+            cardSpell.critical_rate +
+            cardSpell.armor_penetration +
+            cardSpell.avoid +
+            cardSpell.absorbs_damage +
+            cardSpell.regenerate_vitality +
+            cardSpell.accuracy +
+            cardSpell.mana
         );
-        return cardHeroes;
+        return cardSpell;
     }
     public static List<string> GetUniqueCardSpellTypes()
     {
@@ -359,26 +447,26 @@ public class CardSpell
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        percent_all_speed = reader.GetDouble("percent_all_speed"),
-                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
-                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
-                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
-                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
-                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
-                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
-                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
-                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
 
@@ -446,26 +534,26 @@ public class CardSpell
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        percent_all_speed = reader.GetDouble("percent_all_speed"),
-                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
-                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
-                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
-                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
-                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
-                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
-                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
-                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
                         description = reader.GetString("description"),
                         status = reader.GetString("status"),
                     };
@@ -521,52 +609,55 @@ public class CardSpell
                         team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
                         position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
                         power = reader.GetDouble("power"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        percent_all_speed = reader.GetDouble("percent_all_speed"),
-                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
-                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
-                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
-                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
-                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
-                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
-                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
-                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
                         description = reader.GetString("description"),
                         all_power = reader.GetDouble("all_power"),
-                        all_percent_health = reader.GetDouble("percent_all_health"),
-                        all_percent_physical_attack = reader.GetDouble("all_percent_physical_attack"),
-                        all_percent_physical_defense = reader.GetDouble("all_percent_physical_defense"),
-                        all_percent_magical_attack = reader.GetDouble("all_percent_magical_attack"),
-                        all_percent_magical_defense = reader.GetDouble("all_percent_magical_defense"),
-                        all_percent_chemical_attack = reader.GetDouble("all_percent_chemical_attack"),
-                        all_percent_chemical_defense = reader.GetDouble("all_percent_chemical_defense"),
-                        all_percent_atomic_attack = reader.GetDouble("all_percent_atomic_attack"),
-                        all_percent_atomic_defense = reader.GetDouble("all_percent_atomic_defense"),
-                        all_percent_mental_attack = reader.GetDouble("all_percent_mental_attack"),
-                        all_percent_mental_defense = reader.GetDouble("all_percent_mental_defense"),
-                        all_percent_speed = reader.GetDouble("all_percent_speed"),
-                        all_percent_critical_damage = reader.GetDouble("all_percent_critical_damage"),
-                        all_percent_critical_rate = reader.GetDouble("all_percent_critical_rate"),
-                        all_percent_armor_penetration = reader.GetDouble("all_percent_armor_penetration"),
-                        all_percent_avoid = reader.GetDouble("all_percent_avoid"),
-                        all_percent_absorbs_damage = reader.GetDouble("all_percent_absorbs_damage"),
-                        all_percent_regenerate_vitality = reader.GetDouble("all_percent_regenerate_vitality"),
-                        all_percent_accuracy = reader.GetDouble("all_percent_accuracy"),
-                        all_percent_mana = reader.GetFloat("all_percent_mana"),
+                        all_health = reader.GetDouble("all_health"),
+                        all_physical_attack = reader.GetDouble("all_physical_attack"),
+                        all_physical_defense = reader.GetDouble("all_physical_defense"),
+                        all_magical_attack = reader.GetDouble("all_magical_attack"),
+                        all_magical_defense = reader.GetDouble("all_magical_defense"),
+                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
+                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
+                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
+                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
+                        all_mental_attack = reader.GetDouble("all_mental_attack"),
+                        all_mental_defense = reader.GetDouble("all_mental_defense"),
+                        all_speed = reader.GetDouble("all_speed"),
+                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_rate = reader.GetDouble("all_critical_rate"),
+                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
+                        all_avoid = reader.GetDouble("all_avoid"),
+                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
+                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
+                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_mana = reader.GetFloat("all_mana"),
                     };
 
                     CardSpellList.Add(CardSpell);
                 }
+                CardSpellList = GetFinalPower(CardSpellList);
+                CardSpellList = GetAllEquipmentPower(CardSpellList);
+                CardSpellList = GetAllRankPower(CardSpellList);
             }
             catch (MySqlException ex)
             {
@@ -613,52 +704,55 @@ public class CardSpell
                         team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
                         position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
                         power = reader.GetDouble("power"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        percent_all_speed = reader.GetDouble("percent_all_speed"),
-                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
-                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
-                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
-                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
-                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
-                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
-                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
-                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
                         description = reader.GetString("description"),
                         all_power = reader.GetDouble("all_power"),
-                        all_percent_health = reader.GetDouble("percent_all_health"),
-                        all_percent_physical_attack = reader.GetDouble("all_percent_physical_attack"),
-                        all_percent_physical_defense = reader.GetDouble("all_percent_physical_defense"),
-                        all_percent_magical_attack = reader.GetDouble("all_percent_magical_attack"),
-                        all_percent_magical_defense = reader.GetDouble("all_percent_magical_defense"),
-                        all_percent_chemical_attack = reader.GetDouble("all_percent_chemical_attack"),
-                        all_percent_chemical_defense = reader.GetDouble("all_percent_chemical_defense"),
-                        all_percent_atomic_attack = reader.GetDouble("all_percent_atomic_attack"),
-                        all_percent_atomic_defense = reader.GetDouble("all_percent_atomic_defense"),
-                        all_percent_mental_attack = reader.GetDouble("all_percent_mental_attack"),
-                        all_percent_mental_defense = reader.GetDouble("all_percent_mental_defense"),
-                        all_percent_speed = reader.GetDouble("all_percent_speed"),
-                        all_percent_critical_damage = reader.GetDouble("all_percent_critical_damage"),
-                        all_percent_critical_rate = reader.GetDouble("all_percent_critical_rate"),
-                        all_percent_armor_penetration = reader.GetDouble("all_percent_armor_penetration"),
-                        all_percent_avoid = reader.GetDouble("all_percent_avoid"),
-                        all_percent_absorbs_damage = reader.GetDouble("all_percent_absorbs_damage"),
-                        all_percent_regenerate_vitality = reader.GetDouble("all_percent_regenerate_vitality"),
-                        all_percent_accuracy = reader.GetDouble("all_percent_accuracy"),
-                        all_percent_mana = reader.GetFloat("all_percent_mana"),
+                        all_health = reader.GetDouble("all_health"),
+                        all_physical_attack = reader.GetDouble("all_physical_attack"),
+                        all_physical_defense = reader.GetDouble("all_physical_defense"),
+                        all_magical_attack = reader.GetDouble("all_magical_attack"),
+                        all_magical_defense = reader.GetDouble("all_magical_defense"),
+                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
+                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
+                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
+                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
+                        all_mental_attack = reader.GetDouble("all_mental_attack"),
+                        all_mental_defense = reader.GetDouble("all_mental_defense"),
+                        all_speed = reader.GetDouble("all_speed"),
+                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_rate = reader.GetDouble("all_critical_rate"),
+                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
+                        all_avoid = reader.GetDouble("all_avoid"),
+                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
+                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
+                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_mana = reader.GetFloat("all_mana"),
                     };
 
                     CardSpellList.Add(CardSpell);
                 }
+                CardSpellList = GetFinalPower(CardSpellList);
+                CardSpellList = GetAllEquipmentPower(CardSpellList);
+                CardSpellList = GetAllRankPower(CardSpellList);
             }
             catch (MySqlException ex)
             {
@@ -772,26 +866,26 @@ public class CardSpell
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        percent_all_speed = reader.GetDouble("percent_all_speed"),
-                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
-                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
-                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
-                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
-                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
-                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
-                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
-                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
 
@@ -830,26 +924,26 @@ public class CardSpell
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        percent_all_speed = reader.GetDouble("percent_all_speed"),
-                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
-                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
-                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
-                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
-                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
-                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
-                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
-                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
 
@@ -887,24 +981,16 @@ public class CardSpell
                 {
                     string query = @"
                     INSERT INTO user_card_spell (
-                        user_id, card_spell_id, level, experiment, star, block, quantity, power,
-                        percent_all_health, percent_all_physical_attack, percent_all_physical_defense,
-                        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack,
-                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense,
-                        percent_all_mental_attack, percent_all_mental_defense, percent_all_speed,
-                        percent_all_critical_damage, percent_all_critical_rate, percent_all_armor_penetration,
-                        percent_all_avoid, percent_all_absorbs_damage, percent_all_regenerate_vitality,
-                        percent_all_accuracy, percent_all_mana
-                    ) VALUES (
-                        @user_id, @card_spell_id, @level, @experiment, @star, @block, @quantity, @power,
-                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense,
-                        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack,
-                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense,
-                        @percent_all_mental_attack, @percent_all_mental_defense, @percent_all_speed,
-                        @percent_all_critical_damage, @percent_all_critical_rate, @percent_all_armor_penetration,
-                        @percent_all_avoid, @percent_all_absorbs_damage, @percent_all_regenerate_vitality,
-                        @percent_all_accuracy, @percent_all_mana
-                    );
+                    user_id, card_spell_id, level, experiment, star, block, quantity, power, health, physical_attack, 
+                    physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage, critical_rate, 
+                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
+                ) VALUES (
+                    @user_id, @card_spell_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
+                    @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
+                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
+                );
                     ";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -915,26 +1001,26 @@ public class CardSpell
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@quantity", 0);
                     command.Parameters.AddWithValue("@power", CardSpell.power);
-                    command.Parameters.AddWithValue("@percent_all_health", CardSpell.percent_all_health);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", CardSpell.percent_all_physical_attack);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", CardSpell.percent_all_physical_defense);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", CardSpell.percent_all_magical_attack);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", CardSpell.percent_all_magical_defense);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", CardSpell.percent_all_chemical_attack);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", CardSpell.percent_all_chemical_defense);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", CardSpell.percent_all_atomic_attack);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", CardSpell.percent_all_atomic_defense);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", CardSpell.percent_all_mental_attack);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", CardSpell.percent_all_mental_defense);
-                    command.Parameters.AddWithValue("@percent_all_speed", CardSpell.percent_all_speed);
-                    command.Parameters.AddWithValue("@percent_all_critical_damage", CardSpell.percent_all_critical_damage);
-                    command.Parameters.AddWithValue("@percent_all_critical_rate", CardSpell.percent_all_critical_rate);
-                    command.Parameters.AddWithValue("@percent_all_armor_penetration", CardSpell.percent_all_armor_penetration);
-                    command.Parameters.AddWithValue("@percent_all_avoid", CardSpell.percent_all_avoid);
-                    command.Parameters.AddWithValue("@percent_all_absorbs_damage", CardSpell.percent_all_absorbs_damage);
-                    command.Parameters.AddWithValue("@percent_all_regenerate_vitality", CardSpell.percent_all_regenerate_vitality);
-                    command.Parameters.AddWithValue("@percent_all_accuracy", CardSpell.percent_all_accuracy);
-                    command.Parameters.AddWithValue("@percent_all_mana", CardSpell.percent_all_mana);
+                    command.Parameters.AddWithValue("@health", CardSpell.health);
+                    command.Parameters.AddWithValue("@physical_attack", CardSpell.physical_attack);
+                    command.Parameters.AddWithValue("@physical_defense", CardSpell.physical_defense);
+                    command.Parameters.AddWithValue("@magical_attack", CardSpell.magical_attack);
+                    command.Parameters.AddWithValue("@magical_defense", CardSpell.magical_defense);
+                    command.Parameters.AddWithValue("@chemical_attack", CardSpell.chemical_attack);
+                    command.Parameters.AddWithValue("@chemical_defense", CardSpell.chemical_defense);
+                    command.Parameters.AddWithValue("@atomic_attack", CardSpell.atomic_attack);
+                    command.Parameters.AddWithValue("@atomic_defense", CardSpell.atomic_defense);
+                    command.Parameters.AddWithValue("@mental_attack", CardSpell.mental_attack);
+                    command.Parameters.AddWithValue("@mental_defense", CardSpell.mental_defense);
+                    command.Parameters.AddWithValue("@speed", CardSpell.speed);
+                    command.Parameters.AddWithValue("@critical_damage", CardSpell.critical_damage);
+                    command.Parameters.AddWithValue("@critical_rate", CardSpell.critical_rate);
+                    command.Parameters.AddWithValue("@armor_penetration", CardSpell.armor_penetration);
+                    command.Parameters.AddWithValue("@avoid", CardSpell.avoid);
+                    command.Parameters.AddWithValue("@absorbs_damage", CardSpell.absorbs_damage);
+                    command.Parameters.AddWithValue("@regenerate_vitality", CardSpell.regenerate_vitality);
+                    command.Parameters.AddWithValue("@accuracy", CardSpell.accuracy);
+                    command.Parameters.AddWithValue("@mana", CardSpell.mana);
                     MySqlDataReader reader = command.ExecuteReader();
                     InsertFactCardSpell(CardSpell);
                 }
@@ -973,17 +1059,17 @@ public class CardSpell
                 string query = @"
                 UPDATE user_card_spell
                 SET level = @level,
-                    power = @power, percent_all_health = @health, percent_all_physical_attack = @physicalAttack,
-                    percent_all_physical_defense = @physicalDefense, percent_all_magical_attack = @magicalAttack,
-                    percent_all_magical_defense = @magicalDefense, percent_all_chemical_attack = @chemicalAttack,
-                    percent_all_chemical_defense = @chemicalDefense, percent_all_atomic_attack = @atomicAttack,
-                    percent_all_atomic_defense = @atomicDefense, percent_all_mental_attack = @mentalAttack,
-                    percent_all_mental_defense = @mentalDefense, percent_all_speed = @speed, percent_all_critical_damage = @criticalDamage,
-                    percent_all_critical_rate = @criticalRate, percent_all_armor_penetration = @armorPenetration,
-                    percent_all_avoid = @avoid, percent_all_absorbs_damage = @absorbsDamage, percent_all_regenerate_vitality = @regenerateVitality, 
-                    percent_all_accuracy = @accuracy, percent_all_mana = @mana
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
                 WHERE 
-                    user_id = @user_id AND card_spell_id = @card_spell_id;;";
+                    user_id = @user_id AND card_spell_id = @card_spell_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@card_spell_id", cardSpell.id);
@@ -1029,17 +1115,17 @@ public class CardSpell
                 string query = @"
                 UPDATE user_card_spell
                 SET star = @star, quantity=@quantity,
-                    power = @power, percent_all_health = @health, percent_all_physical_attack = @physicalAttack,
-                    percent_all_physical_defense = @physicalDefense, percent_all_magical_attack = @magicalAttack,
-                    percent_all_magical_defense = @magicalDefense, percent_all_chemical_attack = @chemicalAttack,
-                    percent_all_chemical_defense = @chemicalDefense, percent_all_atomic_attack = @atomicAttack,
-                    percent_all_atomic_defense = @atomicDefense, percent_all_mental_attack = @mentalAttack,
-                    percent_all_mental_defense = @mentalDefense, percent_all_speed = @speed, percent_all_critical_damage = @criticalDamage,
-                    percent_all_critical_rate = @criticalRate, percent_all_armor_penetration = @armorPenetration,
-                    percent_all_avoid = @avoid, percent_all_absorbs_damage = @absorbsDamage, percent_all_regenerate_vitality = @regenerateVitality, 
-                    percent_all_accuracy = @accuracy, percent_all_mana = @mana
+                    power = @power, health = @health, physical_attack = @physicalAttack,
+                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
+                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
+                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
+                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
+                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
+                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
+                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
+                    accuracy = @accuracy, mana = @mana
                 WHERE 
-                    user_id = @user_id AND card_spell_id = @card_spell_id;;";
+                    user_id = @user_id AND card_spell_id = @card_spell_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@card_spell_id", cardSpell.id);
@@ -1085,49 +1171,43 @@ public class CardSpell
                 connection.Open();
                 string query = @"
                     INSERT INTO fact_card_spell (
-                        user_id, user_card_spell_id, all_power,
-                        all_percent_health, all_percent_physical_attack, all_percent_physical_defense,
-                        all_percent_magical_attack, all_percent_magical_defense, all_percent_chemical_attack,
-                        all_percent_chemical_defense, all_percent_atomic_attack, all_percent_atomic_defense,
-                        all_percent_mental_attack, all_percent_mental_defense, all_percent_speed,
-                        all_percent_critical_damage, all_percent_critical_rate, all_percent_armor_penetration,
-                        all_percent_avoid, all_percent_absorbs_damage, all_percent_regenerate_vitality,
-                        all_percent_accuracy, all_percent_mana
-                    ) VALUES (
-                        @user_id, @user_card_spell_id, @power,
-                        @all_percent_health, @all_percent_physical_attack, @all_percent_physical_defense,
-                        @all_percent_magical_attack, @all_percent_magical_defense, @all_percent_chemical_attack,
-                        @all_percent_chemical_defense, @all_percent_atomic_attack, @all_percent_atomic_defense,
-                        @all_percent_mental_attack, @all_percent_mental_defense, @all_percent_speed,
-                        @all_percent_critical_damage, @all_percent_critical_rate, @all_percent_armor_penetration,
-                        @all_percent_avoid, @all_percent_absorbs_damage, @all_percent_regenerate_vitality,
-                        @all_percent_accuracy, @all_percent_mana
-                    );
+                    user_id, user_card_spell_id, all_power,
+                    all_health, all_physical_attack, all_physical_defense, all_magical_attack, all_magical_defense,
+                    all_chemical_attack, all_chemical_defense, all_atomic_attack, all_atomic_defense,
+                    all_mental_attack, all_mental_defense, all_speed, all_critical_damage, all_critical_rate,
+                    all_armor_penetration, all_avoid, all_absorbs_damage, all_regenerate_vitality, all_accuracy, all_mana
+                ) VALUES (
+                    @user_id, @user_card_spell_id, @all_power,
+                    @all_health, @all_physical_attack, @all_physical_defense, @all_magical_attack, @all_magical_defense,
+                    @all_chemical_attack, @all_chemical_defense, @all_atomic_attack, @all_atomic_defense,
+                    @all_mental_attack, @all_mental_defense, @all_speed, @all_critical_damage, @all_critical_rate,
+                    @all_armor_penetration, @all_avoid, @all_absorbs_damage, @all_regenerate_vitality, @all_accuracy, @all_mana
+                );
                     ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_card_spell_id", CardSpell.id);
-                command.Parameters.AddWithValue("@power", CardSpell.power);
-                command.Parameters.AddWithValue("@all_percent_health", CardSpell.percent_all_health);
-                command.Parameters.AddWithValue("@all_percent_physical_attack", CardSpell.percent_all_physical_attack);
-                command.Parameters.AddWithValue("@all_percent_physical_defense", CardSpell.percent_all_physical_defense);
-                command.Parameters.AddWithValue("@all_percent_magical_attack", CardSpell.percent_all_magical_attack);
-                command.Parameters.AddWithValue("@all_percent_magical_defense", CardSpell.percent_all_magical_defense);
-                command.Parameters.AddWithValue("@all_percent_chemical_attack", CardSpell.percent_all_chemical_attack);
-                command.Parameters.AddWithValue("@all_percent_chemical_defense", CardSpell.percent_all_chemical_defense);
-                command.Parameters.AddWithValue("@all_percent_atomic_attack", CardSpell.percent_all_atomic_attack);
-                command.Parameters.AddWithValue("@all_percent_atomic_defense", CardSpell.percent_all_atomic_defense);
-                command.Parameters.AddWithValue("@all_percent_mental_attack", CardSpell.percent_all_mental_attack);
-                command.Parameters.AddWithValue("@all_percent_mental_defense", CardSpell.percent_all_mental_defense);
-                command.Parameters.AddWithValue("@all_percent_speed", CardSpell.percent_all_speed);
-                command.Parameters.AddWithValue("@all_percent_critical_damage", CardSpell.percent_all_critical_damage);
-                command.Parameters.AddWithValue("@all_percent_critical_rate", CardSpell.percent_all_critical_rate);
-                command.Parameters.AddWithValue("@all_percent_armor_penetration", CardSpell.percent_all_armor_penetration);
-                command.Parameters.AddWithValue("@all_percent_avoid", CardSpell.percent_all_avoid);
-                command.Parameters.AddWithValue("@all_percent_absorbs_damage", CardSpell.percent_all_absorbs_damage);
-                command.Parameters.AddWithValue("@all_percent_regenerate_vitality", CardSpell.percent_all_regenerate_vitality);
-                command.Parameters.AddWithValue("@all_percent_accuracy", CardSpell.percent_all_accuracy);
-                command.Parameters.AddWithValue("@all_percent_mana", CardSpell.percent_all_mana);
+                command.Parameters.AddWithValue("@all_power", CardSpell.power);
+                command.Parameters.AddWithValue("@all_health", CardSpell.health);
+                command.Parameters.AddWithValue("@all_physical_attack", CardSpell.physical_attack);
+                command.Parameters.AddWithValue("@all_physical_defense", CardSpell.physical_defense);
+                command.Parameters.AddWithValue("@all_magical_attack", CardSpell.magical_attack);
+                command.Parameters.AddWithValue("@all_magical_defense", CardSpell.magical_defense);
+                command.Parameters.AddWithValue("@all_chemical_attack", CardSpell.chemical_attack);
+                command.Parameters.AddWithValue("@all_chemical_defense", CardSpell.chemical_defense);
+                command.Parameters.AddWithValue("@all_atomic_attack", CardSpell.atomic_attack);
+                command.Parameters.AddWithValue("@all_atomic_defense", CardSpell.atomic_defense);
+                command.Parameters.AddWithValue("@all_mental_attack", CardSpell.mental_attack);
+                command.Parameters.AddWithValue("@all_mental_defense", CardSpell.mental_defense);
+                command.Parameters.AddWithValue("@all_speed", CardSpell.speed);
+                command.Parameters.AddWithValue("@all_critical_damage", CardSpell.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_rate", CardSpell.critical_rate);
+                command.Parameters.AddWithValue("@all_armor_penetration", CardSpell.armor_penetration);
+                command.Parameters.AddWithValue("@all_avoid", CardSpell.avoid);
+                command.Parameters.AddWithValue("@all_absorbs_damage", CardSpell.absorbs_damage);
+                command.Parameters.AddWithValue("@all_regenerate_vitality", CardSpell.regenerate_vitality);
+                command.Parameters.AddWithValue("@all_accuracy", CardSpell.accuracy);
+                command.Parameters.AddWithValue("@all_mana", CardSpell.mana);
                 command.ExecuteNonQuery();
 
             }
@@ -1161,7 +1241,7 @@ public class CardSpell
                     all_regenerate_vitality = @all_regenerate_vitality, 
                     all_accuracy = @all_accuracy, all_mana = @all_mana
                 WHERE 
-                    user_id = @user_id AND user_card_spell_id = @user_card_spell_id;;";
+                    user_id = @user_id AND user_card_spell_id = @user_card_spell_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.id);
@@ -1219,6 +1299,26 @@ public class CardSpell
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
                 }
@@ -1255,26 +1355,26 @@ public class CardSpell
                         experiment = reader.GetInt32("experiment"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
-                        health = reader.GetDouble("percent_all_health"),
-                        physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        speed = reader.GetDouble("percent_all_speed"),
-                        critical_damage = reader.GetDouble("percent_all_critical_damage"),
-                        critical_rate = reader.GetDouble("percent_all_critical_rate"),
-                        armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
-                        avoid = reader.GetDouble("percent_all_avoid"),
-                        absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
-                        accuracy = reader.GetDouble("percent_all_accuracy"),
-                        mana = reader.GetFloat("percent_all_mana")
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana")
                     };
                 }
             }
@@ -1456,26 +1556,26 @@ public class CardSpell
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        percent_all_speed = reader.GetDouble("percent_all_speed"),
-                        percent_all_critical_damage = reader.GetDouble("percent_all_critical_damage"),
-                        percent_all_critical_rate = reader.GetDouble("percent_all_critical_rate"),
-                        percent_all_armor_penetration = reader.GetDouble("percent_all_armor_penetration"),
-                        percent_all_avoid = reader.GetDouble("percent_all_avoid"),
-                        percent_all_absorbs_damage = reader.GetDouble("percent_all_absorbs_damage"),
-                        percent_all_regenerate_vitality = reader.GetDouble("percent_all_regenerate_vitality"),
-                        percent_all_accuracy = reader.GetDouble("percent_all_accuracy"),
-                        percent_all_mana = reader.GetFloat("percent_all_mana"),
+                        health = reader.GetDouble("health"),
+                        physical_attack = reader.GetDouble("physical_attack"),
+                        physical_defense = reader.GetDouble("physical_defense"),
+                        magical_attack = reader.GetDouble("magical_attack"),
+                        magical_defense = reader.GetDouble("magical_defense"),
+                        chemical_attack = reader.GetDouble("chemical_attack"),
+                        chemical_defense = reader.GetDouble("chemical_defense"),
+                        atomic_attack = reader.GetDouble("atomic_attack"),
+                        atomic_defense = reader.GetDouble("atomic_defense"),
+                        mental_attack = reader.GetDouble("mental_attack"),
+                        mental_defense = reader.GetDouble("mental_defense"),
+                        speed = reader.GetDouble("speed"),
+                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_rate = reader.GetDouble("critical_rate"),
+                        armor_penetration = reader.GetDouble("armor_penetration"),
+                        avoid = reader.GetDouble("avoid"),
+                        absorbs_damage = reader.GetDouble("absorbs_damage"),
+                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        accuracy = reader.GetDouble("accuracy"),
+                        mana = reader.GetFloat("mana"),
                         description = reader.GetString("description")
                     };
                     CardSpell.currency = new Currency

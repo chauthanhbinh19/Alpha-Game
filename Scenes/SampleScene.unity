@@ -1176,6 +1176,8 @@ GameObject:
   - component: {fileID: 474294462}
   - component: {fileID: 474294461}
   - component: {fileID: 474294460}
+  - component: {fileID: 474294464}
+  - component: {fileID: 474294463}
   m_Layer: 5
   m_Name: PowerManager
   m_TagString: Untagged
@@ -1249,6 +1251,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16c5b3fbc2b5f354d9831659ea12a199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ed683e6cc80ef4bb54193edc657970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674985361ca2dc14e8aafe99adaa3bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &490600150
@@ -4906,6 +4932,8 @@ MonoBehaviour:
   MainMenuEquipmentPanelPrefab: {fileID: 5745659240395072349, guid: 4ff89cf8d4ddac545b42e175836e17fd, type: 3}
   MainMenuAptitudePanelPrefab: {fileID: 5745659240395072349, guid: 97a53e1423c2f4549905a57b6c7af8c8, type: 3}
   MainMenuUpgradePanelPrefab: {fileID: 5745659240395072349, guid: 3c9a90c1fed6a6f4580281842ba89975, type: 3}
+  MainMenuAffinityPanelPrefab: {fileID: 5745659240395072349, guid: 1befae0c66f310d4e9d0c014cd4924cb, type: 3}
+  MainMenuBlessingPanelPrefab: {fileID: 5745659240395072349, guid: c54a60f4c57608b47b8b987d09929c48, type: 3}
   PopupEquipmentsPanelPrefab: {fileID: 3471210453278062185, guid: eff0224ae52dc2e418e8edf4afa1608b, type: 3}
   EquipmentsWearingPrefab: {fileID: 8708252175272485654, guid: 1ea56877a90cdf441a6e884e1d8b06cb, type: 3}
   Slot1Prefab: {fileID: 5745659240395072349, guid: 6db33385862dd9346bca20e0c150c2fc, type: 3}
@@ -4917,6 +4945,7 @@ MonoBehaviour:
   Slot14Prefab: {fileID: 5745659240395072349, guid: 550b2a88a13792d4a96ac4ba16e292fa, type: 3}
   Slot16Prefab: {fileID: 5745659240395072349, guid: 732cd935dd0153c4f965691a8da55fd4, type: 3}
   AptitudeSlotPrefab: {fileID: 5745659240395072349, guid: 79b7362c3c614d74ca468a2e15fcf174, type: 3}
+  UpgradeSlotPrefab: {fileID: 5745659240395072349, guid: 7051eccc68e9255498bf8cbf1a8042fd, type: 3}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0

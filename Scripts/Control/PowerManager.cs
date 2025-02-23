@@ -331,6 +331,31 @@ public class PowerManager
             (c.all_accuracy + powerManager.accuracy) * coefficient +
             (c.all_mana + powerManager.mana) * coefficient);
     }
+    public double GetFinalCardSpellPower(CardSpell c)
+    {
+        PowerManager powerManager = new PowerManager();
+        powerManager = powerManager.GetUserStats();
+        return power = Math.Floor(0.5* (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
+            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
+            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
+            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
+            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
+            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
+            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
+            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
+            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
+            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
+            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
+            (c.all_speed + powerManager.speed) * coefficient +
+            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
+            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
+            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
+            (c.all_avoid + powerManager.avoid) * coefficient +
+            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
+            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
+            (c.all_accuracy + powerManager.accuracy) * coefficient +
+            (c.all_mana + powerManager.mana) * coefficient);
+    }
     public double GetFinalCardCaptainsPower(CardCaptains c)
     {
         PowerManager powerManager = new PowerManager();

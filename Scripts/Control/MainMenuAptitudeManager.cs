@@ -792,7 +792,9 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 if (activeImage != null && level != 0) activeImage.color = Color.white;
                 if (activeLevelText != null)
                 {
-                    activeLevelText.text = $"{level % levelsPerSkill}/{levelsPerSkill}";
+                    // Kiểm tra nếu level là bội số của levelsPerSkill (1000, 2000, ..., 10000)
+                    int displayedLevel = (level % levelsPerSkill == 0) ? levelsPerSkill : level % levelsPerSkill;
+                    activeLevelText.text = $"{displayedLevel}/{levelsPerSkill}";
                 }
             }
         }
@@ -884,113 +886,122 @@ public class MainMenuAptitudeManager : MonoBehaviour
     }
     public Rank EnhanceRank(Rank rank, int level)
     {
-        if (rank.level >= 0 && rank.level <= 500)
+        int startLevel = rank.level;
+        int endLevel = startLevel + level;
+
+        for (int lvl = startLevel; lvl < endLevel; lvl++)
         {
-            rank.health = rank.health + 10000000 * level;
+            int statMultiplier = 1;  // Hệ số nhân dựa trên cấp độ hiện tại
+
+            if (lvl >= 0 && lvl <= 500)
+            {
+                rank.health += 10000000 * statMultiplier;
+            }
+            else if (lvl > 500 && lvl <= 1000)
+            {
+                rank.physical_attack += 1500000 * statMultiplier;
+                rank.physical_defense += 1500000 * statMultiplier;
+            }
+            else if (lvl > 1000 && lvl <= 1500)
+            {
+                rank.magical_attack += 1500000 * statMultiplier;
+                rank.magical_defense += 1500000 * statMultiplier;
+            }
+            else if (lvl > 1500 && lvl <= 2000)
+            {
+                rank.chemical_attack += 1500000 * statMultiplier;
+                rank.chemical_defense += 1500000 * statMultiplier;
+            }
+            else if (lvl > 2000 && lvl <= 2500)
+            {
+                rank.atomic_attack += 1500000 * statMultiplier;
+                rank.atomic_defense += 1500000 * statMultiplier;
+            }
+            else if (lvl > 2500 && lvl <= 3000)
+            {
+                rank.mental_attack += 1500000 * statMultiplier;
+                rank.mental_defense += 1500000 * statMultiplier;
+            }
+            else if (lvl > 3000 && lvl <= 3500)
+            {
+                rank.speed += 1500000 * statMultiplier;
+                rank.critical_damage += 2000000 * statMultiplier;
+            }
+            else if (lvl > 3500 && lvl <= 4000)
+            {
+                rank.critical_rate += 0.1 * statMultiplier;
+                rank.armor_penetration += 1500000 * statMultiplier;
+            }
+            else if (lvl > 4000 && lvl <= 4500)
+            {
+                rank.avoid += 0.1 * statMultiplier;
+                rank.absorbs_damage += 2000000 * statMultiplier;
+            }
+            else if (lvl > 4500 && lvl <= 5000)
+            {
+                rank.regenerate_vitality += 1500000 * statMultiplier;
+                rank.accuracy += 0.1 * statMultiplier;
+            }
+            else if (lvl > 5000 && lvl <= 5500)
+            {
+                rank.mana += 1500000 * statMultiplier;
+                rank.percent_all_health += 5 * statMultiplier;
+            }
+            else if (lvl > 6000 && lvl <= 6500)
+            {
+                rank.percent_all_physical_attack += 5 * statMultiplier;
+                rank.percent_all_physical_defense += 5 * statMultiplier;
+            }
+            else if (lvl > 6500 && lvl <= 7000)
+            {
+                rank.percent_all_magical_attack += 5 * statMultiplier;
+                rank.percent_all_magical_defense += 5 * statMultiplier;
+            }
+            else if (lvl > 7000 && lvl <= 7500)
+            {
+                rank.percent_all_chemical_attack += 5 * statMultiplier;
+                rank.percent_all_chemical_defense += 5 * statMultiplier;
+            }
+            else if (lvl > 7500 && lvl <= 8000)
+            {
+                rank.percent_all_atomic_attack += 5 * statMultiplier;
+                rank.percent_all_atomic_defense += 5 * statMultiplier;
+            }
+            else if (lvl > 8000 && lvl <= 8500)
+            {
+                rank.percent_all_mental_attack += 5 * statMultiplier;
+                rank.percent_all_mental_defense += 5 * statMultiplier;
+            }
+            else if (lvl > 8500 && lvl <= 9000)
+            {
+                rank.physical_attack += 1500000 * statMultiplier;
+                rank.magical_attack += 1500000 * statMultiplier;
+                rank.chemical_attack += 1500000 * statMultiplier;
+                rank.atomic_attack += 1500000 * statMultiplier;
+                rank.mental_attack += 1500000 * statMultiplier;
+            }
+            else if (lvl > 9000 && lvl <= 9500)
+            {
+                rank.physical_defense += 1500000 * statMultiplier;
+                rank.magical_defense += 1500000 * statMultiplier;
+                rank.chemical_defense += 1500000 * statMultiplier;
+                rank.atomic_defense += 1500000 * statMultiplier;
+                rank.mental_defense += 1500000 * statMultiplier;
+            }
+            else if (lvl > 9500 && lvl <= 10000)
+            {
+                rank.speed += 1500000 * statMultiplier;
+                rank.critical_damage += 2000000 * statMultiplier;
+                rank.critical_rate += 0.1 * statMultiplier;
+                rank.armor_penetration += 1500000 * statMultiplier;
+                rank.avoid += 0.1 * statMultiplier;
+                rank.absorbs_damage += 2000000 * statMultiplier;
+                rank.regenerate_vitality += 1500000 * statMultiplier;
+                rank.accuracy += 0.1 * statMultiplier;
+            }
         }
-        else if (rank.level > 500 && rank.level <= 1000)
-        {
-            rank.physical_attack = rank.physical_attack + 1500000 * level;
-            rank.physical_defense = rank.physical_defense + 1500000 * level;
-        }
-        else if (rank.level > 1000 && rank.level <= 1500)
-        {
-            rank.magical_attack = rank.magical_attack + 1500000 * level;
-            rank.magical_defense = rank.magical_defense + 1500000 * level;
-        }
-        else if (rank.level > 1500 && rank.level <= 2000)
-        {
-            rank.chemical_attack = rank.chemical_attack + 1500000 * level;
-            rank.chemical_defense = rank.chemical_defense + 1500000 * level;
-        }
-        else if (rank.level > 2000 && rank.level <= 2500)
-        {
-            rank.atomic_attack = rank.atomic_attack + 1500000 * level;
-            rank.atomic_attack = rank.atomic_attack + 1500000 * level;
-        }
-        else if (rank.level > 2500 && rank.level <= 3000)
-        {
-            rank.mental_attack = rank.mental_attack + 1500000 * level;
-            rank.mental_defense = rank.mental_defense + 1500000 * level;
-        }
-        else if (rank.level > 3000 && rank.level <= 3500)
-        {
-            rank.speed = rank.speed + 1500000 * level;
-            rank.critical_damage = rank.critical_damage + 2000000 * level;
-        }
-        else if (rank.level > 3500 && rank.level <= 4000)
-        {
-            rank.critical_rate = rank.critical_rate + 0.1 * level;
-            rank.armor_penetration = rank.armor_penetration + 1500000 * level;
-        }
-        else if (rank.level > 4000 && rank.level <= 4500)
-        {
-            rank.avoid = rank.avoid + 0.1 * level;
-            rank.absorbs_damage = rank.physical_defense + 2000000 * level;
-        }
-        else if (rank.level > 4500 && rank.level <= 5000)
-        {
-            rank.regenerate_vitality = rank.regenerate_vitality + 1500000 * level;
-            rank.accuracy = rank.accuracy + 0.1 * level;
-        }
-        else if (rank.level > 5000 && rank.level <= 5500)
-        {
-            rank.mana = rank.mana + 1500000 * level;
-            rank.percent_all_health = rank.percent_all_health + 5 * level;
-        }
-        else if (rank.level > 6000 && rank.level <= 6500)
-        {
-            rank.percent_all_physical_attack = rank.percent_all_physical_attack + 5 * level;
-            rank.percent_all_physical_defense = rank.percent_all_physical_defense + 5 * level;
-        }
-        else if (rank.level > 6500 && rank.level <= 7000)
-        {
-            rank.percent_all_magical_attack = rank.percent_all_magical_attack + 5 * level;
-            rank.percent_all_magical_defense = rank.percent_all_magical_defense + 5 * level;
-        }
-        else if (rank.level > 7000 && rank.level <= 7500)
-        {
-            rank.percent_all_chemical_attack = rank.percent_all_chemical_attack + 5 * level;
-            rank.percent_all_chemical_defense = rank.percent_all_chemical_defense + 5 * level;
-        }
-        else if (rank.level > 7500 && rank.level <= 8000)
-        {
-            rank.percent_all_atomic_attack = rank.percent_all_atomic_attack + 5 * level;
-            rank.percent_all_atomic_defense = rank.percent_all_atomic_defense + 5 * level;
-        }
-        else if (rank.level > 8000 && rank.level <= 8500)
-        {
-            rank.percent_all_mental_attack = rank.percent_all_mental_attack + 5 * level;
-            rank.percent_all_mental_defense = rank.percent_all_mental_defense + 5 * level;
-        }
-        else if (rank.level > 8500 && rank.level <= 9000)
-        {
-            rank.physical_attack = rank.physical_attack + 1500000 * level;
-            rank.magical_attack = rank.magical_attack + 1500000 * level;
-            rank.chemical_attack = rank.chemical_attack + 1500000 * level;
-            rank.atomic_attack = rank.atomic_attack + 1500000 * level;
-            rank.mental_attack = rank.mental_attack + 1500000 * level;
-        }
-        else if (rank.level > 9000 && rank.level <= 9500)
-        {
-            rank.physical_defense = rank.physical_defense + 1500000 * level;
-            rank.magical_defense = rank.magical_defense + 1500000 * level;
-            rank.chemical_defense = rank.chemical_defense + 1500000 * level;
-            rank.atomic_defense = rank.atomic_defense + 1500000 * level;
-            rank.mental_defense = rank.mental_defense + 1500000 * level;
-        }
-        else if (rank.level > 9500 && rank.level <= 10000)
-        {
-            rank.speed = rank.speed + 1500000 * level;
-            rank.critical_damage = rank.critical_damage + 2000000 * level;
-            rank.critical_rate = rank.critical_rate + 0.1 * level;
-            rank.armor_penetration = rank.armor_penetration + 1500000 * level;
-            rank.avoid = rank.avoid + 0.1 * level;
-            rank.absorbs_damage = rank.physical_defense + 2000000 * level;
-            rank.regenerate_vitality = rank.regenerate_vitality + 1500000 * level;
-            rank.accuracy = rank.accuracy + 0.1 * level;
-        }
-        rank.level = rank.level + level;
+
+        rank.level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return rank;
     }
     public void UpLevel(object data, Rank rank, string type)

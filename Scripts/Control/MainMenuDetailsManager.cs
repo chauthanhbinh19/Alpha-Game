@@ -340,194 +340,72 @@ public class MainMenuDetailsManager : MonoBehaviour
     {
         if (data is CardHeroes cardHeroes)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is CardCaptains cardCaptains)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is CardColonels cardColonels)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is CardGenerals cardGenerals)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is CardAdmirals cardAdmirals)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is CardMonsters cardMonsters)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is CardMilitary cardMilitary)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is CardSpell cardSpell)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is Books books)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
         else if (data is Pets pets)
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background4/Background_V4_301"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-            });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-            });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-            {
-                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-            });
+            CreateButtonGroupDetails(data);
         }
+    }
+    public void CreateButtonGroupDetails(object data)
+    {
+        CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+        CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+        CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+        CreateButtonWithBackground(4, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
+        CreateButtonWithBackground(5, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
+        AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+        {
+            FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+        });
+        AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+        {
+            FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+        });
+        AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+        {
+            FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+        });
+        AssignButtonEvent("Button_4", buttonGroupPanel, () =>
+        {
+            FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
+        });
+        AssignButtonEvent("Button_5", buttonGroupPanel, () =>
+        {
+            FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
+        });
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {

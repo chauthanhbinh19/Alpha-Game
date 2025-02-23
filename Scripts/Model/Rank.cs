@@ -752,7 +752,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -812,12 +812,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -913,7 +913,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -973,12 +973,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1074,7 +1074,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1134,12 +1134,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1235,7 +1235,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1295,12 +1295,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1396,7 +1396,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1456,12 +1456,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", rank.type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1557,7 +1557,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1617,12 +1617,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", rank.type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1718,7 +1718,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1778,12 +1778,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1879,7 +1879,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -1939,12 +1939,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -2040,7 +2040,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -2100,12 +2100,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -2201,7 +2201,7 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@health", rank.health);
                             updateCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             updateCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            updateCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             updateCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             updateCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             updateCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -2261,12 +2261,12 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
-                            insertCmd.Parameters.AddWithValue("@rank_level", 1);
+                            insertCmd.Parameters.AddWithValue("@rank_level", rank.level == 0 ? 1 : rank.level);
                             insertCmd.Parameters.AddWithValue("@power", rank.power);
                             insertCmd.Parameters.AddWithValue("@health", rank.health);
                             insertCmd.Parameters.AddWithValue("@physical_attack", rank.physical_attack);
                             insertCmd.Parameters.AddWithValue("@physical_defense", rank.physical_defense);
-                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.chemical_attack);
+                            insertCmd.Parameters.AddWithValue("@magical_attack", rank.magical_attack);
                             insertCmd.Parameters.AddWithValue("@magical_defense", rank.magical_defense);
                             insertCmd.Parameters.AddWithValue("@chemical_attack", rank.chemical_attack);
                             insertCmd.Parameters.AddWithValue("@chemical_defense", rank.chemical_defense);
@@ -2344,38 +2344,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -2426,38 +2427,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -2508,38 +2510,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -2590,38 +2593,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -2672,38 +2676,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -2754,38 +2759,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -2836,38 +2842,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -2918,38 +2925,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -3000,38 +3008,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
@@ -3082,38 +3091,39 @@ public class Rank
                     {
                         if (reader.Read())
                         {
-                            rank.power = reader.GetDouble("power");
-                            rank.health = reader.GetDouble("health");
-                            rank.physical_attack = reader.GetDouble("physical_attack");
-                            rank.physical_defense = reader.GetDouble("physical_defense");
-                            rank.magical_attack = reader.GetDouble("magical_attack");
-                            rank.magical_defense = reader.GetDouble("magical_defense");
-                            rank.chemical_attack = reader.GetDouble("chemical_attack");
-                            rank.chemical_defense = reader.GetDouble("chemical_defense");
-                            rank.atomic_attack = reader.GetDouble("atomic_attack");
-                            rank.atomic_defense = reader.GetDouble("atomic_defense");
-                            rank.mental_attack = reader.GetDouble("mental_attack");
-                            rank.mental_defense = reader.GetDouble("mental_defense");
-                            rank.speed = reader.GetDouble("speed");
-                            rank.critical_damage = reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.GetDouble("accuracy");
-                            rank.mana = reader.GetFloat("mana");
-                            rank.percent_all_health = reader.GetDouble("percent_all_health");
-                            rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                            rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                            rank.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                            rank.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                            rank.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                            rank.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                            rank.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                            rank.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                            rank.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                            rank.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                            rank.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                            rank.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                            rank.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                            rank.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                            rank.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                            rank.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                            rank.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                            rank.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                            rank.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                            rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                            rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                            rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
+                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
+                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
+                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
+                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                            rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                            rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                            rank.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                            rank.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                            rank.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                            rank.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                            rank.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                            rank.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                            rank.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                            rank.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+
                         }
                     }
                 }
