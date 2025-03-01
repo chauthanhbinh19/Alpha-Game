@@ -20,14 +20,25 @@ public class PowerManager
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
     public double percent_all_physical_defense { get; set; }
@@ -57,14 +68,25 @@ public class PowerManager
         mental_attack = 0;
         mental_defense = 0;
         speed = 0;
-        critical_damage = 0;
+        critical_damage_rate = 0;
         critical_rate = 0;
-        armor_penetration = 0;
-        avoid = 0;
-        absorbs_damage = 0;
-        regenerate_vitality = 0;
-        accuracy = 0;
+        penetration_rate = 0;
+        evasion_rate = 0;
+        damage_absorption_rate = 0;
+        vitality_regeneration_rate = 0;
+        accuracy_rate = 0;
+        lifesteal_rate = 0;
         mana = 0;
+        mana_regeneration_rate = 0;
+        shield_strength = 0;
+        tenacity = 0;
+        resistance_rate = 0;
+        combo_rate = 0;
+        reflection_rate = 0;
+        damage_to_different_faction_rate = 0;
+        resistance_to_different_faction_rate = 0;
+        damage_to_same_faction_rate = 0;
+        resistance_to_same_faction_rate = 0;
         percent_all_health = 0;
         percent_all_physical_attack = 0;
         percent_all_physical_defense = 0;
@@ -102,6 +124,55 @@ public class PowerManager
         GetPetsPower();
         GetTitlesPower();
     }
+    public static double CalculatePower(
+    double health, double physicalAttack, double physicalDefense, double magicalAttack, double magicalDefense,
+    double chemicalAttack, double chemicalDefense, double atomicAttack, double atomicDefense, double mentalAttack, double mentalDefense,
+    double speed, double criticalDamageRate, double criticalRate, double penetrationRate, double evasionRate,
+    double damageAbsorptionRate, double vitalityRegenerationRate, double accuracyRate, double lifestealRate,
+    double shieldStrength, double tenacity, double resistanceRate, double comboRate, double reflectionRate,
+    double mana, double manaRegenerationRate,
+    double damageToDifferentFactionRate, double resistanceToDifferentFactionRate,
+    double damageToSameFactionRate, double resistanceToSameFactionRate
+)
+    {
+        double weight = 0.5;
+
+        double totalAttack = (physicalAttack + magicalAttack + chemicalAttack + atomicAttack + mentalAttack) * weight;
+        double totalDefense = (physicalDefense + magicalDefense + chemicalDefense + atomicDefense + mentalDefense) * weight + shieldStrength * weight;
+
+        // Điều chỉnh các chỉ số tỷ lệ
+        double adjustedCriticalRate = (criticalRate / 100) * totalAttack;
+        double adjustedCriticalDamage = (criticalDamageRate / 100) * totalAttack;
+        double adjustedPenetration = (penetrationRate / 100) * totalAttack;
+        double adjustedEvasion = (evasionRate / 100) * totalDefense;
+        double adjustedAbsorption = (damageAbsorptionRate / 100) * (totalDefense + health * 0.5);
+        double adjustedRegeneration = (vitalityRegenerationRate / 100) * health;
+        double adjustedAccuracy = (accuracyRate / 100) * totalAttack;
+        double adjustedLifesteal = (lifestealRate / 100) * totalAttack;
+        double adjustedTenacity = (tenacity / 100) * totalDefense;
+        double adjustedResistance = (resistanceRate / 100) * (totalDefense + health * 0.5);
+        double adjustedCombo = (comboRate / 100) * totalAttack;
+        double adjustedReflection = (reflectionRate / 100) * (totalDefense + health * 0.5);
+
+        // Điều chỉnh thuộc tính faction
+        double adjustedDamageToDifferentFaction = (damageToDifferentFactionRate / 100) * totalAttack;
+        double adjustedResistanceToDifferentFaction = (resistanceToDifferentFactionRate / 100) * totalDefense;
+        double adjustedDamageToSameFaction = (damageToSameFactionRate / 100) * totalAttack;
+        double adjustedResistanceToSameFaction = (resistanceToSameFactionRate / 100) * totalDefense;
+
+        // Điều chỉnh mana
+        double adjustedMana = mana * 0.5;
+        double adjustedManaRegeneration = (manaRegenerationRate / 100) * mana;
+
+        // Tổng sức mạnh
+        return health * weight + totalAttack + totalDefense + speed * weight +
+               adjustedCriticalRate + adjustedCriticalDamage + adjustedPenetration +
+               adjustedEvasion + adjustedAbsorption + adjustedRegeneration + adjustedAccuracy +
+               adjustedLifesteal + adjustedTenacity + adjustedResistance + adjustedCombo + adjustedReflection +
+               adjustedDamageToDifferentFaction + adjustedResistanceToDifferentFaction +
+               adjustedDamageToSameFaction + adjustedResistanceToSameFaction +
+               adjustedMana + adjustedManaRegeneration;
+    }
     public void InsertUserStats()
     {
         CalculatePower();
@@ -115,8 +186,11 @@ public class PowerManager
                         user_id, all_power, all_health, all_physical_attack, all_physical_defense,
                         all_magical_attack, all_magical_defense, all_chemical_attack, all_chemical_defense,
                         all_atomic_attack, all_atomic_defense, all_mental_attack, all_mental_defense,
-                        all_speed, all_critical_damage, all_critical_rate, all_armor_penetration,
-                        all_avoid, all_absorbs_damage, all_regenerate_vitality, all_accuracy, all_mana,
+                        all_speed, all_critical_damage_rate, all_critical_rate, 
+                        all_penetration_rate, all_evasion_rate, all_damage_absorption_rate, all_vitality_regeneration_rate, all_accuracy_rate, 
+                        all_lifesteal_rate, all_shield_strength, all_tenacity, all_resistance_rate, all_combo_rate, all_reflection_rate, 
+                        all_mana, all_mana_regeneration_rate, all_damage_to_different_faction_rate, 
+                        all_resistance_to_different_faction_rate, all_damage_to_same_faction_rate, all_resistance_to_same_faction_rate,
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense,
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack,
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense,
@@ -126,8 +200,11 @@ public class PowerManager
                         @userId, @allPower, @allHealth, @allPhysicalAttack, @allPhysicalDefense,
                         @allMagicalAttack, @allMagicalDefense, @allChemicalAttack, @allChemicalDefense,
                         @allAtomicAttack, @allAtomicDefense, @allMentalAttack, @allMentalDefense,
-                        @allSpeed, @allCriticalDamage, @allCriticalRate, @allArmorPenetration,
-                        @allAvoid, @allAbsorbsDamage, @allRegenerateVitality, @allAccuracy, @allMana,
+                        @all_speed, @all_critical_damage_rate, @all_critical_rate, 
+                        @all_penetration_rate, @all_evasion_rate, @all_damage_absorption_rate, @all_vitality_regeneration_rate, @all_accuracy_rate, 
+                        @all_lifesteal_rate, @all_shield_strength, @all_tenacity, @all_resistance_rate, @all_combo_rate, @all_reflection_rate, 
+                        @all_mana, @all_mana_regeneration_rate, @all_damage_to_different_faction_rate, 
+                        @all_resistance_to_different_faction_rate, @all_damage_to_same_faction_rate, @all_resistance_to_same_faction_rate,
                         @percentAllHealth, @percentAllPhysicalAttack, @percentAllPhysicalDefense,
                         @percentAllMagicalAttack, @percentAllMagicalDefense, @percentAllChemicalAttack,
                         @percentAllChemicalDefense, @percentAllAtomicAttack, @percentAllAtomicDefense,
@@ -147,15 +224,26 @@ public class PowerManager
                 command.Parameters.AddWithValue("@allAtomicDefense", atomic_defense);
                 command.Parameters.AddWithValue("@allMentalAttack", mental_attack);
                 command.Parameters.AddWithValue("@allMentalDefense", mental_defense);
-                command.Parameters.AddWithValue("@allSpeed", speed);
-                command.Parameters.AddWithValue("@allCriticalDamage", critical_damage);
-                command.Parameters.AddWithValue("@allCriticalRate", critical_rate);
-                command.Parameters.AddWithValue("@allArmorPenetration", armor_penetration);
-                command.Parameters.AddWithValue("@allAvoid", avoid);
-                command.Parameters.AddWithValue("@allAbsorbsDamage", absorbs_damage);
-                command.Parameters.AddWithValue("@allRegenerateVitality", regenerate_vitality);
-                command.Parameters.AddWithValue("@allAccuracy", accuracy);
-                command.Parameters.AddWithValue("@allMana", mana);
+                command.Parameters.AddWithValue("@all_speed", speed);
+                command.Parameters.AddWithValue("@all_critical_damage_rate", critical_damage_rate);
+                command.Parameters.AddWithValue("@all_critical_rate", critical_rate);
+                command.Parameters.AddWithValue("@all_penetration_rate", penetration_rate);
+                command.Parameters.AddWithValue("@all_evasion_rate", evasion_rate);
+                command.Parameters.AddWithValue("@all_damage_absorption_rate", damage_absorption_rate);
+                command.Parameters.AddWithValue("@all_vitality_regeneration_rate", vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@all_accuracy_rate", accuracy_rate);
+                command.Parameters.AddWithValue("@all_lifesteal_rate", lifesteal_rate);
+                command.Parameters.AddWithValue("@all_shield_strength", shield_strength);
+                command.Parameters.AddWithValue("@all_tenacity", tenacity);
+                command.Parameters.AddWithValue("@all_resistance_rate", resistance_rate);
+                command.Parameters.AddWithValue("@all_combo_rate", combo_rate);
+                command.Parameters.AddWithValue("@all_reflection_rate", reflection_rate);
+                command.Parameters.AddWithValue("@all_mana", mana);
+                command.Parameters.AddWithValue("@all_mana_regeneration_rate", mana_regeneration_rate);
+                command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", resistance_to_same_faction_rate);
                 command.Parameters.AddWithValue("@percentAllHealth", percent_all_health);
                 command.Parameters.AddWithValue("@percentAllPhysicalAttack", percent_all_physical_attack);
                 command.Parameters.AddWithValue("@percentAllPhysicalDefense", percent_all_physical_defense);
@@ -192,11 +280,18 @@ public class PowerManager
                     all_chemical_attack = @allChemicalAttack, all_chemical_defense = @allChemicalDefense,
                     all_atomic_attack = @allAtomicAttack, all_atomic_defense = @allAtomicDefense, 
                     all_mental_attack = @allMentalAttack, all_mental_defense = @allMentalDefense,
-                    all_speed = @allSpeed, all_critical_damage = @allCriticalDamage, 
-                    all_critical_rate = @allCriticalRate, all_armor_penetration = @allArmorPenetration,
-                    all_avoid = @allAvoid, all_absorbs_damage = @allAbsorbsDamage, 
-                    all_regenerate_vitality = @allRegenerateVitality, all_accuracy = @allAccuracy, 
-                    all_mana = @allMana, percent_all_health = @percentAllHealth, 
+                    all_speed = @all_speed, all_critical_damage_rate = @all_critical_damage_rate, 
+                    all_critical_rate = @all_critical_rate, all_penetration_rate = @all_penetration_rate, 
+                    all_evasion_rate = @all_evasion_rate, all_damage_absorption_rate = @all_damage_absorption_rate, 
+                    all_vitality_regeneration_rate = @all_vitality_regeneration_rate, all_accuracy_rate = @all_accuracy_rate, 
+                    all_lifesteal_rate = @all_lifesteal_rate, all_shield_strength = @all_shield_strength, 
+                    all_tenacity = @tenacity, all_resistance_rate = @all_resistance_rate, all_combo_rate = @all_combo_rate, 
+                    all_reflection_rate = @all_reflection_rate, all_mana = @all_mana, all_mana_regeneration_rate = @all_mana_regeneration_rate, 
+                    all_damage_to_different_faction_rate = @all_damage_to_different_faction_rate, 
+                    all_resistance_to_different_faction_rate = @all_resistance_to_different_faction_rate, 
+                    all_damage_to_same_faction_rate = @all_damage_to_same_faction_rate, 
+                    all_resistance_to_same_faction_rate = @all_resistance_to_same_faction_rate,
+                    percent_all_health = @percentAllHealth, 
                     percent_all_physical_attack = @percentAllPhysicalAttack, percent_all_physical_defense = @percentAllPhysicalDefense,
                     percent_all_magical_attack = @percentAllMagicalAttack, percent_all_magical_defense = @percentAllMagicalDefense, 
                     percent_all_chemical_attack = @percentAllChemicalAttack, percent_all_chemical_defense = @percentAllChemicalDefense, 
@@ -218,15 +313,26 @@ public class PowerManager
                 command.Parameters.AddWithValue("@allAtomicDefense", atomic_defense);
                 command.Parameters.AddWithValue("@allMentalAttack", mental_attack);
                 command.Parameters.AddWithValue("@allMentalDefense", mental_defense);
-                command.Parameters.AddWithValue("@allSpeed", speed);
-                command.Parameters.AddWithValue("@allCriticalDamage", critical_damage);
-                command.Parameters.AddWithValue("@allCriticalRate", critical_rate);
-                command.Parameters.AddWithValue("@allArmorPenetration", armor_penetration);
-                command.Parameters.AddWithValue("@allAvoid", avoid);
-                command.Parameters.AddWithValue("@allAbsorbsDamage", absorbs_damage);
-                command.Parameters.AddWithValue("@allRegenerateVitality", regenerate_vitality);
-                command.Parameters.AddWithValue("@allAccuracy", accuracy);
-                command.Parameters.AddWithValue("@allMana", mana);
+                command.Parameters.AddWithValue("@all_speed", speed);
+                command.Parameters.AddWithValue("@all_critical_damage_rate", critical_damage_rate);
+                command.Parameters.AddWithValue("@all_critical_rate", critical_rate);
+                command.Parameters.AddWithValue("@all_penetration_rate", penetration_rate);
+                command.Parameters.AddWithValue("@all_evasion_rate", evasion_rate);
+                command.Parameters.AddWithValue("@all_damage_absorption_rate", damage_absorption_rate);
+                command.Parameters.AddWithValue("@all_vitality_regeneration_rate", vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@all_accuracy_rate", accuracy_rate);
+                command.Parameters.AddWithValue("@all_lifesteal_rate", lifesteal_rate);
+                command.Parameters.AddWithValue("@all_shield_strength", shield_strength);
+                command.Parameters.AddWithValue("@all_tenacity", tenacity);
+                command.Parameters.AddWithValue("@all_resistance_rate", resistance_rate);
+                command.Parameters.AddWithValue("@all_combo_rate", combo_rate);
+                command.Parameters.AddWithValue("@all_reflection_rate", reflection_rate);
+                command.Parameters.AddWithValue("@all_mana", mana);
+                command.Parameters.AddWithValue("@all_mana_regeneration_rate", mana_regeneration_rate);
+                command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", resistance_to_same_faction_rate);
                 command.Parameters.AddWithValue("@percentAllHealth", percent_all_health);
                 command.Parameters.AddWithValue("@percentAllPhysicalAttack", percent_all_physical_attack);
                 command.Parameters.AddWithValue("@percentAllPhysicalDefense", percent_all_physical_defense);
@@ -276,15 +382,26 @@ public class PowerManager
                         powerManager.atomic_defense = reader.IsDBNull(reader.GetOrdinal("all_atomic_defense")) ? 0 : reader.GetDouble("all_atomic_defense");
                         powerManager.mental_attack = reader.IsDBNull(reader.GetOrdinal("all_mental_attack")) ? 0 : reader.GetDouble("all_mental_attack");
                         powerManager.mental_defense = reader.IsDBNull(reader.GetOrdinal("all_mental_defense")) ? 0 : reader.GetDouble("all_mental_defense");
-                        powerManager.speed = reader.IsDBNull(reader.GetOrdinal("all_speed")) ? 0 : reader.GetDouble("all_speed");
-                        powerManager.critical_damage = reader.IsDBNull(reader.GetOrdinal("all_critical_damage")) ? 0 : reader.GetDouble("all_critical_damage");
-                        powerManager.critical_rate = reader.IsDBNull(reader.GetOrdinal("all_critical_rate")) ? 0 : reader.GetDouble("all_critical_rate");
-                        powerManager.armor_penetration = reader.IsDBNull(reader.GetOrdinal("all_armor_penetration")) ? 0 : reader.GetDouble("all_armor_penetration");
-                        powerManager.avoid = reader.IsDBNull(reader.GetOrdinal("all_avoid")) ? 0 : reader.GetDouble("all_avoid");
-                        powerManager.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("all_absorbs_damage")) ? 0 : reader.GetDouble("all_absorbs_damage");
-                        powerManager.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("all_regenerate_vitality")) ? 0 : reader.GetDouble("all_regenerate_vitality");
-                        powerManager.accuracy = reader.IsDBNull(reader.GetOrdinal("all_accuracy")) ? 0 : reader.GetDouble("all_accuracy");
-                        powerManager.mana = reader.IsDBNull(reader.GetOrdinal("all_mana")) ? 0 : (float)reader.GetDouble("all_mana");
+                        powerManager.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        powerManager.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        powerManager.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        powerManager.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        powerManager.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        powerManager.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        powerManager.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        powerManager.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        powerManager.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        powerManager.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        powerManager.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        powerManager.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        powerManager.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        powerManager.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        powerManager.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        powerManager.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        powerManager.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        powerManager.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        powerManager.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        powerManager.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                         powerManager.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                         powerManager.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                         powerManager.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -306,256 +423,6 @@ public class PowerManager
         }
         return powerManager;
     }
-    public double GetFinalCardHeroesPower(CardHeroes c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor(0.5* (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalCardSpellPower(CardSpell c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor(0.5* (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalCardCaptainsPower(CardCaptains c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalCardColonelsPower(CardColonels c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalCardGeneralsPower(CardGenerals c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalCardAdmiralsPower(CardAdmirals c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalCardMonstersPower(CardMonsters c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalCardMilitaryPower(CardMilitary c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor( 0.5*(c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalBooksPower(Books c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor(0.5* (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
-    public double GetFinalPetsPower(Pets c)
-    {
-        PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
-        return power = Math.Floor(0.5* (c.all_health + health + c.health * powerManager.percent_all_health/100) * coefficient +
-            (c.all_physical_attack + powerManager.physical_attack + c.physical_attack * powerManager.percent_all_physical_attack/100) * coefficient +
-            (c.all_physical_defense + powerManager.physical_defense + c.physical_defense * powerManager.percent_all_physical_defense/100) * coefficient +
-            (c.all_magical_attack + powerManager.magical_attack + c.magical_attack * powerManager.percent_all_magical_attack/100) * coefficient +
-            (c.all_magical_defense + powerManager.magical_defense + c.magical_defense * powerManager.percent_all_magical_defense/100) * coefficient +
-            (c.all_chemical_attack + powerManager.chemical_attack + c.chemical_attack * powerManager.percent_all_chemical_attack/100) * coefficient +
-            (c.all_chemical_defense + powerManager.chemical_defense + c.chemical_defense * powerManager.percent_all_chemical_defense/100) * coefficient +
-            (c.all_atomic_attack + powerManager.atomic_attack + c.atomic_attack * powerManager.percent_all_atomic_attack/100) * coefficient +
-            (c.all_atomic_defense + powerManager.atomic_defense + c.atomic_defense * powerManager.percent_all_atomic_defense/100) * coefficient +
-            (c.all_mental_attack + powerManager.mental_attack + c.mental_attack * powerManager.percent_all_mental_attack/100) * coefficient +
-            (c.all_mental_defense + powerManager.mental_defense + c.mental_defense * powerManager.percent_all_mental_defense/100) * coefficient +
-            (c.all_speed + powerManager.speed) * coefficient +
-            (c.all_critical_damage + powerManager.critical_damage) * coefficient +
-            (c.all_critical_rate + powerManager.critical_rate) * coefficient +
-            (c.all_armor_penetration + powerManager.armor_penetration) * coefficient +
-            (c.all_avoid + powerManager.avoid) * coefficient +
-            (c.all_absorbs_damage + powerManager.absorbs_damage) * coefficient +
-            (c.all_regenerate_vitality + powerManager.regenerate_vitality) * coefficient +
-            (c.all_accuracy + powerManager.accuracy) * coefficient +
-            (c.all_mana + powerManager.mana) * coefficient);
-    }
     public void GetAchievementsPower()
     {
         Achievements achievements = new Achievements();
@@ -574,14 +441,25 @@ public class PowerManager
         mental_attack = mental_attack + achievements.mental_attack;
         mental_defense = mental_defense + achievements.mental_defense;
         speed = speed + achievements.speed;
-        critical_damage = critical_damage + achievements.critical_damage;
+        critical_damage_rate = critical_damage_rate + achievements.critical_damage_rate;
         critical_rate = critical_rate + achievements.critical_rate;
-        armor_penetration = armor_penetration + achievements.armor_penetration;
-        avoid = avoid + achievements.avoid;
-        absorbs_damage = absorbs_damage + achievements.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + achievements.regenerate_vitality;
-        accuracy = accuracy + achievements.accuracy;
+        penetration_rate = penetration_rate + achievements.penetration_rate;
+        evasion_rate = evasion_rate + achievements.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + achievements.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + achievements.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + achievements.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + achievements.lifesteal_rate;
+        shield_strength = shield_strength + achievements.shield_strength;
+        tenacity = tenacity + achievements.tenacity;
+        resistance_rate = resistance_rate + achievements.resistance_rate;
+        combo_rate = combo_rate + achievements.combo_rate;
+        reflection_rate = reflection_rate + achievements.reflection_rate;
         mana = mana + achievements.mana;
+        mana_regeneration_rate = mana_regeneration_rate + achievements.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + achievements.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + achievements.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + achievements.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + achievements.resistance_to_same_faction_rate;
 
         //Percent
         achievements = achievements.SumPowerAchievementsPercent();
@@ -615,14 +493,26 @@ public class PowerManager
         mental_attack = mental_attack + books.mental_attack;
         mental_defense = mental_defense + books.mental_defense;
         speed = speed + books.speed;
-        critical_damage = critical_damage + books.critical_damage;
+        critical_damage_rate = critical_damage_rate + books.critical_damage_rate;
         critical_rate = critical_rate + books.critical_rate;
-        armor_penetration = armor_penetration + books.armor_penetration;
-        avoid = avoid + books.avoid;
-        absorbs_damage = absorbs_damage + books.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + books.regenerate_vitality;
-        accuracy = accuracy + books.accuracy;
+        penetration_rate = penetration_rate + books.penetration_rate;
+        evasion_rate = evasion_rate + books.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + books.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + books.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + books.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + books.lifesteal_rate;
+        shield_strength = shield_strength + books.shield_strength;
+        tenacity = tenacity + books.tenacity;
+        resistance_rate = resistance_rate + books.resistance_rate;
+        combo_rate = combo_rate + books.combo_rate;
+        reflection_rate = reflection_rate + books.reflection_rate;
         mana = mana + books.mana;
+        mana_regeneration_rate = mana_regeneration_rate + books.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + books.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + books.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + books.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + books.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + books.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + books.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + books.percent_all_physical_defense;
@@ -654,14 +544,26 @@ public class PowerManager
         mental_attack = mental_attack + borders.mental_attack;
         mental_defense = mental_defense + borders.mental_defense;
         speed = speed + borders.speed;
-        critical_damage = critical_damage + borders.critical_damage;
+        critical_damage_rate = critical_damage_rate + borders.critical_damage_rate;
         critical_rate = critical_rate + borders.critical_rate;
-        armor_penetration = armor_penetration + borders.armor_penetration;
-        avoid = avoid + borders.avoid;
-        absorbs_damage = absorbs_damage + borders.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + borders.regenerate_vitality;
-        accuracy = accuracy + borders.accuracy;
+        penetration_rate = penetration_rate + borders.penetration_rate;
+        evasion_rate = evasion_rate + borders.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + borders.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + borders.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + borders.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + borders.lifesteal_rate;
+        shield_strength = shield_strength + borders.shield_strength;
+        tenacity = tenacity + borders.tenacity;
+        resistance_rate = resistance_rate + borders.resistance_rate;
+        combo_rate = combo_rate + borders.combo_rate;
+        reflection_rate = reflection_rate + borders.reflection_rate;
         mana = mana + borders.mana;
+        mana_regeneration_rate = mana_regeneration_rate + borders.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + borders.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + borders.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + borders.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + borders.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + borders.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + borders.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + borders.percent_all_physical_defense;
@@ -689,14 +591,25 @@ public class PowerManager
         mental_attack = mental_attack + borders.mental_attack;
         mental_defense = mental_defense + borders.mental_defense;
         speed = speed + borders.speed;
-        critical_damage = critical_damage + borders.critical_damage;
+        critical_damage_rate = critical_damage_rate + borders.critical_damage_rate;
         critical_rate = critical_rate + borders.critical_rate;
-        armor_penetration = armor_penetration + borders.armor_penetration;
-        avoid = avoid + borders.avoid;
-        absorbs_damage = absorbs_damage + borders.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + borders.regenerate_vitality;
-        accuracy = accuracy + borders.accuracy;
+        penetration_rate = penetration_rate + borders.penetration_rate;
+        evasion_rate = evasion_rate + borders.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + borders.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + borders.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + borders.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + borders.lifesteal_rate;
+        shield_strength = shield_strength + borders.shield_strength;
+        tenacity = tenacity + borders.tenacity;
+        resistance_rate = resistance_rate + borders.resistance_rate;
+        combo_rate = combo_rate + borders.combo_rate;
+        reflection_rate = reflection_rate + borders.reflection_rate;
         mana = mana + borders.mana;
+        mana_regeneration_rate = mana_regeneration_rate + borders.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + borders.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + borders.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + borders.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + borders.resistance_to_same_faction_rate;
 
         //Percent
         borders = borders.SumPowerBordersPercent();
@@ -730,14 +643,26 @@ public class PowerManager
         mental_attack = mental_attack + cardHeroes.mental_attack;
         mental_defense = mental_defense + cardHeroes.mental_defense;
         speed = speed + cardHeroes.speed;
-        critical_damage = critical_damage + cardHeroes.critical_damage;
+        critical_damage_rate = critical_damage_rate + cardHeroes.critical_damage_rate;
         critical_rate = critical_rate + cardHeroes.critical_rate;
-        armor_penetration = armor_penetration + cardHeroes.armor_penetration;
-        avoid = avoid + cardHeroes.avoid;
-        absorbs_damage = absorbs_damage + cardHeroes.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + cardHeroes.regenerate_vitality;
-        accuracy = accuracy + cardHeroes.accuracy;
+        penetration_rate = penetration_rate + cardHeroes.penetration_rate;
+        evasion_rate = evasion_rate + cardHeroes.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardHeroes.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardHeroes.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardHeroes.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardHeroes.lifesteal_rate;
+        shield_strength = shield_strength + cardHeroes.shield_strength;
+        tenacity = tenacity + cardHeroes.tenacity;
+        resistance_rate = resistance_rate + cardHeroes.resistance_rate;
+        combo_rate = combo_rate + cardHeroes.combo_rate;
+        reflection_rate = reflection_rate + cardHeroes.reflection_rate;
         mana = mana + cardHeroes.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardHeroes.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardHeroes.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardHeroes.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardHeroes.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardHeroes.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + cardHeroes.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + cardHeroes.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + cardHeroes.percent_all_physical_defense;
@@ -768,14 +693,26 @@ public class PowerManager
         mental_attack = mental_attack + cardCaptains.mental_attack;
         mental_defense = mental_defense + cardCaptains.mental_defense;
         speed = speed + cardCaptains.speed;
-        critical_damage = critical_damage + cardCaptains.critical_damage;
+        critical_damage_rate = critical_damage_rate + cardCaptains.critical_damage_rate;
         critical_rate = critical_rate + cardCaptains.critical_rate;
-        armor_penetration = armor_penetration + cardCaptains.armor_penetration;
-        avoid = avoid + cardCaptains.avoid;
-        absorbs_damage = absorbs_damage + cardCaptains.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + cardCaptains.regenerate_vitality;
-        accuracy = accuracy + cardCaptains.accuracy;
+        penetration_rate = penetration_rate + cardCaptains.penetration_rate;
+        evasion_rate = evasion_rate + cardCaptains.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardCaptains.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardCaptains.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardCaptains.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardCaptains.lifesteal_rate;
+        shield_strength = shield_strength + cardCaptains.shield_strength;
+        tenacity = tenacity + cardCaptains.tenacity;
+        resistance_rate = resistance_rate + cardCaptains.resistance_rate;
+        combo_rate = combo_rate + cardCaptains.combo_rate;
+        reflection_rate = reflection_rate + cardCaptains.reflection_rate;
         mana = mana + cardCaptains.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardCaptains.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardCaptains.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardCaptains.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardCaptains.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardCaptains.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + cardCaptains.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + cardCaptains.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + cardCaptains.percent_all_physical_defense;
@@ -806,14 +743,26 @@ public class PowerManager
         mental_attack = mental_attack + cardColonels.mental_attack;
         mental_defense = mental_defense + cardColonels.mental_defense;
         speed = speed + cardColonels.speed;
-        critical_damage = critical_damage + cardColonels.critical_damage;
+        critical_damage_rate = critical_damage_rate + cardColonels.critical_damage_rate;
         critical_rate = critical_rate + cardColonels.critical_rate;
-        armor_penetration = armor_penetration + cardColonels.armor_penetration;
-        avoid = avoid + cardColonels.avoid;
-        absorbs_damage = absorbs_damage + cardColonels.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + cardColonels.regenerate_vitality;
-        accuracy = accuracy + cardColonels.accuracy;
+        penetration_rate = penetration_rate + cardColonels.penetration_rate;
+        evasion_rate = evasion_rate + cardColonels.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardColonels.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardColonels.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardColonels.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardColonels.lifesteal_rate;
+        shield_strength = shield_strength + cardColonels.shield_strength;
+        tenacity = tenacity + cardColonels.tenacity;
+        resistance_rate = resistance_rate + cardColonels.resistance_rate;
+        combo_rate = combo_rate + cardColonels.combo_rate;
+        reflection_rate = reflection_rate + cardColonels.reflection_rate;
         mana = mana + cardColonels.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardColonels.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardColonels.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardColonels.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardColonels.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardColonels.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + cardColonels.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + cardColonels.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + cardColonels.percent_all_physical_defense;
@@ -844,14 +793,26 @@ public class PowerManager
         mental_attack = mental_attack + cardGenerals.mental_attack;
         mental_defense = mental_defense + cardGenerals.mental_defense;
         speed = speed + cardGenerals.speed;
-        critical_damage = critical_damage + cardGenerals.critical_damage;
+        critical_damage_rate = critical_damage_rate + cardGenerals.critical_damage_rate;
         critical_rate = critical_rate + cardGenerals.critical_rate;
-        armor_penetration = armor_penetration + cardGenerals.armor_penetration;
-        avoid = avoid + cardGenerals.avoid;
-        absorbs_damage = absorbs_damage + cardGenerals.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + cardGenerals.regenerate_vitality;
-        accuracy = accuracy + cardGenerals.accuracy;
+        penetration_rate = penetration_rate + cardGenerals.penetration_rate;
+        evasion_rate = evasion_rate + cardGenerals.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardGenerals.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardGenerals.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardGenerals.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardGenerals.lifesteal_rate;
+        shield_strength = shield_strength + cardGenerals.shield_strength;
+        tenacity = tenacity + cardGenerals.tenacity;
+        resistance_rate = resistance_rate + cardGenerals.resistance_rate;
+        combo_rate = combo_rate + cardGenerals.combo_rate;
+        reflection_rate = reflection_rate + cardGenerals.reflection_rate;
         mana = mana + cardGenerals.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardGenerals.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardGenerals.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardGenerals.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardGenerals.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardGenerals.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + cardGenerals.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + cardGenerals.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + cardGenerals.percent_all_physical_defense;
@@ -882,14 +843,26 @@ public class PowerManager
         mental_attack = mental_attack + cardAdmirals.mental_attack;
         mental_defense = mental_defense + cardAdmirals.mental_defense;
         speed = speed + cardAdmirals.speed;
-        critical_damage = critical_damage + cardAdmirals.critical_damage;
+        critical_damage_rate = critical_damage_rate + cardAdmirals.critical_damage_rate;
         critical_rate = critical_rate + cardAdmirals.critical_rate;
-        armor_penetration = armor_penetration + cardAdmirals.armor_penetration;
-        avoid = avoid + cardAdmirals.avoid;
-        absorbs_damage = absorbs_damage + cardAdmirals.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + cardAdmirals.regenerate_vitality;
-        accuracy = accuracy + cardAdmirals.accuracy;
+        penetration_rate = penetration_rate + cardAdmirals.penetration_rate;
+        evasion_rate = evasion_rate + cardAdmirals.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardAdmirals.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardAdmirals.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardAdmirals.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardAdmirals.lifesteal_rate;
+        shield_strength = shield_strength + cardAdmirals.shield_strength;
+        tenacity = tenacity + cardAdmirals.tenacity;
+        resistance_rate = resistance_rate + cardAdmirals.resistance_rate;
+        combo_rate = combo_rate + cardAdmirals.combo_rate;
+        reflection_rate = reflection_rate + cardAdmirals.reflection_rate;
         mana = mana + cardAdmirals.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardAdmirals.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardAdmirals.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardAdmirals.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardAdmirals.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardAdmirals.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + cardAdmirals.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + cardAdmirals.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + cardAdmirals.percent_all_physical_defense;
@@ -920,14 +893,26 @@ public class PowerManager
         mental_attack = mental_attack + cardMonsters.mental_attack;
         mental_defense = mental_defense + cardMonsters.mental_defense;
         speed = speed + cardMonsters.speed;
-        critical_damage = critical_damage + cardMonsters.critical_damage;
+        critical_damage_rate = critical_damage_rate + cardMonsters.critical_damage_rate;
         critical_rate = critical_rate + cardMonsters.critical_rate;
-        armor_penetration = armor_penetration + cardMonsters.armor_penetration;
-        avoid = avoid + cardMonsters.avoid;
-        absorbs_damage = absorbs_damage + cardMonsters.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + cardMonsters.regenerate_vitality;
-        accuracy = accuracy + cardMonsters.accuracy;
+        penetration_rate = penetration_rate + cardMonsters.penetration_rate;
+        evasion_rate = evasion_rate + cardMonsters.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardMonsters.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardMonsters.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardMonsters.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardMonsters.lifesteal_rate;
+        shield_strength = shield_strength + cardMonsters.shield_strength;
+        tenacity = tenacity + cardMonsters.tenacity;
+        resistance_rate = resistance_rate + cardMonsters.resistance_rate;
+        combo_rate = combo_rate + cardMonsters.combo_rate;
+        reflection_rate = reflection_rate + cardMonsters.reflection_rate;
         mana = mana + cardMonsters.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardMonsters.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardMonsters.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardMonsters.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardMonsters.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardMonsters.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + cardMonsters.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + cardMonsters.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + cardMonsters.percent_all_physical_defense;
@@ -958,14 +943,26 @@ public class PowerManager
         mental_attack = mental_attack + cardMilitary.mental_attack;
         mental_defense = mental_defense + cardMilitary.mental_defense;
         speed = speed + cardMilitary.speed;
-        critical_damage = critical_damage + cardMilitary.critical_damage;
+        critical_damage_rate = critical_damage_rate + cardMilitary.critical_damage_rate;
         critical_rate = critical_rate + cardMilitary.critical_rate;
-        armor_penetration = armor_penetration + cardMilitary.armor_penetration;
-        avoid = avoid + cardMilitary.avoid;
-        absorbs_damage = absorbs_damage + cardMilitary.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + cardMilitary.regenerate_vitality;
-        accuracy = accuracy + cardMilitary.accuracy;
+        penetration_rate = penetration_rate + cardMilitary.penetration_rate;
+        evasion_rate = evasion_rate + cardMilitary.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardMilitary.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardMilitary.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardMilitary.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardMilitary.lifesteal_rate;
+        shield_strength = shield_strength + cardMilitary.shield_strength;
+        tenacity = tenacity + cardMilitary.tenacity;
+        resistance_rate = resistance_rate + cardMilitary.resistance_rate;
+        combo_rate = combo_rate + cardMilitary.combo_rate;
+        reflection_rate = reflection_rate + cardMilitary.reflection_rate;
         mana = mana + cardMilitary.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardMilitary.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardMilitary.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardMilitary.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardMilitary.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardMilitary.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + cardMilitary.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + cardMilitary.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + cardMilitary.percent_all_physical_defense;
@@ -996,14 +993,26 @@ public class PowerManager
         mental_attack = mental_attack + cardSpell.mental_attack;
         mental_defense = mental_defense + cardSpell.mental_defense;
         speed = speed + cardSpell.speed;
-        critical_damage = critical_damage + cardSpell.critical_damage;
+        critical_damage_rate = critical_damage_rate + cardSpell.critical_damage_rate;
         critical_rate = critical_rate + cardSpell.critical_rate;
-        armor_penetration = armor_penetration + cardSpell.armor_penetration;
-        avoid = avoid + cardSpell.avoid;
-        absorbs_damage = absorbs_damage + cardSpell.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + cardSpell.regenerate_vitality;
-        accuracy = accuracy + cardSpell.accuracy;
+        penetration_rate = penetration_rate + cardSpell.penetration_rate;
+        evasion_rate = evasion_rate + cardSpell.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardSpell.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardSpell.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardSpell.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardSpell.lifesteal_rate;
+        shield_strength = shield_strength + cardSpell.shield_strength;
+        tenacity = tenacity + cardSpell.tenacity;
+        resistance_rate = resistance_rate + cardSpell.resistance_rate;
+        combo_rate = combo_rate + cardSpell.combo_rate;
+        reflection_rate = reflection_rate + cardSpell.reflection_rate;
         mana = mana + cardSpell.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardSpell.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardSpell.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardSpell.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardSpell.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardSpell.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + cardSpell.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + cardSpell.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + cardSpell.percent_all_physical_defense;
@@ -1034,14 +1043,26 @@ public class PowerManager
         mental_attack = mental_attack + collaboration.mental_attack;
         mental_defense = mental_defense + collaboration.mental_defense;
         speed = speed + collaboration.speed;
-        critical_damage = critical_damage + collaboration.critical_damage;
+        critical_damage_rate = critical_damage_rate + collaboration.critical_damage_rate;
         critical_rate = critical_rate + collaboration.critical_rate;
-        armor_penetration = armor_penetration + collaboration.armor_penetration;
-        avoid = avoid + collaboration.avoid;
-        absorbs_damage = absorbs_damage + collaboration.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + collaboration.regenerate_vitality;
-        accuracy = accuracy + collaboration.accuracy;
+        penetration_rate = penetration_rate + collaboration.penetration_rate;
+        evasion_rate = evasion_rate + collaboration.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + collaboration.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + collaboration.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + collaboration.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + collaboration.lifesteal_rate;
+        shield_strength = shield_strength + collaboration.shield_strength;
+        tenacity = tenacity + collaboration.tenacity;
+        resistance_rate = resistance_rate + collaboration.resistance_rate;
+        combo_rate = combo_rate + collaboration.combo_rate;
+        reflection_rate = reflection_rate + collaboration.reflection_rate;
         mana = mana + collaboration.mana;
+        mana_regeneration_rate = mana_regeneration_rate + collaboration.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + collaboration.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + collaboration.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + collaboration.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + collaboration.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + collaboration.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + collaboration.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + collaboration.percent_all_physical_defense;
@@ -1069,14 +1090,25 @@ public class PowerManager
         mental_attack = mental_attack + collaboration.mental_attack;
         mental_defense = mental_defense + collaboration.mental_defense;
         speed = speed + collaboration.speed;
-        critical_damage = critical_damage + collaboration.critical_damage;
+        critical_damage_rate = critical_damage_rate + collaboration.critical_damage_rate;
         critical_rate = critical_rate + collaboration.critical_rate;
-        armor_penetration = armor_penetration + collaboration.armor_penetration;
-        avoid = avoid + collaboration.avoid;
-        absorbs_damage = absorbs_damage + collaboration.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + collaboration.regenerate_vitality;
-        accuracy = accuracy + collaboration.accuracy;
+        penetration_rate = penetration_rate + collaboration.penetration_rate;
+        evasion_rate = evasion_rate + collaboration.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + collaboration.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + collaboration.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + collaboration.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + collaboration.lifesteal_rate;
+        shield_strength = shield_strength + collaboration.shield_strength;
+        tenacity = tenacity + collaboration.tenacity;
+        resistance_rate = resistance_rate + collaboration.resistance_rate;
+        combo_rate = combo_rate + collaboration.combo_rate;
+        reflection_rate = reflection_rate + collaboration.reflection_rate;
         mana = mana + collaboration.mana;
+        mana_regeneration_rate = mana_regeneration_rate + collaboration.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + collaboration.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + collaboration.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + collaboration.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + collaboration.resistance_to_same_faction_rate;
 
         //Percent
         collaboration = collaboration.SumPowerCollaborationsPercent();
@@ -1110,14 +1142,26 @@ public class PowerManager
         mental_attack = mental_attack + collaborationEquipment.mental_attack;
         mental_defense = mental_defense + collaborationEquipment.mental_defense;
         speed = speed + collaborationEquipment.speed;
-        critical_damage = critical_damage + collaborationEquipment.critical_damage;
+        critical_damage_rate = critical_damage_rate + collaborationEquipment.critical_damage_rate;
         critical_rate = critical_rate + collaborationEquipment.critical_rate;
-        armor_penetration = armor_penetration + collaborationEquipment.armor_penetration;
-        avoid = avoid + collaborationEquipment.avoid;
-        absorbs_damage = absorbs_damage + collaborationEquipment.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + collaborationEquipment.regenerate_vitality;
-        accuracy = accuracy + collaborationEquipment.accuracy;
+        penetration_rate = penetration_rate + collaborationEquipment.penetration_rate;
+        evasion_rate = evasion_rate + collaborationEquipment.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + collaborationEquipment.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + collaborationEquipment.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + collaborationEquipment.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + collaborationEquipment.lifesteal_rate;
+        shield_strength = shield_strength + collaborationEquipment.shield_strength;
+        tenacity = tenacity + collaborationEquipment.tenacity;
+        resistance_rate = resistance_rate + collaborationEquipment.resistance_rate;
+        combo_rate = combo_rate + collaborationEquipment.combo_rate;
+        reflection_rate = reflection_rate + collaborationEquipment.reflection_rate;
         mana = mana + collaborationEquipment.mana;
+        mana_regeneration_rate = mana_regeneration_rate + collaborationEquipment.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + collaborationEquipment.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + collaborationEquipment.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + collaborationEquipment.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + collaborationEquipment.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + collaborationEquipment.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + collaborationEquipment.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + collaborationEquipment.percent_all_physical_defense;
@@ -1145,14 +1189,25 @@ public class PowerManager
         mental_attack = mental_attack + collaborationEquipment.mental_attack;
         mental_defense = mental_defense + collaborationEquipment.mental_defense;
         speed = speed + collaborationEquipment.speed;
-        critical_damage = critical_damage + collaborationEquipment.critical_damage;
+        critical_damage_rate = critical_damage_rate + collaborationEquipment.critical_damage_rate;
         critical_rate = critical_rate + collaborationEquipment.critical_rate;
-        armor_penetration = armor_penetration + collaborationEquipment.armor_penetration;
-        avoid = avoid + collaborationEquipment.avoid;
-        absorbs_damage = absorbs_damage + collaborationEquipment.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + collaborationEquipment.regenerate_vitality;
-        accuracy = accuracy + collaborationEquipment.accuracy;
+        penetration_rate = penetration_rate + collaborationEquipment.penetration_rate;
+        evasion_rate = evasion_rate + collaborationEquipment.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + collaborationEquipment.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + collaborationEquipment.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + collaborationEquipment.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + collaborationEquipment.lifesteal_rate;
+        shield_strength = shield_strength + collaborationEquipment.shield_strength;
+        tenacity = tenacity + collaborationEquipment.tenacity;
+        resistance_rate = resistance_rate + collaborationEquipment.resistance_rate;
+        combo_rate = combo_rate + collaborationEquipment.combo_rate;
+        reflection_rate = reflection_rate + collaborationEquipment.reflection_rate;
         mana = mana + collaborationEquipment.mana;
+        mana_regeneration_rate = mana_regeneration_rate + collaborationEquipment.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + collaborationEquipment.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + collaborationEquipment.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + collaborationEquipment.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + collaborationEquipment.resistance_to_same_faction_rate;
     }
     public void GetEquipmentsPower()
     {
@@ -1172,14 +1227,26 @@ public class PowerManager
         mental_attack = mental_attack + equipments.mental_attack;
         mental_defense = mental_defense + equipments.mental_defense;
         speed = speed + equipments.speed;
-        critical_damage = critical_damage + equipments.critical_damage;
+        critical_damage_rate = critical_damage_rate + equipments.critical_damage_rate;
         critical_rate = critical_rate + equipments.critical_rate;
-        armor_penetration = armor_penetration + equipments.armor_penetration;
-        avoid = avoid + equipments.avoid;
-        absorbs_damage = absorbs_damage + equipments.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + equipments.regenerate_vitality;
-        accuracy = accuracy + equipments.accuracy;
+        penetration_rate = penetration_rate + equipments.penetration_rate;
+        evasion_rate = evasion_rate + equipments.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + equipments.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + equipments.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + equipments.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + equipments.lifesteal_rate;
+        shield_strength = shield_strength + equipments.shield_strength;
+        tenacity = tenacity + equipments.tenacity;
+        resistance_rate = resistance_rate + equipments.resistance_rate;
+        combo_rate = combo_rate + equipments.combo_rate;
+        reflection_rate = reflection_rate + equipments.reflection_rate;
         mana = mana + equipments.mana;
+        mana_regeneration_rate = mana_regeneration_rate + equipments.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + equipments.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + equipments.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + equipments.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + equipments.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + equipments.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + equipments.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + equipments.percent_all_physical_defense;
@@ -1210,14 +1277,26 @@ public class PowerManager
         mental_attack = mental_attack + magicFormationCircle.mental_attack;
         mental_defense = mental_defense + magicFormationCircle.mental_defense;
         speed = speed + magicFormationCircle.speed;
-        critical_damage = critical_damage + magicFormationCircle.critical_damage;
+        critical_damage_rate = critical_damage_rate + magicFormationCircle.critical_damage_rate;
         critical_rate = critical_rate + magicFormationCircle.critical_rate;
-        armor_penetration = armor_penetration + magicFormationCircle.armor_penetration;
-        avoid = avoid + magicFormationCircle.avoid;
-        absorbs_damage = absorbs_damage + magicFormationCircle.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + magicFormationCircle.regenerate_vitality;
-        accuracy = accuracy + magicFormationCircle.accuracy;
+        penetration_rate = penetration_rate + magicFormationCircle.penetration_rate;
+        evasion_rate = evasion_rate + magicFormationCircle.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + magicFormationCircle.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + magicFormationCircle.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + magicFormationCircle.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + magicFormationCircle.lifesteal_rate;
+        shield_strength = shield_strength + magicFormationCircle.shield_strength;
+        tenacity = tenacity + magicFormationCircle.tenacity;
+        resistance_rate = resistance_rate + magicFormationCircle.resistance_rate;
+        combo_rate = combo_rate + magicFormationCircle.combo_rate;
+        reflection_rate = reflection_rate + magicFormationCircle.reflection_rate;
         mana = mana + magicFormationCircle.mana;
+        mana_regeneration_rate = mana_regeneration_rate + magicFormationCircle.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + magicFormationCircle.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + magicFormationCircle.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + magicFormationCircle.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + magicFormationCircle.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + magicFormationCircle.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + magicFormationCircle.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + magicFormationCircle.percent_all_physical_defense;
@@ -1262,14 +1341,26 @@ public class PowerManager
         mental_attack = mental_attack + relics.mental_attack;
         mental_defense = mental_defense + relics.mental_defense;
         speed = speed + relics.speed;
-        critical_damage = critical_damage + relics.critical_damage;
+        critical_damage_rate = critical_damage_rate + relics.critical_damage_rate;
         critical_rate = critical_rate + relics.critical_rate;
-        armor_penetration = armor_penetration + relics.armor_penetration;
-        avoid = avoid + relics.avoid;
-        absorbs_damage = absorbs_damage + relics.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + relics.regenerate_vitality;
-        accuracy = accuracy + relics.accuracy;
+        penetration_rate = penetration_rate + relics.penetration_rate;
+        evasion_rate = evasion_rate + relics.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + relics.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + relics.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + relics.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + relics.lifesteal_rate;
+        shield_strength = shield_strength + relics.shield_strength;
+        tenacity = tenacity + relics.tenacity;
+        resistance_rate = resistance_rate + relics.resistance_rate;
+        combo_rate = combo_rate + relics.combo_rate;
+        reflection_rate = reflection_rate + relics.reflection_rate;
         mana = mana + relics.mana;
+        mana_regeneration_rate = mana_regeneration_rate + relics.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + relics.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + relics.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + relics.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + relics.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + relics.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + relics.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + relics.percent_all_physical_defense;
@@ -1314,14 +1405,26 @@ public class PowerManager
         mental_attack = mental_attack + medals.mental_attack;
         mental_defense = mental_defense + medals.mental_defense;
         speed = speed + medals.speed;
-        critical_damage = critical_damage + medals.critical_damage;
+        critical_damage_rate = critical_damage_rate + medals.critical_damage_rate;
         critical_rate = critical_rate + medals.critical_rate;
-        armor_penetration = armor_penetration + medals.armor_penetration;
-        avoid = avoid + medals.avoid;
-        absorbs_damage = absorbs_damage + medals.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + medals.regenerate_vitality;
-        accuracy = accuracy + medals.accuracy;
+        penetration_rate = penetration_rate + medals.penetration_rate;
+        evasion_rate = evasion_rate + medals.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + medals.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + medals.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + medals.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + medals.lifesteal_rate;
+        shield_strength = shield_strength + medals.shield_strength;
+        tenacity = tenacity + medals.tenacity;
+        resistance_rate = resistance_rate + medals.resistance_rate;
+        combo_rate = combo_rate + medals.combo_rate;
+        reflection_rate = reflection_rate + medals.reflection_rate;
         mana = mana + medals.mana;
+        mana_regeneration_rate = mana_regeneration_rate + medals.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + medals.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + medals.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + medals.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + medals.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + medals.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + medals.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + medals.percent_all_physical_defense;
@@ -1349,14 +1452,25 @@ public class PowerManager
         mental_attack = mental_attack + medals.mental_attack;
         mental_defense = mental_defense + medals.mental_defense;
         speed = speed + medals.speed;
-        critical_damage = critical_damage + medals.critical_damage;
+        critical_damage_rate = critical_damage_rate + medals.critical_damage_rate;
         critical_rate = critical_rate + medals.critical_rate;
-        armor_penetration = armor_penetration + medals.armor_penetration;
-        avoid = avoid + medals.avoid;
-        absorbs_damage = absorbs_damage + medals.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + medals.regenerate_vitality;
-        accuracy = accuracy + medals.accuracy;
+        penetration_rate = penetration_rate + medals.penetration_rate;
+        evasion_rate = evasion_rate + medals.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + medals.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + medals.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + medals.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + medals.lifesteal_rate;
+        shield_strength = shield_strength + medals.shield_strength;
+        tenacity = tenacity + medals.tenacity;
+        resistance_rate = resistance_rate + medals.resistance_rate;
+        combo_rate = combo_rate + medals.combo_rate;
+        reflection_rate = reflection_rate + medals.reflection_rate;
         mana = mana + medals.mana;
+        mana_regeneration_rate = mana_regeneration_rate + medals.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + medals.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + medals.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + medals.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + medals.resistance_to_same_faction_rate;
 
         //Percent
         medals = medals.SumPowerMedalsPercent();
@@ -1390,14 +1504,26 @@ public class PowerManager
         mental_attack = mental_attack + pets.mental_attack;
         mental_defense = mental_defense + pets.mental_defense;
         speed = speed + pets.speed;
-        critical_damage = critical_damage + pets.critical_damage;
+        critical_damage_rate = critical_damage_rate + pets.critical_damage_rate;
         critical_rate = critical_rate + pets.critical_rate;
-        armor_penetration = armor_penetration + pets.armor_penetration;
-        avoid = avoid + pets.avoid;
-        absorbs_damage = absorbs_damage + pets.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + pets.regenerate_vitality;
-        accuracy = accuracy + pets.accuracy;
+        penetration_rate = penetration_rate + pets.penetration_rate;
+        evasion_rate = evasion_rate + pets.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + pets.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + pets.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + pets.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + pets.lifesteal_rate;
+        shield_strength = shield_strength + pets.shield_strength;
+        tenacity = tenacity + pets.tenacity;
+        resistance_rate = resistance_rate + pets.resistance_rate;
+        combo_rate = combo_rate + pets.combo_rate;
+        reflection_rate = reflection_rate + pets.reflection_rate;
         mana = mana + pets.mana;
+        mana_regeneration_rate = mana_regeneration_rate + pets.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + pets.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + pets.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + pets.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + pets.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + pets.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + pets.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + pets.percent_all_physical_defense;
@@ -1428,14 +1554,26 @@ public class PowerManager
         mental_attack = mental_attack + symbols.mental_attack;
         mental_defense = mental_defense + symbols.mental_defense;
         speed = speed + symbols.speed;
-        critical_damage = critical_damage + symbols.critical_damage;
+        critical_damage_rate = critical_damage_rate + symbols.critical_damage_rate;
         critical_rate = critical_rate + symbols.critical_rate;
-        armor_penetration = armor_penetration + symbols.armor_penetration;
-        avoid = avoid + symbols.avoid;
-        absorbs_damage = absorbs_damage + symbols.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + symbols.regenerate_vitality;
-        accuracy = accuracy + symbols.accuracy;
+        penetration_rate = penetration_rate + symbols.penetration_rate;
+        evasion_rate = evasion_rate + symbols.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + symbols.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + symbols.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + symbols.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + symbols.lifesteal_rate;
+        shield_strength = shield_strength + symbols.shield_strength;
+        tenacity = tenacity + symbols.tenacity;
+        resistance_rate = resistance_rate + symbols.resistance_rate;
+        combo_rate = combo_rate + symbols.combo_rate;
+        reflection_rate = reflection_rate + symbols.reflection_rate;
         mana = mana + symbols.mana;
+        mana_regeneration_rate = mana_regeneration_rate + symbols.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + symbols.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + symbols.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + symbols.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + symbols.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + symbols.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + symbols.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + symbols.percent_all_physical_defense;
@@ -1463,14 +1601,25 @@ public class PowerManager
         mental_attack = mental_attack + symbols.mental_attack;
         mental_defense = mental_defense + symbols.mental_defense;
         speed = speed + symbols.speed;
-        critical_damage = critical_damage + symbols.critical_damage;
+        critical_damage_rate = critical_damage_rate + symbols.critical_damage_rate;
         critical_rate = critical_rate + symbols.critical_rate;
-        armor_penetration = armor_penetration + symbols.armor_penetration;
-        avoid = avoid + symbols.avoid;
-        absorbs_damage = absorbs_damage + symbols.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + symbols.regenerate_vitality;
-        accuracy = accuracy + symbols.accuracy;
+        penetration_rate = penetration_rate + symbols.penetration_rate;
+        evasion_rate = evasion_rate + symbols.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + symbols.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + symbols.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + symbols.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + symbols.lifesteal_rate;
+        shield_strength = shield_strength + symbols.shield_strength;
+        tenacity = tenacity + symbols.tenacity;
+        resistance_rate = resistance_rate + symbols.resistance_rate;
+        combo_rate = combo_rate + symbols.combo_rate;
+        reflection_rate = reflection_rate + symbols.reflection_rate;
         mana = mana + symbols.mana;
+        mana_regeneration_rate = mana_regeneration_rate + symbols.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + symbols.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + symbols.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + symbols.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + symbols.resistance_to_same_faction_rate;
 
         //Percent
         symbols = symbols.SumPowerSymbolsPercent();
@@ -1504,14 +1653,26 @@ public class PowerManager
         mental_attack = mental_attack + skills.mental_attack;
         mental_defense = mental_defense + skills.mental_defense;
         speed = speed + skills.speed;
-        critical_damage = critical_damage + skills.critical_damage;
+        critical_damage_rate = critical_damage_rate + skills.critical_damage_rate;
         critical_rate = critical_rate + skills.critical_rate;
-        armor_penetration = armor_penetration + skills.armor_penetration;
-        avoid = avoid + skills.avoid;
-        absorbs_damage = absorbs_damage + skills.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + skills.regenerate_vitality;
-        accuracy = accuracy + skills.accuracy;
+        penetration_rate = penetration_rate + skills.penetration_rate;
+        evasion_rate = evasion_rate + skills.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + skills.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + skills.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + skills.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + skills.lifesteal_rate;
+        shield_strength = shield_strength + skills.shield_strength;
+        tenacity = tenacity + skills.tenacity;
+        resistance_rate = resistance_rate + skills.resistance_rate;
+        combo_rate = combo_rate + skills.combo_rate;
+        reflection_rate = reflection_rate + skills.reflection_rate;
         mana = mana + skills.mana;
+        mana_regeneration_rate = mana_regeneration_rate + skills.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + skills.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + skills.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + skills.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + skills.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + skills.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + skills.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + skills.percent_all_physical_defense;
@@ -1542,14 +1703,26 @@ public class PowerManager
         mental_attack = mental_attack + titles.mental_attack;
         mental_defense = mental_defense + titles.mental_defense;
         speed = speed + titles.speed;
-        critical_damage = critical_damage + titles.critical_damage;
+        critical_damage_rate = critical_damage_rate + titles.critical_damage_rate;
         critical_rate = critical_rate + titles.critical_rate;
-        armor_penetration = armor_penetration + titles.armor_penetration;
-        avoid = avoid + titles.avoid;
-        absorbs_damage = absorbs_damage + titles.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + titles.regenerate_vitality;
-        accuracy = accuracy + titles.accuracy;
+        penetration_rate = penetration_rate + titles.penetration_rate;
+        evasion_rate = evasion_rate + titles.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + titles.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + titles.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + titles.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + titles.lifesteal_rate;
+        shield_strength = shield_strength + titles.shield_strength;
+        tenacity = tenacity + titles.tenacity;
+        resistance_rate = resistance_rate + titles.resistance_rate;
+        combo_rate = combo_rate + titles.combo_rate;
+        reflection_rate = reflection_rate + titles.reflection_rate;
         mana = mana + titles.mana;
+        mana_regeneration_rate = mana_regeneration_rate + titles.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + titles.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + titles.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + titles.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + titles.resistance_to_same_faction_rate;
+
         percent_all_health = percent_all_health + titles.percent_all_health;
         percent_all_physical_attack = percent_all_physical_attack + titles.percent_all_physical_attack;
         percent_all_physical_defense = percent_all_physical_defense + titles.percent_all_physical_defense;
@@ -1577,14 +1750,25 @@ public class PowerManager
         mental_attack = mental_attack + titles.mental_attack;
         mental_defense = mental_defense + titles.mental_defense;
         speed = speed + titles.speed;
-        critical_damage = critical_damage + titles.critical_damage;
+        critical_damage_rate = critical_damage_rate + titles.critical_damage_rate;
         critical_rate = critical_rate + titles.critical_rate;
-        armor_penetration = armor_penetration + titles.armor_penetration;
-        avoid = avoid + titles.avoid;
-        absorbs_damage = absorbs_damage + titles.absorbs_damage;
-        regenerate_vitality = regenerate_vitality + titles.regenerate_vitality;
-        accuracy = accuracy + titles.accuracy;
+        penetration_rate = penetration_rate + titles.penetration_rate;
+        evasion_rate = evasion_rate + titles.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + titles.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + titles.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + titles.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + titles.lifesteal_rate;
+        shield_strength = shield_strength + titles.shield_strength;
+        tenacity = tenacity + titles.tenacity;
+        resistance_rate = resistance_rate + titles.resistance_rate;
+        combo_rate = combo_rate + titles.combo_rate;
+        reflection_rate = reflection_rate + titles.reflection_rate;
         mana = mana + titles.mana;
+        mana_regeneration_rate = mana_regeneration_rate + titles.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + titles.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + titles.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + titles.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + titles.resistance_to_same_faction_rate;
 
         //Percent
         titles = titles.SumPowerTitlesPercent();

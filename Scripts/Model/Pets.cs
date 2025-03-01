@@ -31,14 +31,25 @@ public class Pets
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public double all_power { get; set; }
     public double all_health { get; set; }
     public double all_physical_attack { get; set; }
@@ -52,14 +63,25 @@ public class Pets
     public double all_mental_attack { get; set; }
     public double all_mental_defense { get; set; }
     public double all_speed { get; set; }
-    public double all_critical_damage { get; set; }
+    public double all_critical_damage_rate { get; set; }
     public double all_critical_rate { get; set; }
-    public double all_armor_penetration { get; set; }
-    public double all_avoid { get; set; }
-    public double all_absorbs_damage { get; set; }
-    public double all_regenerate_vitality { get; set; }
-    public double all_accuracy { get; set; }
+    public double all_penetration_rate { get; set; }
+    public double all_evasion_rate { get; set; }
+    public double all_damage_absorption_rate { get; set; }
+    public double all_vitality_regeneration_rate { get; set; }
+    public double all_accuracy_rate { get; set; }
+    public double all_lifesteal_rate { get; set; }
     public float all_mana { get; set; }
+    public double all_mana_regeneration_rate { get; set; }
+    public double all_shield_strength { get; set; }
+    public double all_tenacity { get; set; }
+    public double all_resistance_rate { get; set; }
+    public double all_combo_rate { get; set; }
+    public double all_reflection_rate { get; set; }
+    public double all_damage_to_different_faction_rate { get; set; }
+    public double all_resistance_to_different_faction_rate { get; set; }
+    public double all_damage_to_same_faction_rate { get; set; }
+    public double all_resistance_to_same_faction_rate { get; set; }
     public string description { get; set; }
     public int team_id { get; set; }
     public string status { get; set; }
@@ -90,13 +112,26 @@ public class Pets
         mental_attack = -1;
         mental_defense = -1;
         speed = -1;
-        critical_damage = -1;
+        critical_damage_rate = -1;
         critical_rate = -1;
-        armor_penetration = -1;
-        avoid = -1;
-        absorbs_damage = -1;
-        regenerate_vitality = -1;
-        accuracy = -1;
+        penetration_rate = -1;
+        evasion_rate = -1;
+        damage_absorption_rate = -1;
+        vitality_regeneration_rate = -1;
+        accuracy_rate = -1;
+        lifesteal_rate = -1;
+        mana = -1;
+        mana_regeneration_rate = -1;
+        shield_strength = -1;
+        tenacity = -1;
+        resistance_rate = -1;
+        combo_rate = -1;
+        reflection_rate = -1;
+        damage_to_different_faction_rate = -1;
+        resistance_to_different_faction_rate = -1;
+        damage_to_same_faction_rate = -1;
+        resistance_to_same_faction_rate = -1;
+
         all_power = -1;
         all_health = -1;
         all_physical_attack = -1;
@@ -110,14 +145,27 @@ public class Pets
         all_mental_attack = -1;
         all_mental_defense = -1;
         all_speed = -1;
-        all_critical_damage = -1;
+        all_critical_damage_rate = -1;
         all_critical_rate = -1;
-        all_armor_penetration = -1;
-        all_avoid = -1;
-        all_absorbs_damage = -1;
-        all_regenerate_vitality = -1;
-        all_accuracy = -1;
-        team_id=-1;
+        all_penetration_rate = -1;
+        all_evasion_rate = -1;
+        all_damage_absorption_rate = -1;
+        all_vitality_regeneration_rate = -1;
+        all_accuracy_rate = -1;
+        all_lifesteal_rate = -1;
+        all_mana = -1;
+        all_mana_regeneration_rate = -1;
+        all_shield_strength = -1;
+        all_tenacity = -1;
+        all_resistance_rate = -1;
+        all_combo_rate = -1;
+        all_reflection_rate = -1;
+        all_damage_to_different_faction_rate = -1;
+        all_resistance_to_different_faction_rate = -1;
+        all_damage_to_same_faction_rate = -1;
+        all_resistance_to_same_faction_rate = -1;
+
+        team_id = -1;
         percent_all_health = -1;
         percent_all_physical_attack = -1;
         percent_all_physical_defense = -1;
@@ -138,7 +186,6 @@ public class Pets
         {
             Pets card = new Pets();
             card = card.GetUserPetsById(c.id);
-            c.all_power = powerManager.GetFinalPetsPower(c);
             c.all_health = c.all_health + powerManager.health + card.health * powerManager.percent_all_health / 100;
             c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + card.physical_attack * powerManager.percent_all_physical_attack / 100;
             c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + card.physical_defense * powerManager.percent_all_physical_defense / 100;
@@ -151,14 +198,44 @@ public class Pets
             c.all_mental_attack = c.all_mental_attack + powerManager.mental_attack + card.mental_attack * powerManager.percent_all_mental_attack / 100;
             c.all_mental_defense = c.all_mental_defense + powerManager.mental_defense + card.mental_defense * powerManager.percent_all_mental_defense / 100;
             c.all_speed = c.all_speed + powerManager.speed;
-            c.all_critical_damage = c.all_critical_damage + powerManager.critical_damage;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + powerManager.critical_damage_rate;
             c.all_critical_rate = c.all_critical_rate + powerManager.critical_rate;
-            c.all_armor_penetration = c.all_armor_penetration + powerManager.armor_penetration;
-            c.all_avoid = c.all_avoid + powerManager.avoid;
-            c.all_absorbs_damage = c.all_absorbs_damage + powerManager.absorbs_damage;
-            c.all_regenerate_vitality = c.all_regenerate_vitality + powerManager.regenerate_vitality;
-            c.all_accuracy = c.all_accuracy + powerManager.accuracy;
+            c.all_penetration_rate = c.all_penetration_rate + powerManager.penetration_rate;
+            c.all_evasion_rate = c.all_evasion_rate + powerManager.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + powerManager.damage_absorption_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + powerManager.vitality_regeneration_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + powerManager.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + powerManager.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + powerManager.shield_strength;
+            c.all_tenacity = c.all_tenacity + powerManager.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + powerManager.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + powerManager.combo_rate;
+            c.all_reflection_rate = c.all_reflection_rate + powerManager.reflection_rate;
             c.all_mana = c.all_mana + powerManager.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + powerManager.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + powerManager.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + powerManager.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + powerManager.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + powerManager.resistance_to_same_faction_rate;
+
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
+        );
         }
         return PetsList;
     }
@@ -180,36 +257,43 @@ public class Pets
             c.all_mental_attack = c.all_mental_attack + equipments.mental_attack + equipments.special_mental_attack;
             c.all_mental_defense = c.all_mental_defense + equipments.mental_defense + equipments.special_mental_defense;
             c.all_speed = c.all_speed + equipments.speed;
-            c.all_critical_damage = c.all_critical_damage + equipments.critical_damage;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + equipments.critical_damage_rate;
             c.all_critical_rate = c.all_critical_rate + equipments.critical_rate;
-            c.all_armor_penetration = c.all_armor_penetration + equipments.armor_penetration;
-            c.all_avoid = c.all_avoid + equipments.avoid;
-            c.all_absorbs_damage = c.all_absorbs_damage + equipments.absorbs_damage;
-            c.all_regenerate_vitality = c.all_regenerate_vitality + equipments.regenerate_vitality;
-            c.all_accuracy = c.all_accuracy + equipments.accuracy;
+            c.all_penetration_rate = c.all_penetration_rate + equipments.penetration_rate;
+            c.all_evasion_rate = c.all_evasion_rate + equipments.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + equipments.damage_absorption_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + equipments.vitality_regeneration_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + equipments.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + equipments.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + equipments.shield_strength;
+            c.all_tenacity = c.all_tenacity + equipments.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + equipments.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + equipments.combo_rate;
+            c.all_reflection_rate = c.all_reflection_rate + equipments.reflection_rate;
             c.all_mana = c.all_mana + equipments.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + equipments.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + equipments.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + equipments.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + equipments.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + equipments.resistance_to_same_faction_rate;
 
-            c.all_power = Math.Floor(0.5 * (
-            c.all_health +
-            c.all_physical_attack +
-            c.all_physical_defense +
-            c.all_magical_attack +
-            c.all_magical_defense +
-            c.all_chemical_attack +
-            c.all_chemical_defense +
-            c.all_atomic_attack +
-            c.all_atomic_defense +
-            c.all_mental_attack +
-            c.all_mental_defense +
-            c.all_speed +
-            c.all_critical_damage +
-            c.all_critical_rate +
-            c.all_armor_penetration +
-            c.all_avoid +
-            c.all_absorbs_damage +
-            c.all_regenerate_vitality +
-            c.all_accuracy +
-            c.all_mana)
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
         );
         }
         return PetsList;
@@ -222,48 +306,55 @@ public class Pets
             Pets card = new Pets();
             card = card.GetUserPetsById(c.id);
             rank = rank.GetSumPetsRank(c.id);
-            c.all_health = c.all_health + rank.health + card.health * rank.percent_all_health/100;
-            c.all_physical_attack = c.all_physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack/100;
-            c.all_physical_defense = c.all_physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense/100;
-            c.all_magical_attack = c.all_magical_attack + rank.magical_attack + card.magical_attack * rank.percent_all_magical_attack/100;
-            c.all_magical_defense = c.all_magical_defense + rank.magical_defense + card.magical_defense * rank.percent_all_magical_defense/100;
-            c.all_chemical_attack = c.all_chemical_attack + rank.chemical_attack + card.chemical_attack * rank.percent_all_chemical_attack/100;
-            c.all_chemical_defense = c.all_chemical_defense + rank.chemical_defense + card.chemical_defense * rank.percent_all_chemical_defense/100;
-            c.all_atomic_attack = c.all_atomic_attack + rank.atomic_attack + card.atomic_attack * rank.percent_all_atomic_attack/100;
-            c.all_atomic_defense = c.all_atomic_defense + rank.atomic_defense + card.atomic_defense * rank.percent_all_atomic_defense/100;
-            c.all_mental_attack = c.all_mental_attack + rank.mental_attack + card.mental_attack * rank.percent_all_mental_attack/100;
-            c.all_mental_defense = c.all_mental_defense + rank.mental_defense + card.mental_defense * rank.percent_all_mental_defense/100;
+            c.all_health = c.all_health + rank.health + card.health * rank.percent_all_health / 100;
+            c.all_physical_attack = c.all_physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack / 100;
+            c.all_physical_defense = c.all_physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense / 100;
+            c.all_magical_attack = c.all_magical_attack + rank.magical_attack + card.magical_attack * rank.percent_all_magical_attack / 100;
+            c.all_magical_defense = c.all_magical_defense + rank.magical_defense + card.magical_defense * rank.percent_all_magical_defense / 100;
+            c.all_chemical_attack = c.all_chemical_attack + rank.chemical_attack + card.chemical_attack * rank.percent_all_chemical_attack / 100;
+            c.all_chemical_defense = c.all_chemical_defense + rank.chemical_defense + card.chemical_defense * rank.percent_all_chemical_defense / 100;
+            c.all_atomic_attack = c.all_atomic_attack + rank.atomic_attack + card.atomic_attack * rank.percent_all_atomic_attack / 100;
+            c.all_atomic_defense = c.all_atomic_defense + rank.atomic_defense + card.atomic_defense * rank.percent_all_atomic_defense / 100;
+            c.all_mental_attack = c.all_mental_attack + rank.mental_attack + card.mental_attack * rank.percent_all_mental_attack / 100;
+            c.all_mental_defense = c.all_mental_defense + rank.mental_defense + card.mental_defense * rank.percent_all_mental_defense / 100;
             c.all_speed = c.all_speed + rank.speed;
-            c.all_critical_damage = c.all_critical_damage + rank.critical_damage;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + rank.critical_damage_rate;
             c.all_critical_rate = c.all_critical_rate + rank.critical_rate;
-            c.all_armor_penetration = c.all_armor_penetration + rank.armor_penetration;
-            c.all_avoid = c.all_avoid + rank.avoid;
-            c.all_absorbs_damage = c.all_absorbs_damage + rank.absorbs_damage;
-            c.all_regenerate_vitality = c.all_regenerate_vitality + rank.regenerate_vitality;
-            c.all_accuracy = c.all_accuracy + rank.accuracy;
+            c.all_penetration_rate = c.all_penetration_rate + rank.penetration_rate;
+            c.all_evasion_rate = c.all_evasion_rate + rank.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + rank.damage_absorption_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + rank.vitality_regeneration_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + rank.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + rank.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + rank.shield_strength;
+            c.all_tenacity = c.all_tenacity + rank.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + rank.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + rank.combo_rate;
+            c.all_reflection_rate = c.all_reflection_rate + rank.reflection_rate;
             c.all_mana = c.all_mana + rank.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + rank.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + rank.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + rank.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + rank.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + rank.resistance_to_same_faction_rate;
 
-            c.all_power = Math.Floor(0.5 * (
-            c.all_health +
-            c.all_physical_attack +
-            c.all_physical_defense +
-            c.all_magical_attack +
-            c.all_magical_defense +
-            c.all_chemical_attack +
-            c.all_chemical_defense +
-            c.all_atomic_attack +
-            c.all_atomic_defense +
-            c.all_mental_attack +
-            c.all_mental_defense +
-            c.all_speed +
-            c.all_critical_damage +
-            c.all_critical_rate +
-            c.all_armor_penetration +
-            c.all_avoid +
-            c.all_absorbs_damage +
-            c.all_regenerate_vitality +
-            c.all_accuracy +
-            c.all_mana)
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
         );
         }
         return PetsList;
@@ -287,36 +378,43 @@ public class Pets
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        pets.power = 0.5 * (
-            pets.health +
-            pets.physical_attack +
-            pets.physical_defense +
-            pets.magical_attack +
-            pets.magical_defense +
-            pets.chemical_attack +
-            pets.chemical_defense +
-            pets.atomic_attack +
-            pets.atomic_defense +
-            pets.mental_attack +
-            pets.mental_defense +
-            pets.speed +
-            pets.critical_damage +
-            pets.critical_rate +
-            pets.armor_penetration +
-            pets.avoid +
-            pets.absorbs_damage +
-            pets.regenerate_vitality +
-            pets.accuracy +
-            pets.mana
+        pets.power = PowerManager.CalculatePower(
+            pets.health,
+            pets.physical_attack, pets.physical_defense,
+            pets.magical_attack, pets.magical_defense,
+            pets.chemical_attack, pets.chemical_defense,
+            pets.atomic_attack, pets.atomic_defense,
+            pets.mental_attack, pets.mental_defense,
+            pets.speed,
+            pets.critical_damage_rate, pets.critical_rate,
+            pets.penetration_rate, pets.evasion_rate,
+            pets.damage_absorption_rate, pets.vitality_regeneration_rate,
+            pets.accuracy_rate, pets.lifesteal_rate,
+            pets.shield_strength, pets.tenacity, pets.resistance_rate,
+            pets.combo_rate, pets.reflection_rate,
+            pets.mana, pets.mana_regeneration_rate,
+            pets.damage_to_different_faction_rate, pets.resistance_to_different_faction_rate,
+            pets.damage_to_same_faction_rate, pets.resistance_to_same_faction_rate
         );
         return pets;
     }
@@ -339,36 +437,43 @@ public class Pets
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        pets.power = 0.5 * (
-            pets.health +
-            pets.physical_attack +
-            pets.physical_defense +
-            pets.magical_attack +
-            pets.magical_defense +
-            pets.chemical_attack +
-            pets.chemical_defense +
-            pets.atomic_attack +
-            pets.atomic_defense +
-            pets.mental_attack +
-            pets.mental_defense +
-            pets.speed +
-            pets.critical_damage +
-            pets.critical_rate +
-            pets.armor_penetration +
-            pets.avoid +
-            pets.absorbs_damage +
-            pets.regenerate_vitality +
-            pets.accuracy +
-            pets.mana
+        pets.power = PowerManager.CalculatePower(
+            pets.health,
+            pets.physical_attack, pets.physical_defense,
+            pets.magical_attack, pets.magical_defense,
+            pets.chemical_attack, pets.chemical_defense,
+            pets.atomic_attack, pets.atomic_defense,
+            pets.mental_attack, pets.mental_defense,
+            pets.speed,
+            pets.critical_damage_rate, pets.critical_rate,
+            pets.penetration_rate, pets.evasion_rate,
+            pets.damage_absorption_rate, pets.vitality_regeneration_rate,
+            pets.accuracy_rate, pets.lifesteal_rate,
+            pets.shield_strength, pets.tenacity, pets.resistance_rate,
+            pets.combo_rate, pets.reflection_rate,
+            pets.mana, pets.mana_regeneration_rate,
+            pets.damage_to_different_faction_rate, pets.resistance_to_different_faction_rate,
+            pets.damage_to_same_faction_rate, pets.resistance_to_same_faction_rate
         );
         return pets;
     }
@@ -390,7 +495,7 @@ public class Pets
         }
         return typeList;
     }
-    public List<Pets> GetPets(string type,int pageSize, int offset)
+    public List<Pets> GetPets(string type, int pageSize, int offset)
     {
         List<Pets> petsList = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -429,14 +534,25 @@ public class Pets
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
 
@@ -451,8 +567,9 @@ public class Pets
         }
         return petsList;
     }
-    public int GetPetsCount(string type){
-        int count =0;
+    public int GetPetsCount(string type)
+    {
+        int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -473,10 +590,10 @@ public class Pets
         }
         return count;
     }
-    public List<Pets> GetPetsCollection(string type,int pageSize, int offset)
+    public List<Pets> GetPetsCollection(string type, int pageSize, int offset)
     {
         List<Pets> petsList = new List<Pets>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -515,16 +632,27 @@ public class Pets
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
-                        status=reader.GetString("status"),
+                        status = reader.GetString("status"),
                     };
 
                     petsList.Add(pet);
@@ -538,10 +666,10 @@ public class Pets
         }
         return petsList;
     }
-    public List<Pets> GetUserPets(string type,int pageSize, int offset)
+    public List<Pets> GetUserPets(string type, int pageSize, int offset)
     {
         List<Pets> petsList = new List<Pets>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -587,15 +715,27 @@ public class Pets
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
+
                         all_power = reader.GetDouble("all_power"),
                         all_health = reader.GetDouble("all_health"),
                         all_physical_attack = reader.GetDouble("all_physical_attack"),
@@ -609,14 +749,25 @@ public class Pets
                         all_mental_attack = reader.GetDouble("all_mental_attack"),
                         all_mental_defense = reader.GetDouble("all_mental_defense"),
                         all_speed = reader.GetDouble("all_speed"),
-                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
                         all_critical_rate = reader.GetDouble("all_critical_rate"),
-                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
-                        all_avoid = reader.GetDouble("all_avoid"),
-                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
-                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
-                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_penetration_rate = reader.GetDouble("all_penetration_rate"),
+                        all_evasion_rate = reader.GetDouble("all_evasion_rate"),
+                        all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
+                        all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
+                        all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
+                        all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
+                        all_shield_strength = reader.GetDouble("all_shield_strength"),
+                        all_tenacity = reader.GetDouble("all_tenacity"),
+                        all_resistance_rate = reader.GetDouble("all_resistance_rate"),
+                        all_combo_rate = reader.GetDouble("all_combo_rate"),
+                        all_reflection_rate = reader.GetDouble("all_reflection_rate"),
                         all_mana = reader.GetFloat("all_mana"),
+                        all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
+                        all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
+                        all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
+                        all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
+                        all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
                     };
 
                     petsList.Add(pet);
@@ -678,15 +829,27 @@ public class Pets
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
+
                         all_power = reader.GetDouble("all_power"),
                         all_health = reader.GetDouble("all_health"),
                         all_physical_attack = reader.GetDouble("all_physical_attack"),
@@ -700,14 +863,25 @@ public class Pets
                         all_mental_attack = reader.GetDouble("all_mental_attack"),
                         all_mental_defense = reader.GetDouble("all_mental_defense"),
                         all_speed = reader.GetDouble("all_speed"),
-                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
                         all_critical_rate = reader.GetDouble("all_critical_rate"),
-                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
-                        all_avoid = reader.GetDouble("all_avoid"),
-                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
-                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
-                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_penetration_rate = reader.GetDouble("all_penetration_rate"),
+                        all_evasion_rate = reader.GetDouble("all_evasion_rate"),
+                        all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
+                        all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
+                        all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
+                        all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
+                        all_shield_strength = reader.GetDouble("all_shield_strength"),
+                        all_tenacity = reader.GetDouble("all_tenacity"),
+                        all_resistance_rate = reader.GetDouble("all_resistance_rate"),
+                        all_combo_rate = reader.GetDouble("all_combo_rate"),
+                        all_reflection_rate = reader.GetDouble("all_reflection_rate"),
                         all_mana = reader.GetFloat("all_mana"),
+                        all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
+                        all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
+                        all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
+                        all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
+                        all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
                     };
 
                     petsList.Add(pet);
@@ -752,9 +926,10 @@ public class Pets
         }
         return result;
     }
-    public int GetUserPetsCount(string type){
-        int count =0;
-        int user_id=User.CurrentUserId;
+    public int GetUserPetsCount(string type)
+    {
+        int count = 0;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -786,18 +961,22 @@ public class Pets
                 connection.Open();
                 string query = @"
                 INSERT INTO user_pets (
-                    user_id, pet_id, level, experiment, star, block, power,
-                    health, physical_attack, physical_defense, magical_attack, magical_defense, 
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                    mental_attack, mental_defense, speed, critical_damage, critical_rate, 
-                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
+                    user_id, pet_id, level, experiment, star, block, quantity, power, health, physical_attack, 
+                    physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
+                    penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
+                    lifesteal_rate, shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                    mana, mana_regeneration_rate, damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
                 ) VALUES (
-                    @user_id, @pet_id, @level, @experiment, @star, @block, @power, 
-                    @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
-                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                    @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
-                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
-                )";
+                    @user_id, @pet_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
+                    @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
+                    @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
+                    @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                    @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
+                );";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@pet_id", pets.id);
@@ -818,14 +997,25 @@ public class Pets
                 command.Parameters.AddWithValue("@mental_attack", pets.magical_attack);
                 command.Parameters.AddWithValue("@mental_defense", pets.magical_defense);
                 command.Parameters.AddWithValue("@speed", pets.speed);
-                command.Parameters.AddWithValue("@critical_damage", pets.critical_damage);
+                command.Parameters.AddWithValue("@critical_damage_rate", pets.critical_damage_rate);
                 command.Parameters.AddWithValue("@critical_rate", pets.critical_rate);
-                command.Parameters.AddWithValue("@armor_penetration", pets.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", pets.avoid);
-                command.Parameters.AddWithValue("@absorbs_damage", pets.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerate_vitality", pets.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", pets.accuracy);
+                command.Parameters.AddWithValue("@penetration_rate", pets.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", pets.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", pets.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", pets.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", pets.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", pets.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", pets.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", pets.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", pets.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", pets.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", pets.reflection_rate);
                 command.Parameters.AddWithValue("@mana", pets.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", pets.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", pets.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", pets.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", pets.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", pets.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
                 InsertFactPets(pets);
                 return true;
@@ -851,43 +1041,61 @@ public class Pets
                 connection.Open();
                 string query = @"
                 UPDATE user_pets
-                SET level = @level,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND pet_id = @pet_id;;";
+                SET 
+                    level = @level, power = @power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND pet_id = @pet_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@pet_id", pets.id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", pets.power);
                 command.Parameters.AddWithValue("@health", pets.health);
-                command.Parameters.AddWithValue("@physicalAttack", pets.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", pets.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", pets.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", pets.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", pets.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", pets.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", pets.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", pets.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", pets.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", pets.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", pets.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", pets.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", pets.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", pets.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", pets.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", pets.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", pets.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", pets.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", pets.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", pets.mental_defense);
                 command.Parameters.AddWithValue("@speed", pets.speed);
-                command.Parameters.AddWithValue("@criticalDamage", pets.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", pets.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", pets.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", pets.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", pets.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", pets.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", pets.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", pets.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", pets.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", pets.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", pets.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", pets.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", pets.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", pets.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", pets.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", pets.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", pets.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", pets.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", pets.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", pets.reflection_rate);
                 command.Parameters.AddWithValue("@mana", pets.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", pets.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", pets.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", pets.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", pets.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", pets.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -907,18 +1115,25 @@ public class Pets
                 connection.Open();
                 string query = @"
                 UPDATE user_pets
-                SET star = @star, quantity=@quantity,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND pet_id = @pet_id;;";
+                SET 
+                    star = @star, quantity = @quantity, power=@power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND pet_id = @pet_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@pet_id", pets.id);
@@ -926,25 +1141,36 @@ public class Pets
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", pets.power);
                 command.Parameters.AddWithValue("@health", pets.health);
-                command.Parameters.AddWithValue("@physicalAttack", pets.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", pets.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", pets.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", pets.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", pets.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", pets.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", pets.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", pets.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", pets.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", pets.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", pets.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", pets.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", pets.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", pets.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", pets.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", pets.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", pets.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", pets.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", pets.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", pets.mental_defense);
                 command.Parameters.AddWithValue("@speed", pets.speed);
-                command.Parameters.AddWithValue("@criticalDamage", pets.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", pets.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", pets.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", pets.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", pets.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", pets.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", pets.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", pets.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", pets.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", pets.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", pets.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", pets.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", pets.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", pets.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", pets.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", pets.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", pets.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", pets.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", pets.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", pets.reflection_rate);
                 command.Parameters.AddWithValue("@mana", pets.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", pets.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", pets.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", pets.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", pets.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", pets.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -964,18 +1190,30 @@ public class Pets
                 connection.Open();
                 string query = @"
                 INSERT INTO fact_pets (
-                    user_id, user_pet_id, all_power,
-                    all_health, all_physical_attack, all_physical_defense, all_magical_attack, all_magical_defense,
-                    all_chemical_attack, all_chemical_defense, all_atomic_attack, all_atomic_defense,
-                    all_mental_attack, all_mental_defense, all_speed, all_critical_damage, all_critical_rate,
-                    all_armor_penetration, all_avoid, all_absorbs_damage, all_regenerate_vitality, all_accuracy, all_mana
-                ) VALUES (
-                    @user_id, @user_pet_id, @all_power,
-                    @all_health, @all_physical_attack, @all_physical_defense, @all_magical_attack, @all_magical_defense,
-                    @all_chemical_attack, @all_chemical_defense, @all_atomic_attack, @all_atomic_defense,
-                    @all_mental_attack, @all_mental_defense, @all_speed, @all_critical_damage, @all_critical_rate,
-                    @all_armor_penetration, @all_avoid, @all_absorbs_damage, @all_regenerate_vitality, @all_accuracy, @all_mana
-                );";
+                user_id, user_pet_id, team_id, position, role, 
+                all_power, all_health, all_physical_attack, all_physical_defense, 
+                all_magical_attack, all_magical_defense, all_chemical_attack, all_chemical_defense, 
+                all_atomic_attack, all_atomic_defense, all_mental_attack, all_mental_defense, 
+                all_speed, all_critical_damage_rate, all_critical_rate, all_penetration_rate, 
+                all_evasion_rate, all_damage_absorption_rate, all_vitality_regeneration_rate, 
+                all_accuracy_rate, all_lifesteal_rate, all_shield_strength, all_tenacity, 
+                all_resistance_rate, all_combo_rate, all_reflection_rate, all_mana, 
+                all_mana_regeneration_rate, all_damage_to_different_faction_rate, 
+                all_resistance_to_different_faction_rate, all_damage_to_same_faction_rate, 
+                all_resistance_to_same_faction_rate
+            ) VALUES (
+                @user_id, @user_pet_id, @team_id, @position, @role, 
+                @all_power, @all_health, @all_physical_attack, @all_physical_defense, 
+                @all_magical_attack, @all_magical_defense, @all_chemical_attack, @all_chemical_defense, 
+                @all_atomic_attack, @all_atomic_defense, @all_mental_attack, @all_mental_defense, 
+                @all_speed, @all_critical_damage_rate, @all_critical_rate, @all_penetration_rate, 
+                @all_evasion_rate, @all_damage_absorption_rate, @all_vitality_regeneration_rate, 
+                @all_accuracy_rate, @all_lifesteal_rate, @all_shield_strength, @all_tenacity, 
+                @all_resistance_rate, @all_combo_rate, @all_reflection_rate, @all_mana, 
+                @all_mana_regeneration_rate, @all_damage_to_different_faction_rate, 
+                @all_resistance_to_different_faction_rate, @all_damage_to_same_faction_rate, 
+                @all_resistance_to_same_faction_rate
+            );";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_pet_id", pets.id);
@@ -992,14 +1230,25 @@ public class Pets
                 command.Parameters.AddWithValue("@all_mental_attack", pets.mental_attack);
                 command.Parameters.AddWithValue("@all_mental_defense", pets.mental_defense);
                 command.Parameters.AddWithValue("@all_speed", pets.speed);
-                command.Parameters.AddWithValue("@all_critical_damage", pets.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_damage_rate", pets.critical_damage_rate);
                 command.Parameters.AddWithValue("@all_critical_rate", pets.critical_rate);
-                command.Parameters.AddWithValue("@all_armor_penetration", pets.armor_penetration);
-                command.Parameters.AddWithValue("@all_avoid", pets.avoid);
-                command.Parameters.AddWithValue("@all_absorbs_damage", pets.absorbs_damage);
-                command.Parameters.AddWithValue("@all_regenerate_vitality", pets.regenerate_vitality);
-                command.Parameters.AddWithValue("@all_accuracy", pets.accuracy);
+                command.Parameters.AddWithValue("@all_penetration_rate", pets.penetration_rate);
+                command.Parameters.AddWithValue("@all_evasion_rate", pets.evasion_rate);
+                command.Parameters.AddWithValue("@all_damage_absorption_rate", pets.damage_absorption_rate);
+                command.Parameters.AddWithValue("@all_vitality_regeneration_rate", pets.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@all_accuracy_rate", pets.accuracy_rate);
                 command.Parameters.AddWithValue("@all_mana", pets.mana);
+                command.Parameters.AddWithValue("@all_lifesteal_rate", pets.lifesteal_rate);
+                command.Parameters.AddWithValue("@all_shield_strength", pets.shield_strength);
+                command.Parameters.AddWithValue("@all_tenacity", pets.tenacity);
+                command.Parameters.AddWithValue("@all_resistance_rate", pets.resistance_rate);
+                command.Parameters.AddWithValue("@all_combo_rate", pets.combo_rate);
+                command.Parameters.AddWithValue("@all_reflection_rate", pets.reflection_rate);
+                command.Parameters.AddWithValue("@all_mana_regeneration_rate", pets.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", pets.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", pets.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", pets.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", pets.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
 
             }
@@ -1026,13 +1275,20 @@ public class Pets
                     all_magical_defense = @all_magical_defense, all_chemical_attack = @all_chemical_attack,
                     all_chemical_defense = @all_chemical_defense, all_atomic_attack = @all_atomic_attack,
                     all_atomic_defense = @all_atomic_defense, all_mental_attack = @all_mental_attack,
-                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, all_critical_damage = @all_critical_damage,
-                    all_critical_rate = @all_critical_rate, all_armor_penetration = @all_armor_penetration,
-                    all_avoid = @all_avoid, all_absorbs_damage = @all_absorbs_damage, 
-                    all_regenerate_vitality = @all_regenerate_vitality, 
-                    all_accuracy = @all_accuracy, all_mana = @all_mana
-                WHERE 
-                    user_id = @user_id AND user_pet_id = @user_pet_id;;";
+                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, 
+                    all_critical_damage_rate = @all_critical_damage, all_critical_rate = @all_critical_rate, 
+                    all_penetration_rate = @all_armor_penetration, all_evasion_rate = @all_avoid, 
+                    all_damage_absorption_rate = @all_absorbs_damage, all_vitality_regeneration_rate = @all_regenerate_vitality, 
+                    all_accuracy_rate = @all_accuracy, all_mana = @all_mana, 
+                    all_lifesteal_rate = @all_lifesteal, all_shield_strength = @all_shield_strength,
+                    all_tenacity = @all_tenacity, all_resistance_rate = @all_resistance,
+                    all_combo_rate = @all_combo_rate, all_reflection_rate = @all_reflection_rate,
+                    all_mana_regeneration_rate = @all_mana_regeneration, 
+                    all_damage_to_different_faction_rate = @all_damage_to_different_faction,
+                    all_resistance_to_different_faction_rate = @all_resistance_to_different_faction,
+                    all_damage_to_same_faction_rate = @all_damage_to_same_faction,
+                    all_resistance_to_same_faction_rate = @all_resistance_to_same_faction
+                WHERE user_id = @user_id AND user_pet_id = @user_pet_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_pet_id", pets.id);
@@ -1049,14 +1305,25 @@ public class Pets
                 command.Parameters.AddWithValue("@all_mental_attack", pets.mental_attack);
                 command.Parameters.AddWithValue("@all_mental_defense", pets.mental_defense);
                 command.Parameters.AddWithValue("@all_speed", pets.speed);
-                command.Parameters.AddWithValue("@all_critical_damage", pets.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_damage_rate", pets.critical_damage_rate);
                 command.Parameters.AddWithValue("@all_critical_rate", pets.critical_rate);
-                command.Parameters.AddWithValue("@all_armor_penetration", pets.armor_penetration);
-                command.Parameters.AddWithValue("@all_avoid", pets.avoid);
-                command.Parameters.AddWithValue("@all_absorbs_damage", pets.absorbs_damage);
-                command.Parameters.AddWithValue("@all_regenerate_vitality", pets.regenerate_vitality);
-                command.Parameters.AddWithValue("@all_accuracy", pets.accuracy);
+                command.Parameters.AddWithValue("@all_penetration_rate", pets.penetration_rate);
+                command.Parameters.AddWithValue("@all_evasion_rate", pets.evasion_rate);
+                command.Parameters.AddWithValue("@all_damage_absorption_rate", pets.damage_absorption_rate);
+                command.Parameters.AddWithValue("@all_vitality_regeneration_rate", pets.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@all_accuracy_rate", pets.accuracy_rate);
                 command.Parameters.AddWithValue("@all_mana", pets.mana);
+                command.Parameters.AddWithValue("@all_lifesteal_rate", pets.lifesteal_rate);
+                command.Parameters.AddWithValue("@all_shield_strength", pets.shield_strength);
+                command.Parameters.AddWithValue("@all_tenacity", pets.tenacity);
+                command.Parameters.AddWithValue("@all_resistance_rate", pets.resistance_rate);
+                command.Parameters.AddWithValue("@all_combo_rate", pets.combo_rate);
+                command.Parameters.AddWithValue("@all_reflection_rate", pets.reflection_rate);
+                command.Parameters.AddWithValue("@all_mana_regeneration_rate", pets.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", pets.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", pets.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", pets.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", pets.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -1091,7 +1358,7 @@ public class Pets
         }
         return true;
     }
-    public List<Pets> GetPetsWithPrice(string type,int pageSize, int offset)
+    public List<Pets> GetPetsWithPrice(string type, int pageSize, int offset)
     {
         List<Pets> petsList = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1132,17 +1399,29 @@ public class Pets
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
-                    pet.currency = new Currency{
+                    pet.currency = new Currency
+                    {
                         id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
@@ -1220,14 +1499,25 @@ public class Pets
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
                 }
@@ -1276,14 +1566,25 @@ public class Pets
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
-                        mana = reader.GetFloat("mana")
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
+                        mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                     };
                 }
             }
@@ -1344,19 +1645,27 @@ public class Pets
                     INSERT INTO pets_gallery (
                         user_id, pet_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
-                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
-                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
-                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
-                        percent_all_mental_defense
+                        mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity, 
+                        resistance_rate, combo_rate, reflection_rate, mana, mana_regeneration_rate, 
+                        damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
+                        percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
+                        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
+                        percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
                         @user_id, @pet_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
-                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
-                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
-                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
-                        @percent_all_mental_defense
+                        @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, 
+                        @resistance_rate, @combo_rate, @reflection_rate, @mana, @mana_regeneration_rate, 
+                        @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
+                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
+                        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
+                        @percent_all_mental_attack, @percent_all_mental_defense
                     );
                     ";
 
@@ -1379,14 +1688,25 @@ public class Pets
                     command.Parameters.AddWithValue("@mental_attack", petFromDB.magical_attack);
                     command.Parameters.AddWithValue("@mental_defense", petFromDB.magical_defense);
                     command.Parameters.AddWithValue("@speed", petFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage", petFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", petFromDB.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", petFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", petFromDB.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", petFromDB.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", petFromDB.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", petFromDB.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", petFromDB.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", petFromDB.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", petFromDB.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", petFromDB.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", petFromDB.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", petFromDB.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", petFromDB.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", petFromDB.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", petFromDB.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", petFromDB.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", petFromDB.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", petFromDB.reflection_rate);
                     command.Parameters.AddWithValue("@mana", petFromDB.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", petFromDB.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", petFromDB.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", petFromDB.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", petFromDB.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", petFromDB.resistance_to_same_faction_rate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -1446,20 +1766,37 @@ public class Pets
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
-                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
-                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
-                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
-                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
-                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
-                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM pets_gallery where user_id=@user_id and status = 'available';";
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate, 
+                SUM(percent_all_health) AS total_percent_all_health, 
+                SUM(percent_all_physical_attack) AS total_percent_all_physical_attack, 
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, 
+                SUM(percent_all_magical_attack) AS total_percent_all_magical_attack, 
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, 
+                SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack, 
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, 
+                SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack, 
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
+                SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
+            FROM pets_gallery 
+            WHERE user_id = @user_id AND status = 'available';";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1479,14 +1816,25 @@ public class Pets
                         sumPets.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumPets.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumPets.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumPets.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumPets.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumPets.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumPets.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumPets.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumPets.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumPets.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumPets.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumPets.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumPets.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumPets.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumPets.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumPets.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumPets.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumPets.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumPets.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumPets.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumPets.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumPets.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumPets.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumPets.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumPets.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumPets.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumPets.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumPets.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumPets.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                         sumPets.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
                         sumPets.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
                         sumPets.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");

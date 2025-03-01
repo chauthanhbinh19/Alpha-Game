@@ -32,14 +32,25 @@ public class Equipments
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public double special_health { get; set; }
     public double special_physical_attack { get; set; }
     public double special_physical_defense { get; set; }
@@ -102,14 +113,25 @@ public class Equipments
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
             mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
             special_health = c.special_health + orginCard.special_health * coefficient,
             special_physical_attack = c.special_physical_attack + orginCard.special_physical_attack * coefficient,
             special_physical_defense = c.special_physical_defense + orginCard.special_physical_defense * coefficient,
@@ -123,39 +145,23 @@ public class Equipments
             special_mental_defense = c.special_mental_defense + orginCard.special_mental_defense * coefficient,
             special_speed = c.special_speed + orginCard.special_speed * coefficient,
         };
-        equipments.power = 0.5 * (
-            equipments.health +
-            equipments.physical_attack +
-            equipments.physical_defense +
-            equipments.magical_attack +
-            equipments.magical_defense +
-            equipments.chemical_attack +
-            equipments.chemical_defense +
-            equipments.atomic_attack +
-            equipments.atomic_defense +
-            equipments.mental_attack +
-            equipments.mental_defense +
-            equipments.speed +
-            equipments.critical_damage +
-            equipments.critical_rate +
-            equipments.armor_penetration +
-            equipments.avoid +
-            equipments.absorbs_damage +
-            equipments.regenerate_vitality +
-            equipments.accuracy +
-            equipments.mana +
-            equipments.special_health +
-            equipments.special_physical_attack +
-            equipments.special_physical_defense +
-            equipments.special_magical_attack +
-            equipments.special_magical_defense +
-            equipments.special_chemical_attack +
-            equipments.special_chemical_defense +
-            equipments.special_atomic_attack +
-            equipments.special_atomic_defense +
-            equipments.special_mental_attack +
-            equipments.special_mental_defense +
-            equipments.special_speed
+        equipments.power = PowerManager.CalculatePower(
+            equipments.health + equipments.special_health,
+            equipments.physical_attack + equipments.special_physical_attack, equipments.physical_defense + equipments.special_physical_defense,
+            equipments.magical_attack + equipments.special_magical_attack, equipments.magical_defense + equipments.special_magical_defense,
+            equipments.chemical_attack + equipments.special_chemical_attack, equipments.chemical_defense + equipments.special_chemical_defense,
+            equipments.atomic_attack + equipments.special_atomic_attack, equipments.atomic_defense + equipments.special_atomic_defense,
+            equipments.mental_attack + equipments.mental_attack, equipments.mental_defense + equipments.mental_defense,
+            equipments.speed,
+            equipments.critical_damage_rate, equipments.critical_rate,
+            equipments.penetration_rate, equipments.evasion_rate,
+            equipments.damage_absorption_rate, equipments.vitality_regeneration_rate,
+            equipments.accuracy_rate, equipments.lifesteal_rate,
+            equipments.shield_strength, equipments.tenacity, equipments.resistance_rate,
+            equipments.combo_rate, equipments.reflection_rate,
+            equipments.mana, equipments.mana_regeneration_rate,
+            equipments.damage_to_different_faction_rate, equipments.resistance_to_different_faction_rate,
+            equipments.damage_to_same_faction_rate, equipments.resistance_to_same_faction_rate
         );
         return equipments;
     }
@@ -178,14 +184,25 @@ public class Equipments
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
             mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
             special_health = c.special_health + orginCard.special_health * coefficient,
             special_physical_attack = c.special_physical_attack + orginCard.special_physical_attack * coefficient,
             special_physical_defense = c.special_physical_defense + orginCard.special_physical_defense * coefficient,
@@ -199,39 +216,23 @@ public class Equipments
             special_mental_defense = c.special_mental_defense + orginCard.special_mental_defense * coefficient,
             special_speed = c.special_speed + orginCard.special_speed * coefficient,
         };
-        equipments.power = 0.5 * (
-            equipments.health +
-            equipments.physical_attack +
-            equipments.physical_defense +
-            equipments.magical_attack +
-            equipments.magical_defense +
-            equipments.chemical_attack +
-            equipments.chemical_defense +
-            equipments.atomic_attack +
-            equipments.atomic_defense +
-            equipments.mental_attack +
-            equipments.mental_defense +
-            equipments.speed +
-            equipments.critical_damage +
-            equipments.critical_rate +
-            equipments.armor_penetration +
-            equipments.avoid +
-            equipments.absorbs_damage +
-            equipments.regenerate_vitality +
-            equipments.accuracy +
-            equipments.mana +
-            equipments.special_health +
-            equipments.special_physical_attack +
-            equipments.special_physical_defense +
-            equipments.special_magical_attack +
-            equipments.special_magical_defense +
-            equipments.special_chemical_attack +
-            equipments.special_chemical_defense +
-            equipments.special_atomic_attack +
-            equipments.special_atomic_defense +
-            equipments.special_mental_attack +
-            equipments.special_mental_defense +
-            equipments.special_speed
+        equipments.power = PowerManager.CalculatePower(
+            equipments.health + equipments.special_health,
+            equipments.physical_attack + equipments.special_physical_attack, equipments.physical_defense + equipments.special_physical_defense,
+            equipments.magical_attack + equipments.special_magical_attack, equipments.magical_defense + equipments.special_magical_defense,
+            equipments.chemical_attack + equipments.special_chemical_attack, equipments.chemical_defense + equipments.special_chemical_defense,
+            equipments.atomic_attack + equipments.special_atomic_attack, equipments.atomic_defense + equipments.special_atomic_defense,
+            equipments.mental_attack + equipments.mental_attack, equipments.mental_defense + equipments.mental_defense,
+            equipments.speed,
+            equipments.critical_damage_rate, equipments.critical_rate,
+            equipments.penetration_rate, equipments.evasion_rate,
+            equipments.damage_absorption_rate, equipments.vitality_regeneration_rate,
+            equipments.accuracy_rate, equipments.lifesteal_rate,
+            equipments.shield_strength, equipments.tenacity, equipments.resistance_rate,
+            equipments.combo_rate, equipments.reflection_rate,
+            equipments.mana, equipments.mana_regeneration_rate,
+            equipments.damage_to_different_faction_rate, equipments.resistance_to_different_faction_rate,
+            equipments.damage_to_same_faction_rate, equipments.resistance_to_same_faction_rate
         );
         return equipments;
     }
@@ -291,14 +292,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -397,14 +409,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -476,14 +499,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -580,14 +614,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -702,14 +747,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -770,14 +826,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
-                        mana = reader.GetFloat("mana")
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
+                        mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                     };
                 }
             }
@@ -804,8 +871,11 @@ public class Equipments
                     user_id, equipment_id, sequence, level, experiment, star, block, power,
                     health, physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                    mental_attack, mental_defense, speed, critical_damage, critical_rate, 
-                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana,
+                    mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
+                    penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
+                    lifesteal_rate, shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                    mana, mana_regeneration_rate, damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate,
                     special_health, special_physical_attack, special_physical_defense, special_magical_attack,
                     special_magical_defense, special_chemical_attack, special_chemical_defense, special_atomic_attack,
                     special_atomic_defense, special_mental_attack, special_mental_defense, special_speed
@@ -813,8 +883,11 @@ public class Equipments
                     @user_id, @equipment_id, @sequence, @level, @experiment, @star, @block, @power, 
                     @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                    @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
-                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana,
+                    @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
+                    @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
+                    @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                    @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
                     @special_health, @special_physical_attack, @special_physical_defense, @special_magical_attack,
                     @special_magical_defense, @special_chemical_attack, @special_chemical_defense, @special_atomic_attack,
                     @special_atomic_defense, @special_mental_attack, @special_mental_defense, @special_speed
@@ -840,14 +913,25 @@ public class Equipments
                 command.Parameters.AddWithValue("@mental_attack", EquipmentFromDB.magical_attack);
                 command.Parameters.AddWithValue("@mental_defense", EquipmentFromDB.magical_defense);
                 command.Parameters.AddWithValue("@speed", EquipmentFromDB.speed);
-                command.Parameters.AddWithValue("@critical_damage", EquipmentFromDB.critical_damage);
+                command.Parameters.AddWithValue("@critical_damage_rate", EquipmentFromDB.critical_damage_rate);
                 command.Parameters.AddWithValue("@critical_rate", EquipmentFromDB.critical_rate);
-                command.Parameters.AddWithValue("@armor_penetration", EquipmentFromDB.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", EquipmentFromDB.avoid);
-                command.Parameters.AddWithValue("@absorbs_damage", EquipmentFromDB.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerate_vitality", EquipmentFromDB.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", EquipmentFromDB.accuracy);
+                command.Parameters.AddWithValue("@penetration_rate", EquipmentFromDB.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", EquipmentFromDB.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", EquipmentFromDB.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", EquipmentFromDB.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", EquipmentFromDB.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", EquipmentFromDB.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", EquipmentFromDB.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", EquipmentFromDB.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", EquipmentFromDB.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", EquipmentFromDB.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", EquipmentFromDB.reflection_rate);
                 command.Parameters.AddWithValue("@mana", EquipmentFromDB.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", EquipmentFromDB.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", EquipmentFromDB.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", EquipmentFromDB.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", EquipmentFromDB.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", EquipmentFromDB.resistance_to_same_faction_rate);
                 command.Parameters.AddWithValue("@special_health", EquipmentFromDB.special_health);
                 command.Parameters.AddWithValue("@special_physical_attack", EquipmentFromDB.special_physical_attack);
                 command.Parameters.AddWithValue("@special_physical_defense", EquipmentFromDB.special_physical_defense);
@@ -884,43 +968,61 @@ public class Equipments
                 connection.Open();
                 string query = @"
                 UPDATE user_equipments
-                SET level = @level,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND equipment_id = @equipment_id;;";
+                SET 
+                    level = @level, power = @power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND equipment_id = @equipment_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@equipment_id", equipments.id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", equipments.power);
                 command.Parameters.AddWithValue("@health", equipments.health);
-                command.Parameters.AddWithValue("@physicalAttack", equipments.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", equipments.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", equipments.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", equipments.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", equipments.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", equipments.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", equipments.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", equipments.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", equipments.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", equipments.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", equipments.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", equipments.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", equipments.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", equipments.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", equipments.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", equipments.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", equipments.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", equipments.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", equipments.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", equipments.mental_defense);
                 command.Parameters.AddWithValue("@speed", equipments.speed);
-                command.Parameters.AddWithValue("@criticalDamage", equipments.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", equipments.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", equipments.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", equipments.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", equipments.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", equipments.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", equipments.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", equipments.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", equipments.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", equipments.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", equipments.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", equipments.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", equipments.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", equipments.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", equipments.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", equipments.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", equipments.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", equipments.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", equipments.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", equipments.reflection_rate);
                 command.Parameters.AddWithValue("@mana", equipments.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", equipments.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", equipments.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", equipments.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", equipments.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", equipments.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -940,18 +1042,25 @@ public class Equipments
                 connection.Open();
                 string query = @"
                 UPDATE user_equipments
-                SET star = @star, quantity=@quantity,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND equipment_id = @equipment_id;;";
+                SET 
+                    star = @star, quantity = @quantity, power=@power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND equipment_id = @equipment_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@equipment_id", equipments.id);
@@ -959,25 +1068,36 @@ public class Equipments
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", equipments.power);
                 command.Parameters.AddWithValue("@health", equipments.health);
-                command.Parameters.AddWithValue("@physicalAttack", equipments.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", equipments.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", equipments.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", equipments.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", equipments.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", equipments.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", equipments.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", equipments.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", equipments.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", equipments.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", equipments.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", equipments.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", equipments.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", equipments.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", equipments.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", equipments.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", equipments.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", equipments.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", equipments.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", equipments.mental_defense);
                 command.Parameters.AddWithValue("@speed", equipments.speed);
-                command.Parameters.AddWithValue("@criticalDamage", equipments.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", equipments.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", equipments.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", equipments.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", equipments.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", equipments.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", equipments.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", equipments.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", equipments.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", equipments.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", equipments.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", equipments.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", equipments.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", equipments.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", equipments.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", equipments.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", equipments.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", equipments.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", equipments.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", equipments.reflection_rate);
                 command.Parameters.AddWithValue("@mana", equipments.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", equipments.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", equipments.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", equipments.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", equipments.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", equipments.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -1083,19 +1203,27 @@ public class Equipments
                     INSERT INTO equipments_gallery (
                         user_id, equipment_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
-                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
-                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
-                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
-                        percent_all_mental_defense
+                        mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity, 
+                        resistance_rate, combo_rate, reflection_rate, mana, mana_regeneration_rate, 
+                        damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
+                        percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
+                        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
+                        percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
                         @user_id, @equipment_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
-                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
-                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
-                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
-                        @percent_all_mental_defense
+                        @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, 
+                        @resistance_rate, @combo_rate, @reflection_rate, @mana, @mana_regeneration_rate, 
+                        @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
+                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
+                        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
+                        @percent_all_mental_attack, @percent_all_mental_defense
                     );
                     ";
 
@@ -1118,14 +1246,25 @@ public class Equipments
                     command.Parameters.AddWithValue("@mental_attack", EquipmentFromDB.magical_attack);
                     command.Parameters.AddWithValue("@mental_defense", EquipmentFromDB.magical_defense);
                     command.Parameters.AddWithValue("@speed", EquipmentFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage", EquipmentFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", EquipmentFromDB.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", EquipmentFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", EquipmentFromDB.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", EquipmentFromDB.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", EquipmentFromDB.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", EquipmentFromDB.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", EquipmentFromDB.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", EquipmentFromDB.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", EquipmentFromDB.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", EquipmentFromDB.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", EquipmentFromDB.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", EquipmentFromDB.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", EquipmentFromDB.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", EquipmentFromDB.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", EquipmentFromDB.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", EquipmentFromDB.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", EquipmentFromDB.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", EquipmentFromDB.reflection_rate);
                     command.Parameters.AddWithValue("@mana", EquipmentFromDB.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", EquipmentFromDB.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", EquipmentFromDB.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", EquipmentFromDB.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", EquipmentFromDB.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", EquipmentFromDB.resistance_to_same_faction_rate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -1186,20 +1325,37 @@ public class Equipments
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
-                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
-                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
-                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
-                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
-                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
-                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM equipments_gallery where user_id=@user_id and status = 'available';";
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate, 
+                SUM(percent_all_health) AS total_percent_all_health, 
+                SUM(percent_all_physical_attack) AS total_percent_all_physical_attack, 
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, 
+                SUM(percent_all_magical_attack) AS total_percent_all_magical_attack, 
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, 
+                SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack, 
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, 
+                SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack, 
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
+                SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
+            FROM equipments_gallery 
+            WHERE user_id = @user_id AND status = 'available';";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1219,14 +1375,25 @@ public class Equipments
                         sumEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumEquipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumEquipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumEquipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumEquipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumEquipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumEquipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumEquipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumEquipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumEquipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                         sumEquipments.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
                         sumEquipments.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
                         sumEquipments.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
@@ -1797,14 +1964,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -1882,14 +2060,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -1967,14 +2156,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2052,14 +2252,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2137,14 +2348,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2222,14 +2444,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2307,14 +2540,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2392,14 +2636,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2477,14 +2732,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2562,14 +2828,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2647,14 +2924,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2732,14 +3020,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2817,14 +3116,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2902,14 +3212,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -2987,14 +3308,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -3072,14 +3404,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -3157,14 +3500,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -3242,14 +3596,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -3327,14 +3692,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -3412,14 +3788,25 @@ public class Equipments
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         special_health = reader.GetDouble("special_health"),
                         special_physical_attack = reader.GetDouble("special_physical_attack"),
                         special_physical_defense = reader.GetDouble("special_physical_defense"),
@@ -3464,17 +3851,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_card_heroes uc, card_heroes c, card_heroes_equipment che, user_equipments ue
                 WHERE uc.card_hero_id = c.id AND uc.card_hero_id = che.card_hero_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -3498,14 +3892,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -3547,17 +3952,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_card_captains uc, card_captains c, card_captains_equipment che, user_equipments ue
                 WHERE uc.card_captain_id = c.id AND uc.card_captain_id = che.card_captain_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -3581,14 +3993,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -3630,17 +4053,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_card_colonels uc, card_colonels c, card_colonels_equipment che, user_equipments ue
                 WHERE uc.card_colonel_id = c.id AND uc.card_colonel_id = che.card_colonel_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -3664,14 +4094,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -3713,17 +4154,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_card_generals uc, card_generals c, card_generals_equipment che, user_equipments ue
                 WHERE uc.card_general_id = c.id AND uc.card_general_id = che.card_general_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -3747,14 +4195,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -3796,17 +4255,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_card_admirals uc, card_admirals c, card_admirals_equipment che, user_equipments ue
                 WHERE uc.card_admiral_id = c.id AND uc.card_hero_id = che.card_hero_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -3830,14 +4296,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -3879,17 +4356,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_card_monsters uc, card_monsters c, card_monsters_equipment che, user_equipments ue
                 WHERE uc.card_monster_id = c.id AND uc.card_monster_id = che.card_monster_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -3913,14 +4397,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -3962,17 +4457,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_card_military uc, card_military c, card_military_equipment che, user_equipments ue
                 WHERE uc.card_military_id = c.id AND uc.card_military_id = che.card_military_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -3996,14 +4498,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -4045,17 +4558,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_card_spell uc, card_spell c, card_spell_equipment che, user_equipments ue
                 WHERE uc.card_spell_id = c.id AND uc.card_spell_id = che.card_spell_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4079,14 +4599,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -4128,17 +4659,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_books uc, books c, books_equipment che, user_equipments ue
                 WHERE uc.book_id = c.id AND uc.book_id = che.book_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4162,14 +4700,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
@@ -4211,17 +4760,24 @@ public class Equipments
                     SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
                     SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
                     SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage) AS total_critical_damage,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.armor_penetration) AS total_armor_penetration,
-                    SUM(ue.avoid) AS total_avoid, SUM(ue.absorbs_damage) AS total_absorbs_damage,
-                    SUM(ue.regenerate_vitality) AS total_regenerate_vitality, SUM(ue.accuracy) AS total_accuracy,
-                    SUM(ue.mana) AS total_mana, SUM(ue.special_health) AS total_special_health,
-                    SUM(ue.special_physical_attack) AS total_special_physical_attack, SUM(ue.special_physical_defense) AS total_special_physical_defense,
-                    SUM(ue.special_magical_attack) AS total_special_magical_attack, SUM(ue.special_magical_defense) AS total_special_magical_defense,
-                    SUM(ue.special_chemical_attack) AS total_special_chemical_attack, SUM(ue.special_chemical_defense) AS total_special_chemical_defense,
-                    SUM(ue.special_atomic_attack) AS total_special_atomic_attack, SUM(ue.special_atomic_defense) AS total_special_atomic_defense,
-                    SUM(ue.special_mental_attack) AS total_special_mental_attack, SUM(ue.special_mental_defense) AS total_special_mental_defense,
-                    SUM(ue.special_speed) AS total_special_speed
+                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
+                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
+                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
+                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
+                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
+                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
+                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
+                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
+                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
+                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
                 FROM user_pets uc, pets c, pets_equipment che, user_equipments ue
                 WHERE uc.pet_id = c.id AND uc.pet_id = che.pet_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4245,14 +4801,25 @@ public class Equipments
                     equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                     equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                     equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                     equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                    equipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                    equipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                    equipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                    equipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
+                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
                     equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
                     equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
                     equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");

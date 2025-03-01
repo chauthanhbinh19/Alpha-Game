@@ -29,14 +29,25 @@ public class MagicFormationCircle
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
     public double percent_all_physical_defense { get; set; }
@@ -84,36 +95,43 @@ public class MagicFormationCircle
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        magicFormationCircle.power = 0.5 * (
-            magicFormationCircle.health +
-            magicFormationCircle.physical_attack +
-            magicFormationCircle.physical_defense +
-            magicFormationCircle.magical_attack +
-            magicFormationCircle.magical_defense +
-            magicFormationCircle.chemical_attack +
-            magicFormationCircle.chemical_defense +
-            magicFormationCircle.atomic_attack +
-            magicFormationCircle.atomic_defense +
-            magicFormationCircle.mental_attack +
-            magicFormationCircle.mental_defense +
-            magicFormationCircle.speed +
-            magicFormationCircle.critical_damage +
-            magicFormationCircle.critical_rate +
-            magicFormationCircle.armor_penetration +
-            magicFormationCircle.avoid +
-            magicFormationCircle.absorbs_damage +
-            magicFormationCircle.regenerate_vitality +
-            magicFormationCircle.accuracy +
-            magicFormationCircle.mana
+        magicFormationCircle.power = PowerManager.CalculatePower(
+            magicFormationCircle.health,
+            magicFormationCircle.physical_attack, magicFormationCircle.physical_defense,
+            magicFormationCircle.magical_attack, magicFormationCircle.magical_defense,
+            magicFormationCircle.chemical_attack, magicFormationCircle.chemical_defense,
+            magicFormationCircle.atomic_attack, magicFormationCircle.atomic_defense,
+            magicFormationCircle.mental_attack, magicFormationCircle.mental_defense,
+            magicFormationCircle.speed,
+            magicFormationCircle.critical_damage_rate, magicFormationCircle.critical_rate,
+            magicFormationCircle.penetration_rate, magicFormationCircle.evasion_rate,
+            magicFormationCircle.damage_absorption_rate, magicFormationCircle.vitality_regeneration_rate,
+            magicFormationCircle.accuracy_rate, magicFormationCircle.lifesteal_rate,
+            magicFormationCircle.shield_strength, magicFormationCircle.tenacity, magicFormationCircle.resistance_rate,
+            magicFormationCircle.combo_rate, magicFormationCircle.reflection_rate,
+            magicFormationCircle.mana, magicFormationCircle.mana_regeneration_rate,
+            magicFormationCircle.damage_to_different_faction_rate, magicFormationCircle.resistance_to_different_faction_rate,
+            magicFormationCircle.damage_to_same_faction_rate, magicFormationCircle.resistance_to_same_faction_rate
         );
         return magicFormationCircle;
     }
@@ -136,36 +154,43 @@ public class MagicFormationCircle
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        magicFormationCircle.power = 0.5 * (
-            magicFormationCircle.health +
-            magicFormationCircle.physical_attack +
-            magicFormationCircle.physical_defense +
-            magicFormationCircle.magical_attack +
-            magicFormationCircle.magical_defense +
-            magicFormationCircle.chemical_attack +
-            magicFormationCircle.chemical_defense +
-            magicFormationCircle.atomic_attack +
-            magicFormationCircle.atomic_defense +
-            magicFormationCircle.mental_attack +
-            magicFormationCircle.mental_defense +
-            magicFormationCircle.speed +
-            magicFormationCircle.critical_damage +
-            magicFormationCircle.critical_rate +
-            magicFormationCircle.armor_penetration +
-            magicFormationCircle.avoid +
-            magicFormationCircle.absorbs_damage +
-            magicFormationCircle.regenerate_vitality +
-            magicFormationCircle.accuracy +
-            magicFormationCircle.mana
+        magicFormationCircle.power = PowerManager.CalculatePower(
+            magicFormationCircle.health,
+            magicFormationCircle.physical_attack, magicFormationCircle.physical_defense,
+            magicFormationCircle.magical_attack, magicFormationCircle.magical_defense,
+            magicFormationCircle.chemical_attack, magicFormationCircle.chemical_defense,
+            magicFormationCircle.atomic_attack, magicFormationCircle.atomic_defense,
+            magicFormationCircle.mental_attack, magicFormationCircle.mental_defense,
+            magicFormationCircle.speed,
+            magicFormationCircle.critical_damage_rate, magicFormationCircle.critical_rate,
+            magicFormationCircle.penetration_rate, magicFormationCircle.evasion_rate,
+            magicFormationCircle.damage_absorption_rate, magicFormationCircle.vitality_regeneration_rate,
+            magicFormationCircle.accuracy_rate, magicFormationCircle.lifesteal_rate,
+            magicFormationCircle.shield_strength, magicFormationCircle.tenacity, magicFormationCircle.resistance_rate,
+            magicFormationCircle.combo_rate, magicFormationCircle.reflection_rate,
+            magicFormationCircle.mana, magicFormationCircle.mana_regeneration_rate,
+            magicFormationCircle.damage_to_different_faction_rate, magicFormationCircle.resistance_to_different_faction_rate,
+            magicFormationCircle.damage_to_same_faction_rate, magicFormationCircle.resistance_to_same_faction_rate
         );
         return magicFormationCircle;
     }
@@ -223,13 +248,25 @@ public class MagicFormationCircle
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -317,13 +354,25 @@ public class MagicFormationCircle
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -392,13 +441,25 @@ public class MagicFormationCircle
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -472,26 +533,22 @@ public class MagicFormationCircle
                 {
                     string query = @"
                     INSERT INTO user_magic_formation_circle (
-                        user_id, mfc_id, level, experiment, star, block, quantity, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
-                        atomic_defense, mental_attack, mental_defense, speed, critical_damage, critical_rate, 
-                        armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana,
-                        percent_all_health, percent_all_physical_attack, percent_all_physical_defense, percent_all_magical_attack,
-                        percent_all_magical_defense, percent_all_chemical_attack, percent_all_chemical_defense,
-                        percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, percent_all_mental_defense,
-                        percent_all_speed, percent_all_critical_damage, percent_all_critical_rate, percent_all_armor_penetration,
-                        percent_all_avoid, percent_all_absorbs_damage, percent_all_regenerate_vitality, percent_all_accuracy, percent_all_mana
-                    ) VALUES (
-                        @user_id, @mfc_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
-                        @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
-                        @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana,
-                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, @percent_all_magical_attack,
-                        @percent_all_magical_defense, @percent_all_chemical_attack, @percent_all_chemical_defense,
-                        @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, @percent_all_mental_defense,
-                        @percent_all_speed, @percent_all_critical_damage, @percent_all_critical_rate, @percent_all_armor_penetration,
-                        @percent_all_avoid, @percent_all_absorbs_damage, @percent_all_regenerate_vitality, @percent_all_accuracy, @percent_all_mana
-                    );";
+                    user_id, mfc_id, level, experiment, star, block, quantity, power, health, physical_attack, 
+                    physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
+                    penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
+                    lifesteal_rate, shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                    mana, mana_regeneration_rate, damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
+                ) VALUES (
+                    @user_id, @mfc_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
+                    @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
+                    @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
+                    @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                    @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
+                );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@mfc_id", magicFormationCircle.id);
@@ -513,35 +570,46 @@ public class MagicFormationCircle
                     command.Parameters.AddWithValue("@mental_attack", magicFormationCircle.mental_attack);
                     command.Parameters.AddWithValue("@mental_defense", magicFormationCircle.mental_defense);
                     command.Parameters.AddWithValue("@speed", magicFormationCircle.speed);
-                    command.Parameters.AddWithValue("@critical_damage", magicFormationCircle.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircle.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", magicFormationCircle.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", magicFormationCircle.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", magicFormationCircle.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", magicFormationCircle.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", magicFormationCircle.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", magicFormationCircle.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", magicFormationCircle.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", magicFormationCircle.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircle.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircle.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", magicFormationCircle.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircle.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", magicFormationCircle.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", magicFormationCircle.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", magicFormationCircle.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", magicFormationCircle.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", magicFormationCircle.reflection_rate);
                     command.Parameters.AddWithValue("@mana", magicFormationCircle.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircle.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircle.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircle.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircle.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircle.resistance_to_same_faction_rate);
 
-                    command.Parameters.AddWithValue("@percent_all_health", magicFormationCircle.percent_all_health);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", magicFormationCircle.percent_all_physical_attack);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", magicFormationCircle.percent_all_physical_defense);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", magicFormationCircle.percent_all_magical_attack);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", magicFormationCircle.percent_all_magical_defense);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", magicFormationCircle.percent_all_chemical_attack);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", magicFormationCircle.percent_all_chemical_defense);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", magicFormationCircle.percent_all_atomic_attack);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", magicFormationCircle.percent_all_atomic_defense);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", magicFormationCircle.percent_all_mental_attack);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", magicFormationCircle.percent_all_mental_defense);
-                    command.Parameters.AddWithValue("@percent_all_speed", 20);
-                    command.Parameters.AddWithValue("@percent_all_critical_damage", 20);
-                    command.Parameters.AddWithValue("@percent_all_critical_rate", 20);
-                    command.Parameters.AddWithValue("@percent_all_armor_penetration", 20);
-                    command.Parameters.AddWithValue("@percent_all_avoid", 20);
-                    command.Parameters.AddWithValue("@percent_all_absorbs_damage", 20);
-                    command.Parameters.AddWithValue("@percent_all_regenerate_vitality", 20);
-                    command.Parameters.AddWithValue("@percent_all_accuracy", 20);
-                    command.Parameters.AddWithValue("@percent_all_mana", 20);
+                    // command.Parameters.AddWithValue("@percent_all_health", magicFormationCircle.percent_all_health);
+                    // command.Parameters.AddWithValue("@percent_all_physical_attack", magicFormationCircle.percent_all_physical_attack);
+                    // command.Parameters.AddWithValue("@percent_all_physical_defense", magicFormationCircle.percent_all_physical_defense);
+                    // command.Parameters.AddWithValue("@percent_all_magical_attack", magicFormationCircle.percent_all_magical_attack);
+                    // command.Parameters.AddWithValue("@percent_all_magical_defense", magicFormationCircle.percent_all_magical_defense);
+                    // command.Parameters.AddWithValue("@percent_all_chemical_attack", magicFormationCircle.percent_all_chemical_attack);
+                    // command.Parameters.AddWithValue("@percent_all_chemical_defense", magicFormationCircle.percent_all_chemical_defense);
+                    // command.Parameters.AddWithValue("@percent_all_atomic_attack", magicFormationCircle.percent_all_atomic_attack);
+                    // command.Parameters.AddWithValue("@percent_all_atomic_defense", magicFormationCircle.percent_all_atomic_defense);
+                    // command.Parameters.AddWithValue("@percent_all_mental_attack", magicFormationCircle.percent_all_mental_attack);
+                    // command.Parameters.AddWithValue("@percent_all_mental_defense", magicFormationCircle.percent_all_mental_defense);
+                    // command.Parameters.AddWithValue("@percent_all_speed", 20);
+                    // command.Parameters.AddWithValue("@percent_all_critical_damage", 20);
+                    // command.Parameters.AddWithValue("@percent_all_critical_rate", 20);
+                    // command.Parameters.AddWithValue("@percent_all_armor_penetration", 20);
+                    // command.Parameters.AddWithValue("@percent_all_avoid", 20);
+                    // command.Parameters.AddWithValue("@percent_all_absorbs_damage", 20);
+                    // command.Parameters.AddWithValue("@percent_all_regenerate_vitality", 20);
+                    // command.Parameters.AddWithValue("@percent_all_accuracy", 20);
+                    // command.Parameters.AddWithValue("@percent_all_mana", 20);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -578,43 +646,61 @@ public class MagicFormationCircle
                 connection.Open();
                 string query = @"
                 UPDATE user_magic_formation_circle
-                SET level = @level,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND mfc_id = @mfc_id;;";
+                SET 
+                    level = @level, power = @power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND mfc_id = @mfc_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@mfc_id", magicFormationCircle.id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", magicFormationCircle.power);
                 command.Parameters.AddWithValue("@health", magicFormationCircle.health);
-                command.Parameters.AddWithValue("@physicalAttack", magicFormationCircle.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", magicFormationCircle.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", magicFormationCircle.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", magicFormationCircle.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", magicFormationCircle.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", magicFormationCircle.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", magicFormationCircle.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", magicFormationCircle.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", magicFormationCircle.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", magicFormationCircle.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", magicFormationCircle.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", magicFormationCircle.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", magicFormationCircle.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", magicFormationCircle.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", magicFormationCircle.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", magicFormationCircle.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", magicFormationCircle.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", magicFormationCircle.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", magicFormationCircle.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", magicFormationCircle.mental_defense);
                 command.Parameters.AddWithValue("@speed", magicFormationCircle.speed);
-                command.Parameters.AddWithValue("@criticalDamage", magicFormationCircle.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", magicFormationCircle.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", magicFormationCircle.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", magicFormationCircle.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", magicFormationCircle.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", magicFormationCircle.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", magicFormationCircle.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircle.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", magicFormationCircle.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", magicFormationCircle.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", magicFormationCircle.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircle.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircle.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", magicFormationCircle.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircle.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", magicFormationCircle.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", magicFormationCircle.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", magicFormationCircle.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", magicFormationCircle.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", magicFormationCircle.reflection_rate);
                 command.Parameters.AddWithValue("@mana", magicFormationCircle.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircle.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircle.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircle.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircle.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircle.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -634,18 +720,25 @@ public class MagicFormationCircle
                 connection.Open();
                 string query = @"
                 UPDATE user_magic_formation_circle
-                SET star = @star, quantity=@quantity,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND mfc_id = @mfc_id;;";
+                SET 
+                    star = @star, quantity = @quantity, power=@power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND mfc_id = @mfc_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@mfc_id", magicFormationCircle.id);
@@ -653,25 +746,36 @@ public class MagicFormationCircle
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", magicFormationCircle.power);
                 command.Parameters.AddWithValue("@health", magicFormationCircle.health);
-                command.Parameters.AddWithValue("@physicalAttack", magicFormationCircle.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", magicFormationCircle.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", magicFormationCircle.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", magicFormationCircle.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", magicFormationCircle.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", magicFormationCircle.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", magicFormationCircle.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", magicFormationCircle.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", magicFormationCircle.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", magicFormationCircle.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", magicFormationCircle.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", magicFormationCircle.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", magicFormationCircle.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", magicFormationCircle.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", magicFormationCircle.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", magicFormationCircle.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", magicFormationCircle.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", magicFormationCircle.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", magicFormationCircle.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", magicFormationCircle.mental_defense);
                 command.Parameters.AddWithValue("@speed", magicFormationCircle.speed);
-                command.Parameters.AddWithValue("@criticalDamage", magicFormationCircle.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", magicFormationCircle.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", magicFormationCircle.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", magicFormationCircle.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", magicFormationCircle.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", magicFormationCircle.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", magicFormationCircle.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircle.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", magicFormationCircle.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", magicFormationCircle.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", magicFormationCircle.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircle.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircle.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", magicFormationCircle.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircle.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", magicFormationCircle.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", magicFormationCircle.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", magicFormationCircle.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", magicFormationCircle.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", magicFormationCircle.reflection_rate);
                 command.Parameters.AddWithValue("@mana", magicFormationCircle.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircle.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircle.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircle.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircle.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircle.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -719,13 +823,25 @@ public class MagicFormationCircle
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -818,14 +934,25 @@ public class MagicFormationCircle
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
                 }
@@ -874,14 +1001,25 @@ public class MagicFormationCircle
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
-                        mana = reader.GetFloat("mana")
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
+                        mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                     };
                 }
             }
@@ -942,19 +1080,27 @@ public class MagicFormationCircle
                     INSERT INTO magic_formation_circle_gallery (
                         user_id, mfc_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
-                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
-                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
-                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
-                        percent_all_mental_defense
+                        mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity, 
+                        resistance_rate, combo_rate, reflection_rate, mana, mana_regeneration_rate, 
+                        damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
+                        percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
+                        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
+                        percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
                         @user_id, @mfc_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
-                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
-                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
-                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
-                        @percent_all_mental_defense
+                        @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, 
+                        @resistance_rate, @combo_rate, @reflection_rate, @mana, @mana_regeneration_rate, 
+                        @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
+                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
+                        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
+                        @percent_all_mental_attack, @percent_all_mental_defense
                     );
                     ";
 
@@ -977,14 +1123,25 @@ public class MagicFormationCircle
                     command.Parameters.AddWithValue("@mental_attack", magicFormationCircleFromDB.magical_attack);
                     command.Parameters.AddWithValue("@mental_defense", magicFormationCircleFromDB.magical_defense);
                     command.Parameters.AddWithValue("@speed", magicFormationCircleFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage", magicFormationCircleFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircleFromDB.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", magicFormationCircleFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", magicFormationCircleFromDB.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", magicFormationCircleFromDB.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", magicFormationCircleFromDB.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", magicFormationCircleFromDB.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", magicFormationCircleFromDB.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", magicFormationCircleFromDB.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", magicFormationCircleFromDB.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircleFromDB.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircleFromDB.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", magicFormationCircleFromDB.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircleFromDB.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", magicFormationCircleFromDB.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", magicFormationCircleFromDB.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", magicFormationCircleFromDB.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", magicFormationCircleFromDB.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", magicFormationCircleFromDB.reflection_rate);
                     command.Parameters.AddWithValue("@mana", magicFormationCircleFromDB.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircleFromDB.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircleFromDB.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircleFromDB.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircleFromDB.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircleFromDB.resistance_to_same_faction_rate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -1044,20 +1201,37 @@ public class MagicFormationCircle
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
-                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
-                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
-                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
-                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
-                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
-                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM magic_formation_circle_gallery where user_id=@user_id and status = 'available';";
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate, 
+                SUM(percent_all_health) AS total_percent_all_health, 
+                SUM(percent_all_physical_attack) AS total_percent_all_physical_attack, 
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, 
+                SUM(percent_all_magical_attack) AS total_percent_all_magical_attack, 
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, 
+                SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack, 
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, 
+                SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack, 
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
+                SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
+            FROM magic_formation_circle_gallery 
+            WHERE user_id = @user_id AND status = 'available';";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1077,14 +1251,25 @@ public class MagicFormationCircle
                         sumMagicFormationCircle.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumMagicFormationCircle.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumMagicFormationCircle.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumMagicFormationCircle.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumMagicFormationCircle.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumMagicFormationCircle.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumMagicFormationCircle.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumMagicFormationCircle.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumMagicFormationCircle.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumMagicFormationCircle.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumMagicFormationCircle.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumMagicFormationCircle.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumMagicFormationCircle.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumMagicFormationCircle.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumMagicFormationCircle.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumMagicFormationCircle.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumMagicFormationCircle.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumMagicFormationCircle.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumMagicFormationCircle.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumMagicFormationCircle.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumMagicFormationCircle.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumMagicFormationCircle.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumMagicFormationCircle.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumMagicFormationCircle.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumMagicFormationCircle.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumMagicFormationCircle.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumMagicFormationCircle.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumMagicFormationCircle.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumMagicFormationCircle.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                         sumMagicFormationCircle.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
                         sumMagicFormationCircle.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
                         sumMagicFormationCircle.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");

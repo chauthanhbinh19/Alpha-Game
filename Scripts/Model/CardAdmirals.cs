@@ -31,14 +31,25 @@ public class CardAdmirals
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public double all_power { get; set; }
     public double all_health { get; set; }
     public double all_physical_attack { get; set; }
@@ -52,14 +63,25 @@ public class CardAdmirals
     public double all_mental_attack { get; set; }
     public double all_mental_defense { get; set; }
     public double all_speed { get; set; }
-    public double all_critical_damage { get; set; }
+    public double all_critical_damage_rate { get; set; }
     public double all_critical_rate { get; set; }
-    public double all_armor_penetration { get; set; }
-    public double all_avoid { get; set; }
-    public double all_absorbs_damage { get; set; }
-    public double all_regenerate_vitality { get; set; }
-    public double all_accuracy { get; set; }
-    public float all_mana { get; set; }
+    public double all_penetration_rate { get; set; }
+    public double all_evasion_rate { get; set; }
+    public double all_damage_absorption_rate { get; set; }
+    public double all_vitality_regeneration_rate { get; set; }
+    public double all_accuracy_rate { get; set; }
+    public double all_lifesteal_rate { get; set; }
+    public float all_mana { get; set;}
+    public double all_mana_regeneration_rate { get; set; }
+    public double all_shield_strength { get; set; }
+    public double all_tenacity { get; set; }
+    public double all_resistance_rate { get; set; }
+    public double all_combo_rate { get; set; }
+    public double all_reflection_rate { get; set; }
+    public double all_damage_to_different_faction_rate { get; set; }
+    public double all_resistance_to_different_faction_rate { get; set; }
+    public double all_damage_to_same_faction_rate { get; set; }
+    public double all_resistance_to_same_faction_rate { get; set; }
     public string description { get; set; }
     public string status { get; set; }
     public int team_id { get; set; }
@@ -90,13 +112,26 @@ public class CardAdmirals
         mental_attack = -1;
         mental_defense = -1;
         speed = -1;
-        critical_damage = -1;
+        critical_damage_rate = -1;
         critical_rate = -1;
-        armor_penetration = -1;
-        avoid = -1;
-        absorbs_damage = -1;
-        regenerate_vitality = -1;
-        accuracy = -1;
+        penetration_rate = -1;
+        evasion_rate = -1;
+        damage_absorption_rate = -1;
+        vitality_regeneration_rate = -1;
+        accuracy_rate = -1;
+        lifesteal_rate = -1;
+        mana = -1;
+        mana_regeneration_rate = -1;
+        shield_strength = -1;
+        tenacity = -1;
+        resistance_rate = -1;
+        combo_rate = -1;
+        reflection_rate = -1;
+        damage_to_different_faction_rate = -1;
+        resistance_to_different_faction_rate = -1;
+        damage_to_same_faction_rate = -1;
+        resistance_to_same_faction_rate = -1;
+
         all_power = -1;
         all_health = -1;
         all_physical_attack = -1;
@@ -110,13 +145,26 @@ public class CardAdmirals
         all_mental_attack = -1;
         all_mental_defense = -1;
         all_speed = -1;
-        all_critical_damage = -1;
+        all_critical_damage_rate = -1;
         all_critical_rate = -1;
-        all_armor_penetration = -1;
-        all_avoid = -1;
-        all_absorbs_damage = -1;
-        all_regenerate_vitality = -1;
-        all_accuracy = -1;
+        all_penetration_rate = -1;
+        all_evasion_rate = -1;
+        all_damage_absorption_rate = -1;
+        all_vitality_regeneration_rate = -1;
+        all_accuracy_rate = -1;
+        all_lifesteal_rate = -1;
+        all_mana = -1;
+        all_mana_regeneration_rate = -1;
+        all_shield_strength = -1;
+        all_tenacity = -1;
+        all_resistance_rate = -1;
+        all_combo_rate = -1;
+        all_reflection_rate = -1;
+        all_damage_to_different_faction_rate = -1;
+        all_resistance_to_different_faction_rate = -1;
+        all_damage_to_same_faction_rate = -1;
+        all_resistance_to_same_faction_rate = -1;
+
         team_id=-1;
         percent_all_health = -1;
         percent_all_physical_attack = -1;
@@ -138,7 +186,6 @@ public class CardAdmirals
         {
             CardAdmirals card = new CardAdmirals();
             card = card.GetUserCardAdmiralsById(c.id);
-            c.all_power = powerManager.GetFinalCardAdmiralsPower(c);
             c.all_health = c.all_health + powerManager.health + card.health * powerManager.percent_all_health/100;
             c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + card.physical_attack * powerManager.percent_all_physical_attack/100;
             c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + card.physical_defense * powerManager.percent_all_physical_defense/100;
@@ -151,14 +198,44 @@ public class CardAdmirals
             c.all_mental_attack = c.all_mental_attack + powerManager.mental_attack + card.mental_attack * powerManager.percent_all_mental_attack/100;
             c.all_mental_defense = c.all_mental_defense + powerManager.mental_defense + card.mental_defense * powerManager.percent_all_mental_defense/100;
             c.all_speed = c.all_speed + powerManager.speed;
-            c.all_critical_damage = c.all_critical_damage + powerManager.critical_damage;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + powerManager.critical_damage_rate;
             c.all_critical_rate = c.all_critical_rate + powerManager.critical_rate;
-            c.all_armor_penetration = c.all_armor_penetration + powerManager.armor_penetration;
-            c.all_avoid = c.all_avoid + powerManager.avoid;
-            c.all_absorbs_damage = c.all_absorbs_damage + powerManager.absorbs_damage;
-            c.all_regenerate_vitality = c.all_regenerate_vitality + powerManager.regenerate_vitality;
-            c.all_accuracy = c.all_accuracy + powerManager.accuracy;
+            c.all_penetration_rate = c.all_penetration_rate + powerManager.penetration_rate;
+            c.all_evasion_rate = c.all_evasion_rate + powerManager.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + powerManager.damage_absorption_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + powerManager.vitality_regeneration_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + powerManager.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + powerManager.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + powerManager.shield_strength;
+            c.all_tenacity = c.all_tenacity + powerManager.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + powerManager.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + powerManager.combo_rate;
+            c.all_reflection_rate = c.all_reflection_rate + powerManager.reflection_rate;
             c.all_mana = c.all_mana + powerManager.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + powerManager.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + powerManager.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + powerManager.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + powerManager.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + powerManager.resistance_to_same_faction_rate;
+
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
+        );
         }
         return CardAdmiralsList;
     }
@@ -180,36 +257,43 @@ public class CardAdmirals
             c.all_mental_attack = c.all_mental_attack + equipments.mental_attack + equipments.special_mental_attack;
             c.all_mental_defense = c.all_mental_defense + equipments.mental_defense + equipments.special_mental_defense;
             c.all_speed = c.all_speed + equipments.speed;
-            c.all_critical_damage = c.all_critical_damage + equipments.critical_damage;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + equipments.critical_damage_rate;
             c.all_critical_rate = c.all_critical_rate + equipments.critical_rate;
-            c.all_armor_penetration = c.all_armor_penetration + equipments.armor_penetration;
-            c.all_avoid = c.all_avoid + equipments.avoid;
-            c.all_absorbs_damage = c.all_absorbs_damage + equipments.absorbs_damage;
-            c.all_regenerate_vitality = c.all_regenerate_vitality + equipments.regenerate_vitality;
-            c.all_accuracy = c.all_accuracy + equipments.accuracy;
+            c.all_penetration_rate = c.all_penetration_rate + equipments.penetration_rate;
+            c.all_evasion_rate = c.all_evasion_rate + equipments.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + equipments.damage_absorption_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + equipments.vitality_regeneration_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + equipments.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + equipments.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + equipments.shield_strength;
+            c.all_tenacity = c.all_tenacity + equipments.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + equipments.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + equipments.combo_rate;
+            c.all_reflection_rate = c.all_reflection_rate + equipments.reflection_rate;
             c.all_mana = c.all_mana + equipments.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + equipments.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + equipments.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + equipments.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + equipments.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + equipments.resistance_to_same_faction_rate;
 
-            c.all_power = Math.Floor(0.5 * (
-            c.all_health +
-            c.all_physical_attack +
-            c.all_physical_defense +
-            c.all_magical_attack +
-            c.all_magical_defense +
-            c.all_chemical_attack +
-            c.all_chemical_defense +
-            c.all_atomic_attack +
-            c.all_atomic_defense +
-            c.all_mental_attack +
-            c.all_mental_defense +
-            c.all_speed +
-            c.all_critical_damage +
-            c.all_critical_rate +
-            c.all_armor_penetration +
-            c.all_avoid +
-            c.all_absorbs_damage +
-            c.all_regenerate_vitality +
-            c.all_accuracy +
-            c.all_mana)
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
         );
         }
         return CardAdmiralsList;
@@ -234,36 +318,43 @@ public class CardAdmirals
             c.all_mental_attack = c.all_mental_attack + rank.mental_attack + card.mental_attack * rank.percent_all_mental_attack/100;
             c.all_mental_defense = c.all_mental_defense + rank.mental_defense + card.mental_defense * rank.percent_all_mental_defense/100;
             c.all_speed = c.all_speed + rank.speed;
-            c.all_critical_damage = c.all_critical_damage + rank.critical_damage;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + rank.critical_damage_rate;
             c.all_critical_rate = c.all_critical_rate + rank.critical_rate;
-            c.all_armor_penetration = c.all_armor_penetration + rank.armor_penetration;
-            c.all_avoid = c.all_avoid + rank.avoid;
-            c.all_absorbs_damage = c.all_absorbs_damage + rank.absorbs_damage;
-            c.all_regenerate_vitality = c.all_regenerate_vitality + rank.regenerate_vitality;
-            c.all_accuracy = c.all_accuracy + rank.accuracy;
+            c.all_penetration_rate = c.all_penetration_rate + rank.penetration_rate;
+            c.all_evasion_rate = c.all_evasion_rate + rank.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + rank.damage_absorption_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + rank.vitality_regeneration_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + rank.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + rank.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + rank.shield_strength;
+            c.all_tenacity = c.all_tenacity + rank.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + rank.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + rank.combo_rate;
+            c.all_reflection_rate = c.all_reflection_rate + rank.reflection_rate;
             c.all_mana = c.all_mana + rank.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + rank.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + rank.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + rank.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + rank.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + rank.resistance_to_same_faction_rate;
 
-            c.all_power = Math.Floor(0.5 * (
-            c.all_health +
-            c.all_physical_attack +
-            c.all_physical_defense +
-            c.all_magical_attack +
-            c.all_magical_defense +
-            c.all_chemical_attack +
-            c.all_chemical_defense +
-            c.all_atomic_attack +
-            c.all_atomic_defense +
-            c.all_mental_attack +
-            c.all_mental_defense +
-            c.all_speed +
-            c.all_critical_damage +
-            c.all_critical_rate +
-            c.all_armor_penetration +
-            c.all_avoid +
-            c.all_absorbs_damage +
-            c.all_regenerate_vitality +
-            c.all_accuracy +
-            c.all_mana)
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
         );
         }
         return CardAdmiralsList;
@@ -287,36 +378,43 @@ public class CardAdmirals
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        cardAdmirals.power = 0.5 * (
-            cardAdmirals.health +
-            cardAdmirals.physical_attack +
-            cardAdmirals.physical_defense +
-            cardAdmirals.magical_attack +
-            cardAdmirals.magical_defense +
-            cardAdmirals.chemical_attack +
-            cardAdmirals.chemical_defense +
-            cardAdmirals.atomic_attack +
-            cardAdmirals.atomic_defense +
-            cardAdmirals.mental_attack +
-            cardAdmirals.mental_defense +
-            cardAdmirals.speed +
-            cardAdmirals.critical_damage +
-            cardAdmirals.critical_rate +
-            cardAdmirals.armor_penetration +
-            cardAdmirals.avoid +
-            cardAdmirals.absorbs_damage +
-            cardAdmirals.regenerate_vitality +
-            cardAdmirals.accuracy +
-            cardAdmirals.mana
+        cardAdmirals.power = PowerManager.CalculatePower(
+            cardAdmirals.health,
+            cardAdmirals.physical_attack, cardAdmirals.physical_defense,
+            cardAdmirals.magical_attack, cardAdmirals.magical_defense,
+            cardAdmirals.chemical_attack, cardAdmirals.chemical_defense,
+            cardAdmirals.atomic_attack, cardAdmirals.atomic_defense,
+            cardAdmirals.mental_attack, cardAdmirals.mental_defense,
+            cardAdmirals.speed,
+            cardAdmirals.critical_damage_rate, cardAdmirals.critical_rate,
+            cardAdmirals.penetration_rate, cardAdmirals.evasion_rate,
+            cardAdmirals.damage_absorption_rate, cardAdmirals.vitality_regeneration_rate,
+            cardAdmirals.accuracy_rate, cardAdmirals.lifesteal_rate,
+            cardAdmirals.shield_strength, cardAdmirals.tenacity, cardAdmirals.resistance_rate,
+            cardAdmirals.combo_rate, cardAdmirals.reflection_rate,
+            cardAdmirals.mana, cardAdmirals.mana_regeneration_rate,
+            cardAdmirals.damage_to_different_faction_rate, cardAdmirals.resistance_to_different_faction_rate,
+            cardAdmirals.damage_to_same_faction_rate, cardAdmirals.resistance_to_same_faction_rate
         );
         return cardAdmirals;
     }
@@ -339,36 +437,43 @@ public class CardAdmirals
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        cardAdmirals.power = 0.5 * (
-            cardAdmirals.health +
-            cardAdmirals.physical_attack +
-            cardAdmirals.physical_defense +
-            cardAdmirals.magical_attack +
-            cardAdmirals.magical_defense +
-            cardAdmirals.chemical_attack +
-            cardAdmirals.chemical_defense +
-            cardAdmirals.atomic_attack +
-            cardAdmirals.atomic_defense +
-            cardAdmirals.mental_attack +
-            cardAdmirals.mental_defense +
-            cardAdmirals.speed +
-            cardAdmirals.critical_damage +
-            cardAdmirals.critical_rate +
-            cardAdmirals.armor_penetration +
-            cardAdmirals.avoid +
-            cardAdmirals.absorbs_damage +
-            cardAdmirals.regenerate_vitality +
-            cardAdmirals.accuracy +
-            cardAdmirals.mana
+        cardAdmirals.power = PowerManager.CalculatePower(
+            cardAdmirals.health,
+            cardAdmirals.physical_attack, cardAdmirals.physical_defense,
+            cardAdmirals.magical_attack, cardAdmirals.magical_defense,
+            cardAdmirals.chemical_attack, cardAdmirals.chemical_defense,
+            cardAdmirals.atomic_attack, cardAdmirals.atomic_defense,
+            cardAdmirals.mental_attack, cardAdmirals.mental_defense,
+            cardAdmirals.speed,
+            cardAdmirals.critical_damage_rate, cardAdmirals.critical_rate,
+            cardAdmirals.penetration_rate, cardAdmirals.evasion_rate,
+            cardAdmirals.damage_absorption_rate, cardAdmirals.vitality_regeneration_rate,
+            cardAdmirals.accuracy_rate, cardAdmirals.lifesteal_rate,
+            cardAdmirals.shield_strength, cardAdmirals.tenacity, cardAdmirals.resistance_rate,
+            cardAdmirals.combo_rate, cardAdmirals.reflection_rate,
+            cardAdmirals.mana, cardAdmirals.mana_regeneration_rate,
+            cardAdmirals.damage_to_different_faction_rate, cardAdmirals.resistance_to_different_faction_rate,
+            cardAdmirals.damage_to_same_faction_rate, cardAdmirals.resistance_to_same_faction_rate
         );
         return cardAdmirals;
     }
@@ -429,14 +534,25 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
 
@@ -515,14 +631,25 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
                         status=reader.GetString("status")
                     };
@@ -591,15 +718,27 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
+
                         all_power = reader.GetDouble("all_power"),
                         all_health = reader.GetDouble("all_health"),
                         all_physical_attack = reader.GetDouble("all_physical_attack"),
@@ -613,14 +752,25 @@ public class CardAdmirals
                         all_mental_attack = reader.GetDouble("all_mental_attack"),
                         all_mental_defense = reader.GetDouble("all_mental_defense"),
                         all_speed = reader.GetDouble("all_speed"),
-                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
                         all_critical_rate = reader.GetDouble("all_critical_rate"),
-                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
-                        all_avoid = reader.GetDouble("all_avoid"),
-                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
-                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
-                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_penetration_rate = reader.GetDouble("all_penetration_rate"),
+                        all_evasion_rate = reader.GetDouble("all_evasion_rate"),
+                        all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
+                        all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
+                        all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
+                        all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
+                        all_shield_strength = reader.GetDouble("all_shield_strength"),
+                        all_tenacity = reader.GetDouble("all_tenacity"),
+                        all_resistance_rate = reader.GetDouble("all_resistance_rate"),
+                        all_combo_rate = reader.GetDouble("all_combo_rate"),
+                        all_reflection_rate = reader.GetDouble("all_reflection_rate"),
                         all_mana = reader.GetFloat("all_mana"),
+                        all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
+                        all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
+                        all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
+                        all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
+                        all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
                     };
 
                     CardAdmiralsList.Add(captain);
@@ -686,15 +836,27 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
+
                         all_power = reader.GetDouble("all_power"),
                         all_health = reader.GetDouble("all_health"),
                         all_physical_attack = reader.GetDouble("all_physical_attack"),
@@ -708,14 +870,25 @@ public class CardAdmirals
                         all_mental_attack = reader.GetDouble("all_mental_attack"),
                         all_mental_defense = reader.GetDouble("all_mental_defense"),
                         all_speed = reader.GetDouble("all_speed"),
-                        all_critical_damage = reader.GetDouble("all_critical_damage"),
+                        all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
                         all_critical_rate = reader.GetDouble("all_critical_rate"),
-                        all_armor_penetration = reader.GetDouble("all_armor_penetration"),
-                        all_avoid = reader.GetDouble("all_avoid"),
-                        all_absorbs_damage = reader.GetDouble("all_absorbs_damage"),
-                        all_regenerate_vitality = reader.GetDouble("all_regenerate_vitality"),
-                        all_accuracy = reader.GetDouble("all_accuracy"),
+                        all_penetration_rate = reader.GetDouble("all_penetration_rate"),
+                        all_evasion_rate = reader.GetDouble("all_evasion_rate"),
+                        all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
+                        all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
+                        all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
+                        all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
+                        all_shield_strength = reader.GetDouble("all_shield_strength"),
+                        all_tenacity = reader.GetDouble("all_tenacity"),
+                        all_resistance_rate = reader.GetDouble("all_resistance_rate"),
+                        all_combo_rate = reader.GetDouble("all_combo_rate"),
+                        all_reflection_rate = reader.GetDouble("all_reflection_rate"),
                         all_mana = reader.GetFloat("all_mana"),
+                        all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
+                        all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
+                        all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
+                        all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
+                        all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
                     };
 
                     CardAdmiralsList.Add(captain);
@@ -847,14 +1020,25 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
 
@@ -905,14 +1089,25 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
 
@@ -952,13 +1147,19 @@ public class CardAdmirals
                 INSERT INTO user_card_admirals (
                     user_id, card_admiral_id, level, experiment, star, block, quantity, power, health, physical_attack, 
                     physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
-                    atomic_defense, mental_attack, mental_defense, speed, critical_damage, critical_rate, 
-                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
+                    penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
+                    lifesteal_rate, shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                    mana, mana_regeneration_rate, damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
                 ) VALUES (
                     @user_id, @card_admiral_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
                     @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
-                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
-                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
+                    @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
+                    @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                    @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -981,14 +1182,25 @@ public class CardAdmirals
                     command.Parameters.AddWithValue("@mental_attack", CardAdmirals.mental_attack);
                     command.Parameters.AddWithValue("@mental_defense", CardAdmirals.mental_defense);
                     command.Parameters.AddWithValue("@speed", CardAdmirals.speed);
-                    command.Parameters.AddWithValue("@critical_damage", CardAdmirals.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", CardAdmirals.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", CardAdmirals.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", CardAdmirals.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", CardAdmirals.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", CardAdmirals.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", CardAdmirals.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", CardAdmirals.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", CardAdmirals.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", CardAdmirals.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", CardAdmirals.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", CardAdmirals.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", CardAdmirals.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", CardAdmirals.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", CardAdmirals.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", CardAdmirals.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", CardAdmirals.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", CardAdmirals.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", CardAdmirals.reflection_rate);
                     command.Parameters.AddWithValue("@mana", CardAdmirals.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", CardAdmirals.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardAdmirals.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardAdmirals.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardAdmirals.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardAdmirals.resistance_to_same_faction_rate);
                     MySqlDataReader reader = command.ExecuteReader();
                     InsertFactCardAdmirals(CardAdmirals);
                 }
@@ -1026,43 +1238,61 @@ public class CardAdmirals
                 connection.Open();
                 string query = @"
                 UPDATE user_card_admirals
-                SET level = @level,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND card_admiral_id = @card_admiral_id;;";
+                SET 
+                    level = @level, power = @power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@card_admiral_id", cardAdmirals.id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", cardAdmirals.power);
                 command.Parameters.AddWithValue("@health", cardAdmirals.health);
-                command.Parameters.AddWithValue("@physicalAttack", cardAdmirals.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", cardAdmirals.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", cardAdmirals.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", cardAdmirals.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", cardAdmirals.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", cardAdmirals.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", cardAdmirals.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", cardAdmirals.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", cardAdmirals.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", cardAdmirals.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", cardAdmirals.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", cardAdmirals.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", cardAdmirals.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", cardAdmirals.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", cardAdmirals.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", cardAdmirals.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", cardAdmirals.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", cardAdmirals.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", cardAdmirals.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", cardAdmirals.mental_defense);
                 command.Parameters.AddWithValue("@speed", cardAdmirals.speed);
-                command.Parameters.AddWithValue("@criticalDamage", cardAdmirals.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", cardAdmirals.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", cardAdmirals.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", cardAdmirals.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", cardAdmirals.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", cardAdmirals.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", cardAdmirals.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", cardAdmirals.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", cardAdmirals.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", cardAdmirals.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", cardAdmirals.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", cardAdmirals.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", cardAdmirals.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", cardAdmirals.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", cardAdmirals.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", cardAdmirals.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", cardAdmirals.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", cardAdmirals.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", cardAdmirals.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", cardAdmirals.reflection_rate);
                 command.Parameters.AddWithValue("@mana", cardAdmirals.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", cardAdmirals.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardAdmirals.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardAdmirals.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardAdmirals.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardAdmirals.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -1082,18 +1312,25 @@ public class CardAdmirals
                 connection.Open();
                 string query = @"
                 UPDATE user_card_admirals
-                SET star = @star, quantity=@quantity,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND card_admiral_id = @card_admiral_id;;";
+                SET 
+                    star = @star, quantity = @quantity, power=@power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@card_admiral_id", cardAdmirals.id);
@@ -1101,25 +1338,36 @@ public class CardAdmirals
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", cardAdmirals.power);
                 command.Parameters.AddWithValue("@health", cardAdmirals.health);
-                command.Parameters.AddWithValue("@physicalAttack", cardAdmirals.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", cardAdmirals.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", cardAdmirals.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", cardAdmirals.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", cardAdmirals.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", cardAdmirals.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", cardAdmirals.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", cardAdmirals.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", cardAdmirals.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", cardAdmirals.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", cardAdmirals.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", cardAdmirals.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", cardAdmirals.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", cardAdmirals.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", cardAdmirals.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", cardAdmirals.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", cardAdmirals.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", cardAdmirals.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", cardAdmirals.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", cardAdmirals.mental_defense);
                 command.Parameters.AddWithValue("@speed", cardAdmirals.speed);
-                command.Parameters.AddWithValue("@criticalDamage", cardAdmirals.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", cardAdmirals.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", cardAdmirals.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", cardAdmirals.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", cardAdmirals.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", cardAdmirals.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", cardAdmirals.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", cardAdmirals.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", cardAdmirals.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", cardAdmirals.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", cardAdmirals.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", cardAdmirals.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", cardAdmirals.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", cardAdmirals.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", cardAdmirals.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", cardAdmirals.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", cardAdmirals.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", cardAdmirals.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", cardAdmirals.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", cardAdmirals.reflection_rate);
                 command.Parameters.AddWithValue("@mana", cardAdmirals.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", cardAdmirals.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardAdmirals.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardAdmirals.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardAdmirals.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardAdmirals.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -1139,18 +1387,30 @@ public class CardAdmirals
                 connection.Open();
                 string query = @"
                 INSERT INTO fact_card_admirals (
-                    user_id, user_card_admiral_id, all_power,
-                    all_health, all_physical_attack, all_physical_defense, all_magical_attack, all_magical_defense,
-                    all_chemical_attack, all_chemical_defense, all_atomic_attack, all_atomic_defense,
-                    all_mental_attack, all_mental_defense, all_speed, all_critical_damage, all_critical_rate,
-                    all_armor_penetration, all_avoid, all_absorbs_damage, all_regenerate_vitality, all_accuracy, all_mana
-                ) VALUES (
-                    @user_id, @user_card_admiral_id, @all_power,
-                    @all_health, @all_physical_attack, @all_physical_defense, @all_magical_attack, @all_magical_defense,
-                    @all_chemical_attack, @all_chemical_defense, @all_atomic_attack, @all_atomic_defense,
-                    @all_mental_attack, @all_mental_defense, @all_speed, @all_critical_damage, @all_critical_rate,
-                    @all_armor_penetration, @all_avoid, @all_absorbs_damage, @all_regenerate_vitality, @all_accuracy, @all_mana
-                );";
+                user_id, user_card_admiral_id, team_id, position, role, 
+                all_power, all_health, all_physical_attack, all_physical_defense, 
+                all_magical_attack, all_magical_defense, all_chemical_attack, all_chemical_defense, 
+                all_atomic_attack, all_atomic_defense, all_mental_attack, all_mental_defense, 
+                all_speed, all_critical_damage_rate, all_critical_rate, all_penetration_rate, 
+                all_evasion_rate, all_damage_absorption_rate, all_vitality_regeneration_rate, 
+                all_accuracy_rate, all_lifesteal_rate, all_shield_strength, all_tenacity, 
+                all_resistance_rate, all_combo_rate, all_reflection_rate, all_mana, 
+                all_mana_regeneration_rate, all_damage_to_different_faction_rate, 
+                all_resistance_to_different_faction_rate, all_damage_to_same_faction_rate, 
+                all_resistance_to_same_faction_rate
+            ) VALUES (
+                @user_id, @user_card_admiral_id, @team_id, @position, @role, 
+                @all_power, @all_health, @all_physical_attack, @all_physical_defense, 
+                @all_magical_attack, @all_magical_defense, @all_chemical_attack, @all_chemical_defense, 
+                @all_atomic_attack, @all_atomic_defense, @all_mental_attack, @all_mental_defense, 
+                @all_speed, @all_critical_damage_rate, @all_critical_rate, @all_penetration_rate, 
+                @all_evasion_rate, @all_damage_absorption_rate, @all_vitality_regeneration_rate, 
+                @all_accuracy_rate, @all_lifesteal_rate, @all_shield_strength, @all_tenacity, 
+                @all_resistance_rate, @all_combo_rate, @all_reflection_rate, @all_mana, 
+                @all_mana_regeneration_rate, @all_damage_to_different_faction_rate, 
+                @all_resistance_to_different_faction_rate, @all_damage_to_same_faction_rate, 
+                @all_resistance_to_same_faction_rate
+            );";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.id);
@@ -1167,14 +1427,25 @@ public class CardAdmirals
                 command.Parameters.AddWithValue("@all_mental_attack", cardAdmirals.mental_attack);
                 command.Parameters.AddWithValue("@all_mental_defense", cardAdmirals.mental_defense);
                 command.Parameters.AddWithValue("@all_speed", cardAdmirals.speed);
-                command.Parameters.AddWithValue("@all_critical_damage", cardAdmirals.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_damage_rate", cardAdmirals.critical_damage_rate);
                 command.Parameters.AddWithValue("@all_critical_rate", cardAdmirals.critical_rate);
-                command.Parameters.AddWithValue("@all_armor_penetration", cardAdmirals.armor_penetration);
-                command.Parameters.AddWithValue("@all_avoid", cardAdmirals.avoid);
-                command.Parameters.AddWithValue("@all_absorbs_damage", cardAdmirals.absorbs_damage);
-                command.Parameters.AddWithValue("@all_regenerate_vitality", cardAdmirals.regenerate_vitality);
-                command.Parameters.AddWithValue("@all_accuracy", cardAdmirals.accuracy);
+                command.Parameters.AddWithValue("@all_penetration_rate", cardAdmirals.penetration_rate);
+                command.Parameters.AddWithValue("@all_evasion_rate", cardAdmirals.evasion_rate);
+                command.Parameters.AddWithValue("@all_damage_absorption_rate", cardAdmirals.damage_absorption_rate);
+                command.Parameters.AddWithValue("@all_vitality_regeneration_rate", cardAdmirals.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@all_accuracy_rate", cardAdmirals.accuracy_rate);
                 command.Parameters.AddWithValue("@all_mana", cardAdmirals.mana);
+                command.Parameters.AddWithValue("@all_lifesteal_rate", cardAdmirals.lifesteal_rate);
+                command.Parameters.AddWithValue("@all_shield_strength", cardAdmirals.shield_strength);
+                command.Parameters.AddWithValue("@all_tenacity", cardAdmirals.tenacity);
+                command.Parameters.AddWithValue("@all_resistance_rate", cardAdmirals.resistance_rate);
+                command.Parameters.AddWithValue("@all_combo_rate", cardAdmirals.combo_rate);
+                command.Parameters.AddWithValue("@all_reflection_rate", cardAdmirals.reflection_rate);
+                command.Parameters.AddWithValue("@all_mana_regeneration_rate", cardAdmirals.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", cardAdmirals.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", cardAdmirals.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", cardAdmirals.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", cardAdmirals.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
 
             }
@@ -1201,13 +1472,20 @@ public class CardAdmirals
                     all_magical_defense = @all_magical_defense, all_chemical_attack = @all_chemical_attack,
                     all_chemical_defense = @all_chemical_defense, all_atomic_attack = @all_atomic_attack,
                     all_atomic_defense = @all_atomic_defense, all_mental_attack = @all_mental_attack,
-                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, all_critical_damage = @all_critical_damage,
-                    all_critical_rate = @all_critical_rate, all_armor_penetration = @all_armor_penetration,
-                    all_avoid = @all_avoid, all_absorbs_damage = @all_absorbs_damage, 
-                    all_regenerate_vitality = @all_regenerate_vitality, 
-                    all_accuracy = @all_accuracy, all_mana = @all_mana
-                WHERE 
-                    user_id = @user_id AND user_card_admiral_id = @user_card_admiral_id;;";
+                    all_mental_defense = @all_mental_defense, all_speed = @all_speed, 
+                    all_critical_damage_rate = @all_critical_damage, all_critical_rate = @all_critical_rate, 
+                    all_penetration_rate = @all_armor_penetration, all_evasion_rate = @all_avoid, 
+                    all_damage_absorption_rate = @all_absorbs_damage, all_vitality_regeneration_rate = @all_regenerate_vitality, 
+                    all_accuracy_rate = @all_accuracy, all_mana = @all_mana, 
+                    all_lifesteal_rate = @all_lifesteal, all_shield_strength = @all_shield_strength,
+                    all_tenacity = @all_tenacity, all_resistance_rate = @all_resistance,
+                    all_combo_rate = @all_combo_rate, all_reflection_rate = @all_reflection_rate,
+                    all_mana_regeneration_rate = @all_mana_regeneration, 
+                    all_damage_to_different_faction_rate = @all_damage_to_different_faction,
+                    all_resistance_to_different_faction_rate = @all_resistance_to_different_faction,
+                    all_damage_to_same_faction_rate = @all_damage_to_same_faction,
+                    all_resistance_to_same_faction_rate = @all_resistance_to_same_faction
+                WHERE user_id = @user_id AND user_card_admiral_id = @user_card_admiral_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.id);
@@ -1224,14 +1502,25 @@ public class CardAdmirals
                 command.Parameters.AddWithValue("@all_mental_attack", cardAdmirals.mental_attack);
                 command.Parameters.AddWithValue("@all_mental_defense", cardAdmirals.mental_defense);
                 command.Parameters.AddWithValue("@all_speed", cardAdmirals.speed);
-                command.Parameters.AddWithValue("@all_critical_damage", cardAdmirals.critical_damage);
+                command.Parameters.AddWithValue("@all_critical_damage_rate", cardAdmirals.critical_damage_rate);
                 command.Parameters.AddWithValue("@all_critical_rate", cardAdmirals.critical_rate);
-                command.Parameters.AddWithValue("@all_armor_penetration", cardAdmirals.armor_penetration);
-                command.Parameters.AddWithValue("@all_avoid", cardAdmirals.avoid);
-                command.Parameters.AddWithValue("@all_absorbs_damage", cardAdmirals.absorbs_damage);
-                command.Parameters.AddWithValue("@all_regenerate_vitality", cardAdmirals.regenerate_vitality);
-                command.Parameters.AddWithValue("@all_accuracy", cardAdmirals.accuracy);
+                command.Parameters.AddWithValue("@all_penetration_rate", cardAdmirals.penetration_rate);
+                command.Parameters.AddWithValue("@all_evasion_rate", cardAdmirals.evasion_rate);
+                command.Parameters.AddWithValue("@all_damage_absorption_rate", cardAdmirals.damage_absorption_rate);
+                command.Parameters.AddWithValue("@all_vitality_regeneration_rate", cardAdmirals.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@all_accuracy_rate", cardAdmirals.accuracy_rate);
                 command.Parameters.AddWithValue("@all_mana", cardAdmirals.mana);
+                command.Parameters.AddWithValue("@all_lifesteal_rate", cardAdmirals.lifesteal_rate);
+                command.Parameters.AddWithValue("@all_shield_strength", cardAdmirals.shield_strength);
+                command.Parameters.AddWithValue("@all_tenacity", cardAdmirals.tenacity);
+                command.Parameters.AddWithValue("@all_resistance_rate", cardAdmirals.resistance_rate);
+                command.Parameters.AddWithValue("@all_combo_rate", cardAdmirals.combo_rate);
+                command.Parameters.AddWithValue("@all_reflection_rate", cardAdmirals.reflection_rate);
+                command.Parameters.AddWithValue("@all_mana_regeneration_rate", cardAdmirals.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", cardAdmirals.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", cardAdmirals.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", cardAdmirals.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", cardAdmirals.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -1277,14 +1566,25 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
                 }
@@ -1333,14 +1633,25 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
-                        mana = reader.GetFloat("mana")
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
+                        mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                     };
                 }
             }
@@ -1401,19 +1712,27 @@ public class CardAdmirals
                     INSERT INTO card_admirals_gallery (
                         user_id, card_admiral_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
-                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
-                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
-                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
-                        percent_all_mental_defense
+                        mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity, 
+                        resistance_rate, combo_rate, reflection_rate, mana, mana_regeneration_rate, 
+                        damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
+                        percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
+                        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
+                        percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
                         @user_id, @card_admiral_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
-                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
-                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
-                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
-                        @percent_all_mental_defense
+                        @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, 
+                        @resistance_rate, @combo_rate, @reflection_rate, @mana, @mana_regeneration_rate, 
+                        @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
+                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
+                        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
+                        @percent_all_mental_attack, @percent_all_mental_defense
                     );
                     ";
 
@@ -1436,14 +1755,25 @@ public class CardAdmirals
                     command.Parameters.AddWithValue("@mental_attack", CaptainFromDB.magical_attack);
                     command.Parameters.AddWithValue("@mental_defense", CaptainFromDB.magical_defense);
                     command.Parameters.AddWithValue("@speed", CaptainFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage", CaptainFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", CaptainFromDB.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", CaptainFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", CaptainFromDB.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", CaptainFromDB.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", CaptainFromDB.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", CaptainFromDB.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", CaptainFromDB.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", CaptainFromDB.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", CaptainFromDB.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", CaptainFromDB.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", CaptainFromDB.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", CaptainFromDB.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", CaptainFromDB.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", CaptainFromDB.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", CaptainFromDB.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", CaptainFromDB.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", CaptainFromDB.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", CaptainFromDB.reflection_rate);
                     command.Parameters.AddWithValue("@mana", CaptainFromDB.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", CaptainFromDB.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", CaptainFromDB.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CaptainFromDB.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", CaptainFromDB.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CaptainFromDB.resistance_to_same_faction_rate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -1534,14 +1864,25 @@ public class CardAdmirals
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
                     captain.currency = new Currency{
@@ -1596,20 +1937,37 @@ public class CardAdmirals
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
-                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
-                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
-                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
-                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
-                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
-                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM card_admirals_gallery where user_id=@user_id and status = 'available';";
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate, 
+                SUM(percent_all_health) AS total_percent_all_health, 
+                SUM(percent_all_physical_attack) AS total_percent_all_physical_attack, 
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, 
+                SUM(percent_all_magical_attack) AS total_percent_all_magical_attack, 
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, 
+                SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack, 
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, 
+                SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack, 
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
+                SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
+            FROM card_admirals_gallery 
+            WHERE user_id = @user_id AND status = 'available';";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1629,14 +1987,25 @@ public class CardAdmirals
                         sumCardAdmirals.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumCardAdmirals.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumCardAdmirals.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumCardAdmirals.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumCardAdmirals.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumCardAdmirals.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumCardAdmirals.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumCardAdmirals.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumCardAdmirals.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumCardAdmirals.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumCardAdmirals.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumCardAdmirals.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumCardAdmirals.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumCardAdmirals.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumCardAdmirals.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumCardAdmirals.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumCardAdmirals.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumCardAdmirals.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumCardAdmirals.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumCardAdmirals.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumCardAdmirals.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumCardAdmirals.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumCardAdmirals.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumCardAdmirals.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumCardAdmirals.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumCardAdmirals.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumCardAdmirals.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumCardAdmirals.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumCardAdmirals.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                         sumCardAdmirals.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
                         sumCardAdmirals.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
                         sumCardAdmirals.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");

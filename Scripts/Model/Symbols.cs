@@ -29,14 +29,25 @@ public class Symbols
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
     public double percent_all_physical_defense { get; set; }
@@ -84,36 +95,43 @@ public class Symbols
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        symbols.power = 0.5 * (
-            symbols.health +
-            symbols.physical_attack +
-            symbols.physical_defense +
-            symbols.magical_attack +
-            symbols.magical_defense +
-            symbols.chemical_attack +
-            symbols.chemical_defense +
-            symbols.atomic_attack +
-            symbols.atomic_defense +
-            symbols.mental_attack +
-            symbols.mental_defense +
-            symbols.speed +
-            symbols.critical_damage +
-            symbols.critical_rate +
-            symbols.armor_penetration +
-            symbols.avoid +
-            symbols.absorbs_damage +
-            symbols.regenerate_vitality +
-            symbols.accuracy +
-            symbols.mana
+        symbols.power = PowerManager.CalculatePower(
+            symbols.health,
+            symbols.physical_attack, symbols.physical_defense,
+            symbols.magical_attack, symbols.magical_defense,
+            symbols.chemical_attack, symbols.chemical_defense,
+            symbols.atomic_attack, symbols.atomic_defense,
+            symbols.mental_attack, symbols.mental_defense,
+            symbols.speed,
+            symbols.critical_damage_rate, symbols.critical_rate,
+            symbols.penetration_rate, symbols.evasion_rate,
+            symbols.damage_absorption_rate, symbols.vitality_regeneration_rate,
+            symbols.accuracy_rate, symbols.lifesteal_rate,
+            symbols.shield_strength, symbols.tenacity, symbols.resistance_rate,
+            symbols.combo_rate, symbols.reflection_rate,
+            symbols.mana, symbols.mana_regeneration_rate,
+            symbols.damage_to_different_faction_rate, symbols.resistance_to_different_faction_rate,
+            symbols.damage_to_same_faction_rate, symbols.resistance_to_same_faction_rate
         );
         return symbols;
     }
@@ -136,36 +154,43 @@ public class Symbols
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        symbols.power = 0.5 * (
-            symbols.health +
-            symbols.physical_attack +
-            symbols.physical_defense +
-            symbols.magical_attack +
-            symbols.magical_defense +
-            symbols.chemical_attack +
-            symbols.chemical_defense +
-            symbols.atomic_attack +
-            symbols.atomic_defense +
-            symbols.mental_attack +
-            symbols.mental_defense +
-            symbols.speed +
-            symbols.critical_damage +
-            symbols.critical_rate +
-            symbols.armor_penetration +
-            symbols.avoid +
-            symbols.absorbs_damage +
-            symbols.regenerate_vitality +
-            symbols.accuracy +
-            symbols.mana
+        symbols.power = PowerManager.CalculatePower(
+            symbols.health,
+            symbols.physical_attack, symbols.physical_defense,
+            symbols.magical_attack, symbols.magical_defense,
+            symbols.chemical_attack, symbols.chemical_defense,
+            symbols.atomic_attack, symbols.atomic_defense,
+            symbols.mental_attack, symbols.mental_defense,
+            symbols.speed,
+            symbols.critical_damage_rate, symbols.critical_rate,
+            symbols.penetration_rate, symbols.evasion_rate,
+            symbols.damage_absorption_rate, symbols.vitality_regeneration_rate,
+            symbols.accuracy_rate, symbols.lifesteal_rate,
+            symbols.shield_strength, symbols.tenacity, symbols.resistance_rate,
+            symbols.combo_rate, symbols.reflection_rate,
+            symbols.mana, symbols.mana_regeneration_rate,
+            symbols.damage_to_different_faction_rate, symbols.resistance_to_different_faction_rate,
+            symbols.damage_to_same_faction_rate, symbols.resistance_to_same_faction_rate
         );
         return symbols;
     }
@@ -187,7 +212,7 @@ public class Symbols
         }
         return typeList;
     }
-    public List<Symbols> GetSymbols(string type,int pageSize, int offset)
+    public List<Symbols> GetSymbols(string type, int pageSize, int offset)
     {
         List<Symbols> symbolsList = new List<Symbols>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -224,13 +249,25 @@ public class Symbols
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -256,8 +293,9 @@ public class Symbols
         }
         return symbolsList;
     }
-    public int GetSymbolsCount(string type){
-        int count =0;
+    public int GetSymbolsCount(string type)
+    {
+        int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -278,10 +316,10 @@ public class Symbols
         }
         return count;
     }
-    public List<Symbols> GetSymbolsCollection(string type,int pageSize, int offset)
+    public List<Symbols> GetSymbolsCollection(string type, int pageSize, int offset)
     {
         List<Symbols> symbolsList = new List<Symbols>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -318,13 +356,25 @@ public class Symbols
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -337,7 +387,7 @@ public class Symbols
                         percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
                         percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
                         description = reader.GetString("description"),
-                        status=reader.GetString("status")
+                        status = reader.GetString("status")
                     };
 
                     symbolsList.Add(symbols);
@@ -351,10 +401,10 @@ public class Symbols
         }
         return symbolsList;
     }
-    public List<Symbols> GetUserSymbols(string type,int pageSize, int offset)
+    public List<Symbols> GetUserSymbols(string type, int pageSize, int offset)
     {
         List<Symbols> symbolsList = new List<Symbols>();
-        int user_id=User.CurrentUserId;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -394,13 +444,25 @@ public class Symbols
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -426,9 +488,10 @@ public class Symbols
         }
         return symbolsList;
     }
-    public int GetUserSymbolsCount(string type){
-        int count =0;
-        int user_id=User.CurrentUserId;
+    public int GetUserSymbolsCount(string type)
+    {
+        int count = 0;
+        int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -473,15 +536,21 @@ public class Symbols
                 {
                     string query = @"
                 INSERT INTO user_symbols (
-                    user_id, symbol_id, level, experiment, star, quantity, power, health, physical_attack, 
+                    user_id, symbol_id, level, experiment, star, block, quantity, power, health, physical_attack, 
                     physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
-                    atomic_defense, mental_attack, mental_defense, speed, critical_damage, critical_rate, 
-                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
+                    penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
+                    lifesteal_rate, shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                    mana, mana_regeneration_rate, damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
                 ) VALUES (
-                    @user_id, @symbol_id, @level, @experiment, @star, @quantity, @power, @health, @physical_attack, 
+                    @user_id, @symbol_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
                     @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
-                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
-                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
+                    @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
+                    @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                    @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -489,6 +558,7 @@ public class Symbols
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@quantity", 0);
                     command.Parameters.AddWithValue("@power", symbols.power);
                     command.Parameters.AddWithValue("@health", symbols.health);
@@ -503,14 +573,25 @@ public class Symbols
                     command.Parameters.AddWithValue("@mental_attack", symbols.mental_attack);
                     command.Parameters.AddWithValue("@mental_defense", symbols.mental_defense);
                     command.Parameters.AddWithValue("@speed", symbols.speed);
-                    command.Parameters.AddWithValue("@critical_damage", symbols.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", symbols.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", symbols.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", symbols.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", symbols.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", symbols.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", symbols.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", symbols.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", symbols.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", symbols.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", symbols.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", symbols.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", symbols.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", symbols.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", symbols.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", symbols.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", symbols.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", symbols.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", symbols.reflection_rate);
                     command.Parameters.AddWithValue("@mana", symbols.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", symbols.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", symbols.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", symbols.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", symbols.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", symbols.resistance_to_same_faction_rate);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -547,43 +628,61 @@ public class Symbols
                 connection.Open();
                 string query = @"
                 UPDATE user_symbols
-                SET level = @level,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND symbol_id = @symbol_id;;";
+                SET 
+                    level = @level, power = @power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND symbol_id = @symbol_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@symbol_id", symbols.id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", symbols.power);
                 command.Parameters.AddWithValue("@health", symbols.health);
-                command.Parameters.AddWithValue("@physicalAttack", symbols.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", symbols.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", symbols.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", symbols.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", symbols.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", symbols.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", symbols.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", symbols.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", symbols.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", symbols.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", symbols.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", symbols.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", symbols.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", symbols.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", symbols.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", symbols.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", symbols.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", symbols.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", symbols.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", symbols.mental_defense);
                 command.Parameters.AddWithValue("@speed", symbols.speed);
-                command.Parameters.AddWithValue("@criticalDamage", symbols.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", symbols.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", symbols.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", symbols.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", symbols.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", symbols.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", symbols.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", symbols.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", symbols.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", symbols.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", symbols.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", symbols.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", symbols.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", symbols.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", symbols.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", symbols.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", symbols.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", symbols.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", symbols.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", symbols.reflection_rate);
                 command.Parameters.AddWithValue("@mana", symbols.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", symbols.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", symbols.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", symbols.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", symbols.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", symbols.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -603,18 +702,25 @@ public class Symbols
                 connection.Open();
                 string query = @"
                 UPDATE user_symbols
-                SET star = @star, quantity=@quantity,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND symbol_id = @symbol_id;;";
+                SET 
+                    star = @star, quantity = @quantity, power=@power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND symbol_id = @symbol_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@symbol_id", symbols.id);
@@ -622,25 +728,36 @@ public class Symbols
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", symbols.power);
                 command.Parameters.AddWithValue("@health", symbols.health);
-                command.Parameters.AddWithValue("@physicalAttack", symbols.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", symbols.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", symbols.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", symbols.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", symbols.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", symbols.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", symbols.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", symbols.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", symbols.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", symbols.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", symbols.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", symbols.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", symbols.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", symbols.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", symbols.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", symbols.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", symbols.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", symbols.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", symbols.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", symbols.mental_defense);
                 command.Parameters.AddWithValue("@speed", symbols.speed);
-                command.Parameters.AddWithValue("@criticalDamage", symbols.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", symbols.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", symbols.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", symbols.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", symbols.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", symbols.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", symbols.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", symbols.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", symbols.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", symbols.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", symbols.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", symbols.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", symbols.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", symbols.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", symbols.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", symbols.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", symbols.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", symbols.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", symbols.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", symbols.reflection_rate);
                 command.Parameters.AddWithValue("@mana", symbols.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", symbols.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", symbols.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", symbols.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", symbols.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", symbols.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -650,7 +767,7 @@ public class Symbols
         }
         return true;
     }
-    public List<Symbols> GetSymbolsWithPrice(string type,int pageSize, int offset)
+    public List<Symbols> GetSymbolsWithPrice(string type, int pageSize, int offset)
     {
         List<Symbols> symbolsList = new List<Symbols>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -689,13 +806,25 @@ public class Symbols
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -709,7 +838,8 @@ public class Symbols
                         percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
                         description = reader.GetString("description")
                     };
-                    symbols.currency = new Currency{
+                    symbols.currency = new Currency
+                    {
                         id = reader.GetInt32("currency_id"),
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("price")
@@ -784,14 +914,25 @@ public class Symbols
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
                 }
@@ -840,14 +981,25 @@ public class Symbols
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
-                        mana = reader.GetFloat("mana")
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
+                        mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                     };
                 }
             }
@@ -888,19 +1040,27 @@ public class Symbols
                     INSERT INTO symbols_gallery (
                         user_id, symbol_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
-                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
-                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
-                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
-                        percent_all_mental_defense
+                        mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity, 
+                        resistance_rate, combo_rate, reflection_rate, mana, mana_regeneration_rate, 
+                        damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
+                        percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
+                        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
+                        percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
                         @user_id, @symbol_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
-                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
-                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
-                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
-                        @percent_all_mental_defense
+                        @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, 
+                        @resistance_rate, @combo_rate, @reflection_rate, @mana, @mana_regeneration_rate, 
+                        @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
+                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
+                        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
+                        @percent_all_mental_attack, @percent_all_mental_defense
                     );
                     ";
 
@@ -923,14 +1083,25 @@ public class Symbols
                     command.Parameters.AddWithValue("@mental_attack", SymbolFromDB.magical_attack);
                     command.Parameters.AddWithValue("@mental_defense", SymbolFromDB.magical_defense);
                     command.Parameters.AddWithValue("@speed", SymbolFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage", SymbolFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", SymbolFromDB.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", SymbolFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", SymbolFromDB.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", SymbolFromDB.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", SymbolFromDB.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", SymbolFromDB.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", SymbolFromDB.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", SymbolFromDB.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", SymbolFromDB.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", SymbolFromDB.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", SymbolFromDB.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", SymbolFromDB.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", SymbolFromDB.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", SymbolFromDB.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", SymbolFromDB.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", SymbolFromDB.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", SymbolFromDB.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", SymbolFromDB.reflection_rate);
                     command.Parameters.AddWithValue("@mana", SymbolFromDB.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", SymbolFromDB.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", SymbolFromDB.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SymbolFromDB.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", SymbolFromDB.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SymbolFromDB.resistance_to_same_faction_rate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -989,21 +1160,38 @@ public class Symbols
             try
             {
                 connection.Open();
-                string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
-                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
-                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
-                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
-                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
-                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
-                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM symbols_gallery where user_id=@user_id and status = 'available';";
+                string query = @"SELECT
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate, 
+                SUM(percent_all_health) AS total_percent_all_health, 
+                SUM(percent_all_physical_attack) AS total_percent_all_physical_attack, 
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, 
+                SUM(percent_all_magical_attack) AS total_percent_all_magical_attack, 
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, 
+                SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack, 
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, 
+                SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack, 
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
+                SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
+            FROM symbols_gallery 
+            WHERE user_id = @user_id AND status = 'available';";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1023,14 +1211,25 @@ public class Symbols
                         sumSymbols.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumSymbols.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumSymbols.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumSymbols.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumSymbols.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumSymbols.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumSymbols.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumSymbols.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumSymbols.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumSymbols.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumSymbols.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumSymbols.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumSymbols.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumSymbols.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumSymbols.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumSymbols.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumSymbols.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumSymbols.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumSymbols.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumSymbols.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumSymbols.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumSymbols.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumSymbols.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumSymbols.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumSymbols.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumSymbols.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumSymbols.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumSymbols.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumSymbols.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                         sumSymbols.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
                         sumSymbols.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
                         sumSymbols.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
@@ -1063,14 +1262,26 @@ public class Symbols
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana    
-                FROM symbols_gallery where user_id=@user_id;";
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate
+            FROM user_symbols 
+            WHERE user_id = @user_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1090,14 +1301,25 @@ public class Symbols
                         sumSymbols.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumSymbols.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumSymbols.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumSymbols.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumSymbols.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumSymbols.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumSymbols.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumSymbols.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumSymbols.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumSymbols.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumSymbols.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumSymbols.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumSymbols.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumSymbols.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumSymbols.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumSymbols.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumSymbols.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumSymbols.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumSymbols.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumSymbols.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumSymbols.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumSymbols.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumSymbols.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumSymbols.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumSymbols.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumSymbols.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumSymbols.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumSymbols.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumSymbols.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     }
                 }
 

@@ -925,26 +925,37 @@ public class MainMenuAptitudeManager : MonoBehaviour
             else if (lvl > 3000 && lvl <= 3500)
             {
                 rank.speed += 1500000 * statMultiplier;
-                rank.critical_damage += 2000000 * statMultiplier;
+                rank.critical_damage_rate += 0.1 * statMultiplier;
+                rank.critical_rate += 0.1 * statMultiplier;
+                rank.penetration_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                rank.critical_rate += 0.1 * statMultiplier;
-                rank.armor_penetration += 1500000 * statMultiplier;
+                rank.evasion_rate += 0.1 * statMultiplier;
+                rank.damage_absorption_rate += 0.1 * statMultiplier;
+                rank.vitality_regeneration_rate += 0.1 * statMultiplier;
+                rank.accuracy_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                rank.avoid += 0.1 * statMultiplier;
-                rank.absorbs_damage += 2000000 * statMultiplier;
+                rank.lifesteal_rate += 0.1 * statMultiplier;
+                rank.mana += 1500000 * statMultiplier;
+                rank.mana_regeneration_rate += 0.1 * statMultiplier;
+                rank.shield_strength += 1500000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                rank.regenerate_vitality += 1500000 * statMultiplier;
-                rank.accuracy += 0.1 * statMultiplier;
+                rank.tenacity += 0.5 * statMultiplier;
+                rank.resistance_rate += 0.1 * statMultiplier;
+                rank.combo_rate += 0.1 * statMultiplier;
+                rank.reflection_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                rank.mana += 1500000 * statMultiplier;
+                rank.damage_to_different_faction_rate += 0.1 * statMultiplier;
+                rank.resistance_to_different_faction_rate += 0.1 * statMultiplier;
+                rank.damage_to_same_faction_rate += 0.1 * statMultiplier;
+                rank.resistance_to_same_faction_rate += 0.1 * statMultiplier;
                 rank.percent_all_health += 5 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
@@ -991,13 +1002,25 @@ public class MainMenuAptitudeManager : MonoBehaviour
             else if (lvl > 9500 && lvl <= 10000)
             {
                 rank.speed += 1500000 * statMultiplier;
-                rank.critical_damage += 2000000 * statMultiplier;
+                rank.critical_damage_rate += 0.1 * statMultiplier;
                 rank.critical_rate += 0.1 * statMultiplier;
-                rank.armor_penetration += 1500000 * statMultiplier;
-                rank.avoid += 0.1 * statMultiplier;
-                rank.absorbs_damage += 2000000 * statMultiplier;
-                rank.regenerate_vitality += 1500000 * statMultiplier;
-                rank.accuracy += 0.1 * statMultiplier;
+                rank.penetration_rate += 0.1 * statMultiplier;
+                rank.evasion_rate += 0.1 * statMultiplier;
+                rank.damage_absorption_rate += 0.1 * statMultiplier;
+                rank.vitality_regeneration_rate += 0.1 * statMultiplier;
+                rank.accuracy_rate += 0.1 * statMultiplier;
+                rank.lifesteal_rate += 0.1 * statMultiplier;
+                rank.mana += 1500000 * statMultiplier;
+                rank.mana_regeneration_rate += 0.1 * statMultiplier;
+                rank.shield_strength += 1500000 * statMultiplier;
+                rank.tenacity += 0.5 * statMultiplier;
+                rank.resistance_rate += 0.1 * statMultiplier;
+                rank.combo_rate += 0.1 * statMultiplier;
+                rank.reflection_rate += 0.1 * statMultiplier;
+                rank.damage_to_different_faction_rate += 0.1 * statMultiplier;
+                rank.resistance_to_different_faction_rate += 0.1 * statMultiplier;
+                rank.damage_to_same_faction_rate += 0.1 * statMultiplier;
+                rank.resistance_to_same_faction_rate += 0.1 * statMultiplier;
             }
         }
 

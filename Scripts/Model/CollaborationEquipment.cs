@@ -31,14 +31,25 @@ public class CollaborationEquipment
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public string description { get; set; }
     public string status { get; set; }
     public double percent_all_health { get; set; }
@@ -86,36 +97,43 @@ public class CollaborationEquipment
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        collaborationEquipment.power = 0.5 * (
-            collaborationEquipment.health +
-            collaborationEquipment.physical_attack +
-            collaborationEquipment.physical_defense +
-            collaborationEquipment.magical_attack +
-            collaborationEquipment.magical_defense +
-            collaborationEquipment.chemical_attack +
-            collaborationEquipment.chemical_defense +
-            collaborationEquipment.atomic_attack +
-            collaborationEquipment.atomic_defense +
-            collaborationEquipment.mental_attack +
-            collaborationEquipment.mental_defense +
-            collaborationEquipment.speed +
-            collaborationEquipment.critical_damage +
-            collaborationEquipment.critical_rate +
-            collaborationEquipment.armor_penetration +
-            collaborationEquipment.avoid +
-            collaborationEquipment.absorbs_damage +
-            collaborationEquipment.regenerate_vitality +
-            collaborationEquipment.accuracy +
-            collaborationEquipment.mana
+        collaborationEquipment.power = PowerManager.CalculatePower(
+            collaborationEquipment.health,
+            collaborationEquipment.physical_attack, collaborationEquipment.physical_defense,
+            collaborationEquipment.magical_attack, collaborationEquipment.magical_defense,
+            collaborationEquipment.chemical_attack, collaborationEquipment.chemical_defense,
+            collaborationEquipment.atomic_attack, collaborationEquipment.atomic_defense,
+            collaborationEquipment.mental_attack, collaborationEquipment.mental_defense,
+            collaborationEquipment.speed,
+            collaborationEquipment.critical_damage_rate, collaborationEquipment.critical_rate,
+            collaborationEquipment.penetration_rate, collaborationEquipment.evasion_rate,
+            collaborationEquipment.damage_absorption_rate, collaborationEquipment.vitality_regeneration_rate,
+            collaborationEquipment.accuracy_rate, collaborationEquipment.lifesteal_rate,
+            collaborationEquipment.shield_strength, collaborationEquipment.tenacity, collaborationEquipment.resistance_rate,
+            collaborationEquipment.combo_rate, collaborationEquipment.reflection_rate,
+            collaborationEquipment.mana, collaborationEquipment.mana_regeneration_rate,
+            collaborationEquipment.damage_to_different_faction_rate, collaborationEquipment.resistance_to_different_faction_rate,
+            collaborationEquipment.damage_to_same_faction_rate, collaborationEquipment.resistance_to_same_faction_rate
         );
         return collaborationEquipment;
     }
@@ -138,36 +156,43 @@ public class CollaborationEquipment
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        collaborationEquipment.power = 0.5 * (
-            collaborationEquipment.health +
-            collaborationEquipment.physical_attack +
-            collaborationEquipment.physical_defense +
-            collaborationEquipment.magical_attack +
-            collaborationEquipment.magical_defense +
-            collaborationEquipment.chemical_attack +
-            collaborationEquipment.chemical_defense +
-            collaborationEquipment.atomic_attack +
-            collaborationEquipment.atomic_defense +
-            collaborationEquipment.mental_attack +
-            collaborationEquipment.mental_defense +
-            collaborationEquipment.speed +
-            collaborationEquipment.critical_damage +
-            collaborationEquipment.critical_rate +
-            collaborationEquipment.armor_penetration +
-            collaborationEquipment.avoid +
-            collaborationEquipment.absorbs_damage +
-            collaborationEquipment.regenerate_vitality +
-            collaborationEquipment.accuracy +
-            collaborationEquipment.mana
+        collaborationEquipment.power = PowerManager.CalculatePower(
+            collaborationEquipment.health,
+            collaborationEquipment.physical_attack, collaborationEquipment.physical_defense,
+            collaborationEquipment.magical_attack, collaborationEquipment.magical_defense,
+            collaborationEquipment.chemical_attack, collaborationEquipment.chemical_defense,
+            collaborationEquipment.atomic_attack, collaborationEquipment.atomic_defense,
+            collaborationEquipment.mental_attack, collaborationEquipment.mental_defense,
+            collaborationEquipment.speed,
+            collaborationEquipment.critical_damage_rate, collaborationEquipment.critical_rate,
+            collaborationEquipment.penetration_rate, collaborationEquipment.evasion_rate,
+            collaborationEquipment.damage_absorption_rate, collaborationEquipment.vitality_regeneration_rate,
+            collaborationEquipment.accuracy_rate, collaborationEquipment.lifesteal_rate,
+            collaborationEquipment.shield_strength, collaborationEquipment.tenacity, collaborationEquipment.resistance_rate,
+            collaborationEquipment.combo_rate, collaborationEquipment.reflection_rate,
+            collaborationEquipment.mana, collaborationEquipment.mana_regeneration_rate,
+            collaborationEquipment.damage_to_different_faction_rate, collaborationEquipment.resistance_to_different_faction_rate,
+            collaborationEquipment.damage_to_same_faction_rate, collaborationEquipment.resistance_to_same_faction_rate
         );
         return collaborationEquipment;
     }
@@ -228,13 +253,25 @@ public class CollaborationEquipment
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
 
@@ -314,13 +351,25 @@ public class CollaborationEquipment
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
                         status = reader.GetString("status"),
                     };
@@ -381,13 +430,25 @@ public class CollaborationEquipment
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
 
@@ -462,18 +523,22 @@ public class CollaborationEquipment
                 {
                     string query = @"
                 INSERT INTO user_collaboration_equipments (
-                    user_id, collaboration_equipment_id, quantity, level, experiment, star, block, power,
-                    health, physical_attack, physical_defense, magical_attack, magical_defense, 
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                    mental_attack, mental_defense, speed, critical_damage, critical_rate, 
-                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
+                    user_id, collaboration_equipment_id, level, experiment, star, block, quantity, power, health, physical_attack, 
+                    physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
+                    penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
+                    lifesteal_rate, shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                    mana, mana_regeneration_rate, damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
                 ) VALUES (
-                    @user_id, @collaboration_equipment_id, @quantity, @level, @experiment, @star, @block, @power, 
-                    @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
-                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                    @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
-                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
-                )";
+                    @user_id, @collaboration_equipment_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
+                    @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
+                    @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
+                    @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                    @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
+                );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
@@ -495,14 +560,25 @@ public class CollaborationEquipment
                     command.Parameters.AddWithValue("@mental_attack", collaborationEquipment.magical_attack);
                     command.Parameters.AddWithValue("@mental_defense", collaborationEquipment.magical_defense);
                     command.Parameters.AddWithValue("@speed", collaborationEquipment.speed);
-                    command.Parameters.AddWithValue("@critical_damage", collaborationEquipment.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", collaborationEquipment.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", collaborationEquipment.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", collaborationEquipment.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", collaborationEquipment.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", collaborationEquipment.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", collaborationEquipment.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", collaborationEquipment.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", collaborationEquipment.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", collaborationEquipment.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", collaborationEquipment.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", collaborationEquipment.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", collaborationEquipment.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", collaborationEquipment.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", collaborationEquipment.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", collaborationEquipment.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", collaborationEquipment.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", collaborationEquipment.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", collaborationEquipment.reflection_rate);
                     command.Parameters.AddWithValue("@mana", collaborationEquipment.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", collaborationEquipment.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaborationEquipment.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaborationEquipment.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaborationEquipment.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaborationEquipment.resistance_to_same_faction_rate);
                     command.ExecuteNonQuery();
                 }
                 else{
@@ -542,43 +618,61 @@ public class CollaborationEquipment
                 connection.Open();
                 string query = @"
                 UPDATE user_collaboration_equipments
-                SET level = @level,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;;";
+                SET 
+                    level = @level, power = @power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", collaborationEquipment.power);
                 command.Parameters.AddWithValue("@health", collaborationEquipment.health);
-                command.Parameters.AddWithValue("@physicalAttack", collaborationEquipment.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", collaborationEquipment.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", collaborationEquipment.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", collaborationEquipment.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", collaborationEquipment.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", collaborationEquipment.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", collaborationEquipment.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", collaborationEquipment.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", collaborationEquipment.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", collaborationEquipment.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", collaborationEquipment.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", collaborationEquipment.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", collaborationEquipment.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", collaborationEquipment.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", collaborationEquipment.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", collaborationEquipment.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", collaborationEquipment.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", collaborationEquipment.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", collaborationEquipment.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", collaborationEquipment.mental_defense);
                 command.Parameters.AddWithValue("@speed", collaborationEquipment.speed);
-                command.Parameters.AddWithValue("@criticalDamage", collaborationEquipment.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", collaborationEquipment.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", collaborationEquipment.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", collaborationEquipment.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", collaborationEquipment.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", collaborationEquipment.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", collaborationEquipment.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", collaborationEquipment.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", collaborationEquipment.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", collaborationEquipment.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", collaborationEquipment.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", collaborationEquipment.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", collaborationEquipment.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", collaborationEquipment.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", collaborationEquipment.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", collaborationEquipment.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", collaborationEquipment.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", collaborationEquipment.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", collaborationEquipment.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", collaborationEquipment.reflection_rate);
                 command.Parameters.AddWithValue("@mana", collaborationEquipment.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", collaborationEquipment.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaborationEquipment.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaborationEquipment.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaborationEquipment.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaborationEquipment.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -598,18 +692,25 @@ public class CollaborationEquipment
                 connection.Open();
                 string query = @"
                 UPDATE user_collaboration_equipments
-                SET star = @star, quantity=@quantity,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;;";
+                SET 
+                    star = @star, quantity = @quantity, power=@power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
+                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
+                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.id);
@@ -617,25 +718,36 @@ public class CollaborationEquipment
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", collaborationEquipment.power);
                 command.Parameters.AddWithValue("@health", collaborationEquipment.health);
-                command.Parameters.AddWithValue("@physicalAttack", collaborationEquipment.physical_attack);
-                command.Parameters.AddWithValue("@physicalDefense", collaborationEquipment.physical_defense);
-                command.Parameters.AddWithValue("@magicalAttack", collaborationEquipment.magical_attack);
-                command.Parameters.AddWithValue("@magicalDefense", collaborationEquipment.magical_defense);
-                command.Parameters.AddWithValue("@chemicalAttack", collaborationEquipment.chemical_attack);
-                command.Parameters.AddWithValue("@chemicalDefense", collaborationEquipment.chemical_defense);
-                command.Parameters.AddWithValue("@atomicAttack", collaborationEquipment.atomic_attack);
-                command.Parameters.AddWithValue("@atomicDefense", collaborationEquipment.atomic_defense);
-                command.Parameters.AddWithValue("@mentalAttack", collaborationEquipment.mental_attack);
-                command.Parameters.AddWithValue("@mentalDefense", collaborationEquipment.mental_defense);
+                command.Parameters.AddWithValue("@physical_attack", collaborationEquipment.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", collaborationEquipment.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", collaborationEquipment.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", collaborationEquipment.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", collaborationEquipment.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", collaborationEquipment.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", collaborationEquipment.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", collaborationEquipment.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", collaborationEquipment.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", collaborationEquipment.mental_defense);
                 command.Parameters.AddWithValue("@speed", collaborationEquipment.speed);
-                command.Parameters.AddWithValue("@criticalDamage", collaborationEquipment.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", collaborationEquipment.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", collaborationEquipment.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", collaborationEquipment.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", collaborationEquipment.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", collaborationEquipment.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", collaborationEquipment.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", collaborationEquipment.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", collaborationEquipment.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", collaborationEquipment.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", collaborationEquipment.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", collaborationEquipment.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", collaborationEquipment.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", collaborationEquipment.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", collaborationEquipment.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", collaborationEquipment.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", collaborationEquipment.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", collaborationEquipment.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", collaborationEquipment.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", collaborationEquipment.reflection_rate);
                 command.Parameters.AddWithValue("@mana", collaborationEquipment.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", collaborationEquipment.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaborationEquipment.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaborationEquipment.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaborationEquipment.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaborationEquipment.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -686,13 +798,25 @@ public class CollaborationEquipment
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
                     collaborationEquipment.currency = new Currency
@@ -774,14 +898,25 @@ public class CollaborationEquipment
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
                 }
@@ -830,14 +965,25 @@ public class CollaborationEquipment
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
-                        mana = reader.GetFloat("mana")
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
+                        mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                     };
                 }
             }
@@ -898,19 +1044,27 @@ public class CollaborationEquipment
                     INSERT INTO collaboration_equipments_gallery (
                         user_id, collaboration_equipment_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                        mental_attack, mental_defense, speed, critical_damage, critical_rate, armor_penetration, avoid, 
-                        absorbs_damage, regenerate_vitality, accuracy, mana, percent_all_health, percent_all_physical_attack, 
-                        percent_all_physical_defense, percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
-                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, percent_all_mental_attack, 
-                        percent_all_mental_defense
+                        mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity, 
+                        resistance_rate, combo_rate, reflection_rate, mana, mana_regeneration_rate, 
+                        damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
+                        percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
+                        percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
+                        percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
+                        percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
                         @user_id, @collaboration_equipment_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
-                        @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, @armor_penetration, @avoid, 
-                        @absorbs_damage, @regenerate_vitality, @accuracy, @mana, @percent_all_health, @percent_all_physical_attack, 
-                        @percent_all_physical_defense, @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
-                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, @percent_all_mental_attack, 
-                        @percent_all_mental_defense
+                        @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, 
+                        @resistance_rate, @combo_rate, @reflection_rate, @mana, @mana_regeneration_rate, 
+                        @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
+                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
+                        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
+                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
+                        @percent_all_mental_attack, @percent_all_mental_defense
                     );
                     ";
 
@@ -933,14 +1087,25 @@ public class CollaborationEquipment
                     command.Parameters.AddWithValue("@mental_attack", collaborationEquipmentFromDB.magical_attack);
                     command.Parameters.AddWithValue("@mental_defense", collaborationEquipmentFromDB.magical_defense);
                     command.Parameters.AddWithValue("@speed", collaborationEquipmentFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage", collaborationEquipmentFromDB.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", collaborationEquipmentFromDB.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", collaborationEquipmentFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", collaborationEquipmentFromDB.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", collaborationEquipmentFromDB.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", collaborationEquipmentFromDB.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", collaborationEquipmentFromDB.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", collaborationEquipmentFromDB.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", collaborationEquipmentFromDB.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", collaborationEquipmentFromDB.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", collaborationEquipmentFromDB.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", collaborationEquipmentFromDB.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", collaborationEquipmentFromDB.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", collaborationEquipmentFromDB.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", collaborationEquipmentFromDB.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", collaborationEquipmentFromDB.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", collaborationEquipmentFromDB.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", collaborationEquipmentFromDB.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", collaborationEquipmentFromDB.reflection_rate);
                     command.Parameters.AddWithValue("@mana", collaborationEquipmentFromDB.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", collaborationEquipmentFromDB.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaborationEquipmentFromDB.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaborationEquipmentFromDB.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaborationEquipmentFromDB.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaborationEquipmentFromDB.resistance_to_same_faction_rate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -1000,20 +1165,37 @@ public class CollaborationEquipment
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana,    
-                SUM(percent_all_health) AS total_percent_all_health, SUM(percent_all_physical_attack) AS total_percent_all_physical_attack,
-                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(percent_all_magical_attack) AS total_percent_all_magical_attack,
-                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack,
-                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack,
-                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(percent_all_mental_attack) AS total_percent_all_mental_attack,
-                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM collaboration_equipments_gallery where user_id=@user_id and status = 'available';";
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate, 
+                SUM(percent_all_health) AS total_percent_all_health, 
+                SUM(percent_all_physical_attack) AS total_percent_all_physical_attack, 
+                SUM(percent_all_physical_defense) AS total_percent_all_physical_defense, 
+                SUM(percent_all_magical_attack) AS total_percent_all_magical_attack, 
+                SUM(percent_all_magical_defense) AS total_percent_all_magical_defense, 
+                SUM(percent_all_chemical_attack) AS total_percent_all_chemical_attack, 
+                SUM(percent_all_chemical_defense) AS total_percent_all_chemical_defense, 
+                SUM(percent_all_atomic_attack) AS total_percent_all_atomic_attack, 
+                SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
+                SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
+                SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
+            FROM collaboration_equipments_gallery 
+            WHERE user_id = @user_id AND status = 'available';";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1033,14 +1215,25 @@ public class CollaborationEquipment
                         sumCollaborationEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumCollaborationEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumCollaborationEquipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumCollaborationEquipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumCollaborationEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumCollaborationEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumCollaborationEquipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumCollaborationEquipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumCollaborationEquipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumCollaborationEquipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumCollaborationEquipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumCollaborationEquipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumCollaborationEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumCollaborationEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumCollaborationEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumCollaborationEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumCollaborationEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumCollaborationEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumCollaborationEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumCollaborationEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumCollaborationEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumCollaborationEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumCollaborationEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumCollaborationEquipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumCollaborationEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumCollaborationEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumCollaborationEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumCollaborationEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumCollaborationEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                         sumCollaborationEquipments.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
                         sumCollaborationEquipments.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
                         sumCollaborationEquipments.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
@@ -1073,14 +1266,26 @@ public class CollaborationEquipment
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana  
-                FROM user_collaboration_equipments where user_id=@user_id;";
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate
+            FROM user_collaboration_equipments 
+            WHERE user_id = @user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1100,14 +1305,25 @@ public class CollaborationEquipment
                         sumCollaborationEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumCollaborationEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumCollaborationEquipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumCollaborationEquipments.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumCollaborationEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumCollaborationEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumCollaborationEquipments.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumCollaborationEquipments.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumCollaborationEquipments.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumCollaborationEquipments.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumCollaborationEquipments.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumCollaborationEquipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumCollaborationEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumCollaborationEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumCollaborationEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumCollaborationEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumCollaborationEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumCollaborationEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumCollaborationEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumCollaborationEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumCollaborationEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumCollaborationEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumCollaborationEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumCollaborationEquipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumCollaborationEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumCollaborationEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumCollaborationEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumCollaborationEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumCollaborationEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     }
                 }
 

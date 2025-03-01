@@ -22,14 +22,25 @@ public class Rank
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
     public double percent_all_physical_defense { get; set; }
@@ -81,14 +92,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -146,14 +168,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -211,14 +244,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -276,14 +320,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -341,14 +396,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -406,14 +472,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -471,14 +548,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -536,14 +624,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -601,14 +700,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -666,14 +776,25 @@ public class Rank
                     rank.mental_attack = reader.GetDouble("mental_attack");
                     rank.mental_defense = reader.GetDouble("mental_defense");
                     rank.speed = reader.GetDouble("speed");
-                    rank.critical_damage = reader.GetDouble("critical_damage");
+                    rank.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     rank.critical_rate = reader.GetDouble("critical_rate");
-                    rank.armor_penetration = reader.GetDouble("armor_penetration");
-                    rank.avoid = reader.GetDouble("avoid");
-                    rank.absorbs_damage = reader.GetDouble("absorbs_damage");
-                    rank.regenerate_vitality = reader.GetDouble("regenerate_vitality");
-                    rank.accuracy = reader.GetDouble("accuracy");
+                    rank.penetration_rate = reader.GetDouble("penetration_rate");
+                    rank.evasion_rate = reader.GetDouble("evasion_rate");
+                    rank.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    rank.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    rank.accuracy_rate = reader.GetDouble("accuracy_rate");
+                    rank.lifesteal_rate = reader.GetDouble("lifesteal_rate");
+                    rank.shield_strength = reader.GetDouble("shield_strength");
+                    rank.tenacity = reader.GetDouble("tenacity");
+                    rank.resistance_rate = reader.GetDouble("resistance_rate");
+                    rank.combo_rate = reader.GetDouble("combo_rate");
+                    rank.reflection_rate = reader.GetDouble("reflection_rate");
                     rank.mana = reader.GetFloat("mana");
+                    rank.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
+                    rank.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
+                    rank.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
+                    rank.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
+                    rank.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
                     rank.percent_all_health = reader.GetDouble("percent_all_health");
                     rank.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     rank.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -720,27 +841,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_heroes_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_card_hero_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_card_hero_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -761,14 +886,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -788,23 +924,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_card_heroes_rank 
-                        (user_id, user_card_hero_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_card_hero_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -826,14 +973,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -881,27 +1039,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_captains_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_card_captain_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_card_captain_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -922,14 +1084,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -949,23 +1122,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_card_captains_rank 
-                        (user_id, user_card_captain_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_card_captain_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -987,14 +1171,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1042,27 +1237,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_colonels_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_card_colonel_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_card_colonel_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -1083,14 +1282,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1110,23 +1320,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_card_colonels_rank 
-                        (user_id, user_card_colonel_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_card_colonel_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -1148,14 +1369,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1203,27 +1435,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_generals_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_card_general_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_card_general_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -1244,14 +1480,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1271,23 +1518,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_card_generals_rank 
-                        (user_id, user_card_general_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_card_general_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -1309,14 +1567,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1364,27 +1633,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_admirals_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_card_admiral_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_card_admiral_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -1405,14 +1678,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1432,23 +1716,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_card_admirals_rank 
-                        (user_id, user_card_admiral_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_card_admiral_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -1470,14 +1765,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1525,27 +1831,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_monsters_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_card_monster_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_card_monster_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -1566,14 +1876,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1593,23 +1914,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_card_monsters_rank 
-                        (user_id, user_card_monster_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_card_monster_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -1631,14 +1963,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1686,27 +2029,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_military_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_card_military_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_card_military_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -1727,14 +2074,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1754,23 +2112,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_card_military_rank 
-                        (user_id, user_card_military_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_card_military_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -1792,14 +2161,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1847,27 +2227,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_spell_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_card_spell_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_card_spell_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -1888,14 +2272,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -1915,23 +2310,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_card_spell_rank 
-                        (user_id, user_card_spell_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_card_spell_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -1953,14 +2359,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -2008,27 +2425,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_books_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_book_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_book_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -2049,14 +2470,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -2076,23 +2508,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_books_rank 
-                        (user_id, user_book_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_book_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -2114,14 +2557,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -2169,27 +2623,31 @@ public class Rank
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_pets_rank
-                        SET rank_level = @rank_level, 
-                            power = @power, health = @health, physical_attack = @physical_attack, 
-                            physical_defense = @physical_defense, magical_attack = @magical_attack, 
-                            magical_defense = @magical_defense, chemical_attack = @chemical_attack, 
-                            chemical_defense = @chemical_defense, atomic_attack = @atomic_attack, 
-                            atomic_defense = @atomic_defense, mental_attack = @mental_attack, 
-                            mental_defense = @mental_defense, speed = @speed, critical_damage = @critical_damage, 
-                            critical_rate = @critical_rate, armor_penetration = @armor_penetration, 
-                            avoid = @avoid, absorbs_damage = @absorbs_damage, regenerate_vitality = @regenerate_vitality, 
-                            accuracy = @accuracy, mana = @mana, percent_all_health = @percent_all_health, 
-                            percent_all_physical_attack = @percent_all_physical_attack, 
-                            percent_all_physical_defense = @percent_all_physical_defense, 
-                            percent_all_magical_attack = @percent_all_magical_attack, 
-                            percent_all_magical_defense = @percent_all_magical_defense, 
-                            percent_all_chemical_attack = @percent_all_chemical_attack, 
-                            percent_all_chemical_defense = @percent_all_chemical_defense, 
-                            percent_all_atomic_attack = @percent_all_atomic_attack, 
-                            percent_all_atomic_defense = @percent_all_atomic_defense, 
-                            percent_all_mental_attack = @percent_all_mental_attack, 
+                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                            physical_attack = @physical_attack, physical_defense = @physical_defense,  
+                            magical_attack = @magical_attack, magical_defense = @magical_defense,  
+                            chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
+                            atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
+                            mental_attack = @mental_attack, mental_defense = @mental_defense,  
+                            critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
+                            penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
+                            damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
+                            accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
+                            shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
+                            combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
+                            mana_regeneration_rate = @mana_regeneration_rate,  
+                            damage_to_different_faction_rate = @damage_to_different_faction_rate,  
+                            resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
+                            damage_to_same_faction_rate = @damage_to_same_faction_rate,  
+                            resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
+                            percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
+                            percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
+                            percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
+                            percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
+                            percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_pet_id = @card_id AND rank_type = @rank_type";
+                        WHERE user_id = @user_id AND user_pet_id = @card_id AND rank_type = @rank_type;
+                        ";
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
@@ -2210,14 +2668,25 @@ public class Rank
                             updateCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             updateCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             updateCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            updateCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            updateCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            updateCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            updateCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            updateCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            updateCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            updateCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            updateCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            updateCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            updateCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            updateCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            updateCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             updateCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -2237,23 +2706,34 @@ public class Rank
                     {
                         string insertQuery = @"
                         INSERT INTO user_pets_rank 
-                        (user_id, user_pet_id, rank_type, rank_level, power, health, physical_attack, 
-                        physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, 
-                        atomic_attack, atomic_defense, mental_attack, mental_defense, speed, critical_damage, 
-                        critical_rate, armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana, 
+                        (user_id, user_pet_id, rank_type, rank_level, power, health, mana, speed, 
+                        physical_attack, physical_defense, magical_attack, magical_defense, 
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
+                        mental_attack, mental_defense, 
+                        critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
+                        damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
+                        shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                        mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate, 
                         percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
                         percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense) 
                         VALUES 
-                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @physical_attack, 
-                        @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, 
-                        @atomic_attack, @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, 
-                        @critical_rate, @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana, 
+                        (@user_id, @card_id, @rank_type, @rank_level, @power, @health, @mana, @speed, 
+                        @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
+                        @mental_attack, @mental_defense, 
+                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, 
+                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, 
+                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate, 
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate, 
                         @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense, 
                         @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack, 
                         @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense, 
-                        @percent_all_mental_attack, @percent_all_mental_defense)";
+                        @percent_all_mental_attack, @percent_all_mental_defense);
+                        ";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
@@ -2275,14 +2755,25 @@ public class Rank
                             insertCmd.Parameters.AddWithValue("@mental_attack", rank.mental_attack);
                             insertCmd.Parameters.AddWithValue("@mental_defense", rank.mental_defense);
                             insertCmd.Parameters.AddWithValue("@speed", rank.speed);
-                            insertCmd.Parameters.AddWithValue("@critical_damage", rank.critical_damage);
+                            insertCmd.Parameters.AddWithValue("@critical_damage_rate", rank.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", rank.critical_rate);
-                            insertCmd.Parameters.AddWithValue("@armor_penetration", rank.armor_penetration);
-                            insertCmd.Parameters.AddWithValue("@avoid", rank.avoid);
-                            insertCmd.Parameters.AddWithValue("@absorbs_damage", rank.absorbs_damage);
-                            insertCmd.Parameters.AddWithValue("@regenerate_vitality", rank.regenerate_vitality);
-                            insertCmd.Parameters.AddWithValue("@accuracy", rank.accuracy);
+                            insertCmd.Parameters.AddWithValue("@penetration_rate", rank.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@evasion_rate", rank.evasion_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_absorption_rate", rank.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", rank.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@accuracy_rate", rank.accuracy_rate);
+                            insertCmd.Parameters.AddWithValue("@lifesteal_rate", rank.lifesteal_rate);
+                            insertCmd.Parameters.AddWithValue("@shield_strength", rank.shield_strength);
+                            insertCmd.Parameters.AddWithValue("@tenacity", rank.tenacity);
+                            insertCmd.Parameters.AddWithValue("@resistance_rate", rank.resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_rate", rank.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_rate", rank.reflection_rate);
                             insertCmd.Parameters.AddWithValue("@mana", rank.mana);
+                            insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", rank.mana_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", rank.damage_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", rank.resistance_to_different_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", rank.damage_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", rank.resistance_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", rank.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", rank.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", rank.percent_all_physical_defense);
@@ -2356,15 +2847,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -2439,15 +2941,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -2522,15 +3035,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -2605,15 +3129,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -2688,15 +3223,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -2771,15 +3317,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -2854,15 +3411,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -2937,15 +3505,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -3020,15 +3599,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
@@ -3103,15 +3693,26 @@ public class Rank
                             rank.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
                             rank.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
                             rank.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
-                            rank.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
-                            rank.critical_damage = reader.IsDBNull(reader.GetOrdinal("critical_damage")) ? 0 : reader.GetDouble("critical_damage");
-                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
-                            rank.armor_penetration = reader.IsDBNull(reader.GetOrdinal("armor_penetration")) ? 0 : reader.GetDouble("armor_penetration");
-                            rank.avoid = reader.IsDBNull(reader.GetOrdinal("avoid")) ? 0 : reader.GetDouble("avoid");
-                            rank.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("absorbs_damage")) ? 0 : reader.GetDouble("absorbs_damage");
-                            rank.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("regenerate_vitality")) ? 0 : reader.GetDouble("regenerate_vitality");
-                            rank.accuracy = reader.IsDBNull(reader.GetOrdinal("accuracy")) ? 0 : reader.GetDouble("accuracy");
-                            rank.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                            rank.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            rank.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            rank.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            rank.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            rank.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            rank.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            rank.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            rank.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            rank.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            rank.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            rank.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            rank.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            rank.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            rank.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            rank.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            rank.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            rank.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            rank.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            rank.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            rank.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                             rank.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             rank.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             rank.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");

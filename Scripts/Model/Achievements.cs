@@ -29,14 +29,25 @@ public class Achievements
     public double mental_attack { get; set; }
     public double mental_defense { get; set; }
     public double speed { get; set; }
-    public double critical_damage { get; set; }
+    public double critical_damage_rate { get; set; }
     public double critical_rate { get; set; }
-    public double armor_penetration { get; set; }
-    public double avoid { get; set; }
-    public double absorbs_damage { get; set; }
-    public double regenerate_vitality { get; set; }
-    public double accuracy { get; set; }
+    public double penetration_rate { get; set; }
+    public double evasion_rate { get; set; }
+    public double damage_absorption_rate { get; set; }
+    public double vitality_regeneration_rate { get; set; }
+    public double accuracy_rate { get; set; }
+    public double lifesteal_rate { get; set; }
     public float mana { get; set; }
+    public double mana_regeneration_rate { get; set; }
+    public double shield_strength { get; set; }
+    public double tenacity { get; set; }
+    public double resistance_rate { get; set; }
+    public double combo_rate { get; set; }
+    public double reflection_rate { get; set; }
+    public double damage_to_different_faction_rate { get; set; }
+    public double resistance_to_different_faction_rate { get; set; }
+    public double damage_to_same_faction_rate { get; set; }
+    public double resistance_to_same_faction_rate { get; set; }
     public double percent_all_health { get; set; }
     public double percent_all_physical_attack { get; set; }
     public double percent_all_physical_defense { get; set; }
@@ -74,36 +85,43 @@ public class Achievements
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        achievements.power = 0.5 * (
-            achievements.health +
-            achievements.physical_attack +
-            achievements.physical_defense +
-            achievements.magical_attack +
-            achievements.magical_defense +
-            achievements.chemical_attack +
-            achievements.chemical_defense +
-            achievements.atomic_attack +
-            achievements.atomic_defense +
-            achievements.mental_attack +
-            achievements.mental_defense +
-            achievements.speed +
-            achievements.critical_damage +
-            achievements.critical_rate +
-            achievements.armor_penetration +
-            achievements.avoid +
-            achievements.absorbs_damage +
-            achievements.regenerate_vitality +
-            achievements.accuracy +
-            achievements.mana
+        achievements.power = PowerManager.CalculatePower(
+            achievements.health,
+            achievements.physical_attack, achievements.physical_defense,
+            achievements.magical_attack, achievements.magical_defense,
+            achievements.chemical_attack, achievements.chemical_defense,
+            achievements.atomic_attack, achievements.atomic_defense,
+            achievements.mental_attack, achievements.mental_defense,
+            achievements.speed,
+            achievements.critical_damage_rate, achievements.critical_rate,
+            achievements.penetration_rate, achievements.evasion_rate,
+            achievements.damage_absorption_rate, achievements.vitality_regeneration_rate,
+            achievements.accuracy_rate, achievements.lifesteal_rate,
+            achievements.shield_strength, achievements.tenacity, achievements.resistance_rate,
+            achievements.combo_rate, achievements.reflection_rate,
+            achievements.mana, achievements.mana_regeneration_rate,
+            achievements.damage_to_different_faction_rate, achievements.resistance_to_different_faction_rate,
+            achievements.damage_to_same_faction_rate, achievements.resistance_to_same_faction_rate
         );
         return achievements;
     }
@@ -126,36 +144,43 @@ public class Achievements
             mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
             mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
             speed = c.speed + orginCard.speed * coefficient,
-            critical_damage = c.critical_damage + orginCard.critical_damage * coefficient,
+            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
             critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            armor_penetration = c.armor_penetration + orginCard.armor_penetration * coefficient,
-            avoid = c.avoid + orginCard.avoid * coefficient,
-            absorbs_damage = c.absorbs_damage + orginCard.absorbs_damage * coefficient,
-            regenerate_vitality = c.regenerate_vitality + orginCard.regenerate_vitality * coefficient,
-            accuracy = c.accuracy + orginCard.accuracy * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient
+            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
+            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
+            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
+            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
+            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
+            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
+            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
+            tenacity = c.tenacity + orginCard.tenacity * coefficient,
+            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
+            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
+            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
+            mana = c.mana + orginCard.mana * (float)coefficient,
+            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
+            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
+            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
+            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
+            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient
         };
-        achievements.power = 0.5 * (
-            achievements.health +
-            achievements.physical_attack +
-            achievements.physical_defense +
-            achievements.magical_attack +
-            achievements.magical_defense +
-            achievements.chemical_attack +
-            achievements.chemical_defense +
-            achievements.atomic_attack +
-            achievements.atomic_defense +
-            achievements.mental_attack +
-            achievements.mental_defense +
-            achievements.speed +
-            achievements.critical_damage +
-            achievements.critical_rate +
-            achievements.armor_penetration +
-            achievements.avoid +
-            achievements.absorbs_damage +
-            achievements.regenerate_vitality +
-            achievements.accuracy +
-            achievements.mana
+        achievements.power = PowerManager.CalculatePower(
+            achievements.health,
+            achievements.physical_attack, achievements.physical_defense,
+            achievements.magical_attack, achievements.magical_defense,
+            achievements.chemical_attack, achievements.chemical_defense,
+            achievements.atomic_attack, achievements.atomic_defense,
+            achievements.mental_attack, achievements.mental_defense,
+            achievements.speed,
+            achievements.critical_damage_rate, achievements.critical_rate,
+            achievements.penetration_rate, achievements.evasion_rate,
+            achievements.damage_absorption_rate, achievements.vitality_regeneration_rate,
+            achievements.accuracy_rate, achievements.lifesteal_rate,
+            achievements.shield_strength, achievements.tenacity, achievements.resistance_rate,
+            achievements.combo_rate, achievements.reflection_rate,
+            achievements.mana, achievements.mana_regeneration_rate,
+            achievements.damage_to_different_faction_rate, achievements.resistance_to_different_faction_rate,
+            achievements.damage_to_same_faction_rate, achievements.resistance_to_same_faction_rate
         );
         return achievements;
     }
@@ -193,13 +218,25 @@ public class Achievements
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -284,13 +321,25 @@ public class Achievements
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -357,13 +406,25 @@ public class Achievements
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -438,13 +499,19 @@ public class Achievements
                 INSERT INTO user_achievements (
                     user_id, achievement_id, level, experiment, star, quantity, power, health, physical_attack, 
                     physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
-                    atomic_defense, mental_attack, mental_defense, speed, critical_damage, critical_rate, 
-                    armor_penetration, avoid, absorbs_damage, regenerate_vitality, accuracy, mana
+                    atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
+                    penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
+                    lifesteal_rate, shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
+                    mana, mana_regeneration_rate, damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
                 ) VALUES (
                     @user_id, @achievement_id, @level, @experiment, @star, @quantity, @power, @health, @physical_attack, 
                     @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
-                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage, @critical_rate, 
-                    @armor_penetration, @avoid, @absorbs_damage, @regenerate_vitality, @accuracy, @mana
+                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
+                    @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
+                    @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
+                    @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -466,14 +533,26 @@ public class Achievements
                     command.Parameters.AddWithValue("@mental_attack", Achievements.mental_attack);
                     command.Parameters.AddWithValue("@mental_defense", Achievements.mental_defense);
                     command.Parameters.AddWithValue("@speed", Achievements.speed);
-                    command.Parameters.AddWithValue("@critical_damage", Achievements.critical_damage);
+                    command.Parameters.AddWithValue("@critical_damage_rate", Achievements.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", Achievements.critical_rate);
-                    command.Parameters.AddWithValue("@armor_penetration", Achievements.armor_penetration);
-                    command.Parameters.AddWithValue("@avoid", Achievements.avoid);
-                    command.Parameters.AddWithValue("@absorbs_damage", Achievements.absorbs_damage);
-                    command.Parameters.AddWithValue("@regenerate_vitality", Achievements.regenerate_vitality);
-                    command.Parameters.AddWithValue("@accuracy", Achievements.accuracy);
+                    command.Parameters.AddWithValue("@penetration_rate", Achievements.penetration_rate);
+                    command.Parameters.AddWithValue("@evasion_rate", Achievements.evasion_rate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", Achievements.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Achievements.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@accuracy_rate", Achievements.accuracy_rate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", Achievements.lifesteal_rate);
+                    command.Parameters.AddWithValue("@shield_strength", Achievements.shield_strength);
+                    command.Parameters.AddWithValue("@tenacity", Achievements.tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", Achievements.resistance_rate);
+                    command.Parameters.AddWithValue("@combo_rate", Achievements.combo_rate);
+                    command.Parameters.AddWithValue("@reflection_rate", Achievements.reflection_rate);
                     command.Parameters.AddWithValue("@mana", Achievements.mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", Achievements.mana_regeneration_rate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Achievements.damage_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Achievements.resistance_to_different_faction_rate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Achievements.damage_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Achievements.resistance_to_same_faction_rate);
+
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -510,18 +589,26 @@ public class Achievements
                 connection.Open();
                 string query = @"
                 UPDATE user_achievements
-                SET level = @level,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND achievement_id = @achievement_id;;";
+                SET 
+                    level = @level, power = @power, health = @health, 
+                    physical_attack = @physicalAttack, physical_defense = @physicalDefense, 
+                    magical_attack = @magicalAttack, magical_defense = @magicalDefense, 
+                    chemical_attack = @chemicalAttack, chemical_defense = @chemicalDefense, 
+                    atomic_attack = @atomicAttack, atomic_defense = @atomicDefense, 
+                    mental_attack = @mentalAttack, mental_defense = @mentalDefense, 
+                    speed = @speed, critical_damage_rate = @criticalDamageRate, 
+                    critical_rate = @criticalRate, penetration_rate = @penetrationRate, 
+                    evasion_rate = @evasionRate, damage_absorption_rate = @damageAbsorptionRate, 
+                    vitality_regeneration_rate = @vitalityRegenerationRate, accuracy_rate = @accuracyRate, 
+                    lifesteal_rate = @lifestealRate, shield_strength = @shieldStrength, 
+                    tenacity = @tenacity, resistance_rate = @resistanceRate, combo_rate = @comboRate, 
+                    reflection_rate = @reflectionRate, mana = @mana, mana_regeneration_rate = @manaRegenerationRate, 
+                    damage_to_different_faction_rate = @damageToDifferentFactionRate, 
+                    resistance_to_different_faction_rate = @resistanceToDifferentFactionRate, 
+                    damage_to_same_faction_rate = @damageToSameFactionRate, 
+                    resistance_to_same_faction_rate = @resistanceToSameFactionRate
+                WHERE user_id = @user_id AND achievement_id = @achievement_id;
+                ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@achievement_id", achievements.id);
@@ -539,14 +626,25 @@ public class Achievements
                 command.Parameters.AddWithValue("@mentalAttack", achievements.mental_attack);
                 command.Parameters.AddWithValue("@mentalDefense", achievements.mental_defense);
                 command.Parameters.AddWithValue("@speed", achievements.speed);
-                command.Parameters.AddWithValue("@criticalDamage", achievements.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", achievements.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", achievements.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", achievements.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", achievements.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", achievements.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", achievements.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", achievements.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", achievements.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", achievements.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", achievements.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", achievements.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", achievements.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", achievements.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", achievements.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", achievements.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", achievements.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", achievements.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", achievements.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", achievements.reflection_rate);
                 command.Parameters.AddWithValue("@mana", achievements.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", achievements.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", achievements.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", achievements.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", achievements.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", achievements.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -566,18 +664,26 @@ public class Achievements
                 connection.Open();
                 string query = @"
                 UPDATE user_achievements
-                SET star = @star, quantity=@quantity,
-                    power = @power, health = @health, physical_attack = @physicalAttack,
-                    physical_defense = @physicalDefense, magical_attack = @magicalAttack,
-                    magical_defense = @magicalDefense, chemical_attack = @chemicalAttack,
-                    chemical_defense = @chemicalDefense, atomic_attack = @atomicAttack,
-                    atomic_defense = @atomicDefense, mental_attack = @mentalAttack,
-                    mental_defense = @mentalDefense, speed = @speed, critical_damage = @criticalDamage,
-                    critical_rate = @criticalRate, armor_penetration = @armorPenetration,
-                    avoid = @avoid, absorbs_damage = @absorbsDamage, regenerate_vitality = @regenerateVitality, 
-                    accuracy = @accuracy, mana = @mana
-                WHERE 
-                    user_id = @user_id AND achievement_id = @achievement_id;;";
+                SET 
+                    star = @star, quantity = @quantity, power=@power, health = @health, 
+                    physical_attack = @physicalAttack, physical_defense = @physicalDefense, 
+                    magical_attack = @magicalAttack, magical_defense = @magicalDefense, 
+                    chemical_attack = @chemicalAttack, chemical_defense = @chemicalDefense, 
+                    atomic_attack = @atomicAttack, atomic_defense = @atomicDefense, 
+                    mental_attack = @mentalAttack, mental_defense = @mentalDefense, 
+                    speed = @speed, critical_damage_rate = @criticalDamageRate, 
+                    critical_rate = @criticalRate, penetration_rate = @penetrationRate, 
+                    evasion_rate = @evasionRate, damage_absorption_rate = @damageAbsorptionRate, 
+                    vitality_regeneration_rate = @vitalityRegenerationRate, accuracy_rate = @accuracyRate, 
+                    lifesteal_rate = @lifestealRate, shield_strength = @shieldStrength, 
+                    tenacity = @tenacity, resistance_rate = @resistanceRate, combo_rate = @comboRate, 
+                    reflection_rate = @reflectionRate, mana = @mana, mana_regeneration_rate = @manaRegenerationRate, 
+                    damage_to_different_faction_rate = @damageToDifferentFactionRate, 
+                    resistance_to_different_faction_rate = @resistanceToDifferentFactionRate, 
+                    damage_to_same_faction_rate = @damageToSameFactionRate, 
+                    resistance_to_same_faction_rate = @resistanceToSameFactionRate
+                WHERE user_id = @user_id AND achievement_id = @achievement_id;
+                ;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@achievement_id", achievements.id);
@@ -596,14 +702,25 @@ public class Achievements
                 command.Parameters.AddWithValue("@mentalAttack", achievements.mental_attack);
                 command.Parameters.AddWithValue("@mentalDefense", achievements.mental_defense);
                 command.Parameters.AddWithValue("@speed", achievements.speed);
-                command.Parameters.AddWithValue("@criticalDamage", achievements.critical_damage);
-                command.Parameters.AddWithValue("@criticalRate", achievements.critical_rate);
-                command.Parameters.AddWithValue("@armorPenetration", achievements.armor_penetration);
-                command.Parameters.AddWithValue("@avoid", achievements.avoid);
-                command.Parameters.AddWithValue("@absorbsDamage", achievements.absorbs_damage);
-                command.Parameters.AddWithValue("@regenerateVitality", achievements.regenerate_vitality);
-                command.Parameters.AddWithValue("@accuracy", achievements.accuracy);
+                command.Parameters.AddWithValue("@critical_damage_rate", achievements.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", achievements.critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", achievements.penetration_rate);
+                command.Parameters.AddWithValue("@evasion_rate", achievements.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", achievements.damage_absorption_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", achievements.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", achievements.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", achievements.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", achievements.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", achievements.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", achievements.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", achievements.combo_rate);
+                command.Parameters.AddWithValue("@reflection_rate", achievements.reflection_rate);
                 command.Parameters.AddWithValue("@mana", achievements.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", achievements.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", achievements.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", achievements.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", achievements.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", achievements.resistance_to_same_faction_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -649,14 +766,25 @@ public class Achievements
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description")
                     };
                 }
@@ -705,14 +833,25 @@ public class Achievements
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
-                        accuracy = reader.GetDouble("accuracy"),
-                        mana = reader.GetFloat("mana")
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
+                        mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                     };
                 }
             }
@@ -761,13 +900,25 @@ public class Achievements
                         mental_attack = reader.GetDouble("mental_attack"),
                         mental_defense = reader.GetDouble("mental_defense"),
                         speed = reader.GetDouble("speed"),
-                        critical_damage = reader.GetDouble("critical_damage"),
+                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
-                        armor_penetration = reader.GetDouble("armor_penetration"),
-                        avoid = reader.GetDouble("avoid"),
-                        absorbs_damage = reader.GetDouble("absorbs_damage"),
-                        regenerate_vitality = reader.GetDouble("regenerate_vitality"),
+                        penetration_rate = reader.GetDouble("penetration_rate"),
+                        evasion_rate = reader.GetDouble("evasion_rate"),
+                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        shield_strength = reader.GetDouble("shield_strength"),
+                        tenacity = reader.GetDouble("tenacity"),
+                        resistance_rate = reader.GetDouble("resistance_rate"),
+                        combo_rate = reader.GetDouble("combo_rate"),
+                        reflection_rate = reader.GetDouble("reflection_rate"),
                         mana = reader.GetFloat("mana"),
+                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -833,14 +984,26 @@ public class Achievements
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(physical_attack) AS total_physical_attack,
-                SUM(physical_defense) AS total_physical_defense, SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense,
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, SUM(atomic_attack) AS total_atomic_attack,
-                SUM(atomic_defense) AS total_atomic_defense, SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense,
-                SUM(speed) AS total_speed, SUM(critical_damage) AS total_critical_damage, SUM(critical_rate) AS total_critical_rate,
-                SUM(armor_penetration) AS total_armor_penetration, SUM(avoid) AS total_avoid, SUM(absorbs_damage) AS total_absorbs_damage,
-                SUM(regenerate_vitality) AS total_regenerate_vitality, SUM(accuracy) AS total_accuracy, SUM(mana) AS total_mana   
-                FROM user_achievements where user_id=@user_id;";
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate
+            FROM user_achievements
+            WHERE user_id = @user_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -860,14 +1023,26 @@ public class Achievements
                         sumAchievements.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
                         sumAchievements.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
                         sumAchievements.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumAchievements.critical_damage = reader.IsDBNull(reader.GetOrdinal("total_critical_damage")) ? 0 : reader.GetDouble("total_critical_damage");
+                        sumAchievements.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
                         sumAchievements.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumAchievements.armor_penetration = reader.IsDBNull(reader.GetOrdinal("total_armor_penetration")) ? 0 : reader.GetDouble("total_armor_penetration");
-                        sumAchievements.avoid = reader.IsDBNull(reader.GetOrdinal("total_avoid")) ? 0 : reader.GetDouble("total_avoid");
-                        sumAchievements.absorbs_damage = reader.IsDBNull(reader.GetOrdinal("total_absorbs_damage")) ? 0 : reader.GetDouble("total_absorbs_damage");
-                        sumAchievements.regenerate_vitality = reader.IsDBNull(reader.GetOrdinal("total_regenerate_vitality")) ? 0 : reader.GetDouble("total_regenerate_vitality");
-                        sumAchievements.accuracy = reader.IsDBNull(reader.GetOrdinal("total_accuracy")) ? 0 : reader.GetDouble("total_accuracy");
-                        sumAchievements.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetInt32("total_mana");
+                        sumAchievements.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumAchievements.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumAchievements.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumAchievements.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumAchievements.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumAchievements.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumAchievements.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumAchievements.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumAchievements.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumAchievements.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumAchievements.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumAchievements.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumAchievements.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumAchievements.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumAchievements.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumAchievements.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumAchievements.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+
                     }
                 }
 
