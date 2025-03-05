@@ -1217,6 +1217,9 @@ public class Pets
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_pet_id", pets.id);
+                command.Parameters.AddWithValue("@team_id", null);
+                command.Parameters.AddWithValue("@position", null);
+                command.Parameters.AddWithValue("@role", null);
                 command.Parameters.AddWithValue("@all_power", pets.power);
                 command.Parameters.AddWithValue("@all_health", pets.health);
                 command.Parameters.AddWithValue("@all_physical_attack", pets.physical_attack);

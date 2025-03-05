@@ -4946,6 +4946,7 @@ MonoBehaviour:
   Slot16Prefab: {fileID: 5745659240395072349, guid: 732cd935dd0153c4f965691a8da55fd4, type: 3}
   AptitudeSlotPrefab: {fileID: 5745659240395072349, guid: 79b7362c3c614d74ca468a2e15fcf174, type: 3}
   UpgradeSlotPrefab: {fileID: 5745659240395072349, guid: 7051eccc68e9255498bf8cbf1a8042fd, type: 3}
+  BlessingSlotPrefab: {fileID: 5745659240395072349, guid: f38b494dc016af24390dd4f412e655dc, type: 3}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0

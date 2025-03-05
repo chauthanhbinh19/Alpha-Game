@@ -92,6 +92,7 @@ public class UIManager : MonoBehaviour
     public GameObject Slot16Prefab;
     public GameObject AptitudeSlotPrefab;
     public GameObject UpgradeSlotPrefab;
+    public GameObject BlessingSlotPrefab;
 
 
     [Header("Button")]
@@ -290,6 +291,8 @@ public class UIManager : MonoBehaviour
                 return AptitudeSlotPrefab;
             case "UpgradeSlotPrefab":
                 return UpgradeSlotPrefab;
+                case "BlessingSlotPrefab":
+                return BlessingSlotPrefab;
             case "TabButton5":
                 return TabButton5;
             default:

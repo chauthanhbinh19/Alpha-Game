@@ -933,6 +933,7 @@ public class GalleryManager : MonoBehaviour
     }
     private void createPets(List<Pets> petsList)
     {
+        Debug.Log(petsList.Count);
         foreach (var pet in petsList)
         {
             GameObject petsObject;

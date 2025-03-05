@@ -1414,6 +1414,9 @@ public class CardGenerals
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.id);
+                command.Parameters.AddWithValue("@team_id", null);
+                command.Parameters.AddWithValue("@position", null);
+                command.Parameters.AddWithValue("@role", null);
                 command.Parameters.AddWithValue("@all_power", cardGenerals.power);
                 command.Parameters.AddWithValue("@all_health", cardGenerals.health);
                 command.Parameters.AddWithValue("@all_physical_attack", cardGenerals.physical_attack);
