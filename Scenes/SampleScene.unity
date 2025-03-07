@@ -4917,6 +4917,7 @@ MonoBehaviour:
   ShopPrefab: {fileID: 5745659240395072349, guid: 6a2ef13c58868a14494b761c0ee02865, type: 3}
   NumberDetailPrefab: {fileID: 2994152938922929080, guid: 62317fd3196f42345979ccde2b26d708, type: 3}
   NumberDetail2Prefab: {fileID: 2994152938922929080, guid: 9b3f86b97b196084db2d20d454d46205, type: 3}
+  NumberDetail3Prefab: {fileID: 2994152938922929080, guid: 6b8c5845131903c4f804d700ca1ff5fd, type: 3}
   TabButton2: {fileID: 5647053732788993068, guid: d9eb1d1e942d7084b8bf771fa9da8f65, type: 3}
   TabButton3: {fileID: 5647053732788993068, guid: 1e580788d16b1784b801738fb4345d81, type: 3}
   TabButton4: {fileID: 5647053732788993068, guid: ab3b3413090512f4eb1fcc8acdfd586d, type: 3}

@@ -159,7 +159,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Cards
+  m_Text: Aptitude
 --- !u!1 &858455865680107771
 GameObject:
   m_ObjectHideFlags: 0

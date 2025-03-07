@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
     public GameObject ShopPrefab;
     public GameObject NumberDetailPrefab;
     public GameObject NumberDetail2Prefab;
+    public GameObject NumberDetail3Prefab;
     public GameObject TabButton2;
     public GameObject TabButton3;
     public GameObject TabButton4;
@@ -235,6 +236,8 @@ public class UIManager : MonoBehaviour
                 return NumberDetailPrefab;
             case "NumberDetail2Prefab":
                 return NumberDetail2Prefab;
+            case "NumberDetail3Prefab":
+                return NumberDetail3Prefab;
             case "TabButton2":
                 return TabButton2;
             case "TabButton3":

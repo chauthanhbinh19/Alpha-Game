@@ -40,11 +40,12 @@ public class MainMenuBlessingManager : MonoBehaviour
         CloseButton.onClick.AddListener(() => Destroy(currentObject));
         List<string> uniqueTypes = new List<string>
         {
-            "Amplification", "Ascension", "Awakening", "Convergence", "Destiny",
-            "Elemental", "Enlightenment", "Evolution", "Fortitude", "Fusion",
-            "Heritage", "Instinctive", "Limitless", "Mastery", "Morphing",
-            "Perception", "Prestige", "Rebirth", "Immortality", "Refinement",
-            "Resonance", "Synchronization", "Synergy", "Transcendence", "Supremacy"
+            "Blessing of the Sun", "Blessing of the Moon", "Blessing of the Stars", "Blessing of the Ocean", "Blessing of the Storm",
+            "Blessing of the Earth", "Blessing of the Wind", "Blessing of the Flame", "Blessing of the Ice", "Blessing of the Eclipse",
+            "Blessing of the Void", "Blessing of the Aurora", "Blessing of the Dragon", "Blessing of the Phoenix", "Blessing of the Wyvern",
+            "Blessing of the Hydra", "Blessing of the Leviathan", "Blessing of the Basilisk", "Blessing of the Unicorn", "Blessing of the Kirin",
+            "Blessing of the Pegasus", "Blessing of the Chimera", "Blessing of the Manticore", "Blessing of the Griffon", "Blessing of the Sphinx",
+            "Blessing of the Cerberus", "Blessing of the Kraken", "Blessing of the Selkie", "Blessing of the Kelpie"
         };
         if (uniqueTypes.Count > 0)
         {

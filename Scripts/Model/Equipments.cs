@@ -887,7 +887,7 @@ public class Equipments
                     @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
                     @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
                     @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
-                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
                     @special_health, @special_physical_attack, @special_physical_defense, @special_magical_attack,
                     @special_magical_defense, @special_chemical_attack, @special_chemical_defense, @special_atomic_attack,
                     @special_atomic_defense, @special_mental_attack, @special_mental_defense, @special_speed

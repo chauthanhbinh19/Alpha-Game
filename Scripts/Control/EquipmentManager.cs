@@ -158,6 +158,28 @@ public class EquipmentManager : MonoBehaviour
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
+            RawImage BorderImage = equipmentObject.transform.Find("Border").GetComponent<RawImage>();
+            // Lấy EventTrigger của RawImage
+            EventTrigger eventTrigger = BorderImage.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = BorderImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(equipment, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = tempContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
             rareImage.texture = rareTexture;

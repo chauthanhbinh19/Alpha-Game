@@ -13,6 +13,7 @@ public class MainMenuDetailsManager : MonoBehaviour
     private GameObject ElementDetailsPrefab;
     private GameObject NumberDetailPrefab;
     private GameObject NumberDetail2Prefab;
+    private GameObject NumberDetail3Prefab;
     private Transform MainPanel;
     private Transform RightButtonContent;
     private Transform DetailsPanel;
@@ -32,10 +33,12 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Button clickedButton;
     private GameObject firstDetailsObject;
     private GameObject elementDetailsObject;
+    private GameObject elementDetails2Object;
     private GameObject descriptionDetailsObject;
     private GameObject buttonPrefab;
     private Transform firstPopupPanel;
     private Transform elementPopupPanel;
+    private Transform element2PopupPanel;
     private Transform descriptionPopupPanel;
     private Transform buttonGroupPanel;
     private string mainType;
@@ -50,6 +53,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
         NumberDetailPrefab = UIManager.Instance.GetGameObject("NumberDetailPrefab");
         NumberDetail2Prefab = UIManager.Instance.GetGameObject("NumberDetail2Prefab");
+        NumberDetail3Prefab = UIManager.Instance.GetGameObject("NumberDetail3Prefab");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
         StarPrefab = UIManager.Instance.GetGameObject("StarPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
@@ -1010,9 +1014,11 @@ public class MainMenuDetailsManager : MonoBehaviour
 
         firstDetailsObject = Instantiate(NumberDetail2Prefab, DetailsContent);
         elementDetailsObject = Instantiate(NumberDetailPrefab, DetailsContent);
-        descriptionDetailsObject = Instantiate(NumberDetailPrefab, DetailsContent);
+        elementDetails2Object = Instantiate(NumberDetail3Prefab, DetailsContent);
+        descriptionDetailsObject = Instantiate(NumberDetail3Prefab, DetailsContent);
         firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
         elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        element2PopupPanel = elementDetails2Object.transform.Find("ElementDetails");
         descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
         if (obj is CardHeroes cardHeroes)
         {
@@ -5623,7 +5629,16 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (elementContentText != null)
                     elementContentText.text = value != null ? value.ToString() : "";
             }
-            else
+            else if (property.Name.Equals("health") || property.Name.Equals("physical_attack") || property.Name.Equals("physical_defense") ||
+                property.Name.Equals("magical_attack") || property.Name.Equals("magical_defense") ||
+                property.Name.Equals("chemical_attack") || property.Name.Equals("chemical_defense") ||
+                property.Name.Equals("atomic_attack") || property.Name.Equals("atomic_defense") ||
+                property.Name.Equals("mental_attack") || property.Name.Equals("mental_defense") ||
+                property.Name.Equals("all_health") || property.Name.Equals("all_physical_attack") || property.Name.Equals("all_physical_defense") ||
+                property.Name.Equals("all_magical_attack") || property.Name.Equals("all_magical_defense") ||
+                property.Name.Equals("all_chemical_attack") || property.Name.Equals("all_chemical_defense") ||
+                property.Name.Equals("all_atomic_attack") || property.Name.Equals("all_atomic_defense") ||
+                property.Name.Equals("all_mental_attack") || property.Name.Equals("all_mental_defense"))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -5669,6 +5684,71 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                 }
             }
+            else if (property.Name.Equals("speed") || property.Name.Equals("critical_damage_rate") || property.Name.Equals("critical_rate") ||
+                property.Name.Equals("penetration_rate") || property.Name.Equals("evasion_rate") ||
+                property.Name.Equals("damage_absorption_rate") || property.Name.Equals("vitality_regeneration_rate") ||
+                property.Name.Equals("accuracy_rate") || property.Name.Equals("lifesteal_rate") ||
+                property.Name.Equals("shield_strength") || property.Name.Equals("tenacity") ||
+                property.Name.Equals("resistance_rate") || property.Name.Equals("combo_rate") ||
+                property.Name.Equals("mana") || property.Name.Equals("mana_regeneration_rate") ||
+                property.Name.Equals("reflection_rate") ||
+                property.Name.Equals("damage_to_different_faction_rate") || property.Name.Equals("resistance_to_different_faction_rate") ||
+                property.Name.Equals("damage_to_same_faction_rate") || property.Name.Equals("resistance_to_same_faction_rate") ||
+                property.Name.Equals("all_speed") || property.Name.Equals("all_critical_damage_rate") || property.Name.Equals("all_critical_rate") ||
+                property.Name.Equals("all_penetration_rate") || property.Name.Equals("all_evasion_rate") ||
+                property.Name.Equals("all_damage_absorption_rate") || property.Name.Equals("all_vitality_regeneration_rate") ||
+                property.Name.Equals("all_accuracy_rate") || property.Name.Equals("all_lifesteal_rate") ||
+                property.Name.Equals("all_shield_strength") || property.Name.Equals("all_tenacity") ||
+                property.Name.Equals("all_resistance_rate") || property.Name.Equals("all_combo_rate") ||
+                property.Name.Equals("all_mana") || property.Name.Equals("all_mana_regeneration_rate") ||
+                property.Name.Equals("all_reflection_rate") ||
+                property.Name.Equals("all_damage_to_different_faction_rate") || property.Name.Equals("all_resistance_to_different_faction_rate") ||
+                property.Name.Equals("all_damage_to_same_faction_rate") || property.Name.Equals("all_resistance_to_same_faction_rate"))
+                {
+                    // Kiểm tra nếu value không phải null
+                    if (value != null)
+                    {
+                        if (value is double intValue && intValue != -1)
+                        {
+                            if (status == 1)
+                        {
+                            if (property.Name.Contains("all"))
+                            {
+                                // Tạo một element mới từ prefab
+                                GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
+
+                                // Gán tên thuộc tính vào TitleText
+                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                                if (elementTitleText != null)
+                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+
+                                // Gán giá trị thuộc tính vào ContentText
+                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                                if (elementContentText != null)
+                                    elementContentText.text = intValue.ToString();
+                            }
+                        }
+                        else if (status == 0)
+                        {
+                            if (!property.Name.Contains("all"))
+                            {
+                                // Tạo một element mới từ prefab
+                                GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+
+                                // Gán tên thuộc tính vào TitleText
+                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                                if (elementTitleText != null)
+                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+
+                                // Gán giá trị thuộc tính vào ContentText
+                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                                if (elementContentText != null)
+                                    elementContentText.text = intValue.ToString();
+                            }
+                        }
+                        }
+                    }
+                }
         }
     }
     public void CreatePropertyLevelUI(PropertyInfo property, object value)

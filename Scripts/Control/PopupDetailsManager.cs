@@ -11,10 +11,12 @@ public class PopupDetailsManager : MonoBehaviour
     private GameObject ElementDetailsPrefab;
     private GameObject NumberDetailPrefab;
     private GameObject NumberDetail2Prefab;
+    private GameObject NumberDetail3Prefab;
     private Transform MainPanel;
     private GameObject popupObject;
     private Transform firstPopupPanel;
     private Transform elementPopupPanel;
+    private Transform element2PopupPanel;
     private Transform descriptionPopupPanel;
     private string descriptionColor="#F9EED9";
     // Start is called before the first frame update
@@ -24,6 +26,7 @@ public class PopupDetailsManager : MonoBehaviour
         ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
         NumberDetailPrefab = UIManager.Instance.GetGameObject("NumberDetailPrefab");
         NumberDetail2Prefab = UIManager.Instance.GetGameObject("NumberDetail2Prefab");
+        NumberDetail3Prefab = UIManager.Instance.GetGameObject("NumberDetail3Prefab");
     }
 
     // Update is called once per frame
@@ -38,9 +41,11 @@ public class PopupDetailsManager : MonoBehaviour
         Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
         GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
         GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
+        GameObject elementDetails2Object = Instantiate(NumberDetail3Prefab, numberDetailsPanel);
+        GameObject descriptionDetailsObject = Instantiate(NumberDetail3Prefab, numberDetailsPanel);
         firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
         elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
+        element2PopupPanel = elementDetails2Object.transform.Find("ElementDetails");
         descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
         // Kiểm tra kiểu của data và ép kiểu phù hợp
         if (data is CardHeroes card)
@@ -1057,7 +1062,11 @@ public class PopupDetailsManager : MonoBehaviour
                     if (elementContentText != null)
                         elementContentText.text = value != null ? value.ToString() : "";
                 }
-                else
+                else if(property.Name.Equals("health") || property.Name.Equals("physical_attack") || property.Name.Equals("physical_defense")
+                || property.Name.Equals("magical_attack") || property.Name.Equals("magical_defense")
+                || property.Name.Equals("chemical_attack") || property.Name.Equals("chemical_defense")
+                || property.Name.Equals("atomic_attack") || property.Name.Equals("atomic_defense")
+                || property.Name.Equals("mental_attack") || property.Name.Equals("mental_defense"))
                 {
                     // Kiểm tra nếu value không phải null
                     if (value != null)
@@ -1066,6 +1075,37 @@ public class PopupDetailsManager : MonoBehaviour
                         {
                             // Tạo một element mới từ prefab
                             GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+
+                            // Gán tên thuộc tính vào TitleText
+                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                            if (elementTitleText != null)
+                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+
+                            // Gán giá trị thuộc tính vào ContentText
+                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                            if (elementContentText != null)
+                                elementContentText.text = intValue.ToString();
+                        }
+                    }
+                }
+                else if(property.Name.Equals("speed") || property.Name.Equals("critical_damage_rate") || property.Name.Equals("critical_rate")
+                || property.Name.Equals("penetration_rate") || property.Name.Equals("evasion_rate")
+                || property.Name.Equals("damage_absorption_rate") || property.Name.Equals("vitality_regeneration_rate")
+                || property.Name.Equals("accuracy_rate") || property.Name.Equals("lifesteal_rate")
+                || property.Name.Equals("shield_strength") || property.Name.Equals("tenacity")
+                || property.Name.Equals("resistance_rate") || property.Name.Equals("combo_rate")
+                || property.Name.Equals("mana") || property.Name.Equals("mana_regeneration_rate")
+                || property.Name.Equals("reflection_rate")
+                || property.Name.Equals("damage_to_different_faction_rate") || property.Name.Equals("resistance_to_different_faction_rate")
+                || property.Name.Equals("damage_to_same_faction_rate") || property.Name.Equals("resistance_to_same_faction_rate"))
+                {
+                    // Kiểm tra nếu value không phải null
+                    if (value != null)
+                    {
+                        if (value is double intValue && intValue != -1)
+                        {
+                            // Tạo một element mới từ prefab
+                            GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
 
                             // Gán tên thuộc tính vào TitleText
                             TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
