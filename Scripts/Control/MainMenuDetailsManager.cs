@@ -390,6 +390,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
         CreateButtonWithBackground(4, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
         CreateButtonWithBackground(5, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
+        CreateButtonWithBackground(6, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel);
         AssignButtonEvent("Button_1", buttonGroupPanel, () =>
         {
             FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
@@ -409,6 +410,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         AssignButtonEvent("Button_5", buttonGroupPanel, () =>
         {
             FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
+        });
+        AssignButtonEvent("Button_6", buttonGroupPanel, () =>
+        {
+            FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
         });
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)

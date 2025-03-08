@@ -81,6 +81,7 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuUpgradePanelPrefab;
     public GameObject MainMenuAffinityPanelPrefab;
     public GameObject MainMenuBlessingPanelPrefab;
+    public GameObject MainMenuCorePanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject EquipmentsWearingPrefab;
     public GameObject Slot1Prefab;
@@ -270,6 +271,8 @@ public class UIManager : MonoBehaviour
                 return MainMenuAffinityPanelPrefab;
             case "MainMenuBlessingPanelPrefab":
                 return MainMenuBlessingPanelPrefab;
+            case "MainMenuCorePanelPrefab":
+                return MainMenuCorePanelPrefab;
             case "PopupEquipmentsPanelPrefab":
                 return PopupEquipmentsPanelPrefab;
             case "EquipmentsWearingPrefab":

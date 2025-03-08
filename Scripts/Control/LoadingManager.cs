@@ -40,12 +40,12 @@ public class LoadingManager : MonoBehaviour
 
         // Chạy Animation theo thứ tự
         StartCoroutine(AnimateLoading(firstPanel, secondPanel, leftBackground, rightBackground, leftPathBackground, rightPathBackground, circle, 
-        bottomLeftDecoration, bottomRightDecoration, topLeftDecoration, topRightDecoration));
+        bottomLeftDecoration, bottomRightDecoration, topLeftDecoration, topRightDecoration, loadingObject));
     }
     IEnumerator AnimateLoading(Transform firstPanel, Transform secondPanel,RectTransform leftBg, RectTransform rightBg, 
     RectTransform leftPath, RectTransform rightPath, RectTransform circle, 
     RectTransform bottomLeftDecoration, RectTransform bottomRightDecoration, 
-    RectTransform topLeftDecoration, RectTransform topRightDecoration)
+    RectTransform topLeftDecoration, RectTransform topRightDecoration, GameObject loadingObject)
     {
         // Chạy leftBackground & rightBackground CÙNG LÚC
         Coroutine leftMove = StartCoroutine(MoveUI(leftBg, -500, deltaTime));
@@ -105,7 +105,7 @@ public class LoadingManager : MonoBehaviour
         yield return bottomRightMove;
         yield return topLeftMove;
         yield return topRightMove;
-
+        Destroy(loadingObject);
     }
     IEnumerator MoveUI(RectTransform uiElement, float targetX, float duration)
     {

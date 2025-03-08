@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UI;
 
-public class MainMenuBlessingManager : MonoBehaviour
+public class MainMenuCoreManager : MonoBehaviour
 {
     private Transform MainPanel;
     private Transform TabButtonPanel;
     private Transform SlotPanel;
-    private GameObject MainMenuBlessingPanelPrefab;
-    private GameObject BlessingSlotPrefab;
+    private GameObject MainMenuCorePanelPrefab;
+    private GameObject UpgradeSlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
     private GameObject slotObject;
@@ -22,14 +22,15 @@ public class MainMenuBlessingManager : MonoBehaviour
     void Start()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuBlessingPanelPrefab = UIManager.Instance.GetGameObject("MainMenuBlessingPanelPrefab");
+        MainMenuCorePanelPrefab = UIManager.Instance.GetGameObject("MainMenuCorePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        BlessingSlotPrefab = UIManager.Instance.GetGameObject("BlessingSlotPrefab");
+        UpgradeSlotPrefab = UIManager.Instance.GetGameObject("UpgradeSlotPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
-     public void CreateMainMenuBlessingManager(object data){
-        currentObject = Instantiate(MainMenuBlessingPanelPrefab, MainPanel);
+    public void CreateMainMenuCoreManager(object data)
+    {
+        currentObject = Instantiate(MainMenuCorePanelPrefab, MainPanel);
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
@@ -40,12 +41,14 @@ public class MainMenuBlessingManager : MonoBehaviour
         CloseButton.onClick.AddListener(() => Destroy(currentObject));
         List<string> uniqueTypes = new List<string>
         {
-            "Blessing of the Sun", "Blessing of the Moon", "Blessing of the Stars", "Blessing of the Ocean", "Blessing of the Storm",
-            "Blessing of the Earth", "Blessing of the Wind", "Blessing of the Flame", "Blessing of the Ice", "Blessing of the Eclipse",
-            "Blessing of the Void", "Blessing of the Aurora", "Blessing of the Dragon", "Blessing of the Phoenix", "Blessing of the Wyvern",
-            "Blessing of the Hydra", "Blessing of the Leviathan", "Blessing of the Basilisk", "Blessing of the Unicorn", "Blessing of the Kirin",
-            "Blessing of the Pegasus", "Blessing of the Chimera", "Blessing of the Manticore", "Blessing of the Griffon", "Blessing of the Sphinx",
-            "Blessing of the Cerberus", "Blessing of the Kraken", "Blessing of the Selkie", "Blessing of the Kelpie"
+            "Quantum Core", "Neural Fusion Core", "Gravity Pulse Core", "Plasma Reactor Core", "Nanite Swarm Core",
+            "Zero-Point Core", "Hyperdrive Core", "AI Synchronization Core", "EMP Disruptor Core", "Inferno Core",
+            "Aqua Core", "Terra Core", "Storm Core", "Cryo Core", "Solar Flare Core",
+            "Tornado Core", "Lunar Core", "Magma Core", "Void Core", "Phoenix Core",
+            "Beast Core", "Mutation Core", "Regeneration Core", "Symbiote Core", "Vampiric Core",
+            "Psyonic Core", "Chimera Core", "Shadow Parasite Core", "Soulbound Core", 
+            "Ethereal Core", "Celestial Core", "Demonic Core", "Excalibur Core", "Divine Judgment Core", 
+            "Singularity Core", "Neutron Star Core", "Chrono Core", "Anti-Matter Core", "Cosmic Forge Core"
         };
         if (uniqueTypes.Count > 0)
         {
@@ -221,7 +224,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardHeroesRank(mainType, cardHeroes.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType, rank.level);
@@ -273,7 +276,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetBooksRank(mainType, books.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -325,7 +328,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardCaptainsRank(mainType, cardCaptains.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -377,7 +380,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetPetsRank(mainType, pets.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -429,7 +432,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardMilitaryRank(mainType, cardMilitary.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -481,7 +484,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardMonstersRank(mainType, cardSpell.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -533,7 +536,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardMonstersRank(mainType, cardMonsters.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -585,7 +588,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardColonelsRank(mainType, cardColonels.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -637,7 +640,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardGeneralsRank(mainType, cardGenerals.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -689,7 +692,7 @@ public class MainMenuBlessingManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardAdmiralsRank(mainType, cardAdmirals.id);
-        slotObject = Instantiate(BlessingSlotPrefab, SlotPanel);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -751,7 +754,7 @@ public class MainMenuBlessingManager : MonoBehaviour
             RawImage aptitudeImage = aptitudeSkill.Find("AptitudeImage").GetComponent<RawImage>();
             TextMeshProUGUI levelText = aptitudeSkill.Find("LevelText").GetComponent<TextMeshProUGUI>();
 
-            Texture texture = Resources.Load<Texture>($"UI/Rank/Blessing");
+            Texture texture = Resources.Load<Texture>($"UI/Rank/Core");
             aptitudeImage.texture = texture;
 
             if (aptitudeImage != null) aptitudeImage.color = Color.black;
