@@ -16,6 +16,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject cardsPrefab;
     private GameObject cardsPrefab3;
     private Transform DictionaryContentPanel;
+    private Transform positionPanel;
     private Button CloseButton;
     private Button HomeButton;
     private Button SummonButton;
@@ -2224,7 +2225,7 @@ public class MainMenuManager : MonoBehaviour
         Transform tempRightContent = teamsObject.transform.Find("ScrollViewRight/Viewport/Content");
         titleText = teamsObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         ScrollRect scrollRect = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition").GetComponent<ScrollRect>();
-        Transform positionContent = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
+        positionPanel = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
         Transform typeContent = teamsObject.transform.Find("DictionaryCards/ScrollViewType/Viewport/Content");
         CloseButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
@@ -2283,7 +2284,7 @@ public class MainMenuManager : MonoBehaviour
         });
         typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
         List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
-        CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+        CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
         createCardTeams(cardObjects, choseTeam);
         selectedOptionName = dropdownType.options[dropdownType.value].text;
         int totalRecord = cardHeroes.GetUserCardHeroesCount(selectedOptionName);
@@ -2302,7 +2303,7 @@ public class MainMenuManager : MonoBehaviour
             type = "CardHeroes";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardHeroes c = new CardHeroes();
-            CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+            CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             selectedOptionName = dropdownType.options[dropdownType.value].text;
             List<CardHeroes> cardHeroesList2 = c.GetUserCardHeroes(selectedOptionName, team_limit, team_offset);
@@ -2325,7 +2326,7 @@ public class MainMenuManager : MonoBehaviour
             type = "CardCaptains";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardCaptains c = new CardCaptains();
-            CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+            CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             selectedOptionName = dropdownType.options[dropdownType.value].text;
             List<CardCaptains> cardHeroesList2 = c.GetUserCardCaptains(selectedOptionName, team_limit, team_offset);
@@ -2348,7 +2349,7 @@ public class MainMenuManager : MonoBehaviour
             type = "CardColonels";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardColonels c = new CardColonels();
-            CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+            CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             selectedOptionName = dropdownType.options[dropdownType.value].text;
             List<CardColonels> cardHeroesList2 = c.GetUserCardColonels(selectedOptionName, team_limit, team_offset);
@@ -2371,7 +2372,7 @@ public class MainMenuManager : MonoBehaviour
             type = "CardGenerals";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardGenerals c = new CardGenerals();
-            CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+            CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             selectedOptionName = dropdownType.options[dropdownType.value].text;
             List<CardGenerals> cardHeroesList2 = c.GetUserCardGenerals(selectedOptionName, team_limit, team_offset);
@@ -2394,7 +2395,7 @@ public class MainMenuManager : MonoBehaviour
             type = "CardAdmirals";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardAdmirals c = new CardAdmirals();
-            CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+            CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             selectedOptionName = dropdownType.options[dropdownType.value].text;
             List<CardAdmirals> cardHeroesList2 = c.GetUserCardAdmirals(selectedOptionName, team_limit, team_offset);
@@ -2417,7 +2418,7 @@ public class MainMenuManager : MonoBehaviour
             type = "CardMonsters";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardMonsters c = new CardMonsters();
-            CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+            CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             // selectedOptionName = dropdownType.options[dropdownType.value].text;
             List<CardMonsters> cardHeroesList2 = c.GetUserCardMonsters(team_limit, team_offset);
@@ -2440,7 +2441,7 @@ public class MainMenuManager : MonoBehaviour
             type = "CardMilitary";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardMilitary c = new CardMilitary();
-            CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+            CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             selectedOptionName = dropdownType.options[dropdownType.value].text;
             List<CardMilitary> cardHeroesList2 = c.GetUserCardMilitary(selectedOptionName, team_limit, team_offset);
@@ -2463,7 +2464,7 @@ public class MainMenuManager : MonoBehaviour
             type = "CardSpell";
             typeText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             CardSpell c = new CardSpell();
-            CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+            CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             selectedOptionName = dropdownType.options[dropdownType.value].text;
             List<CardSpell> cardHeroesList2 = c.GetUserCardSpell(selectedOptionName, team_limit, team_offset);
@@ -2495,7 +2496,7 @@ public class MainMenuManager : MonoBehaviour
                 teamTitleText.text = "Team " + teamIndex;
                 team_id = teamIndex;
                 GetTeamsButton(button, tempRightContent);
-                CreatePosition(type, team, positionContent, typeContent, user.level, teamsObject);
+                CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
                 UpdateTeamForAllCards(teamIndex);
             });
         }
@@ -3106,40 +3107,56 @@ public class MainMenuManager : MonoBehaviour
         }
         if (type.Equals("CardHeroes"))
         {
-            double totalPower=0;
+            double totalPower = 0;
             CardHeroes c = new CardHeroes();
             List<CardHeroes> cardHeroesList = c.GetUserCardHeroesTeam(team);
             cardHeroesList = cardHeroesList
                 .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
                 .ToList();
             var result = c.GetUniqueCardHeroTypesTeam(team);
-            foreach(var item in result){
+            foreach (var item in result)
+            {
                 GameObject typeObject = Instantiate(TypePrefab, typePanel);
                 TextMeshProUGUI titleText = typeObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Key;
                 TextMeshProUGUI quantityText = typeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                int total=0;
-                if(item.Value<2){
-                    total =2;
-                }else if(item.Value >=2 && item.Value <4){
-                    total =4;
-                }else if(item.Value >=4 && item.Value <6){
-                    total =6;
-                }else if(item.Value >=6 && item.Value <8){
-                    total =8;
-                }else if(item.Value >=8 && item.Value <10){
-                    total =10;
-                }else if(item.Value >=10 && item.Value <20){
-                    total =20;
-                }else if(item.Value >=20 && item.Value <50){
-                    total =50;
-                }else if(item.Value >=50 && item.Value <100){
-                    total =100;
+                int total = 0;
+                if (item.Value < 2)
+                {
+                    total = 2;
                 }
-                quantityText.text = item.Value.ToString() +"/"+total.ToString();
+                else if (item.Value >= 2 && item.Value < 4)
+                {
+                    total = 4;
+                }
+                else if (item.Value >= 4 && item.Value < 6)
+                {
+                    total = 6;
+                }
+                else if (item.Value >= 6 && item.Value < 8)
+                {
+                    total = 8;
+                }
+                else if (item.Value >= 8 && item.Value < 10)
+                {
+                    total = 10;
+                }
+                else if (item.Value >= 10 && item.Value < 20)
+                {
+                    total = 20;
+                }
+                else if (item.Value >= 20 && item.Value < 50)
+                {
+                    total = 50;
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    total = 100;
+                }
+                quantityText.text = item.Value.ToString() + "/" + total.ToString();
             }
             int iterations = Mathf.Clamp(level - minLevelForTeam + 1, 0, 100);
-            int count =0;
+            int count = 0;
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, positionPanel);
@@ -3184,8 +3201,8 @@ public class MainMenuManager : MonoBehaviour
                     {
                         buttonText.text = "Back";
                     }
-                    count=count+1;
-                    totalPower=totalPower+matchingCardHero.all_power;
+                    count = count + 1;
+                    totalPower = totalPower + matchingCardHero.all_power;
                 }
                 else
                 {
@@ -3226,7 +3243,7 @@ public class MainMenuManager : MonoBehaviour
                     image.texture = null;
                     double currentPower = teams.GetTeamsPower();
                     cardHeroes.UpdateTeamFactCardHeroes(null, null, matchingCardHero.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardHero.all_power,0);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardHero.all_power, 0);
                     CreatePosition(type, team, positionPanel, typePanel, level, teamsObject);
                     LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -3248,7 +3265,7 @@ public class MainMenuManager : MonoBehaviour
                     };
                 }
             }
-            teamMembersText.text = count.ToString()+"/"+iterations;
+            teamMembersText.text = count.ToString() + "/" + iterations;
             powerText.text = totalPower.ToString();
         }
         else if (type.Equals("CardCaptains"))
@@ -3260,33 +3277,49 @@ public class MainMenuManager : MonoBehaviour
                 .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
                 .ToList();
             var result = c.GetUniqueCardCaptainTypesTeam(team);
-            foreach(var item in result){
+            foreach (var item in result)
+            {
                 GameObject typeObject = Instantiate(TypePrefab, typePanel);
                 TextMeshProUGUI titleText = typeObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Key;
                 TextMeshProUGUI quantityText = typeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                int total=0;
-                if(item.Value<2){
-                    total =2;
-                }else if(item.Value >=2 && item.Value <4){
-                    total =4;
-                }else if(item.Value >=4 && item.Value <6){
-                    total =6;
-                }else if(item.Value >=6 && item.Value <8){
-                    total =8;
-                }else if(item.Value >=8 && item.Value <10){
-                    total =10;
-                }else if(item.Value >=10 && item.Value <20){
-                    total =20;
-                }else if(item.Value >=20 && item.Value <50){
-                    total =50;
-                }else if(item.Value >=50 && item.Value <100){
-                    total =100;
+                int total = 0;
+                if (item.Value < 2)
+                {
+                    total = 2;
                 }
-                quantityText.text = item.Value.ToString() +"/"+total.ToString();
+                else if (item.Value >= 2 && item.Value < 4)
+                {
+                    total = 4;
+                }
+                else if (item.Value >= 4 && item.Value < 6)
+                {
+                    total = 6;
+                }
+                else if (item.Value >= 6 && item.Value < 8)
+                {
+                    total = 8;
+                }
+                else if (item.Value >= 8 && item.Value < 10)
+                {
+                    total = 10;
+                }
+                else if (item.Value >= 10 && item.Value < 20)
+                {
+                    total = 20;
+                }
+                else if (item.Value >= 20 && item.Value < 50)
+                {
+                    total = 50;
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    total = 100;
+                }
+                quantityText.text = item.Value.ToString() + "/" + total.ToString();
             }
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
-            int count =0;
+            int count = 0;
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, positionPanel);
@@ -3331,8 +3364,8 @@ public class MainMenuManager : MonoBehaviour
                     {
                         buttonText.text = "Back";
                     }
-                    count = count +1;
-                    totalPower = totalPower+matchingCardCaptain.all_power;
+                    count = count + 1;
+                    totalPower = totalPower + matchingCardCaptain.all_power;
                 }
                 else
                 {
@@ -3373,7 +3406,7 @@ public class MainMenuManager : MonoBehaviour
                     image.texture = null;
                     double currentPower = teams.GetTeamsPower();
                     cardCaptains.UpdateTeamFactCardCaptains(null, null, matchingCardCaptain.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardCaptain.all_power,0);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardCaptain.all_power, 0);
                     CreatePosition(type, team, positionPanel, typePanel, level, teamsObject);
                     LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -3395,7 +3428,7 @@ public class MainMenuManager : MonoBehaviour
                     };
                 }
             }
-            teamMembersText.text = count.ToString()+"/"+iterations;
+            teamMembersText.text = count.ToString() + "/" + iterations;
             powerText.text = totalPower.ToString();
         }
         else if (type.Equals("CardColonels"))
@@ -3407,30 +3440,46 @@ public class MainMenuManager : MonoBehaviour
                 .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
                 .ToList();
             var result = c.GetUniqueCardColonelTypesTeam(team);
-            foreach(var item in result){
+            foreach (var item in result)
+            {
                 GameObject typeObject = Instantiate(TypePrefab, typePanel);
                 TextMeshProUGUI titleText = typeObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Key;
                 TextMeshProUGUI quantityText = typeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                int total=0;
-                if(item.Value<2){
-                    total =2;
-                }else if(item.Value >=2 && item.Value <4){
-                    total =4;
-                }else if(item.Value >=4 && item.Value <6){
-                    total =6;
-                }else if(item.Value >=6 && item.Value <8){
-                    total =8;
-                }else if(item.Value >=8 && item.Value <10){
-                    total =10;
-                }else if(item.Value >=10 && item.Value <20){
-                    total =20;
-                }else if(item.Value >=20 && item.Value <50){
-                    total =50;
-                }else if(item.Value >=50 && item.Value <100){
-                    total =100;
+                int total = 0;
+                if (item.Value < 2)
+                {
+                    total = 2;
                 }
-                quantityText.text = item.Value.ToString() +"/"+total.ToString();
+                else if (item.Value >= 2 && item.Value < 4)
+                {
+                    total = 4;
+                }
+                else if (item.Value >= 4 && item.Value < 6)
+                {
+                    total = 6;
+                }
+                else if (item.Value >= 6 && item.Value < 8)
+                {
+                    total = 8;
+                }
+                else if (item.Value >= 8 && item.Value < 10)
+                {
+                    total = 10;
+                }
+                else if (item.Value >= 10 && item.Value < 20)
+                {
+                    total = 20;
+                }
+                else if (item.Value >= 20 && item.Value < 50)
+                {
+                    total = 50;
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    total = 100;
+                }
+                quantityText.text = item.Value.ToString() + "/" + total.ToString();
             }
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             int count = 0;
@@ -3478,7 +3527,7 @@ public class MainMenuManager : MonoBehaviour
                     {
                         buttonText.text = "Back";
                     }
-                    count =count+1;
+                    count = count + 1;
                     totalPower = totalPower + matchingCardColonel.all_power;
                 }
                 else
@@ -3520,7 +3569,7 @@ public class MainMenuManager : MonoBehaviour
                     image.texture = null;
                     double currentPower = teams.GetTeamsPower();
                     cardColonels.UpdateTeamFactCardColonels(null, null, matchingCardColonel.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardColonel.all_power,0);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardColonel.all_power, 0);
                     CreatePosition(type, team, positionPanel, typePanel, level, teamsObject);
                     LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -3542,45 +3591,61 @@ public class MainMenuManager : MonoBehaviour
                     };
                 }
             }
-            teamMembersText.text = count.ToString()+"/"+iterations;
+            teamMembersText.text = count.ToString() + "/" + iterations;
             powerText.text = totalPower.ToString();
         }
         else if (type.Equals("CardGenerals"))
         {
-            double totalPower =0 ;
+            double totalPower = 0;
             CardGenerals c = new CardGenerals();
             List<CardGenerals> cardGeneralsList = c.GetUserCardGeneralsTeam(team);
             cardGeneralsList = cardGeneralsList
                 .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
                 .ToList();
             var result = c.GetUniqueCardGeneralTypesTeam(team);
-            foreach(var item in result){
+            foreach (var item in result)
+            {
                 GameObject typeObject = Instantiate(TypePrefab, typePanel);
                 TextMeshProUGUI titleText = typeObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Key;
                 TextMeshProUGUI quantityText = typeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                int total=0;
-                if(item.Value<2){
-                    total =2;
-                }else if(item.Value >=2 && item.Value <4){
-                    total =4;
-                }else if(item.Value >=4 && item.Value <6){
-                    total =6;
-                }else if(item.Value >=6 && item.Value <8){
-                    total =8;
-                }else if(item.Value >=8 && item.Value <10){
-                    total =10;
-                }else if(item.Value >=10 && item.Value <20){
-                    total =20;
-                }else if(item.Value >=20 && item.Value <50){
-                    total =50;
-                }else if(item.Value >=50 && item.Value <100){
-                    total =100;
+                int total = 0;
+                if (item.Value < 2)
+                {
+                    total = 2;
                 }
-                quantityText.text = item.Value.ToString() +"/"+total.ToString();
+                else if (item.Value >= 2 && item.Value < 4)
+                {
+                    total = 4;
+                }
+                else if (item.Value >= 4 && item.Value < 6)
+                {
+                    total = 6;
+                }
+                else if (item.Value >= 6 && item.Value < 8)
+                {
+                    total = 8;
+                }
+                else if (item.Value >= 8 && item.Value < 10)
+                {
+                    total = 10;
+                }
+                else if (item.Value >= 10 && item.Value < 20)
+                {
+                    total = 20;
+                }
+                else if (item.Value >= 20 && item.Value < 50)
+                {
+                    total = 50;
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    total = 100;
+                }
+                quantityText.text = item.Value.ToString() + "/" + total.ToString();
             }
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
-            int count =0;
+            int count = 0;
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, positionPanel);
@@ -3625,8 +3690,8 @@ public class MainMenuManager : MonoBehaviour
                     {
                         buttonText.text = "Back";
                     }
-                    count = count+1;
-                    totalPower = totalPower+matchingCardGeneral.all_power;
+                    count = count + 1;
+                    totalPower = totalPower + matchingCardGeneral.all_power;
                 }
                 else
                 {
@@ -3667,7 +3732,7 @@ public class MainMenuManager : MonoBehaviour
                     image.texture = null;
                     double currentPower = teams.GetTeamsPower();
                     cardGenerals.UpdateTeamFactCardGenerals(null, null, matchingCardGeneral.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardGeneral.all_power,0);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardGeneral.all_power, 0);
                     CreatePosition(type, team, positionPanel, typePanel, level, teamsObject);
                     LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -3689,7 +3754,7 @@ public class MainMenuManager : MonoBehaviour
                     };
                 }
             }
-            teamMembersText.text = count.ToString()+"/"+iterations;
+            teamMembersText.text = count.ToString() + "/" + iterations;
             powerText.text = totalPower.ToString();
         }
         else if (type.Equals("CardAdmirals"))
@@ -3701,30 +3766,46 @@ public class MainMenuManager : MonoBehaviour
                 .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
                 .ToList();
             var result = c.GetUniqueCardAdmiralTypesTeam(team);
-            foreach(var item in result){
+            foreach (var item in result)
+            {
                 GameObject typeObject = Instantiate(TypePrefab, typePanel);
                 TextMeshProUGUI titleText = typeObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Key;
                 TextMeshProUGUI quantityText = typeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                int total=0;
-                if(item.Value<2){
-                    total =2;
-                }else if(item.Value >=2 && item.Value <4){
-                    total =4;
-                }else if(item.Value >=4 && item.Value <6){
-                    total =6;
-                }else if(item.Value >=6 && item.Value <8){
-                    total =8;
-                }else if(item.Value >=8 && item.Value <10){
-                    total =10;
-                }else if(item.Value >=10 && item.Value <20){
-                    total =20;
-                }else if(item.Value >=20 && item.Value <50){
-                    total =50;
-                }else if(item.Value >=50 && item.Value <100){
-                    total =100;
+                int total = 0;
+                if (item.Value < 2)
+                {
+                    total = 2;
                 }
-                quantityText.text = item.Value.ToString() +"/"+total.ToString();
+                else if (item.Value >= 2 && item.Value < 4)
+                {
+                    total = 4;
+                }
+                else if (item.Value >= 4 && item.Value < 6)
+                {
+                    total = 6;
+                }
+                else if (item.Value >= 6 && item.Value < 8)
+                {
+                    total = 8;
+                }
+                else if (item.Value >= 8 && item.Value < 10)
+                {
+                    total = 10;
+                }
+                else if (item.Value >= 10 && item.Value < 20)
+                {
+                    total = 20;
+                }
+                else if (item.Value >= 20 && item.Value < 50)
+                {
+                    total = 50;
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    total = 100;
+                }
+                quantityText.text = item.Value.ToString() + "/" + total.ToString();
             }
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             int count = 0;
@@ -3772,7 +3853,7 @@ public class MainMenuManager : MonoBehaviour
                     {
                         buttonText.text = "Back";
                     }
-                    count = count+1;
+                    count = count + 1;
                     totalPower = totalPower + matchingCardAdmiral.all_power;
                 }
                 else
@@ -3814,7 +3895,7 @@ public class MainMenuManager : MonoBehaviour
                     image.texture = null;
                     double currentPower = teams.GetTeamsPower();
                     cardAdmirals.UpdateTeamFactCardAdmirals(null, null, matchingCardAdmiral.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardAdmiral.all_power,0);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardAdmiral.all_power, 0);
                     CreatePosition(type, team, positionPanel, typePanel, level, teamsObject);
                     LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -3836,7 +3917,7 @@ public class MainMenuManager : MonoBehaviour
                     };
                 }
             }
-            teamMembersText.text = count.ToString()+"/"+iterations;
+            teamMembersText.text = count.ToString() + "/" + iterations;
             powerText.text = totalPower.ToString();
         }
         else if (type.Equals("CardMonsters"))
@@ -3848,33 +3929,49 @@ public class MainMenuManager : MonoBehaviour
                 .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
                 .ToList();
             var result = c.GetUniqueCardMonsterTypesTeam(team);
-            foreach(var item in result){
+            foreach (var item in result)
+            {
                 GameObject typeObject = Instantiate(TypePrefab, typePanel);
                 TextMeshProUGUI titleText = typeObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Key;
                 TextMeshProUGUI quantityText = typeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                int total=0;
-                if(item.Value<2){
-                    total =2;
-                }else if(item.Value >=2 && item.Value <4){
-                    total =4;
-                }else if(item.Value >=4 && item.Value <6){
-                    total =6;
-                }else if(item.Value >=6 && item.Value <8){
-                    total =8;
-                }else if(item.Value >=8 && item.Value <10){
-                    total =10;
-                }else if(item.Value >=10 && item.Value <20){
-                    total =20;
-                }else if(item.Value >=20 && item.Value <50){
-                    total =50;
-                }else if(item.Value >=50 && item.Value <100){
-                    total =100;
+                int total = 0;
+                if (item.Value < 2)
+                {
+                    total = 2;
                 }
-                quantityText.text = item.Value.ToString() +"/"+total.ToString();
+                else if (item.Value >= 2 && item.Value < 4)
+                {
+                    total = 4;
+                }
+                else if (item.Value >= 4 && item.Value < 6)
+                {
+                    total = 6;
+                }
+                else if (item.Value >= 6 && item.Value < 8)
+                {
+                    total = 8;
+                }
+                else if (item.Value >= 8 && item.Value < 10)
+                {
+                    total = 10;
+                }
+                else if (item.Value >= 10 && item.Value < 20)
+                {
+                    total = 20;
+                }
+                else if (item.Value >= 20 && item.Value < 50)
+                {
+                    total = 50;
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    total = 100;
+                }
+                quantityText.text = item.Value.ToString() + "/" + total.ToString();
             }
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 2), 0, 50);
-            int count =0;
+            int count = 0;
             for (int i = 0; i < iterations; i++)
             {
                 GameObject positionObject = Instantiate(PositionPrefab, positionPanel);
@@ -3919,7 +4016,7 @@ public class MainMenuManager : MonoBehaviour
                     {
                         buttonText.text = "Back";
                     }
-                    count=count+1;
+                    count = count + 1;
                     totalPower = totalPower + matchingCardMonster.all_power;
                 }
                 else
@@ -3961,7 +4058,7 @@ public class MainMenuManager : MonoBehaviour
                     image.texture = null;
                     double currentPower = teams.GetTeamsPower();
                     cardMonsters.UpdateTeamFactCardMonsters(null, null, matchingCardMonster.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMonster.all_power,0);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMonster.all_power, 0);
                     CreatePosition(type, team, positionPanel, typePanel, level, teamsObject);
                     LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -3983,42 +4080,58 @@ public class MainMenuManager : MonoBehaviour
                     };
                 }
             }
-            teamMembersText.text = count.ToString()+"/"+iterations;
+            teamMembersText.text = count.ToString() + "/" + iterations;
             powerText.text = totalPower.ToString();
         }
         else if (type.Equals("CardMilitary"))
         {
-            double totalPower =0;
+            double totalPower = 0;
             CardMilitary c = new CardMilitary();
             List<CardMilitary> cardMilitaryList = c.GetUserCardMilitaryTeam(team);
             cardMilitaryList = cardMilitaryList
                 .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
                 .ToList();
             var result = c.GetUniqueCardMilitaryTypesTeam(team);
-            foreach(var item in result){
+            foreach (var item in result)
+            {
                 GameObject typeObject = Instantiate(TypePrefab, typePanel);
                 TextMeshProUGUI titleText = typeObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Key;
                 TextMeshProUGUI quantityText = typeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                int total=0;
-                if(item.Value<2){
-                    total =2;
-                }else if(item.Value >=2 && item.Value <4){
-                    total =4;
-                }else if(item.Value >=4 && item.Value <6){
-                    total =6;
-                }else if(item.Value >=6 && item.Value <8){
-                    total =8;
-                }else if(item.Value >=8 && item.Value <10){
-                    total =10;
-                }else if(item.Value >=10 && item.Value <20){
-                    total =20;
-                }else if(item.Value >=20 && item.Value <50){
-                    total =50;
-                }else if(item.Value >=50 && item.Value <100){
-                    total =100;
+                int total = 0;
+                if (item.Value < 2)
+                {
+                    total = 2;
                 }
-                quantityText.text = item.Value.ToString() +"/"+total.ToString();
+                else if (item.Value >= 2 && item.Value < 4)
+                {
+                    total = 4;
+                }
+                else if (item.Value >= 4 && item.Value < 6)
+                {
+                    total = 6;
+                }
+                else if (item.Value >= 6 && item.Value < 8)
+                {
+                    total = 8;
+                }
+                else if (item.Value >= 8 && item.Value < 10)
+                {
+                    total = 10;
+                }
+                else if (item.Value >= 10 && item.Value < 20)
+                {
+                    total = 20;
+                }
+                else if (item.Value >= 20 && item.Value < 50)
+                {
+                    total = 50;
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    total = 100;
+                }
+                quantityText.text = item.Value.ToString() + "/" + total.ToString();
             }
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             int count = 0;
@@ -4066,7 +4179,7 @@ public class MainMenuManager : MonoBehaviour
                     {
                         buttonText.text = "Back";
                     }
-                    count=count +1;
+                    count = count + 1;
                     totalPower = totalPower + matchingCardMilitary.all_power;
                 }
                 else
@@ -4108,7 +4221,7 @@ public class MainMenuManager : MonoBehaviour
                     image.texture = null;
                     double currentPower = teams.GetTeamsPower();
                     cardMilitary.UpdateTeamFactCardMilitary(null, null, matchingCardMilitary.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMilitary.all_power,0);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMilitary.all_power, 0);
                     CreatePosition(type, team, positionPanel, typePanel, level, teamsObject);
                     LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -4130,42 +4243,58 @@ public class MainMenuManager : MonoBehaviour
                     };
                 }
             }
-            teamMembersText.text = count.ToString()+"/"+iterations;
+            teamMembersText.text = count.ToString() + "/" + iterations;
             powerText.text = totalPower.ToString();
         }
         else if (type.Equals("CardSpell"))
         {
-            double totalPower =0;
+            double totalPower = 0;
             CardSpell c = new CardSpell();
             List<CardSpell> cardSpellList = c.GetUserCardSpellTeam(team);
             cardSpellList = cardSpellList
                 .Where(cardHero => cardHero.team_id == team) // Lọc theo team_id
                 .ToList();
             var result = c.GetUniqueCardSpellTypesTeam(team);
-            foreach(var item in result){
+            foreach (var item in result)
+            {
                 GameObject typeObject = Instantiate(TypePrefab, typePanel);
                 TextMeshProUGUI titleText = typeObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Key;
                 TextMeshProUGUI quantityText = typeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                int total=0;
-                if(item.Value<2){
-                    total =2;
-                }else if(item.Value >=2 && item.Value <4){
-                    total =4;
-                }else if(item.Value >=4 && item.Value <6){
-                    total =6;
-                }else if(item.Value >=6 && item.Value <8){
-                    total =8;
-                }else if(item.Value >=8 && item.Value <10){
-                    total =10;
-                }else if(item.Value >=10 && item.Value <20){
-                    total =20;
-                }else if(item.Value >=20 && item.Value <50){
-                    total =50;
-                }else if(item.Value >=50 && item.Value <100){
-                    total =100;
+                int total = 0;
+                if (item.Value < 2)
+                {
+                    total = 2;
                 }
-                quantityText.text = item.Value.ToString() +"/"+total.ToString();
+                else if (item.Value >= 2 && item.Value < 4)
+                {
+                    total = 4;
+                }
+                else if (item.Value >= 4 && item.Value < 6)
+                {
+                    total = 6;
+                }
+                else if (item.Value >= 6 && item.Value < 8)
+                {
+                    total = 8;
+                }
+                else if (item.Value >= 8 && item.Value < 10)
+                {
+                    total = 10;
+                }
+                else if (item.Value >= 10 && item.Value < 20)
+                {
+                    total = 20;
+                }
+                else if (item.Value >= 20 && item.Value < 50)
+                {
+                    total = 50;
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    total = 100;
+                }
+                quantityText.text = item.Value.ToString() + "/" + total.ToString();
             }
             int iterations = Mathf.Clamp(Mathf.CeilToInt((float)(level - minLevelForTeam + 1) / 5), 0, 20);
             int count = 0;
@@ -4213,7 +4342,7 @@ public class MainMenuManager : MonoBehaviour
                     {
                         buttonText.text = "Back";
                     }
-                    count=count+1;
+                    count = count + 1;
                     totalPower = totalPower + matchingCardSpell.all_power;
                 }
                 else
@@ -4255,7 +4384,7 @@ public class MainMenuManager : MonoBehaviour
                     image.texture = null;
                     double currentPower = teams.GetTeamsPower();
                     cardSpell.UpdateTeamFactCardSpell(null, null, matchingCardSpell.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardSpell.all_power,0);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardSpell.all_power, 0);
                     CreatePosition(type, team, positionPanel, typePanel, level, teamsObject);
                     LoadCardDataByType(type, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -4277,7 +4406,7 @@ public class MainMenuManager : MonoBehaviour
                     };
                 }
             }
-            teamMembersText.text = count.ToString()+"/"+iterations;
+            teamMembersText.text = count.ToString() + "/" + iterations;
             powerText.text = totalPower.ToString();
         }
     }
@@ -4320,12 +4449,23 @@ public class MainMenuManager : MonoBehaviour
                         dragHandler.obj = cardHeroes;
                         dragHandler.team_id = team_id;
                         dragHandler.InTeam = InTeam;
+                        dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
                             LoadCardDataByType("CardHeroes", selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        // Thêm EventTrigger để xử lý sự kiện click
+                        EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
+                        EventTrigger.Entry entry = new EventTrigger.Entry();
+                        entry.eventID = EventTriggerType.PointerClick;
+                        entry.callback.AddListener((data) =>
+                        {
+                            dragHandler.OnCardClicked();
+                            LoadCardDataByType("CardHeroes", selectedOptionName, team_limit, team_offset, choseTeam);
+                        }); // Gọi OnCardClicked của dragHandler
+                        trigger.triggers.Add(entry);
                     }
                 }
             }
@@ -4360,12 +4500,20 @@ public class MainMenuManager : MonoBehaviour
                         dragHandler.obj = cardCaptains;
                         dragHandler.team_id = team_id;
                         dragHandler.InTeam = InTeam;
+                        dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
                             LoadCardDataByType("CardCaptains", selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        // Thêm EventTrigger để xử lý sự kiện click
+                        EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
+                        EventTrigger.Entry entry = new EventTrigger.Entry();
+                        entry.eventID = EventTriggerType.PointerClick;
+                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
+                        LoadCardDataByType("CardCaptains", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        trigger.triggers.Add(entry);
                     }
                 }
             }
@@ -4400,12 +4548,20 @@ public class MainMenuManager : MonoBehaviour
                         dragHandler.obj = cardColonels;
                         dragHandler.team_id = team_id;
                         dragHandler.InTeam = InTeam;
+                        dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
                             LoadCardDataByType("CardColonels", selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        // Thêm EventTrigger để xử lý sự kiện click
+                        EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
+                        EventTrigger.Entry entry = new EventTrigger.Entry();
+                        entry.eventID = EventTriggerType.PointerClick;
+                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
+                        LoadCardDataByType("CardColonels", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        trigger.triggers.Add(entry);
                     }
                 }
             }
@@ -4440,12 +4596,20 @@ public class MainMenuManager : MonoBehaviour
                         dragHandler.obj = cardGenerals;
                         dragHandler.team_id = team_id;
                         dragHandler.InTeam = InTeam;
+                        dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
                             LoadCardDataByType("CardGenerals", selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        // Thêm EventTrigger để xử lý sự kiện click
+                        EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
+                        EventTrigger.Entry entry = new EventTrigger.Entry();
+                        entry.eventID = EventTriggerType.PointerClick;
+                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
+                        LoadCardDataByType("CardGenerals", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        trigger.triggers.Add(entry);
                     }
                 }
             }
@@ -4480,12 +4644,20 @@ public class MainMenuManager : MonoBehaviour
                         dragHandler.obj = cardAdmirals;
                         dragHandler.team_id = team_id;
                         dragHandler.InTeam = InTeam;
+                        dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
                             LoadCardDataByType("CardAdmirals", selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        // Thêm EventTrigger để xử lý sự kiện click
+                        EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
+                        EventTrigger.Entry entry = new EventTrigger.Entry();
+                        entry.eventID = EventTriggerType.PointerClick;
+                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
+                        LoadCardDataByType("CardAdmirals", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        trigger.triggers.Add(entry);
                     }
                 }
             }
@@ -4520,12 +4692,20 @@ public class MainMenuManager : MonoBehaviour
                         dragHandler.obj = cardMonsters;
                         dragHandler.team_id = team_id;
                         dragHandler.InTeam = InTeam;
+                        dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
                             LoadCardDataByType("CardMonsters", selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        // Thêm EventTrigger để xử lý sự kiện click
+                        EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
+                        EventTrigger.Entry entry = new EventTrigger.Entry();
+                        entry.eventID = EventTriggerType.PointerClick;
+                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
+                        LoadCardDataByType("CardMonsters", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        trigger.triggers.Add(entry);
                     }
                 }
             }
@@ -4560,12 +4740,20 @@ public class MainMenuManager : MonoBehaviour
                         dragHandler.obj = cardMilitary;
                         dragHandler.team_id = team_id;
                         dragHandler.InTeam = InTeam;
+                        dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
                             LoadCardDataByType("CardMilitary", selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        // Thêm EventTrigger để xử lý sự kiện click
+                        EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
+                        EventTrigger.Entry entry = new EventTrigger.Entry();
+                        entry.eventID = EventTriggerType.PointerClick;
+                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
+                        LoadCardDataByType("CardMilitary", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        trigger.triggers.Add(entry);
                     }
                 }
             }
@@ -4600,12 +4788,20 @@ public class MainMenuManager : MonoBehaviour
                         dragHandler.obj = cardSpell;
                         dragHandler.team_id = team_id;
                         dragHandler.InTeam = InTeam;
+                        dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
                             LoadCardDataByType("CardSpell", selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
+                        // Thêm EventTrigger để xử lý sự kiện click
+                        EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
+                        EventTrigger.Entry entry = new EventTrigger.Entry();
+                        entry.eventID = EventTriggerType.PointerClick;
+                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
+                        LoadCardDataByType("CardSpell", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        trigger.triggers.Add(entry);
                     }
                 }
             }
@@ -4616,6 +4812,203 @@ public class MainMenuManager : MonoBehaviour
         foreach (var dragHandler in cardDragHandlers)
         {
             dragHandler.team_id = newTeamId;
+        }
+    }
+    public void InsertCardToTeam(object obj, int position_id, int card_id, int team_id, double card_all_power)
+    {
+        string position = "F" + position_id;
+        Teams teams = new Teams();
+        if (obj is CardHeroes cardHeroes)
+        {
+            double currentPower = teams.GetTeamsPower();
+            if (card_id != 0)
+            {
+                cardHeroes.UpdateTeamFactCardHeroes(null, null, card_id);
+                cardHeroes.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
+                if (cardHeroes.all_power >= card_all_power)
+                {
+                    double newPower = cardHeroes.all_power - card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = card_all_power - cardHeroes.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                }
+            }
+            else
+            {
+                cardHeroes.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.all_power, 1);
+            }
+        }
+        else if (obj is CardCaptains cardCaptains)
+        {
+            double currentPower = teams.GetTeamsPower();
+            if (card_id != 0)
+            {
+                cardCaptains.UpdateTeamFactCardCaptains(null, null, card_id);
+                cardCaptains.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
+                if (cardCaptains.all_power >= card_all_power)
+                {
+                    double newPower = cardCaptains.all_power - card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = card_all_power - cardCaptains.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                }
+            }
+            else
+            {
+                cardCaptains.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.all_power, 1);
+            }
+        }
+        else if (obj is CardColonels cardColonels)
+        {
+            double currentPower = teams.GetTeamsPower();
+            if (card_id != 0)
+            {
+                cardColonels.UpdateTeamFactCardColonels(null, null, card_id);
+                cardColonels.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
+                if (cardColonels.all_power >= card_all_power)
+                {
+                    double newPower = cardColonels.all_power - card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = card_all_power - cardColonels.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                }
+            }
+            else
+            {
+                cardColonels.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.all_power, 1);
+            }
+        }
+        else if (obj is CardGenerals cardGenerals)
+        {
+            double currentPower = teams.GetTeamsPower();
+            if (card_id != 0)
+            {
+                cardGenerals.UpdateTeamFactCardGenerals(null, null, card_id);
+                cardGenerals.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
+                if (cardGenerals.all_power >= card_all_power)
+                {
+                    double newPower = cardGenerals.all_power - card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = card_all_power - cardGenerals.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                }
+            }
+            else
+            {
+                cardGenerals.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.all_power, 1);
+            }
+        }
+        else if (obj is CardAdmirals cardAdmirals)
+        {
+            double currentPower = teams.GetTeamsPower();
+            if (card_id != 0)
+            {
+                cardAdmirals.UpdateTeamFactCardAdmirals(null, null, card_id);
+                cardAdmirals.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
+                if (cardAdmirals.all_power >= card_all_power)
+                {
+                    double newPower = cardAdmirals.all_power - card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = card_all_power - cardAdmirals.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                }
+            }
+            else
+            {
+                cardAdmirals.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.all_power, 1);
+            }
+        }
+        else if (obj is CardMonsters cardMonsters)
+        {
+            double currentPower = teams.GetTeamsPower();
+            if (card_id != 0)
+            {
+                cardMonsters.UpdateTeamFactCardMonsters(null, null, card_id);
+                cardMonsters.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
+                if (cardMonsters.all_power >= card_all_power)
+                {
+                    double newPower = cardMonsters.all_power - card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = card_all_power - cardMonsters.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                }
+            }
+            else
+            {
+                cardMonsters.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.all_power, 1);
+            }
+        }
+        else if (obj is CardMilitary cardMilitary)
+        {
+            double currentPower = teams.GetTeamsPower();
+            if (card_id != 0)
+            {
+                cardMilitary.UpdateTeamFactCardMilitary(null, null, card_id);
+                cardMilitary.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
+                if (cardMilitary.all_power >= card_all_power)
+                {
+                    double newPower = cardMilitary.all_power - card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = card_all_power - cardMilitary.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                }
+            }
+            else
+            {
+                cardMilitary.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.all_power, 1);
+            }
+        }
+        else if (obj is CardSpell cardSpell)
+        {
+            double currentPower = teams.GetTeamsPower();
+            if (card_id != 0)
+            {
+                cardSpell.UpdateTeamFactCardSpell(null, null, card_id);
+                cardSpell.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
+                if (cardSpell.all_power >= card_all_power)
+                {
+                    double newPower = cardSpell.all_power - card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = card_all_power - cardSpell.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                }
+            }
+            else
+            {
+                cardSpell.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.all_power, 1);
+            }
         }
     }
 

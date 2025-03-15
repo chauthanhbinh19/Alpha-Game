@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class CardDropHandler : MonoBehaviour, IDropHandler
 {
@@ -183,6 +184,5 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
         }
         OnDropEnd.Invoke();
     }
-
 
 }

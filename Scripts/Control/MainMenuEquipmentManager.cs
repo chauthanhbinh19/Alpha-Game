@@ -28,6 +28,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private GameObject Slot16Prefab;
     private GameObject popupEquipmentObject;
     private GameObject TabButton5;
+    private GameObject StarPrefab;
     private RawImage mainImage;
     private string mainType;
     private int pageSize;
@@ -42,6 +43,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         pageSize = 100;
         offset = 0;
         currentPage = 1;
+        set = "set1";
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuEquipmentPanelPrefab = UIManager.Instance.GetGameObject("MainMenuEquipmentPanelPrefab");
         PopupEquipmentsPanelPrefab = UIManager.Instance.GetGameObject("PopupEquipmentsPanelPrefab");
@@ -56,6 +58,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Slot14Prefab = UIManager.Instance.GetGameObject("Slot14Prefab");
         Slot16Prefab = UIManager.Instance.GetGameObject("Slot16Prefab");
         TabButton5 = UIManager.Instance.GetGameObject("TabButton5");
+        StarPrefab = UIManager.Instance.GetGameObject("StarPrefab");
     }
 
     public void CreateMainMenuEquipmentManager(object data)
@@ -222,10 +225,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    public void CreateSetButton(object data){
+    public void CreateSetButton(object data)
+    {
         Close(SetPanel);
         List<string> uniqueSet = Equipments.GetEquipmentsSet(mainType);
-        if (uniqueSet.Count > 0){
+        if (uniqueSet.Count > 0)
+        {
             for (int i = 0; i < uniqueSet.Count; i++)
             {
                 string subtype = uniqueSet[i];
@@ -452,9 +457,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardHeroes.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -628,9 +636,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardCaptains.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -804,9 +815,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardColonels.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -980,9 +994,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardGenerals.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -1156,9 +1173,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardAdmirals.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -1332,9 +1352,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardMonsters.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -1508,9 +1531,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardMilitary.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -1684,9 +1710,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardSpell.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -1860,9 +1889,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = books.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -2036,9 +2068,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = pets.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if(CheckSlotForEquipments(mainType) == 1){
+        if (CheckSlotForEquipments(mainType) == 1)
+        {
             mainImage.gameObject.SetActive(false);
-        }else{
+        }
+        else
+        {
             mainImage.gameObject.SetActive(true);
         }
         if (CheckSlotForEquipments(mainType) == 1)
@@ -2216,6 +2251,22 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     RawImage rawImage = button.GetComponent<RawImage>();
                     rawImage.texture = equipmentTexture;
+
+                    TextMeshProUGUI LevelText = button.transform.Find("Level").GetComponent<TextMeshProUGUI>();
+                    if (LevelText != null)
+                    {
+                        if (equipment.level != 0)
+                        {
+                            LevelText.text = equipment.level.ToString();
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Không tìm thấy TextMeshProUGUI trong button: " + button.name);
+                    }
+
+                    Transform currentStar = button.transform.Find("Star");
+                    CreateStarUI(equipment.star, currentStar);
                 }
 
                 foundEquipment = true; // Đánh dấu là đã tìm thấy thiết bị
@@ -2666,6 +2717,69 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
+        }
+    }
+    public void CreateStarUI(int star, Transform currentStar)
+    {
+        int imageIndex = (star == 0) ? 0 : ((star - 1) % 10) + 1;
+        int starIndex = (star == 0) ? 1 : (star - 1) / 10;
+        for (int i = 0; i < imageIndex; i++)
+        {
+            GameObject starObject = Instantiate(StarPrefab, currentStar);
+
+            RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
+            GetStarImage(starImage, starIndex);
+        }
+    }
+    public void GetStarImage(RawImage starImage, int starIndex)
+    {
+        Texture starTexture = Resources.Load<Texture>($"UI/UI/Star1");
+        switch (starIndex)
+        {
+            case 0:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star1");
+                starImage.texture = starTexture;
+                break;
+            case 1:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star2");
+                starImage.texture = starTexture;
+                break;
+            case 2:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star3");
+                starImage.texture = starTexture;
+                break;
+            case 3:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star4");
+                starImage.texture = starTexture;
+                break;
+            case 4:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star5");
+                starImage.texture = starTexture;
+                break;
+            case 5:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star6");
+                starImage.texture = starTexture;
+                break;
+            case 6:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star7");
+                starImage.texture = starTexture;
+                break;
+            case 7:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star8");
+                starImage.texture = starTexture;
+                break;
+            case 8:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star9");
+                starImage.texture = starTexture;
+                break;
+            case 9:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star10");
+                starImage.texture = starTexture;
+                break;
+            default:
+                starTexture = Resources.Load<Texture>($"UI/UI/Star1");
+                starImage.texture = starTexture;
+                break;
         }
     }
 }

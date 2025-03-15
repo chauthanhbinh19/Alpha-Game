@@ -41,6 +41,7 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform element2PopupPanel;
     private Transform descriptionPopupPanel;
     private Transform buttonGroupPanel;
+    private RawImage CardBackground;
     private string mainType;
     private string descriptionColor = "#F9EED9";
     private double increasePerLevel = 0.01;
@@ -79,6 +80,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         buttonGroupPanel = currentObject.transform.Find("DictionaryCards/ButtonGroup1");
+        CardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
         CreateButtonGroup(data);
         // Kiểm tra kiểu của data và ép kiểu phù hợp
@@ -87,6 +89,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Card
             mainType = "CardHeroes";
             ShowCardHeroesDetails(card);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{card.type}");
+            CardBackground.texture = texture;
+            CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -109,6 +114,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Captain
             mainType = "CardCaptains";
             ShowCardCaptainsDetails(captain);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{captain.type}");
+            CardBackground.texture = texture;
+            CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -142,6 +150,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Military
             mainType = "CardMilitary";
             ShowCardMilitaryDetails(military);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{military.type}");
+            CardBackground.texture = texture;
+            CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -263,6 +274,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng colonels
             mainType = "CardColonels";
             ShowCardColonelsDetails(colonels);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{colonels.type}");
+            CardBackground.texture = texture;
+            CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -274,6 +288,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Generals
             mainType = "CardGenerals";
             ShowCardGeneralsDetails(generals);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{generals.type}");
+            CardBackground.texture = texture;
+            CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -285,6 +302,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng admirals
             mainType = "CardAdmirals";
             ShowCardAdmiralsDetails(admirals);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{admirals.type}");
+            CardBackground.texture = texture;
+            CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -3289,13 +3309,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = cardHeroes.quantity.ToString() + "/" + (cardHeroes.star + 1).ToString();
 
-            int imageIndex = ((cardHeroes.star + 1) % 5);
-            int starIndex = ((cardHeroes.star - 1) % 10);
-            if (cardHeroes.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(cardHeroes.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -3356,7 +3370,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((cardHeroes.star + 1) % 5), ((cardHeroes.star - 1) % 10));
+                    CreateStarUI(cardHeroes.star);
                 }
                 else
                 {
@@ -3399,13 +3413,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = book.quantity.ToString() + "/" + (book.star + 1).ToString();
 
-            int imageIndex = ((book.star + 1) % 5);
-            int starIndex = ((book.star - 1) % 10);
-            if (book.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(book.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -3466,7 +3474,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((book.star + 1) % 5), ((book.star - 1) % 10));
+                    CreateStarUI(book.star);
                 }
                 else
                 {
@@ -3509,13 +3517,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = cardCaptains.quantity.ToString() + "/" + (cardCaptains.star + 1).ToString();
 
-            int imageIndex = ((cardCaptains.star + 1) % 5);
-            int starIndex = ((cardCaptains.star - 1) % 10);
-            if (cardCaptains.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(cardCaptains.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -3576,7 +3578,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((cardCaptains.star + 1) % 5), ((cardCaptains.star - 1) % 10));
+                    CreateStarUI(cardCaptains.star);
                 }
                 else
                 {
@@ -3619,13 +3621,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = pet.quantity.ToString() + "/" + (pet.star + 1).ToString();
 
-            int imageIndex = ((pet.star + 1) % 5);
-            int starIndex = ((pet.star - 1) % 10);
-            if (pet.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(pet.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -3686,7 +3682,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((pet.star + 1) % 5), ((pet.star - 1) % 10));
+                    CreateStarUI(pet.star);
                 }
                 else
                 {
@@ -3729,13 +3725,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = collaborationEquipment.quantity.ToString() + "/" + (collaborationEquipment.star + 1).ToString();
 
-            int imageIndex = ((collaborationEquipment.star + 1) % 5);
-            int starIndex = ((collaborationEquipment.star - 1) % 10);
-            if (collaborationEquipment.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(collaborationEquipment.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -3795,7 +3785,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((collaborationEquipment.star + 1) % 5), ((collaborationEquipment.star - 1) % 10));
+                    CreateStarUI(collaborationEquipment.star);
                 }
                 else
                 {
@@ -3838,13 +3828,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = cardMilitary.quantity.ToString() + "/" + (cardMilitary.star + 1).ToString();
 
-            int imageIndex = ((cardMilitary.star + 1) % 5);
-            int starIndex = ((cardMilitary.star - 1) % 10);
-            if (cardMilitary.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(cardMilitary.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -3905,7 +3889,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((cardMilitary.star + 1) % 5), ((cardMilitary.star - 1) % 10));
+                    CreateStarUI(cardMilitary.star);
                 }
                 else
                 {
@@ -3948,13 +3932,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = cardSpell.quantity.ToString() + "/" + (cardSpell.star + 1).ToString();
 
-            int imageIndex = ((cardSpell.star + 1) % 5);
-            int starIndex = ((cardSpell.star - 1) % 10);
-            if (cardSpell.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(cardSpell.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4015,7 +3993,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((cardSpell.star + 1) % 5), ((cardSpell.star - 1) % 10));
+                    CreateStarUI(cardSpell.star);
                 }
                 else
                 {
@@ -4058,13 +4036,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = collaboration.quantity.ToString() + "/" + (collaboration.star + 1).ToString();
 
-            int imageIndex = ((collaboration.star + 1) % 5);
-            int starIndex = ((collaboration.star - 1) % 10);
-            if (collaboration.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(collaboration.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4124,7 +4096,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((collaboration.star + 1) % 5), ((collaboration.star - 1) % 10));
+                    CreateStarUI(collaboration.star);
                 }
                 else
                 {
@@ -4167,13 +4139,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = cardMonsters.quantity.ToString() + "/" + (cardMonsters.star + 1).ToString();
 
-            int imageIndex = ((cardMonsters.star + 1) % 5);
-            int starIndex = ((cardMonsters.star - 1) % 10);
-            if (cardMonsters.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(cardMonsters.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4234,7 +4200,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((cardMonsters.star + 1) % 5), ((cardMonsters.star - 1) % 10));
+                    CreateStarUI(cardMonsters.star);
                 }
                 else
                 {
@@ -4277,13 +4243,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI equipQuantity = equipmentObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             equipQuantity.text = equipments.quantity.ToString() + "/" + (equipments.star + 1).ToString();
 
-            int imageIndex = ((equipments.star + 1) % 5);
-            int starIndex = ((equipments.star - 1) % 10);
-            if (equipments.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(equipments.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4343,7 +4303,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((equipments.star + 1) % 5), ((equipments.star - 1) % 10));
+                    CreateStarUI(equipments.star);
                 }
                 else
                 {
@@ -4386,13 +4346,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI medalQuantity = medalObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             medalQuantity.text = medal.quantity.ToString() + "/" + (medal.star + 1).ToString();
 
-            int imageIndex = ((medal.star + 1) % 5);
-            int starIndex = ((medal.star - 1) % 10);
-            if (medal.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(medal.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4452,7 +4406,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((medal.star + 1) % 5), ((medal.star - 1) % 10));
+                    CreateStarUI(medal.star);
                 }
                 else
                 {
@@ -4495,13 +4449,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI skillQuantity = skillObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             skillQuantity.text = skill.quantity.ToString() + "/" + (skill.star + 1).ToString();
 
-            int imageIndex = ((skill.star + 1) % 5);
-            int starIndex = ((skill.star - 1) % 10);
-            if (skill.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(skill.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4561,7 +4509,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((skill.star + 1) % 5), ((skill.star - 1) % 10));
+                    CreateStarUI(skill.star);
                 }
                 else
                 {
@@ -4604,13 +4552,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI symbolQuantity = symbolObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             symbolQuantity.text = symbol.quantity.ToString() + "/" + (symbol.star + 1).ToString();
 
-            int imageIndex = ((symbol.star + 1) % 5);
-            int starIndex = ((symbol.star - 1) % 10);
-            if (symbol.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(symbol.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4670,7 +4612,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((symbol.star + 1) % 5), ((symbol.star - 1) % 10));
+                    CreateStarUI(symbol.star);
                 }
                 else
                 {
@@ -4713,13 +4655,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI titleQuantity = titleObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             titleQuantity.text = title.quantity.ToString() + "/" + (title.star + 1).ToString();
 
-            int imageIndex = ((title.star + 1) % 5);
-            int starIndex = ((title.star - 1) % 10);
-            if (title.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(title.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4779,7 +4715,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((title.star + 1) % 5), ((title.star - 1) % 10));
+                    CreateStarUI(title.star);
                 }
                 else
                 {
@@ -4822,13 +4758,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             magicFormationQuantity.text = magicFormationCircle.quantity.ToString() + "/" + (magicFormationCircle.star + 1).ToString();
 
-            int imageIndex = ((magicFormationCircle.star + 1) % 5);
-            int starIndex = ((magicFormationCircle.star - 1) % 10);
-            if (magicFormationCircle.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(magicFormationCircle.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4888,7 +4818,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((magicFormationCircle.star + 1) % 5), ((magicFormationCircle.star - 1) % 10));
+                    CreateStarUI(magicFormationCircle.star);
                 }
                 else
                 {
@@ -4931,13 +4861,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI relicsQuantity = relicsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             relicsQuantity.text = relics.quantity.ToString() + "/" + (relics.star + 1).ToString();
 
-            int imageIndex = ((relics.star + 1) % 5);
-            int starIndex = ((relics.star - 1) % 10);
-            if (relics.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(relics.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -4997,7 +4921,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((relics.star + 1) % 5), ((relics.star - 1) % 10));
+                    CreateStarUI(relics.star);
                 }
                 else
                 {
@@ -5040,13 +4964,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = cardColonels.quantity.ToString() + "/" + (cardColonels.star + 1).ToString();
 
-            int imageIndex = ((cardColonels.star + 1) % 5);
-            int starIndex = ((cardColonels.star - 1) % 10);
-            if (cardColonels.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(cardColonels.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -5107,7 +5025,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((cardColonels.star + 1) % 5), ((cardColonels.star - 1) % 10));
+                    CreateStarUI(cardColonels.star);
                 }
                 else
                 {
@@ -5150,13 +5068,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = cardGenerals.quantity.ToString() + "/" + (cardGenerals.star + 1).ToString();
 
-            int imageIndex = ((cardGenerals.star + 1) % 5);
-            int starIndex = ((cardGenerals.star - 1) % 10);
-            if (cardGenerals.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(cardGenerals.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -5217,7 +5129,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((cardGenerals.star + 1) % 5), ((cardGenerals.star - 1) % 10));
+                    CreateStarUI(cardGenerals.star);
                 }
                 else
                 {
@@ -5260,13 +5172,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardQuantity.text = cardAdmirals.quantity.ToString() + "/" + (cardAdmirals.star + 1).ToString();
 
-            int imageIndex = ((cardAdmirals.star + 1) % 5);
-            int starIndex = ((cardAdmirals.star - 1) % 10);
-            if (cardAdmirals.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(cardAdmirals.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -5327,7 +5233,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((cardAdmirals.star + 1) % 5), ((cardAdmirals.star - 1) % 10));
+                    CreateStarUI(cardAdmirals.star);
                 }
                 else
                 {
@@ -5370,13 +5276,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             TextMeshProUGUI achievementsQuantity = achievementsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             achievementsQuantity.text = achievements.quantity.ToString() + "/" + (achievements.star + 1).ToString();
 
-            int imageIndex = ((achievements.star + 1) % 5);
-            int starIndex = ((achievements.star - 1) % 10);
-            if (achievements.star == 0)
-            {
-                starIndex = 0;
-            }
-            CreateStarUI(imageIndex, starIndex);
+            CreateStarUI(achievements.star);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
@@ -5436,7 +5336,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     Close(UpgradeElementContent);
                     Close(UpgradeMaterialContent);
                     GetUpgrade(obj);
-                    CreateStarUI(((achievements.star + 1) % 5), ((achievements.star - 1) % 10));
+                    CreateStarUI(achievements.star);
                 }
                 else
                 {
@@ -5445,23 +5345,27 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
         }
     }
-    public void CreateStarUI(int imageIndex, int starIndex)
+    public void CreateStarUI(int star)
     {
         Transform currentStar = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/Level/CurrentStar");
         Transform nextStar = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/Level/NextStar");
-        for (int i = 0; i < imageIndex - 1; i++)
+        int currentimageIndex = (star == 0) ? 0 : ((star - 1) % 10) + 1;
+        int currentstarIndex = (star == 0) ? 0 : (star - 1) / 10;
+        int nextimageIndex = (star == 0) ? 0 : ((star - 1) % 10) + 1;
+        int nextstarIndex = (star == 0) ? 0 : (star - 1) / 10;
+        for (int i = 0; i < currentimageIndex; i++)
         {
             GameObject starObject = Instantiate(StarPrefab, currentStar);
 
             RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            GetStarImage(starImage, starIndex);
+            GetStarImage(starImage, currentstarIndex);
         }
-        for (int i = 0; i < imageIndex; i++)
+        for (int i = 0; i < nextimageIndex; i++)
         {
             GameObject starObject = Instantiate(StarPrefab, nextStar);
 
             RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            GetStarImage(starImage, starIndex);
+            GetStarImage(starImage, nextstarIndex);
         }
     }
     public void GetStarImage(RawImage starImage, int starIndex)

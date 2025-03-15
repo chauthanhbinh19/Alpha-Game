@@ -931,7 +931,11 @@ public class Teams
                 PetsList.Add(pets1);
             }
             reader.Close();
-            userQuery = "select sum(all_power) as all_power from fact_card_spell fch, teams t where fch.user_id=@user_id and fch.team_id=t.team_id";
+            userQuery = @"SELECT uc.*, c.*, fch.*
+                FROM user_card_spell uc
+                LEFT JOIN card_spell c ON uc.card_spell_id = c.id 
+                LEFT JOIN fact_card_spell fch ON fch.user_id = uc.user_id AND fch.user_card_spell_id = uc.card_spell_id
+                WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
             reader = command.ExecuteReader();
@@ -939,7 +943,7 @@ public class Teams
             {
                 CardSpell cardSpell = new CardSpell
                 {
-                    id = reader.GetInt32("pet_id"),
+                    id = reader.GetInt32("card_spell_id"),
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
