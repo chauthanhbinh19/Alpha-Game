@@ -402,44 +402,92 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             CreateButtonGroupDetails(data);
         }
+        else if (data is Equipments equipments)
+        {
+            CreateButtonGroupDetails(data);
+        }
     }
     public void CreateButtonGroupDetails(object data)
     {
-        CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-        CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel);
-        CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-        CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-        CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
-        CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
-        CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel);
-        AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+        if (data is CardHeroes cardHeroes || data is CardCaptains cardCaptains ||
+        data is CardColonels cardColonels || data is CardGenerals cardGenerals ||
+        data is CardAdmirals cardAdmirals || data is CardMonsters cardMonsters ||
+        data is CardMilitary cardMilitary || data is CardSpell cardSpell ||
+        data is Books books || data is Pets pets
+        )
+        {
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+            CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
+            CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
+            CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
         {
             FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
         });
-        AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
+            });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_4", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+            AssignButtonEvent("Button_5", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
+            });
+            AssignButtonEvent("Button_6", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
+            });
+            AssignButtonEvent("Button_7", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
+            });
+        }
+        else
+        {
+            // CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel);
+            CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+            CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+            // CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
+            CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
+            CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel);
+
+            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
         {
             FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
         });
-        AssignButtonEvent("Button_3", buttonGroupPanel, () =>
-        {
-            FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
-        });
-        AssignButtonEvent("Button_4", buttonGroupPanel, () =>
-        {
-            FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
-        });
-        AssignButtonEvent("Button_5", buttonGroupPanel, () =>
-        {
-            FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
-        });
-        AssignButtonEvent("Button_6", buttonGroupPanel, () =>
-        {
-            FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
-        });
-        AssignButtonEvent("Button_7", buttonGroupPanel, () =>
-        {
-            FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
-        });
+            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            });
+            AssignButtonEvent("Button_4", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            });
+            // AssignButtonEvent("Button_5", buttonGroupPanel, () =>
+            // {
+            //     FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
+            // });
+            AssignButtonEvent("Button_6", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
+            });
+            AssignButtonEvent("Button_7", buttonGroupPanel, () =>
+            {
+                FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
+            });
+        }
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {
@@ -5629,13 +5677,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 property.Name.Equals("all_reflection_rate") ||
                 property.Name.Equals("all_damage_to_different_faction_rate") || property.Name.Equals("all_resistance_to_different_faction_rate") ||
                 property.Name.Equals("all_damage_to_same_faction_rate") || property.Name.Equals("all_resistance_to_same_faction_rate"))
+            {
+                // Kiểm tra nếu value không phải null
+                if (value != null)
                 {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
+                    if (value is double intValue && intValue != -1)
                     {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            if (status == 1)
+                        if (status == 1)
                         {
                             if (property.Name.Contains("all"))
                             {
@@ -5671,9 +5719,9 @@ public class MainMenuDetailsManager : MonoBehaviour
                                     elementContentText.text = intValue.ToString();
                             }
                         }
-                        }
                     }
                 }
+            }
         }
     }
     public void CreatePropertyLevelUI(PropertyInfo property, object value)

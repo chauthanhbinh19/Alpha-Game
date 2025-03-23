@@ -4171,7 +4171,7 @@ public class Rank
                 SUM(percent_all_atomic_attack) AS percent_all_atomic_attack, SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                 SUM(percent_all_mental_attack) AS percent_all_mental_attack, SUM(percent_all_mental_defense) AS percent_all_mental_defense
             FROM user_equipments_rank 
-            WHERE user_id = @user_id AND user_card_equipment_id = @card_id";
+            WHERE user_id = @user_id AND user_equipment_id = @card_id";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {

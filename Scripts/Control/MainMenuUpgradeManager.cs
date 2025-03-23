@@ -115,6 +115,11 @@ public class MainMenuUpgradeManager : MonoBehaviour
                         // mainId = cardAdmirals.id;
                         CreateCardAdmiralsEquipments(cardAdmirals);
                     }
+                    else if (data is Equipments equipments)
+                    {
+                        // mainId = cardAdmirals.id;
+                        CreateEquipmentsEquipments(equipments);
+                    }
                 }
                 else
                 {
@@ -188,6 +193,11 @@ public class MainMenuUpgradeManager : MonoBehaviour
         {
             // mainId = cardAdmirals.id;
             CreateCardAdmiralsEquipments(cardAdmirals);
+        }
+        else if (data is Equipments equipments)
+        {
+            // mainId = cardAdmirals.id;
+            CreateEquipmentsEquipments(equipments);
         }
     }
     private void ChangeButtonBackground(GameObject button, string image)
@@ -734,6 +744,58 @@ public class MainMenuUpgradeManager : MonoBehaviour
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateCardAdmiralsEquipments(cardAdmirals);
+            }
+        });
+    }
+    public void CreateEquipmentsEquipments(Equipments equipments)
+    {
+        Rank rank = new Rank();
+        rank = rank.GetCardAdmiralsRank(mainType, equipments.id);
+        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        Items items = new Items();
+        items = items.GetUserItemByName(mainType);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(() =>
+        {
+            int levelsPerSkill = 1000;
+            int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, 1);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(equipments, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateEquipmentsEquipments(equipments);
+            }
+        });
+        UpMaxLevelButton.onClick.AddListener(() =>
+        {
+            int level = CalculateMaxMaterialLevel(items.quantity, rank.level);
+            int materialQuantity = CalculateMaxMaterialQuantity(items.quantity, rank.level);
+            if (items.quantity >= materialQuantity)
+            {
+                items.quantity = items.quantity - materialQuantity;
+                items.UpdateUserItemsQuantity(items);
+                Rank newRank = new Rank();
+                newRank = EnhanceRank(rank, level);
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                UpLevel(equipments, newRank, mainType);
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                Destroy(slotObject);
+                CreateEquipmentsEquipments(equipments);
             }
         });
     }
