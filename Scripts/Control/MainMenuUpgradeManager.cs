@@ -224,8 +224,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType, rank.level);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType, rank.level);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -276,8 +276,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -328,8 +328,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -380,8 +380,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -432,8 +432,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -484,8 +484,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -536,8 +536,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -588,8 +588,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -640,8 +640,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -692,8 +692,8 @@ public class MainMenuUpgradeManager : MonoBehaviour
         slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
-        SetAptitudeUI(slotObject, mainType);
-        SetAptitudeMaterialUI(mainType, rank.level, items.quantity);
+        SetUpgradeUI(slotObject, mainType);
+        SetUpgradeMaterialUI(mainType, rank.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
@@ -737,7 +737,7 @@ public class MainMenuUpgradeManager : MonoBehaviour
             }
         });
     }
-    public void SetAptitudeUI(GameObject gameObject, string type, int level = 0)
+    public void SetUpgradeUI(GameObject gameObject, string type, int level = 0)
     {
         int totalSkills = 10;
         int levelsPerSkill = 1000;
@@ -778,9 +778,11 @@ public class MainMenuUpgradeManager : MonoBehaviour
                 }
             }
         }
+        TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        LevelText.text = level.ToString();
     }
 
-    public void SetAptitudeMaterialUI(string type, int level = 0, int userMaterialQuantity = 0)
+    public void SetUpgradeMaterialUI(string type, int level = 0, int userMaterialQuantity = 0)
     {
         int levelsPerSkill = 1000;
         int materialQuantity = (level == 0) ? 1 : (level % levelsPerSkill == 0 ? levelsPerSkill : level % levelsPerSkill);

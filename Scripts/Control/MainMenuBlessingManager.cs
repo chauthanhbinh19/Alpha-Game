@@ -751,7 +751,7 @@ public class MainMenuBlessingManager : MonoBehaviour
             RawImage aptitudeImage = aptitudeSkill.Find("AptitudeImage").GetComponent<RawImage>();
             TextMeshProUGUI levelText = aptitudeSkill.Find("LevelText").GetComponent<TextMeshProUGUI>();
 
-            Texture texture = Resources.Load<Texture>($"UI/Rank/Blessing");
+            Texture texture = Resources.Load<Texture>($"UI/Rank/{type}");
             aptitudeImage.texture = texture;
 
             if (aptitudeImage != null) aptitudeImage.color = Color.black;
@@ -778,6 +778,8 @@ public class MainMenuBlessingManager : MonoBehaviour
                 }
             }
         }
+        TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        LevelText.text = level.ToString();
     }
     public void SetMaterialUI(string type, int level = 0, int userMaterialQuantity = 0)
     {

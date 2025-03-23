@@ -7,78 +7,151 @@ using System.Xml.Linq;
 
 public class Equipments
 {
-    public int id { get; set; }
-    public string name { get; set; }
-    public string image { get; set; }
-    public string rare { get; set; }
-    public string type { get; set; }
-    public string set { get; set; }
-    public int star { get; set; }
-    public int sequence { get; set; }
-    public int level { get; set; }
-    public int experiment { get; set; }
-    public int quantity { get; set; }
-    public int block { get; set; }
-    public double power { get; set; }
-    public double health { get; set; }
-    public double physical_attack { get; set; }
-    public double physical_defense { get; set; }
-    public double magical_attack { get; set; }
-    public double magical_defense { get; set; }
-    public double chemical_attack { get; set; }
-    public double chemical_defense { get; set; }
-    public double atomic_attack { get; set; }
-    public double atomic_defense { get; set; }
-    public double mental_attack { get; set; }
-    public double mental_defense { get; set; }
-    public double speed { get; set; }
-    public double critical_damage_rate { get; set; }
-    public double critical_rate { get; set; }
-    public double penetration_rate { get; set; }
-    public double evasion_rate { get; set; }
-    public double damage_absorption_rate { get; set; }
-    public double vitality_regeneration_rate { get; set; }
-    public double accuracy_rate { get; set; }
-    public double lifesteal_rate { get; set; }
-    public float mana { get; set; }
-    public double mana_regeneration_rate { get; set; }
-    public double shield_strength { get; set; }
-    public double tenacity { get; set; }
-    public double resistance_rate { get; set; }
-    public double combo_rate { get; set; }
-    public double reflection_rate { get; set; }
-    public double damage_to_different_faction_rate { get; set; }
-    public double resistance_to_different_faction_rate { get; set; }
-    public double damage_to_same_faction_rate { get; set; }
-    public double resistance_to_same_faction_rate { get; set; }
-    public double special_health { get; set; }
-    public double special_physical_attack { get; set; }
-    public double special_physical_defense { get; set; }
-    public double special_magical_attack { get; set; }
-    public double special_magical_defense { get; set; }
-    public double special_chemical_attack { get; set; }
-    public double special_chemical_defense { get; set; }
-    public double special_atomic_attack { get; set; }
-    public double special_atomic_defense { get; set; }
-    public double special_mental_attack { get; set; }
-    public double special_mental_defense { get; set; }
-    public double special_speed { get; set; }
-    public string description { get; set; }
-    public string status { get; set; }
-    public string currency_image { get; set; }
-    public double price { get; set; }
-    public double percent_all_health { get; set; }
-    public double percent_all_physical_attack { get; set; }
-    public double percent_all_physical_defense { get; set; }
-    public double percent_all_magical_attack { get; set; }
-    public double percent_all_magical_defense { get; set; }
-    public double percent_all_chemical_attack { get; set; }
-    public double percent_all_chemical_defense { get; set; }
-    public double percent_all_atomic_attack { get; set; }
-    public double percent_all_atomic_defense { get; set; }
-    public double percent_all_mental_attack { get; set; }
-    public double percent_all_mental_defense { get; set; }
-    public int position { get; set; }
+    private int id1;
+    private string name1;
+    private string image1;
+    private string rare1;
+    private string type1;
+    private string set1;
+    private int star1;
+    private int sequence1;
+    private int level1;
+    private int experiment1;
+    private int quantity1;
+    private int block1;
+    private double power1;
+    private double health1;
+    private double physical_attack1;
+    private double physical_defense1;
+    private double magical_attack1;
+    private double magical_defense1;
+    private double chemical_attack1;
+    private double chemical_defense1;
+    private double atomic_attack1;
+    private double atomic_defense1;
+    private double mental_attack1;
+    private double mental_defense1;
+    private double speed1;
+    private double critical_damage_rate1;
+    private double critical_rate1;
+    private double penetration_rate1;
+    private double evasion_rate1;
+    private double damage_absorption_rate1;
+    private double vitality_regeneration_rate1;
+    private double accuracy_rate1;
+    private double lifesteal_rate1;
+    private float mana1;
+    private double mana_regeneration_rate1;
+    private double shield_strength1;
+    private double tenacity1;
+    private double resistance_rate1;
+    private double combo_rate1;
+    private double reflection_rate1;
+    private double damage_to_different_faction_rate1;
+    private double resistance_to_different_faction_rate1;
+    private double damage_to_same_faction_rate1;
+    private double resistance_to_same_faction_rate1;
+    private double special_health1;
+    private double special_physical_attack1;
+    private double special_physical_defense1;
+    private double special_magical_attack1;
+    private double special_magical_defense1;
+    private double special_chemical_attack1;
+    private double special_chemical_defense1;
+    private double special_atomic_attack1;
+    private double special_atomic_defense1;
+    private double special_mental_attack1;
+    private double special_mental_defense1;
+    private double special_speed1;
+    private string description1;
+    private string status1;
+    private string currency_image1;
+    private double price1;
+    private double percent_all_health1;
+    private double percent_all_physical_attack1;
+    private double percent_all_physical_defense1;
+    private double percent_all_magical_attack1;
+    private double percent_all_magical_defense1;
+    private double percent_all_chemical_attack1;
+    private double percent_all_chemical_defense1;
+    private double percent_all_atomic_attack1;
+    private double percent_all_atomic_defense1;
+    private double percent_all_mental_attack1;
+    private double percent_all_mental_defense1;
+    private int position1;
+
+    public int id { get => id1; set => id1 = value; }
+    public string name { get => name1; set => name1 = value; }
+    public string image { get => image1; set => image1 = value; }
+    public string rare { get => rare1; set => rare1 = value; }
+    public string type { get => type1; set => type1 = value; }
+    public string set { get => set1; set => set1 = value; }
+    public int star { get => star1; set => star1 = value; }
+    public int sequence { get => sequence1; set => sequence1 = value; }
+    public int level { get => level1; set => level1 = value; }
+    public int experiment { get => experiment1; set => experiment1 = value; }
+    public int quantity { get => quantity1; set => quantity1 = value; }
+    public int block { get => block1; set => block1 = value; }
+    public double power { get => power1; set => power1 = value; }
+    public double health { get => health1; set => health1 = value; }
+    public double physical_attack { get => physical_attack1; set => physical_attack1 = value; }
+    public double physical_defense { get => physical_defense1; set => physical_defense1 = value; }
+    public double magical_attack { get => magical_attack1; set => magical_attack1 = value; }
+    public double magical_defense { get => magical_defense1; set => magical_defense1 = value; }
+    public double chemical_attack { get => chemical_attack1; set => chemical_attack1 = value; }
+    public double chemical_defense { get => chemical_defense1; set => chemical_defense1 = value; }
+    public double atomic_attack { get => atomic_attack1; set => atomic_attack1 = value; }
+    public double atomic_defense { get => atomic_defense1; set => atomic_defense1 = value; }
+    public double mental_attack { get => mental_attack1; set => mental_attack1 = value; }
+    public double mental_defense { get => mental_defense1; set => mental_defense1 = value; }
+    public double speed { get => speed1; set => speed1 = value; }
+    public double critical_damage_rate { get => critical_damage_rate1; set => critical_damage_rate1 = value; }
+    public double critical_rate { get => critical_rate1; set => critical_rate1 = value; }
+    public double penetration_rate { get => penetration_rate1; set => penetration_rate1 = value; }
+    public double evasion_rate { get => evasion_rate1; set => evasion_rate1 = value; }
+    public double damage_absorption_rate { get => damage_absorption_rate1; set => damage_absorption_rate1 = value; }
+    public double vitality_regeneration_rate { get => vitality_regeneration_rate1; set => vitality_regeneration_rate1 = value; }
+    public double accuracy_rate { get => accuracy_rate1; set => accuracy_rate1 = value; }
+    public double lifesteal_rate { get => lifesteal_rate1; set => lifesteal_rate1 = value; }
+    public float mana { get => mana1; set => mana1 = value; }
+    public double mana_regeneration_rate { get => mana_regeneration_rate1; set => mana_regeneration_rate1 = value; }
+    public double shield_strength { get => shield_strength1; set => shield_strength1 = value; }
+    public double tenacity { get => tenacity1; set => tenacity1 = value; }
+    public double resistance_rate { get => resistance_rate1; set => resistance_rate1 = value; }
+    public double combo_rate { get => combo_rate1; set => combo_rate1 = value; }
+    public double reflection_rate { get => reflection_rate1; set => reflection_rate1 = value; }
+    public double damage_to_different_faction_rate { get => damage_to_different_faction_rate1; set => damage_to_different_faction_rate1 = value; }
+    public double resistance_to_different_faction_rate { get => resistance_to_different_faction_rate1; set => resistance_to_different_faction_rate1 = value; }
+    public double damage_to_same_faction_rate { get => damage_to_same_faction_rate1; set => damage_to_same_faction_rate1 = value; }
+    public double resistance_to_same_faction_rate { get => resistance_to_same_faction_rate1; set => resistance_to_same_faction_rate1 = value; }
+    public double special_health { get => special_health1; set => special_health1 = value; }
+    public double special_physical_attack { get => special_physical_attack1; set => special_physical_attack1 = value; }
+    public double special_physical_defense { get => special_physical_defense1; set => special_physical_defense1 = value; }
+    public double special_magical_attack { get => special_magical_attack1; set => special_magical_attack1 = value; }
+    public double special_magical_defense { get => special_magical_defense1; set => special_magical_defense1 = value; }
+    public double special_chemical_attack { get => special_chemical_attack1; set => special_chemical_attack1 = value; }
+    public double special_chemical_defense { get => special_chemical_defense1; set => special_chemical_defense1 = value; }
+    public double special_atomic_attack { get => special_atomic_attack1; set => special_atomic_attack1 = value; }
+    public double special_atomic_defense { get => special_atomic_defense1; set => special_atomic_defense1 = value; }
+    public double special_mental_attack { get => special_mental_attack1; set => special_mental_attack1 = value; }
+    public double special_mental_defense { get => special_mental_defense1; set => special_mental_defense1 = value; }
+    public double special_speed { get => special_speed1; set => special_speed1 = value; }
+    public string description { get => description1; set => description1 = value; }
+    public string status { get => status1; set => status1 = value; }
+    public string currency_image { get => currency_image1; set => currency_image1 = value; }
+    public double price { get => price1; set => price1 = value; }
+    public double percent_all_health { get => percent_all_health1; set => percent_all_health1 = value; }
+    public double percent_all_physical_attack { get => percent_all_physical_attack1; set => percent_all_physical_attack1 = value; }
+    public double percent_all_physical_defense { get => percent_all_physical_defense1; set => percent_all_physical_defense1 = value; }
+    public double percent_all_magical_attack { get => percent_all_magical_attack1; set => percent_all_magical_attack1 = value; }
+    public double percent_all_magical_defense { get => percent_all_magical_defense1; set => percent_all_magical_defense1 = value; }
+    public double percent_all_chemical_attack { get => percent_all_chemical_attack1; set => percent_all_chemical_attack1 = value; }
+    public double percent_all_chemical_defense { get => percent_all_chemical_defense1; set => percent_all_chemical_defense1 = value; }
+    public double percent_all_atomic_attack { get => percent_all_atomic_attack1; set => percent_all_atomic_attack1 = value; }
+    public double percent_all_atomic_defense { get => percent_all_atomic_defense1; set => percent_all_atomic_defense1 = value; }
+    public double percent_all_mental_attack { get => percent_all_mental_attack1; set => percent_all_mental_attack1 = value; }
+    public double percent_all_mental_defense { get => percent_all_mental_defense1; set => percent_all_mental_defense1 = value; }
+    public int position { get => position1; set => position1 = value; }
     public Equipments()
     {
         percent_all_health = -1;
@@ -93,6 +166,67 @@ public class Equipments
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
         position = -1;
+    }
+    public List<Equipments> GetAllRankPower(List<Equipments> EquipmentsList)
+    {
+        Rank rank = new Rank();
+        foreach (var c in EquipmentsList)
+        {
+            Equipments card = new Equipments();
+            card = card.GetUserEquipmentsById(c.id);
+            rank = rank.GetSumEquipmentsRank(c.id);
+            c.health = c.health + rank.health + card.health * rank.percent_all_health/100;
+            c.physical_attack = c.physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack/100;
+            c.physical_defense = c.physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense/100;
+            c.magical_attack = c.magical_attack + rank.magical_attack + card.magical_attack * rank.percent_all_magical_attack/100;
+            c.magical_defense = c.magical_defense + rank.magical_defense + card.magical_defense * rank.percent_all_magical_defense/100;
+            c.chemical_attack = c.chemical_attack + rank.chemical_attack + card.chemical_attack * rank.percent_all_chemical_attack/100;
+            c.chemical_defense = c.chemical_defense + rank.chemical_defense + card.chemical_defense * rank.percent_all_chemical_defense/100;
+            c.atomic_attack = c.atomic_attack + rank.atomic_attack + card.atomic_attack * rank.percent_all_atomic_attack/100;
+            c.atomic_defense = c.atomic_defense + rank.atomic_defense + card.atomic_defense * rank.percent_all_atomic_defense/100;
+            c.mental_attack = c.mental_attack + rank.mental_attack + card.mental_attack * rank.percent_all_mental_attack/100;
+            c.mental_defense = c.mental_defense + rank.mental_defense + card.mental_defense * rank.percent_all_mental_defense/100;
+            c.speed = c.speed + rank.speed;
+            c.critical_damage_rate = c.critical_damage_rate + rank.critical_damage_rate;
+            c.critical_rate = c.critical_rate + rank.critical_rate;
+            c.penetration_rate = c.penetration_rate + rank.penetration_rate;
+            c.evasion_rate = c.evasion_rate + rank.evasion_rate;
+            c.damage_absorption_rate = c.damage_absorption_rate + rank.damage_absorption_rate;
+            c.vitality_regeneration_rate = c.vitality_regeneration_rate + rank.vitality_regeneration_rate;
+            c.accuracy_rate = c.accuracy_rate + rank.accuracy_rate;
+            c.lifesteal_rate = c.lifesteal_rate + rank.lifesteal_rate;
+            c.shield_strength = c.shield_strength + rank.shield_strength;
+            c.tenacity = c.tenacity + rank.tenacity;
+            c.resistance_rate = c.resistance_rate + rank.resistance_rate;
+            c.combo_rate = c.combo_rate + rank.combo_rate;
+            c.reflection_rate = c.reflection_rate + rank.reflection_rate;
+            c.mana = c.mana + rank.mana;
+            c.mana_regeneration_rate = c.mana_regeneration_rate + rank.mana_regeneration_rate;
+            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate + rank.damage_to_different_faction_rate;
+            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + rank.resistance_to_different_faction_rate;
+            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate + rank.damage_to_same_faction_rate;
+            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + rank.resistance_to_same_faction_rate;
+
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
+        );
+        }
+        return EquipmentsList;
     }
     public Equipments GetNewLevelPower(Equipments c, double coefficient)
     {
@@ -534,6 +668,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2001,6 +2136,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2098,6 +2234,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2195,6 +2332,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2292,6 +2430,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2389,6 +2528,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2486,6 +2626,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2583,6 +2724,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2680,6 +2822,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2777,6 +2920,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2874,6 +3018,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2971,6 +3116,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3068,6 +3214,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3165,6 +3312,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3262,6 +3410,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3359,6 +3508,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3456,6 +3606,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3553,6 +3704,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3650,6 +3802,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3747,6 +3900,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3844,6 +3998,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetAllRankPower(equipmentList);
             }
             catch (MySqlException ex)
             {

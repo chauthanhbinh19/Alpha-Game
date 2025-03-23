@@ -6,12 +6,19 @@ using System;
 
 public class Items
 {
-    public int id { get; set; }
-    public string name { get; set; }
-    public string image { get; set; }
-    public int price { get; set; }
-    public string description { get; set; }
-    public int quantity { get; set; }
+    private int id1;
+    private string name1;
+    private string image1;
+    private int price1;
+    private string description1;
+    private int quantity1;
+
+    public int id { get => id1; set => id1 = value; }
+    public string name { get => name1; set => name1 = value; }
+    public string image { get => image1; set => image1 = value; }
+    public int price { get => price1; set => price1 = value; }
+    public string description { get => description1; set => description1 = value; }
+    public int quantity { get => quantity1; set => quantity1 = value; }
     public Items()
     {
 

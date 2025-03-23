@@ -6,10 +6,15 @@ using System;
 
 public class Currency
 {
-    public int id { get; set; }
-    public string name { get; set; }
-    public string image { get; set; }
-    public int quantity { get; set; }
+    private int id1;
+    private string name1;
+    private string image1;
+    private int quantity1;
+
+    public int id { get => id1; set => id1 = value; }
+    public string name { get => name1; set => name1 = value; }
+    public string image { get => image1; set => image1 = value; }
+    public int quantity { get => quantity1; set => quantity1 = value; }
     public List<Currency> GetUserCurrency()
     {
         List<Currency> currencies = new List<Currency>();

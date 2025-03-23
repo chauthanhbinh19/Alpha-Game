@@ -82,6 +82,7 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuAffinityPanelPrefab;
     public GameObject MainMenuBlessingPanelPrefab;
     public GameObject MainMenuCorePanelPrefab;
+    public GameObject MainMenuRealmPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject EquipmentsWearingPrefab;
     public GameObject Slot1Prefab;
@@ -95,6 +96,8 @@ public class UIManager : MonoBehaviour
     public GameObject AptitudeSlotPrefab;
     public GameObject UpgradeSlotPrefab;
     public GameObject BlessingSlotPrefab;
+    public GameObject CoreSlotPrefab;
+    public GameObject RealmSlotPrefab;
 
 
     [Header("Button")]
@@ -273,6 +276,8 @@ public class UIManager : MonoBehaviour
                 return MainMenuBlessingPanelPrefab;
             case "MainMenuCorePanelPrefab":
                 return MainMenuCorePanelPrefab;
+            case "MainMenuRealmPanelPrefab":
+                return MainMenuRealmPanelPrefab;
             case "PopupEquipmentsPanelPrefab":
                 return PopupEquipmentsPanelPrefab;
             case "EquipmentsWearingPrefab":
@@ -297,8 +302,12 @@ public class UIManager : MonoBehaviour
                 return AptitudeSlotPrefab;
             case "UpgradeSlotPrefab":
                 return UpgradeSlotPrefab;
-                case "BlessingSlotPrefab":
+            case "BlessingSlotPrefab":
                 return BlessingSlotPrefab;
+            case "CoreSlotPrefab":
+                return CoreSlotPrefab;
+            case "RealmSlotPrefab":
+                return RealmSlotPrefab;
             case "TabButton5":
                 return TabButton5;
             default:

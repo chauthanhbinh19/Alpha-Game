@@ -10,7 +10,7 @@ public class MainMenuCoreManager : MonoBehaviour
     private Transform TabButtonPanel;
     private Transform SlotPanel;
     private GameObject MainMenuCorePanelPrefab;
-    private GameObject UpgradeSlotPrefab;
+    private GameObject CoreSlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
     private GameObject slotObject;
@@ -24,7 +24,7 @@ public class MainMenuCoreManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuCorePanelPrefab = UIManager.Instance.GetGameObject("MainMenuCorePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        UpgradeSlotPrefab = UIManager.Instance.GetGameObject("UpgradeSlotPrefab");
+        CoreSlotPrefab = UIManager.Instance.GetGameObject("CoreSlotPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
@@ -224,7 +224,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardHeroesRank(mainType, cardHeroes.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType, rank.level);
@@ -276,7 +276,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetBooksRank(mainType, books.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -328,7 +328,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardCaptainsRank(mainType, cardCaptains.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -380,7 +380,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetPetsRank(mainType, pets.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -432,7 +432,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardMilitaryRank(mainType, cardMilitary.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -484,7 +484,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardMonstersRank(mainType, cardSpell.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -536,7 +536,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardMonstersRank(mainType, cardMonsters.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -588,7 +588,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardColonelsRank(mainType, cardColonels.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -640,7 +640,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardGeneralsRank(mainType, cardGenerals.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -692,7 +692,7 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         Rank rank = new Rank();
         rank = rank.GetCardAdmiralsRank(mainType, cardAdmirals.id);
-        slotObject = Instantiate(UpgradeSlotPrefab, SlotPanel);
+        slotObject = Instantiate(CoreSlotPrefab, SlotPanel);
         Items items = new Items();
         items = items.GetUserItemByName(mainType);
         SetUI(slotObject, mainType);
@@ -781,6 +781,8 @@ public class MainMenuCoreManager : MonoBehaviour
                 }
             }
         }
+        TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        LevelText.text = level.ToString();
     }
     public void SetMaterialUI(string type, int level = 0, int userMaterialQuantity = 0)
     {

@@ -64,14 +64,12 @@ public class User
             else
             {
                 int maxId = GetMaxId(connection);
-                string query = "INSERT INTO users VALUES (@id, @username, @password, @name, @image, @border, @level, @experiment, @vip, @power)";
+                string query = "INSERT INTO users VALUES (@id, @username, @password, @name, @level, @experiment, @vip, @power)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", maxId + 1);
                 command.Parameters.AddWithValue("@username", Username);
                 command.Parameters.AddWithValue("@password", Password);
                 command.Parameters.AddWithValue("@name", "");
-                command.Parameters.AddWithValue("@image", "Avatar/valorpass154.png");
-                command.Parameters.AddWithValue("@border", "Border/Activity_Border_4.png");
                 command.Parameters.AddWithValue("@level", 1);
                 command.Parameters.AddWithValue("@experiment", 0);
                 command.Parameters.AddWithValue("@vip", 0);
@@ -85,6 +83,11 @@ public class User
                     Borders borders = new Borders();
                     borders.InsertUserBordersById(359);
                     borders.InsertBordersGallery(359);
+                    borders.UpdateIsUsedBorders(CurrentUserId, true);
+                    Avatars avatar = new Avatars();
+                    avatar.InsertUserAvatarsById(1);
+                    avatar.InsertAvatarsGallery(1);
+                    avatar.UpdateIsUsedAvatars(CurrentUserId, true);
                     PowerManager powerManager = new PowerManager();
                     powerManager.InsertUserStats();
                     Teams team= new Teams();
@@ -133,12 +136,17 @@ public class User
                 string Name = reader.GetString("name");
                 string username = reader.GetString("username");
                 string password = reader.GetString("password");
-                string Image = reader.GetString("image");
-                string border = reader.GetString("border");
                 int Level = reader.GetInt32("level");
                 int Vip = reader.GetInt32("vip");
                 int Power = reader.GetInt32("power");
                 int Experiment = reader.GetInt32("experiment");
+
+                Borders borders = new Borders();
+                borders = borders.GetBordersByUsed();
+                string Border = borders.image;
+                Avatars avatar = new Avatars();
+                avatar = avatar.GetAvatarsByUsed();
+                string Image = avatar.image;
 
                 CurrentUserId = userId;
                 savedUsername = username;
@@ -188,7 +196,7 @@ public class User
                     experiment=Experiment,
                     power=Power,
                     image=Image, 
-                    border = border,   
+                    border = Border,   
                     Currencies = currencies
                 };
                 // Debug.Log(user);
@@ -216,8 +224,6 @@ public class User
                 string Name = reader.GetString("name");
                 string username = reader.GetString("username");
                 string password = reader.GetString("password");
-                string Image = reader.GetString("image");
-                string border = reader.GetString("border");
                 int Level = reader.GetInt32("level");
                 int Vip = reader.GetInt32("vip");
                 int Power = reader.GetInt32("power");
@@ -259,8 +265,8 @@ public class User
                     vip=Vip,
                     experiment=Experiment,
                     power=Power,
-                    image=Image, 
-                    border = border,   
+                    // image=Image, 
+                    // border = border,   
                     Currencies = currencies
                 };
                 return user;
@@ -271,7 +277,6 @@ public class User
             }
         }
     }
-
     public User UpdateUserName(string newName)
     {
         string connectionString = DatabaseConfig.ConnectionString;

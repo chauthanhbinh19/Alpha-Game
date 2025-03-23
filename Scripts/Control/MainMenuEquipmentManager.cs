@@ -2240,6 +2240,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
     public void ApplyEquipmentImage(object data, Button button, int position, List<Equipments> equipmentList)
     {
         bool foundEquipment = false;
+        Equipments foundEquip = null;
         foreach (Equipments equipment in equipmentList)
         {
             if (equipment.position == position)
@@ -2270,6 +2271,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
 
                 foundEquipment = true; // Đánh dấu là đã tìm thấy thiết bị
+                foundEquip = equipment; // Lưu lại equipment
                 break;
             }
         }
@@ -2280,6 +2282,13 @@ public class MainMenuEquipmentManager : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 CreatePopupEquipments(data, position);
+            });
+        }else{
+            // Đã tìm thấy equipment
+            Equipments tempEquip = foundEquip;
+            button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<MainMenuDetailsManager>().PopupDetails(tempEquip, MainPanel);
             });
         }
     }
@@ -2508,7 +2517,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardCaptainsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardHeroesEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardCaptains cardCaptains)
@@ -2628,8 +2637,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllCardCaptainsEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2638,8 +2647,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllCardColonelsEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2648,8 +2657,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllCardGeneralsEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2658,8 +2667,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllCardAdmiralsEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2668,8 +2677,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllCardMonstersEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2678,8 +2687,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllCardMilitaryEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2688,8 +2697,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllCardSpellEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2698,8 +2707,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllBooksEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2708,8 +2717,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Equipments equipmentManager = new Equipments();
                 totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
                 List<Equipments> equipments = equipmentManager.GetAllPetsEquipments(subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
@@ -2729,6 +2738,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
             RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
             GetStarImage(starImage, starIndex);
+        }
+        GridLayoutGroup GridLayout = currentStar.GetComponent<GridLayoutGroup>();
+        if (GridLayout != null)
+        {
+            GridLayout.cellSize = new Vector2(20, 20);
         }
     }
     public void GetStarImage(RawImage starImage, int starIndex)

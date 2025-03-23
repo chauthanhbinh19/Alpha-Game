@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class Campaigns 
 {
-    public int id { get; set; }
-    public string chapter { get; set; }
-    public string type { get; set; }
-    public string subType { get; set; }
-    public string difficulty { get; set; }
-    public int levelRequired { get; set; }
-    public string description { get; set; }
+    private int id1;
+    private string chapter1;
+    private string type1;
+    private string subType1;
+    private string difficulty1;
+    private int levelRequired1;
+    private string description1;
+
+    public int id { get => id1; set => id1 = value; }
+    public string chapter { get => chapter1; set => chapter1 = value; }
+    public string type { get => type1; set => type1 = value; }
+    public string subType { get => subType1; set => subType1 = value; }
+    public string difficulty { get => difficulty1; set => difficulty1 = value; }
+    public int levelRequired { get => levelRequired1; set => levelRequired1 = value; }
+    public string description { get => description1; set => description1 = value; }
     public List<CampaignDetail> campaignDetails { get; set; }
 
     // Constructor

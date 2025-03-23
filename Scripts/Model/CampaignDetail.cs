@@ -4,17 +4,29 @@ using UnityEngine;
 
 public class CampaignDetail
 {
-    public int campaignId { get; set; }
-    public int id{ get; set; }
-    public string chapter { get; set; }
-    public string name { get; set; }
-    public string difficulty { get; set; }
-    public int levelRequired { get; set; }
-    public double strengthMultiplier { get; set; }
-    public bool isActive { get; set; }
-    public string description { get; set; }
-    public string status { get; set; }
-    public int stars { get; set; }
+    private int campaignId1;
+    private int id1;
+    private string chapter1;
+    private string name1;
+    private string difficulty1;
+    private int levelRequired1;
+    private double strengthMultiplier1;
+    private bool isActive1;
+    private string description1;
+    private string status1;
+    private int stars1;
+
+    public int campaignId { get => campaignId1; set => campaignId1 = value; }
+    public int id { get => id1; set => id1 = value; }
+    public string chapter { get => chapter1; set => chapter1 = value; }
+    public string name { get => name1; set => name1 = value; }
+    public string difficulty { get => difficulty1; set => difficulty1 = value; }
+    public int levelRequired { get => levelRequired1; set => levelRequired1 = value; }
+    public double strengthMultiplier { get => strengthMultiplier1; set => strengthMultiplier1 = value; }
+    public bool isActive { get => isActive1; set => isActive1 = value; }
+    public string description { get => description1; set => description1 = value; }
+    public string status { get => status1; set => status1 = value; }
+    public int stars { get => stars1; set => stars1 = value; }
     // Danh sách các CampaignReward (mối quan hệ one-to-many)
     public List<CampaignReward> campaignRewards { get; set; }
     // Danh sách các CampaignDetailCard (mối quan hệ many-to-many)

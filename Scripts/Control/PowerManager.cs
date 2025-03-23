@@ -105,6 +105,7 @@ public class PowerManager
         GetAchievementsPower();
         GetBooksPower();
         GetBordersPower();
+        GetAvatarsPower();
         GetCardHeroesPower();
         GetCardCaptainsPower();
         GetCardColonelsPower();
@@ -285,7 +286,7 @@ public class PowerManager
                     all_evasion_rate = @all_evasion_rate, all_damage_absorption_rate = @all_damage_absorption_rate, 
                     all_vitality_regeneration_rate = @all_vitality_regeneration_rate, all_accuracy_rate = @all_accuracy_rate, 
                     all_lifesteal_rate = @all_lifesteal_rate, all_shield_strength = @all_shield_strength, 
-                    all_tenacity = @tenacity, all_resistance_rate = @all_resistance_rate, all_combo_rate = @all_combo_rate, 
+                    all_tenacity = @all_tenacity, all_resistance_rate = @all_resistance_rate, all_combo_rate = @all_combo_rate, 
                     all_reflection_rate = @all_reflection_rate, all_mana = @all_mana, all_mana_regeneration_rate = @all_mana_regeneration_rate, 
                     all_damage_to_different_faction_rate = @all_damage_to_different_faction_rate, 
                     all_resistance_to_different_faction_rate = @all_resistance_to_different_faction_rate, 
@@ -297,8 +298,7 @@ public class PowerManager
                     percent_all_chemical_attack = @percentAllChemicalAttack, percent_all_chemical_defense = @percentAllChemicalDefense, 
                     percent_all_atomic_attack = @percentAllAtomicAttack, percent_all_atomic_defense = @percentAllAtomicDefense,
                     percent_all_mental_attack = @percentAllMentalAttack, percent_all_mental_defense = @percentAllMentalDefense
-                WHERE user_id = @userId;
-                ;";
+                WHERE user_id = @userId;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", User.CurrentUserId);
                 command.Parameters.AddWithValue("@allPower", power);
@@ -349,7 +349,11 @@ public class PowerManager
             }
             catch (MySqlException ex)
             {
-                Debug.LogError("Error: " + ex.Message);
+                Debug.LogError("Error Message: " + ex.Message);
+                Debug.LogError("Error Code: " + ex.Number); // Mã lỗi MySQL (rất hữu ích)
+                Debug.LogError("SQLState: " + ex.SqlState); // Chuẩn SQL state code
+                Debug.LogError("Stack Trace: " + ex.StackTrace); // Xem lỗi nằm dòng nào
+                Debug.LogError("Inner Exception: " + ex.InnerException); // Nếu có exception lồng nhau
             }
         }
     }
@@ -624,6 +628,105 @@ public class PowerManager
         percent_all_atomic_defense = percent_all_atomic_defense + borders.percent_all_atomic_defense;
         percent_all_mental_attack = percent_all_mental_attack + borders.percent_all_mental_attack;
         percent_all_mental_defense = percent_all_mental_defense + borders.percent_all_mental_defense;
+    }
+    public void GetAvatarsPower()
+    {
+        Avatars avatars = new Avatars();
+        //Gallery
+        avatars = avatars.SumPowerAvatarsGallery();
+        power = power + avatars.power;
+        health = health + avatars.health;
+        physical_attack = physical_attack + avatars.physical_attack;
+        physical_defense = physical_defense + avatars.physical_defense;
+        magical_attack = magical_attack + avatars.magical_attack;
+        magical_defense = magical_defense + avatars.magical_defense;
+        chemical_attack = chemical_attack + avatars.chemical_attack;
+        chemical_defense = chemical_defense + avatars.chemical_defense;
+        atomic_attack = atomic_attack + avatars.atomic_attack;
+        atomic_defense = atomic_defense + avatars.atomic_defense;
+        mental_attack = mental_attack + avatars.mental_attack;
+        mental_defense = mental_defense + avatars.mental_defense;
+        speed = speed + avatars.speed;
+        critical_damage_rate = critical_damage_rate + avatars.critical_damage_rate;
+        critical_rate = critical_rate + avatars.critical_rate;
+        penetration_rate = penetration_rate + avatars.penetration_rate;
+        evasion_rate = evasion_rate + avatars.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + avatars.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + avatars.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + avatars.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + avatars.lifesteal_rate;
+        shield_strength = shield_strength + avatars.shield_strength;
+        tenacity = tenacity + avatars.tenacity;
+        resistance_rate = resistance_rate + avatars.resistance_rate;
+        combo_rate = combo_rate + avatars.combo_rate;
+        reflection_rate = reflection_rate + avatars.reflection_rate;
+        mana = mana + avatars.mana;
+        mana_regeneration_rate = mana_regeneration_rate + avatars.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + avatars.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + avatars.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + avatars.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + avatars.resistance_to_same_faction_rate;
+
+        percent_all_health = percent_all_health + avatars.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + avatars.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + avatars.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + avatars.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + avatars.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + avatars.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + avatars.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + avatars.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + avatars.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + avatars.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + avatars.percent_all_mental_defense;
+
+        //Gallery
+        avatars = avatars.SumPowerUserAvatars();
+        power = power + avatars.power;
+        health = health + avatars.health;
+        physical_attack = physical_attack + avatars.physical_attack;
+        physical_defense = physical_defense + avatars.physical_defense;
+        magical_attack = magical_attack + avatars.magical_attack;
+        magical_defense = magical_defense + avatars.magical_defense;
+        chemical_attack = chemical_attack + avatars.chemical_attack;
+        chemical_defense = chemical_defense + avatars.chemical_defense;
+        atomic_attack = atomic_attack + avatars.atomic_attack;
+        atomic_defense = atomic_defense + avatars.atomic_defense;
+        mental_attack = mental_attack + avatars.mental_attack;
+        mental_defense = mental_defense + avatars.mental_defense;
+        speed = speed + avatars.speed;
+        critical_damage_rate = critical_damage_rate + avatars.critical_damage_rate;
+        critical_rate = critical_rate + avatars.critical_rate;
+        penetration_rate = penetration_rate + avatars.penetration_rate;
+        evasion_rate = evasion_rate + avatars.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + avatars.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + avatars.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + avatars.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + avatars.lifesteal_rate;
+        shield_strength = shield_strength + avatars.shield_strength;
+        tenacity = tenacity + avatars.tenacity;
+        resistance_rate = resistance_rate + avatars.resistance_rate;
+        combo_rate = combo_rate + avatars.combo_rate;
+        reflection_rate = reflection_rate + avatars.reflection_rate;
+        mana = mana + avatars.mana;
+        mana_regeneration_rate = mana_regeneration_rate + avatars.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + avatars.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + avatars.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + avatars.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + avatars.resistance_to_same_faction_rate;
+
+        //Percent
+        avatars = avatars.SumPowerAvatarsPercent();
+        percent_all_health = percent_all_health + avatars.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + avatars.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + avatars.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + avatars.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + avatars.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + avatars.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + avatars.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + avatars.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + avatars.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + avatars.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + avatars.percent_all_mental_defense;
     }
     public void GetCardHeroesPower()
     {

@@ -6,8 +6,11 @@ using System;
 
 public class Teams
 {
-    public int user_id { get; set; }
-    public int team_id { get; set; }
+    private int user_id1;
+    private int team_id1;
+
+    public int user_id { get => user_id1; set => user_id1 = value; }
+    public int team_id { get => team_id1; set => team_id1 = value; }
     public Teams()
     {
 

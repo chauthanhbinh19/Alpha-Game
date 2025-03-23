@@ -406,32 +406,37 @@ public class MainMenuDetailsManager : MonoBehaviour
     public void CreateButtonGroupDetails(object data)
     {
         CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-        CreateButtonWithBackground(2, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-        CreateButtonWithBackground(3, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-        CreateButtonWithBackground(4, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
-        CreateButtonWithBackground(5, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
-        CreateButtonWithBackground(6, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel);
+        CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel);
+        CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
+        CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+        CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
+        CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
+        CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel);
         AssignButtonEvent("Button_1", buttonGroupPanel, () =>
         {
             FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
         });
         AssignButtonEvent("Button_2", buttonGroupPanel, () =>
         {
-            FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
+            FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
         });
         AssignButtonEvent("Button_3", buttonGroupPanel, () =>
         {
-            FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
+            FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
         });
         AssignButtonEvent("Button_4", buttonGroupPanel, () =>
         {
-            FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
+            FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
         });
         AssignButtonEvent("Button_5", buttonGroupPanel, () =>
         {
-            FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
+            FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
         });
         AssignButtonEvent("Button_6", buttonGroupPanel, () =>
+        {
+            FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
+        });
+        AssignButtonEvent("Button_7", buttonGroupPanel, () =>
         {
             FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
         });
@@ -5351,8 +5356,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         Transform nextStar = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/Level/NextStar");
         int currentimageIndex = (star == 0) ? 0 : ((star - 1) % 10) + 1;
         int currentstarIndex = (star == 0) ? 0 : (star - 1) / 10;
-        int nextimageIndex = (star == 0) ? 0 : ((star - 1) % 10) + 1;
-        int nextstarIndex = (star == 0) ? 0 : (star - 1) / 10;
+        int newStar = (star + 1 > 100000) ? 0 : star + 1;
+        int nextimageIndex = (newStar == 0) ? 0 : ((newStar - 1) % 10) + 1;
+        int nextstarIndex = (newStar == 0) ? 0 : (newStar - 1) / 10;
         for (int i = 0; i < currentimageIndex; i++)
         {
             GameObject starObject = Instantiate(StarPrefab, currentStar);
@@ -5366,6 +5372,16 @@ public class MainMenuDetailsManager : MonoBehaviour
 
             RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
             GetStarImage(starImage, nextstarIndex);
+        }
+        GridLayoutGroup currentGridLayout = currentStar.GetComponent<GridLayoutGroup>();
+        if (currentGridLayout != null)
+        {
+            currentGridLayout.cellSize = new Vector2(20, 20);
+        }
+        GridLayoutGroup nextGridLayout = nextStar.GetComponent<GridLayoutGroup>();
+        if (nextGridLayout != null)
+        {
+            nextGridLayout.cellSize = new Vector2(20, 20);
         }
     }
     public void GetStarImage(RawImage starImage, int starIndex)

@@ -2,15 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MySql.Data.MySqlClient;
+using System;
 
 public class UserCampaign
 {
-    public int userId { get; set; }
-    public int campaignId { get; set; }
-    public int campaignDetailId { get; set; }
-    public int stars { get; set; }
-    public System.DateTime completionTime { get; set; }
-    public bool isCompleted { get; set; }
+    private int userId1;
+    private int campaignId1;
+    private int campaignDetailId1;
+    private int stars1;
+    private DateTime completionTime1;
+    private bool isCompleted1;
+
+    public int userId { get => userId1; set => userId1 = value; }
+    public int campaignId { get => campaignId1; set => campaignId1 = value; }
+    public int campaignDetailId { get => campaignDetailId1; set => campaignDetailId1 = value; }
+    public int stars { get => stars1; set => stars1 = value; }
+    public DateTime completionTime { get => completionTime1; set => completionTime1 = value; }
+    public bool isCompleted { get => isCompleted1; set => isCompleted1 = value; }
 
     // Constructor
     public UserCampaign(int userId, int campaignId, int campaignDetailId, int stars, System.DateTime completionTime, bool isCompleted)

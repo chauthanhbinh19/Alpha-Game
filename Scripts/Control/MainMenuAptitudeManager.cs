@@ -798,6 +798,8 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 }
             }
         }
+        TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        LevelText.text = level.ToString();
     }
     public void SetAptitudeMaterialUI(string type, int level = 0, int userMaterialQuantity = 0)
     {

@@ -114,6 +114,8 @@ public class AuthenticationManager : MonoBehaviour
             borderImage.texture = borderTexture;
 
             FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
+            PowerManager powerManager = new PowerManager();
+            powerManager.UpdateUserStats();
             // foreach (var currency in loggedInUser.Currencies)
             // {
             //     if (currency.name.Equals("Diamond") || currency.name.Equals("Gold") || currency.name.Equals("Silver"))
