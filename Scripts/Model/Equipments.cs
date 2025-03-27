@@ -175,17 +175,17 @@ public class Equipments
             Equipments card = new Equipments();
             card = card.GetUserEquipmentsById(c.id);
             rank = rank.GetSumEquipmentsRank(c.id);
-            c.health = c.health + rank.health + card.health * rank.percent_all_health/100;
-            c.physical_attack = c.physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack/100;
-            c.physical_defense = c.physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense/100;
-            c.magical_attack = c.magical_attack + rank.magical_attack + card.magical_attack * rank.percent_all_magical_attack/100;
-            c.magical_defense = c.magical_defense + rank.magical_defense + card.magical_defense * rank.percent_all_magical_defense/100;
-            c.chemical_attack = c.chemical_attack + rank.chemical_attack + card.chemical_attack * rank.percent_all_chemical_attack/100;
-            c.chemical_defense = c.chemical_defense + rank.chemical_defense + card.chemical_defense * rank.percent_all_chemical_defense/100;
-            c.atomic_attack = c.atomic_attack + rank.atomic_attack + card.atomic_attack * rank.percent_all_atomic_attack/100;
-            c.atomic_defense = c.atomic_defense + rank.atomic_defense + card.atomic_defense * rank.percent_all_atomic_defense/100;
-            c.mental_attack = c.mental_attack + rank.mental_attack + card.mental_attack * rank.percent_all_mental_attack/100;
-            c.mental_defense = c.mental_defense + rank.mental_defense + card.mental_defense * rank.percent_all_mental_defense/100;
+            c.health = c.health + rank.health + card.health * rank.percent_all_health / 100;
+            c.physical_attack = c.physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack / 100;
+            c.physical_defense = c.physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense / 100;
+            c.magical_attack = c.magical_attack + rank.magical_attack + card.magical_attack * rank.percent_all_magical_attack / 100;
+            c.magical_defense = c.magical_defense + rank.magical_defense + card.magical_defense * rank.percent_all_magical_defense / 100;
+            c.chemical_attack = c.chemical_attack + rank.chemical_attack + card.chemical_attack * rank.percent_all_chemical_attack / 100;
+            c.chemical_defense = c.chemical_defense + rank.chemical_defense + card.chemical_defense * rank.percent_all_chemical_defense / 100;
+            c.atomic_attack = c.atomic_attack + rank.atomic_attack + card.atomic_attack * rank.percent_all_atomic_attack / 100;
+            c.atomic_defense = c.atomic_defense + rank.atomic_defense + card.atomic_defense * rank.percent_all_atomic_defense / 100;
+            c.mental_attack = c.mental_attack + rank.mental_attack + card.mental_attack * rank.percent_all_mental_attack / 100;
+            c.mental_defense = c.mental_defense + rank.mental_defense + card.mental_defense * rank.percent_all_mental_defense / 100;
             c.speed = c.speed + rank.speed;
             c.critical_damage_rate = c.critical_damage_rate + rank.critical_damage_rate;
             c.critical_rate = c.critical_rate + rank.critical_rate;
@@ -4011,39 +4011,66 @@ public class Equipments
         }
         return equipmentList;
     }
+    public Equipments ChangeValueToZero(Equipments equipments)
+    {
+        equipments.power = 0;
+        equipments.health = 0;
+        equipments.physical_attack = 0;
+        equipments.physical_defense = 0;
+        equipments.magical_attack = 0;
+        equipments.magical_defense = 0;
+        equipments.chemical_attack = 0;
+        equipments.chemical_defense = 0;
+        equipments.atomic_attack = 0;
+        equipments.atomic_defense = 0;
+        equipments.mental_attack = 0;
+        equipments.mental_defense = 0;
+        equipments.speed = 0;
+        equipments.critical_damage_rate = 0;
+        equipments.critical_rate = 0;
+        equipments.penetration_rate = 0;
+        equipments.evasion_rate = 0;
+        equipments.damage_absorption_rate = 0;
+        equipments.vitality_regeneration_rate = 0;
+        equipments.accuracy_rate = 0;
+        equipments.lifesteal_rate = 0;
+        equipments.shield_strength = 0;
+        equipments.tenacity = 0;
+        equipments.resistance_rate = 0;
+        equipments.combo_rate = 0;
+        equipments.reflection_rate = 0;
+        equipments.mana = 0;
+        equipments.mana_regeneration_rate = 0;
+        equipments.damage_to_different_faction_rate = 0;
+        equipments.resistance_to_different_faction_rate = 0;
+        equipments.damage_to_same_faction_rate = 0;
+        equipments.resistance_to_same_faction_rate = 0;
+        equipments.special_health = 0;
+        equipments.special_physical_attack = 0;
+        equipments.special_physical_defense = 0;
+        equipments.special_magical_attack = 0;
+        equipments.special_magical_defense = 0;
+        equipments.special_chemical_attack = 0;
+        equipments.special_chemical_defense = 0;
+        equipments.special_atomic_attack = 0;
+        equipments.special_atomic_defense = 0;
+        equipments.special_mental_attack = 0;
+        equipments.special_mental_defense = 0;
+        equipments.special_speed = 0;
+        return equipments;
+    }
     public Equipments GetAllEquipmentsByCardHeoresId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT ue.*
                 FROM user_card_heroes uc, card_heroes c, card_heroes_equipment che, user_equipments ue
                 WHERE uc.card_hero_id = c.id AND uc.card_hero_id = che.card_hero_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4054,51 +4081,100 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
-
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4115,36 +4191,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByCardCaptainsId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_card_captains uc, card_captains c, card_captains_equipment che, user_equipments ue
                 WHERE uc.card_captain_id = c.id AND uc.card_captain_id = che.card_captain_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4155,51 +4210,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4216,36 +4321,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByCardColonelsId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_card_colonels uc, card_colonels c, card_colonels_equipment che, user_equipments ue
                 WHERE uc.card_colonel_id = c.id AND uc.card_colonel_id = che.card_colonel_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4256,51 +4340,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4317,36 +4451,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByCardGeneralsId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_card_generals uc, card_generals c, card_generals_equipment che, user_equipments ue
                 WHERE uc.card_general_id = c.id AND uc.card_general_id = che.card_general_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4357,51 +4470,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4418,36 +4581,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByCardAdmiralsId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_card_admirals uc, card_admirals c, card_admirals_equipment che, user_equipments ue
                 WHERE uc.card_admiral_id = c.id AND uc.card_hero_id = che.card_hero_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4458,51 +4600,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4519,36 +4711,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByCardMonstersId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_card_monsters uc, card_monsters c, card_monsters_equipment che, user_equipments ue
                 WHERE uc.card_monster_id = c.id AND uc.card_monster_id = che.card_monster_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4559,51 +4730,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4620,36 +4841,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByCardMilitaryId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_card_military uc, card_military c, card_military_equipment che, user_equipments ue
                 WHERE uc.card_military_id = c.id AND uc.card_military_id = che.card_military_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4660,51 +4860,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4721,36 +4971,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByCardSpellId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_card_spell uc, card_spell c, card_spell_equipment che, user_equipments ue
                 WHERE uc.card_spell_id = c.id AND uc.card_spell_id = che.card_spell_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4761,51 +4990,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4822,36 +5101,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByBooksId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_books uc, books c, books_equipment che, user_equipments ue
                 WHERE uc.book_id = c.id AND uc.book_id = che.book_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4862,51 +5120,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
@@ -4923,36 +5231,15 @@ public class Equipments
     public Equipments GetAllEquipmentsByPetsId(int Id)
     {
         Equipments equipments = new Equipments();
+        equipments = ChangeValueToZero(equipments);
+        List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 connection.Open();
-                string query = @"SELECT SUM(ue.power) AS total_power, SUM(ue.health) AS total_health,
-                    SUM(ue.physical_attack) AS total_physical_attack, SUM(ue.physical_defense) AS total_physical_defense,
-                    SUM(ue.magical_attack) AS total_magical_attack, SUM(ue.magical_defense) AS total_magical_defense,
-                    SUM(ue.chemical_attack) AS total_chemical_attack, SUM(ue.chemical_defense) AS total_chemical_defense,
-                    SUM(ue.atomic_attack) AS total_atomic_attack, SUM(ue.atomic_defense) AS total_atomic_defense,
-                    SUM(ue.mental_attack) AS total_mental_attack, SUM(ue.mental_defense) AS total_mental_defense,
-                    SUM(ue.speed) AS total_speed, SUM(ue.critical_damage_rate) AS total_critical_damage_rate,
-                    SUM(ue.critical_rate) AS total_critical_rate, SUM(ue.penetration_rate) AS total_penetration_rate,
-                    SUM(ue.evasion_rate) AS total_evasion_rate, SUM(ue.damage_absorption_rate) AS total_damage_absorption_rate,
-                    SUM(ue.vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(ue.accuracy_rate) AS total_accuracy_rate,
-                    SUM(ue.mana) AS total_mana, SUM(ue.lifesteal_rate) AS total_lifesteal_rate,
-                    SUM(ue.shield_strength) AS total_shield_strength, SUM(ue.tenacity) AS total_tenacity,
-                    SUM(ue.resistance_rate) AS total_resistance_rate, SUM(ue.combo_rate) AS total_combo_rate,
-                    SUM(ue.reflection_rate) AS total_reflection_rate, SUM(ue.mana_regeneration_rate) AS total_mana_regeneration_rate,
-                    SUM(ue.damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
-                    SUM(ue.resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
-                    SUM(ue.damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
-                    SUM(ue.resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
-                    SUM(ue.special_health) AS total_special_health, SUM(ue.special_physical_attack) AS total_special_physical_attack,
-                    SUM(ue.special_physical_defense) AS total_special_physical_defense, SUM(ue.special_magical_attack) AS total_special_magical_attack,
-                    SUM(ue.special_magical_defense) AS total_special_magical_defense, SUM(ue.special_chemical_attack) AS total_special_chemical_attack,
-                    SUM(ue.special_chemical_defense) AS total_special_chemical_defense, SUM(ue.special_atomic_attack) AS total_special_atomic_attack,
-                    SUM(ue.special_atomic_defense) AS total_special_atomic_defense, SUM(ue.special_mental_attack) AS total_special_mental_attack,
-                    SUM(ue.special_mental_defense) AS total_special_mental_defense, SUM(ue.special_speed) AS total_special_speed
+                string query = @"SELECT *
                 FROM user_pets uc, pets c, pets_equipment che, user_equipments ue
                 WHERE uc.pet_id = c.id AND uc.pet_id = che.pet_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
@@ -4963,51 +5250,101 @@ public class Equipments
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    equipments.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                    equipments.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                    equipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                    equipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                    equipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                    equipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                    equipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                    equipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                    equipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                    equipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                    equipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                    equipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                    equipments.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                    equipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                    equipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                    equipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                    equipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                    equipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                    equipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                    equipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                    equipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                    equipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                    equipments.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                    equipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                    equipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                    equipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                    equipments.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                    equipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                    equipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                    equipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                    equipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                    equipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                    equipments.special_health = reader.IsDBNull(reader.GetOrdinal("total_special_health")) ? 0 : reader.GetDouble("total_special_health");
-                    equipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_physical_attack")) ? 0 : reader.GetDouble("total_special_physical_attack");
-                    equipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_physical_defense")) ? 0 : reader.GetDouble("total_special_physical_defense");
-                    equipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_magical_attack")) ? 0 : reader.GetDouble("total_special_magical_attack");
-                    equipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_magical_defense")) ? 0 : reader.GetDouble("total_special_magical_defense");
-                    equipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_attack")) ? 0 : reader.GetDouble("total_special_chemical_attack");
-                    equipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_special_chemical_defense")) ? 0 : reader.GetDouble("total_special_chemical_defense");
-                    equipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_attack")) ? 0 : reader.GetDouble("total_special_atomic_attack");
-                    equipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_special_atomic_defense")) ? 0 : reader.GetDouble("total_special_atomic_defense");
-                    equipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_special_mental_attack")) ? 0 : reader.GetDouble("total_special_mental_attack");
-                    equipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_special_mental_defense")) ? 0 : reader.GetDouble("total_special_mental_defense");
-                    equipments.special_speed = reader.IsDBNull(reader.GetOrdinal("total_special_speed")) ? 0 : reader.GetDouble("total_special_speed");
+                    Equipments tmpEquipments = new Equipments();
+                    tmpEquipments.power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDouble("power");
+                    tmpEquipments.health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDouble("health");
+                    tmpEquipments.physical_attack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDouble("physical_attack");
+                    tmpEquipments.physical_defense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDouble("physical_defense");
+                    tmpEquipments.magical_attack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDouble("magical_attack");
+                    tmpEquipments.magical_defense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDouble("magical_defense");
+                    tmpEquipments.chemical_attack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDouble("chemical_attack");
+                    tmpEquipments.chemical_defense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDouble("chemical_defense");
+                    tmpEquipments.atomic_attack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDouble("atomic_attack");
+                    tmpEquipments.atomic_defense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDouble("atomic_defense");
+                    tmpEquipments.mental_attack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDouble("mental_attack");
+                    tmpEquipments.mental_defense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDouble("mental_defense");
+                    tmpEquipments.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
+                    tmpEquipments.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
+                    tmpEquipments.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                    tmpEquipments.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                    tmpEquipments.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
+                    tmpEquipments.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                    tmpEquipments.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                    tmpEquipments.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
+                    tmpEquipments.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
+                    tmpEquipments.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
+                    tmpEquipments.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
+                    tmpEquipments.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
+                    tmpEquipments.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                    tmpEquipments.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                    tmpEquipments.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
+                    tmpEquipments.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
+                    tmpEquipments.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
+                    tmpEquipments.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
+                    tmpEquipments.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
+                    tmpEquipments.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                    tmpEquipments.special_health = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDouble("special_health");
+                    tmpEquipments.special_physical_attack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDouble("special_physical_attack");
+                    tmpEquipments.special_physical_defense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDouble("special_physical_defense");
+                    tmpEquipments.special_magical_attack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDouble("special_magical_attack");
+                    tmpEquipments.special_magical_defense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDouble("special_magical_defense");
+                    tmpEquipments.special_chemical_attack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDouble("special_chemical_attack");
+                    tmpEquipments.special_chemical_defense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDouble("special_chemical_defense");
+                    tmpEquipments.special_atomic_attack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDouble("special_atomic_attack");
+                    tmpEquipments.special_atomic_defense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDouble("special_atomic_defense");
+                    tmpEquipments.special_mental_attack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDouble("special_mental_attack");
+                    tmpEquipments.special_mental_defense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDouble("special_mental_defense");
+                    tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
+                    equipmentList.Add(tmpEquipments);
 
+                }
+                equipmentList = GetAllRankPower(equipmentList);
+                foreach (Equipments e in equipmentList)
+                {
+                    equipments.power += e.power;
+                    equipments.health += e.health;
+                    equipments.physical_attack += e.physical_attack;
+                    equipments.physical_defense += e.physical_defense;
+                    equipments.magical_attack += e.magical_attack;
+                    equipments.magical_defense += e.magical_defense;
+                    equipments.chemical_attack += e.chemical_attack;
+                    equipments.chemical_defense += e.chemical_defense;
+                    equipments.atomic_attack += e.atomic_attack;
+                    equipments.atomic_defense += e.atomic_defense;
+                    equipments.mental_attack += e.mental_attack;
+                    equipments.mental_defense += e.mental_defense;
+                    equipments.speed += e.speed;
+                    equipments.critical_damage_rate += e.critical_damage_rate;
+                    equipments.critical_rate += e.critical_rate;
+                    equipments.penetration_rate += e.penetration_rate;
+                    equipments.evasion_rate += e.evasion_rate;
+                    equipments.damage_absorption_rate += e.damage_absorption_rate;
+                    equipments.vitality_regeneration_rate += e.vitality_regeneration_rate;
+                    equipments.accuracy_rate += e.accuracy_rate;
+                    equipments.lifesteal_rate += e.lifesteal_rate;
+                    equipments.shield_strength += e.shield_strength;
+                    equipments.tenacity += e.tenacity;
+                    equipments.resistance_rate += e.resistance_rate;
+                    equipments.combo_rate += e.combo_rate;
+                    equipments.reflection_rate += e.reflection_rate;
+                    equipments.mana += e.mana;
+                    equipments.mana_regeneration_rate += e.mana_regeneration_rate;
+                    equipments.damage_to_different_faction_rate += e.damage_to_different_faction_rate;
+                    equipments.resistance_to_different_faction_rate += e.resistance_to_different_faction_rate;
+                    equipments.damage_to_same_faction_rate += e.damage_to_same_faction_rate;
+                    equipments.resistance_to_same_faction_rate += e.resistance_to_same_faction_rate;
+                    equipments.special_health += e.special_health;
+                    equipments.special_physical_attack += e.special_physical_attack;
+                    equipments.special_physical_defense += e.special_physical_defense;
+                    equipments.special_magical_attack += e.special_magical_attack;
+                    equipments.special_magical_defense += e.special_magical_defense;
+                    equipments.special_chemical_attack += e.special_chemical_attack;
+                    equipments.special_chemical_defense += e.special_chemical_defense;
+                    equipments.special_atomic_attack += e.special_atomic_attack;
+                    equipments.special_atomic_defense += e.special_atomic_defense;
+                    equipments.special_mental_attack += e.special_mental_attack;
+                    equipments.special_mental_defense += e.special_mental_defense;
+                    equipments.special_speed += e.speed;
                 }
             }
             catch (MySqlException ex)
