@@ -10,9 +10,6 @@ public class UIManager : MonoBehaviour
 
     [Header("Panels")]
     private Transform mainMenuButtonPanel;
-    private Transform galleryMenuPanel;
-    private Transform collectionMenuPanel;
-    private Transform equipmentMenuPanel;
     public Transform notificationPanel; 
     public Transform WaitingPanel;
     public Transform MainScencePanel;
@@ -31,9 +28,6 @@ public class UIManager : MonoBehaviour
     public GameObject CreateNamePanel;
     public GameObject buttonPrefab;
     public GameObject notificationPrefab;
-    private GameObject GalleryPanel;
-    private GameObject CollectionPanel;
-    private GameObject EquipmentsPanel;
     public GameObject DictionaryPanel;
     public GameObject TabButton;
     public GameObject ItemPrefab;
@@ -84,6 +78,7 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuCorePanelPrefab;
     public GameObject MainMenuRealmPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
+    public GameObject PopupMenuPanelPrefab;
     public GameObject EquipmentsWearingPrefab;
     public GameObject Slot1Prefab;
     public GameObject Slot4Prefab;
@@ -99,11 +94,6 @@ public class UIManager : MonoBehaviour
     public GameObject CoreSlotPrefab;
     public GameObject RealmSlotPrefab;
 
-
-    [Header("Button")]
-    private Button GalleryButton;
-    private Button CollectionButton;
-    private Button EquipmentsButton;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -111,15 +101,6 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             // DontDestroyOnLoad(gameObject); // Keep this object across scenes
-            GalleryPanel = MainScencePanel.transform.Find("GalleryMenu")?.gameObject;
-            CollectionPanel = MainScencePanel.transform.Find("CollectionMenu")?.gameObject;
-            EquipmentsPanel = MainScencePanel.transform.Find("EquipmentMenu")?.gameObject;
-            GalleryButton = MainScencePanel.transform.Find("GalleryButton").GetComponent<Button>();
-            CollectionButton = MainScencePanel.transform.Find("CollectionButton").GetComponent<Button>();
-            EquipmentsButton = MainScencePanel.transform.Find("EquipmentButton").GetComponent<Button>();
-            galleryMenuPanel = MainScencePanel.transform.Find("GalleryMenu/GalleryMenuPanel");
-            collectionMenuPanel = MainScencePanel.transform.Find("CollectionMenu/CollectionMenuPanel");
-            equipmentMenuPanel = MainScencePanel.transform.Find("EquipmentMenu/Scroll View/Viewport/EquipmentMenuPanel");
             mainMenuButtonPanel = MainScencePanel.transform.Find("MainMenu/MenuBackground/MainMenuButton");
         }
         else
@@ -139,12 +120,6 @@ public class UIManager : MonoBehaviour
                 return MainScencePanel;
             case "mainMenuButtonPanel":
                 return mainMenuButtonPanel;
-            case "galleryMenuPanel":
-                return galleryMenuPanel;
-            case "collectionMenuPanel":
-                return collectionMenuPanel;
-            case "equipmentMenuPanel":
-                return equipmentMenuPanel;
             case "notificationPanel":
                 return notificationPanel;
             case "popupPanel":
@@ -176,12 +151,6 @@ public class UIManager : MonoBehaviour
                 return buttonPrefab;
             case "notificationPrefab":
                 return notificationPrefab;
-            case "GalleryPanel":
-                return GalleryPanel;
-            case "CollectionPanel":
-                return CollectionPanel;
-            case "EquipmentsPanel":
-                return EquipmentsPanel;
             case "DictionaryPanel":
                 return DictionaryPanel;
             case "TabButton":
@@ -280,6 +249,8 @@ public class UIManager : MonoBehaviour
                 return MainMenuRealmPanelPrefab;
             case "PopupEquipmentsPanelPrefab":
                 return PopupEquipmentsPanelPrefab;
+            case "PopupMenuPanelPrefab":
+                return PopupMenuPanelPrefab;
             case "EquipmentsWearingPrefab":
                 return EquipmentsWearingPrefab;
             case "Slot1Prefab":
@@ -315,19 +286,19 @@ public class UIManager : MonoBehaviour
                 return null;
         }
     }
-    public Button GetButton(string prefabName)
-    {
-        switch (prefabName)
-        {
-            case "GalleryButton":
-                return GalleryButton;
-            case "CollectionButton":
-                return CollectionButton;
-            case "EquipmentsButton":
-                return EquipmentsButton;
-            default:
-                Debug.LogWarning($"Button {prefabName} not found.");
-                return null;
-        }
-    }
+    // public Button GetButton(string prefabName)
+    // {
+    //     switch (prefabName)
+    //     {
+    //         case "GalleryButton":
+    //             return GalleryButton;
+    //         case "CollectionButton":
+    //             return CollectionButton;
+    //         case "EquipmentsButton":
+    //             return EquipmentsButton;
+    //         default:
+    //             Debug.LogWarning($"Button {prefabName} not found.");
+    //             return null;
+    //     }
+    // }
 }

@@ -12,6 +12,7 @@ public class MainMenuManager : MonoBehaviour
     private Transform mainMenuPanel;
     private GameObject buttonPrefab;
     private GameObject DictionaryPanel;
+    private GameObject PopupMenuPanelPrefab;
     private Transform MainPanel;
     private GameObject cardsPrefab;
     private GameObject cardsPrefab3;
@@ -72,6 +73,7 @@ public class MainMenuManager : MonoBehaviour
         SummonMainMenuPanel = UIManager.Instance.GetTransform("summonPanel");
         TeamsPrefab = UIManager.Instance.GetGameObject("TeamsPrefab");
         TypePrefab = UIManager.Instance.GetGameObject("TypePrefab");
+        PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
 
         AssignButtonEvent("Button_1", mainMenuPanel, () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", mainMenuPanel, () => GetType("Books"));
@@ -104,6 +106,9 @@ public class MainMenuManager : MonoBehaviour
         AssignButtonEvent("Button_28", SummonMainMenuPanel, () => GetType("SummonCardColonels"));
         AssignButtonEvent("Button_29", SummonMainMenuPanel, () => GetType("SummonCardGenerals"));
         AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType("SummonCardAdmirals"));
+        AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType("Gallery"));
+        AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType("Collection"));
+        AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType("Equipments"));
         // GetCardsType();
     }
 
@@ -144,7 +149,10 @@ public class MainMenuManager : MonoBehaviour
     {
         mainType = type; // Gán giá trị cho mainType
         GetButtonType(); // Gọi hàm xử lý
-        titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())); // Cập nhật tiêu đề
+        if(!mainType.Equals("Gallery") && !mainType.Equals("Collection") 
+        && !mainType.Equals("Equipments")){
+            titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())); // Cập nhật tiêu đề
+        }
     }
     public List<string> GetUniqueTypes(string type)
     {
@@ -318,6 +326,24 @@ public class MainMenuManager : MonoBehaviour
                 background2.texture = texture;
             }
         }
+        else if(mainType.Equals("Gallery")){
+            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(ClosePanel);
+            FindObjectOfType<ButtonLoader>().CreateGalleryButton(popupObject.transform.Find("Content"));
+        }
+        else if(mainType.Equals("Collection")){
+            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(ClosePanel);
+            FindObjectOfType<ButtonLoader>().CreateCollectionButton(popupObject.transform.Find("Content"));
+        }
+        else if(mainType.Equals("Equipments")){
+            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(ClosePanel);
+            FindObjectOfType<ButtonLoader>().CreateEquipmentsButton(popupObject.transform.Find("Content"));
+        }
         else if (mainType.Equals("Teams"))
         {
             createTeams();
@@ -346,7 +372,7 @@ public class MainMenuManager : MonoBehaviour
             FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
         }
         List<string> uniqueTypes = GetUniqueTypes(mainType);
-        if (uniqueTypes.Count > 0)
+        if (uniqueTypes.Count > 0 && !mainType.Equals("Equipments"))
         {
             for (int i = 0; i < uniqueTypes.Count; i++)
             {
@@ -704,7 +730,9 @@ public class MainMenuManager : MonoBehaviour
                 });
             }
 
-            if (!mainType.Equals("SummonCardMonsters") && !mainType.Equals("Teams"))
+            if (!mainType.Equals("SummonCardMonsters") && !mainType.Equals("Teams")
+            && !mainType.Equals("Gallery") && !mainType.Equals("Collection")
+            && !mainType.Equals("Equipments"))
             {
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

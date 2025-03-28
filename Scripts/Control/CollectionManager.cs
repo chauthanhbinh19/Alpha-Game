@@ -34,12 +34,12 @@ public class CollectionManager : MonoBehaviour
     private string mainType;
     private string subType;
     private Text titleText;
-    void Start()
+    public void CreateCollection(Transform CollectionMenuPanel)
     {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        collectionMenuPanel = UIManager.Instance.GetTransform("collectionMenuPanel");
+        collectionMenuPanel = CollectionMenuPanel;
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");

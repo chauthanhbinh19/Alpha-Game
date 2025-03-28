@@ -31,12 +31,12 @@ public class GalleryManager : MonoBehaviour
     private string mainType;
     private string subType;
     private Text titleText;
-    void Start()
+    public void CreateGallery(Transform GalleryMenuPanel)
     {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        galleryMenuPanel = UIManager.Instance.GetTransform("galleryMenuPanel");
+        galleryMenuPanel = GalleryMenuPanel;
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");

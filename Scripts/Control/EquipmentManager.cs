@@ -8,9 +8,9 @@ using UnityEngine.EventSystems;
 
 public class EquipmentManager : MonoBehaviour
 {
-    public GameObject equipmentMenuPanel;
+    private GameObject equipmentMenuPanel;
     private Transform MainPanel;
-    private Transform EquipmentMenuPanel;
+    // private Transform EquipmentMenuPanel;
     private GameObject ItemsPrefab;
     private GameObject EquipmentsPanelPrefab;
     // public Transform content;
@@ -39,11 +39,12 @@ public class EquipmentManager : MonoBehaviour
 
     private GameObject currentObject;
     // Start is called before the first frame update
-    void Start()
+    public void CreateEquipments(Transform EquipmentMenuPanel)
     {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
+        equipmentMenuPanel = EquipmentMenuPanel.gameObject;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ItemsPrefab = UIManager.Instance.GetGameObject("ItemPrefab");
         MainMenuPanel = UIManager.Instance.GetGameObject("MainMenuPanel");
@@ -54,7 +55,7 @@ public class EquipmentManager : MonoBehaviour
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         equipmentsPrefab = UIManager.Instance.GetGameObject("equipmentsPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        EquipmentMenuPanel = UIManager.Instance.GetTransform("equipmentMenuPanel");
+        // EquipmentMenuPanel = UIManager.Instance.GetTransform("equipmentMenuPanel");
         EquipmentsPanelPrefab = UIManager.Instance.GetGameObject("EquipmentsPanelPrefab");
         campaignPrefab = UIManager.Instance.GetGameObject("CampaignPrefab");
         campaignDetailPrefab = UIManager.Instance.GetGameObject("CampaignDetailPrefab");
