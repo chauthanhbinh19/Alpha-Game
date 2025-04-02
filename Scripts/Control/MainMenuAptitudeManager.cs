@@ -17,6 +17,7 @@ public class MainMenuAptitudeManager : MonoBehaviour
     private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
+    private Transform LevelCondition;
     private string mainType;
     // Start is called before the first frame update
     void Start()
@@ -40,28 +41,35 @@ public class MainMenuAptitudeManager : MonoBehaviour
         HomeButton.onClick.AddListener(() => Close(MainPanel));
         CloseButton.onClick.AddListener(() => Destroy(currentObject));
 
-        List<string> uniqueTypes = new List<string>
-        {
-            "Celestial Radiance", "Chaos Force", "Cosmic Insight", "Embrace Death", "Fate Weaver",
-            "Frost Sovereignty", "Illusion Craft", "Infernal Wrath", "Law Karma", "Lifeforce Dominion",
-            "Lightning Dominion", "Lunar Blessing", "Mind Dominion", "Storm Mastery", "Strength Titans",
-            "Sun Sovereignty", "Tidal Dominion", "Time Ascendancy", "Void Manipulation", "Yin-Yang Harmony"
-        };
+        LevelCondition = currentObject.transform.Find("DictionaryCards/LevelCondition");
+
+        // List<string> uniqueTypes = new List<string>
+        // {
+        //     "Celestial Radiance", "Chaos Force", "Cosmic Insight", "Embrace Death", "Fate Weaver",
+        //     "Frost Sovereignty", "Illusion Craft", "Infernal Wrath", "Law Karma", "Lifeforce Dominion",
+        //     "Lightning Dominion", "Lunar Blessing", "Mind Dominion", "Storm Mastery", "Strength Titans",
+        //     "Sun Sovereignty", "Tidal Dominion", "Time Ascendancy", "Void Manipulation", "Yin-Yang Harmony"
+        // };
+        Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
+        Features features = new Features();
+        uniqueTypes = features.GetFeaturesByType("Aptitude");
         if (uniqueTypes.Count > 0)
         {
-            for (int i = 0; i < uniqueTypes.Count; i++)
+            int index = 0;
+            foreach (var kvp in uniqueTypes)
             {
                 // Tạo một nút mới từ prefab
-                string subtype = uniqueTypes[i];
+                string subtype = kvp.Key;
+                int value = kvp.Value;
                 GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
 
                 Text buttonText = button.GetComponentInChildren<Text>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, data, subtype));
+                btn.onClick.AddListener(() => OnButtonClick(button, data, subtype, value));
 
-                if (i == 0)
+                if (index == 0)
                 {
                     mainType = subtype;
                     ChangeButtonBackground(button, "Background_V4_166");
@@ -69,66 +77,330 @@ public class MainMenuAptitudeManager : MonoBehaviour
                     {
                         // mainId = cardHeroes.id;
                         CreateCardHeroesEquipments(cardHeroes);
+                        if (cardHeroes.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is Books books)
                     {
                         // mainId = books.id;
                         CreateBooksEquipments(books);
+                        if (books.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is CardCaptains cardCaptains)
                     {
                         // mainId = cardCaptains.id;
                         CreateCardCaptainsEquipments(cardCaptains);
+                        if (cardCaptains.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is Pets pets)
                     {
                         // mainId = pets.id;
                         CreatePetsEquipments(pets);
+                        if (pets.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is CardMilitary cardMilitary)
                     {
                         // mainId = cardMilitary.id;
                         CreateCardMilitaryEquipments(cardMilitary);
+                        if (cardMilitary.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is CardSpell cardSpell)
                     {
                         // mainId = cardSpell.id;
                         CreateCardSpellEquipments(cardSpell);
+                        if (cardSpell.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is CardMonsters cardMonsters)
                     {
                         // mainId = cardMonsters.id;
                         CreateCardMonstersEquipments(cardMonsters);
+                        if (cardMonsters.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is CardColonels cardColonels)
                     {
                         // mainId = cardColonels.id;
                         CreateCardColonelsEquipments(cardColonels);
+                        if (cardColonels.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is CardGenerals cardGenerals)
                     {
                         // mainId = cardGenerals.id;
                         CreateCardGeneralsEquipments(cardGenerals);
+                        if (cardGenerals.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is CardAdmirals cardAdmirals)
                     {
                         // mainId = cardAdmirals.id;
                         CreateCardAdmiralsEquipments(cardAdmirals);
+                        if (cardAdmirals.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                     else if (data is Equipments equipments)
                     {
                         // mainId = cardAdmirals.id;
                         CreateEquipmentsEquipments(equipments);
+                        if (equipments.level >= value)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            LevelCondition.gameObject.SetActive(true);
+                        }
                     }
                 }
                 else
                 {
                     ChangeButtonBackground(button, "Background_V4_167");
                 }
+                CheckLockedButton(data, value, button);
+                index = index + 1;
             }
         }
     }
-    void OnButtonClick(GameObject clickedButton, object data, string type)
+    public void CheckLockedButton(object data, int value, GameObject button)
+    {
+        RawImage buttonImage = button.GetComponent<RawImage>();
+        RawImage buttonLockedImage = button.transform.Find("Locked")?.GetComponent<RawImage>();
+        if (data is CardHeroes cardHeroes)
+        {
+            // mainId = cardHeroes.id;
+            if (cardHeroes.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is Books books)
+        {
+            // mainId = books.id;
+            if (books.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is CardCaptains cardCaptains)
+        {
+            // mainId = cardCaptains.id;
+            if (cardCaptains.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is Pets pets)
+        {
+            // mainId = pets.id;
+            if (pets.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is CardMilitary cardMilitary)
+        {
+            // mainId = cardMilitary.id;
+            if (cardMilitary.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is CardSpell cardSpell)
+        {
+            // mainId = cardSpell.id;
+            if (cardSpell.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is CardMonsters cardMonsters)
+        {
+            // mainId = cardMonsters.id;
+            if (cardMonsters.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is CardColonels cardColonels)
+        {
+            // mainId = cardColonels.id;
+            if (cardColonels.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is CardGenerals cardGenerals)
+        {
+            // mainId = cardGenerals.id;
+            if (cardGenerals.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is CardAdmirals cardAdmirals)
+        {
+            // mainId = cardAdmirals.id;
+            if (cardAdmirals.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+        else if (data is Equipments equipments)
+        {
+            // mainId = cardAdmirals.id;
+            if (equipments.level >= value)
+            {
+                buttonImage.color = HexToColor("#FFFFFF");
+                buttonLockedImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                buttonImage.color = HexToColor("#7E7E7E");
+                buttonLockedImage.gameObject.SetActive(true);
+            }
+        }
+    }
+    public Color HexToColor(string hex)
+    {
+        if (!hex.StartsWith("#"))
+        {
+            hex = "#" + hex;
+        }
+
+        Color newColor;
+        if (ColorUtility.TryParseHtmlString(hex, out newColor))
+        {
+            return newColor;
+        }
+
+        return Color.white; // Trả về màu trắng nếu mã màu không hợp lệ
+    }
+    void OnButtonClick(GameObject clickedButton, object data, string type, int value)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -148,56 +420,144 @@ public class MainMenuAptitudeManager : MonoBehaviour
         {
             // mainId = cardHeroes.id;
             CreateCardHeroesEquipments(cardHeroes);
+            if (cardHeroes.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is Books books)
         {
             // mainId = books.id;
             CreateBooksEquipments(books);
+            if (books.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is CardCaptains cardCaptains)
         {
             // mainId = cardCaptains.id;
             CreateCardCaptainsEquipments(cardCaptains);
+            if (cardCaptains.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is Pets pets)
         {
             // mainId = pets.id;
             CreatePetsEquipments(pets);
+            if (pets.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is CardMilitary cardMilitary)
         {
             // mainId = cardMilitary.id;
             CreateCardMilitaryEquipments(cardMilitary);
+            if (cardMilitary.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is CardSpell cardSpell)
         {
             // mainId = cardSpell.id;
             CreateCardSpellEquipments(cardSpell);
+            if (cardSpell.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is CardMonsters cardMonsters)
         {
             // mainId = cardMonsters.id;
             CreateCardMonstersEquipments(cardMonsters);
+            if (cardMonsters.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is CardColonels cardColonels)
         {
             // mainId = cardColonels.id;
             CreateCardColonelsEquipments(cardColonels);
+            if (cardColonels.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is CardGenerals cardGenerals)
         {
             // mainId = cardGenerals.id;
             CreateCardGeneralsEquipments(cardGenerals);
+            if (cardGenerals.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is CardAdmirals cardAdmirals)
         {
             // mainId = cardAdmirals.id;
             CreateCardAdmiralsEquipments(cardAdmirals);
+            if (cardAdmirals.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
         else if (data is Equipments equipments)
         {
             // mainId = cardAdmirals.id;
             CreateEquipmentsEquipments(equipments);
+            if (equipments.level >= value)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                LevelCondition.gameObject.SetActive(true);
+            }
         }
     }
     private void ChangeButtonBackground(GameObject button, string image)
@@ -248,7 +608,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardHeroes, newRank, mainType);
@@ -268,7 +627,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardHeroes, newRank, mainType);
@@ -300,7 +658,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(books, newRank, mainType);
@@ -320,7 +677,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(books, newRank, mainType);
@@ -352,7 +708,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardCaptains, newRank, mainType);
@@ -372,7 +727,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardCaptains, newRank, mainType);
@@ -404,7 +758,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(pets, newRank, mainType);
@@ -424,7 +777,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(pets, newRank, mainType);
@@ -456,7 +808,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardMilitary, newRank, mainType);
@@ -476,7 +827,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardMilitary, newRank, mainType);
@@ -508,7 +858,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardSpell, newRank, mainType);
@@ -528,7 +877,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardSpell, newRank, mainType);
@@ -560,7 +908,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardMonsters, newRank, mainType);
@@ -580,7 +927,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardMonsters, newRank, mainType);
@@ -612,7 +958,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardColonels, newRank, mainType);
@@ -632,7 +977,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardColonels, newRank, mainType);
@@ -664,7 +1008,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardGenerals, newRank, mainType);
@@ -684,7 +1027,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardGenerals, newRank, mainType);
@@ -716,7 +1058,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardAdmirals, newRank, mainType);
@@ -736,7 +1077,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(cardAdmirals, newRank, mainType);
@@ -768,7 +1108,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, 1);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(equipments, newRank, mainType);
@@ -788,7 +1127,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 items.UpdateUserItemsQuantity(items);
                 Rank newRank = new Rank();
                 newRank = EnhanceRank(rank, level);
-                PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
                 double currentPower = teams.GetTeamsPower();
                 UpLevel(equipments, newRank, mainType);

@@ -40,7 +40,8 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform elementPopupPanel;
     private Transform element2PopupPanel;
     private Transform descriptionPopupPanel;
-    private Transform buttonGroupPanel;
+    private Transform buttonGroupPanel1;
+    private Transform buttonGroupPanel2;
     private RawImage CardBackground;
     private string mainType;
     private string descriptionColor = "#F9EED9";
@@ -79,7 +80,8 @@ public class MainMenuDetailsManager : MonoBehaviour
         UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        buttonGroupPanel = currentObject.transform.Find("DictionaryCards/ButtonGroup1");
+        buttonGroupPanel1 = currentObject.transform.Find("DictionaryCards/ButtonGroup1");
+        buttonGroupPanel2 = currentObject.transform.Find("DictionaryCards/ButtonGroup2");
         CardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
         CreateButtonGroup(data);
@@ -416,74 +418,109 @@ public class MainMenuDetailsManager : MonoBehaviour
         data is Books books || data is Pets pets
         )
         {
-            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
-            CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
-            CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
-            CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel);
+            CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel1);
+            CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel1);
+            CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel1);
+            CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel1);
+            CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel1);
+            CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel1);
+            CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel1);
+            CreateButtonWithBackground(8, "Physique", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Physique"), buttonGroupPanel1);
+            CreateButtonWithBackground(9, "Bloodline", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Bloodline"), buttonGroupPanel2);
+            CreateButtonWithBackground(10, "Omnivision", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnivision"), buttonGroupPanel2);
+            CreateButtonWithBackground(11, "Omnipotence", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnipotence"), buttonGroupPanel2);
+            CreateButtonWithBackground(12, "Omnipresence", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnipresence"), buttonGroupPanel2);
+            CreateButtonWithBackground(13, "Omniscience", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omniscience"), buttonGroupPanel2);
+            CreateButtonWithBackground(14, "Omnivory", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnivory"), buttonGroupPanel2);
 
-            AssignButtonEvent("Button_1", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_1", buttonGroupPanel1, () =>
         {
             FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
         });
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_2", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
             });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_3", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
             });
-            AssignButtonEvent("Button_4", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_4", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
             });
-            AssignButtonEvent("Button_5", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_5", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
             });
-            AssignButtonEvent("Button_6", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_6", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
             });
-            AssignButtonEvent("Button_7", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_7", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
+            });
+            AssignButtonEvent("Button_8", buttonGroupPanel1, () =>
+            {
+                FindAnyObjectByType<MainMenuPhysiqueManager>().CreateMainMenuPhysiqueManager(data);
+            });
+            AssignButtonEvent("Button_9", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuBloodlineManager>().CreateMainMenuBloodlineManager(data);
+            });
+            AssignButtonEvent("Button_10", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmnivisionManager>().CreateMainMenuOmnivisionManager(data);
+            });
+            AssignButtonEvent("Button_11", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmnipotenceManager>().CreateMainMenuOmnipotenceManager(data);
+            });
+            AssignButtonEvent("Button_12", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmnipresenceManager>().CreateMainMenuOmnipresenceManager(data);
+            });
+            AssignButtonEvent("Button_13", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmniscienceManager>().CreateMainMenuOmniscienceManager(data);
+            });
+            AssignButtonEvent("Button_14", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmnivoryManager>().CreateMainMenuOmnivoryManager(data);
             });
         }
         else
         {
             // CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
-            CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel);
-            CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel);
-            CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel);
+            CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel1);
+            CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel1);
+            CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel1);
             // CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
-            CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel);
-            CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel);
+            CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel1);
+            CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel1);
 
-            AssignButtonEvent("Button_2", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_2", buttonGroupPanel1, () =>
         {
             FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
         });
-            AssignButtonEvent("Button_3", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_3", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
             });
-            AssignButtonEvent("Button_4", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_4", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
             });
-            // AssignButtonEvent("Button_5", buttonGroupPanel, () =>
+            // AssignButtonEvent("Button_5", buttonGroupPanel1, () =>
             // {
             //     FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
             // });
-            AssignButtonEvent("Button_6", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_6", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
             });
-            AssignButtonEvent("Button_7", buttonGroupPanel, () =>
+            AssignButtonEvent("Button_7", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
             });
@@ -1871,9 +1908,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CardHeroes newCard = new CardHeroes();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardHeroes.GetNewLevelPower(cardHeroes, increasePerLevel);
                     cardHeroes.UpdateCardHeroesLevel(newCard, currentLevel + 1);
                     cardHeroes.UpdateFactCardHeroes(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
@@ -1898,9 +1939,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CardHeroes newCard = cardHeroes.GetNewLevelPower(cardHeroes, levelsGained * increasePerLevel);
                     cardHeroes.UpdateCardHeroesLevel(newCard, currentLevel);
                     cardHeroes.UpdateFactCardHeroes(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -1939,12 +1984,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Books newCard = new Books();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = book.GetNewLevelPower(book, increasePerLevel);
                     book.UpdateBooksLevel(newCard, currentLevel + 1);
                     book.UpdateFactBooks(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -1968,9 +2015,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Books newCard = book.GetNewLevelPower(book, levelsGained * increasePerLevel);
                     book.UpdateBooksLevel(newCard, currentLevel);
                     book.UpdateFactBooks(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2009,12 +2060,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CardCaptains newCard = new CardCaptains();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardCaptains.GetNewLevelPower(cardCaptains, increasePerLevel);
                     cardCaptains.UpdateCardCaptainsLevel(newCard, currentLevel + 1);
                     cardCaptains.UpdateFactCardCaptains(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2038,9 +2091,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CardCaptains newCard = cardCaptains.GetNewLevelPower(cardCaptains, levelsGained * increasePerLevel);
                     cardCaptains.UpdateCardCaptainsLevel(newCard, currentLevel);
                     cardCaptains.UpdateFactCardCaptains(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2079,12 +2136,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Pets newCard = new Pets();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = pet.GetNewLevelPower(pet, increasePerLevel);
                     pet.UpdatePetsLevel(newCard, currentLevel + 1);
                     pet.UpdateFactPets(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2108,9 +2167,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Pets newCard = pet.GetNewLevelPower(pet, levelsGained * increasePerLevel);
                     pet.UpdatePetsLevel(newCard, currentLevel);
                     pet.UpdateFactPets(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2149,11 +2212,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CollaborationEquipment newCard = new CollaborationEquipment();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = collaborationEquipment.GetNewLevelPower(collaborationEquipment, increasePerLevel);
                     collaborationEquipment.UpdateCollaborationEquipmentsLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2177,8 +2242,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CollaborationEquipment newCard = collaborationEquipment.GetNewLevelPower(collaborationEquipment, levelsGained * increasePerLevel);
                     collaborationEquipment.UpdateCollaborationEquipmentsLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2217,12 +2286,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CardMilitary newCard = new CardMilitary();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardMilitary.GetNewLevelPower(cardMilitary, increasePerLevel);
                     cardMilitary.UpdateCardMilitaryLevel(newCard, currentLevel + 1);
                     cardMilitary.UpdateFactCardMilitary(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2246,9 +2317,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CardMilitary newCard = cardMilitary.GetNewLevelPower(cardMilitary, levelsGained * increasePerLevel);
                     cardMilitary.UpdateCardMilitaryLevel(newCard, currentLevel);
                     cardMilitary.UpdateFactCardMilitary(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2287,12 +2362,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CardSpell newCard = new CardSpell();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardSpell.GetNewLevelPower(cardSpell, increasePerLevel);
                     cardSpell.UpdateCardSpellLevel(newCard, currentLevel + 1);
                     cardSpell.UpdateFactCardSpell(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2316,9 +2393,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CardSpell newCard = cardSpell.GetNewLevelPower(cardSpell, levelsGained * increasePerLevel);
                     cardSpell.UpdateCardSpellLevel(newCard, currentLevel);
                     cardSpell.UpdateFactCardSpell(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2357,11 +2438,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Collaboration newCard = new Collaboration();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = collaboration.GetNewLevelPower(collaboration, increasePerLevel);
                     collaboration.UpdateCollaborationsLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2385,8 +2468,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Collaboration newCard = collaboration.GetNewLevelPower(collaboration, levelsGained * increasePerLevel);
                     collaboration.UpdateCollaborationsLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2425,12 +2512,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CardMonsters newCard = new CardMonsters();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardMonsters.GetNewLevelPower(cardMonsters, increasePerLevel);
                     cardMonsters.UpdateCardMonstersLevel(newCard, currentLevel + 1);
                     cardMonsters.UpdateFactCardMonsters(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2454,9 +2543,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CardMonsters newCard = cardMonsters.GetNewLevelPower(cardMonsters, levelsGained * increasePerLevel);
                     cardMonsters.UpdateCardMonstersLevel(newCard, currentLevel);
                     cardMonsters.UpdateFactCardMonsters(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2495,11 +2588,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Equipments newCard = new Equipments();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = equipment.GetNewLevelPower(equipment, increasePerLevel);
                     equipment.UpdateEquipmentsLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2523,8 +2618,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Equipments newCard = equipment.GetNewLevelPower(equipment, levelsGained * increasePerLevel);
                     equipment.UpdateEquipmentsLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2563,11 +2662,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Medals newCard = new Medals();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = medal.GetNewLevelPower(medal, increasePerLevel);
                     medal.UpdateMedalsLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2591,8 +2692,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Medals newCard = medal.GetNewLevelPower(medal, levelsGained * increasePerLevel);
                     medal.UpdateMedalsLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2631,11 +2736,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Skills newCard = new Skills();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = skill.GetNewLevelPower(skill, increasePerLevel);
                     skill.UpdateSkillsLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2659,8 +2766,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Skills newCard = skill.GetNewLevelPower(skill, levelsGained * increasePerLevel);
                     skill.UpdateSkillsLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2699,11 +2810,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Symbols newCard = new Symbols();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = symbol.GetNewLevelPower(symbol, increasePerLevel);
                     symbol.UpdateSymbolsLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2727,8 +2840,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Symbols newCard = symbol.GetNewLevelPower(symbol, levelsGained * increasePerLevel);
                     symbol.UpdateSymbolsLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2767,11 +2884,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Titles newCard = new Titles();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = title.GetNewLevelPower(title, increasePerLevel);
                     title.UpdateTitlesLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2795,8 +2914,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Titles newCard = title.GetNewLevelPower(title, levelsGained * increasePerLevel);
                     title.UpdateTitlesLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2835,11 +2958,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     MagicFormationCircle newCard = new MagicFormationCircle();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = magicFormationCircle.GetNewLevelPower(magicFormationCircle, increasePerLevel);
                     magicFormationCircle.UpdateMagicFormationCircleLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2863,8 +2988,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     MagicFormationCircle newCard = magicFormationCircle.GetNewLevelPower(magicFormationCircle, levelsGained * increasePerLevel);
                     magicFormationCircle.UpdateMagicFormationCircleLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2903,11 +3032,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Relics newCard = new Relics();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = relics.GetNewLevelPower(relics, increasePerLevel);
                     relics.UpdateRelicsLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -2931,8 +3062,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Relics newCard = relics.GetNewLevelPower(relics, levelsGained * increasePerLevel);
                     relics.UpdateRelicsLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -2971,12 +3106,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CardColonels newCard = new CardColonels();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardColonels.GetNewLevelPower(cardColonels, increasePerLevel);
                     cardColonels.UpdateCardColonelsLevel(newCard, currentLevel + 1);
                     cardColonels.UpdateFactCardColonels(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -3000,9 +3137,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CardColonels newCard = cardColonels.GetNewLevelPower(cardColonels, levelsGained * increasePerLevel);
                     cardColonels.UpdateCardColonelsLevel(newCard, currentLevel);
                     cardColonels.UpdateFactCardColonels(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -3041,12 +3182,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CardGenerals newCard = new CardGenerals();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardGenerals.GetNewLevelPower(cardGenerals, increasePerLevel);
                     cardGenerals.UpdateCardGeneralsLevel(newCard, currentLevel + 1);
                     cardGenerals.UpdateFactCardGenerals(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -3070,9 +3213,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CardGenerals newCard = cardGenerals.GetNewLevelPower(cardGenerals, levelsGained * increasePerLevel);
                     cardGenerals.UpdateCardGeneralsLevel(newCard, currentLevel);
                     cardGenerals.UpdateFactCardGenerals(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -3111,12 +3258,14 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     CardAdmirals newCard = new CardAdmirals();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardAdmirals.GetNewLevelPower(cardAdmirals, increasePerLevel);
                     cardAdmirals.UpdateCardAdmiralsLevel(newCard, currentLevel + 1);
                     cardAdmirals.UpdateFactCardAdmirals(newCard);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -3140,9 +3289,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     CardAdmirals newCard = cardAdmirals.GetNewLevelPower(cardAdmirals, levelsGained * increasePerLevel);
                     cardAdmirals.UpdateCardAdmiralsLevel(newCard, currentLevel);
                     cardAdmirals.UpdateFactCardAdmirals(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -3181,11 +3334,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 if (canLevel)
                 {
                     Achievements newCard = new Achievements();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = achievements.GetNewLevelPower(achievements, increasePerLevel);
                     achievements.UpdateAchievementLevel(newCard, currentLevel + 1);
-                    totalExperiment -= experimentCondition;
-                    currentLevel = currentLevel + 1;
-                    experimentCondition = currentLevel * 100;
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                     Close(LevelElementContent);
                     Close(LevelMaterialContent);
                     GetLevel(obj);
@@ -3209,8 +3364,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     int levelsGained = currentLevel - originalLevel;
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     Achievements newCard = achievements.GetNewLevelPower(achievements, levelsGained * increasePerLevel);
                     achievements.UpdateAchievementLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(LevelElementContent);
@@ -3415,9 +3574,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CardHeroes newCard = new CardHeroes();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardHeroes.GetNewBreakthroughPower(cardHeroes, increasePerUpgrade);
                     cardHeroes.UpdateCardHeroesBreakthrough(newCard, cardHeroes.star + 1, cardHeroes.quantity);
                     cardHeroes.UpdateFactCardHeroes(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -3519,9 +3682,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Books newCard = new Books();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = book.GetNewBreakthroughPower(book, increasePerUpgrade);
                     book.UpdateBooksBreakthrough(newCard, book.star + 1, book.quantity);
                     book.UpdateFactBooks(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -3623,9 +3790,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CardCaptains newCard = new CardCaptains();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardCaptains.GetNewBreakthroughPower(cardCaptains, increasePerUpgrade);
                     cardCaptains.UpdateCardCaptainsBreakthrough(newCard, cardCaptains.star + 1, cardCaptains.quantity);
                     cardCaptains.UpdateFactCardCaptains(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -3727,9 +3898,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Pets newCard = new Pets();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = pet.GetNewBreakthroughPower(pet, increasePerUpgrade);
                     pet.UpdatePetsBreakthrough(newCard, pet.star + 1, pet.quantity);
                     pet.UpdateFactPets(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -3831,8 +4006,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CollaborationEquipment newCard = new CollaborationEquipment();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = collaborationEquipment.GetNewBreakthroughPower(collaborationEquipment, increasePerUpgrade);
                     collaborationEquipment.UpdateCollaborationEquipmentsBreakthrough(newCard, collaborationEquipment.star + 1, collaborationEquipment.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -3934,9 +4113,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CardMilitary newCard = new CardMilitary();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardMilitary.GetNewBreakthroughPower(cardMilitary, increasePerUpgrade);
                     cardMilitary.UpdateCardMilitaryBreakthrough(newCard, cardMilitary.star + 1, cardMilitary.quantity);
                     cardMilitary.UpdateFactCardMilitary(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4038,9 +4221,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CardSpell newCard = new CardSpell();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardSpell.GetNewBreakthroughPower(cardSpell, increasePerUpgrade);
                     cardSpell.UpdateCardSpellBreakthrough(newCard, cardSpell.star + 1, cardSpell.quantity);
                     cardSpell.UpdateFactCardSpell(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4142,8 +4329,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Collaboration newCollaboration = new Collaboration();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCollaboration = collaboration.GetNewBreakthroughPower(collaboration, increasePerUpgrade);
                     collaboration.UpdateCollaborationsBreakthrough(newCollaboration, collaboration.star + 1, collaboration.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4245,9 +4436,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CardMonsters newMonster = new CardMonsters();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newMonster = cardMonsters.GetNewBreakthroughPower(cardMonsters, increasePerUpgrade);
                     cardMonsters.UpdateCardMonstersBreakthrough(newMonster, cardMonsters.star + 1, cardMonsters.quantity);
                     cardMonsters.UpdateFactCardMonsters(newMonster);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4349,8 +4544,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Equipments newEquipment = new Equipments();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newEquipment = equipments.GetNewBreakthroughPower(equipments, increasePerUpgrade);
                     equipments.UpdateEquipmentsBreakthrough(newEquipment, equipments.star + 1, equipments.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4452,8 +4651,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Medals newMedal = new Medals();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newMedal = medal.GetNewBreakthroughPower(medal, increasePerUpgrade);
                     medal.UpdateMedalsBreakthrough(newMedal, medal.star + 1, medal.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4555,8 +4758,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Skills newSkill = new Skills();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newSkill = skill.GetNewBreakthroughPower(skill, increasePerUpgrade);
                     skill.UpdateSkillsBreakthrough(newSkill, skill.star + 1, skill.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4658,8 +4865,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Symbols newSymbol = new Symbols();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newSymbol = symbol.GetNewBreakthroughPower(symbol, increasePerUpgrade);
                     symbol.UpdateSymbolsBreakthrough(newSymbol, symbol.star + 1, symbol.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4761,8 +4972,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Titles newTitle = new Titles();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newTitle = title.GetNewBreakthroughPower(title, increasePerUpgrade);
                     title.UpdateTitlesBreakthrough(newTitle, title.star + 1, title.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4864,8 +5079,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     MagicFormationCircle newMagicFormationCircle = new MagicFormationCircle();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newMagicFormationCircle = magicFormationCircle.GetNewBreakthroughPower(magicFormationCircle, increasePerUpgrade);
                     magicFormationCircle.UpdateMagicFormationCircleBreakthrough(newMagicFormationCircle, magicFormationCircle.star + 1, magicFormationCircle.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -4967,8 +5186,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Relics newRelics = new Relics();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newRelics = relics.GetNewBreakthroughPower(relics, increasePerUpgrade);
                     relics.UpdateRelicsBreakthrough(newRelics, relics.star + 1, relics.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -5070,9 +5293,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CardColonels newCard = new CardColonels();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardColonels.GetNewBreakthroughPower(cardColonels, increasePerUpgrade);
                     cardColonels.UpdateCardColonelsBreakthrough(newCard, cardColonels.star + 1, cardColonels.quantity);
                     cardColonels.UpdateFactCardColonels(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -5174,9 +5401,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CardGenerals newCard = new CardGenerals();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardGenerals.GetNewBreakthroughPower(cardGenerals, increasePerUpgrade);
                     cardGenerals.UpdateCardGeneralsBreakthrough(newCard, cardGenerals.star + 1, cardGenerals.quantity);
                     cardGenerals.UpdateFactCardGenerals(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -5278,9 +5509,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     CardAdmirals newCard = new CardAdmirals();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newCard = cardAdmirals.GetNewBreakthroughPower(cardAdmirals, increasePerUpgrade);
                     cardAdmirals.UpdateCardAdmiralsBreakthrough(newCard, cardAdmirals.star + 1, cardAdmirals.quantity);
                     cardAdmirals.UpdateFactCardAdmirals(newCard);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);
@@ -5382,8 +5617,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                     }
                     // Cập nhật cấp sao (Star)
                     Achievements newAchievements = new Achievements();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
                     newAchievements = achievements.GetNewBreakthroughPower(achievements, increasePerUpgrade);
                     achievements.UpdateAchievementsBreakthrough(newAchievements, achievements.star + 1, achievements.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     Close(UpgradeElementContent);

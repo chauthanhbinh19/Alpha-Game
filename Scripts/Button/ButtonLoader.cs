@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ButtonLoader : MonoBehaviour
 {
     private GameObject buttonPrefab; // Prefab của button
     private Transform mainMenuButtonPanel; // Nơi chứa các button trong scene
     private Transform summonPanel;
+    private GameObject ArenaButtonPrefab;
     // Start is called before the first frame update
     void Start()
     {
         buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
         mainMenuButtonPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
         summonPanel = UIManager.Instance.GetTransform("summonPanel");
+        ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
         //Main menu
         CreateButton(1, "Card Heroes",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Cards"), mainMenuButtonPanel);
         CreateButton(2, "Books",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Books"), mainMenuButtonPanel);
@@ -50,6 +53,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(32, "Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Gallery"),summonPanel);
         CreateButton(33, "Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Collection"),summonPanel);
         CreateButton(34, "Equipments",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Legend_Equipment"),summonPanel);
+        CreateButton(35, "Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena"),summonPanel);
     }
 
     // Update is called once per frame
@@ -119,6 +123,33 @@ public class ButtonLoader : MonoBehaviour
         // }
         return Equipments.GetUniqueEquipmentsTypes();
     }
+    private void CreateArenaButton(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(ArenaButtonPrefab, panel);
+        newButton.name = "Button_" + index;
+
+        // Gán màu cho itemBackground
+        // RawImage  background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        // if (background != null && itemBackground != null)
+        // {
+        //     background.texture = itemBackground;
+        // }
+
+        // Gán hình ảnh cho itemImage
+        RawImage  image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = itemName;
+        }
+    }
     public void CreateGalleryButton(Transform galleryMenuPanel){
         //Gallery menu
         CreateButton(1, "Card Heroes Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/CardsGallery"), galleryMenuPanel);
@@ -181,5 +212,24 @@ public class ButtonLoader : MonoBehaviour
             }
         }
         FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel);
+    }
+    public void CreateArenaButton(Transform arenaMenuPanel){
+        CreateArenaButton(1, "Arena 1 vs 1",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_1vs1"), arenaMenuPanel);
+        CreateArenaButton(2, "Arena 3 vs 3",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_3vs3"), arenaMenuPanel);
+        CreateArenaButton(3, "Arena 5 vs 5",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_5vs5"), arenaMenuPanel);
+        CreateArenaButton(4, "Arena 7 vs 7",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_7vs7"), arenaMenuPanel);
+        CreateArenaButton(5, "Arena 9 vs 9",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_9vs9"), arenaMenuPanel);
+        CreateArenaButton(6, "Arena 11 vs 11",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_11vs11"), arenaMenuPanel);
+        CreateArenaButton(7, "Arena 13 vs 13",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_13vs13"),arenaMenuPanel);
+        CreateArenaButton(8, "Arena 15 vs 15",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_15vs15"), arenaMenuPanel);
+        CreateArenaButton(9, "Arena 17 vs 17",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_17vs17"),arenaMenuPanel);
+        CreateArenaButton(10, "Chronoverse Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Chronoverse Arena"), arenaMenuPanel);
+        CreateArenaButton(11, "Xenoverse Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Xenoverse Arena"),arenaMenuPanel);
+        CreateArenaButton(12, "Omniverse Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Omniverse Arena"),arenaMenuPanel);
+        // CreateButton(13, "Symbols Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/SymbolsGallery"),arenaMenuPanel);
+        // CreateButton(14, "Titles Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TitlesGallery"),arenaMenuPanel);
+        // CreateButton(15, "Magic Formation Circle Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"),arenaMenuPanel);
+        // CreateButton(16, "Relics Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/RelicsGallery"),arenaMenuPanel);
+        // CreateButton(17, "Card Colonels Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"),arenaMenuPanel);
     }
 }

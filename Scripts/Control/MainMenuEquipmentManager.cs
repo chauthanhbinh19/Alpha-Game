@@ -2395,7 +2395,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Destroy(popupEquipmentObject);
                 if (data is CardHeroes cardHeroes)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardHeroesEquipments(cardHeroes.id, equipment, position);
@@ -2405,7 +2404,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardCaptains cardCaptains)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardCaptainsEquipments(cardCaptains.id, equipment, position);
@@ -2415,7 +2413,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardColonels cardColonels)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardColonelsEquipments(cardColonels.id, equipment, position);
@@ -2425,7 +2422,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardGenerals cardGenerals)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardGeneralsEquipments(cardGenerals.id, equipment, position);
@@ -2435,7 +2431,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardAdmirals cardAdmirals)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardAdmiralsEquipments(cardAdmirals.id, equipment, position);
@@ -2445,7 +2440,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardMonsters cardMonsters)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardMonstersEquipments(cardMonsters.id, equipment, position);
@@ -2455,7 +2449,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardMilitary cardMilitary)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardMilitaryEquipments(cardMilitary.id, equipment, position);
@@ -2465,7 +2458,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardSpell cardSpell)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertCardSpellEquipments(cardSpell.id, equipment, position);
@@ -2475,7 +2467,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is Books books)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertBooksEquipments(books.id, equipment, position);
@@ -2485,7 +2476,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is Pets pets)
                 {
-                    PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     equipment.InsertPetsEquipments(pets.id, equipment, position);

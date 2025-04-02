@@ -1051,6 +1051,13 @@ GameObject:
   - component: {fileID: 474294463}
   - component: {fileID: 474294465}
   - component: {fileID: 474294466}
+  - component: {fileID: 474294468}
+  - component: {fileID: 474294467}
+  - component: {fileID: 474294469}
+  - component: {fileID: 474294473}
+  - component: {fileID: 474294472}
+  - component: {fileID: 474294471}
+  - component: {fileID: 474294470}
   m_Layer: 5
   m_Name: PowerManager
   m_TagString: Untagged
@@ -1172,6 +1179,90 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85c90d6f88a7cec45a8e6e8d424929b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 663d5491436169c40b2d7131e1113a75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f04dc395ee118d4d94b347beeb935c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e1ba4efbfb75454bb8c862d15569cdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ea9ad3b971c6545b36738ed51208e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10fbba2257792ca48bea738c2557daba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c65d091ca5e1940a08f8c79ee0ca7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f733fef9414d99440be55ced6c7c7fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &490600150
@@ -3503,6 +3594,14 @@ MonoBehaviour:
   MainMenuBlessingPanelPrefab: {fileID: 5745659240395072349, guid: c54a60f4c57608b47b8b987d09929c48, type: 3}
   MainMenuCorePanelPrefab: {fileID: 5745659240395072349, guid: 69c4b45a33ec9dd43a59d24e159b0042, type: 3}
   MainMenuRealmPanelPrefab: {fileID: 5745659240395072349, guid: e8e0ff8cca846be4bbdb4b2bbe4827a0, type: 3}
+  MainMenuPhysiquePanelPrefab: {fileID: 5745659240395072349, guid: b8fe83b41f8155f4aa60c037229265bf, type: 3}
+  MainMenuBloodlinePanelPrefab: {fileID: 5745659240395072349, guid: a19046569d459184e919f152f06f34c8, type: 3}
+  MainMenuOmnivisionPanelPrefab: {fileID: 5745659240395072349, guid: 027c34d75a287fc4e995b6a229962e21, type: 3}
+  MainMenuOmnipotencePanelPrefab: {fileID: 5745659240395072349, guid: 2e2bc76edeff59e4d94eb4327b2cc28b, type: 3}
+  MainMenuOmnipresencePanelPrefab: {fileID: 5745659240395072349, guid: 847357ddc87fe354f8bd8f8e4665bc93, type: 3}
+  MainMenuOmnivoryPanelPrefab: {fileID: 5745659240395072349, guid: 2f08a0fe0c0898e4cb38594426ea1d0b, type: 3}
+  MainMenuOmnisciencePanelPrefab: {fileID: 5745659240395072349, guid: c005dfaafd3298d4b922718c2e881c09, type: 3}
+  ArenaPanelPrefab: {fileID: 5745659240395072349, guid: e9ab7e79e6530e94495415ddbf8649a5, type: 3}
   PopupEquipmentsPanelPrefab: {fileID: 3471210453278062185, guid: eff0224ae52dc2e418e8edf4afa1608b, type: 3}
   PopupMenuPanelPrefab: {fileID: 4587689403310504946, guid: 5d2740ef93e7ba94bba771749d9f84b9, type: 3}
   EquipmentsWearingPrefab: {fileID: 8708252175272485654, guid: 1ea56877a90cdf441a6e884e1d8b06cb, type: 3}
@@ -3514,11 +3613,19 @@ MonoBehaviour:
   Slot12Prefab: {fileID: 5745659240395072349, guid: c703e00b343da0945b0ca8c6462ba53f, type: 3}
   Slot14Prefab: {fileID: 5745659240395072349, guid: 550b2a88a13792d4a96ac4ba16e292fa, type: 3}
   Slot16Prefab: {fileID: 5745659240395072349, guid: 732cd935dd0153c4f965691a8da55fd4, type: 3}
+  ArenaButtonPrefab: {fileID: 8708252175272485654, guid: 2d2785efb22b3094a8126b1196ab62f3, type: 3}
   AptitudeSlotPrefab: {fileID: 5745659240395072349, guid: 79b7362c3c614d74ca468a2e15fcf174, type: 3}
   UpgradeSlotPrefab: {fileID: 5745659240395072349, guid: 7051eccc68e9255498bf8cbf1a8042fd, type: 3}
   BlessingSlotPrefab: {fileID: 5745659240395072349, guid: f38b494dc016af24390dd4f412e655dc, type: 3}
   CoreSlotPrefab: {fileID: 5745659240395072349, guid: 233265967b46e2d4ca0cba3c63a126a0, type: 3}
   RealmSlotPrefab: {fileID: 5745659240395072349, guid: 8a4296fb8ec5e9149ad3f95afb351684, type: 3}
+  PhysiqueSlotPrefab: {fileID: 5745659240395072349, guid: b496de0132c122d4f8b1c50ea7102d9c, type: 3}
+  BloodlineSlotPrefab: {fileID: 5745659240395072349, guid: fcdfbcd51c73e6348b8d1135abf9792a, type: 3}
+  OmnivisionSlotPrefab: {fileID: 5745659240395072349, guid: 30b23cc7d4c25d84d9779730bda8f761, type: 3}
+  OmnipotenceSlotPrefab: {fileID: 5745659240395072349, guid: e5e75f4e2372a424d89c808ec63a7f45, type: 3}
+  OmnipresenceSlotPrefab: {fileID: 5745659240395072349, guid: 1e42b4735249cda4f9db37bc38782e22, type: 3}
+  OmnivorySlotPrefab: {fileID: 5745659240395072349, guid: 410f0929842bba947a894fb6a330ed3b, type: 3}
+  OmniscienceSlotPrefab: {fileID: 5745659240395072349, guid: f719e7123631e24448aa4656a98dcd01, type: 3}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0
@@ -3767,7 +3874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c12b6deaacdf54aa63d7265bcf7bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipmentMenuPanel: {fileID: 0}
 --- !u!114 &2112044468
 MonoBehaviour:
   m_ObjectHideFlags: 0

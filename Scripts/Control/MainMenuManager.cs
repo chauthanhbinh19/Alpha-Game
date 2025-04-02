@@ -13,6 +13,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject buttonPrefab;
     private GameObject DictionaryPanel;
     private GameObject PopupMenuPanelPrefab;
+    private GameObject ArenaPanelPrefab;
     private Transform MainPanel;
     private GameObject cardsPrefab;
     private GameObject cardsPrefab3;
@@ -74,6 +75,7 @@ public class MainMenuManager : MonoBehaviour
         TeamsPrefab = UIManager.Instance.GetGameObject("TeamsPrefab");
         TypePrefab = UIManager.Instance.GetGameObject("TypePrefab");
         PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
+        ArenaPanelPrefab = UIManager.Instance.GetGameObject("ArenaPanelPrefab");
 
         AssignButtonEvent("Button_1", mainMenuPanel, () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", mainMenuPanel, () => GetType("Books"));
@@ -109,6 +111,7 @@ public class MainMenuManager : MonoBehaviour
         AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType("Gallery"));
         AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType("Collection"));
         AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType("Equipments"));
+        AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType("Arena"));
         // GetCardsType();
     }
 
@@ -149,9 +152,18 @@ public class MainMenuManager : MonoBehaviour
     {
         mainType = type; // Gán giá trị cho mainType
         GetButtonType(); // Gọi hàm xử lý
-        if(!mainType.Equals("Gallery") && !mainType.Equals("Collection") 
-        && !mainType.Equals("Equipments")){
-            titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())); // Cập nhật tiêu đề
+        if (!mainType.Equals("Gallery") && !mainType.Equals("Collection")
+        && !mainType.Equals("Equipments"))
+        {
+            if (titleText != null)
+            {
+                titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
+            }
+            else
+            {
+                Debug.LogError("titleText is null!");
+            }
+
         }
     }
     public List<string> GetUniqueTypes(string type)
@@ -326,23 +338,36 @@ public class MainMenuManager : MonoBehaviour
                 background2.texture = texture;
             }
         }
-        else if(mainType.Equals("Gallery")){
+        else if (mainType.Equals("Gallery"))
+        {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(ClosePanel);
             FindObjectOfType<ButtonLoader>().CreateGalleryButton(popupObject.transform.Find("Content"));
         }
-        else if(mainType.Equals("Collection")){
+        else if (mainType.Equals("Collection"))
+        {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(ClosePanel);
             FindObjectOfType<ButtonLoader>().CreateCollectionButton(popupObject.transform.Find("Content"));
         }
-        else if(mainType.Equals("Equipments")){
+        else if (mainType.Equals("Equipments"))
+        {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(ClosePanel);
             FindObjectOfType<ButtonLoader>().CreateEquipmentsButton(popupObject.transform.Find("Content"));
+        }
+        else if (mainType.Equals("Arena"))
+        {
+            GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
+            titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+            CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(() => Close(MainPanel));
+            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
+            FindObjectOfType<ButtonLoader>().CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
         else if (mainType.Equals("Teams"))
         {
@@ -732,7 +757,7 @@ public class MainMenuManager : MonoBehaviour
 
             if (!mainType.Equals("SummonCardMonsters") && !mainType.Equals("Teams")
             && !mainType.Equals("Gallery") && !mainType.Equals("Collection")
-            && !mainType.Equals("Equipments"))
+            && !mainType.Equals("Equipments") && !mainType.Equals("Arena"))
             {
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -4539,8 +4564,11 @@ public class MainMenuManager : MonoBehaviour
                         EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
                         EventTrigger.Entry entry = new EventTrigger.Entry();
                         entry.eventID = EventTriggerType.PointerClick;
-                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
-                        LoadCardDataByType("CardCaptains", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        entry.callback.AddListener((data) =>
+                        {
+                            dragHandler.OnCardClicked();
+                            LoadCardDataByType("CardCaptains", selectedOptionName, team_limit, team_offset, choseTeam);
+                        }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
                 }
@@ -4587,8 +4615,11 @@ public class MainMenuManager : MonoBehaviour
                         EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
                         EventTrigger.Entry entry = new EventTrigger.Entry();
                         entry.eventID = EventTriggerType.PointerClick;
-                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
-                        LoadCardDataByType("CardColonels", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        entry.callback.AddListener((data) =>
+                        {
+                            dragHandler.OnCardClicked();
+                            LoadCardDataByType("CardColonels", selectedOptionName, team_limit, team_offset, choseTeam);
+                        }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
                 }
@@ -4635,8 +4666,11 @@ public class MainMenuManager : MonoBehaviour
                         EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
                         EventTrigger.Entry entry = new EventTrigger.Entry();
                         entry.eventID = EventTriggerType.PointerClick;
-                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
-                        LoadCardDataByType("CardGenerals", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        entry.callback.AddListener((data) =>
+                        {
+                            dragHandler.OnCardClicked();
+                            LoadCardDataByType("CardGenerals", selectedOptionName, team_limit, team_offset, choseTeam);
+                        }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
                 }
@@ -4683,8 +4717,11 @@ public class MainMenuManager : MonoBehaviour
                         EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
                         EventTrigger.Entry entry = new EventTrigger.Entry();
                         entry.eventID = EventTriggerType.PointerClick;
-                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
-                        LoadCardDataByType("CardAdmirals", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        entry.callback.AddListener((data) =>
+                        {
+                            dragHandler.OnCardClicked();
+                            LoadCardDataByType("CardAdmirals", selectedOptionName, team_limit, team_offset, choseTeam);
+                        }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
                 }
@@ -4731,8 +4768,11 @@ public class MainMenuManager : MonoBehaviour
                         EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
                         EventTrigger.Entry entry = new EventTrigger.Entry();
                         entry.eventID = EventTriggerType.PointerClick;
-                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
-                        LoadCardDataByType("CardMonsters", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        entry.callback.AddListener((data) =>
+                        {
+                            dragHandler.OnCardClicked();
+                            LoadCardDataByType("CardMonsters", selectedOptionName, team_limit, team_offset, choseTeam);
+                        }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
                 }
@@ -4779,8 +4819,11 @@ public class MainMenuManager : MonoBehaviour
                         EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
                         EventTrigger.Entry entry = new EventTrigger.Entry();
                         entry.eventID = EventTriggerType.PointerClick;
-                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
-                        LoadCardDataByType("CardMilitary", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        entry.callback.AddListener((data) =>
+                        {
+                            dragHandler.OnCardClicked();
+                            LoadCardDataByType("CardMilitary", selectedOptionName, team_limit, team_offset, choseTeam);
+                        }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
                 }
@@ -4827,8 +4870,11 @@ public class MainMenuManager : MonoBehaviour
                         EventTrigger trigger = cardObject.AddComponent<EventTrigger>();
                         EventTrigger.Entry entry = new EventTrigger.Entry();
                         entry.eventID = EventTriggerType.PointerClick;
-                        entry.callback.AddListener((data) => { dragHandler.OnCardClicked(); 
-                        LoadCardDataByType("CardSpell", selectedOptionName, team_limit, team_offset, choseTeam);}); // Gọi OnCardClicked của dragHandler
+                        entry.callback.AddListener((data) =>
+                        {
+                            dragHandler.OnCardClicked();
+                            LoadCardDataByType("CardSpell", selectedOptionName, team_limit, team_offset, choseTeam);
+                        }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
                 }

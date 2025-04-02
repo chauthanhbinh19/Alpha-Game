@@ -178,7 +178,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardHeroes, newRank, mainType);
@@ -247,7 +246,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardHeroes, newRank, mainType);
@@ -337,7 +335,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(books, newRank, mainType);
@@ -406,7 +403,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(books, newRank, mainType);
@@ -496,7 +492,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardCaptains, newRank, mainType);
@@ -565,7 +560,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardCaptains, newRank, mainType);
@@ -655,7 +649,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(pets, newRank, mainType);
@@ -724,7 +717,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(pets, newRank, mainType);
@@ -814,7 +806,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardMilitary, newRank, mainType);
@@ -883,7 +874,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardMilitary, newRank, mainType);
@@ -973,7 +963,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardSpell, newRank, mainType);
@@ -1042,7 +1031,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardSpell, newRank, mainType);
@@ -1132,7 +1120,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardMonsters, newRank, mainType);
@@ -1201,7 +1188,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardMonsters, newRank, mainType);
@@ -1291,7 +1277,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardColonels, newRank, mainType);
@@ -1360,7 +1345,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardColonels, newRank, mainType);
@@ -1450,7 +1434,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardGenerals, newRank, mainType);
@@ -1519,7 +1502,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardGenerals, newRank, mainType);
@@ -1609,7 +1591,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardAdmirals, newRank, mainType);
@@ -1678,7 +1659,6 @@ public class MainMenuAffinityManager : MonoBehaviour
             rank.level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
-            PowerManager powerManager = new PowerManager();
             Teams teams = new Teams();
             double currentPower = teams.GetTeamsPower();
             UpLevel(cardAdmirals, newRank, mainType);

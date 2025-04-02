@@ -77,6 +77,14 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuBlessingPanelPrefab;
     public GameObject MainMenuCorePanelPrefab;
     public GameObject MainMenuRealmPanelPrefab;
+    public GameObject MainMenuPhysiquePanelPrefab;
+    public GameObject MainMenuBloodlinePanelPrefab;
+    public GameObject MainMenuOmnivisionPanelPrefab;
+    public GameObject MainMenuOmnipotencePanelPrefab;
+    public GameObject MainMenuOmnipresencePanelPrefab;
+    public GameObject MainMenuOmnivoryPanelPrefab;
+    public GameObject MainMenuOmnisciencePanelPrefab;
+    public GameObject ArenaPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject PopupMenuPanelPrefab;
     public GameObject EquipmentsWearingPrefab;
@@ -88,11 +96,19 @@ public class UIManager : MonoBehaviour
     public GameObject Slot12Prefab;
     public GameObject Slot14Prefab;
     public GameObject Slot16Prefab;
+    public GameObject ArenaButtonPrefab;
     public GameObject AptitudeSlotPrefab;
     public GameObject UpgradeSlotPrefab;
     public GameObject BlessingSlotPrefab;
     public GameObject CoreSlotPrefab;
     public GameObject RealmSlotPrefab;
+    public GameObject PhysiqueSlotPrefab;
+    public GameObject BloodlineSlotPrefab;
+    public GameObject OmnivisionSlotPrefab;
+    public GameObject OmnipotenceSlotPrefab;
+    public GameObject OmnipresenceSlotPrefab;
+    public GameObject OmnivorySlotPrefab;
+    public GameObject OmniscienceSlotPrefab;
 
     private void Awake()
     {
@@ -247,6 +263,22 @@ public class UIManager : MonoBehaviour
                 return MainMenuCorePanelPrefab;
             case "MainMenuRealmPanelPrefab":
                 return MainMenuRealmPanelPrefab;
+            case "MainMenuPhysiquePanelPrefab":
+                return MainMenuPhysiquePanelPrefab;
+            case "MainMenuBloodlinePanelPrefab":
+                return MainMenuBloodlinePanelPrefab;
+            case "MainMenuOmnivisionPanelPrefab":
+                return MainMenuOmnivisionPanelPrefab;
+            case "MainMenuOmnipotencePanelPrefab":
+                return MainMenuOmnipotencePanelPrefab;
+            case "MainMenuOmnipresencePanelPrefab":
+                return MainMenuOmnipresencePanelPrefab;
+            case "MainMenuOmnisciencePanelPrefab":
+                return MainMenuOmnisciencePanelPrefab;
+            case "MainMenuOmnivoryPanelPrefab":
+                return MainMenuOmnivoryPanelPrefab;
+            case "ArenaPanelPrefab":
+                return ArenaPanelPrefab;
             case "PopupEquipmentsPanelPrefab":
                 return PopupEquipmentsPanelPrefab;
             case "PopupMenuPanelPrefab":
@@ -269,6 +301,8 @@ public class UIManager : MonoBehaviour
                 return Slot14Prefab;
             case "Slot16Prefab":
                 return Slot16Prefab;
+            case "ArenaButtonPrefab":
+                return ArenaButtonPrefab;
             case "AptitudeSlotPrefab":
                 return AptitudeSlotPrefab;
             case "UpgradeSlotPrefab":
@@ -279,6 +313,20 @@ public class UIManager : MonoBehaviour
                 return CoreSlotPrefab;
             case "RealmSlotPrefab":
                 return RealmSlotPrefab;
+            case "PhysiqueSlotPrefab":
+                return PhysiqueSlotPrefab;
+            case "BloodlineSlotPrefab":
+                return BloodlineSlotPrefab;
+            case "OmnivisionSlotPrefab":
+                return OmnivisionSlotPrefab;
+            case "OmnipotenceSlotPrefab":
+                return OmnipotenceSlotPrefab;
+            case "OmnipresenceSlotPrefab":
+                return OmnipresenceSlotPrefab;
+            case "OmnivorySlotPrefab":
+                return OmnivorySlotPrefab;
+            case "OmniscienceSlotPrefab":
+                return OmniscienceSlotPrefab;
             case "TabButton5":
                 return TabButton5;
             default:
