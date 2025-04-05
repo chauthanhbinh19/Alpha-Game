@@ -83,11 +83,13 @@ public class User
                     Borders borders = new Borders();
                     borders.InsertUserBordersById(359);
                     borders.InsertBordersGallery(359);
-                    borders.UpdateIsUsedBorders(CurrentUserId, true);
+                    borders = borders.GetBordersByUsed();
+                    borders.UpdateIsUsedBorders(borders.id, true);
                     Avatars avatar = new Avatars();
                     avatar.InsertUserAvatarsById(1);
                     avatar.InsertAvatarsGallery(1);
-                    avatar.UpdateIsUsedAvatars(CurrentUserId, true);
+                    avatar = avatar.GetAvatarsByUsed();
+                    avatar.UpdateIsUsedAvatars(avatar.id, true);
                     PowerManager powerManager = new PowerManager();
                     powerManager.InsertUserStats();
                     Teams team= new Teams();
@@ -141,17 +143,17 @@ public class User
                 int Power = reader.GetInt32("power");
                 int Experiment = reader.GetInt32("experiment");
 
+                CurrentUserId = userId;
+                savedUsername = username;
+                savedPassword = password;
+                CurrentUserLevel = Level;
+
                 Borders borders = new Borders();
                 borders = borders.GetBordersByUsed();
                 string Border = borders.image;
                 Avatars avatar = new Avatars();
                 avatar = avatar.GetAvatarsByUsed();
                 string Image = avatar.image;
-
-                CurrentUserId = userId;
-                savedUsername = username;
-                savedPassword = password;
-                CurrentUserLevel = Level;
 
                 if (string.IsNullOrEmpty(Name))
                 {
@@ -199,7 +201,7 @@ public class User
                     border = Border,   
                     Currencies = currencies
                 };
-                // Debug.Log(user);
+                // Debug.Log(user.name);
                 return user;
             }
             else

@@ -105,6 +105,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Book
             mainType = "Books";
             ShowBooksDetails(book);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Books");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -130,6 +132,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Pet
             mainType = "Pets";
             ShowPetsDetails(pet);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Pets");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -141,6 +145,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng CollaborationEquipment
             mainType = "CollaborationEquipments";
             ShowCollaborationEquipmentsDetails(collaborationEquipmentsequipment);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/CollaborationEquipments");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -166,6 +172,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Spell
             mainType = "CardSpell";
             ShowCardSpellDetails(spell);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/CardSpell");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -177,6 +185,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Collaboration
             mainType = "Collaborations";
             ShowCollaborationsDetails(collaboration);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Collaborations");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -188,6 +198,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Monster
             mainType = "CardMonsters";
             ShowCardMonstersDetails(monster);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/CardMonsters");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -199,6 +211,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Equipment
             mainType = "Equipments";
             ShowEquipmentsDetails(equipment);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Equipments");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -210,6 +224,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Medal
             mainType = "Medals";
             ShowMedalsDetails(medal);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Medals");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -221,6 +237,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Skill
             mainType = "Skills";
             ShowSkillsDetails(skill);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Skills");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -232,6 +250,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Symbol
             mainType = "Symbols";
             ShowSymbolsDetails(symbol);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Symbols");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -243,6 +263,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Title
             mainType = "Titles";
             ShowTitlesDetails(title);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Titles");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -254,6 +276,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Title
             mainType = "MagicFormationCircle";
             ShowMagicFormationCircleDetails(magicFormationCircle);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/MagicFormationCircle");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -265,6 +289,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Title
             mainType = "Relics";
             ShowRelicsDetails(relics);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Relics");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -323,6 +349,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng achievements
             mainType = "Achievements";
             ShowAchievementsDetails(achievements);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/Achievements");
+            CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
@@ -426,7 +454,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel1);
             CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel1);
             CreateButtonWithBackground(8, "Physique", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Physique"), buttonGroupPanel1);
-            CreateButtonWithBackground(9, "Bloodline", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Bloodline"), buttonGroupPanel2);
+            CreateButtonWithBackground(9, "Bloodline", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Bloodline"), buttonGroupPanel1);
             CreateButtonWithBackground(10, "Omnivision", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnivision"), buttonGroupPanel2);
             CreateButtonWithBackground(11, "Omnipotence", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnipotence"), buttonGroupPanel2);
             CreateButtonWithBackground(12, "Omnipresence", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnipresence"), buttonGroupPanel2);
@@ -465,7 +493,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 FindAnyObjectByType<MainMenuPhysiqueManager>().CreateMainMenuPhysiqueManager(data);
             });
-            AssignButtonEvent("Button_9", buttonGroupPanel2, () =>
+            AssignButtonEvent("Button_9", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuBloodlineManager>().CreateMainMenuBloodlineManager(data);
             });

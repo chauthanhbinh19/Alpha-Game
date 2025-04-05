@@ -2979,7 +2979,7 @@ GameObject:
   - component: {fileID: 5060159262151969498}
   - component: {fileID: 1127377599482604596}
   m_Layer: 5
-  m_Name: EquipmentBackground
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

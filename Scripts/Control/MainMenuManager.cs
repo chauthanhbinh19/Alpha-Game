@@ -91,8 +91,8 @@ public class MainMenuManager : MonoBehaviour
         AssignButtonEvent("Button_12", mainMenuPanel, () => GetType("Skills"));
         AssignButtonEvent("Button_13", mainMenuPanel, () => GetType("Symbols"));
         AssignButtonEvent("Button_14", mainMenuPanel, () => GetType("Titles"));
-        AssignButtonEvent("Button_15", mainMenuPanel, () => GetType("MagicFormationCircle"));
-        AssignButtonEvent("Button_16", mainMenuPanel, () => GetType("Relics"));
+        AssignButtonEvent("Button_15", SummonMainMenuPanel, () => GetType("MagicFormationCircle"));
+        AssignButtonEvent("Button_16", SummonMainMenuPanel, () => GetType("Relics"));
         AssignButtonEvent("Button_17", mainMenuPanel, () => GetType("Bag"));
         AssignButtonEvent("Button_18", mainMenuPanel, () => GetType("Teams"));
         AssignButtonEvent("Button_19", mainMenuPanel, () => GetType("CardColonels"));
@@ -341,22 +341,28 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals("Gallery"))
         {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TitleText.text = "Gallery";
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(ClosePanel);
+            CloseButton.onClick.AddListener(() => Close(MainPanel));
             FindObjectOfType<ButtonLoader>().CreateGalleryButton(popupObject.transform.Find("Content"));
         }
         else if (mainType.Equals("Collection"))
         {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TitleText.text = "Collection";
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(ClosePanel);
+            CloseButton.onClick.AddListener(() => Close(MainPanel));
             FindObjectOfType<ButtonLoader>().CreateCollectionButton(popupObject.transform.Find("Content"));
         }
         else if (mainType.Equals("Equipments"))
         {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TitleText.text = "Equipments";
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(ClosePanel);
+            CloseButton.onClick.AddListener(() => Close(MainPanel));
             FindObjectOfType<ButtonLoader>().CreateEquipmentsButton(popupObject.transform.Find("Content"));
         }
         else if (mainType.Equals("Arena"))

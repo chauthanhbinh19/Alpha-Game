@@ -109,6 +109,7 @@ public class AuthenticationManager : MonoBehaviour
             avatarImage.texture = texture;
 
             RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
+            // Debug.Log(loggedInUser.border);
             fileNameWithoutExtension = loggedInUser.border.Replace(".png", "");
             Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             borderImage.texture = borderTexture;

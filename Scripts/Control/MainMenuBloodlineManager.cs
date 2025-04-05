@@ -1142,6 +1142,10 @@ public class MainMenuBloodlineManager : MonoBehaviour
     }
     public void SetUI(GameObject gameObject, string type, int level = 0)
     {
+        RawImage BackgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
+        Texture backgroundTexture = Resources.Load<Texture>("UI/Background3/Tree_5");
+        BackgroundImage.texture = backgroundTexture;
+
         int totalSkills = 10;
         int levelsPerSkill = 1000;
 

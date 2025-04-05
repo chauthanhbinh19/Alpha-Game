@@ -1014,6 +1014,8 @@ public class Borders
                 command.Parameters.AddWithValue("@border_id", Id);
                 command.Parameters.AddWithValue("@is_used", is_used);
                 command.ExecuteNonQuery();
+                Debug.Log(Id);
+                Debug.Log(User.CurrentUserId);
             }
             catch (MySqlException ex)
             {
