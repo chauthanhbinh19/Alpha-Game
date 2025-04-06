@@ -63,6 +63,10 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_18", () => GetType("CardGenerals"));
         AssignButtonEvent("Button_19", () => GetType("CardAdmirals"));
         AssignButtonEvent("Button_20", () => GetType("Borders"));
+        AssignButtonEvent("Button_21", () => GetType("Talisman"));
+        AssignButtonEvent("Button_22", () => GetType("Puppet"));
+        AssignButtonEvent("Button_23", () => GetType("Alchemy"));
+        AssignButtonEvent("Button_24", () => GetType("Forge"));
         // GetCardsType();
     }
 
@@ -319,6 +323,38 @@ public class GalleryManager : MonoBehaviour
 
                         totalRecord = admiralsManager.GetCardAdmiralsCount(subType);
                     }
+                    else if (mainType.Equals("Talisman"))
+                    {
+                        Talisman talismanManager = new Talisman();
+                        List<Talisman> talismans = talismanManager.GetTalisman(subType, pageSize, offset);
+                        createTalisman(talismans);
+
+                        totalRecord = talismanManager.GetTalismanCount(subType);
+                    }
+                    else if (mainType.Equals("Puppet"))
+                    {
+                        Puppet puppetManager = new Puppet();
+                        List<Puppet> puppets = puppetManager.GetPuppet(subType, pageSize, offset);
+                        createPuppet(puppets);
+
+                        totalRecord = puppetManager.GetPuppetCount(subType);
+                    }
+                    else if (mainType.Equals("Alchemy"))
+                    {
+                        Alchemy alchemyManager = new Alchemy();
+                        List<Alchemy> alchemies = alchemyManager.GetAlchemy(subType, pageSize, offset);
+                        createAlchemy(alchemies);
+
+                        totalRecord = alchemyManager.GetAlchemyCount(subType);
+                    }
+                    else if (mainType.Equals("Forge"))
+                    {
+                        Forge forgeManager = new Forge();
+                        List<Forge> forges = forgeManager.GetForge(subType, pageSize, offset);
+                        createForge(forges);
+
+                        totalRecord = forgeManager.GetForgeCount(subType);
+                    }
 
                     totalPage = CalculateTotalPages(totalRecord, pageSize);
                     PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -517,7 +553,39 @@ public class GalleryManager : MonoBehaviour
             List<CardAdmirals> relicsList = admiralsManager.GetCardAdmirals(type, pageSize, offset);
             createCardAdmirals(relicsList);
 
-            totalRecord = admiralsManager.GetCardAdmiralsCount(subType);
+            totalRecord = admiralsManager.GetCardAdmiralsCount(type);
+        }
+        else if (mainType.Equals("Talisman"))
+        {
+            Talisman talismanManager = new Talisman();
+            List<Talisman> talismans = talismanManager.GetTalisman(type, pageSize, offset);
+            createTalisman(talismans);
+
+            totalRecord = talismanManager.GetTalismanCount(type);
+        }
+        else if (mainType.Equals("Puppet"))
+        {
+            Puppet puppetManager = new Puppet();
+            List<Puppet> puppets = puppetManager.GetPuppet(type, pageSize, offset);
+            createPuppet(puppets);
+
+            totalRecord = puppetManager.GetPuppetCount(type);
+        }
+        else if (mainType.Equals("Alchemy"))
+        {
+            Alchemy alchemyManager = new Alchemy();
+            List<Alchemy> alchemies = alchemyManager.GetAlchemy(type, pageSize, offset);
+            createAlchemy(alchemies);
+
+            totalRecord = alchemyManager.GetAlchemyCount(type);
+        }
+        else if (mainType.Equals("Forge"))
+        {
+            Forge forgeManager = new Forge();
+            List<Forge> forges = forgeManager.GetForge(type, pageSize, offset);
+            createForge(forges);
+
+            totalRecord = forgeManager.GetForgeCount(type);
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1375,12 +1443,12 @@ public class GalleryManager : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = frameImage.gameObject.GetComponent<EventTrigger>();
+            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = frameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
@@ -1503,6 +1571,194 @@ public class GalleryManager : MonoBehaviour
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
+        }
+    }
+    private void createTalisman(List<Talisman> talismans)
+    {
+        foreach (var talisman in talismans)
+        {
+            GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = talisman.name.Replace("_", " ");
+
+            RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = talisman.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(talisman, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createPuppet(List<Puppet> puppets)
+    {
+        foreach (var puppet in puppets)
+        {
+            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = puppet.name.Replace("_", " ");
+
+            RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = puppet.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(puppet, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createAlchemy(List<Alchemy> alchemies)
+    {
+        foreach (var magicFormationCircle in alchemies)
+        {
+            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = magicFormationCircle.name.Replace("_", " ");
+
+            RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(magicFormationCircle, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createForge(List<Forge> forges)
+    {
+        foreach (var forge in forges)
+        {
+            GameObject forgeObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = forge.name.Replace("_", " ");
+
+            RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = forge.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            // RawImage frameImage = forgeObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(forge, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage rareImage = forgeObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
         }
     }
     public void ClearAllPrefabs()
@@ -1730,8 +1986,48 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Borders> borders = bordersManager.GetBorders( pageSize, offset);
+                List<Borders> borders = bordersManager.GetBorders(pageSize, offset);
                 createBorders(borders);
+            }
+            else if (mainType.Equals("Talisman"))
+            {
+                Talisman talismanManager = new Talisman();
+                totalRecord = talismanManager.GetTalismanCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Talisman> talismans = talismanManager.GetTalisman(subType, pageSize, offset);
+                createTalisman(talismans);
+            }
+            else if (mainType.Equals("Puppet"))
+            {
+                Puppet puppetManager = new Puppet();
+                totalRecord = puppetManager.GetPuppetCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Puppet> puppets = puppetManager.GetPuppet(subType, pageSize, offset);
+                createPuppet(puppets);
+            }
+            else if (mainType.Equals("Alchemy"))
+            {
+                Alchemy alchemyManager = new Alchemy();
+                totalRecord = alchemyManager.GetAlchemyCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Alchemy> alchemies = alchemyManager.GetAlchemy(subType, pageSize, offset);
+                createAlchemy(alchemies);
+            }
+            else if (mainType.Equals("Forge"))
+            {
+                Forge forgeManager = new Forge();
+                totalRecord = forgeManager.GetForgeCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Forge> forges = forgeManager.GetForge(subType, pageSize, offset);
+                createForge(forges);
             }
 
 
@@ -1943,8 +2239,48 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Borders> borders = bordersManager.GetBorders( pageSize, offset);
+                List<Borders> borders = bordersManager.GetBorders(pageSize, offset);
                 createBorders(borders);
+            }
+            else if (mainType.Equals("Talisman"))
+            {
+                Talisman talismanManager = new Talisman();
+                totalRecord = talismanManager.GetTalismanCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Talisman> talismans = talismanManager.GetTalisman(subType, pageSize, offset);
+                createTalisman(talismans);
+            }
+            else if (mainType.Equals("Puppet"))
+            {
+                Puppet puppetManager = new Puppet();
+                totalRecord = puppetManager.GetPuppetCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Puppet> puppets = puppetManager.GetPuppet(subType, pageSize, offset);
+                createPuppet(puppets);
+            }
+            else if (mainType.Equals("Alchemy"))
+            {
+                Alchemy alchemyManager = new Alchemy();
+                totalRecord = alchemyManager.GetAlchemyCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Alchemy> alchemies = alchemyManager.GetAlchemy(subType, pageSize, offset);
+                createAlchemy(alchemies);
+            }
+            else if (mainType.Equals("Forge"))
+            {
+                Forge forgeManager = new Forge();
+                totalRecord = forgeManager.GetForgeCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Forge> forges = forgeManager.GetForge(subType, pageSize, offset);
+                createForge(forges);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -1981,5 +2317,5 @@ public class GalleryManager : MonoBehaviour
         entry.callback.AddListener((data) => { callback(); });
         trigger.triggers.Add(entry);
     }
-    
+
 }

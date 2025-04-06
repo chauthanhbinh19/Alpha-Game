@@ -112,6 +112,12 @@ public class MainMenuManager : MonoBehaviour
         AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType("Collection"));
         AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType("Equipments"));
         AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType("Arena"));
+        AssignButtonEvent("Button_36", SummonMainMenuPanel, () => GetType("Guild"));
+        AssignButtonEvent("Button_37", SummonMainMenuPanel, () => GetType("Tower"));
+        AssignButtonEvent("Button_38", SummonMainMenuPanel, () => GetType("Talisman"));
+        AssignButtonEvent("Button_39", SummonMainMenuPanel, () => GetType("Puppet"));
+        AssignButtonEvent("Button_40", SummonMainMenuPanel, () => GetType("Alchemy"));
+        AssignButtonEvent("Button_41", SummonMainMenuPanel, () => GetType("Forge"));
         // GetCardsType();
     }
 
@@ -686,6 +692,38 @@ public class MainMenuManager : MonoBehaviour
                             FindObjectOfType<GachaSystem>().Summon("admirals", subtype, SummonAreaPanel, 10);
                         });
                     }
+                    else if (mainType.Equals("Talisman"))
+                    {
+                        Talisman talismanManager = new Talisman();
+                        List<Talisman> talismans = talismanManager.GetUserTalisman(subType, pageSize, offset);
+                        createTalisman(talismans);
+
+                        totalRecord = talismanManager.GetUserTalismanCount(subType);
+                    }
+                    else if (mainType.Equals("Puppet"))
+                    {
+                        Puppet puppetManager = new Puppet();
+                        List<Puppet> puppets = puppetManager.GetUserPuppet(subType, pageSize, offset);
+                        createPuppet(puppets);
+
+                        totalRecord = puppetManager.GetUserPuppetCount(subType);
+                    }
+                    else if (mainType.Equals("Alchemy"))
+                    {
+                        Alchemy alchemyManager = new Alchemy();
+                        List<Alchemy> alchemies = alchemyManager.GetUserAlchemy(subType, pageSize, offset);
+                        createAlchemy(alchemies);
+
+                        totalRecord = alchemyManager.GetUserAlchemyCount(subType);
+                    }
+                    else if (mainType.Equals("Forge"))
+                    {
+                        Forge forgeManager = new Forge();
+                        List<Forge> forges = forgeManager.GetUserForge(subType, pageSize, offset);
+                        createForge(forges);
+
+                        totalRecord = forgeManager.GetUserForgeCount(subType);
+                    }
 
                     if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
                     !mainType.Equals("SummonCardColonels") && !mainType.Equals("SummonCardGenerals") && !mainType.Equals("SummonCardAdmirals") &&
@@ -1076,6 +1114,38 @@ public class MainMenuManager : MonoBehaviour
             {
                 FindObjectOfType<GachaSystem>().Summon("admirals", type, SummonAreaPanel, 10);
             });
+        }
+        else if (mainType.Equals("Talisman"))
+        {
+            Talisman talismanManager = new Talisman();
+            List<Talisman> talismans = talismanManager.GetUserTalisman(type, pageSize, offset);
+            createTalisman(talismans);
+
+            totalRecord = talismanManager.GetUserTalismanCount(type);
+        }
+        else if (mainType.Equals("Puppet"))
+        {
+            Puppet puppetManager = new Puppet();
+            List<Puppet> puppets = puppetManager.GetUserPuppet(type, pageSize, offset);
+            createPuppet(puppets);
+
+            totalRecord = puppetManager.GetUserPuppetCount(type);
+        }
+        else if (mainType.Equals("Alchemy"))
+        {
+            Alchemy alchemyManager = new Alchemy();
+            List<Alchemy> alchemies = alchemyManager.GetUserAlchemy(type, pageSize, offset);
+            createAlchemy(alchemies);
+
+            totalRecord = alchemyManager.GetUserAlchemyCount(type);
+        }
+        else if (mainType.Equals("Forge"))
+        {
+            Forge forgeManager = new Forge();
+            List<Forge> forges = forgeManager.GetUserForge(type, pageSize, offset);
+            createForge(forges);
+
+            totalRecord = forgeManager.GetUserForgeCount(type);
         }
 
         if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
@@ -2277,6 +2347,198 @@ public class MainMenuManager : MonoBehaviour
             rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
         }
     }
+    private void createTalisman(List<Talisman> talismans)
+    {
+        foreach (var talisman in talismans)
+        {
+            GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = talisman.name.Replace("_", " ");
+
+            RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = talisman.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(talisman, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage frameImage = talismanObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+
+            RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createPuppet(List<Puppet> puppets)
+    {
+        foreach (var puppet in puppets)
+        {
+            GameObject puppetObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = puppet.name.Replace("_", " ");
+
+            RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = puppet.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(puppet, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+
+            RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createAlchemy(List<Alchemy> alchemies)
+    {
+        foreach (var alchemy in alchemies)
+        {
+            GameObject alchemyObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = alchemy.name.Replace("_", " ");
+
+            RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = alchemy.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(alchemy, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage frameImage = alchemyObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+
+            RawImage rareImage = alchemyObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
+    private void createForge(List<Forge> forges)
+    {
+        foreach (var forge in forges)
+        {
+            GameObject forgeObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = forge.name.Replace("_", " ");
+
+            RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = forge.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(forge, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage frameImage = forgeObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+
+            RawImage rareImage = forgeObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
+            rareImage.texture = rareTexture;
+
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
     private void createTeams()
     {
         GameObject teamsObject = Instantiate(TeamsPrefab, MainPanel);
@@ -2778,6 +3040,46 @@ public class MainMenuManager : MonoBehaviour
                 List<Relics> relicsList = relicsManager.GetUserRelics(subType, pageSize, offset);
                 createRelics(relicsList);
             }
+            else if (mainType.Equals("Talisman"))
+            {
+                Talisman talismanManager = new Talisman();
+                totalRecord = talismanManager.GetUserTalismanCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Talisman> talismans = talismanManager.GetUserTalisman(subType, pageSize, offset);
+                createTalisman(talismans);
+            }
+            else if (mainType.Equals("Puppet"))
+            {
+                Puppet puppetManager = new Puppet();
+                totalRecord = puppetManager.GetUserPuppetCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Puppet> puppets = puppetManager.GetUserPuppet(subType, pageSize, offset);
+                createPuppet(puppets);
+            }
+            else if (mainType.Equals("Alchemy"))
+            {
+                Alchemy alchemyManager = new Alchemy();
+                totalRecord = alchemyManager.GetUserAlchemyCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Alchemy> alchemies = alchemyManager.GetUserAlchemy(subType, pageSize, offset);
+                createAlchemy(alchemies);
+            }
+            else if (mainType.Equals("Forge"))
+            {
+                Forge forgeManager = new Forge();
+                totalRecord = forgeManager.GetUserForgeCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Forge> forges = forgeManager.GetUserForge(subType, pageSize, offset);
+                createForge(forges);
+            }
 
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -2950,6 +3252,46 @@ public class MainMenuManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<Relics> relicsList = relicsManager.GetUserRelics(subType, pageSize, offset);
                 createRelics(relicsList);
+            }
+            else if (mainType.Equals("Talisman"))
+            {
+                Talisman talismanManager = new Talisman();
+                totalRecord = talismanManager.GetUserTalismanCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Talisman> talismans = talismanManager.GetUserTalisman(subType, pageSize, offset);
+                createTalisman(talismans);
+            }
+            else if (mainType.Equals("Puppet"))
+            {
+                Puppet puppetManager = new Puppet();
+                totalRecord = puppetManager.GetUserPuppetCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Puppet> puppets = puppetManager.GetUserPuppet(subType, pageSize, offset);
+                createPuppet(puppets);
+            }
+            else if (mainType.Equals("Alchemy"))
+            {
+                Alchemy alchemyManager = new Alchemy();
+                totalRecord = alchemyManager.GetUserAlchemyCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Alchemy> alchemies = alchemyManager.GetUserAlchemy(subType, pageSize, offset);
+                createAlchemy(alchemies);
+            }
+            else if (mainType.Equals("Forge"))
+            {
+                Forge forgeManager = new Forge();
+                totalRecord = forgeManager.GetUserForgeCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Forge> forges = forgeManager.GetUserForge(subType, pageSize, offset);
+                createForge(forges);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

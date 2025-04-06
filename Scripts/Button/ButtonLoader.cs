@@ -56,6 +56,10 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(35, "Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena"),summonPanel);
         CreateButton(36, "Guild",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Guild"),summonPanel);
         CreateButton(37, "Tower",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower"),summonPanel);
+        CreateButton(38, "Talisman",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Talisman"),summonPanel);
+        CreateButton(39, "Puppet",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Puppet"),summonPanel);
+        CreateButton(40, "Alchemy",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Alchemy"),summonPanel);
+        CreateButton(41, "Forge",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Forge"),summonPanel);
     }
 
     // Update is called once per frame
@@ -174,6 +178,10 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(18, "Card Generals Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"),galleryMenuPanel);
         CreateButton(19, "Card Admirals Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/teachings_of_diligence"),galleryMenuPanel);
         CreateButton(20, "Borders Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/BorderGallery"),galleryMenuPanel);
+        CreateButton(21, "Talisman Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TalismanGallery"),galleryMenuPanel);
+        CreateButton(22, "Puppet Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/PuppetGallery"),galleryMenuPanel);
+        CreateButton(23, "Alchemy Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/AlchemyGallery"),galleryMenuPanel);
+        CreateButton(24, "Forge Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/ForgeGallery"),galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
     }
@@ -199,6 +207,10 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(18, "Card Generals Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/guide_to_contention"),collectionMenuPanel);
         CreateButton(19, "Card Admirals Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/guide_to_diligence"),collectionMenuPanel);
         CreateButton(20, "Borders Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/BordersCollection"),collectionMenuPanel);
+        CreateButton(21, "Talisman Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TalismanCollection"),collectionMenuPanel);
+        CreateButton(22, "Puppet Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/PuppetCollection"),collectionMenuPanel);
+        CreateButton(23, "Alchemy Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/AlchemyCollection"),collectionMenuPanel);
+        CreateButton(24, "Forge Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/ForgeCollection"),collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
     }
