@@ -290,6 +290,7 @@ public class Alchemy
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -396,6 +397,7 @@ public class Alchemy
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -464,7 +466,7 @@ public class Alchemy
             try
             {
                 connection.Open();
-                string query = @"Select m.* from alchemy m, user_alchemy um where m.id=um.alchemy_id and um.user_id=@userId and m.type=@type 
+                string query = @"Select um.*, m.id, m.name, m.image, m.rare from alchemy m, user_alchemy um where m.id=um.alchemy_id and um.user_id=@userId and m.type=@type 
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -479,6 +481,7 @@ public class Alchemy
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         experiment = reader.GetInt32("experiment"),
@@ -565,7 +568,7 @@ public class Alchemy
         }
         return count;
     }
-    public bool InsertUserAlchemyCircle(Alchemy Alchemy)
+    public bool InsertUserAlchemy(Alchemy Alchemy)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -865,6 +868,7 @@ public class Alchemy
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -1086,7 +1090,7 @@ public class Alchemy
         }
         return card;
     }
-    public void InsertCollaborationsGallery(int Id)
+    public void InsertAlchemyGallery(int Id)
     {
         Alchemy AlchemyFromDB = GetAlchemyById(Id);
         int percent = 0;
@@ -1336,6 +1340,85 @@ public class Alchemy
                         sumAlchemy.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
                         sumAlchemy.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
                         sumAlchemy.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
+                    }
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return sumAlchemy;
+    }
+    public Alchemy SumPowerUserAlchemy()
+    {
+        Alchemy sumAlchemy = new Alchemy();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT 
+                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
+                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
+                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
+                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
+                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
+                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
+                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
+                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
+                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
+                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
+                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
+                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate
+            FROM user_alchemy
+            WHERE user_id = @user_id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sumAlchemy.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumAlchemy.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumAlchemy.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumAlchemy.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumAlchemy.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumAlchemy.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumAlchemy.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumAlchemy.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumAlchemy.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumAlchemy.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumAlchemy.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumAlchemy.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumAlchemy.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumAlchemy.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumAlchemy.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumAlchemy.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumAlchemy.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumAlchemy.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumAlchemy.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumAlchemy.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumAlchemy.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumAlchemy.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumAlchemy.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumAlchemy.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumAlchemy.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumAlchemy.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumAlchemy.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumAlchemy.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumAlchemy.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumAlchemy.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumAlchemy.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumAlchemy.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
                     }
                 }
 

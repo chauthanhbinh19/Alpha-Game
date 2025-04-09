@@ -118,6 +118,7 @@ public class MainMenuManager : MonoBehaviour
         AssignButtonEvent("Button_39", SummonMainMenuPanel, () => GetType("Puppet"));
         AssignButtonEvent("Button_40", SummonMainMenuPanel, () => GetType("Alchemy"));
         AssignButtonEvent("Button_41", SummonMainMenuPanel, () => GetType("Forge"));
+        AssignButtonEvent("Button_42", SummonMainMenuPanel, () => GetType("CardLife"));
         // GetCardsType();
     }
 
@@ -266,6 +267,26 @@ public class MainMenuManager : MonoBehaviour
         {
             return CardAdmirals.GetUniqueCardAdmiralsTypes();
         }
+        else if (mainType.Equals("Talisman"))
+        {
+            return Talisman.GetUniqueTalismanTypes();
+        }
+        else if (mainType.Equals("Puppet"))
+        {
+            return Puppet.GetUniquePuppetTypes();
+        }
+        else if (mainType.Equals("Alchemy"))
+        {
+            return Alchemy.GetUniqueAlchemyTypes();
+        }
+        else if (mainType.Equals("Forge"))
+        {
+            return Forge.GetUniqueForgeTypes();
+        }
+        else if (mainType.Equals("CardLife"))
+        {
+            return CardLife.GetUniqueCardLifeTypes();
+        }
         return new List<string>();
     }
     public void GetButtonType()
@@ -380,6 +401,26 @@ public class MainMenuManager : MonoBehaviour
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
             FindObjectOfType<ButtonLoader>().CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+        }
+        else if (mainType.Equals("Guild"))
+        {
+            // GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
+            // titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+            // CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            // CloseButton.onClick.AddListener(() => Close(MainPanel));
+            // HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            // HomeButton.onClick.AddListener(() => Close(MainPanel));
+            // FindObjectOfType<ButtonLoader>().CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+        }
+        else if (mainType.Equals("Tower"))
+        {
+            GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
+            titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+            CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(() => Close(MainPanel));
+            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
+            FindObjectOfType<ButtonLoader>().CreateTowerButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
         else if (mainType.Equals("Teams"))
         {
@@ -724,6 +765,14 @@ public class MainMenuManager : MonoBehaviour
 
                         totalRecord = forgeManager.GetUserForgeCount(subType);
                     }
+                    else if (mainType.Equals("CardLife"))
+                    {
+                        CardLife cardLifeManager = new CardLife();
+                        List<CardLife> cardLives = cardLifeManager.GetUserCardLife(subType, pageSize, offset);
+                        createCardLife(cardLives);
+
+                        totalRecord = cardLifeManager.GetUserCardLifeCount(subType);
+                    }
 
                     if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
                     !mainType.Equals("SummonCardColonels") && !mainType.Equals("SummonCardGenerals") && !mainType.Equals("SummonCardAdmirals") &&
@@ -801,7 +850,9 @@ public class MainMenuManager : MonoBehaviour
 
             if (!mainType.Equals("SummonCardMonsters") && !mainType.Equals("Teams")
             && !mainType.Equals("Gallery") && !mainType.Equals("Collection")
-            && !mainType.Equals("Equipments") && !mainType.Equals("Arena"))
+            && !mainType.Equals("Equipments") && !mainType.Equals("Arena")
+            && !mainType.Equals("Guild") && !mainType.Equals("Tower")
+            && !mainType.Equals("Event"))
             {
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -1147,6 +1198,15 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = forgeManager.GetUserForgeCount(type);
         }
+        else if (mainType.Equals("CardLife"))
+        {
+            CardLife cardLifeManager = new CardLife();
+            List<CardLife> cardLives = cardLifeManager.GetUserCardLife(type, pageSize, offset);
+            createCardLife(cardLives);
+
+            totalRecord = cardLifeManager.GetUserCardLifeCount(type);
+        }
+
 
         if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
         !mainType.Equals("SummonCardColonels") && !mainType.Equals("SummonCardGenerals") && !mainType.Equals("SummonCardAdmirals") &&
@@ -2539,6 +2599,52 @@ public class MainMenuManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(200, 250);
         }
     }
+    private void createCardLife(List<CardLife> cards)
+    {
+        foreach (var card in cards)
+        {
+            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+
+            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = card.name.Replace("_", " ");
+
+            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = card.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+
+            RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
+            rareImage.texture = rareTexture;
+
+            // Lấy EventTrigger của RawImage
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(card, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            if (gridLayout != null)
+            {
+                gridLayout.cellSize = new Vector2(200, 250);
+            }
+        }
+    }
     private void createTeams()
     {
         GameObject teamsObject = Instantiate(TeamsPrefab, MainPanel);
@@ -3080,6 +3186,16 @@ public class MainMenuManager : MonoBehaviour
                 List<Forge> forges = forgeManager.GetUserForge(subType, pageSize, offset);
                 createForge(forges);
             }
+            else if (mainType.Equals("CardLife"))
+            {
+                CardLife cardLifeManager = new CardLife();
+                totalRecord = cardLifeManager.GetUserCardLifeCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<CardLife> cardLives = cardLifeManager.GetUserCardLife(subType, pageSize, offset);
+                createCardLife(cardLives);
+            }
 
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -3292,6 +3408,16 @@ public class MainMenuManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<Forge> forges = forgeManager.GetUserForge(subType, pageSize, offset);
                 createForge(forges);
+            }
+            else if (mainType.Equals("CardLife"))
+            {
+                CardLife cardLifeManager = new CardLife();
+                totalRecord = cardLifeManager.GetUserCardLifeCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<CardLife> cardLives = cardLifeManager.GetUserCardLife(subType, pageSize, offset);
+                createCardLife(cardLives);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

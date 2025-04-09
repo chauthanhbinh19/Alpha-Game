@@ -60,6 +60,8 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(39, "Puppet",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Puppet"),summonPanel);
         CreateButton(40, "Alchemy",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Alchemy"),summonPanel);
         CreateButton(41, "Forge",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Forge"),summonPanel);
+        CreateButton(42, "Card Life",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Life"),summonPanel);
+        CreateButton(43, "Event",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/UI/Lobby_Icon-Event_002"),summonPanel);
     }
 
     // Update is called once per frame
@@ -182,6 +184,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(22, "Puppet Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/PuppetGallery"),galleryMenuPanel);
         CreateButton(23, "Alchemy Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/AlchemyGallery"),galleryMenuPanel);
         CreateButton(24, "Forge Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/ForgeGallery"),galleryMenuPanel);
+        CreateButton(25, "Life Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/LifeGallery"),galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
     }
@@ -211,6 +214,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(22, "Puppet Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/PuppetCollection"),collectionMenuPanel);
         CreateButton(23, "Alchemy Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/AlchemyCollection"),collectionMenuPanel);
         CreateButton(24, "Forge Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/ForgeCollection"),collectionMenuPanel);
+        CreateButton(25, "Life Collection",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/LifeCollection"),collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
     }

@@ -1152,7 +1152,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
             RawImage aptitudeImage = aptitudeSkill.Find("AptitudeImage").GetComponent<RawImage>();
             TextMeshProUGUI levelText = aptitudeSkill.Find("LevelText").GetComponent<TextMeshProUGUI>();
 
-            Texture texture = Resources.Load<Texture>($"UI/Rank/Core");
+            Texture texture = Resources.Load<Texture>($"UI/Rank/Omnivory");
             aptitudeImage.texture = texture;
 
             if (aptitudeImage != null) aptitudeImage.color = Color.black;

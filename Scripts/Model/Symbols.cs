@@ -290,6 +290,7 @@ public class Symbols
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
@@ -397,6 +398,7 @@ public class Symbols
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
@@ -466,7 +468,7 @@ public class Symbols
             try
             {
                 connection.Open();
-                string query = @"Select s.* from Symbols s, user_symbols us where s.id=us.symbol_id and us.user_id=@userId and s.type =@type 
+                string query = @"Select us.*, s.id, s.name, s.image, s.rare from Symbols s, user_symbols us where s.id=us.symbol_id and us.user_id=@userId and s.type =@type 
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -481,6 +483,7 @@ public class Symbols
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),

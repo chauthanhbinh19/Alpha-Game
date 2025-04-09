@@ -269,6 +269,7 @@ public class Medals
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -372,6 +373,7 @@ public class Medals
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -440,7 +442,7 @@ public class Medals
             try
             {
                 connection.Open();
-                string query = @"Select m.* from Medals m, user_medals um where m.id=um.medal_id and um.user_id=@userId 
+                string query = @"Select um.*, m.id, m.name, m.image, m.rare from Medals m, user_medals um where m.id=um.medal_id and um.user_id=@userId 
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -454,6 +456,7 @@ public class Medals
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         experiment = reader.GetInt32("experiment"),

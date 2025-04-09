@@ -97,7 +97,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CardHeroes");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Books book)
@@ -105,12 +105,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Book
             mainType = "Books";
             ShowBooksDetails(book);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Books");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Books");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is CardCaptains captain)
@@ -124,7 +124,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CardCaptains");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Pets pet)
@@ -132,12 +132,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Pet
             mainType = "Pets";
             ShowPetsDetails(pet);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Pets");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Pets");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is CollaborationEquipment collaborationEquipmentsequipment)
@@ -145,12 +145,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng CollaborationEquipment
             mainType = "CollaborationEquipments";
             ShowCollaborationEquipmentsDetails(collaborationEquipmentsequipment);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/CollaborationEquipments");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CollaborationEquipments");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is CardMilitary military)
@@ -164,7 +164,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CardMilitary");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is CardSpell spell)
@@ -172,12 +172,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Spell
             mainType = "CardSpell";
             ShowCardSpellDetails(spell);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/CardSpell");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CardSpell");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Collaboration collaboration)
@@ -185,12 +185,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Collaboration
             mainType = "Collaborations";
             ShowCollaborationsDetails(collaboration);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Collaborations");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Collaborations");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is CardMonsters monster)
@@ -198,12 +198,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Monster
             mainType = "CardMonsters";
             ShowCardMonstersDetails(monster);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/CardMonsters");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CardMonsters");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Equipments equipment)
@@ -211,12 +211,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Equipment
             mainType = "Equipments";
             ShowEquipmentsDetails(equipment);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Equipments");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Equipments");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Medals medal)
@@ -224,12 +224,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Medal
             mainType = "Medals";
             ShowMedalsDetails(medal);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Medals");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Medals");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Skills skill)
@@ -237,12 +237,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Skill
             mainType = "Skills";
             ShowSkillsDetails(skill);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Skills");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Skills");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Symbols symbol)
@@ -250,12 +250,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Symbol
             mainType = "Symbols";
             ShowSymbolsDetails(symbol);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Symbols");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Symbols");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Titles title)
@@ -263,12 +263,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Title
             mainType = "Titles";
             ShowTitlesDetails(title);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Titles");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Titles");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is MagicFormationCircle magicFormationCircle)
@@ -276,12 +276,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Title
             mainType = "MagicFormationCircle";
             ShowMagicFormationCircleDetails(magicFormationCircle);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/MagicFormationCircle");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("MagicFormationCircle");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is Relics relics)
@@ -289,12 +289,12 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Title
             mainType = "Relics";
             ShowRelicsDetails(relics);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Relics");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Relics");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is CardColonels colonels)
@@ -308,7 +308,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CardColonels");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is CardGenerals generals)
@@ -322,7 +322,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CardGenerals");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else if (data is CardAdmirals admirals)
@@ -336,7 +336,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("CardAdmirals");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         // else if (data is Borders borders)
@@ -349,12 +349,77 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng achievements
             mainType = "Achievements";
             ShowAchievementsDetails(achievements);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/Achievements");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType("Achievements");
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
+            });
+        }
+        else if (data is Talisman talisman)
+        {
+            // Xử lý đối tượng achievements
+            mainType = "Talisman";
+            ShowTalismanDetails(talisman);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
+            });
+        }
+        else if (data is Puppet puppet)
+        {
+            // Xử lý đối tượng achievements
+            mainType = "Puppet";
+            ShowPuppetDetails(puppet);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
+            });
+        }
+        else if (data is Alchemy alchemy)
+        {
+            // Xử lý đối tượng achievements
+            mainType = "Alchemy";
+            ShowAlchemyDetails(alchemy);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
+            });
+        }
+        else if (data is Forge forge)
+        {
+            // Xử lý đối tượng achievements
+            mainType = "Forge";
+            ShowForgeDetails(forge);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
+            });
+        }
+        else if (data is CardLife cardLife)
+        {
+            // Xử lý đối tượng achievements
+            mainType = "CardLife";
+            ShowCardLifeDetails(cardLife);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(mainType);
             });
         }
         else
@@ -460,6 +525,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             CreateButtonWithBackground(12, "Omnipresence", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnipresence"), buttonGroupPanel2);
             CreateButtonWithBackground(13, "Omniscience", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omniscience"), buttonGroupPanel2);
             CreateButtonWithBackground(14, "Omnivory", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnivory"), buttonGroupPanel2);
+            CreateButtonWithBackground(15, "Angel", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Angel"), buttonGroupPanel2);
+            CreateButtonWithBackground(16, "Demon", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Demon"), buttonGroupPanel2);
 
             AssignButtonEvent("Button_1", buttonGroupPanel1, () =>
         {
@@ -516,6 +583,14 @@ public class MainMenuDetailsManager : MonoBehaviour
             AssignButtonEvent("Button_14", buttonGroupPanel2, () =>
             {
                 FindAnyObjectByType<MainMenuOmnivoryManager>().CreateMainMenuOmnivoryManager(data);
+            });
+            AssignButtonEvent("Button_15", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuAngelManager>().CreateMainMenuAngelManager(data);
+            });
+            AssignButtonEvent("Button_16", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuDemonManager>().CreateMainMenuDemonManager(data);
             });
         }
         else
@@ -1134,6 +1209,131 @@ public class MainMenuDetailsManager : MonoBehaviour
         });
 
         GetDetails(achievements);
+        OnButtonClicked("Button_1");
+    }
+    public void ShowTalismanDetails(Talisman talisman)
+    {
+        CreateButton(1, "Details", RightButtonContent);
+        CreateButton(2, "Level", RightButtonContent);
+        CreateButton(3, "Upgrade", RightButtonContent);
+
+        AssignButtonEvent("Button_1", RightButtonContent, () =>
+        {
+            GetDetails(talisman);
+            OnButtonClicked("Button_1");
+        });
+        AssignButtonEvent("Button_2", RightButtonContent, () =>
+        {
+            GetLevel(talisman);
+            OnButtonClicked("Button_2");
+        });
+        AssignButtonEvent("Button_4", RightButtonContent, () =>
+        {
+            GetUpgrade(talisman);
+            OnButtonClicked("Button_4");
+        });
+
+        GetDetails(talisman);
+        OnButtonClicked("Button_1");
+    }
+    public void ShowPuppetDetails(Puppet puppet)
+    {
+        CreateButton(1, "Details", RightButtonContent);
+        CreateButton(2, "Level", RightButtonContent);
+        CreateButton(3, "Upgrade", RightButtonContent);
+
+        AssignButtonEvent("Button_1", RightButtonContent, () =>
+        {
+            GetDetails(puppet);
+            OnButtonClicked("Button_1");
+        });
+        AssignButtonEvent("Button_2", RightButtonContent, () =>
+        {
+            GetLevel(puppet);
+            OnButtonClicked("Button_2");
+        });
+        AssignButtonEvent("Button_4", RightButtonContent, () =>
+        {
+            GetUpgrade(puppet);
+            OnButtonClicked("Button_4");
+        });
+
+        GetDetails(puppet);
+        OnButtonClicked("Button_1");
+    }
+    public void ShowAlchemyDetails(Alchemy alchemy)
+    {
+        CreateButton(1, "Details", RightButtonContent);
+        CreateButton(2, "Level", RightButtonContent);
+        CreateButton(3, "Upgrade", RightButtonContent);
+
+        AssignButtonEvent("Button_1", RightButtonContent, () =>
+        {
+            GetDetails(alchemy);
+            OnButtonClicked("Button_1");
+        });
+        AssignButtonEvent("Button_2", RightButtonContent, () =>
+        {
+            GetLevel(alchemy);
+            OnButtonClicked("Button_2");
+        });
+        AssignButtonEvent("Button_4", RightButtonContent, () =>
+        {
+            GetUpgrade(alchemy);
+            OnButtonClicked("Button_4");
+        });
+
+        GetDetails(alchemy);
+        OnButtonClicked("Button_1");
+    }
+    public void ShowForgeDetails(Forge forge)
+    {
+        CreateButton(1, "Details", RightButtonContent);
+        CreateButton(2, "Level", RightButtonContent);
+        CreateButton(3, "Upgrade", RightButtonContent);
+
+        AssignButtonEvent("Button_1", RightButtonContent, () =>
+        {
+            GetDetails(forge);
+            OnButtonClicked("Button_1");
+        });
+        AssignButtonEvent("Button_2", RightButtonContent, () =>
+        {
+            GetLevel(forge);
+            OnButtonClicked("Button_2");
+        });
+        AssignButtonEvent("Button_4", RightButtonContent, () =>
+        {
+            GetUpgrade(forge);
+            OnButtonClicked("Button_4");
+        });
+
+        GetDetails(forge);
+        OnButtonClicked("Button_1");
+    }
+    public void ShowCardLifeDetails(CardLife cardLife)
+    {
+        CreateButton(1, "Details", RightButtonContent);
+        CreateButton(2, "Level", RightButtonContent);
+        CreateButton(3, "Upgrade", RightButtonContent);
+
+        AssignButtonEvent("Button_1", RightButtonContent, () =>
+        {
+            GetDetails(cardLife);
+            OnButtonClicked("Button_1");
+        });
+        AssignButtonEvent("Button_2", RightButtonContent, () =>
+        {
+            GetLevel(cardLife);
+            OnButtonClicked("Button_2");
+        });
+        AssignButtonEvent("Button_4", RightButtonContent, () =>
+        {
+            GetUpgrade(cardLife);
+            OnButtonClicked("Button_4");
+        });
+
+        GetDetails(cardLife);
         OnButtonClicked("Button_1");
     }
     public void Close(Transform content)
@@ -1889,6 +2089,171 @@ public class MainMenuDetailsManager : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+        else if (obj is Talisman talisman)
+        {
+            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = talisman.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            ChangeSizeImage(Image, texture);
+
+            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            name.text = talisman.name;
+
+            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            power.text = talisman.power.ToString();
+
+            // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+            // level.text = cardHeroes.level.ToString();
+
+            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+            rareImage.texture = rareTexture;
+
+            // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+            // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+            PropertyInfo[] properties = talisman.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(talisman, null);
+                CreatePropertyUI(0, property, value);
+            }
+        }
+        else if (obj is Puppet puppet)
+        {
+            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = puppet.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            ChangeSizeImage(Image, texture);
+
+            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            name.text = puppet.name;
+
+            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            power.text = puppet.power.ToString();
+
+            // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+            // level.text = cardHeroes.level.ToString();
+
+            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
+            rareImage.texture = rareTexture;
+
+            // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+            // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+            PropertyInfo[] properties = puppet.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(puppet, null);
+                CreatePropertyUI(0, property, value);
+            }
+        }
+        else if (obj is Alchemy alchemy)
+        {
+            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = alchemy.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            ChangeSizeImage(Image, texture);
+
+            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            name.text = alchemy.name;
+
+            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            power.text = alchemy.power.ToString();
+
+            // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+            // level.text = cardHeroes.level.ToString();
+
+            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");
+            rareImage.texture = rareTexture;
+
+            // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+            // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+            PropertyInfo[] properties = alchemy.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(alchemy, null);
+                CreatePropertyUI(0, property, value);
+            }
+        }
+        else if (obj is Forge forge)
+        {
+            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = forge.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            ChangeSizeImage(Image, texture);
+
+            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            name.text = forge.name;
+
+            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            power.text = forge.power.ToString();
+
+            // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+            // level.text = cardHeroes.level.ToString();
+
+            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
+            rareImage.texture = rareTexture;
+
+            // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+            // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+            PropertyInfo[] properties = forge.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(forge, null);
+                CreatePropertyUI(0, property, value);
+            }
+        }
+        else if (obj is CardLife cardLife)
+        {
+            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = cardLife.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            ChangeSizeImage(Image, texture);
+
+            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            name.text = cardLife.name;
+
+            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            power.text = cardLife.power.ToString();
+
+            // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+            // level.text = cardHeroes.level.ToString();
+
+            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardLife.rare}");
+            rareImage.texture = rareTexture;
+
+            // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+            // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+            PropertyInfo[] properties = cardLife.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(cardLife, null);
+                CreatePropertyUI(0, property, value);
             }
         }
     }
@@ -3396,6 +3761,376 @@ public class MainMenuDetailsManager : MonoBehaviour
                     double currentPower = teams.GetTeamsPower();
                     Achievements newCard = achievements.GetNewLevelPower(achievements, levelsGained * increasePerLevel);
                     achievements.UpdateAchievementLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+        }
+        else if (obj is Talisman talisman)
+        {
+            PropertyInfo[] properties = talisman.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(talisman, null);
+                CreatePropertyLevelUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForLevel(mainType);
+            CreateMaterialUI(items);
+
+            up1LevelButton.onClick.RemoveAllListeners();
+            upMaxLevelButton.onClick.RemoveAllListeners();
+            up1LevelButton.onClick.AddListener(() =>
+            {
+                Talisman currentCard = new Talisman();
+                currentCard = talisman.GetUserTalismanById(talisman.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel;
+                int maxLevel = 100000;
+                bool canLevel = UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    Talisman newCard = new Talisman();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newCard = talisman.GetNewLevelPower(talisman, increasePerLevel);
+                    talisman.UpdateTalismanLevel(newCard, currentLevel + 1);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+            upMaxLevelButton.onClick.AddListener(() =>
+            {
+                Talisman currentCard = talisman.GetUserTalismanById(talisman.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int originalLevel = currentLevel;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
+                int maxLevel = 100000; // Điều kiện 3: Không vượt quá 100000
+
+                bool canLevel = UpMaxLevelCondition(items, ref currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    // Tính số cấp đã tăng
+                    int levelsGained = currentLevel - originalLevel;
+
+                    // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    Talisman newCard = talisman.GetNewLevelPower(talisman, levelsGained * increasePerLevel);
+                    talisman.UpdateTalismanLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+        }
+        else if (obj is Puppet puppet)
+        {
+            PropertyInfo[] properties = puppet.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(puppet, null);
+                CreatePropertyLevelUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForLevel(mainType);
+            CreateMaterialUI(items);
+
+            up1LevelButton.onClick.RemoveAllListeners();
+            upMaxLevelButton.onClick.RemoveAllListeners();
+            up1LevelButton.onClick.AddListener(() =>
+            {
+                Puppet currentCard = new Puppet();
+                currentCard = puppet.GetUserPuppetById(puppet.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel;
+                int maxLevel = 100000;
+                bool canLevel = UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    Puppet newCard = new Puppet();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newCard = puppet.GetNewLevelPower(puppet, increasePerLevel);
+                    puppet.UpdatePuppetLevel(newCard, currentLevel + 1);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+            upMaxLevelButton.onClick.AddListener(() =>
+            {
+                Puppet currentCard = puppet.GetUserPuppetById(puppet.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int originalLevel = currentLevel;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
+                int maxLevel = 100000; // Điều kiện 3: Không vượt quá 100000
+
+                bool canLevel = UpMaxLevelCondition(items, ref currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    // Tính số cấp đã tăng
+                    int levelsGained = currentLevel - originalLevel;
+
+                    // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    Puppet newCard = puppet.GetNewLevelPower(puppet, levelsGained * increasePerLevel);
+                    puppet.UpdatePuppetLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+        }
+        else if (obj is Alchemy alchemy)
+        {
+            PropertyInfo[] properties = alchemy.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(alchemy, null);
+                CreatePropertyLevelUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForLevel(mainType);
+            CreateMaterialUI(items);
+
+            up1LevelButton.onClick.RemoveAllListeners();
+            upMaxLevelButton.onClick.RemoveAllListeners();
+            up1LevelButton.onClick.AddListener(() =>
+            {
+                Alchemy currentCard = new Alchemy();
+                currentCard = alchemy.GetUserAlchemyById(alchemy.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel;
+                int maxLevel = 100000;
+                bool canLevel = UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    Alchemy newCard = new Alchemy();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newCard = alchemy.GetNewLevelPower(alchemy, increasePerLevel);
+                    alchemy.UpdateAlchemyLevel(newCard, currentLevel + 1);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+            upMaxLevelButton.onClick.AddListener(() =>
+            {
+                Alchemy currentCard = alchemy.GetUserAlchemyById(alchemy.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int originalLevel = currentLevel;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
+                int maxLevel = 100000; // Điều kiện 3: Không vượt quá 100000
+
+                bool canLevel = UpMaxLevelCondition(items, ref currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    // Tính số cấp đã tăng
+                    int levelsGained = currentLevel - originalLevel;
+
+                    // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    Alchemy newCard = alchemy.GetNewLevelPower(alchemy, levelsGained * increasePerLevel);
+                    alchemy.UpdateAlchemyLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+        }
+        else if (obj is Forge forge)
+        {
+            PropertyInfo[] properties = forge.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(forge, null);
+                CreatePropertyLevelUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForLevel(mainType);
+            CreateMaterialUI(items);
+
+            up1LevelButton.onClick.RemoveAllListeners();
+            upMaxLevelButton.onClick.RemoveAllListeners();
+            up1LevelButton.onClick.AddListener(() =>
+            {
+                Forge currentCard = new Forge();
+                currentCard = forge.GetUserForgeById(forge.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel;
+                int maxLevel = 100000;
+                bool canLevel = UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    Forge newCard = new Forge();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newCard = forge.GetNewLevelPower(forge, increasePerLevel);
+                    forge.UpdateForgeLevel(newCard, currentLevel + 1);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+            upMaxLevelButton.onClick.AddListener(() =>
+            {
+                Forge currentCard = forge.GetUserForgeById(forge.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int originalLevel = currentLevel;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
+                int maxLevel = 100000; // Điều kiện 3: Không vượt quá 100000
+
+                bool canLevel = UpMaxLevelCondition(items, ref currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    // Tính số cấp đã tăng
+                    int levelsGained = currentLevel - originalLevel;
+
+                    // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    Forge newCard = forge.GetNewLevelPower(forge, levelsGained * increasePerLevel);
+                    forge.UpdateForgeLevel(newCard, currentLevel);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+        }
+        else if (obj is CardLife cardLife)
+        {
+            PropertyInfo[] properties = cardLife.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(cardLife, null);
+                CreatePropertyLevelUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForLevel(mainType);
+            CreateMaterialUI(items);
+
+            up1LevelButton.onClick.RemoveAllListeners();
+            upMaxLevelButton.onClick.RemoveAllListeners();
+            up1LevelButton.onClick.AddListener(() =>
+            {
+                CardLife currentCard = new CardLife();
+                currentCard = cardLife.GetUserCardLifeById(cardLife.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel;
+                int maxLevel = 100000;
+                bool canLevel = UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    CardLife newCard = new CardLife();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newCard = cardLife.GetNewLevelPower(cardLife, increasePerLevel);
+                    cardLife.UpdateCardLifeLevel(newCard, currentLevel + 1);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    Close(LevelElementContent);
+                    Close(LevelMaterialContent);
+                    GetLevel(obj);
+                    CreateLevelUI(currentLevel);
+                }
+            });
+            upMaxLevelButton.onClick.AddListener(() =>
+            {
+                CardLife currentCard = cardLife.GetUserCardLifeById(cardLife.id);
+                int totalExperiment = currentCard.experiment;
+                int currentLevel = currentCard.level;
+                int originalLevel = currentLevel;
+                int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
+                int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
+                int maxLevel = 100000; // Điều kiện 3: Không vượt quá 100000
+
+                bool canLevel = UpMaxLevelCondition(items, ref currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
+                if (canLevel)
+                {
+                    // Tính số cấp đã tăng
+                    int levelsGained = currentLevel - originalLevel;
+
+                    // Cập nhật cấp độ và trạng thái của thẻ bài
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    CardLife newCard = cardLife.GetNewLevelPower(cardLife, levelsGained * increasePerLevel);
+                    cardLife.UpdateCardLifeLevel(newCard, currentLevel);
                     double newPower = teams.GetTeamsPower();
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -5661,6 +6396,541 @@ public class MainMenuDetailsManager : MonoBehaviour
                 else
                 {
                     Debug.Log("❌ Không đủ tài nguyên để nâng cấp thành tích!");
+                }
+            });
+        }
+        else if (obj is Talisman talisman)
+        {
+            PropertyInfo[] properties = talisman.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(talisman, null);
+                CreatePropertyUpgradeUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForBreakthourgh(mainType);
+            string fileNameWithoutExtension = "";
+            foreach (Items items1 in items)
+            {
+                GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                eImage.texture = itemTexture;
+
+                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                eQuantity.text = items1.quantity.ToString() + "/" + (talisman.star + 1).ToString();
+            }
+            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = talisman.image.Replace(".png", "");
+            Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            magicFormationImage.texture = magicFormationTexture;
+
+            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            magicFormationQuantity.text = talisman.quantity.ToString() + "/" + (talisman.star + 1).ToString();
+
+            CreateStarUI(talisman.star);
+            breakthroughButton.onClick.RemoveAllListeners();
+            breakthroughButton.onClick.AddListener(() =>
+            {
+                int requiredQuantity = talisman.star + 1;
+                int totalItemQuantity = 0;
+
+                // Kiểm tra số lượng vòng phép
+                bool hasEnoughMagicFormation = talisman.quantity >= requiredQuantity;
+
+                // Kiểm tra tổng số lượng vật phẩm
+                foreach (Items items1 in items)
+                {
+                    totalItemQuantity += items1.quantity;
+                }
+                bool hasEnoughItems = totalItemQuantity + talisman.quantity >= requiredQuantity;
+
+                if (hasEnoughMagicFormation || hasEnoughItems)
+                {
+                    // Giảm số lượng vòng phép trước
+                    if (talisman.quantity >= requiredQuantity)
+                    {
+                        talisman.quantity -= requiredQuantity;
+                    }
+                    else
+                    {
+                        // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
+                        int remainingRequired = requiredQuantity - talisman.quantity;
+                        talisman.quantity = 0; // Dùng hết vòng phép
+
+                        foreach (Items items1 in items)
+                        {
+                            if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
+
+                            if (items1.quantity >= remainingRequired)
+                            {
+                                items1.quantity -= remainingRequired;
+                                remainingRequired = 0;
+                            }
+                            else
+                            {
+                                remainingRequired -= items1.quantity;
+                                items1.quantity = 0; // Dùng hết vật phẩm này
+                            }
+                        }
+                    }
+
+                    foreach (Items items1 in items)
+                    {
+                        items1.UpdateUserItemsQuantity(items1);
+                    }
+                    // Cập nhật cấp sao (Star)
+                    Talisman newtalisman = new Talisman();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newtalisman = talisman.GetNewBreakthroughPower(talisman, increasePerUpgrade);
+                    talisman.UpdateTalismanBreakthrough(newtalisman, talisman.star + 1, talisman.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(UpgradeElementContent);
+                    Close(UpgradeMaterialContent);
+                    GetUpgrade(obj);
+                    CreateStarUI(talisman.star);
+                }
+                else
+                {
+                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp vòng phép!");
+                }
+            });
+        }
+        else if (obj is Puppet puppet)
+        {
+            PropertyInfo[] properties = puppet.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(puppet, null);
+                CreatePropertyUpgradeUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForBreakthourgh(mainType);
+            string fileNameWithoutExtension = "";
+            foreach (Items items1 in items)
+            {
+                GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                eImage.texture = itemTexture;
+
+                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                eQuantity.text = items1.quantity.ToString() + "/" + (puppet.star + 1).ToString();
+            }
+            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = puppet.image.Replace(".png", "");
+            Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            magicFormationImage.texture = magicFormationTexture;
+
+            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            magicFormationQuantity.text = puppet.quantity.ToString() + "/" + (puppet.star + 1).ToString();
+
+            CreateStarUI(puppet.star);
+            breakthroughButton.onClick.RemoveAllListeners();
+            breakthroughButton.onClick.AddListener(() =>
+            {
+                int requiredQuantity = puppet.star + 1;
+                int totalItemQuantity = 0;
+
+                // Kiểm tra số lượng vòng phép
+                bool hasEnoughMagicFormation = puppet.quantity >= requiredQuantity;
+
+                // Kiểm tra tổng số lượng vật phẩm
+                foreach (Items items1 in items)
+                {
+                    totalItemQuantity += items1.quantity;
+                }
+                bool hasEnoughItems = totalItemQuantity + puppet.quantity >= requiredQuantity;
+
+                if (hasEnoughMagicFormation || hasEnoughItems)
+                {
+                    // Giảm số lượng vòng phép trước
+                    if (puppet.quantity >= requiredQuantity)
+                    {
+                        puppet.quantity -= requiredQuantity;
+                    }
+                    else
+                    {
+                        // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
+                        int remainingRequired = requiredQuantity - puppet.quantity;
+                        puppet.quantity = 0; // Dùng hết vòng phép
+
+                        foreach (Items items1 in items)
+                        {
+                            if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
+
+                            if (items1.quantity >= remainingRequired)
+                            {
+                                items1.quantity -= remainingRequired;
+                                remainingRequired = 0;
+                            }
+                            else
+                            {
+                                remainingRequired -= items1.quantity;
+                                items1.quantity = 0; // Dùng hết vật phẩm này
+                            }
+                        }
+                    }
+
+                    foreach (Items items1 in items)
+                    {
+                        items1.UpdateUserItemsQuantity(items1);
+                    }
+                    // Cập nhật cấp sao (Star)
+                    Puppet newpuppet = new Puppet();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newpuppet = puppet.GetNewBreakthroughPower(puppet, increasePerUpgrade);
+                    puppet.UpdatePuppetBreakthrough(newpuppet, puppet.star + 1, puppet.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(UpgradeElementContent);
+                    Close(UpgradeMaterialContent);
+                    GetUpgrade(obj);
+                    CreateStarUI(puppet.star);
+                }
+                else
+                {
+                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp vòng phép!");
+                }
+            });
+        }
+        else if (obj is Alchemy alchemy)
+        {
+            PropertyInfo[] properties = alchemy.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(alchemy, null);
+                CreatePropertyUpgradeUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForBreakthourgh(mainType);
+            string fileNameWithoutExtension = "";
+            foreach (Items items1 in items)
+            {
+                GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                eImage.texture = itemTexture;
+
+                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                eQuantity.text = items1.quantity.ToString() + "/" + (alchemy.star + 1).ToString();
+            }
+            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = alchemy.image.Replace(".png", "");
+            Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            magicFormationImage.texture = magicFormationTexture;
+
+            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            magicFormationQuantity.text = alchemy.quantity.ToString() + "/" + (alchemy.star + 1).ToString();
+
+            CreateStarUI(alchemy.star);
+            breakthroughButton.onClick.RemoveAllListeners();
+            breakthroughButton.onClick.AddListener(() =>
+            {
+                int requiredQuantity = alchemy.star + 1;
+                int totalItemQuantity = 0;
+
+                // Kiểm tra số lượng vòng phép
+                bool hasEnoughMagicFormation = alchemy.quantity >= requiredQuantity;
+
+                // Kiểm tra tổng số lượng vật phẩm
+                foreach (Items items1 in items)
+                {
+                    totalItemQuantity += items1.quantity;
+                }
+                bool hasEnoughItems = totalItemQuantity + alchemy.quantity >= requiredQuantity;
+
+                if (hasEnoughMagicFormation || hasEnoughItems)
+                {
+                    // Giảm số lượng vòng phép trước
+                    if (alchemy.quantity >= requiredQuantity)
+                    {
+                        alchemy.quantity -= requiredQuantity;
+                    }
+                    else
+                    {
+                        // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
+                        int remainingRequired = requiredQuantity - alchemy.quantity;
+                        alchemy.quantity = 0; // Dùng hết vòng phép
+
+                        foreach (Items items1 in items)
+                        {
+                            if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
+
+                            if (items1.quantity >= remainingRequired)
+                            {
+                                items1.quantity -= remainingRequired;
+                                remainingRequired = 0;
+                            }
+                            else
+                            {
+                                remainingRequired -= items1.quantity;
+                                items1.quantity = 0; // Dùng hết vật phẩm này
+                            }
+                        }
+                    }
+
+                    foreach (Items items1 in items)
+                    {
+                        items1.UpdateUserItemsQuantity(items1);
+                    }
+                    // Cập nhật cấp sao (Star)
+                    Alchemy newalchemy = new Alchemy();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newalchemy = alchemy.GetNewBreakthroughPower(alchemy, increasePerUpgrade);
+                    alchemy.UpdateAlchemyBreakthrough(newalchemy, alchemy.star + 1, alchemy.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(UpgradeElementContent);
+                    Close(UpgradeMaterialContent);
+                    GetUpgrade(obj);
+                    CreateStarUI(alchemy.star);
+                }
+                else
+                {
+                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp vòng phép!");
+                }
+            });
+        }
+        else if (obj is Forge forge)
+        {
+            PropertyInfo[] properties = forge.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(forge, null);
+                CreatePropertyUpgradeUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForBreakthourgh(mainType);
+            string fileNameWithoutExtension = "";
+            foreach (Items items1 in items)
+            {
+                GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                eImage.texture = itemTexture;
+
+                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                eQuantity.text = items1.quantity.ToString() + "/" + (forge.star + 1).ToString();
+            }
+            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = forge.image.Replace(".png", "");
+            Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            magicFormationImage.texture = magicFormationTexture;
+
+            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            magicFormationQuantity.text = forge.quantity.ToString() + "/" + (forge.star + 1).ToString();
+
+            CreateStarUI(forge.star);
+            breakthroughButton.onClick.RemoveAllListeners();
+            breakthroughButton.onClick.AddListener(() =>
+            {
+                int requiredQuantity = forge.star + 1;
+                int totalItemQuantity = 0;
+
+                // Kiểm tra số lượng vòng phép
+                bool hasEnoughMagicFormation = forge.quantity >= requiredQuantity;
+
+                // Kiểm tra tổng số lượng vật phẩm
+                foreach (Items items1 in items)
+                {
+                    totalItemQuantity += items1.quantity;
+                }
+                bool hasEnoughItems = totalItemQuantity + forge.quantity >= requiredQuantity;
+
+                if (hasEnoughMagicFormation || hasEnoughItems)
+                {
+                    // Giảm số lượng vòng phép trước
+                    if (forge.quantity >= requiredQuantity)
+                    {
+                        forge.quantity -= requiredQuantity;
+                    }
+                    else
+                    {
+                        // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
+                        int remainingRequired = requiredQuantity - forge.quantity;
+                        forge.quantity = 0; // Dùng hết vòng phép
+
+                        foreach (Items items1 in items)
+                        {
+                            if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
+
+                            if (items1.quantity >= remainingRequired)
+                            {
+                                items1.quantity -= remainingRequired;
+                                remainingRequired = 0;
+                            }
+                            else
+                            {
+                                remainingRequired -= items1.quantity;
+                                items1.quantity = 0; // Dùng hết vật phẩm này
+                            }
+                        }
+                    }
+
+                    foreach (Items items1 in items)
+                    {
+                        items1.UpdateUserItemsQuantity(items1);
+                    }
+                    // Cập nhật cấp sao (Star)
+                    Forge newforge = new Forge();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newforge = forge.GetNewBreakthroughPower(forge, increasePerUpgrade);
+                    forge.UpdateForgeBreakthrough(newforge, forge.star + 1, forge.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(UpgradeElementContent);
+                    Close(UpgradeMaterialContent);
+                    GetUpgrade(obj);
+                    CreateStarUI(forge.star);
+                }
+                else
+                {
+                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp vòng phép!");
+                }
+            });
+        }
+        else if (obj is CardLife cardLife)
+        {
+            PropertyInfo[] properties = cardLife.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                // Lấy giá trị của thuộc tính
+                object value = property.GetValue(cardLife, null);
+                CreatePropertyUpgradeUI(property, value);
+            }
+            Items item = new Items();
+            List<Items> items = new List<Items>();
+            items = item.GetItemForBreakthourgh(mainType);
+            string fileNameWithoutExtension = "";
+            foreach (Items items1 in items)
+            {
+                GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                eImage.texture = itemTexture;
+
+                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                eQuantity.text = items1.quantity.ToString() + "/" + (cardLife.star + 1).ToString();
+            }
+            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+
+            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = cardLife.image.Replace(".png", "");
+            Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            magicFormationImage.texture = magicFormationTexture;
+
+            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            magicFormationQuantity.text = cardLife.quantity.ToString() + "/" + (cardLife.star + 1).ToString();
+
+            CreateStarUI(cardLife.star);
+            breakthroughButton.onClick.RemoveAllListeners();
+            breakthroughButton.onClick.AddListener(() =>
+            {
+                int requiredQuantity = cardLife.star + 1;
+                int totalItemQuantity = 0;
+
+                // Kiểm tra số lượng vòng phép
+                bool hasEnoughMagicFormation = cardLife.quantity >= requiredQuantity;
+
+                // Kiểm tra tổng số lượng vật phẩm
+                foreach (Items items1 in items)
+                {
+                    totalItemQuantity += items1.quantity;
+                }
+                bool hasEnoughItems = totalItemQuantity + cardLife.quantity >= requiredQuantity;
+
+                if (hasEnoughMagicFormation || hasEnoughItems)
+                {
+                    // Giảm số lượng vòng phép trước
+                    if (cardLife.quantity >= requiredQuantity)
+                    {
+                        cardLife.quantity -= requiredQuantity;
+                    }
+                    else
+                    {
+                        // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
+                        int remainingRequired = requiredQuantity - cardLife.quantity;
+                        cardLife.quantity = 0; // Dùng hết vòng phép
+
+                        foreach (Items items1 in items)
+                        {
+                            if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
+
+                            if (items1.quantity >= remainingRequired)
+                            {
+                                items1.quantity -= remainingRequired;
+                                remainingRequired = 0;
+                            }
+                            else
+                            {
+                                remainingRequired -= items1.quantity;
+                                items1.quantity = 0; // Dùng hết vật phẩm này
+                            }
+                        }
+                    }
+
+                    foreach (Items items1 in items)
+                    {
+                        items1.UpdateUserItemsQuantity(items1);
+                    }
+                    // Cập nhật cấp sao (Star)
+                    CardLife newCardLife = new CardLife();
+                    Teams teams = new Teams();
+                    double currentPower = teams.GetTeamsPower();
+                    newCardLife = cardLife.GetNewBreakthroughPower(cardLife, increasePerUpgrade);
+                    cardLife.UpdateCardLifeBreakthrough(newCardLife, cardLife.star + 1, cardLife.quantity);
+                    double newPower = teams.GetTeamsPower();
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    // Cập nhật giao diện
+                    Close(UpgradeElementContent);
+                    Close(UpgradeMaterialContent);
+                    GetUpgrade(obj);
+                    CreateStarUI(cardLife.star);
+                }
+                else
+                {
+                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp vòng phép!");
                 }
             });
         }

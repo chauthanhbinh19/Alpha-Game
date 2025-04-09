@@ -73,6 +73,7 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_22", () => GetType("Puppet"));
         AssignButtonEvent("Button_23", () => GetType("Alchemy"));
         AssignButtonEvent("Button_24", () => GetType("Forge"));
+        AssignButtonEvent("Button_25", () => GetType("CardLife"));
 
         // GetCardsType();
     }
@@ -164,6 +165,26 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals("CardAdmirals"))
         {
             return CardAdmirals.GetUniqueCardAdmiralsTypes();
+        }
+        else if (mainType.Equals("Talisman"))
+        {
+            return Talisman.GetUniqueTalismanTypes();
+        }
+        else if (mainType.Equals("Puppet"))
+        {
+            return Puppet.GetUniquePuppetTypes();
+        }
+        else if (mainType.Equals("Alchemy"))
+        {
+            return Alchemy.GetUniqueAlchemyTypes();
+        }
+        else if (mainType.Equals("Forge"))
+        {
+            return Forge.GetUniqueForgeTypes();
+        }
+        else if (mainType.Equals("CardLife"))
+        {
+            return CardLife.GetUniqueCardLifeTypes();
         }
         return new List<string>();
     }
@@ -360,6 +381,14 @@ public class CollectionManager : MonoBehaviour
                         createForge(forges);
 
                         totalRecord = forgeManager.GetForgeCount(subType);
+                    }
+                    else if (mainType.Equals("CardLife"))
+                    {
+                        CardLife cardLifeManager = new CardLife();
+                        List<CardLife> cardLives = cardLifeManager.GetCardLifeCollection(subType, pageSize, offset);
+                        createCardLife(cardLives);
+
+                        totalRecord = cardLifeManager.GetCardLifeCount(subType);
                     }
 
                     totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -591,6 +620,14 @@ public class CollectionManager : MonoBehaviour
             createForge(forges);
 
             totalRecord = forgeManager.GetForgeCount(type);
+        }
+        else if (mainType.Equals("CardLife"))
+        {
+            CardLife cardLifeManager = new CardLife();
+            List<CardLife> cardLives = cardLifeManager.GetCardLifeCollection(type, pageSize, offset);
+            createCardLife(cardLives);
+
+            totalRecord = cardLifeManager.GetCardLifeCount(type);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -1877,12 +1914,12 @@ public class CollectionManager : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = frameImage.gameObject.GetComponent<EventTrigger>();
+            // RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = frameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
@@ -2582,6 +2619,84 @@ public class CollectionManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(200, 250);
         }
     }
+    private void createCardLife(List<CardLife> cards)
+    {
+        foreach (var card in cards)
+        {
+            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+
+            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = card.name.Replace("_", " ");
+
+            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = card.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            // Lấy EventTrigger của RawImage
+            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(card, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
+            rareImage.texture = rareTexture;
+
+            RawImage blockImage = cardObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = cardObject.transform.Find("Unlock").GetComponent<Button>();
+            if (card.status.Equals("available"))
+            {
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+            }
+            else if (card.status.Equals("pending"))
+            {
+                blockImage.gameObject.SetActive(true);
+                Unlock.gameObject.SetActive(true);
+            }
+            else if (card.status.Equals("block"))
+            {
+                blockImage.gameObject.SetActive(true);
+                Unlock.gameObject.SetActive(false);
+            }
+
+            Unlock.onClick.AddListener(() =>
+            {
+                card.UpdateStatusCardLifeGallery(card.id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                Image.color = Color.white;
+
+                PowerManager powerManager = new PowerManager();
+                Teams teams = new Teams();
+                double currentPower = teams.GetTeamsPower();
+                powerManager.UpdateUserStats();
+                double newPower = teams.GetTeamsPower();
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            });
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 250);
+        }
+    }
     public void ClearAllPrefabs()
     {
         // Duyệt qua tất cả các con cái của cardsContent
@@ -2850,6 +2965,16 @@ public class CollectionManager : MonoBehaviour
                 List<Forge> forges = forgeManager.GetForgeCollection(subType, pageSize, offset);
                 createForge(forges);
             }
+            else if (mainType.Equals("CardLife"))
+            {
+                CardLife cardLifeManager = new CardLife();
+                totalRecord = cardLifeManager.GetCardLifeCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<CardLife> cardLives = cardLifeManager.GetCardLifeCollection(subType, pageSize, offset);
+                createCardLife(cardLives);
+            }
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }
@@ -3100,6 +3225,16 @@ public class CollectionManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<Forge> forges = forgeManager.GetForgeCollection(subType, pageSize, offset);
                 createForge(forges);
+            }
+            else if (mainType.Equals("CardLife"))
+            {
+                CardLife cardLifeManager = new CardLife();
+                totalRecord = cardLifeManager.GetCardLifeCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<CardLife> cardLives = cardLifeManager.GetCardLifeCollection(subType, pageSize, offset);
+                createCardLife(cardLives);
             }
 
 

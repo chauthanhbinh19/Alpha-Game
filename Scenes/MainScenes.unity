@@ -1058,6 +1058,8 @@ GameObject:
   - component: {fileID: 474294472}
   - component: {fileID: 474294471}
   - component: {fileID: 474294470}
+  - component: {fileID: 474294475}
+  - component: {fileID: 474294474}
   m_Layer: 5
   m_Name: PowerManager
   m_TagString: Untagged
@@ -1263,6 +1265,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f733fef9414d99440be55ced6c7c7fec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad41626c03a0a4e469e665d985c0d555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdc7340dfb3129b43939fac1b842aa50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &490600150
@@ -3601,6 +3627,8 @@ MonoBehaviour:
   MainMenuOmnipresencePanelPrefab: {fileID: 5745659240395072349, guid: 847357ddc87fe354f8bd8f8e4665bc93, type: 3}
   MainMenuOmnivoryPanelPrefab: {fileID: 5745659240395072349, guid: 2f08a0fe0c0898e4cb38594426ea1d0b, type: 3}
   MainMenuOmnisciencePanelPrefab: {fileID: 5745659240395072349, guid: c005dfaafd3298d4b922718c2e881c09, type: 3}
+  MainMenuAngelPanelPrefab: {fileID: 5745659240395072349, guid: 8f9a968b4b3cf1643a8e81d2cf2f8919, type: 3}
+  MainMenuDemonPanelPrefab: {fileID: 5745659240395072349, guid: d787f6f76d3b7c244a50a013cbfb57af, type: 3}
   ArenaPanelPrefab: {fileID: 5745659240395072349, guid: e9ab7e79e6530e94495415ddbf8649a5, type: 3}
   PopupEquipmentsPanelPrefab: {fileID: 3471210453278062185, guid: eff0224ae52dc2e418e8edf4afa1608b, type: 3}
   PopupMenuPanelPrefab: {fileID: 4587689403310504946, guid: 5d2740ef93e7ba94bba771749d9f84b9, type: 3}
@@ -3626,6 +3654,8 @@ MonoBehaviour:
   OmnipresenceSlotPrefab: {fileID: 5745659240395072349, guid: 1e42b4735249cda4f9db37bc38782e22, type: 3}
   OmnivorySlotPrefab: {fileID: 5745659240395072349, guid: 410f0929842bba947a894fb6a330ed3b, type: 3}
   OmniscienceSlotPrefab: {fileID: 5745659240395072349, guid: f719e7123631e24448aa4656a98dcd01, type: 3}
+  AngelSlotPrefab: {fileID: 5745659240395072349, guid: 72b8d17109a8d104ea6ef9e44c8003f9, type: 3}
+  DemonSlotPrefab: {fileID: 5745659240395072349, guid: d24dad839630c40409f27aa471e672e3, type: 3}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0

@@ -271,6 +271,7 @@ public class Titles
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -375,6 +376,7 @@ public class Titles
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -443,7 +445,7 @@ public class Titles
             try
             {
                 connection.Open();
-                string query = @"Select * from Titles t, user_titles ut where t.id=ut.title_id and ut.user_id=@userId 
+                string query = @"Select ut.*, t.id, t.name, t.image, t.rare from Titles t, user_titles ut where t.id=ut.title_id and ut.user_id=@userId 
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -458,6 +460,7 @@ public class Titles
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         experiment = reader.GetInt32("experiment"),

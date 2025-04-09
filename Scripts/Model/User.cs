@@ -84,12 +84,11 @@ public class User
                     borders.InsertUserBordersById(359);
                     borders.InsertBordersGallery(359);
                     borders = borders.GetBordersByUsed();
-                    borders.UpdateIsUsedBorders(borders.id, true);
+                    borders.UpdateIsUsedBorders(359, true);
                     Avatars avatar = new Avatars();
                     avatar.InsertUserAvatarsById(1);
                     avatar.InsertAvatarsGallery(1);
-                    avatar = avatar.GetAvatarsByUsed();
-                    avatar.UpdateIsUsedAvatars(avatar.id, true);
+                    avatar.UpdateIsUsedAvatars(1, true);
                     PowerManager powerManager = new PowerManager();
                     powerManager.InsertUserStats();
                     Teams team= new Teams();

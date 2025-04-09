@@ -124,6 +124,11 @@ public class PowerManager
         GetSymbolsPower();
         GetPetsPower();
         GetTitlesPower();
+        GetTalismanPower();
+        GetPuppetPower();
+        GetAlchemyPower();
+        GetForgePower();
+        GetCardLifePower();
     }
     public static double CalculatePower(
     double health, double physicalAttack, double physicalDefense, double magicalAttack, double magicalDefense,
@@ -679,7 +684,7 @@ public class PowerManager
         percent_all_mental_attack = percent_all_mental_attack + avatars.percent_all_mental_attack;
         percent_all_mental_defense = percent_all_mental_defense + avatars.percent_all_mental_defense;
 
-        //Gallery
+        //User
         avatars = avatars.SumPowerUserAvatars();
         power = power + avatars.power;
         health = health + avatars.health;
@@ -1412,6 +1417,41 @@ public class PowerManager
         percent_all_mental_attack = percent_all_mental_attack + magicFormationCircle.percent_all_mental_attack;
         percent_all_mental_defense = percent_all_mental_defense + magicFormationCircle.percent_all_mental_defense;
 
+        //User
+        magicFormationCircle = magicFormationCircle.SumPowerUserMagicFormationCircle();
+        power = power + magicFormationCircle.power;
+        health = health + magicFormationCircle.health;
+        physical_attack = physical_attack + magicFormationCircle.physical_attack;
+        physical_defense = physical_defense + magicFormationCircle.physical_defense;
+        magical_attack = magical_attack + magicFormationCircle.magical_attack;
+        magical_defense = magical_defense + magicFormationCircle.magical_defense;
+        chemical_attack = chemical_attack + magicFormationCircle.chemical_attack;
+        chemical_defense = chemical_defense + magicFormationCircle.chemical_defense;
+        atomic_attack = atomic_attack + magicFormationCircle.atomic_attack;
+        atomic_defense = atomic_defense + magicFormationCircle.atomic_defense;
+        mental_attack = mental_attack + magicFormationCircle.mental_attack;
+        mental_defense = mental_defense + magicFormationCircle.mental_defense;
+        speed = speed + magicFormationCircle.speed;
+        critical_damage_rate = critical_damage_rate + magicFormationCircle.critical_damage_rate;
+        critical_rate = critical_rate + magicFormationCircle.critical_rate;
+        penetration_rate = penetration_rate + magicFormationCircle.penetration_rate;
+        evasion_rate = evasion_rate + magicFormationCircle.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + magicFormationCircle.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + magicFormationCircle.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + magicFormationCircle.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + magicFormationCircle.lifesteal_rate;
+        shield_strength = shield_strength + magicFormationCircle.shield_strength;
+        tenacity = tenacity + magicFormationCircle.tenacity;
+        resistance_rate = resistance_rate + magicFormationCircle.resistance_rate;
+        combo_rate = combo_rate + magicFormationCircle.combo_rate;
+        reflection_rate = reflection_rate + magicFormationCircle.reflection_rate;
+        mana = mana + magicFormationCircle.mana;
+        mana_regeneration_rate = mana_regeneration_rate + magicFormationCircle.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + magicFormationCircle.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + magicFormationCircle.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + magicFormationCircle.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + magicFormationCircle.resistance_to_same_faction_rate;
+
         //Percent
         magicFormationCircle = magicFormationCircle.SumPowerMagicFormationCirclePercent();
         percent_all_health = percent_all_health + magicFormationCircle.percent_all_health;
@@ -1475,6 +1515,41 @@ public class PowerManager
         percent_all_atomic_defense = percent_all_atomic_defense + relics.percent_all_atomic_defense;
         percent_all_mental_attack = percent_all_mental_attack + relics.percent_all_mental_attack;
         percent_all_mental_defense = percent_all_mental_defense + relics.percent_all_mental_defense;
+
+        //User
+        relics = relics.SumPowerUserRelics();
+        power = power + relics.power;
+        health = health + relics.health;
+        physical_attack = physical_attack + relics.physical_attack;
+        physical_defense = physical_defense + relics.physical_defense;
+        magical_attack = magical_attack + relics.magical_attack;
+        magical_defense = magical_defense + relics.magical_defense;
+        chemical_attack = chemical_attack + relics.chemical_attack;
+        chemical_defense = chemical_defense + relics.chemical_defense;
+        atomic_attack = atomic_attack + relics.atomic_attack;
+        atomic_defense = atomic_defense + relics.atomic_defense;
+        mental_attack = mental_attack + relics.mental_attack;
+        mental_defense = mental_defense + relics.mental_defense;
+        speed = speed + relics.speed;
+        critical_damage_rate = critical_damage_rate + relics.critical_damage_rate;
+        critical_rate = critical_rate + relics.critical_rate;
+        penetration_rate = penetration_rate + relics.penetration_rate;
+        evasion_rate = evasion_rate + relics.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + relics.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + relics.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + relics.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + relics.lifesteal_rate;
+        shield_strength = shield_strength + relics.shield_strength;
+        tenacity = tenacity + relics.tenacity;
+        resistance_rate = resistance_rate + relics.resistance_rate;
+        combo_rate = combo_rate + relics.combo_rate;
+        reflection_rate = reflection_rate + relics.reflection_rate;
+        mana = mana + relics.mana;
+        mana_regeneration_rate = mana_regeneration_rate + relics.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + relics.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + relics.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + relics.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + relics.resistance_to_same_faction_rate;
 
         //Percent
         relics = relics.SumPowerRelicsPercent();
@@ -1886,5 +1961,500 @@ public class PowerManager
         percent_all_atomic_defense = percent_all_atomic_defense + titles.percent_all_atomic_defense;
         percent_all_mental_attack = percent_all_mental_attack + titles.percent_all_mental_attack;
         percent_all_mental_defense = percent_all_mental_defense + titles.percent_all_mental_defense;
+    }
+    public void GetTalismanPower()
+    {
+        Talisman talisman = new Talisman();
+        //Gallery
+        talisman = talisman.SumPowerTalismanGallery();
+        power = power + talisman.power;
+        health = health + talisman.health;
+        physical_attack = physical_attack + talisman.physical_attack;
+        physical_defense = physical_defense + talisman.physical_defense;
+        magical_attack = magical_attack + talisman.magical_attack;
+        magical_defense = magical_defense + talisman.magical_defense;
+        chemical_attack = chemical_attack + talisman.chemical_attack;
+        chemical_defense = chemical_defense + talisman.chemical_defense;
+        atomic_attack = atomic_attack + talisman.atomic_attack;
+        atomic_defense = atomic_defense + talisman.atomic_defense;
+        mental_attack = mental_attack + talisman.mental_attack;
+        mental_defense = mental_defense + talisman.mental_defense;
+        speed = speed + talisman.speed;
+        critical_damage_rate = critical_damage_rate + talisman.critical_damage_rate;
+        critical_rate = critical_rate + talisman.critical_rate;
+        penetration_rate = penetration_rate + talisman.penetration_rate;
+        evasion_rate = evasion_rate + talisman.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + talisman.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + talisman.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + talisman.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + talisman.lifesteal_rate;
+        shield_strength = shield_strength + talisman.shield_strength;
+        tenacity = tenacity + talisman.tenacity;
+        resistance_rate = resistance_rate + talisman.resistance_rate;
+        combo_rate = combo_rate + talisman.combo_rate;
+        reflection_rate = reflection_rate + talisman.reflection_rate;
+        mana = mana + talisman.mana;
+        mana_regeneration_rate = mana_regeneration_rate + talisman.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + talisman.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + talisman.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + talisman.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + talisman.resistance_to_same_faction_rate;
+
+        percent_all_health = percent_all_health + talisman.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + talisman.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + talisman.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + talisman.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + talisman.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + talisman.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + talisman.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + talisman.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + talisman.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + talisman.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + talisman.percent_all_mental_defense;
+
+        //User
+        talisman = talisman.SumPowerUserTalisman();
+        power = power + talisman.power;
+        health = health + talisman.health;
+        physical_attack = physical_attack + talisman.physical_attack;
+        physical_defense = physical_defense + talisman.physical_defense;
+        magical_attack = magical_attack + talisman.magical_attack;
+        magical_defense = magical_defense + talisman.magical_defense;
+        chemical_attack = chemical_attack + talisman.chemical_attack;
+        chemical_defense = chemical_defense + talisman.chemical_defense;
+        atomic_attack = atomic_attack + talisman.atomic_attack;
+        atomic_defense = atomic_defense + talisman.atomic_defense;
+        mental_attack = mental_attack + talisman.mental_attack;
+        mental_defense = mental_defense + talisman.mental_defense;
+        speed = speed + talisman.speed;
+        critical_damage_rate = critical_damage_rate + talisman.critical_damage_rate;
+        critical_rate = critical_rate + talisman.critical_rate;
+        penetration_rate = penetration_rate + talisman.penetration_rate;
+        evasion_rate = evasion_rate + talisman.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + talisman.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + talisman.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + talisman.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + talisman.lifesteal_rate;
+        shield_strength = shield_strength + talisman.shield_strength;
+        tenacity = tenacity + talisman.tenacity;
+        resistance_rate = resistance_rate + talisman.resistance_rate;
+        combo_rate = combo_rate + talisman.combo_rate;
+        reflection_rate = reflection_rate + talisman.reflection_rate;
+        mana = mana + talisman.mana;
+        mana_regeneration_rate = mana_regeneration_rate + talisman.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + talisman.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + talisman.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + talisman.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + talisman.resistance_to_same_faction_rate;
+
+        //Percent
+        talisman = talisman.SumPowerTalismanPercent();
+        percent_all_health = percent_all_health + talisman.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + talisman.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + talisman.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + talisman.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + talisman.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + talisman.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + talisman.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + talisman.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + talisman.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + talisman.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + talisman.percent_all_mental_defense;
+    }
+    public void GetPuppetPower()
+    {
+        Puppet puppet = new Puppet();
+        //Gallery
+        puppet = puppet.SumPowerPuppetGallery();
+        power = power + puppet.power;
+        health = health + puppet.health;
+        physical_attack = physical_attack + puppet.physical_attack;
+        physical_defense = physical_defense + puppet.physical_defense;
+        magical_attack = magical_attack + puppet.magical_attack;
+        magical_defense = magical_defense + puppet.magical_defense;
+        chemical_attack = chemical_attack + puppet.chemical_attack;
+        chemical_defense = chemical_defense + puppet.chemical_defense;
+        atomic_attack = atomic_attack + puppet.atomic_attack;
+        atomic_defense = atomic_defense + puppet.atomic_defense;
+        mental_attack = mental_attack + puppet.mental_attack;
+        mental_defense = mental_defense + puppet.mental_defense;
+        speed = speed + puppet.speed;
+        critical_damage_rate = critical_damage_rate + puppet.critical_damage_rate;
+        critical_rate = critical_rate + puppet.critical_rate;
+        penetration_rate = penetration_rate + puppet.penetration_rate;
+        evasion_rate = evasion_rate + puppet.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + puppet.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + puppet.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + puppet.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + puppet.lifesteal_rate;
+        shield_strength = shield_strength + puppet.shield_strength;
+        tenacity = tenacity + puppet.tenacity;
+        resistance_rate = resistance_rate + puppet.resistance_rate;
+        combo_rate = combo_rate + puppet.combo_rate;
+        reflection_rate = reflection_rate + puppet.reflection_rate;
+        mana = mana + puppet.mana;
+        mana_regeneration_rate = mana_regeneration_rate + puppet.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + puppet.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + puppet.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + puppet.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + puppet.resistance_to_same_faction_rate;
+
+        percent_all_health = percent_all_health + puppet.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + puppet.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + puppet.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + puppet.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + puppet.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + puppet.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + puppet.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + puppet.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + puppet.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + puppet.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + puppet.percent_all_mental_defense;
+
+        //User
+        puppet = puppet.SumPowerUserPuppet();
+        power = power + puppet.power;
+        health = health + puppet.health;
+        physical_attack = physical_attack + puppet.physical_attack;
+        physical_defense = physical_defense + puppet.physical_defense;
+        magical_attack = magical_attack + puppet.magical_attack;
+        magical_defense = magical_defense + puppet.magical_defense;
+        chemical_attack = chemical_attack + puppet.chemical_attack;
+        chemical_defense = chemical_defense + puppet.chemical_defense;
+        atomic_attack = atomic_attack + puppet.atomic_attack;
+        atomic_defense = atomic_defense + puppet.atomic_defense;
+        mental_attack = mental_attack + puppet.mental_attack;
+        mental_defense = mental_defense + puppet.mental_defense;
+        speed = speed + puppet.speed;
+        critical_damage_rate = critical_damage_rate + puppet.critical_damage_rate;
+        critical_rate = critical_rate + puppet.critical_rate;
+        penetration_rate = penetration_rate + puppet.penetration_rate;
+        evasion_rate = evasion_rate + puppet.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + puppet.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + puppet.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + puppet.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + puppet.lifesteal_rate;
+        shield_strength = shield_strength + puppet.shield_strength;
+        tenacity = tenacity + puppet.tenacity;
+        resistance_rate = resistance_rate + puppet.resistance_rate;
+        combo_rate = combo_rate + puppet.combo_rate;
+        reflection_rate = reflection_rate + puppet.reflection_rate;
+        mana = mana + puppet.mana;
+        mana_regeneration_rate = mana_regeneration_rate + puppet.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + puppet.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + puppet.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + puppet.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + puppet.resistance_to_same_faction_rate;
+
+        //Percent
+        puppet = puppet.SumPowerPuppetPercent();
+        percent_all_health = percent_all_health + puppet.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + puppet.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + puppet.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + puppet.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + puppet.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + puppet.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + puppet.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + puppet.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + puppet.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + puppet.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + puppet.percent_all_mental_defense;
+    }
+    public void GetAlchemyPower()
+    {
+        Alchemy alchemy = new Alchemy();
+        //Gallery
+        alchemy = alchemy.SumPowerAlchemyGallery();
+        power = power + alchemy.power;
+        health = health + alchemy.health;
+        physical_attack = physical_attack + alchemy.physical_attack;
+        physical_defense = physical_defense + alchemy.physical_defense;
+        magical_attack = magical_attack + alchemy.magical_attack;
+        magical_defense = magical_defense + alchemy.magical_defense;
+        chemical_attack = chemical_attack + alchemy.chemical_attack;
+        chemical_defense = chemical_defense + alchemy.chemical_defense;
+        atomic_attack = atomic_attack + alchemy.atomic_attack;
+        atomic_defense = atomic_defense + alchemy.atomic_defense;
+        mental_attack = mental_attack + alchemy.mental_attack;
+        mental_defense = mental_defense + alchemy.mental_defense;
+        speed = speed + alchemy.speed;
+        critical_damage_rate = critical_damage_rate + alchemy.critical_damage_rate;
+        critical_rate = critical_rate + alchemy.critical_rate;
+        penetration_rate = penetration_rate + alchemy.penetration_rate;
+        evasion_rate = evasion_rate + alchemy.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + alchemy.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + alchemy.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + alchemy.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + alchemy.lifesteal_rate;
+        shield_strength = shield_strength + alchemy.shield_strength;
+        tenacity = tenacity + alchemy.tenacity;
+        resistance_rate = resistance_rate + alchemy.resistance_rate;
+        combo_rate = combo_rate + alchemy.combo_rate;
+        reflection_rate = reflection_rate + alchemy.reflection_rate;
+        mana = mana + alchemy.mana;
+        mana_regeneration_rate = mana_regeneration_rate + alchemy.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + alchemy.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + alchemy.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + alchemy.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + alchemy.resistance_to_same_faction_rate;
+
+        percent_all_health = percent_all_health + alchemy.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + alchemy.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + alchemy.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + alchemy.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + alchemy.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + alchemy.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + alchemy.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + alchemy.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + alchemy.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + alchemy.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + alchemy.percent_all_mental_defense;
+
+        //User
+        alchemy = alchemy.SumPowerUserAlchemy();
+        power = power + alchemy.power;
+        health = health + alchemy.health;
+        physical_attack = physical_attack + alchemy.physical_attack;
+        physical_defense = physical_defense + alchemy.physical_defense;
+        magical_attack = magical_attack + alchemy.magical_attack;
+        magical_defense = magical_defense + alchemy.magical_defense;
+        chemical_attack = chemical_attack + alchemy.chemical_attack;
+        chemical_defense = chemical_defense + alchemy.chemical_defense;
+        atomic_attack = atomic_attack + alchemy.atomic_attack;
+        atomic_defense = atomic_defense + alchemy.atomic_defense;
+        mental_attack = mental_attack + alchemy.mental_attack;
+        mental_defense = mental_defense + alchemy.mental_defense;
+        speed = speed + alchemy.speed;
+        critical_damage_rate = critical_damage_rate + alchemy.critical_damage_rate;
+        critical_rate = critical_rate + alchemy.critical_rate;
+        penetration_rate = penetration_rate + alchemy.penetration_rate;
+        evasion_rate = evasion_rate + alchemy.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + alchemy.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + alchemy.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + alchemy.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + alchemy.lifesteal_rate;
+        shield_strength = shield_strength + alchemy.shield_strength;
+        tenacity = tenacity + alchemy.tenacity;
+        resistance_rate = resistance_rate + alchemy.resistance_rate;
+        combo_rate = combo_rate + alchemy.combo_rate;
+        reflection_rate = reflection_rate + alchemy.reflection_rate;
+        mana = mana + alchemy.mana;
+        mana_regeneration_rate = mana_regeneration_rate + alchemy.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + alchemy.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + alchemy.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + alchemy.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + alchemy.resistance_to_same_faction_rate;
+
+        //Percent
+        alchemy = alchemy.SumPowerAlchemyPercent();
+        percent_all_health = percent_all_health + alchemy.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + alchemy.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + alchemy.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + alchemy.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + alchemy.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + alchemy.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + alchemy.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + alchemy.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + alchemy.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + alchemy.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + alchemy.percent_all_mental_defense;
+    }
+    public void GetForgePower()
+    {
+        Forge forge = new Forge();
+        //Gallery
+        forge = forge.SumPowerForgeGallery();
+        power = power + forge.power;
+        health = health + forge.health;
+        physical_attack = physical_attack + forge.physical_attack;
+        physical_defense = physical_defense + forge.physical_defense;
+        magical_attack = magical_attack + forge.magical_attack;
+        magical_defense = magical_defense + forge.magical_defense;
+        chemical_attack = chemical_attack + forge.chemical_attack;
+        chemical_defense = chemical_defense + forge.chemical_defense;
+        atomic_attack = atomic_attack + forge.atomic_attack;
+        atomic_defense = atomic_defense + forge.atomic_defense;
+        mental_attack = mental_attack + forge.mental_attack;
+        mental_defense = mental_defense + forge.mental_defense;
+        speed = speed + forge.speed;
+        critical_damage_rate = critical_damage_rate + forge.critical_damage_rate;
+        critical_rate = critical_rate + forge.critical_rate;
+        penetration_rate = penetration_rate + forge.penetration_rate;
+        evasion_rate = evasion_rate + forge.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + forge.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + forge.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + forge.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + forge.lifesteal_rate;
+        shield_strength = shield_strength + forge.shield_strength;
+        tenacity = tenacity + forge.tenacity;
+        resistance_rate = resistance_rate + forge.resistance_rate;
+        combo_rate = combo_rate + forge.combo_rate;
+        reflection_rate = reflection_rate + forge.reflection_rate;
+        mana = mana + forge.mana;
+        mana_regeneration_rate = mana_regeneration_rate + forge.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + forge.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + forge.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + forge.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + forge.resistance_to_same_faction_rate;
+
+        percent_all_health = percent_all_health + forge.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + forge.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + forge.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + forge.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + forge.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + forge.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + forge.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + forge.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + forge.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + forge.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + forge.percent_all_mental_defense;
+
+        //User
+        forge = forge.SumPowerUserForge();
+        power = power + forge.power;
+        health = health + forge.health;
+        physical_attack = physical_attack + forge.physical_attack;
+        physical_defense = physical_defense + forge.physical_defense;
+        magical_attack = magical_attack + forge.magical_attack;
+        magical_defense = magical_defense + forge.magical_defense;
+        chemical_attack = chemical_attack + forge.chemical_attack;
+        chemical_defense = chemical_defense + forge.chemical_defense;
+        atomic_attack = atomic_attack + forge.atomic_attack;
+        atomic_defense = atomic_defense + forge.atomic_defense;
+        mental_attack = mental_attack + forge.mental_attack;
+        mental_defense = mental_defense + forge.mental_defense;
+        speed = speed + forge.speed;
+        critical_damage_rate = critical_damage_rate + forge.critical_damage_rate;
+        critical_rate = critical_rate + forge.critical_rate;
+        penetration_rate = penetration_rate + forge.penetration_rate;
+        evasion_rate = evasion_rate + forge.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + forge.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + forge.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + forge.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + forge.lifesteal_rate;
+        shield_strength = shield_strength + forge.shield_strength;
+        tenacity = tenacity + forge.tenacity;
+        resistance_rate = resistance_rate + forge.resistance_rate;
+        combo_rate = combo_rate + forge.combo_rate;
+        reflection_rate = reflection_rate + forge.reflection_rate;
+        mana = mana + forge.mana;
+        mana_regeneration_rate = mana_regeneration_rate + forge.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + forge.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + forge.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + forge.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + forge.resistance_to_same_faction_rate;
+
+        //Percent
+        forge = forge.SumPowerForgePercent();
+        percent_all_health = percent_all_health + forge.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + forge.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + forge.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + forge.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + forge.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + forge.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + forge.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + forge.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + forge.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + forge.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + forge.percent_all_mental_defense;
+    }
+    public void GetCardLifePower()
+    {
+        CardLife cardLife = new CardLife();
+        //Gallery
+        cardLife = cardLife.SumPowerCardLifeGallery();
+        power = power + cardLife.power;
+        health = health + cardLife.health;
+        physical_attack = physical_attack + cardLife.physical_attack;
+        physical_defense = physical_defense + cardLife.physical_defense;
+        magical_attack = magical_attack + cardLife.magical_attack;
+        magical_defense = magical_defense + cardLife.magical_defense;
+        chemical_attack = chemical_attack + cardLife.chemical_attack;
+        chemical_defense = chemical_defense + cardLife.chemical_defense;
+        atomic_attack = atomic_attack + cardLife.atomic_attack;
+        atomic_defense = atomic_defense + cardLife.atomic_defense;
+        mental_attack = mental_attack + cardLife.mental_attack;
+        mental_defense = mental_defense + cardLife.mental_defense;
+        speed = speed + cardLife.speed;
+        critical_damage_rate = critical_damage_rate + cardLife.critical_damage_rate;
+        critical_rate = critical_rate + cardLife.critical_rate;
+        penetration_rate = penetration_rate + cardLife.penetration_rate;
+        evasion_rate = evasion_rate + cardLife.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardLife.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardLife.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardLife.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardLife.lifesteal_rate;
+        shield_strength = shield_strength + cardLife.shield_strength;
+        tenacity = tenacity + cardLife.tenacity;
+        resistance_rate = resistance_rate + cardLife.resistance_rate;
+        combo_rate = combo_rate + cardLife.combo_rate;
+        reflection_rate = reflection_rate + cardLife.reflection_rate;
+        mana = mana + cardLife.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardLife.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardLife.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardLife.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardLife.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardLife.resistance_to_same_faction_rate;
+
+        percent_all_health = percent_all_health + cardLife.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + cardLife.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + cardLife.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + cardLife.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + cardLife.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + cardLife.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + cardLife.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + cardLife.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + cardLife.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + cardLife.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + cardLife.percent_all_mental_defense;
+
+        //User
+        cardLife = cardLife.SumPowerUserCardLife();
+        power = power + cardLife.power;
+        health = health + cardLife.health;
+        physical_attack = physical_attack + cardLife.physical_attack;
+        physical_defense = physical_defense + cardLife.physical_defense;
+        magical_attack = magical_attack + cardLife.magical_attack;
+        magical_defense = magical_defense + cardLife.magical_defense;
+        chemical_attack = chemical_attack + cardLife.chemical_attack;
+        chemical_defense = chemical_defense + cardLife.chemical_defense;
+        atomic_attack = atomic_attack + cardLife.atomic_attack;
+        atomic_defense = atomic_defense + cardLife.atomic_defense;
+        mental_attack = mental_attack + cardLife.mental_attack;
+        mental_defense = mental_defense + cardLife.mental_defense;
+        speed = speed + cardLife.speed;
+        critical_damage_rate = critical_damage_rate + cardLife.critical_damage_rate;
+        critical_rate = critical_rate + cardLife.critical_rate;
+        penetration_rate = penetration_rate + cardLife.penetration_rate;
+        evasion_rate = evasion_rate + cardLife.evasion_rate;
+        damage_absorption_rate = damage_absorption_rate + cardLife.damage_absorption_rate;
+        vitality_regeneration_rate = vitality_regeneration_rate + cardLife.vitality_regeneration_rate;
+        accuracy_rate = accuracy_rate + cardLife.accuracy_rate;
+        lifesteal_rate = lifesteal_rate + cardLife.lifesteal_rate;
+        shield_strength = shield_strength + cardLife.shield_strength;
+        tenacity = tenacity + cardLife.tenacity;
+        resistance_rate = resistance_rate + cardLife.resistance_rate;
+        combo_rate = combo_rate + cardLife.combo_rate;
+        reflection_rate = reflection_rate + cardLife.reflection_rate;
+        mana = mana + cardLife.mana;
+        mana_regeneration_rate = mana_regeneration_rate + cardLife.mana_regeneration_rate;
+        damage_to_different_faction_rate = damage_to_different_faction_rate + cardLife.damage_to_different_faction_rate;
+        resistance_to_different_faction_rate = resistance_to_different_faction_rate + cardLife.resistance_to_different_faction_rate;
+        damage_to_same_faction_rate = damage_to_same_faction_rate + cardLife.damage_to_same_faction_rate;
+        resistance_to_same_faction_rate = resistance_to_same_faction_rate + cardLife.resistance_to_same_faction_rate;
+
+        //Percent
+        cardLife = cardLife.SumPowerCardLifePercent();
+        percent_all_health = percent_all_health + cardLife.percent_all_health;
+        percent_all_physical_attack = percent_all_physical_attack + cardLife.percent_all_physical_attack;
+        percent_all_physical_defense = percent_all_physical_defense + cardLife.percent_all_physical_defense;
+        percent_all_magical_attack = percent_all_magical_attack + cardLife.percent_all_magical_attack;
+        percent_all_magical_defense = percent_all_magical_defense + cardLife.percent_all_magical_defense;
+        percent_all_chemical_attack = percent_all_chemical_attack + cardLife.percent_all_chemical_attack;
+        percent_all_chemical_defense = percent_all_chemical_defense + cardLife.percent_all_chemical_defense;
+        percent_all_atomic_attack = percent_all_atomic_attack + cardLife.percent_all_atomic_attack;
+        percent_all_atomic_defense = percent_all_atomic_defense + cardLife.percent_all_atomic_defense;
+        percent_all_mental_attack = percent_all_mental_attack + cardLife.percent_all_mental_attack;
+        percent_all_mental_defense = percent_all_mental_defense + cardLife.percent_all_mental_defense;
     }
 }

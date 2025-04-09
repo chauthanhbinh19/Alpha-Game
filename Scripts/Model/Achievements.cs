@@ -261,6 +261,7 @@ public class Achievements
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -364,6 +365,7 @@ public class Achievements
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -432,7 +434,7 @@ public class Achievements
             try
             {
                 connection.Open();
-                string query = "Select * from achievements c, user_achievements uc where uc.achievement_id=c.id and uc.user_id =@userId limit @limit offset @offset";
+                string query = "Select uc.*, c.id, c.name, c.image, c.rare from achievements c, user_achievements uc where uc.achievement_id=c.id and uc.user_id =@userId limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -445,6 +447,7 @@ public class Achievements
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         experiment = reader.GetInt32("experiment"),
@@ -876,6 +879,7 @@ public class Achievements
                         level = reader.GetInt32("level"),
                         experiment = reader.GetInt32("experiment"),
                         star = reader.GetInt32("star"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -943,6 +947,7 @@ public class Achievements
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),

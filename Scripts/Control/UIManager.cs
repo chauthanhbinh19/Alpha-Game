@@ -84,6 +84,8 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuOmnipresencePanelPrefab;
     public GameObject MainMenuOmnivoryPanelPrefab;
     public GameObject MainMenuOmnisciencePanelPrefab;
+    public GameObject MainMenuAngelPanelPrefab;
+    public GameObject MainMenuDemonPanelPrefab;
     public GameObject ArenaPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject PopupMenuPanelPrefab;
@@ -109,6 +111,9 @@ public class UIManager : MonoBehaviour
     public GameObject OmnipresenceSlotPrefab;
     public GameObject OmnivorySlotPrefab;
     public GameObject OmniscienceSlotPrefab;
+    public GameObject AngelSlotPrefab;
+    public GameObject DemonSlotPrefab;
+
 
     private void Awake()
     {
@@ -277,6 +282,10 @@ public class UIManager : MonoBehaviour
                 return MainMenuOmnisciencePanelPrefab;
             case "MainMenuOmnivoryPanelPrefab":
                 return MainMenuOmnivoryPanelPrefab;
+            case "MainMenuAngelPanelPrefab":
+                return MainMenuAngelPanelPrefab;
+            case "MainMenuDemonPanelPrefab":
+                return MainMenuDemonPanelPrefab;
             case "ArenaPanelPrefab":
                 return ArenaPanelPrefab;
             case "PopupEquipmentsPanelPrefab":
@@ -327,6 +336,10 @@ public class UIManager : MonoBehaviour
                 return OmnivorySlotPrefab;
             case "OmniscienceSlotPrefab":
                 return OmniscienceSlotPrefab;
+            case "AngelSlotPrefab":
+                return AngelSlotPrefab;
+            case "DemonSlotPrefab":
+                return DemonSlotPrefab;
             case "TabButton5":
                 return TabButton5;
             default:

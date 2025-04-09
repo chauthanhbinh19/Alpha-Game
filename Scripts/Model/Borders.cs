@@ -143,6 +143,7 @@ public class Borders
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -246,6 +247,7 @@ public class Borders
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -304,7 +306,7 @@ public class Borders
         }
         return borders;
     }
-    public List<Medals> GetUserMedals(int pageSize, int offset)
+    public List<Medals> GetUserBorders(int pageSize, int offset)
     {
         List<Medals> medalsList = new List<Medals>();
         int user_id=User.CurrentUserId;
@@ -314,7 +316,7 @@ public class Borders
             try
             {
                 connection.Open();
-                string query = @"Select m.* from Medals m, user_medals um where m.id=um.medal_id and um.user_id=@userId 
+                string query = @"Select um.*, m.id, m.name, m.image, m.rare from Medals m, user_medals um where m.id=um.medal_id and um.user_id=@userId 
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -328,6 +330,7 @@ public class Borders
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -646,6 +649,7 @@ public class Borders
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -752,6 +756,7 @@ public class Borders
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -805,7 +810,7 @@ public class Borders
             try
             {
                 connection.Open();
-                string query = @"Select ub.*, b.image from user_borders ub, borders b 
+                string query = @"Select ub.*, b.image, b.rare from user_borders ub, borders b 
                 where ub.border_id=b.id and ub.is_used=true";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -816,6 +821,7 @@ public class Borders
                         id = reader.GetInt32("border_id"),
                         // name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -1002,6 +1008,8 @@ public class Borders
     }
     public void UpdateIsUsedBorders(int Id, bool is_used)
     {
+        Debug.Log("Id: "+Id);
+        Debug.Log("User id: "+User.CurrentUserId);
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1014,8 +1022,6 @@ public class Borders
                 command.Parameters.AddWithValue("@border_id", Id);
                 command.Parameters.AddWithValue("@is_used", is_used);
                 command.ExecuteNonQuery();
-                Debug.Log(Id);
-                Debug.Log(User.CurrentUserId);
             }
             catch (MySqlException ex)
             {

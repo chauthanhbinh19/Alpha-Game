@@ -10,6 +10,7 @@ public class Avatars
     private int id1;
     private string name1;
     private string image1;
+    private string rare1;
     private double power1;
     private double health1;
     private double physical_attack1;
@@ -59,6 +60,7 @@ public class Avatars
     public int id { get => id1; set => id1 = value; }
     public string name { get => name1; set => name1 = value; }
     public string image { get => image1; set => image1 = value; }
+    public string rare { get => rare1; set => rare1 = value; }
     public double power { get => power1; set => power1 = value; }
     public double health { get => health1; set => health1 = value; }
     public double physical_attack { get => physical_attack1; set => physical_attack1 = value; }
@@ -141,6 +143,7 @@ public class Avatars
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -244,6 +247,7 @@ public class Avatars
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -326,6 +330,7 @@ public class Avatars
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -644,6 +649,7 @@ public class Avatars
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -750,6 +756,7 @@ public class Avatars
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -803,7 +810,7 @@ public class Avatars
             try
             {
                 connection.Open();
-                string query = @"Select ub.*, b.image from user_avatars ub, avatars b 
+                string query = @"Select ub.*, b.image, b.rare from user_avatars ub, avatars b 
                 where ub.avatar_id=b.id and ub.is_used=true";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -814,6 +821,7 @@ public class Avatars
                         id = reader.GetInt32("avatar_id"),
                         // name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -1000,6 +1008,8 @@ public class Avatars
     }
     public void UpdateIsUsedAvatars(int Id, bool is_used)
     {
+        Debug.Log("Id: "+Id);
+        Debug.Log("User id: "+User.CurrentUserId);
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

@@ -116,6 +116,11 @@ public class ShopManager : MonoBehaviour
         CreateButton(19, "Card Colonels", Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"), tempContent);
         CreateButton(20, "Card Generals", Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"), tempContent);
         CreateButton(21, "Card Admirals", Resources.Load<Texture2D>($"UI/Button/teachings_of_diligence"), tempContent);
+        CreateButton(22, "Talisman", Resources.Load<Texture2D>($"UI/Button/TalismanGallery"), tempContent);
+        CreateButton(23, "Puppet", Resources.Load<Texture2D>($"UI/Button/PuppetGallery"), tempContent);
+        CreateButton(24, "Alchemy", Resources.Load<Texture2D>($"UI/Button/AlchemyGallery"), tempContent);
+        CreateButton(25, "Forge", Resources.Load<Texture2D>($"UI/Button/ForgeGallery"), tempContent);
+        CreateButton(26, "Card Life", Resources.Load<Texture2D>($"UI/Button/LifeGallery"), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", tempContent, () => GetType("Books"));
@@ -138,6 +143,11 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_19", tempContent, () => GetType("CardColonels"));
         AssignButtonEvent("Button_20", tempContent, () => GetType("CardGenerals"));
         AssignButtonEvent("Button_21", tempContent, () => GetType("CardAdmirals"));
+        AssignButtonEvent("Button_22", tempContent, () => GetType("Talisman"));
+        AssignButtonEvent("Button_23", tempContent, () => GetType("Puppet"));
+        AssignButtonEvent("Button_24", tempContent, () => GetType("Alchemy"));
+        AssignButtonEvent("Button_25", tempContent, () => GetType("Forge"));
+        AssignButtonEvent("Button_26", tempContent, () => GetType("CardLife"));
     }
     private void CreateButton(int index, string itemName, Texture2D itemImage, Transform panel)
     {
@@ -163,7 +173,7 @@ public class ShopManager : MonoBehaviour
     {
         mainType = type; // Gán giá trị cho mainType
         GetButtonType(); // Gọi hàm xử lý
-        titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())); // Cập nhật tiêu đề
+        titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Shop"; // Cập nhật tiêu đề
     }
     public List<string> GetUniqueTypes()
     {
@@ -226,6 +236,26 @@ public class ShopManager : MonoBehaviour
         else if (mainType.Equals("CardAdmirals"))
         {
             return CardAdmirals.GetUniqueCardAdmiralsTypes();
+        }
+        else if (mainType.Equals("Talisman"))
+        {
+            return Talisman.GetUniqueTalismanTypes();
+        }
+        else if (mainType.Equals("Puppet"))
+        {
+            return Puppet.GetUniquePuppetTypes();
+        }
+        else if (mainType.Equals("Alchemy"))
+        {
+            return Alchemy.GetUniqueAlchemyTypes();
+        }
+        else if (mainType.Equals("Forge"))
+        {
+            return Forge.GetUniqueForgeTypes();
+        }
+        else if (mainType.Equals("CardLife"))
+        {
+            return CardLife.GetUniqueCardLifeTypes();
         }
         return new List<string>();
     }
@@ -392,6 +422,46 @@ public class ShopManager : MonoBehaviour
                         createCardAdmirals(relicsList);
 
                         totalRecord = admiralsManager.GetCardAdmiralsWithPriceCount(subtype);
+                    }
+                    else if (mainType.Equals("Talisman"))
+                    {
+                        Talisman talismanManager = new Talisman();
+                        List<Talisman> talismans = talismanManager.GetTalismanWithPrice(subType, pageSize, offset);
+                        createTalisman(talismans);
+
+                        totalRecord = talismanManager.GetTalismanWithPriceCount(subType);
+                    }
+                    else if (mainType.Equals("Puppet"))
+                    {
+                        Puppet puppetManager = new Puppet();
+                        List<Puppet> puppets = puppetManager.GetPuppetWithPrice(subType, pageSize, offset);
+                        createPuppet(puppets);
+
+                        totalRecord = puppetManager.GetPuppetWithPriceCount(subType);
+                    }
+                    else if (mainType.Equals("Alchemy"))
+                    {
+                        Alchemy alchemyManager = new Alchemy();
+                        List<Alchemy> alchemies = alchemyManager.GetAlchemyWithPrice(subType, pageSize, offset);
+                        createAlchemy(alchemies);
+
+                        totalRecord = alchemyManager.GetAlchemyWithPriceCount(subType);
+                    }
+                    else if (mainType.Equals("Forge"))
+                    {
+                        Forge forgeManager = new Forge();
+                        List<Forge> forges = forgeManager.GetForgeWithPrice(subType, pageSize, offset);
+                        createForge(forges);
+
+                        totalRecord = forgeManager.GetForgeWithPriceCount(subType);
+                    }
+                    else if (mainType.Equals("CardLife"))
+                    {
+                        CardLife cardLifeManager = new CardLife();
+                        List<CardLife> cardLives = cardLifeManager.GetCardLifeWithPrice(subType, pageSize, offset);
+                        createCardLife(cardLives);
+
+                        totalRecord = cardLifeManager.GetCardLifeWithPriceCount(subType);
                     }
 
                     totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -600,6 +670,46 @@ public class ShopManager : MonoBehaviour
             createCardAdmirals(relicsList);
 
             totalRecord = admiralsManager.GetCardAdmiralsWithPriceCount(type);
+        }
+        else if (mainType.Equals("Talisman"))
+        {
+            Talisman talismanManager = new Talisman();
+            List<Talisman> talismans = talismanManager.GetTalismanWithPrice(type, pageSize, offset);
+            createTalisman(talismans);
+
+            totalRecord = talismanManager.GetTalismanWithPriceCount(type);
+        }
+        else if (mainType.Equals("Puppet"))
+        {
+            Puppet puppetManager = new Puppet();
+            List<Puppet> puppets = puppetManager.GetPuppetWithPrice(type, pageSize, offset);
+            createPuppet(puppets);
+
+            totalRecord = puppetManager.GetPuppetWithPriceCount(type);
+        }
+        else if (mainType.Equals("Alchemy"))
+        {
+            Alchemy alchemyManager = new Alchemy();
+            List<Alchemy> alchemies = alchemyManager.GetAlchemyWithPrice(type, pageSize, offset);
+            createAlchemy(alchemies);
+
+            totalRecord = alchemyManager.GetAlchemyWithPriceCount(type);
+        }
+        else if (mainType.Equals("Forge"))
+        {
+            Forge forgeManager = new Forge();
+            List<Forge> forges = forgeManager.GetForgeWithPrice(type, pageSize, offset);
+            createForge(forges);
+
+            totalRecord = forgeManager.GetForgeWithPriceCount(type);
+        }
+        else if (mainType.Equals("CardLife"))
+        {
+            CardLife cardLifeManager = new CardLife();
+            List<CardLife> cardLives = cardLifeManager.GetCardLifeWithPrice(type, pageSize, offset);
+            createCardLife(cardLives);
+
+            totalRecord = cardLifeManager.GetCardLifeWithPriceCount(type);
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1861,6 +1971,299 @@ public class ShopManager : MonoBehaviour
         currencies = currency.GetCardAdmiralsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
+    private void createTalisman(List<Talisman> talismans)
+    {
+        foreach (var talisman in talismans)
+        {
+            GameObject talismanObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = talisman.name.Replace("_", " ");
+
+            RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = talisman.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            RawImage FrameImage = talismanObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = talismanObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(talisman, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+            // rareImage.texture = rareTexture;
+            RawImage currencyImage = talismanObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = talisman.currency.image.Replace(".png", "");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = talismanObject.transform.Find("CurrencyText").GetComponent<Text>();
+            currencyText.text = talisman.currency.quantity.ToString();
+
+            Button buy = talismanObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(talisman.currency.quantity, talisman);
+            });
+
+        }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetTalismanCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+    }
+    private void createPuppet(List<Puppet> puppets)
+    {
+        foreach (var puppet in puppets)
+        {
+            GameObject puppetObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = puppet.name.Replace("_", " ");
+
+            RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = puppet.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            RawImage FrameImage = puppetObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(puppet, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
+            // rareImage.texture = rareTexture;
+            RawImage currencyImage = puppetObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = puppet.currency.image.Replace(".png", "");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = puppetObject.transform.Find("CurrencyText").GetComponent<Text>();
+            currencyText.text = puppet.currency.quantity.ToString();
+
+            Button buy = puppetObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(puppet.currency.quantity, puppet);
+            });
+
+        }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetPuppetCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+    }
+    private void createAlchemy(List<Alchemy> alchemies)
+    {
+        foreach (var alchemy in alchemies)
+        {
+            GameObject alchemyObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = alchemy.name.Replace("_", " ");
+
+            RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = alchemy.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            RawImage FrameImage = alchemyObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = alchemyObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(alchemy, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = alchemyObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");
+            // rareImage.texture = rareTexture;
+            RawImage currencyImage = alchemyObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = alchemy.currency.image.Replace(".png", "");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = alchemyObject.transform.Find("CurrencyText").GetComponent<Text>();
+            currencyText.text = alchemy.currency.quantity.ToString();
+
+            Button buy = alchemyObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(alchemy.currency.quantity, alchemy);
+            });
+
+        }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetAlchemyCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+    }
+    private void createForge(List<Forge> forges)
+    {
+        foreach (var forge in forges)
+        {
+            GameObject forgeObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = forge.name.Replace("_", " ");
+
+            RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = forge.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            RawImage FrameImage = forgeObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = forgeObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // frameImage.gameObject.SetActive(true);
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(forge, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = forgeObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
+            // rareImage.texture = rareTexture;
+            RawImage currencyImage = forgeObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = forge.currency.image.Replace(".png", "");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = forgeObject.transform.Find("CurrencyText").GetComponent<Text>();
+            currencyText.text = forge.currency.quantity.ToString();
+
+            Button buy = forgeObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(forge.currency.quantity, forge);
+            });
+
+        }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetForgeCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+    }
+    private void createCardLife(List<CardLife> cards)
+    {
+        foreach (var card in cards)
+        {
+            GameObject cardObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = card.name.Replace("_", " ");
+
+            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = card.image.Replace(".png", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            RawImage FrameImage = cardObject.transform.Find("Frame").GetComponent<RawImage>();
+            // Lấy EventTrigger của RawImage
+            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
+            if (eventTrigger == null)
+            {
+                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+            }
+
+            // Gán sự kiện click
+            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(card, MainPanel));
+            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            scrollEntry.callback.AddListener((eventData) =>
+            {
+                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+                if (scrollRect != null)
+                {
+                    scrollRect.OnScroll((PointerEventData)eventData);
+                }
+            });
+            eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
+            // rareImage.texture = rareTexture;
+            RawImage currencyImage = cardObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = card.currency.image.Replace(".png", "");
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = cardObject.transform.Find("CurrencyText").GetComponent<Text>();
+            currencyText.text = card.currency.quantity.ToString();
+
+            Button buy = cardObject.transform.Find("Buy").GetComponent<Button>();
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(card.currency.quantity, card);
+            });
+        }
+        Currency currency = new Currency();
+        List<Currency> currencies = new List<Currency>();
+        currencies = currency.GetCardLifeCurrency(subType);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+    }
     public void ClearAllPrefabs()
     {
         // Duyệt qua tất cả các con cái của cardsContent
@@ -2069,6 +2472,56 @@ public class ShopManager : MonoBehaviour
                 List<Achievements> achievements = achievementsManager.GetAchievementsWithPrice(pageSize, offset);
                 createAchievements(achievements);
             }
+            else if (mainType.Equals("Talisman"))
+            {
+                Talisman talismanManager = new Talisman();
+                totalRecord = talismanManager.GetTalismanWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Talisman> talismans = talismanManager.GetTalismanWithPrice(subType, pageSize, offset);
+                createTalisman(talismans);
+            }
+            else if (mainType.Equals("Puppet"))
+            {
+                Puppet puppetManager = new Puppet();
+                totalRecord = puppetManager.GetPuppetWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Puppet> puppets = puppetManager.GetPuppetWithPrice(subType, pageSize, offset);
+                createPuppet(puppets);
+            }
+            else if (mainType.Equals("Alchemy"))
+            {
+                Alchemy alchemyManager = new Alchemy();
+                totalRecord = alchemyManager.GetAlchemyWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Alchemy> alchemies = alchemyManager.GetAlchemyWithPrice(subType, pageSize, offset);
+                createAlchemy(alchemies);
+            }
+            else if (mainType.Equals("Forge"))
+            {
+                Forge forgeManager = new Forge();
+                totalRecord = forgeManager.GetForgeWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Forge> forges = forgeManager.GetForgeWithPrice(subType, pageSize, offset);
+                createForge(forges);
+            }
+            else if (mainType.Equals("CardLife"))
+            {
+                CardLife cardLifeManager = new CardLife();
+                totalRecord = cardLifeManager.GetCardLifeWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<CardLife> cardLives = cardLifeManager.GetCardLifeWithPrice(subType, pageSize, offset);
+                createCardLife(cardLives);
+            }
 
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -2261,6 +2714,56 @@ public class ShopManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<Achievements> achievements = achievementsManager.GetAchievementsWithPrice(pageSize, offset);
                 createAchievements(achievements);
+            }
+            else if (mainType.Equals("Talisman"))
+            {
+                Talisman talismanManager = new Talisman();
+                totalRecord = talismanManager.GetTalismanWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Talisman> talismans = talismanManager.GetTalismanWithPrice(subType, pageSize, offset);
+                createTalisman(talismans);
+            }
+            else if (mainType.Equals("Puppet"))
+            {
+                Puppet puppetManager = new Puppet();
+                totalRecord = puppetManager.GetPuppetWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Puppet> puppets = puppetManager.GetPuppetWithPrice(subType, pageSize, offset);
+                createPuppet(puppets);
+            }
+            else if (mainType.Equals("Alchemy"))
+            {
+                Alchemy alchemyManager = new Alchemy();
+                totalRecord = alchemyManager.GetAlchemyWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Alchemy> alchemies = alchemyManager.GetAlchemyWithPrice(subType, pageSize, offset);
+                createAlchemy(alchemies);
+            }
+            else if (mainType.Equals("Forge"))
+            {
+                Forge forgeManager = new Forge();
+                totalRecord = forgeManager.GetForgeWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Forge> forges = forgeManager.GetForgeWithPrice(subType, pageSize, offset);
+                createForge(forges);
+            }
+            else if (mainType.Equals("CardLife"))
+            {
+                CardLife cardLifeManager = new CardLife();
+                totalRecord = cardLifeManager.GetCardLifeWithPriceCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<CardLife> cardLives = cardLifeManager.GetCardLifeWithPrice(subType, pageSize, offset);
+                createCardLife(cardLives);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -2491,6 +2994,22 @@ public class ShopManager : MonoBehaviour
             else if (obj is Skills skill)
             {
                 userCurrency = currency.GetUserCurrencyById(skill.currency.id);
+            }
+            else if (obj is Talisman talisman)
+            {
+                userCurrency = currency.GetUserCurrencyById(talisman.currency.id);
+            }
+            else if (obj is Puppet puppet)
+            {
+                userCurrency = currency.GetUserCurrencyById(puppet.currency.id);
+            }
+            else if (obj is Alchemy alchemy)
+            {
+                userCurrency = currency.GetUserCurrencyById(alchemy.currency.id);
+            }
+            else if (obj is Forge forge)
+            {
+                userCurrency = currency.GetUserCurrencyById(forge.currency.id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -2724,6 +3243,56 @@ public class ShopManager : MonoBehaviour
                         break;
                     }
                 }
+                else if (obj is Talisman talisman)
+                {
+                    currency.UpdateUserCurrency(talisman.currency.id, price);
+                    bool success = talisman.InsertUserTalisman(talisman);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Puppet puppet)
+                {
+                    currency.UpdateUserCurrency(puppet.currency.id, price);
+                    bool success = puppet.InsertUserPuppet(puppet);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Alchemy alchemy)
+                {
+                    currency.UpdateUserCurrency(alchemy.currency.id, price);
+                    bool success = alchemy.InsertUserAlchemy(alchemy);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is Forge forge)
+                {
+                    currency.UpdateUserCurrency(forge.currency.id, price);
+                    bool success = forge.InsertUserForge(forge);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
+                else if (obj is CardLife cardLife)
+                {
+                    currency.UpdateUserCurrency(cardLife.currency.id, price);
+                    bool success = cardLife.InsertUserCardLife(cardLife);
+                    if (!success)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
+                }
             }
 
             // Hiển thị thông báo dựa trên kết quả
@@ -2844,7 +3413,7 @@ public class ShopManager : MonoBehaviour
                 }
                 else if (obj is MagicFormationCircle magicFormationCircle)
                 {
-                    magicFormationCircle.InsertCollaborationsGallery(magicFormationCircle.id);
+                    magicFormationCircle.InsertMagicFormationCircleGallery(magicFormationCircle.id);
                     currencies = currency.GetMagicFormationCircleCurrency(subType);
                     fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
                 }
@@ -2866,6 +3435,36 @@ public class ShopManager : MonoBehaviour
                     currencies = currency.GetSkillsCurrency(subType);
                     fileNameWithoutExtension = skill.image.Replace(".png", "");
                 }
+                else if (obj is Talisman talisman)
+                {
+                    talisman.InsertTalismanGallery(talisman.id);
+                    currencies = currency.GetTalismanCurrency(subType);
+                    fileNameWithoutExtension = talisman.image.Replace(".png", "");
+                }
+                else if (obj is Puppet puppet)
+                {
+                    puppet.InsertPuppetGallery(puppet.id);
+                    currencies = currency.GetSkillsCurrency(subType);
+                    fileNameWithoutExtension = puppet.image.Replace(".png", "");
+                }
+                else if (obj is Alchemy alchemy)
+                {
+                    alchemy.InsertAlchemyGallery(alchemy.id);
+                    currencies = currency.GetSkillsCurrency(subType);
+                    fileNameWithoutExtension = alchemy.image.Replace(".png", "");
+                }
+                else if (obj is Forge forge)
+                {
+                    forge.InsertForgeGallery(forge.id);
+                    currencies = currency.GetSkillsCurrency(subType);
+                    fileNameWithoutExtension = forge.image.Replace(".png", "");
+                }
+                else if (obj is CardLife cardLife)
+                {
+                    cardLife.InsertCardLifeGallery(cardLife.id);
+                    currencies = currency.GetSkillsCurrency(subType);
+                    fileNameWithoutExtension = cardLife.image.Replace(".png", "");
+                }
                 Close(CurrencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
                 Close(popupPanel);
@@ -2885,14 +3484,16 @@ public class ShopManager : MonoBehaviour
 
                 if (objType.Equals("Achievements") || objType.Equals("Borders")
                 || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
-                || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals"))
+                || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
+                || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
+                || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
                 {
                     PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
                     powerManager.UpdateUserStats();
                     double newPower = teams.GetTeamsPower();
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower-currentPower, 1);
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
             }
             else

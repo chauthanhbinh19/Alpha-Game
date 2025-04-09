@@ -269,6 +269,7 @@ public class Collaboration
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -372,6 +373,7 @@ public class Collaboration
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -440,7 +442,7 @@ public class Collaboration
             try
             {
                 connection.Open();
-                string query = @"Select * from collaborations c, user_collaborations uc where uc.collaboration_id=c.id and uc.user_id =@userId 
+                string query = @"Select uc.*, c.id, c.name, c.image, c.rare from collaborations c, user_collaborations uc where uc.collaboration_id=c.id and uc.user_id =@userId 
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -454,6 +456,7 @@ public class Collaboration
                         id = reader.GetInt32("id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
+                        rare = reader.GetString("rare"),
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         experiment = reader.GetInt32("experiment"),

@@ -153,6 +153,31 @@ public class PopupDetailsManager : MonoBehaviour
             // Xử lý đối tượng achievements
             ShowAchievementDetails(achievements);
         }
+        else if (data is Talisman talisman)
+        {
+            // Xử lý đối tượng achievements
+            ShowTalismanDetails(talisman);
+        }
+        else if (data is Puppet puppet)
+        {
+            // Xử lý đối tượng achievements
+            ShowPuppetDetails(puppet);
+        }
+        else if (data is Alchemy alchemy)
+        {
+            // Xử lý đối tượng achievements
+            ShowAlchemyDetails(alchemy);
+        }
+        else if (data is Forge forge)
+        {
+            // Xử lý đối tượng achievements
+            ShowForgeDetails(forge);
+        }
+        else if (data is CardLife cardLife)
+        {
+            // Xử lý đối tượng achievements
+            ShowCardLifeDetails(cardLife);
+        }
         else
         {
             Debug.LogError("Không hỗ trợ loại dữ liệu này!");
@@ -1010,6 +1035,230 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(admirals, null);
+            CreatePropertyUI(1, property, value);
+        }
+    }
+    private void ShowTalismanDetails(Talisman talisman)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = talisman.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+        if (texture != null)
+        {
+            // Lấy RectTransform của RawImage
+            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+
+            // Tính tỉ lệ khung hình
+            float aspectRatio = (float)texture.width / texture.height;
+
+            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
+            float newHeight = 300f;
+            // Chiều cao cố định
+            float newWidth = newHeight * aspectRatio;
+
+            // Cập nhật kích thước cho RectTransform
+            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
+        }
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = talisman.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = talisman.power.ToString();
+
+        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = skills.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = talisman.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(talisman, null);
+            CreatePropertyUI(1, property, value);
+        }
+    }
+    private void ShowPuppetDetails(Puppet puppet)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = puppet.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+        if (texture != null)
+        {
+            // Lấy RectTransform của RawImage
+            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+
+            // Tính tỉ lệ khung hình
+            float aspectRatio = (float)texture.width / texture.height;
+
+            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
+            float newHeight = 300f;
+            // Chiều cao cố định
+            float newWidth = newHeight * aspectRatio;
+
+            // Cập nhật kích thước cho RectTransform
+            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
+        }
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = puppet.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = puppet.power.ToString();
+
+        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = skills.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = puppet.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(puppet, null);
+            CreatePropertyUI(1, property, value);
+        }
+    }
+    private void ShowAlchemyDetails(Alchemy alchemy)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = alchemy.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+        if (texture != null)
+        {
+            // Lấy RectTransform của RawImage
+            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+
+            // Tính tỉ lệ khung hình
+            float aspectRatio = (float)texture.width / texture.height;
+
+            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
+            float newHeight = 300f;
+            // Chiều cao cố định
+            float newWidth = newHeight * aspectRatio;
+
+            // Cập nhật kích thước cho RectTransform
+            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
+        }
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = alchemy.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = alchemy.power.ToString();
+
+        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = skills.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = alchemy.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(alchemy, null);
+            CreatePropertyUI(1, property, value);
+        }
+    }
+    private void ShowForgeDetails(Forge forge)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = forge.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+        if (texture != null)
+        {
+            // Lấy RectTransform của RawImage
+            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+
+            // Tính tỉ lệ khung hình
+            float aspectRatio = (float)texture.width / texture.height;
+
+            // Chiều cao cố định là 500, tính chiều rộng theo tỷ lệ
+            float newHeight = 300f;
+            // Chiều cao cố định
+            float newWidth = newHeight * aspectRatio;
+
+            // Cập nhật kích thước cho RectTransform
+            ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
+        }
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = forge.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = forge.power.ToString();
+
+        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = skills.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = forge.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(forge, null);
+            CreatePropertyUI(1, property, value);
+        }
+    }
+    private void ShowCardLifeDetails(CardLife card)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = card.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = card.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = card.power.ToString();
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = card.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = card.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(card, null);
             CreatePropertyUI(1, property, value);
         }
     }
