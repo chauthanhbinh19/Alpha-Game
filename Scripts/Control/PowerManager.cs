@@ -432,6 +432,22 @@ public class PowerManager
         }
         return powerManager;
     }
+    public static int CheckQuality(string rare){
+        switch(rare){
+            case "SR":
+                return 2;
+            case "SSR":
+                return 5;
+            case "UR":
+                return 10;
+            case "LG":
+                return 15;
+            case "MR":
+                return 20;
+            default:
+                return 0;
+        }
+    }
     public void GetAchievementsPower()
     {
         Achievements achievements = new Achievements();

@@ -56,11 +56,13 @@ public class Avatars
     private double percent_all_atomic_defense1;
     private double percent_all_mental_attack1;
     private double percent_all_mental_defense1;
+    private int quality1;
 
     public int id { get => id1; set => id1 = value; }
     public string name { get => name1; set => name1 = value; }
     public string image { get => image1; set => image1 = value; }
     public string rare { get => rare1; set => rare1 = value; }
+    public int quality { get => quality1; set => quality1 = value; }
     public double power { get => power1; set => power1 = value; }
     public double health { get => health1; set => health1 = value; }
     public double physical_attack { get => physical_attack1; set => physical_attack1 = value; }
@@ -144,6 +146,7 @@ public class Avatars
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -248,6 +251,7 @@ public class Avatars
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -331,6 +335,7 @@ public class Avatars
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -434,7 +439,7 @@ public class Avatars
                 {
                     string query = @"
                 INSERT INTO user_avatars (
-                    user_id, avatar_id, level, experiment, star, block, is_used, quantity, power, health, physical_attack, 
+                    user_id, avatar_id, level, experiment, star, quality, block, is_used, quantity, power, health, physical_attack, 
                     physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
                     atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
                     penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
@@ -442,7 +447,7 @@ public class Avatars
                     mana, mana_regeneration_rate, damage_to_different_faction_rate, 
                     resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
                 ) VALUES (
-                    @user_id, @avatar_id, @level, @experiment, @star, @block, @is_used, @quantity, @power, @health, @physical_attack, 
+                    @user_id, @avatar_id, @level, @experiment, @star, @quality, @block, @is_used, @quantity, @power, @health, @physical_attack, 
                     @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
                     @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
                     @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
@@ -456,6 +461,7 @@ public class Avatars
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@quality", PowerManager.CheckQuality(avatars.rare));
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@is_used", false);
                     command.Parameters.AddWithValue("@quantity", 0);
@@ -499,7 +505,7 @@ public class Avatars
                     string updateQuery = @"
                     UPDATE user_avatars
                     SET quantity = quantity + 1
-                    WHERE user_id = @user_id AND border_id = @avatar_id;";
+                    WHERE user_id = @user_id AND avatar_id = @avatar_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -542,7 +548,7 @@ public class Avatars
                 {
                     string query = @"
                 INSERT INTO user_avatars (
-                    user_id, avatar_id, level, experiment, star, block, is_used, quantity, power, health, physical_attack, 
+                    user_id, avatar_id, level, experiment, star, quality, block, is_used, quantity, power, health, physical_attack, 
                     physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
                     atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
                     penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
@@ -550,7 +556,7 @@ public class Avatars
                     mana, mana_regeneration_rate, damage_to_different_faction_rate, 
                     resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
                 ) VALUES (
-                    @user_id, @avatar_id, @level, @experiment, @star, @block, @is_used, @quantity, @power, @health, @physical_attack, 
+                    @user_id, @avatar_id, @level, @experiment, @star, @quality, @block, @is_used, @quantity, @power, @health, @physical_attack, 
                     @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
                     @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
                     @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
@@ -564,6 +570,7 @@ public class Avatars
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
+                    command.Parameters.AddWithValue("@quality", PowerManager.CheckQuality(Avatars.rare));
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@is_used", false);
                     command.Parameters.AddWithValue("@quantity", 1);
@@ -650,6 +657,7 @@ public class Avatars
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -757,6 +765,7 @@ public class Avatars
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
@@ -822,6 +831,7 @@ public class Avatars
                         // name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),

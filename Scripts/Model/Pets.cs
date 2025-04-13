@@ -96,11 +96,13 @@ public class Pets
     private double percent_all_atomic_defense1;
     private double percent_all_mental_attack1;
     private double percent_all_mental_defense1;
+    private int quality1;
 
     public int id { get => id1; set => id1 = value; }
     public string name { get => name1; set => name1 = value; }
     public string image { get => image1; set => image1 = value; }
     public string rare { get => rare1; set => rare1 = value; }
+    public int quality { get => quality1; set => quality1 = value; }
     public string type { get => type1; set => type1 = value; }
     public int star { get => star1; set => star1 = value; }
     public int level { get => level1; set => level1 = value; }
@@ -609,6 +611,7 @@ public class Pets
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
@@ -707,6 +710,7 @@ public class Pets
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
@@ -788,6 +792,7 @@ public class Pets
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
@@ -902,6 +907,7 @@ public class Pets
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
@@ -1051,7 +1057,7 @@ public class Pets
                 connection.Open();
                 string query = @"
                 INSERT INTO user_pets (
-                    user_id, pet_id, level, experiment, star, block, quantity, power, health, physical_attack, 
+                    user_id, pet_id, level, experiment, star, quality, block, quantity, power, health, physical_attack, 
                     physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
                     atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
                     penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
@@ -1059,7 +1065,7 @@ public class Pets
                     mana, mana_regeneration_rate, damage_to_different_faction_rate, 
                     resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
                 ) VALUES (
-                    @user_id, @pet_id, @level, @experiment, @star, @block, @quantity, @power, @health, @physical_attack, 
+                    @user_id, @pet_id, @level, @experiment, @star, @quality, @block, @quantity, @power, @health, @physical_attack, 
                     @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
                     @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
                     @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
@@ -1073,6 +1079,7 @@ public class Pets
                 command.Parameters.AddWithValue("@level", 0);
                 command.Parameters.AddWithValue("@experiment", 0);
                 command.Parameters.AddWithValue("@star", 0);
+                command.Parameters.AddWithValue("@quality", PowerManager.CheckQuality(pets.rare));
                 command.Parameters.AddWithValue("@block", false);
                 command.Parameters.AddWithValue("@power", pets.power);
                 command.Parameters.AddWithValue("@health", pets.health);
@@ -1477,6 +1484,7 @@ public class Pets
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
@@ -1577,6 +1585,7 @@ public class Pets
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
+                        quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
@@ -1644,6 +1653,7 @@ public class Pets
                     {
                         id = reader.GetInt32("pet_id"),
                         level = reader.GetInt32("level"),
+                        quality = reader.GetInt32("quality"),
                         experiment = reader.GetInt32("experiment"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
