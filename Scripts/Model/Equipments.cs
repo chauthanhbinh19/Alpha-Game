@@ -169,6 +169,63 @@ public class Equipments
         percent_all_mental_defense = -1;
         position = -1;
     }
+    public List<Equipments> GetQualityPower(List<Equipments> list)
+    {
+        foreach (var c in list)
+        {
+            c.health = c.health * (1 + quality / 10.0);
+            c.physical_attack = c.physical_attack * (1 + quality / 10.0);
+            c.physical_defense = c.physical_defense * (1 + quality / 10.0);
+            c.magical_attack = c.magical_attack * (1 + quality / 10.0);
+            c.magical_defense = c.magical_defense * (1 + quality / 10.0);
+            c.chemical_attack = c.chemical_attack * (1 + quality / 10.0);
+            c.chemical_defense = c.chemical_defense * (1 + quality / 10.0);
+            c.atomic_attack = c.atomic_attack * (1 + quality / 10.0);
+            c.atomic_defense = c.atomic_defense * (1 + quality / 10.0);
+            c.mental_attack = c.mental_attack * (1 + quality / 10.0);
+            c.mental_defense = c.mental_defense * (1 + quality / 10.0);
+            c.speed = c.speed * (1 + quality / 10.0);
+            c.critical_damage_rate = c.critical_damage_rate * (1 + quality / 10.0);
+            c.critical_rate = c.critical_rate * (1 + quality / 10.0);
+            c.penetration_rate = c.penetration_rate * (1 + quality / 10.0);
+            c.evasion_rate = c.evasion_rate * (1 + quality / 10.0);
+            c.damage_absorption_rate = c.damage_absorption_rate * (1 + quality / 10.0);
+            c.vitality_regeneration_rate = c.vitality_regeneration_rate * (1 + quality / 10.0);
+            c.accuracy_rate = c.accuracy_rate * (1 + quality / 10.0);
+            c.lifesteal_rate = c.lifesteal_rate * (1 + quality / 10.0);
+            c.shield_strength = c.shield_strength * (1 + quality / 10.0);
+            c.tenacity = c.tenacity * (1 + quality / 10.0);
+            c.resistance_rate = c.resistance_rate * (1 + quality / 10.0);
+            c.combo_rate = c.combo_rate * (1 + quality / 10.0);
+            c.reflection_rate = c.reflection_rate * (1 + quality / 10.0);
+            c.mana = (float)(c.mana * (1 + quality / 10.0));
+            c.mana_regeneration_rate = c.mana_regeneration_rate * (1 + quality / 10.0);
+            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate * (1 + quality / 10.0);
+            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate * (1 + quality / 10.0);
+            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate * (1 + quality / 10.0);
+            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate * (1 + quality / 10.0);
+
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
+        );
+        }
+        return list;
+    }
     public List<Equipments> GetAllRankPower(List<Equipments> EquipmentsList)
     {
         Rank rank = new Rank();
@@ -465,6 +522,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetQualityPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -584,6 +642,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetQualityPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -674,6 +733,7 @@ public class Equipments
                     equipmentList.Add(equipments);
                 }
                 equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetQualityPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -793,6 +853,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
+                equipmentList = GetQualityPower(equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -4600,7 +4661,7 @@ public class Equipments
                 connection.Open();
                 string query = @"SELECT *
                 FROM user_card_admirals uc, card_admirals c, card_admirals_equipment che, user_equipments ue
-                WHERE uc.card_admiral_id = c.id AND uc.card_hero_id = che.card_hero_id 
+                WHERE uc.card_admiral_id = c.id AND uc.card_admiral_id = che.card_admiral_id 
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_admiral_id = @card_admiral_id";
                 MySqlCommand command = new MySqlCommand(query, connection);

@@ -529,9 +529,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CreateButtonWithBackground(16, "Demon", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Demon"), buttonGroupPanel2);
 
             AssignButtonEvent("Button_1", buttonGroupPanel1, () =>
-        {
-            FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
-        });
+            {
+                FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            });
             AssignButtonEvent("Button_2", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
@@ -595,18 +595,31 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else
         {
-            // CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel);
+            // CreateButtonWithBackground(1, "Equipments", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel1);
             CreateButtonWithBackground(2, "Realm", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel1);
             CreateButtonWithBackground(3, "Upgrade", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel1);
             CreateButtonWithBackground(4, "Aptitude", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel1);
-            // CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel);
+            // CreateButtonWithBackground(5, "Affinity", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel1);
             CreateButtonWithBackground(6, "Blessing", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel1);
             CreateButtonWithBackground(7, "Core", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel1);
+            CreateButtonWithBackground(8, "Physique", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Physique"), buttonGroupPanel1);
+            CreateButtonWithBackground(9, "Bloodline", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Bloodline"), buttonGroupPanel1);
+            CreateButtonWithBackground(10, "Omnivision", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnivision"), buttonGroupPanel2);
+            CreateButtonWithBackground(11, "Omnipotence", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnipotence"), buttonGroupPanel2);
+            CreateButtonWithBackground(12, "Omnipresence", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnipresence"), buttonGroupPanel2);
+            CreateButtonWithBackground(13, "Omniscience", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omniscience"), buttonGroupPanel2);
+            CreateButtonWithBackground(14, "Omnivory", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnivory"), buttonGroupPanel2);
+            CreateButtonWithBackground(15, "Angel", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Angel"), buttonGroupPanel2);
+            CreateButtonWithBackground(16, "Demon", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Demon"), buttonGroupPanel2);
 
+            // AssignButtonEvent("Button_1", buttonGroupPanel1, () =>
+            // {
+            //     FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
+            // });
             AssignButtonEvent("Button_2", buttonGroupPanel1, () =>
-        {
-            FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
-        });
+            {
+                FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
+            });
             AssignButtonEvent("Button_3", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
@@ -626,6 +639,42 @@ public class MainMenuDetailsManager : MonoBehaviour
             AssignButtonEvent("Button_7", buttonGroupPanel1, () =>
             {
                 FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
+            });
+            AssignButtonEvent("Button_8", buttonGroupPanel1, () =>
+            {
+                FindAnyObjectByType<MainMenuPhysiqueManager>().CreateMainMenuPhysiqueManager(data);
+            });
+            AssignButtonEvent("Button_9", buttonGroupPanel1, () =>
+            {
+                FindAnyObjectByType<MainMenuBloodlineManager>().CreateMainMenuBloodlineManager(data);
+            });
+            AssignButtonEvent("Button_10", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmnivisionManager>().CreateMainMenuOmnivisionManager(data);
+            });
+            AssignButtonEvent("Button_11", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmnipotenceManager>().CreateMainMenuOmnipotenceManager(data);
+            });
+            AssignButtonEvent("Button_12", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmnipresenceManager>().CreateMainMenuOmnipresenceManager(data);
+            });
+            AssignButtonEvent("Button_13", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmniscienceManager>().CreateMainMenuOmniscienceManager(data);
+            });
+            AssignButtonEvent("Button_14", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuOmnivoryManager>().CreateMainMenuOmnivoryManager(data);
+            });
+            AssignButtonEvent("Button_15", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuAngelManager>().CreateMainMenuAngelManager(data);
+            });
+            AssignButtonEvent("Button_16", buttonGroupPanel2, () =>
+            {
+                FindAnyObjectByType<MainMenuDemonManager>().CreateMainMenuDemonManager(data);
             });
         }
     }
@@ -7124,7 +7173,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 }
             }
             else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-            || property.Name.Equals("star") || property.Name.Equals("level"))
+            || property.Name.Equals("star") || property.Name.Equals("level") || property.Name.Equals("all_power"))
             {
                 // Tạo một element mới từ prefab
                 GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
@@ -7132,7 +7181,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 // Gán tên thuộc tính vào TitleText
                 TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 if (elementTitleText != null)
-                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
                 // Gán giá trị thuộc tính vào ContentText
                 TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();

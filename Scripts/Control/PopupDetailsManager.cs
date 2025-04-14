@@ -1304,7 +1304,7 @@ public class PopupDetailsManager : MonoBehaviour
                     // Gán tên thuộc tính vào TitleText
                     TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                     if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
                     // Gán giá trị thuộc tính vào ContentText
                     TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();

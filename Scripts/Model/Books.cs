@@ -270,6 +270,63 @@ public class Books
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
     }
+    public List<Books> GetQualityPower(List<Books> list)
+    {
+        foreach (var c in list)
+        {
+            c.all_health = c.all_health * (1 + quality / 10.0);
+            c.all_physical_attack = c.all_physical_attack * (1 + quality / 10.0);
+            c.all_physical_defense = c.all_physical_defense * (1 + quality / 10.0);
+            c.all_magical_attack = c.all_magical_attack * (1 + quality / 10.0);
+            c.all_magical_defense = c.all_magical_defense * (1 + quality / 10.0);
+            c.all_chemical_attack = c.all_chemical_attack * (1 + quality / 10.0);
+            c.all_chemical_defense = c.all_chemical_defense * (1 + quality / 10.0);
+            c.all_atomic_attack = c.all_atomic_attack * (1 + quality / 10.0);
+            c.all_atomic_defense = c.all_atomic_defense * (1 + quality / 10.0);
+            c.all_mental_attack = c.all_mental_attack * (1 + quality / 10.0);
+            c.all_mental_defense = c.all_mental_defense * (1 + quality / 10.0);
+            c.all_speed = c.all_speed * (1 + quality / 10.0);
+            c.all_critical_damage_rate = c.all_critical_damage_rate * (1 + quality / 10.0);
+            c.all_critical_rate = c.all_critical_rate * (1 + quality / 10.0);
+            c.all_penetration_rate = c.all_penetration_rate * (1 + quality / 10.0);
+            c.all_evasion_rate = c.all_evasion_rate * (1 + quality / 10.0);
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate * (1 + quality / 10.0);
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate * (1 + quality / 10.0);
+            c.all_accuracy_rate = c.all_accuracy_rate * (1 + quality / 10.0);
+            c.all_lifesteal_rate = c.all_lifesteal_rate * (1 + quality / 10.0);
+            c.all_shield_strength = c.all_shield_strength * (1 + quality / 10.0);
+            c.all_tenacity = c.all_tenacity * (1 + quality / 10.0);
+            c.all_resistance_rate = c.all_resistance_rate * (1 + quality / 10.0);
+            c.all_combo_rate = c.all_combo_rate * (1 + quality / 10.0);
+            c.all_reflection_rate = c.all_reflection_rate * (1 + quality / 10.0);
+            c.all_mana = (float)(c.all_mana * (1 + quality / 10.0));
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate * (1 + quality / 10.0);
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate * (1 + quality / 10.0);
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate * (1 + quality / 10.0);
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate * (1 + quality / 10.0);
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate * (1 + quality / 10.0);
+
+            c.all_power = PowerManager.CalculatePower(
+            c.all_health,
+            c.all_physical_attack, c.all_physical_defense,
+            c.all_magical_attack, c.all_magical_defense,
+            c.all_chemical_attack, c.all_chemical_defense,
+            c.all_atomic_attack, c.all_atomic_defense,
+            c.all_mental_attack, c.all_mental_defense,
+            c.all_speed,
+            c.all_critical_damage_rate, c.all_critical_rate,
+            c.all_penetration_rate, c.all_evasion_rate,
+            c.all_damage_absorption_rate, c.all_vitality_regeneration_rate,
+            c.all_accuracy_rate, c.all_lifesteal_rate,
+            c.all_shield_strength, c.all_tenacity, c.all_resistance_rate,
+            c.all_combo_rate, c.all_reflection_rate,
+            c.all_mana, c.all_mana_regeneration_rate,
+            c.all_damage_to_different_faction_rate, c.all_resistance_to_different_faction_rate,
+            c.all_damage_to_same_faction_rate, c.all_resistance_to_same_faction_rate
+        );
+        }
+        return list;
+    }
     public List<Books> GetFinalPower(List<Books> BooksList)
     {
         PowerManager powerManager = new PowerManager();
@@ -651,6 +708,7 @@ public class Books
 
                     bookslist.Add(book);
                 }
+                bookslist = GetQualityPower(bookslist);
             }
             catch (MySqlException ex)
             {
@@ -751,6 +809,7 @@ public class Books
 
                     bookslist.Add(book);
                 }
+                bookslist = GetQualityPower(bookslist);
             }
             catch (MySqlException ex)
             {
@@ -801,38 +860,38 @@ public class Books
                         block = reader.GetBoolean("block"),
                         team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
                         position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        // power = reader.GetDouble("power"),
+                        // health = reader.GetDouble("health"),
+                        // physical_attack = reader.GetDouble("physical_attack"),
+                        // physical_defense = reader.GetDouble("physical_defense"),
+                        // magical_attack = reader.GetDouble("magical_attack"),
+                        // magical_defense = reader.GetDouble("magical_defense"),
+                        // chemical_attack = reader.GetDouble("chemical_attack"),
+                        // chemical_defense = reader.GetDouble("chemical_defense"),
+                        // atomic_attack = reader.GetDouble("atomic_attack"),
+                        // atomic_defense = reader.GetDouble("atomic_defense"),
+                        // mental_attack = reader.GetDouble("mental_attack"),
+                        // mental_defense = reader.GetDouble("mental_defense"),
+                        // speed = reader.GetDouble("speed"),
+                        // critical_damage_rate = reader.GetDouble("critical_damage_rate"),
+                        // critical_rate = reader.GetDouble("critical_rate"),
+                        // penetration_rate = reader.GetDouble("penetration_rate"),
+                        // evasion_rate = reader.GetDouble("evasion_rate"),
+                        // damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        // vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        // accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        // lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        // shield_strength = reader.GetDouble("shield_strength"),
+                        // tenacity = reader.GetDouble("tenacity"),
+                        // resistance_rate = reader.GetDouble("resistance_rate"),
+                        // combo_rate = reader.GetDouble("combo_rate"),
+                        // reflection_rate = reader.GetDouble("reflection_rate"),
+                        // mana = reader.GetFloat("mana"),
+                        // mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        // damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        // resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        // damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        // resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
 
                         all_power = reader.GetDouble("all_power"),
@@ -874,6 +933,7 @@ public class Books
                 bookslist = GetFinalPower(bookslist);
                 bookslist = GetAllEquipmentPower(bookslist);
                 bookslist = GetAllRankPower(bookslist);
+                bookslist = GetQualityPower(bookslist);
             }
             catch (MySqlException ex)
             {
@@ -920,38 +980,38 @@ public class Books
                         block = reader.GetBoolean("block"),
                         team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
                         position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        // power = reader.GetDouble("power"),
+                        // health = reader.GetDouble("health"),
+                        // physical_attack = reader.GetDouble("physical_attack"),
+                        // physical_defense = reader.GetDouble("physical_defense"),
+                        // magical_attack = reader.GetDouble("magical_attack"),
+                        // magical_defense = reader.GetDouble("magical_defense"),
+                        // chemical_attack = reader.GetDouble("chemical_attack"),
+                        // chemical_defense = reader.GetDouble("chemical_defense"),
+                        // atomic_attack = reader.GetDouble("atomic_attack"),
+                        // atomic_defense = reader.GetDouble("atomic_defense"),
+                        // mental_attack = reader.GetDouble("mental_attack"),
+                        // mental_defense = reader.GetDouble("mental_defense"),
+                        // speed = reader.GetDouble("speed"),
+                        // critical_damage_rate = reader.GetDouble("critical_damage_rate"),
+                        // critical_rate = reader.GetDouble("critical_rate"),
+                        // penetration_rate = reader.GetDouble("penetration_rate"),
+                        // evasion_rate = reader.GetDouble("evasion_rate"),
+                        // damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        // vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        // accuracy_rate = reader.GetDouble("accuracy_rate"),
+                        // lifesteal_rate = reader.GetDouble("lifesteal_rate"),
+                        // shield_strength = reader.GetDouble("shield_strength"),
+                        // tenacity = reader.GetDouble("tenacity"),
+                        // resistance_rate = reader.GetDouble("resistance_rate"),
+                        // combo_rate = reader.GetDouble("combo_rate"),
+                        // reflection_rate = reader.GetDouble("reflection_rate"),
+                        // mana = reader.GetFloat("mana"),
+                        // mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
+                        // damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
+                        // resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        // damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
+                        // resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
                         description = reader.GetString("description"),
 
                         all_power = reader.GetDouble("all_power"),
@@ -993,6 +1053,7 @@ public class Books
                 bookslist = GetFinalPower(bookslist);
                 bookslist = GetAllEquipmentPower(bookslist);
                 bookslist = GetAllRankPower(bookslist);
+                bookslist = GetQualityPower(bookslist);
             }
             catch (MySqlException ex)
             {
@@ -2003,6 +2064,7 @@ public class Books
 
                     bookslist.Add(book);
                 }
+                bookslist = GetQualityPower(bookslist);
             }
             catch (MySqlException ex)
             {

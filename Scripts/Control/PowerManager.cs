@@ -147,24 +147,24 @@ public class PowerManager
         double totalDefense = (physicalDefense + magicalDefense + chemicalDefense + atomicDefense + mentalDefense) * weight + shieldStrength * weight;
 
         // Điều chỉnh các chỉ số tỷ lệ
-        double adjustedCriticalRate = (criticalRate / 100) * totalAttack;
-        double adjustedCriticalDamage = (criticalDamageRate / 100) * totalAttack;
-        double adjustedPenetration = (penetrationRate / 100) * totalAttack;
-        double adjustedEvasion = (evasionRate / 100) * totalDefense;
-        double adjustedAbsorption = (damageAbsorptionRate / 100) * (totalDefense + health * 0.5);
-        double adjustedRegeneration = (vitalityRegenerationRate / 100) * health;
-        double adjustedAccuracy = (accuracyRate / 100) * totalAttack;
-        double adjustedLifesteal = (lifestealRate / 100) * totalAttack;
-        double adjustedTenacity = (tenacity / 100) * totalDefense;
-        double adjustedResistance = (resistanceRate / 100) * (totalDefense + health * 0.5);
-        double adjustedCombo = (comboRate / 100) * totalAttack;
-        double adjustedReflection = (reflectionRate / 100) * (totalDefense + health * 0.5);
+        double adjustedCriticalRate = (criticalRate / 100) * totalAttack /100;
+        double adjustedCriticalDamage = (criticalDamageRate / 100) * totalAttack /100;
+        double adjustedPenetration = (penetrationRate / 100) * totalAttack /100;
+        double adjustedEvasion = (evasionRate / 100) * totalDefense /100;
+        double adjustedAbsorption = (damageAbsorptionRate / 100) * (totalDefense + health * 0.5) /100;
+        double adjustedRegeneration = (vitalityRegenerationRate / 100) * health /100;
+        double adjustedAccuracy = (accuracyRate / 100) * totalAttack /100;
+        double adjustedLifesteal = (lifestealRate / 100) * totalAttack /100;
+        double adjustedTenacity = (tenacity / 100) * totalDefense /100;
+        double adjustedResistance = (resistanceRate / 100) * (totalDefense + health * 0.5) /100;
+        double adjustedCombo = (comboRate / 100) * totalAttack /100;
+        double adjustedReflection = (reflectionRate / 100) * (totalDefense + health * 0.5) /100;
 
         // Điều chỉnh thuộc tính faction
-        double adjustedDamageToDifferentFaction = (damageToDifferentFactionRate / 100) * totalAttack;
-        double adjustedResistanceToDifferentFaction = (resistanceToDifferentFactionRate / 100) * totalDefense;
-        double adjustedDamageToSameFaction = (damageToSameFactionRate / 100) * totalAttack;
-        double adjustedResistanceToSameFaction = (resistanceToSameFactionRate / 100) * totalDefense;
+        double adjustedDamageToDifferentFaction = (damageToDifferentFactionRate / 100) * totalAttack /100;
+        double adjustedResistanceToDifferentFaction = (resistanceToDifferentFactionRate / 100) * totalDefense /100;
+        double adjustedDamageToSameFaction = (damageToSameFactionRate / 100) * totalAttack /100;
+        double adjustedResistanceToSameFaction = (resistanceToSameFactionRate / 100) * totalDefense /100;
 
         // Điều chỉnh mana
         double adjustedMana = mana * 0.5;

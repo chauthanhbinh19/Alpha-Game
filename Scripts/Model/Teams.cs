@@ -97,6 +97,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -192,6 +193,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -286,6 +288,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -381,6 +384,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -476,6 +480,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -571,6 +576,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -666,6 +672,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -761,6 +768,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -856,6 +864,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),
@@ -942,7 +951,7 @@ public class Teams
             command = new MySqlCommand(userQuery, connection);
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
             reader = command.ExecuteReader();
-            if (reader.Read())
+            while (reader.Read())
             {
                 CardSpell cardSpell = new CardSpell
                 {
@@ -950,6 +959,7 @@ public class Teams
                     name = reader.GetString("name"),
                     image = reader.GetString("image"),
                     rare = reader.GetString("rare"),
+                    quality = reader.GetInt32("quality"),
                     type = reader.GetString("type"),
                     star = reader.GetInt32("star"),
                     level = reader.GetInt32("level"),

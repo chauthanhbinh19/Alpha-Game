@@ -123,6 +123,63 @@ public class Avatars
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
     }
+    public List<Avatars> GetQualityPower(List<Avatars> list)
+    {
+        foreach (var c in list)
+        {
+            c.health = c.health * (1 + quality / 10.0);
+            c.physical_attack = c.physical_attack * (1 + quality / 10.0);
+            c.physical_defense = c.physical_defense * (1 + quality / 10.0);
+            c.magical_attack = c.magical_attack * (1 + quality / 10.0);
+            c.magical_defense = c.magical_defense * (1 + quality / 10.0);
+            c.chemical_attack = c.chemical_attack * (1 + quality / 10.0);
+            c.chemical_defense = c.chemical_defense * (1 + quality / 10.0);
+            c.atomic_attack = c.atomic_attack * (1 + quality / 10.0);
+            c.atomic_defense = c.atomic_defense * (1 + quality / 10.0);
+            c.mental_attack = c.mental_attack * (1 + quality / 10.0);
+            c.mental_defense = c.mental_defense * (1 + quality / 10.0);
+            c.speed = c.speed * (1 + quality / 10.0);
+            c.critical_damage_rate = c.critical_damage_rate * (1 + quality / 10.0);
+            c.critical_rate = c.critical_rate * (1 + quality / 10.0);
+            c.penetration_rate = c.penetration_rate * (1 + quality / 10.0);
+            c.evasion_rate = c.evasion_rate * (1 + quality / 10.0);
+            c.damage_absorption_rate = c.damage_absorption_rate * (1 + quality / 10.0);
+            c.vitality_regeneration_rate = c.vitality_regeneration_rate * (1 + quality / 10.0);
+            c.accuracy_rate = c.accuracy_rate * (1 + quality / 10.0);
+            c.lifesteal_rate = c.lifesteal_rate * (1 + quality / 10.0);
+            c.shield_strength = c.shield_strength * (1 + quality / 10.0);
+            c.tenacity = c.tenacity * (1 + quality / 10.0);
+            c.resistance_rate = c.resistance_rate * (1 + quality / 10.0);
+            c.combo_rate = c.combo_rate * (1 + quality / 10.0);
+            c.reflection_rate = c.reflection_rate * (1 + quality / 10.0);
+            c.mana = (float)(c.mana * (1 + quality / 10.0));
+            c.mana_regeneration_rate = c.mana_regeneration_rate * (1 + quality / 10.0);
+            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate * (1 + quality / 10.0);
+            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate * (1 + quality / 10.0);
+            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate * (1 + quality / 10.0);
+            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate * (1 + quality / 10.0);
+
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
+        );
+        }
+        return list;
+    }
     public List<Avatars> GetAvatars(int pageSize, int offset)
     {
         List<Avatars> avatars = new List<Avatars>();
@@ -195,6 +252,7 @@ public class Avatars
 
                     avatars.Add(avatar);
                 }
+                avatars = GetQualityPower(avatars);
             }
             catch (MySqlException ex)
             {
@@ -301,6 +359,7 @@ public class Avatars
 
                     avatars.Add(avatar);
                 }
+                avatars = GetQualityPower(avatars);
             }
             catch (MySqlException ex)
             {
@@ -310,9 +369,9 @@ public class Avatars
         }
         return avatars;
     }
-    public List<Medals> GetUserMedals(int pageSize, int offset)
+    public List<Avatars> GetUserAvatars(int pageSize, int offset)
     {
-        List<Medals> medalsList = new List<Medals>();
+        List<Avatars> avatars = new List<Avatars>();
         int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -320,7 +379,7 @@ public class Avatars
             try
             {
                 connection.Open();
-                string query = @"Select m.* from Medals m, user_medals um where m.id=um.medal_id and um.user_id=@userId 
+                string query = @"Select um.*, m.name, m.image, m.rare, m.description from avatars m, user_avatars um where m.id=um.avatar_id and um.user_id=@userId 
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -329,9 +388,9 @@ public class Avatars
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Medals medals = new Medals
+                    Avatars avatar = new Avatars
                     {
-                        id = reader.GetInt32("id"),
+                        id = reader.GetInt32("avatar_id"),
                         name = reader.GetString("name"),
                         image = reader.GetString("image"),
                         rare = reader.GetString("rare"),
@@ -368,22 +427,23 @@ public class Avatars
                         resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
                         damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
                         resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
+                        // percent_all_health = reader.GetDouble("percent_all_health"),
+                        // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
+                        // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
+                        // percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
+                        // percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
+                        // percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
+                        // percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
+                        // percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
+                        // percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
+                        // percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
+                        // percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
                         description = reader.GetString("description")
                     };
 
-                    medalsList.Add(medals);
+                    avatars.Add(avatar);
                 }
+                avatars = GetQualityPower(avatars);
             }
             catch (MySqlException ex)
             {
@@ -391,7 +451,7 @@ public class Avatars
             }
 
         }
-        return medalsList;
+        return avatars;
     }
     public int GetUserMedalsCount(){
         int count =0;
@@ -711,6 +771,7 @@ public class Avatars
 
                     Avatars.Add(border);
                 }
+                Avatars = GetQualityPower(Avatars);
             }
             catch (MySqlException ex)
             {
@@ -1154,24 +1215,24 @@ public class Avatars
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
-                SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
-                SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
-                SUM(chemical_attack) AS total_chemical_attack, SUM(chemical_defense) AS total_chemical_defense, 
-                SUM(atomic_attack) AS total_atomic_attack, SUM(atomic_defense) AS total_atomic_defense, 
-                SUM(mental_attack) AS total_mental_attack, SUM(mental_defense) AS total_mental_defense, 
-                SUM(speed) AS total_speed, SUM(critical_damage_rate) AS total_critical_damage_rate, 
-                SUM(critical_rate) AS total_critical_rate, SUM(penetration_rate) AS total_penetration_rate, 
-                SUM(evasion_rate) AS total_evasion_rate, SUM(damage_absorption_rate) AS total_damage_absorption_rate, 
-                SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate, SUM(accuracy_rate) AS total_accuracy_rate, 
-                SUM(lifesteal_rate) AS total_lifesteal_rate, SUM(shield_strength) AS total_shield_strength, 
-                SUM(tenacity) AS total_tenacity, SUM(resistance_rate) AS total_resistance_rate, 
-                SUM(combo_rate) AS total_combo_rate, SUM(reflection_rate) AS total_reflection_rate, 
-                SUM(mana_regeneration_rate) AS total_mana_regeneration_rate, 
-                SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate, 
-                SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate, 
-                SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate, 
-                SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate
+                SUM(power * (1 + quality / 10.0)) AS total_power, SUM(health * (1 + quality / 10.0)) AS total_health, SUM(mana * (1 + quality / 10.0)) AS total_mana, 
+                SUM(physical_attack * (1 + quality / 10.0)) AS total_physical_attack, SUM(physical_defense * (1 + quality / 10.0)) AS total_physical_defense, 
+                SUM(magical_attack * (1 + quality / 10.0)) AS total_magical_attack, SUM(magical_defense * (1 + quality / 10.0)) AS total_magical_defense, 
+                SUM(chemical_attack * (1 + quality / 10.0)) AS total_chemical_attack, SUM(chemical_defense * (1 + quality / 10.0)) AS total_chemical_defense, 
+                SUM(atomic_attack * (1 + quality / 10.0)) AS total_atomic_attack, SUM(atomic_defense * (1 + quality / 10.0)) AS total_atomic_defense, 
+                SUM(mental_attack * (1 + quality / 10.0)) AS total_mental_attack, SUM(mental_defense * (1 + quality / 10.0)) AS total_mental_defense, 
+                SUM(speed * (1 + quality / 10.0)) AS total_speed, SUM(critical_damage_rate * (1 + quality / 10.0)) AS total_critical_damage_rate, 
+                SUM(critical_rate * (1 + quality / 10.0)) AS total_critical_rate, SUM(penetration_rate * (1 + quality / 10.0)) AS total_penetration_rate, 
+                SUM(evasion_rate * (1 + quality / 10.0)) AS total_evasion_rate, SUM(damage_absorption_rate * (1 + quality / 10.0)) AS total_damage_absorption_rate, 
+                SUM(vitality_regeneration_rate * (1 + quality / 10.0)) AS total_vitality_regeneration_rate, SUM(accuracy_rate * (1 + quality / 10.0)) AS total_accuracy_rate, 
+                SUM(lifesteal_rate * (1 + quality / 10.0)) AS total_lifesteal_rate, SUM(shield_strength * (1 + quality / 10.0)) AS total_shield_strength, 
+                SUM(tenacity * (1 + quality / 10.0)) AS total_tenacity, SUM(resistance_rate * (1 + quality / 10.0)) AS total_resistance_rate, 
+                SUM(combo_rate * (1 + quality / 10.0)) AS total_combo_rate, SUM(reflection_rate * (1 + quality / 10.0)) AS total_reflection_rate, 
+                SUM(mana_regeneration_rate * (1 + quality / 10.0)) AS total_mana_regeneration_rate, 
+                SUM(damage_to_different_faction_rate * (1 + quality / 10.0)) AS total_damage_to_different_faction_rate, 
+                SUM(resistance_to_different_faction_rate * (1 + quality / 10.0)) AS total_resistance_to_different_faction_rate, 
+                SUM(damage_to_same_faction_rate * (1 + quality / 10.0)) AS total_damage_to_same_faction_rate, 
+                SUM(resistance_to_same_faction_rate * (1 + quality / 10.0)) AS total_resistance_to_same_faction_rate
             FROM user_avatars
             WHERE user_id = @user_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);

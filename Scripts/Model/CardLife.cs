@@ -133,6 +133,63 @@ public class CardLife
         percent_all_mental_attack = -1;
         percent_all_mental_defense = -1;
     }
+    public List<CardLife> GetQualityPower(List<CardLife> list)
+    {
+        foreach (var c in list)
+        {
+            c.health = c.health * (1 + quality / 10.0);
+            c.physical_attack = c.physical_attack * (1 + quality / 10.0);
+            c.physical_defense = c.physical_defense * (1 + quality / 10.0);
+            c.magical_attack = c.magical_attack * (1 + quality / 10.0);
+            c.magical_defense = c.magical_defense * (1 + quality / 10.0);
+            c.chemical_attack = c.chemical_attack * (1 + quality / 10.0);
+            c.chemical_defense = c.chemical_defense * (1 + quality / 10.0);
+            c.atomic_attack = c.atomic_attack * (1 + quality / 10.0);
+            c.atomic_defense = c.atomic_defense * (1 + quality / 10.0);
+            c.mental_attack = c.mental_attack * (1 + quality / 10.0);
+            c.mental_defense = c.mental_defense * (1 + quality / 10.0);
+            c.speed = c.speed * (1 + quality / 10.0);
+            c.critical_damage_rate = c.critical_damage_rate * (1 + quality / 10.0);
+            c.critical_rate = c.critical_rate * (1 + quality / 10.0);
+            c.penetration_rate = c.penetration_rate * (1 + quality / 10.0);
+            c.evasion_rate = c.evasion_rate * (1 + quality / 10.0);
+            c.damage_absorption_rate = c.damage_absorption_rate * (1 + quality / 10.0);
+            c.vitality_regeneration_rate = c.vitality_regeneration_rate * (1 + quality / 10.0);
+            c.accuracy_rate = c.accuracy_rate * (1 + quality / 10.0);
+            c.lifesteal_rate = c.lifesteal_rate * (1 + quality / 10.0);
+            c.shield_strength = c.shield_strength * (1 + quality / 10.0);
+            c.tenacity = c.tenacity * (1 + quality / 10.0);
+            c.resistance_rate = c.resistance_rate * (1 + quality / 10.0);
+            c.combo_rate = c.combo_rate * (1 + quality / 10.0);
+            c.reflection_rate = c.reflection_rate * (1 + quality / 10.0);
+            c.mana = (float)(c.mana * (1 + quality / 10.0));
+            c.mana_regeneration_rate = c.mana_regeneration_rate * (1 + quality / 10.0);
+            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate * (1 + quality / 10.0);
+            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate * (1 + quality / 10.0);
+            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate * (1 + quality / 10.0);
+            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate * (1 + quality / 10.0);
+
+            c.power = PowerManager.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate,
+            c.penetration_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.vitality_regeneration_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.reflection_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate
+        );
+        }
+        return list;
+    }
     public CardLife GetNewLevelPower(CardLife c, double coefficient)
     {
         CardLife orginCard = new CardLife();
@@ -342,6 +399,7 @@ public class CardLife
 
                     CardLifes.Add(CardLife);
                 }
+                CardLifes = GetQualityPower(CardLifes);
             }
             catch (MySqlException ex)
             {
@@ -451,6 +509,7 @@ public class CardLife
 
                     CardLifes.Add(CardLife);
                 }
+                CardLifes = GetQualityPower(CardLifes);
             }
             catch (MySqlException ex)
             {
@@ -523,22 +582,23 @@ public class CardLife
                         resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
                         damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
                         resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
+                        // percent_all_health = reader.GetDouble("percent_all_health"),
+                        // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
+                        // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
+                        // percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
+                        // percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
+                        // percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
+                        // percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
+                        // percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
+                        // percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
+                        // percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
+                        // percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
                         description = reader.GetString("description")
                     };
 
                     CardLifes.Add(CardLife);
                 }
+                CardLifes = GetQualityPower(CardLifes);
             }
             catch (MySqlException ex)
             {
@@ -929,6 +989,7 @@ public class CardLife
 
                     CardLifes.Add(CardLife);
                 }
+                CardLifes = GetQualityPower(CardLifes);
             }
             catch (MySqlException ex)
             {
