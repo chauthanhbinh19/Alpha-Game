@@ -498,10 +498,10 @@ public class Titles
         }
         return titlesList;
     }
-    public List<Titles> GetUserTitles(int pageSize, int offset)
+    public List<Titles> GetUserTitles(int user_id, int pageSize, int offset)
     {
         List<Titles> titlesList = new List<Titles>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -587,10 +587,10 @@ public class Titles
         }
         return titlesList;
     }
-    public int GetUserTitlesCount()
+    public int GetUserTitlesCount(int user_id)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1045,7 +1045,7 @@ public class Titles
         }
         return titles;
     }
-    public Titles GetUserTitlesById(int Id)
+    public Titles GetUserTitlesById(int user_id, int Id)
     {
         Titles card = new Titles();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1058,7 +1058,7 @@ public class Titles
                 and user_titles.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

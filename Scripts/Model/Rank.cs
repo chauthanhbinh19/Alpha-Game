@@ -3115,10 +3115,10 @@ public class Rank
             }
         }
     }
-    public Rank GetSumCardHeroesRank(int card_id)
+    public Rank GetSumCardHeroesRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3217,10 +3217,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumCardCaptainsRank(int card_id)
+    public Rank GetSumCardCaptainsRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3319,10 +3319,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumCardColonelsRank(int card_id)
+    public Rank GetSumCardColonelsRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3421,10 +3421,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumCardGeneralsRank(int card_id)
+    public Rank GetSumCardGeneralsRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3523,10 +3523,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumCardAdmiralsRank(int card_id)
+    public Rank GetSumCardAdmiralsRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3625,10 +3625,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumCardMonstersRank(int card_id)
+    public Rank GetSumCardMonstersRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3727,10 +3727,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumCardMilitaryRank(int card_id)
+    public Rank GetSumCardMilitaryRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3829,10 +3829,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumCardSpellRank(int card_id)
+    public Rank GetSumCardSpellRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3931,10 +3931,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumBooksRank(int card_id)
+    public Rank GetSumBooksRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -4033,10 +4033,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumPetsRank(int card_id)
+    public Rank GetSumPetsRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -4135,10 +4135,10 @@ public class Rank
         }
         return rank;
     }
-    public Rank GetSumEquipmentsRank(int card_id)
+    public Rank GetSumEquipmentsRank(int user_id, int card_id)
     {
         Rank rank = new Rank();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

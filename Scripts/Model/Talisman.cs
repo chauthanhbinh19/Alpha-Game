@@ -519,10 +519,10 @@ public class Talisman
         }
         return talismanList;
     }
-    public List<Talisman> GetUserTalisman(string type, int pageSize, int offset)
+    public List<Talisman> GetUserTalisman(int user_id, string type, int pageSize, int offset)
     {
         List<Talisman> talismanList = new List<Talisman>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -608,10 +608,10 @@ public class Talisman
         }
         return talismanList;
     }
-    public int GetUserTalismanCount(string type)
+    public int GetUserTalismanCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1092,7 +1092,7 @@ public class Talisman
         }
         return Talisman;
     }
-    public Talisman GetUserTalismanById(int Id)
+    public Talisman GetUserTalismanById(int user_id, int Id)
     {
         Talisman card = new Talisman();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1105,7 +1105,7 @@ public class Talisman
                 and user_talisman.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

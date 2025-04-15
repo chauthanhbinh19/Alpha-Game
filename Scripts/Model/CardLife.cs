@@ -519,10 +519,10 @@ public class CardLife
         }
         return CardLifes;
     }
-    public List<CardLife> GetUserCardLife(string type, int pageSize, int offset)
+    public List<CardLife> GetUserCardLife(int user_id, string type, int pageSize, int offset)
     {
         List<CardLife> CardLifes = new List<CardLife>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -608,10 +608,10 @@ public class CardLife
         }
         return CardLifes;
     }
-    public int GetUserCardLifeCount(string type)
+    public int GetUserCardLifeCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1092,7 +1092,7 @@ public class CardLife
         }
         return CardLife;
     }
-    public CardLife GetUserCardLifeById(int Id)
+    public CardLife GetUserCardLifeById(int user_id, int Id)
     {
         CardLife card = new CardLife();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1105,7 +1105,7 @@ public class CardLife
                 and user_card_life.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

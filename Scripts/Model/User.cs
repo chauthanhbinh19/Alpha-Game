@@ -90,7 +90,7 @@ public class User
                     avatar.InsertAvatarsGallery(1);
                     avatar.UpdateIsUsedAvatars(1, true);
                     PowerManager powerManager = new PowerManager();
-                    powerManager.InsertUserStats();
+                    powerManager.InsertUserStats(CurrentUserId);
                     Teams team= new Teams();
                     team.InsertUserTeams();
                     Debug.Log("User registered successfully!");

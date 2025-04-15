@@ -327,14 +327,14 @@ public class Pets
         }
         return list;
     }
-    public List<Pets> GetFinalPower(List<Pets> PetsList)
+    public List<Pets> GetFinalPower(int user_id, List<Pets> PetsList)
     {
         PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
+        powerManager = powerManager.GetUserStats(user_id);
         foreach (var c in PetsList)
         {
             Pets card = new Pets();
-            card = card.GetUserPetsById(c.id);
+            card = card.GetUserPetsById(user_id, c.id);
             c.all_health = c.all_health + powerManager.health + card.health * powerManager.percent_all_health / 100;
             c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + card.physical_attack * powerManager.percent_all_physical_attack / 100;
             c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + card.physical_defense * powerManager.percent_all_physical_defense / 100;
@@ -388,12 +388,12 @@ public class Pets
         }
         return PetsList;
     }
-    public List<Pets> GetAllEquipmentPower(List<Pets> PetsList)
+    public List<Pets> GetAllEquipmentPower(int user_id, List<Pets> PetsList)
     {
         Equipments equipments = new Equipments();
         foreach (var c in PetsList)
         {
-            equipments = equipments.GetAllEquipmentsByPetsId(c.id);
+            equipments = equipments.GetAllEquipmentsByPetsId(user_id, c.id);
             c.all_health = c.all_health + equipments.health + equipments.special_health;
             c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
             c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
@@ -447,14 +447,14 @@ public class Pets
         }
         return PetsList;
     }
-    public List<Pets> GetAllRankPower(List<Pets> PetsList)
+    public List<Pets> GetAllRankPower(int user_id, List<Pets> PetsList)
     {
         Rank rank = new Rank();
         foreach (var c in PetsList)
         {
             Pets card = new Pets();
-            card = card.GetUserPetsById(c.id);
-            rank = rank.GetSumPetsRank(c.id);
+            card = card.GetUserPetsById(user_id, c.id);
+            rank = rank.GetSumPetsRank(user_id, c.id);
             c.all_health = c.all_health + rank.health + card.health * rank.percent_all_health / 100;
             c.all_physical_attack = c.all_physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack / 100;
             c.all_physical_defense = c.all_physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense / 100;
@@ -819,10 +819,10 @@ public class Pets
         }
         return petsList;
     }
-    public List<Pets> GetUserPets(string type, int pageSize, int offset)
+    public List<Pets> GetUserPets(int user_id, string type, int pageSize, int offset)
     {
         List<Pets> petsList = new List<Pets>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -926,9 +926,9 @@ public class Pets
 
                     petsList.Add(pet);
                 }
-                petsList = GetFinalPower(petsList);
-                petsList = GetAllEquipmentPower(petsList);
-                petsList = GetAllRankPower(petsList);
+                petsList = GetFinalPower(user_id, petsList);
+                petsList = GetAllEquipmentPower(user_id, petsList);
+                petsList = GetAllRankPower(user_id, petsList);
                 petsList = GetQualityPower(petsList);
             }
             catch (MySqlException ex)
@@ -939,7 +939,7 @@ public class Pets
         }
         return petsList;
     }
-    public List<Pets> GetUserPetsTeam(int teamId)
+    public List<Pets> GetUserPetsTeam(int user_id, int teamId)
     {
         List<Pets> petsList = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -956,7 +956,7 @@ public class Pets
                 ORDER BY p.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@team_id", teamId);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -1042,9 +1042,9 @@ public class Pets
 
                     petsList.Add(pet);
                 }
-                petsList = GetFinalPower(petsList);
-                petsList = GetAllEquipmentPower(petsList);
-                petsList = GetAllRankPower(petsList);
+                petsList = GetFinalPower(user_id, petsList);
+                petsList = GetAllEquipmentPower(user_id, petsList);
+                petsList = GetAllRankPower(user_id, petsList);
                 petsList = GetQualityPower(petsList);
             }
             catch (MySqlException ex)
@@ -1083,10 +1083,10 @@ public class Pets
         }
         return result;
     }
-    public int GetUserPetsCount(string type)
+    public int GetUserPetsCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1695,7 +1695,7 @@ public class Pets
         }
         return pets;
     }
-    public Pets GetUserPetsById(int Id)
+    public Pets GetUserPetsById(int user_id, int Id)
     {
         Pets card = new Pets();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1708,7 +1708,7 @@ public class Pets
                 and user_pets.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

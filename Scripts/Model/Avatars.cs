@@ -369,10 +369,10 @@ public class Avatars
         }
         return avatars;
     }
-    public List<Avatars> GetUserAvatars(int pageSize, int offset)
+    public List<Avatars> GetUserAvatars(int user_id, int pageSize, int offset)
     {
         List<Avatars> avatars = new List<Avatars>();
-        int user_id=User.CurrentUserId;
+        // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -453,9 +453,9 @@ public class Avatars
         }
         return avatars;
     }
-    public int GetUserMedalsCount(){
+    public int GetUserMedalsCount(int user_id){
         int count =0;
-        int user_id=User.CurrentUserId;
+        // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

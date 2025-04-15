@@ -519,10 +519,10 @@ public class Puppet
         }
         return Puppets;
     }
-    public List<Puppet> GetUserPuppet(string type, int pageSize, int offset)
+    public List<Puppet> GetUserPuppet(int user_id, string type, int pageSize, int offset)
     {
         List<Puppet> Puppets = new List<Puppet>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -608,10 +608,10 @@ public class Puppet
         }
         return Puppets;
     }
-    public int GetUserPuppetCount(string type)
+    public int GetUserPuppetCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1092,7 +1092,7 @@ public class Puppet
         }
         return Puppet;
     }
-    public Puppet GetUserPuppetById(int Id)
+    public Puppet GetUserPuppetById(int user_id, int Id)
     {
         Puppet card = new Puppet();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1105,7 +1105,7 @@ public class Puppet
                 and user_puppet.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

@@ -328,11 +328,11 @@ public class EquipmentManager : MonoBehaviour
         currentObject = Instantiate(MainMenuPanel, MainPanel);
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
-        List<Equipments> equipments = equipmentsManager.GetUserEquipments(type, pageSize, offset);
+        List<Equipments> equipments = equipmentsManager.GetUserEquipments(User.CurrentUserId, type, pageSize, offset);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel");
         createEquipmentsBag(equipments);
 
-        totalRecord = equipmentsManager.GetUserEquipmentsCount(type);
+        totalRecord = equipmentsManager.GetUserEquipmentsCount(User.CurrentUserId, type);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
@@ -406,11 +406,11 @@ public class EquipmentManager : MonoBehaviour
         currentObject = Instantiate(MainMenuEnhancementPanel, MainPanel);
         int totalRecord = 0;
         Equipments equipmentsManager = new Equipments();
-        List<Equipments> equipments = equipmentsManager.GetUserEquipments(type, pageSize, offset);
+        List<Equipments> equipments = equipmentsManager.GetUserEquipments(User.CurrentUserId, type, pageSize, offset);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel");
         createEquipmentsEnhancement(equipments);
 
-        totalRecord = equipmentsManager.GetUserEquipmentsCount(type);
+        totalRecord = equipmentsManager.GetUserEquipmentsCount(User.CurrentUserId, type);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
@@ -490,11 +490,11 @@ public class EquipmentManager : MonoBehaviour
             if (status == 1)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetUserEquipments(subType, pageSize, offset);
+                List<Equipments> equipments = equipmentManager.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset);
                 createEquipmentsBag(equipments);
             }
             else if (status == 2)
@@ -510,11 +510,11 @@ public class EquipmentManager : MonoBehaviour
             else if (status == 3)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetUserEquipments(subType, pageSize, offset);
+                List<Equipments> equipments = equipmentManager.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset);
                 createEquipmentsEnhancement(equipments);
             }
 
@@ -532,11 +532,11 @@ public class EquipmentManager : MonoBehaviour
             if (status == 1)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetUserEquipments(subType, pageSize, offset);
+                List<Equipments> equipments = equipmentManager.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset);
                 createEquipmentsBag(equipments);
             }
             else if (status == 2)
@@ -552,11 +552,11 @@ public class EquipmentManager : MonoBehaviour
             else if (status == 3)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetUserEquipments(subType, pageSize, offset);
+                List<Equipments> equipments = equipmentManager.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset);
                 createEquipmentsShop(equipments, subType);
             }
 

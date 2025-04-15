@@ -519,10 +519,10 @@ public class Alchemy
         }
         return Alchemys;
     }
-    public List<Alchemy> GetUserAlchemy(string type, int pageSize, int offset)
+    public List<Alchemy> GetUserAlchemy(int user_id, string type, int pageSize, int offset)
     {
         List<Alchemy> Alchemys = new List<Alchemy>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -608,10 +608,10 @@ public class Alchemy
         }
         return Alchemys;
     }
-    public int GetUserAlchemyCount(string type)
+    public int GetUserAlchemyCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1093,7 +1093,7 @@ public class Alchemy
         }
         return Alchemy;
     }
-    public Alchemy GetUserAlchemyById(int Id)
+    public Alchemy GetUserAlchemyById(int user_id, int Id)
     {
         Alchemy card = new Alchemy();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1106,7 +1106,7 @@ public class Alchemy
                 and user_alchemy.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

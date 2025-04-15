@@ -521,10 +521,10 @@ public class Symbols
         }
         return symbolsList;
     }
-    public List<Symbols> GetUserSymbols(string type, int pageSize, int offset)
+    public List<Symbols> GetUserSymbols(int user_id, string type, int pageSize, int offset)
     {
         List<Symbols> symbolsList = new List<Symbols>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -611,10 +611,10 @@ public class Symbols
         }
         return symbolsList;
     }
-    public int GetUserSymbolsCount(string type)
+    public int GetUserSymbolsCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1072,7 +1072,7 @@ public class Symbols
         }
         return symbols;
     }
-    public Symbols GetUserSymbolsById(int Id)
+    public Symbols GetUserSymbolsById(int user_id, int Id)
     {
         Symbols card = new Symbols();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1085,7 +1085,7 @@ public class Symbols
                 and user_symbols.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

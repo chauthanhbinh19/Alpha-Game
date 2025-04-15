@@ -327,14 +327,14 @@ public class Books
         }
         return list;
     }
-    public List<Books> GetFinalPower(List<Books> BooksList)
+    public List<Books> GetFinalPower(int user_id, List<Books> BooksList)
     {
         PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
+        powerManager = powerManager.GetUserStats(user_id);
         foreach (var c in BooksList)
         {
             Books books = new Books();
-            books = books.GetUserBooksById(c.id);
+            books = books.GetUserBooksById(user_id, c.id);
             c.all_health = c.all_health + powerManager.health + books.health * powerManager.percent_all_health / 100;
             c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + books.physical_attack * powerManager.percent_all_physical_attack / 100;
             c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + books.physical_defense * powerManager.percent_all_physical_defense / 100;
@@ -388,12 +388,12 @@ public class Books
         }
         return BooksList;
     }
-    public List<Books> GetAllEquipmentPower(List<Books> BooksList)
+    public List<Books> GetAllEquipmentPower(int user_id, List<Books> BooksList)
     {
         Equipments equipments = new Equipments();
         foreach (var c in BooksList)
         {
-            equipments = equipments.GetAllEquipmentsByBooksId(c.id);
+            equipments = equipments.GetAllEquipmentsByBooksId(user_id, c.id);
             c.all_health = c.all_health + equipments.health + equipments.special_health;
             c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
             c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
@@ -447,14 +447,14 @@ public class Books
         }
         return BooksList;
     }
-    public List<Books> GetAllRankPower(List<Books> BooksList)
+    public List<Books> GetAllRankPower(int user_id, List<Books> BooksList)
     {
         Rank rank = new Rank();
         foreach (var c in BooksList)
         {
             Books books = new Books();
-            books = books.GetUserBooksById(c.id);
-            rank = rank.GetSumBooksRank(c.id);
+            books = books.GetUserBooksById(user_id, c.id);
+            rank = rank.GetSumBooksRank(user_id, c.id);
             c.all_health = c.all_health + rank.health + books.health * rank.percent_all_health / 100;
             c.all_physical_attack = c.all_physical_attack + rank.physical_attack + books.physical_attack * rank.percent_all_physical_attack / 100;
             c.all_physical_defense = c.all_physical_defense + rank.physical_defense + books.physical_defense * rank.percent_all_physical_defense / 100;
@@ -819,10 +819,10 @@ public class Books
         }
         return bookslist;
     }
-    public List<Books> GetUserBooks(string type, int pageSize, int offset)
+    public List<Books> GetUserBooks(int user_id, string type, int pageSize, int offset)
     {
         List<Books> bookslist = new List<Books>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -930,9 +930,9 @@ public class Books
 
                     bookslist.Add(book);
                 }
-                bookslist = GetFinalPower(bookslist);
-                bookslist = GetAllEquipmentPower(bookslist);
-                bookslist = GetAllRankPower(bookslist);
+                bookslist = GetFinalPower(user_id, bookslist);
+                bookslist = GetAllEquipmentPower(user_id, bookslist);
+                bookslist = GetAllRankPower(user_id, bookslist);
                 bookslist = GetQualityPower(bookslist);
             }
             catch (MySqlException ex)
@@ -1050,9 +1050,9 @@ public class Books
 
                     bookslist.Add(book);
                 }
-                bookslist = GetFinalPower(bookslist);
-                bookslist = GetAllEquipmentPower(bookslist);
-                bookslist = GetAllRankPower(bookslist);
+                bookslist = GetFinalPower(user_id, bookslist);
+                bookslist = GetAllEquipmentPower(user_id, bookslist);
+                bookslist = GetAllRankPower(user_id, bookslist);
                 bookslist = GetQualityPower(bookslist);
             }
             catch (MySqlException ex)
@@ -1091,10 +1091,10 @@ public class Books
         }
         return result;
     }
-    public int GetUserBooksCount(string type)
+    public int GetUserBooksCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1765,7 +1765,7 @@ public class Books
         }
         return book;
     }
-    public Books GetUserBooksById(int Id)
+    public Books GetUserBooksById(int user_id, int Id)
     {
         Books card = new Books();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1778,7 +1778,7 @@ public class Books
                 and user_books.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

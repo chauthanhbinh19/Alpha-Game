@@ -519,10 +519,10 @@ public class MagicFormationCircle
         }
         return magicFormationCircles;
     }
-    public List<MagicFormationCircle> GetUserMagicFormationCircle(string type, int pageSize, int offset)
+    public List<MagicFormationCircle> GetUserMagicFormationCircle(int user_id, string type, int pageSize, int offset)
     {
         List<MagicFormationCircle> magicFormationCircles = new List<MagicFormationCircle>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -608,10 +608,10 @@ public class MagicFormationCircle
         }
         return magicFormationCircles;
     }
-    public int GetUserMagicFormationCircleCount(string type)
+    public int GetUserMagicFormationCircleCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1092,7 +1092,7 @@ public class MagicFormationCircle
         }
         return magicFormationCircle;
     }
-    public MagicFormationCircle GetUserMagicFormationCirlceById(int Id)
+    public MagicFormationCircle GetUserMagicFormationCirlceById(int user_id, int Id)
     {
         MagicFormationCircle card = new MagicFormationCircle();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1105,7 +1105,7 @@ public class MagicFormationCircle
                 and user_magic_formation_circle.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

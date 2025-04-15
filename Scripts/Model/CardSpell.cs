@@ -328,14 +328,14 @@ public class CardSpell
         }
         return list;
     }
-    public List<CardSpell> GetFinalPower(List<CardSpell> CardSpellList)
+    public List<CardSpell> GetFinalPower(int user_id, List<CardSpell> CardSpellList)
     {
         PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
+        powerManager = powerManager.GetUserStats(user_id);
         foreach (var c in CardSpellList)
         {
             CardSpell card = new CardSpell();
-            card = card.GetUserCardSpellById(c.id);
+            card = card.GetUserCardSpellById(user_id, c.id);
             c.all_health = c.all_health + powerManager.health + card.health * powerManager.percent_all_health / 100;
             c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + card.physical_attack * powerManager.percent_all_physical_attack / 100;
             c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + card.physical_defense * powerManager.percent_all_physical_defense / 100;
@@ -389,12 +389,12 @@ public class CardSpell
         }
         return CardSpellList;
     }
-    public List<CardSpell> GetAllEquipmentPower(List<CardSpell> CardSpellList)
+    public List<CardSpell> GetAllEquipmentPower(int user_id, List<CardSpell> CardSpellList)
     {
         Equipments equipments = new Equipments();
         foreach (var c in CardSpellList)
         {
-            equipments = equipments.GetAllEquipmentsByCardSpellId(c.id);
+            equipments = equipments.GetAllEquipmentsByCardSpellId(user_id, c.id);
             c.all_health = c.all_health + equipments.health + equipments.special_health;
             c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
             c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
@@ -448,14 +448,14 @@ public class CardSpell
         }
         return CardSpellList;
     }
-    public List<CardSpell> GetAllRankPower(List<CardSpell> CardSpellList)
+    public List<CardSpell> GetAllRankPower(int user_id, List<CardSpell> CardSpellList)
     {
         Rank rank = new Rank();
         foreach (var c in CardSpellList)
         {
             CardSpell card = new CardSpell();
-            card = card.GetUserCardSpellById(c.id);
-            rank = rank.GetSumCardSpellRank(c.id);
+            card = card.GetUserCardSpellById(user_id, c.id);
+            rank = rank.GetSumCardSpellRank(user_id, c.id);
             c.all_health = c.all_health + rank.health + card.health * rank.percent_all_health/100;
             c.all_physical_attack = c.all_physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack/100;
             c.all_physical_defense = c.all_physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense/100;
@@ -820,10 +820,10 @@ public class CardSpell
         }
         return CardSpellList;
     }
-    public List<CardSpell> GetUserCardSpell(string type, int pageSize, int offset)
+    public List<CardSpell> GetUserCardSpell(int user_id, string type, int pageSize, int offset)
     {
         List<CardSpell> CardSpellList = new List<CardSpell>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -930,9 +930,9 @@ public class CardSpell
 
                     CardSpellList.Add(CardSpell);
                 }
-                CardSpellList = GetFinalPower(CardSpellList);
-                CardSpellList = GetAllEquipmentPower(CardSpellList);
-                CardSpellList = GetAllRankPower(CardSpellList);
+                CardSpellList = GetFinalPower(user_id, CardSpellList);
+                CardSpellList = GetAllEquipmentPower(user_id, CardSpellList);
+                CardSpellList = GetAllRankPower(user_id, CardSpellList);
                 CardSpellList = GetQualityPower(CardSpellList);
             }
             catch (MySqlException ex)
@@ -943,10 +943,10 @@ public class CardSpell
         }
         return CardSpellList;
     }
-    public List<CardSpell> GetUserCardSpellTeam(int teamId)
+    public List<CardSpell> GetUserCardSpellTeam(int user_id, int teamId)
     {
         List<CardSpell> CardSpellList = new List<CardSpell>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1050,9 +1050,9 @@ public class CardSpell
 
                     CardSpellList.Add(CardSpell);
                 }
-                CardSpellList = GetFinalPower(CardSpellList);
-                CardSpellList = GetAllEquipmentPower(CardSpellList);
-                CardSpellList = GetAllRankPower(CardSpellList);
+                CardSpellList = GetFinalPower(user_id, CardSpellList);
+                CardSpellList = GetAllEquipmentPower(user_id, CardSpellList);
+                CardSpellList = GetAllRankPower(user_id, CardSpellList);
                 CardSpellList = GetQualityPower(CardSpellList);
             }
             catch (MySqlException ex)
@@ -1117,10 +1117,10 @@ public class CardSpell
         }
         return true;
     }
-    public int GetUserCardSpellCount(string type)
+    public int GetUserCardSpellCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1765,7 +1765,7 @@ public class CardSpell
         }
         return CardSpell;
     }
-    public CardSpell GetUserCardSpellById(int Id)
+    public CardSpell GetUserCardSpellById(int user_id, int Id)
     {
         CardSpell card = new CardSpell();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1778,7 +1778,7 @@ public class CardSpell
                 and user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

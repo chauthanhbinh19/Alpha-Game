@@ -369,10 +369,10 @@ public class Borders
         }
         return borders;
     }
-    public List<Borders> GetUserBorders(int pageSize, int offset)
+    public List<Borders> GetUserBorders(int user_id, int pageSize, int offset)
     {
         List<Borders> borders = new List<Borders>();
-        int user_id=User.CurrentUserId;
+        // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -453,9 +453,9 @@ public class Borders
         }
         return borders;
     }
-    public int GetUserMedalsCount(){
+    public int GetUserBordersCount(int user_id){
         int count =0;
-        int user_id=User.CurrentUserId;
+        // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

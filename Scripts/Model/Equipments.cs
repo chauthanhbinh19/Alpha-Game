@@ -226,14 +226,14 @@ public class Equipments
         }
         return list;
     }
-    public List<Equipments> GetAllRankPower(List<Equipments> EquipmentsList)
+    public List<Equipments> GetAllRankPower(int user_id, List<Equipments> EquipmentsList)
     {
         Rank rank = new Rank();
         foreach (var c in EquipmentsList)
         {
             Equipments card = new Equipments();
-            card = card.GetUserEquipmentsById(c.id);
-            rank = rank.GetSumEquipmentsRank(c.id);
+            card = card.GetUserEquipmentsById(user_id, c.id);
+            rank = rank.GetSumEquipmentsRank(user_id, c.id);
             c.health = c.health + rank.health + card.health * rank.percent_all_health / 100;
             c.physical_attack = c.physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack / 100;
             c.physical_defense = c.physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense / 100;
@@ -656,10 +656,10 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetUserEquipments(string type, int pageSize, int offset)
+    public List<Equipments> GetUserEquipments(int user_id, string type, int pageSize, int offset)
     {
         List<Equipments> equipmentList = new List<Equipments>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -732,7 +732,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 equipmentList = GetQualityPower(equipmentList);
             }
             catch (MySqlException ex)
@@ -747,10 +747,10 @@ public class Equipments
         }
         return equipmentList;
     }
-    public int GetUserEquipmentsCount(string type)
+    public int GetUserEquipmentsCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -993,7 +993,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetUserEquipmentsById(int Id)
+    public Equipments GetUserEquipmentsById(int user_id, int Id)
     {
         Equipments card = new Equipments();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1006,7 +1006,7 @@ public class Equipments
                 and user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -2121,7 +2121,7 @@ public class Equipments
             }
         }
     }
-    public List<Equipments> GetCardHeroesEquipments(int card_id, string type)
+    public List<Equipments> GetCardHeroesEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2140,7 +2140,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_hero_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2206,7 +2206,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2219,7 +2219,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetCardCaptainsEquipments(int card_id, string type)
+    public List<Equipments> GetCardCaptainsEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2238,7 +2238,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_captain_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2304,7 +2304,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2317,7 +2317,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetCardColonelsEquipments(int card_id, string type)
+    public List<Equipments> GetCardColonelsEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2336,7 +2336,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_colonel_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2402,7 +2402,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2415,7 +2415,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetCardGeneralsEquipments(int card_id, string type)
+    public List<Equipments> GetCardGeneralsEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2434,7 +2434,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_general_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2500,7 +2500,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2513,7 +2513,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetCardAdmiralsEquipments(int card_id, string type)
+    public List<Equipments> GetCardAdmiralsEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2532,7 +2532,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_admiral_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2598,7 +2598,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2611,7 +2611,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetCardMonstersEquipments(int card_id, string type)
+    public List<Equipments> GetCardMonstersEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2630,7 +2630,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_monster_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2696,7 +2696,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2709,7 +2709,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetCardMilitaryEquipments(int card_id, string type)
+    public List<Equipments> GetCardMilitaryEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2728,7 +2728,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_military_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2794,7 +2794,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2807,7 +2807,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetCardSpellEquipments(int card_id, string type)
+    public List<Equipments> GetCardSpellEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2826,7 +2826,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_spell_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2892,7 +2892,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -2905,7 +2905,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetBooksEquipments(int card_id, string type)
+    public List<Equipments> GetBooksEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2924,7 +2924,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@book_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2990,7 +2990,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3003,7 +3003,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetPetsEquipments(int card_id, string type)
+    public List<Equipments> GetPetsEquipments(int user_id, int card_id, string type)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3022,7 +3022,7 @@ public class Equipments
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@pet_id", card_id);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -3088,7 +3088,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3101,7 +3101,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardHeroesEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllCardHeroesEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3118,7 +3118,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3186,7 +3186,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3199,7 +3199,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardCaptainsEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllCardCaptainsEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3216,7 +3216,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3284,7 +3284,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3297,7 +3297,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardColonelsEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllCardColonelsEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3314,7 +3314,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3382,7 +3382,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3395,7 +3395,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardGeneralsEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllCardGeneralsEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3412,7 +3412,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3480,7 +3480,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3493,7 +3493,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardAdmiralsEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllCardAdmiralsEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3510,7 +3510,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3578,7 +3578,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3591,7 +3591,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardMonstersEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllCardMonstersEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3608,7 +3608,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3676,7 +3676,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3689,7 +3689,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardMilitaryEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllCardMilitaryEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3706,7 +3706,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3774,7 +3774,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3787,7 +3787,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllCardSpellEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllCardSpellEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3804,7 +3804,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3872,7 +3872,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3885,7 +3885,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllBooksEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllBooksEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3902,7 +3902,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -3970,7 +3970,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -3983,7 +3983,7 @@ public class Equipments
         }
         return equipmentList;
     }
-    public List<Equipments> GetAllPetsEquipments(string type, int limit, int offset, string status)
+    public List<Equipments> GetAllPetsEquipments(int user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4000,7 +4000,7 @@ public class Equipments
          OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
          OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL)) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", limit);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -4068,7 +4068,7 @@ public class Equipments
 
                     equipmentList.Add(equipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
             }
             catch (MySqlException ex)
             {
@@ -4129,7 +4129,7 @@ public class Equipments
         equipments.special_speed = 0;
         return equipments;
     }
-    public Equipments GetAllEquipmentsByCardHeoresId(int Id)
+    public Equipments GetAllEquipmentsByCardHeoresId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -4146,7 +4146,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_hero_id = @card_hero_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_hero_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -4198,7 +4198,7 @@ public class Equipments
                     tmpEquipments.special_speed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDouble("special_speed");
                     equipmentList.Add(tmpEquipments);
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -4258,7 +4258,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByCardCaptainsId(int Id)
+    public Equipments GetAllEquipmentsByCardCaptainsId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -4275,7 +4275,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_captain_id = @card_captain_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_captain_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -4328,7 +4328,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -4388,7 +4388,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByCardColonelsId(int Id)
+    public Equipments GetAllEquipmentsByCardColonelsId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -4405,7 +4405,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_colonel_id = @card_colonel_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_colonel_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -4458,7 +4458,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -4518,7 +4518,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByCardGeneralsId(int Id)
+    public Equipments GetAllEquipmentsByCardGeneralsId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -4535,7 +4535,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_general_id = @card_general_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_general_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -4588,7 +4588,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -4648,7 +4648,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByCardAdmiralsId(int Id)
+    public Equipments GetAllEquipmentsByCardAdmiralsId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -4665,7 +4665,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_admiral_id = @card_admiral_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_admiral_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -4718,7 +4718,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -4778,7 +4778,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByCardMonstersId(int Id)
+    public Equipments GetAllEquipmentsByCardMonstersId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -4795,7 +4795,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_monster_id = @card_monster_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_monster_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -4848,7 +4848,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -4908,7 +4908,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByCardMilitaryId(int Id)
+    public Equipments GetAllEquipmentsByCardMilitaryId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -4925,7 +4925,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_military_id = @card_military_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_military_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -4978,7 +4978,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -5038,7 +5038,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByCardSpellId(int Id)
+    public Equipments GetAllEquipmentsByCardSpellId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -5055,7 +5055,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.card_spell_id = @card_spell_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@card_spell_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -5108,7 +5108,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -5168,7 +5168,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByBooksId(int Id)
+    public Equipments GetAllEquipmentsByBooksId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -5185,7 +5185,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.book_id = @book_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@book_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -5238,7 +5238,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;
@@ -5298,7 +5298,7 @@ public class Equipments
         }
         return equipments;
     }
-    public Equipments GetAllEquipmentsByPetsId(int Id)
+    public Equipments GetAllEquipmentsByPetsId(int user_id, int Id)
     {
         Equipments equipments = new Equipments();
         equipments = ChangeValueToZero(equipments);
@@ -5315,7 +5315,7 @@ public class Equipments
                 AND che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
                 AND uc.user_id = @user_id and uc.pet_id = @pet_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@pet_id", Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -5368,7 +5368,7 @@ public class Equipments
                     equipmentList.Add(tmpEquipments);
 
                 }
-                equipmentList = GetAllRankPower(equipmentList);
+                equipmentList = GetAllRankPower(user_id, equipmentList);
                 foreach (Equipments e in equipmentList)
                 {
                     equipments.power += e.power;

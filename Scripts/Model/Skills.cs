@@ -499,10 +499,10 @@ public class Skills
         }
         return skillsList;
     }
-    public List<Skills> GetUserSkills(string type, int pageSize, int offset)
+    public List<Skills> GetUserSkills(int user_id, string type, int pageSize, int offset)
     {
         List<Skills> skillsList = new List<Skills>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -578,10 +578,10 @@ public class Skills
         }
         return skillsList;
     }
-    public int GetUserSkillsCount(string type)
+    public int GetUserSkillsCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1032,7 +1032,7 @@ public class Skills
         }
         return skill;
     }
-    public Skills GetUserSkillsById(int Id)
+    public Skills GetUserSkillsById(int user_id, int Id)
     {
         Skills card = new Skills();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1045,7 +1045,7 @@ public class Skills
                 and user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

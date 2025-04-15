@@ -116,7 +116,7 @@ public class AuthenticationManager : MonoBehaviour
 
             FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
             PowerManager powerManager = new PowerManager();
-            powerManager.UpdateUserStats();
+            powerManager.UpdateUserStats(User.CurrentUserId);
             // foreach (var currency in loggedInUser.Currencies)
             // {
             //     if (currency.name.Equals("Diamond") || currency.name.Equals("Gold") || currency.name.Equals("Silver"))

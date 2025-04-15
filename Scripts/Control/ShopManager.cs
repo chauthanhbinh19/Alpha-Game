@@ -3491,7 +3491,7 @@ public class ShopManager : MonoBehaviour
                     PowerManager powerManager = new PowerManager();
                     Teams teams = new Teams();
                     double currentPower = teams.GetTeamsPower();
-                    powerManager.UpdateUserStats();
+                    powerManager.UpdateUserStats(User.CurrentUserId);
                     double newPower = teams.GetTeamsPower();
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }

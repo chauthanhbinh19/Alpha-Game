@@ -503,10 +503,10 @@ public class CollaborationEquipment
         }
         return collaborationEquipmentList;
     }
-    public List<CollaborationEquipment> GetUserCollaborationEquipments(string type, int pageSize, int offset)
+    public List<CollaborationEquipment> GetUserCollaborationEquipments(int user_id, string type, int pageSize, int offset)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -583,10 +583,10 @@ public class CollaborationEquipment
         }
         return collaborationEquipmentList;
     }
-    public int GetUserCollaborationEquipmentCount(string type)
+    public int GetUserCollaborationEquipmentCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1053,7 +1053,7 @@ public class CollaborationEquipment
         }
         return collaborationEquipment;
     }
-    public CollaborationEquipment GetUserCollaborationEquipmentsById(int Id)
+    public CollaborationEquipment GetUserCollaborationEquipmentsById(int user_id, int Id)
     {
         CollaborationEquipment card = new CollaborationEquipment();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1066,7 +1066,7 @@ public class CollaborationEquipment
                 and user_collaboration_equipments.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

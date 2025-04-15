@@ -327,14 +327,14 @@ public class CardHeroes
         }
         return list;
     }
-    public List<CardHeroes> GetFinalPower(List<CardHeroes> CardHeroesList)
+    public List<CardHeroes> GetFinalPower(int user_id, List<CardHeroes> CardHeroesList)
     {
         PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
+        powerManager = powerManager.GetUserStats(user_id);
         foreach (var c in CardHeroesList)
         {
             CardHeroes card = new CardHeroes();
-            card = card.GetUserCardHeroesById(c.id);
+            card = card.GetUserCardHeroesById(user_id, c.id);
             c.all_health = c.all_health + powerManager.health + card.health * powerManager.percent_all_health / 100;
             c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + card.physical_attack * powerManager.percent_all_physical_attack / 100;
             c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + card.physical_defense * powerManager.percent_all_physical_defense / 100;
@@ -388,12 +388,12 @@ public class CardHeroes
         }
         return CardHeroesList;
     }
-    public List<CardHeroes> GetAllEquipmentPower(List<CardHeroes> CardHeroesList)
+    public List<CardHeroes> GetAllEquipmentPower(int user_id, List<CardHeroes> CardHeroesList)
     {
         Equipments equipments = new Equipments();
         foreach (var c in CardHeroesList)
         {
-            equipments = equipments.GetAllEquipmentsByCardHeoresId(c.id);
+            equipments = equipments.GetAllEquipmentsByCardHeoresId(user_id, c.id);
             c.all_health = c.all_health + equipments.health + equipments.special_health;
             c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
             c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
@@ -447,14 +447,14 @@ public class CardHeroes
         }
         return CardHeroesList;
     }
-    public List<CardHeroes> GetAllRankPower(List<CardHeroes> CardHeroesList)
+    public List<CardHeroes> GetAllRankPower(int user_id, List<CardHeroes> CardHeroesList)
     {
         Rank rank = new Rank();
         foreach (var c in CardHeroesList)
         {
             CardHeroes card = new CardHeroes();
-            card = card.GetUserCardHeroesById(c.id);
-            rank = rank.GetSumCardHeroesRank(c.id);
+            card = card.GetUserCardHeroesById(user_id, c.id);
+            rank = rank.GetSumCardHeroesRank(user_id, c.id);
             c.all_health = c.all_health + rank.health + card.health * rank.percent_all_health/100;
             c.all_physical_attack = c.all_physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack/100;
             c.all_physical_defense = c.all_physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense/100;
@@ -819,10 +819,10 @@ public class CardHeroes
         }
         return CardHeroesList;
     }
-    public List<CardHeroes> GetUserCardHeroes(string type, int pageSize, int offset)
+    public List<CardHeroes> GetUserCardHeroes(int user_id, string type, int pageSize, int offset)
     {
         List<CardHeroes> CardHeroesList = new List<CardHeroes>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -930,9 +930,9 @@ public class CardHeroes
 
                     CardHeroesList.Add(card);
                 }
-                CardHeroesList = GetFinalPower(CardHeroesList);
-                CardHeroesList = GetAllEquipmentPower(CardHeroesList);
-                CardHeroesList = GetAllRankPower(CardHeroesList);
+                CardHeroesList = GetFinalPower(user_id, CardHeroesList);
+                CardHeroesList = GetAllEquipmentPower(user_id, CardHeroesList);
+                CardHeroesList = GetAllRankPower(user_id, CardHeroesList);
                 CardHeroesList = GetQualityPower(CardHeroesList);
             }
             catch (MySqlException ex)
@@ -943,7 +943,7 @@ public class CardHeroes
         }
         return CardHeroesList;
     }
-    public List<CardHeroes> GetUserCardHeroesTeam(int teamId)
+    public List<CardHeroes> GetUserCardHeroesTeam(int user_id, int teamId)
     {
         List<CardHeroes> CardHeroesList = new List<CardHeroes>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -960,7 +960,7 @@ public class CardHeroes
                 ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@team_id", teamId);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -1050,9 +1050,9 @@ public class CardHeroes
 
                     CardHeroesList.Add(card);
                 }
-                CardHeroesList = GetFinalPower(CardHeroesList);
-                CardHeroesList = GetAllEquipmentPower(CardHeroesList);
-                CardHeroesList = GetAllRankPower(CardHeroesList);
+                CardHeroesList = GetFinalPower(user_id, CardHeroesList);
+                CardHeroesList = GetAllEquipmentPower(user_id, CardHeroesList);
+                CardHeroesList = GetAllRankPower(user_id, CardHeroesList);
                 CardHeroesList = GetQualityPower(CardHeroesList);
             }
             catch (MySqlException ex)
@@ -1091,10 +1091,10 @@ public class CardHeroes
         }
         return result;
     }
-    public int GetUserCardHeroesCount(string type)
+    public int GetUserCardHeroesCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1791,7 +1791,7 @@ public class CardHeroes
         }
         return card;
     }
-    public CardHeroes GetUserCardHeroesById(int Id)
+    public CardHeroes GetUserCardHeroesById(int user_id, int Id)
     {
         CardHeroes card = new CardHeroes();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1804,7 +1804,7 @@ public class CardHeroes
                 and user_card_heroes.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

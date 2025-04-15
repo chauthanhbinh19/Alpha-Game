@@ -327,14 +327,14 @@ public class CardMilitary
         }
         return list;
     }
-    public List<CardMilitary> GetFinalPower(List<CardMilitary> CardMilitaryList)
+    public List<CardMilitary> GetFinalPower(int user_id, List<CardMilitary> CardMilitaryList)
     {
         PowerManager powerManager = new PowerManager();
-        powerManager = powerManager.GetUserStats();
+        powerManager = powerManager.GetUserStats(user_id);
         foreach (var c in CardMilitaryList)
         {
             CardMilitary card = new CardMilitary();
-            card = card.GetUserCardMilitaryById(c.id);
+            card = card.GetUserCardMilitaryById(user_id, c.id);
             c.all_health = c.all_health + powerManager.health + card.health * powerManager.percent_all_health / 100;
             c.all_physical_attack = c.all_physical_attack + powerManager.physical_attack + card.physical_attack * powerManager.percent_all_physical_attack / 100;
             c.all_physical_defense = c.all_physical_defense + powerManager.physical_defense + card.physical_defense * powerManager.percent_all_physical_defense / 100;
@@ -388,12 +388,12 @@ public class CardMilitary
         }
         return CardMilitaryList;
     }
-    public List<CardMilitary> GetAllEquipmentPower(List<CardMilitary> CardMilitaryList)
+    public List<CardMilitary> GetAllEquipmentPower(int user_id, List<CardMilitary> CardMilitaryList)
     {
         Equipments equipments = new Equipments();
         foreach (var c in CardMilitaryList)
         {
-            equipments = equipments.GetAllEquipmentsByCardMilitaryId(c.id);
+            equipments = equipments.GetAllEquipmentsByCardMilitaryId(user_id, c.id);
             c.all_health = c.all_health + equipments.health + equipments.special_health;
             c.all_physical_attack = c.all_physical_attack + equipments.physical_attack + equipments.special_physical_attack;
             c.all_physical_defense = c.all_physical_defense + equipments.physical_defense + equipments.special_physical_defense;
@@ -447,14 +447,14 @@ public class CardMilitary
         }
         return CardMilitaryList;
     }
-    public List<CardMilitary> GetAllRankPower(List<CardMilitary> CardMilitaryList)
+    public List<CardMilitary> GetAllRankPower(int user_id, List<CardMilitary> CardMilitaryList)
     {
         Rank rank = new Rank();
         foreach (var c in CardMilitaryList)
         {
             CardMilitary card = new CardMilitary();
-            card = card.GetUserCardMilitaryById(c.id);
-            rank = rank.GetSumCardMilitaryRank(c.id);
+            card = card.GetUserCardMilitaryById(user_id, c.id);
+            rank = rank.GetSumCardMilitaryRank(user_id, c.id);
             c.all_health = c.all_health + rank.health + card.health * rank.percent_all_health/100;
             c.all_physical_attack = c.all_physical_attack + rank.physical_attack + card.physical_attack * rank.percent_all_physical_attack/100;
             c.all_physical_defense = c.all_physical_defense + rank.physical_defense + card.physical_defense * rank.percent_all_physical_defense/100;
@@ -818,10 +818,10 @@ public class CardMilitary
         }
         return CardMilitaryList;
     }
-    public List<CardMilitary> GetUserCardMilitary(string type,int pageSize, int offset)
+    public List<CardMilitary> GetUserCardMilitary(int user_id, string type,int pageSize, int offset)
     {
         List<CardMilitary> CardMilitaryList = new List<CardMilitary>();
-        int user_id=User.CurrentUserId;
+        // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -929,9 +929,9 @@ public class CardMilitary
 
                     CardMilitaryList.Add(CardMilitary);
                 }
-                CardMilitaryList = GetFinalPower(CardMilitaryList);
-                CardMilitaryList = GetAllEquipmentPower(CardMilitaryList);
-                CardMilitaryList = GetAllRankPower(CardMilitaryList);
+                CardMilitaryList = GetFinalPower(user_id, CardMilitaryList);
+                CardMilitaryList = GetAllEquipmentPower(user_id, CardMilitaryList);
+                CardMilitaryList = GetAllRankPower(user_id, CardMilitaryList);
                 CardMilitaryList = GetQualityPower(CardMilitaryList);
             }
             catch (MySqlException ex)
@@ -942,7 +942,7 @@ public class CardMilitary
         }
         return CardMilitaryList;
     }
-    public List<CardMilitary> GetUserCardMilitaryTeam(int teamId)
+    public List<CardMilitary> GetUserCardMilitaryTeam(int user_id, int teamId)
     {
         List<CardMilitary> CardMilitaryList = new List<CardMilitary>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -959,7 +959,7 @@ public class CardMilitary
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@team_id", teamId);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -1049,9 +1049,9 @@ public class CardMilitary
 
                     CardMilitaryList.Add(CardMilitary);
                 }
-                CardMilitaryList = GetFinalPower(CardMilitaryList);
-                CardMilitaryList = GetAllEquipmentPower(CardMilitaryList);
-                CardMilitaryList = GetAllRankPower(CardMilitaryList);
+                CardMilitaryList = GetFinalPower(user_id, CardMilitaryList);
+                CardMilitaryList = GetAllEquipmentPower(user_id, CardMilitaryList);
+                CardMilitaryList = GetAllRankPower(user_id, CardMilitaryList);
                 CardMilitaryList = GetQualityPower(CardMilitaryList);
             }
             catch (MySqlException ex)
@@ -1116,9 +1116,9 @@ public class CardMilitary
         }
         return true;
     }
-    public int GetUserCardMilitaryCount(string type){
+    public int GetUserCardMilitaryCount(int user_id, string type){
         int count =0;
-        int user_id=User.CurrentUserId;
+        // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1761,7 +1761,7 @@ public class CardMilitary
         }
         return CardMilitary;
     }
-    public CardMilitary GetUserCardMilitaryById(int Id)
+    public CardMilitary GetUserCardMilitaryById(int user_id, int Id)
     {
         CardMilitary card = new CardMilitary();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1774,7 +1774,7 @@ public class CardMilitary
                 and user_card_military.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

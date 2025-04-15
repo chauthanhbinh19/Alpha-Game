@@ -86,6 +86,10 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuOmnisciencePanelPrefab;
     public GameObject MainMenuAngelPanelPrefab;
     public GameObject MainMenuDemonPanelPrefab;
+    public GameObject MainMenuSwordPanelPrefab;
+    public GameObject MainMenuSpearPanelPrefab;
+    public GameObject MainMenuShieldPanelPrefab;
+    public GameObject MainMenuBowPanelPrefab;
     public GameObject ArenaPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject PopupMenuPanelPrefab;
@@ -113,7 +117,10 @@ public class UIManager : MonoBehaviour
     public GameObject OmniscienceSlotPrefab;
     public GameObject AngelSlotPrefab;
     public GameObject DemonSlotPrefab;
-
+    public GameObject SwordSlotPrefab;
+    public GameObject SpearSlotPrefab;
+    public GameObject ShieldSlotPrefab;
+    public GameObject BowSlotPrefab;
 
     private void Awake()
     {
@@ -286,6 +293,14 @@ public class UIManager : MonoBehaviour
                 return MainMenuAngelPanelPrefab;
             case "MainMenuDemonPanelPrefab":
                 return MainMenuDemonPanelPrefab;
+            case "MainMenuSwordPanelPrefab":
+                return MainMenuSwordPanelPrefab;
+            case "MainMenuSpearPanelPrefab":
+                return MainMenuSpearPanelPrefab;
+            case "MainMenuShieldPanelPrefab":
+                return MainMenuShieldPanelPrefab;
+            case "MainMenuBowPanelPrefab":
+                return MainMenuBowPanelPrefab;
             case "ArenaPanelPrefab":
                 return ArenaPanelPrefab;
             case "PopupEquipmentsPanelPrefab":
@@ -340,6 +355,14 @@ public class UIManager : MonoBehaviour
                 return AngelSlotPrefab;
             case "DemonSlotPrefab":
                 return DemonSlotPrefab;
+            case "SwordSlotPrefab":
+                return SwordSlotPrefab;
+            case "SpearSlotPrefab":
+                return SpearSlotPrefab;
+            case "ShieldSlotPrefab":
+                return ShieldSlotPrefab;
+            case "BowSlotPrefab":
+                return BowSlotPrefab;
             case "TabButton5":
                 return TabButton5;
             default:

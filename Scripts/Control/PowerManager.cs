@@ -179,7 +179,7 @@ public class PowerManager
                adjustedDamageToSameFaction + adjustedResistanceToSameFaction +
                adjustedMana + adjustedManaRegeneration;
     }
-    public void InsertUserStats()
+    public void InsertUserStats(int user_id)
     {
         CalculatePower();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -217,7 +217,7 @@ public class PowerManager
                         @percentAllMentalAttack, @percentAllMentalDefense
                     );";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@allPower", power);
                 command.Parameters.AddWithValue("@allHealth", health);
                 command.Parameters.AddWithValue("@allPhysicalAttack", physical_attack);
@@ -269,7 +269,7 @@ public class PowerManager
             }
         }
     }
-    public void UpdateUserStats()
+    public void UpdateUserStats(int user_id)
     {
         CalculatePower();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -305,7 +305,7 @@ public class PowerManager
                     percent_all_mental_attack = @percentAllMentalAttack, percent_all_mental_defense = @percentAllMentalDefense
                 WHERE user_id = @userId;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@allPower", power);
                 command.Parameters.AddWithValue("@allHealth", health);
                 command.Parameters.AddWithValue("@allPhysicalAttack", physical_attack);
@@ -362,7 +362,7 @@ public class PowerManager
             }
         }
     }
-    public PowerManager GetUserStats()
+    public PowerManager GetUserStats(int user_id)
     {
         PowerManager powerManager = new PowerManager();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -374,7 +374,7 @@ public class PowerManager
                 string query = @"
                 SELECT * FROM USER_STATS WHERE USER_ID=@user_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())

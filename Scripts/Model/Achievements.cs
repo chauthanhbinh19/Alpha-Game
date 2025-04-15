@@ -486,10 +486,10 @@ public class Achievements
         }
         return achievementsList;
     }
-    public List<Achievements> GetUserAchievements(int pageSize, int offset)
+    public List<Achievements> GetUserAchievements(int user_id, int pageSize, int offset)
     {
         List<Achievements> achievementsList = new List<Achievements>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -573,10 +573,10 @@ public class Achievements
         }
         return achievementsList;
     }
-    public int GetUserCollaborationCount()
+    public int GetUserCollaborationCount(int user_id)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -923,7 +923,7 @@ public class Achievements
         }
         return card;
     }
-    public Achievements GetUserAchievementsById(int Id)
+    public Achievements GetUserAchievementsById(int user_id, int Id)
     {
         Achievements card = new Achievements();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -936,7 +936,7 @@ public class Achievements
                 and user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

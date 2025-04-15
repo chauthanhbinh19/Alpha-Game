@@ -519,10 +519,10 @@ public class Forge
         }
         return Forges;
     }
-    public List<Forge> GetUserForge(string type, int pageSize, int offset)
+    public List<Forge> GetUserForge(int user_id, string type, int pageSize, int offset)
     {
         List<Forge> Forges = new List<Forge>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -608,10 +608,10 @@ public class Forge
         }
         return Forges;
     }
-    public int GetUserForgeCount(string type)
+    public int GetUserForgeCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1092,7 +1092,7 @@ public class Forge
         }
         return Forge;
     }
-    public Forge GetUserForgeById(int Id)
+    public Forge GetUserForgeById(int user_id, int Id)
     {
         Forge card = new Forge();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1105,7 +1105,7 @@ public class Forge
                 and user_forge.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

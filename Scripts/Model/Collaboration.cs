@@ -495,10 +495,10 @@ public class Collaboration
         }
         return collaborationList;
     }
-    public List<Collaboration> GetUserCollaboration(int pageSize, int offset)
+    public List<Collaboration> GetUserCollaboration(int user_id, int pageSize, int offset)
     {
         List<Collaboration> collaborationList = new List<Collaboration>();
-        int user_id=User.CurrentUserId;
+        // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -583,9 +583,9 @@ public class Collaboration
         }
         return collaborationList;
     }
-    public int GetUserCollaborationCount(){
+    public int GetUserCollaborationCount(int user_id){
         int count =0;
-        int user_id=User.CurrentUserId;
+        // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1038,7 +1038,7 @@ public class Collaboration
         }
         return collaboration;
     }
-    public Collaboration GetUserCollaborationsById(int Id)
+    public Collaboration GetUserCollaborationsById(int user_id, int Id)
     {
         Collaboration card = new Collaboration();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1051,7 +1051,7 @@ public class Collaboration
                 and user_collaborations.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

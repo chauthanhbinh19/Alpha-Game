@@ -66,6 +66,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         currentObject = Instantiate(MainMenuEquipmentPanelPrefab, MainPanel);
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
+        TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = "Equipments";
         SetPanel = currentObject.transform.Find("DictionaryCards/SetGroup/Viewport/Content");
         mainImage = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -452,7 +454,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetCardHeroesEquipments(cardHeroes.id, mainType);
+        equipmentList = equipments.GetCardHeroesEquipments(User.CurrentUserId, cardHeroes.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = cardHeroes.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -631,7 +633,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetCardCaptainsEquipments(cardCaptains.id, mainType);
+        equipmentList = equipments.GetCardCaptainsEquipments(User.CurrentUserId, cardCaptains.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = cardCaptains.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -810,7 +812,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetCardColonelsEquipments(cardColonels.id, mainType);
+        equipmentList = equipments.GetCardColonelsEquipments(User.CurrentUserId, cardColonels.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = cardColonels.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -989,7 +991,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetCardGeneralsEquipments(cardGenerals.id, mainType);
+        equipmentList = equipments.GetCardGeneralsEquipments(User.CurrentUserId, cardGenerals.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = cardGenerals.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1168,7 +1170,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetCardAdmiralsEquipments(cardAdmirals.id, mainType);
+        equipmentList = equipments.GetCardAdmiralsEquipments(User.CurrentUserId, cardAdmirals.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = cardAdmirals.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1347,7 +1349,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetCardMonstersEquipments(cardMonsters.id, mainType);
+        equipmentList = equipments.GetCardMonstersEquipments(User.CurrentUserId, cardMonsters.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = cardMonsters.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1526,7 +1528,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetCardMilitaryEquipments(cardMilitary.id, mainType);
+        equipmentList = equipments.GetCardMilitaryEquipments(User.CurrentUserId, cardMilitary.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = cardMilitary.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1705,7 +1707,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetCardSpellEquipments(cardSpell.id, mainType);
+        equipmentList = equipments.GetCardSpellEquipments(User.CurrentUserId, cardSpell.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = cardSpell.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1884,7 +1886,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetBooksEquipments(books.id, mainType);
+        equipmentList = equipments.GetBooksEquipments(User.CurrentUserId, books.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = books.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -2063,7 +2065,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
         Equipments equipments = new Equipments();
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = equipments.GetPetsEquipments(pets.id, mainType);
+        equipmentList = equipments.GetPetsEquipments(User.CurrentUserId, pets.id, mainType);
         equipmentList = equipmentList.Where(e => e.set == set).ToList();
         string fileNameWithoutExtension = pets.image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -2318,46 +2320,46 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentsList = new List<Equipments>();
         if (data is CardHeroes cardHeroes)
         {
-            equipmentsList = equipments.GetAllCardHeroesEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllCardHeroesEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardCaptains cardCaptains)
         {
-            equipmentsList = equipments.GetAllCardCaptainsEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllCardCaptainsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardColonels cardColonels)
         {
-            equipmentsList = equipments.GetAllCardColonelsEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllCardColonelsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardGenerals cardGenerals)
         {
-            equipmentsList = equipments.GetAllCardGeneralsEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllCardGeneralsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardAdmirals cardAdmirals)
         {
-            equipmentsList = equipments.GetAllCardAdmiralsEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllCardAdmiralsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardMonsters cardMonsters)
         {
-            equipmentsList = equipments.GetAllCardMonstersEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllCardMonstersEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardMilitary cardMilitary)
         {
-            equipmentsList = equipments.GetAllCardMilitaryEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllCardMilitaryEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardSpell cardSpell)
         {
-            equipmentsList = equipments.GetAllCardSpellEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllCardSpellEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is Books books)
         {
-            equipmentsList = equipments.GetAllBooksEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllBooksEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is Pets pets)
         {
-            equipmentsList = equipments.GetAllPetsEquipments(mainType, pageSize, offset, statusToggle);
+            equipmentsList = equipments.GetAllPetsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         equipmentsList = equipmentsList.Where(e => e.set == set).ToList();
-        int totalRecord = equipments.GetUserEquipmentsCount(mainType);
+        int totalRecord = equipments.GetUserEquipmentsCount(User.CurrentUserId, mainType);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -2503,101 +2505,101 @@ public class MainMenuEquipmentManager : MonoBehaviour
             if (data is CardHeroes cardHeroes)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardHeroesEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardHeroesEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardCaptains cardCaptains)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardCaptainsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardCaptainsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardColonels cardColonels)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardColonelsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardColonelsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardGenerals cardGenerals)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardGeneralsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardGeneralsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardAdmirals cardAdmirals)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardAdmiralsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardAdmiralsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMonsters cardMonsters)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardMonstersEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardMonstersEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMilitary cardMilitary)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardMilitaryEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardMilitaryEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardSpell cardSpell)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardSpellEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardSpellEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Books books)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllBooksEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllBooksEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Pets pets)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllPetsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllPetsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
 
@@ -2615,101 +2617,101 @@ public class MainMenuEquipmentManager : MonoBehaviour
             if (data is CardHeroes cardHeroes)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardHeroesEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardHeroesEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardCaptains cardCaptains)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardCaptainsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardCaptainsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardColonels cardColonels)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardColonelsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardColonelsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardGenerals cardGenerals)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardGeneralsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardGeneralsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardAdmirals cardAdmirals)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardAdmiralsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardAdmiralsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMonsters cardMonsters)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardMonstersEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardMonstersEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMilitary cardMilitary)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardMilitaryEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardMilitaryEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardSpell cardSpell)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllCardSpellEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllCardSpellEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Books books)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllBooksEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllBooksEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Pets pets)
             {
                 Equipments equipmentManager = new Equipments();
-                totalRecord = equipmentManager.GetUserEquipmentsCount(subType);
+                totalRecord = equipmentManager.GetUserEquipmentsCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = equipmentManager.GetAllPetsEquipments(subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = equipmentManager.GetAllPetsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
 

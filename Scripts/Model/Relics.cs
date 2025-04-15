@@ -519,10 +519,10 @@ public class Relics
         }
         return relicsList;
     }
-    public List<Relics> GetUserRelics(string type, int pageSize, int offset)
+    public List<Relics> GetUserRelics(int user_id, string type, int pageSize, int offset)
     {
         List<Relics> relicsList = new List<Relics>();
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -608,10 +608,10 @@ public class Relics
         }
         return relicsList;
     }
-    public int GetUserRelicsCount(string type)
+    public int GetUserRelicsCount(int user_id, string type)
     {
         int count = 0;
-        int user_id = User.CurrentUserId;
+        // int user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1081,7 +1081,7 @@ public class Relics
         }
         return relics;
     }
-    public Relics GetUserRelicsById(int Id)
+    public Relics GetUserRelicsById(int user_id, int Id)
     {
         Relics card = new Relics();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1094,7 +1094,7 @@ public class Relics
                 and user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

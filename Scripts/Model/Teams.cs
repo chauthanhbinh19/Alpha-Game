@@ -1037,54 +1037,54 @@ public class Teams
                 CardSpellList.Add(cardSpell);
             }
             CardHeroes cardHeroes = new CardHeroes();
-            CardHeroesList = cardHeroes.GetFinalPower(CardHeroesList);
-            CardHeroesList = cardHeroes.GetAllEquipmentPower(CardHeroesList);
-            CardHeroesList = cardHeroes.GetAllRankPower(CardHeroesList);
+            CardHeroesList = cardHeroes.GetFinalPower(User.CurrentUserId, CardHeroesList);
+            CardHeroesList = cardHeroes.GetAllEquipmentPower(User.CurrentUserId, CardHeroesList);
+            CardHeroesList = cardHeroes.GetAllRankPower(User.CurrentUserId, CardHeroesList);
 
             CardCaptains cardCaptains = new CardCaptains();
-            CardCaptainsList = cardCaptains.GetFinalPower(CardCaptainsList);
-            CardCaptainsList = cardCaptains.GetAllEquipmentPower(CardCaptainsList);
-            CardCaptainsList = cardCaptains.GetAllRankPower(CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetFinalPower(User.CurrentUserId, CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetAllEquipmentPower(User.CurrentUserId, CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetAllRankPower(User.CurrentUserId, CardCaptainsList);
 
             CardColonels cardColonels = new CardColonels();
-            CardColonelsList = cardColonels.GetFinalPower(CardColonelsList);
-            CardColonelsList = cardColonels.GetAllEquipmentPower(CardColonelsList);
-            CardColonelsList = cardColonels.GetAllRankPower(CardColonelsList);
+            CardColonelsList = cardColonels.GetFinalPower(User.CurrentUserId, CardColonelsList);
+            CardColonelsList = cardColonels.GetAllEquipmentPower(User.CurrentUserId, CardColonelsList);
+            CardColonelsList = cardColonels.GetAllRankPower(User.CurrentUserId, CardColonelsList);
 
             CardGenerals cardGenerals = new CardGenerals();
-            CardGeneralsList = cardGenerals.GetFinalPower(CardGeneralsList);
-            CardGeneralsList = cardGenerals.GetAllEquipmentPower(CardGeneralsList);
-            CardGeneralsList = cardGenerals.GetAllRankPower(CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetFinalPower(User.CurrentUserId, CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetAllEquipmentPower(User.CurrentUserId, CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetAllRankPower(User.CurrentUserId, CardGeneralsList);
 
             CardAdmirals cardAdmirals = new CardAdmirals();
-            CardAdmiralsList = cardAdmirals.GetFinalPower(CardAdmiralsList);
-            CardAdmiralsList = cardAdmirals.GetAllEquipmentPower(CardAdmiralsList);
-            CardAdmiralsList = cardAdmirals.GetAllRankPower(CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetFinalPower(User.CurrentUserId, CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetAllEquipmentPower(User.CurrentUserId, CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetAllRankPower(User.CurrentUserId, CardAdmiralsList);
 
             CardMonsters cardMonsters = new CardMonsters();
-            CardMonstersList = cardMonsters.GetFinalPower(CardMonstersList);
-            CardMonstersList = cardMonsters.GetAllEquipmentPower(CardMonstersList);
-            CardMonstersList = cardMonsters.GetAllRankPower(CardMonstersList);
+            CardMonstersList = cardMonsters.GetFinalPower(User.CurrentUserId, CardMonstersList);
+            CardMonstersList = cardMonsters.GetAllEquipmentPower(User.CurrentUserId, CardMonstersList);
+            CardMonstersList = cardMonsters.GetAllRankPower(User.CurrentUserId, CardMonstersList);
 
             CardMilitary cardMilitary = new CardMilitary();
-            CardMilitaryList = cardMilitary.GetFinalPower(CardMilitaryList);
-            CardMilitaryList = cardMilitary.GetAllEquipmentPower(CardMilitaryList);
-            CardMilitaryList = cardMilitary.GetAllRankPower(CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetFinalPower(User.CurrentUserId, CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetAllEquipmentPower(User.CurrentUserId, CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetAllRankPower(User.CurrentUserId, CardMilitaryList);
 
             CardSpell cardSpell1 = new CardSpell();
-            CardSpellList = cardSpell1.GetFinalPower(CardSpellList);
-            CardSpellList = cardSpell1.GetAllEquipmentPower(CardSpellList);
-            CardSpellList = cardSpell1.GetAllRankPower(CardSpellList);
+            CardSpellList = cardSpell1.GetFinalPower(User.CurrentUserId, CardSpellList);
+            CardSpellList = cardSpell1.GetAllEquipmentPower(User.CurrentUserId, CardSpellList);
+            CardSpellList = cardSpell1.GetAllRankPower(User.CurrentUserId, CardSpellList);
 
             Books books = new Books();
-            BooksList = books.GetFinalPower(BooksList);
-            BooksList = books.GetAllEquipmentPower(BooksList);
-            BooksList = books.GetAllRankPower(BooksList);
+            BooksList = books.GetFinalPower(User.CurrentUserId, BooksList);
+            BooksList = books.GetAllEquipmentPower(User.CurrentUserId, BooksList);
+            BooksList = books.GetAllRankPower(User.CurrentUserId, BooksList);
 
             Pets pets = new Pets();
-            PetsList = pets.GetFinalPower(PetsList);
-            PetsList = pets.GetAllEquipmentPower(PetsList);
-            PetsList = pets.GetAllRankPower(PetsList);
+            PetsList = pets.GetFinalPower(User.CurrentUserId, PetsList);
+            PetsList = pets.GetAllEquipmentPower(User.CurrentUserId, PetsList);
+            PetsList = pets.GetAllRankPower(User.CurrentUserId, PetsList);
 
             foreach (CardHeroes c in CardHeroesList)
             {

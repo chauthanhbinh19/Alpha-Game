@@ -42,6 +42,7 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform descriptionPopupPanel;
     private Transform buttonGroupPanel1;
     private Transform buttonGroupPanel2;
+    private Transform buttonGroupPanel3;
     private RawImage CardBackground;
     private string mainType;
     private string descriptionColor = "#F9EED9";
@@ -82,6 +83,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         buttonGroupPanel1 = currentObject.transform.Find("DictionaryCards/ButtonGroup1");
         buttonGroupPanel2 = currentObject.transform.Find("DictionaryCards/ButtonGroup2");
+        buttonGroupPanel3 = currentObject.transform.Find("DictionaryCards/ButtonGroup3");
         CardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
         CreateButtonGroup(data);
@@ -527,6 +529,10 @@ public class MainMenuDetailsManager : MonoBehaviour
             CreateButtonWithBackground(14, "Omnivory", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnivory"), buttonGroupPanel2);
             CreateButtonWithBackground(15, "Angel", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Angel"), buttonGroupPanel2);
             CreateButtonWithBackground(16, "Demon", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Demon"), buttonGroupPanel2);
+            CreateButtonWithBackground(17, "Sword", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Sword"), buttonGroupPanel3);
+            CreateButtonWithBackground(18, "Spear", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Spear"), buttonGroupPanel3);
+            CreateButtonWithBackground(19, "Shield", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Shield"), buttonGroupPanel3);
+            CreateButtonWithBackground(20, "Bow", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Bow"), buttonGroupPanel3);
 
             AssignButtonEvent("Button_1", buttonGroupPanel1, () =>
             {
@@ -591,6 +597,22 @@ public class MainMenuDetailsManager : MonoBehaviour
             AssignButtonEvent("Button_16", buttonGroupPanel2, () =>
             {
                 FindAnyObjectByType<MainMenuDemonManager>().CreateMainMenuDemonManager(data);
+            });
+            AssignButtonEvent("Button_17", buttonGroupPanel3, () =>
+            {
+                FindAnyObjectByType<MainMenuSwordManager>().CreateMainMenuSwordManager(data);
+            });
+            AssignButtonEvent("Button_18", buttonGroupPanel3, () =>
+            {
+                FindAnyObjectByType<MainMenuSpearManager>().CreateMainMenuSpearManager(data);
+            });
+            AssignButtonEvent("Button_19", buttonGroupPanel3, () =>
+            {
+                FindAnyObjectByType<MainMenuShieldManager>().CreateMainMenuShieldManager(data);
+            });
+            AssignButtonEvent("Button_20", buttonGroupPanel3, () =>
+            {
+                FindAnyObjectByType<MainMenuBowManager>().CreateMainMenuBowManager(data);
             });
         }
         else
@@ -2339,7 +2361,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardHeroes currentCard = new CardHeroes();
-                currentCard = cardHeroes.GetUserCardHeroesById(cardHeroes.id);
+                currentCard = cardHeroes.GetUserCardHeroesById(User.CurrentUserId, cardHeroes.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2366,7 +2388,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardHeroes currentCard = cardHeroes.GetUserCardHeroesById(cardHeroes.id);
+                CardHeroes currentCard = cardHeroes.GetUserCardHeroesById(User.CurrentUserId, cardHeroes.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -2416,7 +2438,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Books currentCard = new Books();
-                currentCard = book.GetUserBooksById(book.id);
+                currentCard = book.GetUserBooksById(User.CurrentUserId, book.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2442,7 +2464,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Books currentCard = book.GetUserBooksById(book.id);
+                Books currentCard = book.GetUserBooksById(User.CurrentUserId, book.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -2492,7 +2514,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardCaptains currentCard = new CardCaptains();
-                currentCard = cardCaptains.GetUserCardCaptainsById(cardCaptains.id);
+                currentCard = cardCaptains.GetUserCardCaptainsById(User.CurrentUserId, cardCaptains.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2518,7 +2540,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardCaptains currentCard = cardCaptains.GetUserCardCaptainsById(cardCaptains.id);
+                CardCaptains currentCard = cardCaptains.GetUserCardCaptainsById(User.CurrentUserId, cardCaptains.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -2568,7 +2590,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Pets currentCard = new Pets();
-                currentCard = pet.GetUserPetsById(pet.id);
+                currentCard = pet.GetUserPetsById(User.CurrentUserId, pet.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2594,7 +2616,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Pets currentCard = pet.GetUserPetsById(pet.id);
+                Pets currentCard = pet.GetUserPetsById(User.CurrentUserId, pet.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -2644,7 +2666,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CollaborationEquipment currentCard = new CollaborationEquipment();
-                currentCard = collaborationEquipment.GetUserCollaborationEquipmentsById(collaborationEquipment.id);
+                currentCard = collaborationEquipment.GetUserCollaborationEquipmentsById(User.CurrentUserId, collaborationEquipment.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2669,7 +2691,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CollaborationEquipment currentCard = collaborationEquipment.GetUserCollaborationEquipmentsById(collaborationEquipment.id);
+                CollaborationEquipment currentCard = collaborationEquipment.GetUserCollaborationEquipmentsById(User.CurrentUserId, collaborationEquipment.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -2718,7 +2740,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardMilitary currentCard = new CardMilitary();
-                currentCard = cardMilitary.GetUserCardMilitaryById(cardMilitary.id);
+                currentCard = cardMilitary.GetUserCardMilitaryById(User.CurrentUserId, cardMilitary.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2744,7 +2766,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardMilitary currentCard = cardMilitary.GetUserCardMilitaryById(cardMilitary.id);
+                CardMilitary currentCard = cardMilitary.GetUserCardMilitaryById(User.CurrentUserId, cardMilitary.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -2794,7 +2816,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardSpell currentCard = new CardSpell();
-                currentCard = cardSpell.GetUserCardSpellById(cardSpell.id);
+                currentCard = cardSpell.GetUserCardSpellById(User.CurrentUserId, cardSpell.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2820,7 +2842,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardSpell currentCard = cardSpell.GetUserCardSpellById(cardSpell.id);
+                CardSpell currentCard = cardSpell.GetUserCardSpellById(User.CurrentUserId, cardSpell.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -2870,7 +2892,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Collaboration currentCard = new Collaboration();
-                currentCard = collaboration.GetUserCollaborationsById(collaboration.id);
+                currentCard = collaboration.GetUserCollaborationsById(User.CurrentUserId, collaboration.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2895,7 +2917,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Collaboration currentCard = collaboration.GetUserCollaborationsById(collaboration.id);
+                Collaboration currentCard = collaboration.GetUserCollaborationsById(User.CurrentUserId, collaboration.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -2944,7 +2966,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardMonsters currentCard = new CardMonsters();
-                currentCard = cardMonsters.GetUserCardMonstersById(cardMonsters.id);
+                currentCard = cardMonsters.GetUserCardMonstersById(User.CurrentUserId, cardMonsters.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -2970,7 +2992,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardMonsters currentCard = cardMonsters.GetUserCardMonstersById(cardMonsters.id);
+                CardMonsters currentCard = cardMonsters.GetUserCardMonstersById(User.CurrentUserId, cardMonsters.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3020,7 +3042,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Equipments currentCard = new Equipments();
-                currentCard = equipment.GetUserEquipmentsById(equipment.id);
+                currentCard = equipment.GetUserEquipmentsById(User.CurrentUserId, equipment.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3045,7 +3067,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Equipments currentCard = equipment.GetUserEquipmentsById(equipment.id);
+                Equipments currentCard = equipment.GetUserEquipmentsById(User.CurrentUserId, equipment.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3094,7 +3116,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Medals currentCard = new Medals();
-                currentCard = medal.GetUserMedalsById(medal.id);
+                currentCard = medal.GetUserMedalsById(User.CurrentUserId, medal.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3119,7 +3141,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Medals currentCard = medal.GetUserMedalsById(medal.id);
+                Medals currentCard = medal.GetUserMedalsById(User.CurrentUserId, medal.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3168,7 +3190,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Skills currentCard = new Skills();
-                currentCard = skill.GetUserSkillsById(skill.id);
+                currentCard = skill.GetUserSkillsById(User.CurrentUserId, skill.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3193,7 +3215,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Skills currentCard = skill.GetUserSkillsById(skill.id);
+                Skills currentCard = skill.GetUserSkillsById(User.CurrentUserId, skill.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3242,7 +3264,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Symbols currentCard = new Symbols();
-                currentCard = symbol.GetUserSymbolsById(symbol.id);
+                currentCard = symbol.GetUserSymbolsById(User.CurrentUserId, symbol.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3267,7 +3289,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Symbols currentCard = symbol.GetUserSymbolsById(symbol.id);
+                Symbols currentCard = symbol.GetUserSymbolsById(User.CurrentUserId, symbol.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3316,7 +3338,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Titles currentCard = new Titles();
-                currentCard = title.GetUserTitlesById(title.id);
+                currentCard = title.GetUserTitlesById(User.CurrentUserId, title.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3341,7 +3363,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Titles currentCard = title.GetUserTitlesById(title.id);
+                Titles currentCard = title.GetUserTitlesById(User.CurrentUserId, title.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3390,7 +3412,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 MagicFormationCircle currentCard = new MagicFormationCircle();
-                currentCard = magicFormationCircle.GetUserMagicFormationCirlceById(magicFormationCircle.id);
+                currentCard = magicFormationCircle.GetUserMagicFormationCirlceById(User.CurrentUserId, magicFormationCircle.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3415,7 +3437,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                MagicFormationCircle currentCard = magicFormationCircle.GetUserMagicFormationCirlceById(magicFormationCircle.id);
+                MagicFormationCircle currentCard = magicFormationCircle.GetUserMagicFormationCirlceById(User.CurrentUserId, magicFormationCircle.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3464,7 +3486,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Relics currentCard = new Relics();
-                currentCard = relics.GetUserRelicsById(relics.id);
+                currentCard = relics.GetUserRelicsById(User.CurrentUserId, relics.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3489,7 +3511,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Relics currentCard = relics.GetUserRelicsById(relics.id);
+                Relics currentCard = relics.GetUserRelicsById(User.CurrentUserId, relics.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3538,7 +3560,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardColonels currentCard = new CardColonels();
-                currentCard = cardColonels.GetUserCardColonelsById(cardColonels.id);
+                currentCard = cardColonels.GetUserCardColonelsById(User.CurrentUserId, cardColonels.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3564,7 +3586,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardColonels currentCard = cardColonels.GetUserCardColonelsById(cardColonels.id);
+                CardColonels currentCard = cardColonels.GetUserCardColonelsById(User.CurrentUserId, cardColonels.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3614,7 +3636,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardGenerals currentCard = new CardGenerals();
-                currentCard = cardGenerals.GetUserCardGeneralsById(cardGenerals.id);
+                currentCard = cardGenerals.GetUserCardGeneralsById(User.CurrentUserId, cardGenerals.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3640,7 +3662,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardGenerals currentCard = cardGenerals.GetUserCardGeneralsById(cardGenerals.id);
+                CardGenerals currentCard = cardGenerals.GetUserCardGeneralsById(User.CurrentUserId, cardGenerals.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3690,7 +3712,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardAdmirals currentCard = new CardAdmirals();
-                currentCard = cardAdmirals.GetUserCardAdmiralsById(cardAdmirals.id);
+                currentCard = cardAdmirals.GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3716,7 +3738,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardAdmirals currentCard = cardAdmirals.GetUserCardAdmiralsById(cardAdmirals.id);
+                CardAdmirals currentCard = cardAdmirals.GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3766,7 +3788,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Achievements currentCard = new Achievements();
-                currentCard = achievements.GetUserAchievementsById(achievements.id);
+                currentCard = achievements.GetUserAchievementsById(User.CurrentUserId, achievements.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3791,7 +3813,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Achievements currentCard = achievements.GetUserAchievementsById(achievements.id);
+                Achievements currentCard = achievements.GetUserAchievementsById(User.CurrentUserId, achievements.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3840,7 +3862,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Talisman currentCard = new Talisman();
-                currentCard = talisman.GetUserTalismanById(talisman.id);
+                currentCard = talisman.GetUserTalismanById(User.CurrentUserId, talisman.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3865,7 +3887,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Talisman currentCard = talisman.GetUserTalismanById(talisman.id);
+                Talisman currentCard = talisman.GetUserTalismanById(User.CurrentUserId, talisman.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3914,7 +3936,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Puppet currentCard = new Puppet();
-                currentCard = puppet.GetUserPuppetById(puppet.id);
+                currentCard = puppet.GetUserPuppetById(User.CurrentUserId, puppet.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -3939,7 +3961,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Puppet currentCard = puppet.GetUserPuppetById(puppet.id);
+                Puppet currentCard = puppet.GetUserPuppetById(User.CurrentUserId, puppet.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -3988,7 +4010,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Alchemy currentCard = new Alchemy();
-                currentCard = alchemy.GetUserAlchemyById(alchemy.id);
+                currentCard = alchemy.GetUserAlchemyById(User.CurrentUserId, alchemy.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -4013,7 +4035,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Alchemy currentCard = alchemy.GetUserAlchemyById(alchemy.id);
+                Alchemy currentCard = alchemy.GetUserAlchemyById(User.CurrentUserId, alchemy.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -4062,7 +4084,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 Forge currentCard = new Forge();
-                currentCard = forge.GetUserForgeById(forge.id);
+                currentCard = forge.GetUserForgeById(User.CurrentUserId, forge.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -4087,7 +4109,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                Forge currentCard = forge.GetUserForgeById(forge.id);
+                Forge currentCard = forge.GetUserForgeById(User.CurrentUserId, forge.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
@@ -4136,7 +4158,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 CardLife currentCard = new CardLife();
-                currentCard = cardLife.GetUserCardLifeById(cardLife.id);
+                currentCard = cardLife.GetUserCardLifeById(User.CurrentUserId, cardLife.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -4161,7 +4183,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                CardLife currentCard = cardLife.GetUserCardLifeById(cardLife.id);
+                CardLife currentCard = cardLife.GetUserCardLifeById(User.CurrentUserId, cardLife.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
                 int originalLevel = currentLevel;
