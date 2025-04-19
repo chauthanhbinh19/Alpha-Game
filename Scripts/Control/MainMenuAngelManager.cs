@@ -83,6 +83,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is Books books)
@@ -96,6 +98,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is CardCaptains cardCaptains)
@@ -109,6 +113,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is Pets pets)
@@ -122,6 +128,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is CardMilitary cardMilitary)
@@ -135,6 +143,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is CardSpell cardSpell)
@@ -148,6 +158,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is CardMonsters cardMonsters)
@@ -161,6 +173,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is CardColonels cardColonels)
@@ -174,6 +188,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is CardGenerals cardGenerals)
@@ -187,6 +203,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is CardAdmirals cardAdmirals)
@@ -200,6 +218,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                     else if (data is Equipments equipments)
@@ -213,6 +233,8 @@ public class MainMenuAngelManager : MonoBehaviour
                         else
                         {
                             LevelCondition.gameObject.SetActive(true);
+                            TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
                         }
                     }
                 }
@@ -426,6 +448,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is Books books)
@@ -439,6 +463,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is CardCaptains cardCaptains)
@@ -452,6 +478,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is Pets pets)
@@ -465,6 +493,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is CardMilitary cardMilitary)
@@ -478,6 +508,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is CardSpell cardSpell)
@@ -491,6 +523,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is CardMonsters cardMonsters)
@@ -504,6 +538,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is CardColonels cardColonels)
@@ -517,6 +553,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is CardGenerals cardGenerals)
@@ -530,6 +568,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is CardAdmirals cardAdmirals)
@@ -543,6 +583,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
         else if (data is Equipments equipments)
@@ -556,6 +598,8 @@ public class MainMenuAngelManager : MonoBehaviour
             else
             {
                 LevelCondition.gameObject.SetActive(true);
+                TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+                            warningText.text = $"Your level is too low. Required level: {value}. Please level up and try again.";
             }
         }
     }
@@ -1139,7 +1183,7 @@ public class MainMenuAngelManager : MonoBehaviour
     public void SetUI(GameObject gameObject, string type, int level = 0)
     {
         RawImage BackgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
-        Texture backgroundTexture = Resources.Load<Texture>("UI/Background3/Tree_8");
+        Texture backgroundTexture = Resources.Load<Texture>("UI/Background3/Angel_Wings");
         BackgroundImage.texture = backgroundTexture;
 
         int totalSkills = 10;

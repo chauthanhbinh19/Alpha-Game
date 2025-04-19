@@ -225,6 +225,10 @@ public class ShopManager : MonoBehaviour
         {
             return Relics.GetUniqueRelicsTypes();
         }
+        else if (mainType.Equals("CardMonsters"))
+        {
+            return CardMonsters.GetUniqueCardMonstersTypes();
+        }
         else if (mainType.Equals("CardColonels"))
         {
             return CardColonels.GetUniqueCardColonelsTypes();
@@ -399,6 +403,14 @@ public class ShopManager : MonoBehaviour
 
                         totalRecord = relicsManager.GetRelicsWithPriceCount(subType);
                     }
+                    else if (mainType.Equals("CardMonsters"))
+                    {
+                        CardMonsters monstersManager = new CardMonsters();
+                        List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(subtype, pageSize, offset);
+                        createCardMonsters(monstersList);
+
+                        totalRecord = monstersManager.GetCardMonstersWithPriceCount(subtype);
+                    }
                     else if (mainType.Equals("CardColonels"))
                     {
                         CardColonels colonelsManager = new CardColonels();
@@ -492,14 +504,6 @@ public class ShopManager : MonoBehaviour
                 createMedals(medalsList);
 
                 totalRecord = medalsManager.GetMedalsWithPriceCount();
-            }
-            else if (mainType.Equals("CardMonsters"))
-            {
-                CardMonsters monstersManager = new CardMonsters();
-                List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(pageSize, offset);
-                createCardMonsters(monstersList);
-
-                totalRecord = monstersManager.GetCardMonstersWithPriceCount();
             }
             else if (mainType.Equals("Titles"))
             {
@@ -2365,11 +2369,11 @@ public class ShopManager : MonoBehaviour
             else if (mainType.Equals("CardMonsters"))
             {
                 CardMonsters monstersManager = new CardMonsters();
-                totalRecord = monstersManager.GetCardMonstersWithPriceCount();
+                totalRecord = monstersManager.GetCardMonstersWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(pageSize, offset);
+                List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(subType, pageSize, offset);
                 createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))
@@ -2608,11 +2612,11 @@ public class ShopManager : MonoBehaviour
             else if (mainType.Equals("CardMonsters"))
             {
                 CardMonsters monstersManager = new CardMonsters();
-                totalRecord = monstersManager.GetCardMonstersWithPriceCount();
+                totalRecord = monstersManager.GetCardMonstersWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(pageSize, offset);
+                List<CardMonsters> monstersList = monstersManager.GetCardMonstersWithPrice(subType, pageSize, offset);
                 createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))

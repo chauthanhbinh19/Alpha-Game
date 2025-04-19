@@ -245,17 +245,19 @@ public class ButtonLoader : MonoBehaviour
         CreateArenaButton(10, "Chronoverse Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Chronoverse Arena"), arenaMenuPanel);
         CreateArenaButton(11, "Xenoverse Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Xenoverse Arena"),arenaMenuPanel);
         CreateArenaButton(12, "Omniverse Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Omniverse Arena"),arenaMenuPanel);
-        // CreateButton(13, "Symbols Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/SymbolsGallery"),arenaMenuPanel);
-        // CreateButton(14, "Titles Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/TitlesGallery"),arenaMenuPanel);
-        // CreateButton(15, "Magic Formation Circle Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"),arenaMenuPanel);
+        CreateArenaButton(13, "Aetherion Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Aetherion Arena"),arenaMenuPanel);
+        CreateArenaButton(14, "Astralis Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Astralis Arena"),arenaMenuPanel);
+        CreateArenaButton(15, "Thalorix Arena",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Thalorix Arena"),arenaMenuPanel);
         // CreateButton(16, "Relics Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/RelicsGallery"),arenaMenuPanel);
         // CreateButton(17, "Card Colonels Gallery",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"),arenaMenuPanel);
     }
-     public void CreateTowerButton(Transform towerMenuPanel){
-        CreateArenaButton(1, "Arena 1vs1",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_1vs1"), towerMenuPanel);
-        CreateArenaButton(2, "Arena 3vs3",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_3vs3"), towerMenuPanel);
-        CreateArenaButton(3, "Arena 5vs5",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_5vs5"), towerMenuPanel);
-        CreateArenaButton(4, "Arena 7vs7",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_7vs7"), towerMenuPanel);
-        CreateArenaButton(5, "Arena 9vs9",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Arena_9vs9"), towerMenuPanel);
+    public void CreateTowerButton(Transform towerMenuPanel){
+        CreateArenaButton(1, "Tower 1",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_1"), towerMenuPanel);
+        CreateArenaButton(2, "Tower 2",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_2"), towerMenuPanel);
+        CreateArenaButton(3, "Tower 3",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_3"), towerMenuPanel);
+        CreateArenaButton(4, "Tower 4",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_4"), towerMenuPanel);
+        CreateArenaButton(5, "Tower 5",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_5"), towerMenuPanel);
+        CreateArenaButton(6, "Tower 6",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_6"), towerMenuPanel);
+        CreateArenaButton(7, "Tower 7",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_7"), towerMenuPanel);
     }
 }

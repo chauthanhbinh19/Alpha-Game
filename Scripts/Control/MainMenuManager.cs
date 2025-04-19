@@ -223,6 +223,10 @@ public class MainMenuManager : MonoBehaviour
         {
             return Relics.GetUniqueRelicsTypes();
         }
+        else if (mainType.Equals("CardMonsters"))
+        {
+            return CardMonsters.GetUniqueCardMonstersTypes();
+        }
         else if (type.Equals("CardColonels"))
         {
             return CardColonels.GetUniqueCardColonelsTypes();
@@ -485,11 +489,13 @@ public class MainMenuManager : MonoBehaviour
                         ChangeButtonBackground(button, "Background_V4_211");
                     }
                     int totalRecord = 0;
+                    int listCount = 0;
                     if (mainType.Equals("CardHeroes"))
                     {
                         CardHeroes cardsManager = new CardHeroes();
                         List<CardHeroes> cards = cardsManager.GetUserCardHeroes(User.CurrentUserId, subtype, pageSize, offset);
                         createCardHeroes(cards);
+                        listCount = cards.Count;
 
                         totalRecord = cardsManager.GetUserCardHeroesCount(User.CurrentUserId, subtype);
                     }
@@ -498,6 +504,7 @@ public class MainMenuManager : MonoBehaviour
                         Books booksManager = new Books();
                         List<Books> books = booksManager.GetUserBooks(User.CurrentUserId, subtype, pageSize, offset);
                         createBooks(books);
+                        listCount = books.Count;
 
                         totalRecord = booksManager.GetUserBooksCount(User.CurrentUserId, subtype);
                     }
@@ -506,6 +513,7 @@ public class MainMenuManager : MonoBehaviour
                         CardCaptains cardCaptainsManager = new CardCaptains();
                         List<CardCaptains> captains = cardCaptainsManager.GetUserCardCaptains(User.CurrentUserId, subtype, pageSize, offset);
                         createCardCaptains(captains);
+                        listCount = captains.Count;
 
                         totalRecord = cardCaptainsManager.GetUserCardCaptainsCount(User.CurrentUserId, subtype);
                     }
@@ -514,6 +522,7 @@ public class MainMenuManager : MonoBehaviour
                         CollaborationEquipment collaborationEquipmentManager = new CollaborationEquipment();
                         List<CollaborationEquipment> collaborationEquipments = collaborationEquipmentManager.GetUserCollaborationEquipments(User.CurrentUserId, subtype, pageSize, offset);
                         createCollaborationEquipments(collaborationEquipments);
+                        listCount = collaborationEquipments.Count;
 
                         totalRecord = collaborationEquipmentManager.GetUserCollaborationEquipmentCount(User.CurrentUserId, subtype);
                     }
@@ -522,6 +531,7 @@ public class MainMenuManager : MonoBehaviour
                         Equipments equipmentsManager = new Equipments();
                         List<Equipments> equipments = equipmentsManager.GetEquipments(subtype, pageSize, offset);
                         createEquipments(equipments);
+                        listCount = equipments.Count;
 
                         totalRecord = equipmentsManager.GetEquipmentsCount(subtype);
                     }
@@ -530,6 +540,7 @@ public class MainMenuManager : MonoBehaviour
                         Pets petsManager = new Pets();
                         List<Pets> pets = petsManager.GetUserPets(User.CurrentUserId, subtype, pageSize, offset);
                         createPets(pets);
+                        listCount = pets.Count;
 
                         totalRecord = petsManager.GetUserPetsCount(User.CurrentUserId, subtype);
                     }
@@ -538,6 +549,7 @@ public class MainMenuManager : MonoBehaviour
                         Skills skillsManager = new Skills();
                         List<Skills> skills = skillsManager.GetUserSkills(User.CurrentUserId, subtype, pageSize, offset);
                         createSkills(skills);
+                        listCount = skills.Count;
 
                         totalRecord = skillsManager.GetUserSkillsCount(User.CurrentUserId, subtype);
                     }
@@ -546,6 +558,7 @@ public class MainMenuManager : MonoBehaviour
                         Symbols symbolsManager = new Symbols();
                         List<Symbols> symbols = symbolsManager.GetUserSymbols(User.CurrentUserId, subtype, pageSize, offset);
                         createSymbols(symbols);
+                        listCount = symbols.Count;
 
                         totalRecord = symbolsManager.GetUserSymbolsCount(User.CurrentUserId, subtype);
                     }
@@ -554,6 +567,7 @@ public class MainMenuManager : MonoBehaviour
                         CardMilitary militaryManager = new CardMilitary();
                         List<CardMilitary> militaryList = militaryManager.GetUserCardMilitary(User.CurrentUserId, subtype, pageSize, offset);
                         createCardMilitary(militaryList);
+                        listCount = militaryList.Count;
 
                         totalRecord = militaryManager.GetUserCardMilitaryCount(User.CurrentUserId, subType);
                     }
@@ -562,6 +576,7 @@ public class MainMenuManager : MonoBehaviour
                         CardSpell spellManager = new CardSpell();
                         List<CardSpell> spellList = spellManager.GetUserCardSpell(User.CurrentUserId, subtype, pageSize, offset);
                         createCardSpell(spellList);
+                        listCount = spellList.Count;
 
                         totalRecord = spellManager.GetUserCardSpellCount(User.CurrentUserId, subType);
                     }
@@ -570,6 +585,7 @@ public class MainMenuManager : MonoBehaviour
                         MagicFormationCircle magicFormationCircleManager = new MagicFormationCircle();
                         List<MagicFormationCircle> magicFormationCircles = magicFormationCircleManager.GetUserMagicFormationCircle(User.CurrentUserId, subType, pageSize, offset);
                         createMagicFormationCircle(magicFormationCircles);
+                        listCount = magicFormationCircles.Count;
 
                         totalRecord = magicFormationCircleManager.GetUserMagicFormationCircleCount(User.CurrentUserId, subType);
                     }
@@ -578,30 +594,43 @@ public class MainMenuManager : MonoBehaviour
                         Relics relicsManager = new Relics();
                         List<Relics> relicsList = relicsManager.GetUserRelics(User.CurrentUserId, subType, pageSize, offset);
                         createRelics(relicsList);
+                        listCount = relicsList.Count;
 
                         totalRecord = relicsManager.GetUserRelicsCount(User.CurrentUserId, subType);
+                    }
+                    else if (mainType.Equals("CardMonsters"))
+                    {
+                        CardMonsters monstersManager = new CardMonsters();
+                        List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(User.CurrentUserId, subType, pageSize, offset);
+                        createCardMonsters(monstersList);
+                        listCount = monstersList.Count;
+
+                        totalRecord = monstersManager.GetUserCardMonstersCount(User.CurrentUserId, subtype);
                     }
                     else if (mainType.Equals("CardColonels"))
                     {
                         CardColonels colonelsManager = new CardColonels();
                         List<CardColonels> colonels = colonelsManager.GetUserCardColonels(User.CurrentUserId, subtype, pageSize, offset);
                         createCardColonels(colonels);
+                        listCount = colonels.Count;
 
                         totalRecord = colonelsManager.GetUserCardColonelsCount(User.CurrentUserId, subType);
                     }
                     else if (mainType.Equals("CardGenerals"))
                     {
                         CardGenerals generalsManager = new CardGenerals();
-                        List<CardGenerals> relicsList = generalsManager.GetUserCardGenerals(User.CurrentUserId, subtype, pageSize, offset);
-                        createCardGenerals(relicsList);
+                        List<CardGenerals> generals = generalsManager.GetUserCardGenerals(User.CurrentUserId, subtype, pageSize, offset);
+                        createCardGenerals(generals);
+                        listCount = generals.Count;
 
                         totalRecord = generalsManager.GetUserCardGeneralsCount(User.CurrentUserId, subType);
                     }
                     else if (mainType.Equals("CardAdmirals"))
                     {
                         CardAdmirals admiralsManager = new CardAdmirals();
-                        List<CardAdmirals> relicsList = admiralsManager.GetUserCardAdmirals(User.CurrentUserId, subtype, pageSize, offset);
-                        createCardAdmirals(relicsList);
+                        List<CardAdmirals> admirals = admiralsManager.GetUserCardAdmirals(User.CurrentUserId, subtype, pageSize, offset);
+                        createCardAdmirals(admirals);
+                        listCount = admirals.Count;
 
                         totalRecord = admiralsManager.GetUserCardAdmiralsCount(User.CurrentUserId, subType);
                     }
@@ -685,6 +714,22 @@ public class MainMenuManager : MonoBehaviour
                             FindObjectOfType<GachaSystem>().Summon("spell", subtype, SummonAreaPanel, 10);
                         });
                     }
+                    else if (mainType.Equals("SummonCardMonsters"))
+                    {
+                        titleText2.text = "Summon " + string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
+                        CardMonsters monstersManager = new CardMonsters();
+                        List<CardMonsters> monsters = monstersManager.GetCardMonstersRandom(subtype, 3);
+                        createCardMonstersForSummon(monsters);
+
+                        SummonButton.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon("monsters", "none", SummonAreaPanel, 1);
+                        });
+                        Summon10Button.onClick.AddListener(() =>
+                        {
+                            FindObjectOfType<GachaSystem>().Summon("monsters", "none", SummonAreaPanel, 10);
+                        });
+                    }
                     else if (mainType.Equals("SummonCardColonels"))
                     {
                         titleText2.text = "Summon " + string.Concat(subtype.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
@@ -738,6 +783,7 @@ public class MainMenuManager : MonoBehaviour
                         Talisman talismanManager = new Talisman();
                         List<Talisman> talismans = talismanManager.GetUserTalisman(User.CurrentUserId, subType, pageSize, offset);
                         createTalisman(talismans);
+                        listCount = talismans.Count;
 
                         totalRecord = talismanManager.GetUserTalismanCount(User.CurrentUserId, subType);
                     }
@@ -746,6 +792,7 @@ public class MainMenuManager : MonoBehaviour
                         Puppet puppetManager = new Puppet();
                         List<Puppet> puppets = puppetManager.GetUserPuppet(User.CurrentUserId, subType, pageSize, offset);
                         createPuppet(puppets);
+                        listCount = puppets.Count;
 
                         totalRecord = puppetManager.GetUserPuppetCount(User.CurrentUserId, subType);
                     }
@@ -754,6 +801,7 @@ public class MainMenuManager : MonoBehaviour
                         Alchemy alchemyManager = new Alchemy();
                         List<Alchemy> alchemies = alchemyManager.GetUserAlchemy(User.CurrentUserId, subType, pageSize, offset);
                         createAlchemy(alchemies);
+                        listCount = alchemies.Count;
 
                         totalRecord = alchemyManager.GetUserAlchemyCount(User.CurrentUserId, subType);
                     }
@@ -762,6 +810,7 @@ public class MainMenuManager : MonoBehaviour
                         Forge forgeManager = new Forge();
                         List<Forge> forges = forgeManager.GetUserForge(User.CurrentUserId, subType, pageSize, offset);
                         createForge(forges);
+                        listCount = forges.Count;
 
                         totalRecord = forgeManager.GetUserForgeCount(User.CurrentUserId, subType);
                     }
@@ -770,13 +819,12 @@ public class MainMenuManager : MonoBehaviour
                         CardLife cardLifeManager = new CardLife();
                         List<CardLife> cardLives = cardLifeManager.GetUserCardLife(User.CurrentUserId, subType, pageSize, offset);
                         createCardLife(cardLives);
+                        listCount = cardLives.Count;
 
                         totalRecord = cardLifeManager.GetUserCardLifeCount(User.CurrentUserId, subType);
                     }
 
-                    if (!mainType.Equals("SummonCardHeroes") && !mainType.Equals("SummonBooks") && !mainType.Equals("SummonCardCaptains") &&
-                    !mainType.Equals("SummonCardColonels") && !mainType.Equals("SummonCardGenerals") && !mainType.Equals("SummonCardAdmirals") &&
-                    !mainType.Equals("SummonCardMonsters") && !mainType.Equals("SummonCardMilitary") && !mainType.Equals("SummonCardSpell"))
+                    if (listCount > 0)
                     {
                         totalPage = CalculateTotalPages(totalRecord, pageSize);
                         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -799,11 +847,13 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             int totalRecord = 0;
+            int listCount = 0;
             if (mainType.Equals("Collaboration"))
             {
                 Collaboration collaborationManager = new Collaboration();
                 List<Collaboration> collaborations = collaborationManager.GetUserCollaboration(User.CurrentUserId, pageSize, offset);
                 createCollaboration(collaborations);
+                listCount = collaborations.Count;
 
                 totalRecord = collaborationManager.GetUserCollaborationCount(User.CurrentUserId);
             }
@@ -812,47 +862,21 @@ public class MainMenuManager : MonoBehaviour
                 Medals medalsManager = new Medals();
                 List<Medals> medalsList = medalsManager.GetUserMedals(User.CurrentUserId, pageSize, offset);
                 createMedals(medalsList);
+                listCount = medalsList.Count;
 
                 totalRecord = medalsManager.GetUserMedalsCount(User.CurrentUserId);
-            }
-            else if (mainType.Equals("CardMonsters"))
-            {
-                CardMonsters monstersManager = new CardMonsters();
-                List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(User.CurrentUserId, pageSize, offset);
-                createCardMonsters(monstersList);
-
-                totalRecord = monstersManager.GetUserCardMonstersCount(User.CurrentUserId);
             }
             else if (mainType.Equals("Titles"))
             {
                 Titles titleManager = new Titles();
                 List<Titles> titlesList = titleManager.GetUserTitles(User.CurrentUserId, pageSize, offset);
                 createTitles(titlesList);
+                listCount = titlesList.Count;
 
                 totalRecord = titleManager.GetUserTitlesCount(User.CurrentUserId);
             }
-            else if (mainType.Equals("SummonCardMonsters"))
-            {
-                titleText2.text = "Summon " + string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
-                CardMonsters monstersManager = new CardMonsters();
-                List<CardMonsters> monsters = monstersManager.GetCardMonstersRandom(3);
-                createCardMonstersForSummon(monsters);
 
-                SummonButton.onClick.AddListener(() =>
-                {
-                    FindObjectOfType<GachaSystem>().Summon("monsters", "none", SummonAreaPanel, 1);
-                });
-                Summon10Button.onClick.AddListener(() =>
-                {
-                    FindObjectOfType<GachaSystem>().Summon("monsters", "none", SummonAreaPanel, 10);
-                });
-            }
-
-            if (!mainType.Equals("SummonCardMonsters") && !mainType.Equals("Teams")
-            && !mainType.Equals("Gallery") && !mainType.Equals("Collection")
-            && !mainType.Equals("Equipments") && !mainType.Equals("Arena")
-            && !mainType.Equals("Guild") && !mainType.Equals("Tower")
-            && !mainType.Equals("Event"))
+            if (listCount > 0)
             {
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -990,6 +1014,14 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = relicsManager.GetUserRelicsCount(User.CurrentUserId, type);
         }
+        else if (mainType.Equals("CardMonsters"))
+        {
+            CardMonsters monstersManager = new CardMonsters();
+            List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(User.CurrentUserId, type, pageSize, offset);
+            createCardMonsters(monstersList);
+
+            totalRecord = monstersManager.GetUserCardMonstersCount(User.CurrentUserId, type);
+        }
         else if (mainType.Equals("CardColonels"))
         {
             CardColonels colonelsManager = new CardColonels();
@@ -1001,16 +1033,16 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals("CardGenerals"))
         {
             CardGenerals generalsManager = new CardGenerals();
-            List<CardGenerals> relicsList = generalsManager.GetUserCardGenerals(User.CurrentUserId, type, pageSize, offset);
-            createCardGenerals(relicsList);
+            List<CardGenerals> generals = generalsManager.GetUserCardGenerals(User.CurrentUserId, type, pageSize, offset);
+            createCardGenerals(generals);
 
             totalRecord = generalsManager.GetUserCardGeneralsCount(User.CurrentUserId, type);
         }
         else if (mainType.Equals("CardAdmirals"))
         {
             CardAdmirals admiralsManager = new CardAdmirals();
-            List<CardAdmirals> relicsList = admiralsManager.GetUserCardAdmirals(User.CurrentUserId, type, pageSize, offset);
-            createCardAdmirals(relicsList);
+            List<CardAdmirals> admirals = admiralsManager.GetUserCardAdmirals(User.CurrentUserId, type, pageSize, offset);
+            createCardAdmirals(admirals);
 
             totalRecord = admiralsManager.GetUserCardAdmiralsCount(User.CurrentUserId, type);
         }
@@ -1185,7 +1217,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals("Alchemy"))
         {
             Alchemy alchemyManager = new Alchemy();
-            List<Alchemy> alchemies = alchemyManager.GetUserAlchemy(User.CurrentUserId,type, pageSize, offset);
+            List<Alchemy> alchemies = alchemyManager.GetUserAlchemy(User.CurrentUserId, type, pageSize, offset);
             createAlchemy(alchemies);
 
             totalRecord = alchemyManager.GetUserAlchemyCount(User.CurrentUserId, type);
@@ -2685,7 +2717,7 @@ public class MainMenuManager : MonoBehaviour
         User user = new User();
         user = user.GetUserById(User.CurrentUserId);
         CardHeroes cardHeroes = new CardHeroes();
-        List<CardHeroes> cardHeroesList = cardHeroes.GetUserCardHeroes(User.CurrentUserId,"Adamas", team_limit, team_offset);
+        List<CardHeroes> cardHeroesList = cardHeroes.GetUserCardHeroes(User.CurrentUserId, "Adamas", team_limit, team_offset);
         // Gọi script quản lý cuộn
         ScrollManager scrollManager = teamsObject.AddComponent<ScrollManager>();
         scrollManager.Initialize(scrollRect, arrowUp, arrowDown);
@@ -2848,11 +2880,11 @@ public class MainMenuManager : MonoBehaviour
             CreatePosition(type, team, positionPanel, typeContent, user.level, teamsObject);
 
             // selectedOptionName = dropdownType.options[dropdownType.value].text;
-            List<CardMonsters> cardHeroesList2 = c.GetUserCardMonsters(User.CurrentUserId, team_limit, team_offset);
+            List<CardMonsters> cardHeroesList2 = c.GetUserCardMonsters(User.CurrentUserId,subType, team_limit, team_offset);
             cardObjects = cardHeroesList2.Cast<object>().ToList();
             createCardTeams(cardObjects, choseTeam);
 
-            totalRecord = c.GetUserCardMonstersCount(User.CurrentUserId);
+            totalRecord = c.GetUserCardMonstersCount(User.CurrentUserId, subType);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
             pageText.text = page.ToString() + "/" + totalPage.ToString();
         });
@@ -3059,11 +3091,11 @@ public class MainMenuManager : MonoBehaviour
             else if (mainType.Equals("CardMonsters"))
             {
                 CardMonsters monstersManager = new CardMonsters();
-                totalRecord = monstersManager.GetUserCardMonstersCount(User.CurrentUserId);
+                totalRecord = monstersManager.GetUserCardMonstersCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(User.CurrentUserId, pageSize, offset);
+                List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(User.CurrentUserId,subType, pageSize, offset);
                 createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))
@@ -3282,11 +3314,11 @@ public class MainMenuManager : MonoBehaviour
             else if (mainType.Equals("CardMonsters"))
             {
                 CardMonsters monstersManager = new CardMonsters();
-                totalRecord = monstersManager.GetUserCardMonstersCount(User.CurrentUserId);
+                totalRecord = monstersManager.GetUserCardMonstersCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(User.CurrentUserId, pageSize, offset);
+                List<CardMonsters> monstersList = monstersManager.GetUserCardMonsters(User.CurrentUserId,subType, pageSize, offset);
                 createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))
@@ -3512,10 +3544,10 @@ public class MainMenuManager : MonoBehaviour
         else if (type.Equals("CardMonsters"))
         {
             CardMonsters cardMonsters = new CardMonsters();
-            List<CardMonsters> cardMonstersList = cardMonsters.GetUserCardMonsters(User.CurrentUserId, team_limit, team_offset);
+            List<CardMonsters> cardMonstersList = cardMonsters.GetUserCardMonsters(User.CurrentUserId,selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardMonstersList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = cardMonsters.GetUserCardMonstersCount(User.CurrentUserId);
+            int totalRecord = cardMonsters.GetUserCardMonstersCount(User.CurrentUserId, selectedOptionName);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         else if (type.Equals("CardMilitary"))
@@ -3593,7 +3625,7 @@ public class MainMenuManager : MonoBehaviour
 
             case "CardMonsters":
                 CardMonsters cardMonsters = new CardMonsters();
-                List<CardMonsters> cardMonstersList = cardMonsters.GetUserCardMonsters(User.CurrentUserId, team_limit, team_offset);
+                List<CardMonsters> cardMonstersList = cardMonsters.GetUserCardMonsters(User.CurrentUserId,selectedOptionName, team_limit, team_offset);
                 cardObjects = cardMonstersList.Cast<object>().ToList();
                 break;
 

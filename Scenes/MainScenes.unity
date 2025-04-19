@@ -774,8 +774,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: 400}
-  m_SizeDelta: {x: 800, y: 100}
+  m_AnchoredPosition: {x: 450, y: 400}
+  m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &335576415
 MonoBehaviour:
@@ -1064,6 +1064,8 @@ GameObject:
   - component: {fileID: 474294477}
   - component: {fileID: 474294476}
   - component: {fileID: 474294479}
+  - component: {fileID: 474294481}
+  - component: {fileID: 474294480}
   m_Layer: 5
   m_Name: PowerManager
   m_TagString: Untagged
@@ -1341,6 +1343,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6bf88a046f09f543a7c7af294d81f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4394f412126bfce49a972cacf5a0fcd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474294481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474294457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa22c494c224e24b8418b3d5d434e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &490600150
@@ -3685,6 +3711,8 @@ MonoBehaviour:
   MainMenuSpearPanelPrefab: {fileID: 5745659240395072349, guid: 6f8f67b914ffeb34ba213e936c2f80e4, type: 3}
   MainMenuShieldPanelPrefab: {fileID: 5745659240395072349, guid: 9238797de4aeb3446be3ca778b1a9708, type: 3}
   MainMenuBowPanelPrefab: {fileID: 5745659240395072349, guid: 1783ef65f1e226d45bc66de8dec76ed0, type: 3}
+  MainMenuCyberPanelPrefab: {fileID: 5745659240395072349, guid: 6cac97b582b52864a858342feeeca175, type: 3}
+  MainMenuFairyPanelPrefab: {fileID: 5745659240395072349, guid: 9c75677a3fe48404bb1f990e20de1085, type: 3}
   ArenaPanelPrefab: {fileID: 5745659240395072349, guid: e9ab7e79e6530e94495415ddbf8649a5, type: 3}
   PopupEquipmentsPanelPrefab: {fileID: 3471210453278062185, guid: eff0224ae52dc2e418e8edf4afa1608b, type: 3}
   PopupMenuPanelPrefab: {fileID: 4587689403310504946, guid: 5d2740ef93e7ba94bba771749d9f84b9, type: 3}
@@ -3716,6 +3744,8 @@ MonoBehaviour:
   SpearSlotPrefab: {fileID: 5745659240395072349, guid: 0452c1cdccc7562418c542d4665c704e, type: 3}
   ShieldSlotPrefab: {fileID: 5745659240395072349, guid: 6a5d4ea0d4a47ec4da3cac1b2161fa0f, type: 3}
   BowSlotPrefab: {fileID: 5745659240395072349, guid: 56495fe34f359514b95098b3a6b27546, type: 3}
+  CyberSlotPrefab: {fileID: 5745659240395072349, guid: b52f50bc73895a843b8ff6ae4f534199, type: 3}
+  FairySlotPrefab: {fileID: 5745659240395072349, guid: 44b900f27746d6840a4710c475ac6526, type: 3}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0

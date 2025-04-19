@@ -90,6 +90,9 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuSpearPanelPrefab;
     public GameObject MainMenuShieldPanelPrefab;
     public GameObject MainMenuBowPanelPrefab;
+    public GameObject MainMenuGunPanelPrefab;
+    public GameObject MainMenuCyberPanelPrefab;
+    public GameObject MainMenuFairyPanelPrefab;
     public GameObject ArenaPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject PopupMenuPanelPrefab;
@@ -121,6 +124,9 @@ public class UIManager : MonoBehaviour
     public GameObject SpearSlotPrefab;
     public GameObject ShieldSlotPrefab;
     public GameObject BowSlotPrefab;
+    public GameObject GunSlotPrefab;
+    public GameObject CyberSlotPrefab;
+    public GameObject FairySlotPrefab;
 
     private void Awake()
     {
@@ -301,6 +307,12 @@ public class UIManager : MonoBehaviour
                 return MainMenuShieldPanelPrefab;
             case "MainMenuBowPanelPrefab":
                 return MainMenuBowPanelPrefab;
+            case "MainMenuCyberPanelPrefab":
+                return MainMenuCyberPanelPrefab;
+            case "MainMenuFairyPanelPrefab":
+                return MainMenuFairyPanelPrefab;
+            case "MainMenuGunPanelPrefab":
+                return MainMenuGunPanelPrefab;
             case "ArenaPanelPrefab":
                 return ArenaPanelPrefab;
             case "PopupEquipmentsPanelPrefab":
@@ -363,6 +375,12 @@ public class UIManager : MonoBehaviour
                 return ShieldSlotPrefab;
             case "BowSlotPrefab":
                 return BowSlotPrefab;
+            case "CyberSlotPrefab":
+                return CyberSlotPrefab;
+            case "FairySlotPrefab":
+                return FairySlotPrefab;
+            case "GunSlotPrefab":
+                return GunSlotPrefab;
             case "TabButton5":
                 return TabButton5;
             default:

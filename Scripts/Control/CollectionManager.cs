@@ -154,6 +154,10 @@ public class CollectionManager : MonoBehaviour
         {
             return Relics.GetUniqueRelicsTypes();
         }
+        else if (mainType.Equals("CardMonsters"))
+        {
+            return CardMonsters.GetUniqueCardMonstersTypes();
+        }
         else if (mainType.Equals("CardColonels"))
         {
             return CardColonels.GetUniqueCardColonelsTypes();
@@ -326,6 +330,14 @@ public class CollectionManager : MonoBehaviour
 
                         totalRecord = relicsManager.GetRelicsCount(subType);
                     }
+                    else if (mainType.Equals("CardMonsters"))
+                    {
+                        CardMonsters monstersManager = new CardMonsters();
+                        List<CardMonsters> monstersList = monstersManager.GetCardMonstersCollection(subtype, pageSize, offset);
+                        createCardMonsters(monstersList);
+
+                        totalRecord = monstersManager.GetCardMonstersCount(subtype);
+                    }
                     else if (mainType.Equals("CardColonels"))
                     {
                         CardColonels colonelsManager = new CardColonels();
@@ -419,14 +431,6 @@ public class CollectionManager : MonoBehaviour
                 createMedals(medalsList);
 
                 totalRecord = medalsManager.GetMedalsCount();
-            }
-            else if (mainType.Equals("CardMonsters"))
-            {
-                CardMonsters monstersManager = new CardMonsters();
-                List<CardMonsters> monstersList = monstersManager.GetCardMonstersCollection(pageSize, offset);
-                createCardMonsters(monstersList);
-
-                totalRecord = monstersManager.GetCardMonstersCount();
             }
             else if (mainType.Equals("Titles"))
             {
@@ -564,6 +568,14 @@ public class CollectionManager : MonoBehaviour
             createRelics(relicsList);
 
             totalRecord = relicsManager.GetRelicsCount(type);
+        }
+        else if (mainType.Equals("CardMonsters"))
+        {
+            CardMonsters monstersManager = new CardMonsters();
+            List<CardMonsters> monstersList = monstersManager.GetCardMonstersCollection(type, pageSize, offset);
+            createCardMonsters(monstersList);
+
+            totalRecord = monstersManager.GetCardMonstersCount(type);
         }
         else if (mainType.Equals("CardColonels"))
         {
@@ -2798,11 +2810,11 @@ public class CollectionManager : MonoBehaviour
             else if (mainType.Equals("CardMonsters"))
             {
                 CardMonsters monstersManager = new CardMonsters();
-                totalRecord = monstersManager.GetCardMonstersCount();
+                totalRecord = monstersManager.GetCardMonstersCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardMonsters> monstersList = monstersManager.GetCardMonstersCollection(pageSize, offset);
+                List<CardMonsters> monstersList = monstersManager.GetCardMonstersCollection(subType, pageSize, offset);
                 createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))
@@ -3059,11 +3071,11 @@ public class CollectionManager : MonoBehaviour
             else if (mainType.Equals("CardMonsters"))
             {
                 CardMonsters monstersManager = new CardMonsters();
-                totalRecord = monstersManager.GetCardMonstersCount();
+                totalRecord = monstersManager.GetCardMonstersCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardMonsters> monstersList = monstersManager.GetCardMonstersCollection(pageSize, offset);
+                List<CardMonsters> monstersList = monstersManager.GetCardMonstersCollection(subType, pageSize, offset);
                 createCardMonsters(monstersList);
             }
             else if (mainType.Equals("Pets"))

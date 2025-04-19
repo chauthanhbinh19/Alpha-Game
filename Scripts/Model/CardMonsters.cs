@@ -626,7 +626,25 @@ public class CardMonsters
         );
         return cardMonsters;
     }
-    public List<CardMonsters> GetCardMonsters(int pageSize, int offset)
+    public static List<string> GetUniqueCardMonstersTypes()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct type from card_monsters";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
+    public List<CardMonsters> GetCardMonsters(string type, int pageSize, int offset)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -635,9 +653,10 @@ public class CardMonsters
             try
             {
                 connection.Open();
-                string query = @"Select * from card_monsters 
+                string query = @"Select * from card_monsters where type= @type 
                 ORDER BY card_monsters.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(card_monsters.name, '[0-9]+$') AS UNSIGNED), card_monsters.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -699,7 +718,7 @@ public class CardMonsters
         }
         return CardMonstersList;
     }
-    public int GetCardMonstersCount(){
+    public int GetCardMonstersCount(string type){
         int count =0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -707,8 +726,9 @@ public class CardMonsters
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_monsters";
+                string query = "Select count(*) from card_monsters where type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;
@@ -720,7 +740,7 @@ public class CardMonsters
         }
         return count;
     }
-    public List<CardMonsters> GetCardMonstersCollection(int pageSize, int offset)
+    public List<CardMonsters> GetCardMonstersCollection(string type, int pageSize, int offset)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         int user_id=User.CurrentUserId;
@@ -731,10 +751,11 @@ public class CardMonsters
             {
                 connection.Open();
                 string query = @"SELECT m.*, CASE WHEN mg.card_monster_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status
-                FROM card_monsters m LEFT JOIN card_monsters_gallery mg ON m.id = mg.card_monster_id and mg.user_id = @userId 
+                FROM card_monsters m LEFT JOIN card_monsters_gallery mg ON m.id = mg.card_monster_id and mg.user_id = @userId where m.type=@type 
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -797,7 +818,7 @@ public class CardMonsters
         }
         return CardMonstersList;
     }
-    public List<CardMonsters> GetUserCardMonsters(int user_id, int pageSize, int offset)
+    public List<CardMonsters> GetUserCardMonsters(int user_id, string type, int pageSize, int offset)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         // int user_id=User.CurrentUserId;
@@ -811,12 +832,13 @@ public class CardMonsters
                 FROM user_card_monsters um
                 LEFT JOIN card_monsters m ON um.card_monster_id = m.id
                 LEFT JOIN fact_card_monsters fcm ON fcm.user_id = um.user_id AND fcm.user_card_monster_id = um.card_monster_id
-                WHERE um.user_id = @userId
+                WHERE um.user_id = @userId AND m.type = @type
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
                 LIMIT @limit OFFSET @offset;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -1068,7 +1090,7 @@ public class CardMonsters
         }
         return result;
     }
-    public int GetUserCardMonstersCount(int user_id){
+    public int GetUserCardMonstersCount(int user_id, string type){
         int count =0;
         // int user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1077,9 +1099,10 @@ public class CardMonsters
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_monsters m, user_card_monsters um where m.id=um.card_monster_id and um.user_id=@userId";
+                string query = "Select count(*) from card_monsters m, user_card_monsters um where m.id=um.card_monster_id and um.user_id=@userId and m.type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;
@@ -1091,7 +1114,7 @@ public class CardMonsters
         }
         return count;
     }
-    public List<CardMonsters> GetCardMonstersRandom(int pageSize)
+    public List<CardMonsters> GetCardMonstersRandom(string type, int pageSize)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1100,8 +1123,9 @@ public class CardMonsters
             try
             {
                 connection.Open();
-                string query = "Select * from card_monsters ORDER BY RAND() limit @limit";
+                string query = "Select * from card_monsters where type= @type ORDER BY RAND() limit @limit";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -1161,7 +1185,7 @@ public class CardMonsters
         }
         return CardMonstersList;
     }
-    public List<CardMonsters> GetAllCardMonsters()
+    public List<CardMonsters> GetAllCardMonsters(string type)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1170,8 +1194,9 @@ public class CardMonsters
             try
             {
                 connection.Open();
-                string query = "Select * from card_monsters";
+                string query = "Select * from card_monsters where type= @type";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -1963,7 +1988,7 @@ public class CardMonsters
             }
         }
     }
-    public List<CardMonsters> GetCardMonstersWithPrice(int pageSize, int offset)
+    public List<CardMonsters> GetCardMonstersWithPrice(string type, int pageSize, int offset)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1974,9 +1999,10 @@ public class CardMonsters
                 connection.Open();
                 string query = @"select m.*, mt.price, cu.image as currency_image, cu.id as currency_id
                 from card_monsters m, card_monster_trade mt, currency cu
-                where m.id=mt.card_monster_id and mt.currency_id = cu.id
+                where m.id=mt.card_monster_id and mt.currency_id = cu.id and m.type =@type
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset;";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -2043,7 +2069,7 @@ public class CardMonsters
         }
         return CardMonstersList;
     }
-    public int GetCardMonstersWithPriceCount()
+    public int GetCardMonstersWithPriceCount(string type)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2056,6 +2082,7 @@ public class CardMonsters
                 from card_monsters m, card_monster_trade mt, currency cu
                 where m.id=mt.card_monster_id and mt.currency_id = cu.id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;
