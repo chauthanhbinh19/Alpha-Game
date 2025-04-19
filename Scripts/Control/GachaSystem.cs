@@ -40,7 +40,7 @@ public class GachaSystem : MonoBehaviour
                 break;
             case "monsters":
                 manager = new CardMonsters();
-                items = ((CardMonsters)manager).GetAllCardMonsters();
+                items = ((CardMonsters)manager).GetAllCardMonsters(type);
                 break;
             case "military":
                 manager = new CardMilitary();
