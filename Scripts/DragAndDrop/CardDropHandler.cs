@@ -27,11 +27,11 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 // Debug.Log("Card dropped: " + draggedCard.gameObject.name + " at position: " + gameObject.name);
             }
             object obj = draggedCard.obj;
-            string position = "F" + position_id;
+            string position = draggedCard.mainPosition + "-" + position_id;
             Teams teams = new Teams();
             if (obj is CardHeroes cardHeroes)
             {
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 if (card_id != 0)
                 {
                     cardHeroes.UpdateTeamFactCardHeroes(null, null, card_id);
@@ -50,7 +50,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             else if (obj is CardCaptains cardCaptains)
             {
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 if (card_id != 0)
                 {
                     cardCaptains.UpdateTeamFactCardCaptains(null, null, card_id);
@@ -69,7 +69,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             else if (obj is CardColonels cardColonels)
             {
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 if (card_id != 0)
                 {
                     cardColonels.UpdateTeamFactCardColonels(null, null, card_id);
@@ -88,7 +88,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             else if (obj is CardGenerals cardGenerals)
             {
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 if (card_id != 0)
                 {
                     cardGenerals.UpdateTeamFactCardGenerals(null, null, card_id);
@@ -107,7 +107,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             else if (obj is CardAdmirals cardAdmirals)
             {
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 if (card_id != 0)
                 {
                     cardAdmirals.UpdateTeamFactCardAdmirals(null, null, card_id);
@@ -126,7 +126,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             else if (obj is CardMonsters cardMonsters)
             {
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 if (card_id != 0)
                 {
                     cardMonsters.UpdateTeamFactCardMonsters(null, null, card_id);
@@ -145,7 +145,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             else if (obj is CardMilitary cardMilitary)
             {
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 if (card_id != 0)
                 {
                     cardMilitary.UpdateTeamFactCardMilitary(null, null, card_id);
@@ -164,7 +164,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             else if (obj is CardSpell cardSpell)
             {
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 if (card_id != 0)
                 {
                     cardSpell.UpdateTeamFactCardSpell(null, null, card_id);

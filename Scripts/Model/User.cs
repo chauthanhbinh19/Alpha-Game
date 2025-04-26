@@ -16,16 +16,19 @@ public class User
     public int level;
     public int experiment;
     public int vip;
-    public int power;
+    public double power;
     public string Username { get; set; }
     public string Password { get; set; }
     public static int CurrentUserId { get; private set; }
     public static int CurrentUserLevel { get; private set; }
+    public static string CurrentUserAvatar { get; private set; }
+    public static string CurrentUserBorder { get; private set; }
     private static string savedUsername;
     private static string savedPassword;
     public List<Currency> Currencies { get; set; }
     public User(){
         Currencies = new List<Currency>();
+        power = 0;
     }
     public User(GameObject namepanel)
     {
@@ -92,7 +95,7 @@ public class User
                     PowerManager powerManager = new PowerManager();
                     powerManager.InsertUserStats(CurrentUserId);
                     Teams team= new Teams();
-                    team.InsertUserTeams();
+                    team.InsertUserTeams(CurrentUserId);
                     Debug.Log("User registered successfully!");
                 }
                 catch (Exception ex)
@@ -153,6 +156,9 @@ public class User
                 Avatars avatar = new Avatars();
                 avatar = avatar.GetAvatarsByUsed();
                 string Image = avatar.image;
+
+                CurrentUserAvatar = Image;
+                CurrentUserBorder = Border;
 
                 if (string.IsNullOrEmpty(Name))
                 {
@@ -227,9 +233,18 @@ public class User
                 string password = reader.GetString("password");
                 int Level = reader.GetInt32("level");
                 int Vip = reader.GetInt32("vip");
-                int Power = reader.GetInt32("power");
+                // int Power = reader.GetInt32("power");
                 int Experiment = reader.GetInt32("experiment");
 
+                Borders borders = new Borders();
+                borders = borders.GetBordersByUsed();
+                string Border = borders.image;
+                Avatars avatar = new Avatars();
+                avatar = avatar.GetAvatarsByUsed();
+                string Image = avatar.image;
+
+                Teams teams = new Teams();
+                double Power = teams.GetTeamsPower(Id);
                 // Đóng `reader` trước khi thực hiện truy vấn tiếp theo
                 reader.Close();
 
@@ -265,9 +280,9 @@ public class User
                     level=Level,
                     vip=Vip,
                     experiment=Experiment,
-                    power=Power,
-                    // image=Image, 
-                    // border = border,   
+                    power= Power,
+                    image=Image, 
+                    border = Border,   
                     Currencies = currencies
                 };
                 return user;

@@ -181,9 +181,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardHeroes, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardHeroesEquipments(cardHeroes);
@@ -249,9 +249,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardHeroes, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardHeroesEquipments(cardHeroes);
@@ -338,9 +338,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(books, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateBooksEquipments(books);
@@ -406,9 +406,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(books, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateBooksEquipments(books);
@@ -495,9 +495,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardCaptains, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardCaptainsEquipments(cardCaptains);
@@ -563,9 +563,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardCaptains, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardCaptainsEquipments(cardCaptains);
@@ -652,9 +652,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(pets, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreatePetsEquipments(pets);
@@ -720,9 +720,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(pets, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreatePetsEquipments(pets);
@@ -809,9 +809,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardMilitary, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMilitaryEquipments(cardMilitary);
@@ -877,9 +877,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardMilitary, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMilitaryEquipments(cardMilitary);
@@ -966,9 +966,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardSpell, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardSpellEquipments(cardSpell);
@@ -1034,9 +1034,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardSpell, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardSpellEquipments(cardSpell);
@@ -1123,9 +1123,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardMonsters, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMonstersEquipments(cardMonsters);
@@ -1191,9 +1191,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardMonsters, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMonstersEquipments(cardMonsters);
@@ -1280,9 +1280,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardColonels, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardColonelsEquipments(cardColonels);
@@ -1348,9 +1348,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardColonels, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardColonelsEquipments(cardColonels);
@@ -1437,9 +1437,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardGenerals, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardGeneralsEquipments(cardGenerals);
@@ -1505,9 +1505,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardGenerals, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardGeneralsEquipments(cardGenerals);
@@ -1594,9 +1594,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardAdmirals, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardAdmiralsEquipments(cardAdmirals);
@@ -1662,9 +1662,9 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             Teams teams = new Teams();
-            double currentPower = teams.GetTeamsPower();
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
             UpLevel(cardAdmirals, newRank, mainType);
-            double newPower = teams.GetTeamsPower();
+            double newPower = teams.GetTeamsPower(User.CurrentUserId);
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardAdmiralsEquipments(cardAdmirals);

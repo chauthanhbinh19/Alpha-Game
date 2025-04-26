@@ -508,6 +508,67 @@ public class Pets
         }
         return PetsList;
     }
+    public List<Pets> GetAllAnimeStatsPower(int user_id, List<Pets> PetsList)
+    {
+        AnimeStats animeStats = new AnimeStats();
+        foreach (var c in PetsList)
+        {
+            Pets card = new Pets();
+            card = card.GetUserPetsById(user_id, c.id);
+            animeStats = animeStats.GetSumAnimeStats(user_id);
+            c.all_health = c.all_health + animeStats.health + card.health * animeStats.percent_all_health / 100;
+            c.all_physical_attack = c.all_physical_attack + animeStats.physical_attack + card.physical_attack * animeStats.percent_all_physical_attack / 100;
+            c.all_physical_defense = c.all_physical_defense + animeStats.physical_defense + card.physical_defense * animeStats.percent_all_physical_defense / 100;
+            c.all_magical_attack = c.all_magical_attack + animeStats.magical_attack + card.magical_attack * animeStats.percent_all_magical_attack / 100;
+            c.all_magical_defense = c.all_magical_defense + animeStats.magical_defense + card.magical_defense * animeStats.percent_all_magical_defense / 100;
+            c.all_chemical_attack = c.all_chemical_attack + animeStats.chemical_attack + card.chemical_attack * animeStats.percent_all_chemical_attack / 100;
+            c.all_chemical_defense = c.all_chemical_defense + animeStats.chemical_defense + card.chemical_defense * animeStats.percent_all_chemical_defense / 100;
+            c.all_atomic_attack = c.all_atomic_attack + animeStats.atomic_attack + card.atomic_attack * animeStats.percent_all_atomic_attack / 100;
+            c.all_atomic_defense = c.all_atomic_defense + animeStats.atomic_defense + card.atomic_defense * animeStats.percent_all_atomic_defense / 100;
+            c.all_mental_attack = c.all_mental_attack + animeStats.mental_attack + card.mental_attack * animeStats.percent_all_mental_attack / 100;
+            c.all_mental_defense = c.all_mental_defense + animeStats.mental_defense + card.mental_defense * animeStats.percent_all_mental_defense / 100;
+            c.all_speed = c.all_speed + animeStats.speed;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + animeStats.critical_damage_rate;
+            c.all_critical_rate = c.all_critical_rate + animeStats.critical_rate;
+            c.all_penetration_rate = c.all_penetration_rate + animeStats.penetration_rate;
+            c.all_evasion_rate = c.all_evasion_rate + animeStats.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + animeStats.damage_absorption_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + animeStats.vitality_regeneration_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + animeStats.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + animeStats.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + animeStats.shield_strength;
+            c.all_tenacity = c.all_tenacity + animeStats.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + animeStats.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + animeStats.combo_rate;
+            c.all_reflection_rate = c.all_reflection_rate + animeStats.reflection_rate;
+            c.all_mana = c.all_mana + animeStats.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + animeStats.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + animeStats.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + animeStats.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + animeStats.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + animeStats.resistance_to_same_faction_rate;
+
+            c.all_power = PowerManager.CalculatePower(
+            c.all_health,
+            c.all_physical_attack, c.all_physical_defense,
+            c.all_magical_attack, c.all_magical_defense,
+            c.all_chemical_attack, c.all_chemical_defense,
+            c.all_atomic_attack, c.all_atomic_defense,
+            c.all_mental_attack, c.all_mental_defense,
+            c.all_speed,
+            c.all_critical_damage_rate, c.all_critical_rate,
+            c.all_penetration_rate, c.all_evasion_rate,
+            c.all_damage_absorption_rate, c.all_vitality_regeneration_rate,
+            c.all_accuracy_rate, c.all_lifesteal_rate,
+            c.all_shield_strength, c.all_tenacity, c.all_resistance_rate,
+            c.all_combo_rate, c.all_reflection_rate,
+            c.all_mana, c.all_mana_regeneration_rate,
+            c.all_damage_to_different_faction_rate, c.all_resistance_to_different_faction_rate,
+            c.all_damage_to_same_faction_rate, c.all_resistance_to_same_faction_rate
+        );
+        }
+        return PetsList;
+    }
     public Pets GetNewLevelPower(Pets c, double coefficient)
     {
         Pets orginCard = new Pets();
@@ -929,6 +990,7 @@ public class Pets
                 petsList = GetFinalPower(user_id, petsList);
                 petsList = GetAllEquipmentPower(user_id, petsList);
                 petsList = GetAllRankPower(user_id, petsList);
+                petsList = GetAllAnimeStatsPower(user_id, petsList);
                 petsList = GetQualityPower(petsList);
             }
             catch (MySqlException ex)
@@ -1045,6 +1107,7 @@ public class Pets
                 petsList = GetFinalPower(user_id, petsList);
                 petsList = GetAllEquipmentPower(user_id, petsList);
                 petsList = GetAllRankPower(user_id, petsList);
+                petsList = GetAllAnimeStatsPower(user_id, petsList);
                 petsList = GetQualityPower(petsList);
             }
             catch (MySqlException ex)

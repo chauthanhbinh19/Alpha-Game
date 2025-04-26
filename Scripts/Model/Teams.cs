@@ -15,7 +15,7 @@ public class Teams
     {
 
     }
-    public List<Teams> GetUserTeams()
+    public List<Teams> GetUserTeams(int user_id)
     {
         List<Teams> teams = new List<Teams>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -24,7 +24,7 @@ public class Teams
             connection.Open();
             string userQuery = "SELECT * FROM Teams WHERE user_id=@user_id";
             MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
-            userCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            userCommand.Parameters.AddWithValue("@user_id", user_id);
             MySqlDataReader reader = userCommand.ExecuteReader();
             while (reader.Read())
             {
@@ -37,7 +37,7 @@ public class Teams
         }
         return teams;
     }
-    public bool InsertUserTeams()
+    public bool InsertUserTeams(int user_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -45,7 +45,7 @@ public class Teams
             connection.Open();
             string userQuery = "INSERT INTO TEAMS VALUES (@user_id, @team_id)";
             MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
-            userCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            userCommand.Parameters.AddWithValue("@user_id", user_id);
             userCommand.Parameters.AddWithValue("@team_id", GetMaxTeamId(connection) + 1);
             userCommand.ExecuteNonQuery();
         }
@@ -64,7 +64,7 @@ public class Teams
         }
         return 0; // Nếu bảng rỗng, trả về 0
     }
-    public double GetTeamsPower()
+    public double GetTeamsPower(int user_id)
     {
         double totalPower = 0;
         List<CardHeroes> CardHeroesList = new List<CardHeroes>();
@@ -87,7 +87,7 @@ public class Teams
                 LEFT JOIN fact_card_heroes fch ON fch.user_id = uc.user_id AND fch.user_card_hero_id = uc.card_hero_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             MySqlCommand command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -183,7 +183,7 @@ public class Teams
                 LEFT JOIN fact_card_captains fch ON fch.user_id = uc.user_id AND fch.user_card_captain_id = uc.card_captain_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -278,7 +278,7 @@ public class Teams
                 LEFT JOIN fact_card_colonels fch ON fch.user_id = uc.user_id AND fch.user_card_colonel_id = uc.card_colonel_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -374,7 +374,7 @@ public class Teams
                 LEFT JOIN fact_card_generals fch ON fch.user_id = uc.user_id AND fch.user_card_general_id = uc.card_general_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -470,7 +470,7 @@ public class Teams
                 LEFT JOIN fact_card_admirals fch ON fch.user_id = uc.user_id AND fch.user_card_admiral_id = uc.card_admiral_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -566,7 +566,7 @@ public class Teams
                 LEFT JOIN fact_card_monsters fch ON fch.user_id = uc.user_id AND fch.user_card_monster_id = uc.card_monster_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -662,7 +662,7 @@ public class Teams
                 LEFT JOIN fact_card_military fch ON fch.user_id = uc.user_id AND fch.user_card_military_id = uc.card_military_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -758,7 +758,7 @@ public class Teams
                 LEFT JOIN fact_books fch ON fch.user_id = uc.user_id AND fch.user_book_id = uc.book_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -854,7 +854,7 @@ public class Teams
                 LEFT JOIN fact_pets fch ON fch.user_id = uc.user_id AND fch.user_pet_id = uc.pet_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -949,7 +949,7 @@ public class Teams
                 LEFT JOIN fact_card_spell fch ON fch.user_id = uc.user_id AND fch.user_card_spell_id = uc.card_spell_id
                 WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
             command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            command.Parameters.AddWithValue("@user_id", user_id);
             reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -1037,54 +1037,74 @@ public class Teams
                 CardSpellList.Add(cardSpell);
             }
             CardHeroes cardHeroes = new CardHeroes();
-            CardHeroesList = cardHeroes.GetFinalPower(User.CurrentUserId, CardHeroesList);
-            CardHeroesList = cardHeroes.GetAllEquipmentPower(User.CurrentUserId, CardHeroesList);
-            CardHeroesList = cardHeroes.GetAllRankPower(User.CurrentUserId, CardHeroesList);
+            CardHeroesList = cardHeroes.GetFinalPower(user_id, CardHeroesList);
+            CardHeroesList = cardHeroes.GetAllEquipmentPower(user_id, CardHeroesList);
+            CardHeroesList = cardHeroes.GetAllRankPower(user_id, CardHeroesList);
+            CardHeroesList = cardHeroes.GetAllAnimeStatsPower(user_id, CardHeroesList);
+            CardHeroesList = cardHeroes.GetQualityPower(CardHeroesList);
 
             CardCaptains cardCaptains = new CardCaptains();
-            CardCaptainsList = cardCaptains.GetFinalPower(User.CurrentUserId, CardCaptainsList);
-            CardCaptainsList = cardCaptains.GetAllEquipmentPower(User.CurrentUserId, CardCaptainsList);
-            CardCaptainsList = cardCaptains.GetAllRankPower(User.CurrentUserId, CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetFinalPower(user_id, CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetAllEquipmentPower(user_id, CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetAllRankPower(user_id, CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetAllAnimeStatsPower(user_id, CardCaptainsList);
+            CardCaptainsList = cardCaptains.GetQualityPower(CardCaptainsList);
 
             CardColonels cardColonels = new CardColonels();
-            CardColonelsList = cardColonels.GetFinalPower(User.CurrentUserId, CardColonelsList);
-            CardColonelsList = cardColonels.GetAllEquipmentPower(User.CurrentUserId, CardColonelsList);
-            CardColonelsList = cardColonels.GetAllRankPower(User.CurrentUserId, CardColonelsList);
+            CardColonelsList = cardColonels.GetFinalPower(user_id, CardColonelsList);
+            CardColonelsList = cardColonels.GetAllEquipmentPower(user_id, CardColonelsList);
+            CardColonelsList = cardColonels.GetAllRankPower(user_id, CardColonelsList);
+            CardColonelsList = cardColonels.GetAllAnimeStatsPower(user_id, CardColonelsList);
+            CardColonelsList = cardColonels.GetQualityPower(CardColonelsList);
 
             CardGenerals cardGenerals = new CardGenerals();
-            CardGeneralsList = cardGenerals.GetFinalPower(User.CurrentUserId, CardGeneralsList);
-            CardGeneralsList = cardGenerals.GetAllEquipmentPower(User.CurrentUserId, CardGeneralsList);
-            CardGeneralsList = cardGenerals.GetAllRankPower(User.CurrentUserId, CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetFinalPower(user_id, CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetAllEquipmentPower(user_id, CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetAllRankPower(user_id, CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetAllAnimeStatsPower(user_id, CardGeneralsList);
+            CardGeneralsList = cardGenerals.GetQualityPower(CardGeneralsList);
 
             CardAdmirals cardAdmirals = new CardAdmirals();
-            CardAdmiralsList = cardAdmirals.GetFinalPower(User.CurrentUserId, CardAdmiralsList);
-            CardAdmiralsList = cardAdmirals.GetAllEquipmentPower(User.CurrentUserId, CardAdmiralsList);
-            CardAdmiralsList = cardAdmirals.GetAllRankPower(User.CurrentUserId, CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetFinalPower(user_id, CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetAllEquipmentPower(user_id, CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetAllRankPower(user_id, CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetAllAnimeStatsPower(user_id, CardAdmiralsList);
+            CardAdmiralsList = cardAdmirals.GetQualityPower(CardAdmiralsList);
 
             CardMonsters cardMonsters = new CardMonsters();
-            CardMonstersList = cardMonsters.GetFinalPower(User.CurrentUserId, CardMonstersList);
-            CardMonstersList = cardMonsters.GetAllEquipmentPower(User.CurrentUserId, CardMonstersList);
-            CardMonstersList = cardMonsters.GetAllRankPower(User.CurrentUserId, CardMonstersList);
+            CardMonstersList = cardMonsters.GetFinalPower(user_id, CardMonstersList);
+            CardMonstersList = cardMonsters.GetAllEquipmentPower(user_id, CardMonstersList);
+            CardMonstersList = cardMonsters.GetAllRankPower(user_id, CardMonstersList);
+            CardMonstersList = cardMonsters.GetAllAnimeStatsPower(user_id, CardMonstersList);
+            CardMonstersList = cardMonsters.GetQualityPower(CardMonstersList);
 
             CardMilitary cardMilitary = new CardMilitary();
-            CardMilitaryList = cardMilitary.GetFinalPower(User.CurrentUserId, CardMilitaryList);
-            CardMilitaryList = cardMilitary.GetAllEquipmentPower(User.CurrentUserId, CardMilitaryList);
-            CardMilitaryList = cardMilitary.GetAllRankPower(User.CurrentUserId, CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetFinalPower(user_id, CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetAllEquipmentPower(user_id, CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetAllRankPower(user_id, CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetAllAnimeStatsPower(user_id, CardMilitaryList);
+            CardMilitaryList = cardMilitary.GetQualityPower(CardMilitaryList);
 
             CardSpell cardSpell1 = new CardSpell();
-            CardSpellList = cardSpell1.GetFinalPower(User.CurrentUserId, CardSpellList);
-            CardSpellList = cardSpell1.GetAllEquipmentPower(User.CurrentUserId, CardSpellList);
-            CardSpellList = cardSpell1.GetAllRankPower(User.CurrentUserId, CardSpellList);
+            CardSpellList = cardSpell1.GetFinalPower(user_id, CardSpellList);
+            CardSpellList = cardSpell1.GetAllEquipmentPower(user_id, CardSpellList);
+            CardSpellList = cardSpell1.GetAllRankPower(user_id, CardSpellList);
+            CardSpellList = cardSpell1.GetAllAnimeStatsPower(user_id, CardSpellList);
+            CardSpellList = cardSpell1.GetQualityPower(CardSpellList);
 
             Books books = new Books();
-            BooksList = books.GetFinalPower(User.CurrentUserId, BooksList);
-            BooksList = books.GetAllEquipmentPower(User.CurrentUserId, BooksList);
-            BooksList = books.GetAllRankPower(User.CurrentUserId, BooksList);
+            BooksList = books.GetFinalPower(user_id, BooksList);
+            BooksList = books.GetAllEquipmentPower(user_id, BooksList);
+            BooksList = books.GetAllRankPower(user_id, BooksList);
+            BooksList = books.GetAllAnimeStatsPower(user_id, BooksList);
+            BooksList = books.GetQualityPower(BooksList);
 
             Pets pets = new Pets();
-            PetsList = pets.GetFinalPower(User.CurrentUserId, PetsList);
-            PetsList = pets.GetAllEquipmentPower(User.CurrentUserId, PetsList);
-            PetsList = pets.GetAllRankPower(User.CurrentUserId, PetsList);
+            PetsList = pets.GetFinalPower(user_id, PetsList);
+            PetsList = pets.GetAllEquipmentPower(user_id, PetsList);
+            PetsList = pets.GetAllRankPower(user_id, PetsList);
+            PetsList = pets.GetAllAnimeStatsPower(user_id, PetsList);
+            PetsList = pets.GetQualityPower(PetsList);
 
             foreach (CardHeroes c in CardHeroesList)
             {

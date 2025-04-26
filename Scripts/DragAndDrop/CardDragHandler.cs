@@ -9,6 +9,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private CanvasGroup canvasGroup;
     public Texture cardTexture;
     public int team_id;
+    public string mainPosition;
     public object obj;
     public Transform InTeam;
     public Transform positionPanel;
@@ -84,166 +85,206 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void DropCardIntoPosition(CardDropHandler dropHandler)
     {
         // Kiểm tra xem liệu có texture được gán không
-            RawImage positionImage = gameObject.transform.Find("Image").GetComponent<RawImage>();
-            if (positionImage != null)
+        RawImage positionImage = dropHandler.transform.Find("Image").GetComponent<RawImage>();
+        if (positionImage != null)
+        {
+            positionImage.texture = this.cardTexture;
+            // Debug.Log("Card dropped: " + draggedCard.gameObject.name + " at position: " + gameObject.name);
+        }
+        object obj = this.obj;
+        string position = mainPosition + "-" + dropHandler.position_id;
+        Teams teams = new Teams();
+        if (obj is CardHeroes cardHeroes)
+        {
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
+            if (dropHandler.card_id != 0)
             {
-                positionImage.texture = this.cardTexture;
-                // Debug.Log("Card dropped: " + draggedCard.gameObject.name + " at position: " + gameObject.name);
-            }
-            object obj = this.obj;
-            string position = "F" + dropHandler.position_id;
-            Teams teams = new Teams();
-            if (obj is CardHeroes cardHeroes)
-            {
-                double currentPower = teams.GetTeamsPower();
-                if (dropHandler.card_id != 0)
+                cardHeroes.UpdateTeamFactCardHeroes(null, null, dropHandler.card_id);
+                cardHeroes.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
+                if (cardHeroes.all_power >= dropHandler.card_all_power)
                 {
-                    cardHeroes.UpdateTeamFactCardHeroes(null, null, dropHandler.card_id);
-                    cardHeroes.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
-                    if(cardHeroes.all_power >= dropHandler.card_all_power){
-                        double newPower = cardHeroes.all_power - dropHandler.card_all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,1);
-                    }else{
-                        double newPower = dropHandler.card_all_power - cardHeroes.all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,0);
-                    }
-                }else{
-                    cardHeroes.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.all_power,1);
+                    double newPower = cardHeroes.all_power - dropHandler.card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = dropHandler.card_all_power - cardHeroes.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
-            else if (obj is CardCaptains cardCaptains)
+            else
             {
-                double currentPower = teams.GetTeamsPower();
-                if (dropHandler.card_id != 0)
+                cardHeroes.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.all_power, 1);
+            }
+        }
+        else if (obj is CardCaptains cardCaptains)
+        {
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
+            if (dropHandler.card_id != 0)
+            {
+                cardCaptains.UpdateTeamFactCardCaptains(null, null, dropHandler.card_id);
+                cardCaptains.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
+                if (cardCaptains.all_power >= dropHandler.card_all_power)
                 {
-                    cardCaptains.UpdateTeamFactCardCaptains(null, null, dropHandler.card_id);
-                    cardCaptains.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
-                    if(cardCaptains.all_power >= dropHandler.card_all_power){
-                        double newPower = cardCaptains.all_power - dropHandler.card_all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,1);
-                    }else{
-                        double newPower = dropHandler.card_all_power - cardCaptains.all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,0);
-                    }
-                }else{
-                    cardCaptains.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.all_power,1);
+                    double newPower = cardCaptains.all_power - dropHandler.card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = dropHandler.card_all_power - cardCaptains.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
-            else if (obj is CardColonels cardColonels)
+            else
             {
-                double currentPower = teams.GetTeamsPower();
-                if (dropHandler.card_id != 0)
+                cardCaptains.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.all_power, 1);
+            }
+        }
+        else if (obj is CardColonels cardColonels)
+        {
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
+            if (dropHandler.card_id != 0)
+            {
+                cardColonels.UpdateTeamFactCardColonels(null, null, dropHandler.card_id);
+                cardColonels.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
+                if (cardColonels.all_power >= dropHandler.card_all_power)
                 {
-                    cardColonels.UpdateTeamFactCardColonels(null, null, dropHandler.card_id);
-                    cardColonels.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
-                    if(cardColonels.all_power >= dropHandler.card_all_power){
-                        double newPower = cardColonels.all_power - dropHandler.card_all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,1);
-                    }else{
-                        double newPower = dropHandler.card_all_power - cardColonels.all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,0);
-                    }
-                }else{
-                    cardColonels.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.all_power,1);
+                    double newPower = cardColonels.all_power - dropHandler.card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = dropHandler.card_all_power - cardColonels.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
-            else if (obj is CardGenerals cardGenerals)
+            else
             {
-                double currentPower = teams.GetTeamsPower();
-                if (dropHandler.card_id != 0)
+                cardColonels.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.all_power, 1);
+            }
+        }
+        else if (obj is CardGenerals cardGenerals)
+        {
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
+            if (dropHandler.card_id != 0)
+            {
+                cardGenerals.UpdateTeamFactCardGenerals(null, null, dropHandler.card_id);
+                cardGenerals.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
+                if (cardGenerals.all_power >= dropHandler.card_all_power)
                 {
-                    cardGenerals.UpdateTeamFactCardGenerals(null, null, dropHandler.card_id);
-                    cardGenerals.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
-                    if(cardGenerals.all_power >= dropHandler.card_all_power){
-                        double newPower = cardGenerals.all_power - dropHandler.card_all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,1);
-                    }else{
-                        double newPower = dropHandler.card_all_power - cardGenerals.all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,0);
-                    }
-                }else{
-                    cardGenerals.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.all_power,1);
+                    double newPower = cardGenerals.all_power - dropHandler.card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = dropHandler.card_all_power - cardGenerals.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
-            else if (obj is CardAdmirals cardAdmirals)
+            else
             {
-                double currentPower = teams.GetTeamsPower();
-                if (dropHandler.card_id != 0)
+                cardGenerals.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.all_power, 1);
+            }
+        }
+        else if (obj is CardAdmirals cardAdmirals)
+        {
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
+            if (dropHandler.card_id != 0)
+            {
+                cardAdmirals.UpdateTeamFactCardAdmirals(null, null, dropHandler.card_id);
+                cardAdmirals.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
+                if (cardAdmirals.all_power >= dropHandler.card_all_power)
                 {
-                    cardAdmirals.UpdateTeamFactCardAdmirals(null, null, dropHandler.card_id);
-                    cardAdmirals.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
-                    if(cardAdmirals.all_power >= dropHandler.card_all_power){
-                        double newPower = cardAdmirals.all_power - dropHandler.card_all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,1);
-                    }else{
-                        double newPower = dropHandler.card_all_power - cardAdmirals.all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,0);
-                    }
-                }else{
-                    cardAdmirals.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.all_power,1);
+                    double newPower = cardAdmirals.all_power - dropHandler.card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = dropHandler.card_all_power - cardAdmirals.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
-            else if (obj is CardMonsters cardMonsters)
+            else
             {
-                double currentPower = teams.GetTeamsPower();
-                if (dropHandler.card_id != 0)
+                cardAdmirals.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.all_power, 1);
+            }
+        }
+        else if (obj is CardMonsters cardMonsters)
+        {
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
+            if (dropHandler.card_id != 0)
+            {
+                cardMonsters.UpdateTeamFactCardMonsters(null, null, dropHandler.card_id);
+                cardMonsters.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
+                if (cardMonsters.all_power >= dropHandler.card_all_power)
                 {
-                    cardMonsters.UpdateTeamFactCardMonsters(null, null, dropHandler.card_id);
-                    cardMonsters.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
-                    if(cardMonsters.all_power >= dropHandler.card_all_power){
-                        double newPower = cardMonsters.all_power - dropHandler.card_all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,1);
-                    }else{
-                        double newPower = dropHandler.card_all_power - cardMonsters.all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,0);
-                    }
-                }else{
-                    cardMonsters.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.all_power,1);
+                    double newPower = cardMonsters.all_power - dropHandler.card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = dropHandler.card_all_power - cardMonsters.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
-            else if (obj is CardMilitary cardMilitary)
+            else
             {
-                double currentPower = teams.GetTeamsPower();
-                if (dropHandler.card_id != 0)
+                cardMonsters.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.all_power, 1);
+            }
+        }
+        else if (obj is CardMilitary cardMilitary)
+        {
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
+            if (dropHandler.card_id != 0)
+            {
+                cardMilitary.UpdateTeamFactCardMilitary(null, null, dropHandler.card_id);
+                cardMilitary.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
+                if (cardMilitary.all_power >= dropHandler.card_all_power)
                 {
-                    cardMilitary.UpdateTeamFactCardMilitary(null, null, dropHandler.card_id);
-                    cardMilitary.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
-                    if(cardMilitary.all_power >= dropHandler.card_all_power){
-                        double newPower = cardMilitary.all_power - dropHandler.card_all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,1);
-                    }else{
-                        double newPower = dropHandler.card_all_power - cardMilitary.all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,0);
-                    }
-                }else{
-                    cardMilitary.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.all_power,1);
+                    double newPower = cardMilitary.all_power - dropHandler.card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = dropHandler.card_all_power - cardMilitary.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
-            else if (obj is CardSpell cardSpell)
+            else
             {
-                double currentPower = teams.GetTeamsPower();
-                if (dropHandler.card_id != 0)
+                cardMilitary.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.all_power, 1);
+            }
+        }
+        else if (obj is CardSpell cardSpell)
+        {
+            double currentPower = teams.GetTeamsPower(User.CurrentUserId);
+            if (dropHandler.card_id != 0)
+            {
+                cardSpell.UpdateTeamFactCardSpell(null, null, dropHandler.card_id);
+                cardSpell.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
+                if (cardSpell.all_power >= dropHandler.card_all_power)
                 {
-                    cardSpell.UpdateTeamFactCardSpell(null, null, dropHandler.card_id);
-                    cardSpell.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
-                    if(cardSpell.all_power >= dropHandler.card_all_power){
-                        double newPower = cardSpell.all_power - dropHandler.card_all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,1);
-                    }else{
-                        double newPower = dropHandler.card_all_power - cardSpell.all_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower,0);
-                    }
-                }else{
-                    cardSpell.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.all_power,1);
+                    double newPower = cardSpell.all_power - dropHandler.card_all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                }
+                else
+                {
+                    double newPower = dropHandler.card_all_power - cardSpell.all_power;
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
+            else
+            {
+                cardSpell.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.all_power, 1);
+            }
+        }
     }
 }

@@ -508,6 +508,67 @@ public class CardGenerals
         }
         return CardGeneralsList;
     }
+    public List<CardGenerals> GetAllAnimeStatsPower(int user_id, List<CardGenerals> CardGeneralsList)
+    {
+        AnimeStats animeStats = new AnimeStats();
+        foreach (var c in CardGeneralsList)
+        {
+            CardGenerals card = new CardGenerals();
+            card = card.GetUserCardGeneralsById(user_id, c.id);
+            animeStats = animeStats.GetSumAnimeStats(user_id);
+            c.all_health = c.all_health + animeStats.health + card.health * animeStats.percent_all_health/100;
+            c.all_physical_attack = c.all_physical_attack + animeStats.physical_attack + card.physical_attack * animeStats.percent_all_physical_attack/100;
+            c.all_physical_defense = c.all_physical_defense + animeStats.physical_defense + card.physical_defense * animeStats.percent_all_physical_defense/100;
+            c.all_magical_attack = c.all_magical_attack + animeStats.magical_attack + card.magical_attack * animeStats.percent_all_magical_attack/100;
+            c.all_magical_defense = c.all_magical_defense + animeStats.magical_defense + card.magical_defense * animeStats.percent_all_magical_defense/100;
+            c.all_chemical_attack = c.all_chemical_attack + animeStats.chemical_attack + card.chemical_attack * animeStats.percent_all_chemical_attack/100;
+            c.all_chemical_defense = c.all_chemical_defense + animeStats.chemical_defense + card.chemical_defense * animeStats.percent_all_chemical_defense/100;
+            c.all_atomic_attack = c.all_atomic_attack + animeStats.atomic_attack + card.atomic_attack * animeStats.percent_all_atomic_attack/100;
+            c.all_atomic_defense = c.all_atomic_defense + animeStats.atomic_defense + card.atomic_defense * animeStats.percent_all_atomic_defense/100;
+            c.all_mental_attack = c.all_mental_attack + animeStats.mental_attack + card.mental_attack * animeStats.percent_all_mental_attack/100;
+            c.all_mental_defense = c.all_mental_defense + animeStats.mental_defense + card.mental_defense * animeStats.percent_all_mental_defense/100;
+            c.all_speed = c.all_speed + animeStats.speed;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + animeStats.critical_damage_rate;
+            c.all_critical_rate = c.all_critical_rate + animeStats.critical_rate;
+            c.all_penetration_rate = c.all_penetration_rate + animeStats.penetration_rate;
+            c.all_evasion_rate = c.all_evasion_rate + animeStats.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + animeStats.damage_absorption_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + animeStats.vitality_regeneration_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + animeStats.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + animeStats.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + animeStats.shield_strength;
+            c.all_tenacity = c.all_tenacity + animeStats.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + animeStats.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + animeStats.combo_rate;
+            c.all_reflection_rate = c.all_reflection_rate + animeStats.reflection_rate;
+            c.all_mana = c.all_mana + animeStats.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + animeStats.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + animeStats.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + animeStats.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + animeStats.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + animeStats.resistance_to_same_faction_rate;
+
+            c.all_power = PowerManager.CalculatePower(
+            c.all_health,
+            c.all_physical_attack, c.all_physical_defense,
+            c.all_magical_attack, c.all_magical_defense,
+            c.all_chemical_attack, c.all_chemical_defense,
+            c.all_atomic_attack, c.all_atomic_defense,
+            c.all_mental_attack, c.all_mental_defense,
+            c.all_speed,
+            c.all_critical_damage_rate, c.all_critical_rate,
+            c.all_penetration_rate, c.all_evasion_rate,
+            c.all_damage_absorption_rate, c.all_vitality_regeneration_rate,
+            c.all_accuracy_rate, c.all_lifesteal_rate,
+            c.all_shield_strength, c.all_tenacity, c.all_resistance_rate,
+            c.all_combo_rate, c.all_reflection_rate,
+            c.all_mana, c.all_mana_regeneration_rate,
+            c.all_damage_to_different_faction_rate, c.all_resistance_to_different_faction_rate,
+            c.all_damage_to_same_faction_rate, c.all_resistance_to_same_faction_rate
+        );
+        }
+        return CardGeneralsList;
+    }
     public CardGenerals GetNewLevelPower(CardGenerals c, double coefficient)
     {
         CardGenerals orginCard = new CardGenerals();
@@ -740,6 +801,32 @@ public class CardGenerals
         }
         return count;
     }
+    public int GetUserCardGeneralsTeamsPositionCount(int user_id, int team_id, string position){
+        int count =0;
+        // int user_id=User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select count(*) from fact_card_generals
+                where team_id = @team_id and position like @position and user_id=@userId";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@team_id", team_id);
+                command.Parameters.AddWithValue("@position", position + "%");
+                count = Convert.ToInt32(command.ExecuteScalar());
+
+                return count;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return count;
+    }
     public List<CardGenerals> GetCardGeneralsCollection(string type,int pageSize, int offset)
     {
         List<CardGenerals> CardGeneralsList = new List<CardGenerals>();
@@ -932,6 +1019,7 @@ public class CardGenerals
                 CardGeneralsList = GetFinalPower(user_id, CardGeneralsList);
                 CardGeneralsList = GetAllEquipmentPower(user_id, CardGeneralsList);
                 CardGeneralsList = GetAllRankPower(user_id, CardGeneralsList);
+                CardGeneralsList = GetAllAnimeStatsPower(user_id, CardGeneralsList);
                 CardGeneralsList = GetQualityPower(CardGeneralsList);
             }
             catch (MySqlException ex)
@@ -942,7 +1030,7 @@ public class CardGenerals
         }
         return CardGeneralsList;
     }
-    public List<CardGenerals> GetUserCardGeneralsTeam(int user_id, int teamId)
+    public List<CardGenerals> GetUserCardGeneralsTeam(int user_id, int teamId, string position)
     {
         List<CardGenerals> CardGeneralsList = new List<CardGenerals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -955,12 +1043,13 @@ public class CardGenerals
                 FROM user_card_generals uc
                 LEFT JOIN card_generals c ON c.id = uc.card_general_id 
                 LEFT JOIN fact_card_generals fcg ON fcg.user_id = uc.user_id AND fcg.user_card_general_id = uc.card_general_id
-                WHERE uc.user_id = @userId AND fcg.team_id = @team_id
+                WHERE uc.user_id = @userId AND fcg.team_id = @team_id and fcg.position like @position
                 ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@team_id", teamId);
+                command.Parameters.AddWithValue("@position", position+"%");
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -1052,6 +1141,7 @@ public class CardGenerals
                 CardGeneralsList = GetFinalPower(user_id, CardGeneralsList);
                 CardGeneralsList = GetAllEquipmentPower(user_id, CardGeneralsList);
                 CardGeneralsList = GetAllRankPower(user_id, CardGeneralsList);
+                CardGeneralsList = GetAllAnimeStatsPower(user_id, CardGeneralsList);
                 CardGeneralsList = GetQualityPower(CardGeneralsList);
             }
             catch (MySqlException ex)

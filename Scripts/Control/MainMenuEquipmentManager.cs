@@ -2398,91 +2398,91 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (data is CardHeroes cardHeroes)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertCardHeroesEquipments(cardHeroes.id, equipment, position);
                     CreateCardHeroesEquipments(cardHeroes);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardCaptains cardCaptains)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertCardCaptainsEquipments(cardCaptains.id, equipment, position);
                     CreateCardCaptainsEquipments(cardCaptains);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardColonels cardColonels)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertCardColonelsEquipments(cardColonels.id, equipment, position);
                     CreateCardColonelsEquipments(cardColonels);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardGenerals cardGenerals)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertCardGeneralsEquipments(cardGenerals.id, equipment, position);
                     CreateCardGeneralsEquipments(cardGenerals);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardAdmirals cardAdmirals)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertCardAdmiralsEquipments(cardAdmirals.id, equipment, position);
                     CreateCardAdmiralsEquipments(cardAdmirals);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardMonsters cardMonsters)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertCardMonstersEquipments(cardMonsters.id, equipment, position);
                     CreateCardMonstersEquipments(cardMonsters);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardMilitary cardMilitary)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertCardMilitaryEquipments(cardMilitary.id, equipment, position);
                     CreateCardMilitaryEquipments(cardMilitary);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardSpell cardSpell)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertCardSpellEquipments(cardSpell.id, equipment, position);
                     CreateCardSpellEquipments(cardSpell);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is Books books)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertBooksEquipments(books.id, equipment, position);
                     CreateBooksEquipments(books);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is Pets pets)
                 {
                     Teams teams = new Teams();
-                    double currentPower = teams.GetTeamsPower();
+                    double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                     equipment.InsertPetsEquipments(pets.id, equipment, position);
                     CreatePetsEquipments(pets);
-                    double newPower = teams.GetTeamsPower();
+                    double newPower = teams.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
 

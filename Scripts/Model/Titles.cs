@@ -1215,6 +1215,7 @@ public class Titles
                     command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
                     command.ExecuteNonQuery();
+                    Debug.Log("Data inserted successfully.");
                 }
             }
             catch (MySqlException ex)

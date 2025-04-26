@@ -731,9 +731,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -835,9 +835,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -913,9 +913,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -994,9 +994,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1071,9 +1071,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1152,9 +1152,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1234,9 +1234,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1311,9 +1311,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1418,9 +1418,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1494,9 +1494,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1579,9 +1579,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1663,9 +1663,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1741,9 +1741,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1819,9 +1819,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1900,9 +1900,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -1980,9 +1980,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2057,9 +2057,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2134,9 +2134,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2211,9 +2211,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2295,9 +2295,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2376,9 +2376,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2457,9 +2457,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2538,9 +2538,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2619,9 +2619,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
@@ -2697,9 +2697,9 @@ public class CollectionManager : MonoBehaviour
 
                 PowerManager powerManager = new PowerManager();
                 Teams teams = new Teams();
-                double currentPower = teams.GetTeamsPower();
+                double currentPower = teams.GetTeamsPower(User.CurrentUserId);
                 powerManager.UpdateUserStats(User.CurrentUserId);
-                double newPower = teams.GetTeamsPower();
+                double newPower = teams.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }

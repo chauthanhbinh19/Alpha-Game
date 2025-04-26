@@ -64,7 +64,9 @@ public class UIManager : MonoBehaviour
     public GameObject ReceivedNotification;
     public GameObject ItemThird;
     public GameObject TabButton5;
-    public GameObject TeamsPrefab;
+    public GameObject PopupTeamsPrefab;
+    public GameObject TeamsPanelPrefab;
+    public GameObject TeamsPositionPrefab;
     public GameObject CardsThirdPrefab;
     public GameObject TypePrefab;
     public GameObject StarPrefab;
@@ -93,7 +95,11 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuGunPanelPrefab;
     public GameObject MainMenuCyberPanelPrefab;
     public GameObject MainMenuFairyPanelPrefab;
+    public GameObject MainMenuAnimePanelPrefab;
+    public GameObject AnimePanelPrefab;
     public GameObject ArenaPanelPrefab;
+    public GameObject ArenaDetailsPanelPrefab;
+    public GameObject TowerDetailsPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject PopupMenuPanelPrefab;
     public GameObject EquipmentsWearingPrefab;
@@ -106,6 +112,7 @@ public class UIManager : MonoBehaviour
     public GameObject Slot14Prefab;
     public GameObject Slot16Prefab;
     public GameObject ArenaButtonPrefab;
+    public GameObject AnimeButtonPrefab;
     public GameObject AptitudeSlotPrefab;
     public GameObject UpgradeSlotPrefab;
     public GameObject BlessingSlotPrefab;
@@ -127,6 +134,8 @@ public class UIManager : MonoBehaviour
     public GameObject GunSlotPrefab;
     public GameObject CyberSlotPrefab;
     public GameObject FairySlotPrefab;
+    public GameObject AnimeSlotPrefab;
+    public GameObject ArenaSlotPrefab;
 
     private void Awake()
     {
@@ -255,8 +264,12 @@ public class UIManager : MonoBehaviour
                 return ReceivedNotification;
             case "ItemThird":
                 return ItemThird;
-            case "TeamsPrefab":
-                return TeamsPrefab;
+            case "PopupTeamsPrefab":
+                return PopupTeamsPrefab;
+            case "TeamsPanelPrefab":
+                return TeamsPanelPrefab;
+            case "TeamsPositionPrefab":
+                return TeamsPositionPrefab;
             case "TypePrefab":
                 return TypePrefab;
             case "StarPrefab":
@@ -313,8 +326,16 @@ public class UIManager : MonoBehaviour
                 return MainMenuFairyPanelPrefab;
             case "MainMenuGunPanelPrefab":
                 return MainMenuGunPanelPrefab;
+            case "MainMenuAnimePanelPrefab":
+                return MainMenuAnimePanelPrefab;
             case "ArenaPanelPrefab":
                 return ArenaPanelPrefab;
+            case "AnimePanelPrefab":
+                return AnimePanelPrefab;
+            case "ArenaDetailsPanelPrefab":
+                return ArenaDetailsPanelPrefab;
+            case "TowerDetailsPanelPrefab":
+                return TowerDetailsPanelPrefab;
             case "PopupEquipmentsPanelPrefab":
                 return PopupEquipmentsPanelPrefab;
             case "PopupMenuPanelPrefab":
@@ -339,6 +360,8 @@ public class UIManager : MonoBehaviour
                 return Slot16Prefab;
             case "ArenaButtonPrefab":
                 return ArenaButtonPrefab;
+            case "AnimeButtonPrefab":
+                return AnimeButtonPrefab;
             case "AptitudeSlotPrefab":
                 return AptitudeSlotPrefab;
             case "UpgradeSlotPrefab":
@@ -381,6 +404,10 @@ public class UIManager : MonoBehaviour
                 return FairySlotPrefab;
             case "GunSlotPrefab":
                 return GunSlotPrefab;
+            case "AnimeSlotPrefab":
+                return AnimeSlotPrefab;
+            case "ArenaSlotPrefab":
+                return ArenaSlotPrefab;
             case "TabButton5":
                 return TabButton5;
             default:

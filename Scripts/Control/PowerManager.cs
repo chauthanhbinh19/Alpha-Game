@@ -442,8 +442,16 @@ public class PowerManager
                 return 10;
             case "LG":
                 return 15;
-            case "MR":
+            case "LG+":
                 return 20;
+            case "MR":
+                return 25;
+            case "SLR":
+                return 30;
+            case "SLR+":
+                return 35;
+            case "SP":
+                return 40;
             default:
                 return 0;
         }
