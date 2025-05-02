@@ -18,6 +18,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
+    private string animeType;
     private string mainType;
     // Start is called before the first frame update
     void Start()
@@ -28,14 +29,23 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         AnimeSlotPrefab = UIManager.Instance.GetGameObject("AnimeSlotPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
-
-    public void CreateMainMenuAnimeStatsManager(object data)
+    public void CreateAnimeButton(Transform arenaMenuPanel)
     {
+        Button[] buttons = arenaMenuPanel.gameObject.GetComponentsInChildren<Button>();
+        foreach (Button button in buttons)
+        {
+            string buttonName = button.name; // Lưu lại giá trị cục bộ để tránh lỗi closure
+            button.onClick.AddListener(() => { CreateMainMenuAnimeStatsManager(buttonName); });
+        }
+    }
+    public void CreateMainMenuAnimeStatsManager(string nameType)
+    {
+        animeType = nameType;
         currentObject = Instantiate(MainMenuAnimePanelPrefab, MainPanel);
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Anime";
+        titleText.text = nameType;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -51,7 +61,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         // };
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = features.GetFeaturesByType("Anime");
+        uniqueTypes = features.GetFeaturesByType(nameType);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;
@@ -66,7 +76,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, data, subtype, value));
+                btn.onClick.AddListener(() => OnButtonClick(button, subtype, value));
 
                 if (index == 0)
                 {
@@ -89,168 +99,25 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 {
                     ChangeButtonBackground(button, "Background_V4_167");
                 }
-                CheckLockedButton(data, value, button);
+                CheckLockedButton(value, button);
                 index = index + 1;
             }
         }
     }
-    public void CheckLockedButton(object data, int value, GameObject button)
+    public void CheckLockedButton(int value, GameObject button)
     {
         RawImage buttonImage = button.GetComponent<RawImage>();
         RawImage buttonLockedImage = button.transform.Find("Locked")?.GetComponent<RawImage>();
-        if (data is CardHeroes cardHeroes)
+        // mainId = cardHeroes.id;
+        if (User.CurrentUserLevel >= value)
         {
-            // mainId = cardHeroes.id;
-            if (cardHeroes.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
+            buttonImage.color = HexToColor("#FFFFFF");
+            buttonLockedImage.gameObject.SetActive(false);
         }
-        else if (data is Books books)
+        else
         {
-            // mainId = books.id;
-            if (books.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is CardCaptains cardCaptains)
-        {
-            // mainId = cardCaptains.id;
-            if (cardCaptains.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is Pets pets)
-        {
-            // mainId = pets.id;
-            if (pets.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is CardMilitary cardMilitary)
-        {
-            // mainId = cardMilitary.id;
-            if (cardMilitary.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is CardSpell cardSpell)
-        {
-            // mainId = cardSpell.id;
-            if (cardSpell.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is CardMonsters cardMonsters)
-        {
-            // mainId = cardMonsters.id;
-            if (cardMonsters.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is CardColonels cardColonels)
-        {
-            // mainId = cardColonels.id;
-            if (cardColonels.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is CardGenerals cardGenerals)
-        {
-            // mainId = cardGenerals.id;
-            if (cardGenerals.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is CardAdmirals cardAdmirals)
-        {
-            // mainId = cardAdmirals.id;
-            if (cardAdmirals.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
-        }
-        else if (data is Equipments equipments)
-        {
-            // mainId = cardAdmirals.id;
-            if (equipments.level >= value)
-            {
-                buttonImage.color = HexToColor("#FFFFFF");
-                buttonLockedImage.gameObject.SetActive(false);
-            }
-            else
-            {
-                buttonImage.color = HexToColor("#7E7E7E");
-                buttonLockedImage.gameObject.SetActive(true);
-            }
+            buttonImage.color = HexToColor("#7E7E7E");
+            buttonLockedImage.gameObject.SetActive(true);
         }
     }
     public Color HexToColor(string hex)
@@ -268,7 +135,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
 
         return Color.white; // Trả về màu trắng nếu mã màu không hợp lệ
     }
-    void OnButtonClick(GameObject clickedButton, object data, string type, int value)
+    void OnButtonClick(GameObject clickedButton, string type, int value)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -330,7 +197,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         animeStats = animeStats.GetAnimeStats(mainType, User.CurrentUserId);
         slotObject = Instantiate(AnimeSlotPrefab, SlotPanel);
         Items items = new Items();
-        items = items.GetUserItemByName(mainType);
+        items = items.GetUserItemByName(animeType + " " + mainType);
         SetUI(slotObject, mainType, animeStats.level);
         SetMaterialUI(mainType, animeStats.level, items.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
@@ -392,7 +259,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             RawImage aptitudeImage = aptitudeSkill.Find("AptitudeImage").GetComponent<RawImage>();
             TextMeshProUGUI levelText = aptitudeSkill.Find("LevelText").GetComponent<TextMeshProUGUI>();
 
-            Texture texture = Resources.Load<Texture>($"UI/Rank/Angel");
+            Texture texture = Resources.Load<Texture>($"UI/Rank/Anime");
             aptitudeImage.texture = texture;
 
             if (aptitudeImage != null) aptitudeImage.color = Color.black;
@@ -434,7 +301,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         GameObject maxLevelMaterialObject = Instantiate(ElementDetails2Prefab, MaxLevelMaterial);
 
         RawImage oneLevelImage = oneLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-        Texture oneLevelTexture = Resources.Load<Texture>($"Item/Material/{type}");
+        Texture oneLevelTexture = Resources.Load<Texture>($"Item/Material/{animeType + " " + type}");
         oneLevelImage.texture = oneLevelTexture;
 
         RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
@@ -444,7 +311,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         oneLevelQuantity.text = userMaterialQuantity + "/" + materialQuantity;
 
         RawImage maxLevelImage = maxLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-        Texture maxLevelTexture = Resources.Load<Texture>($"Item/Material/{type}");
+        Texture maxLevelTexture = Resources.Load<Texture>($"Item/Material/{animeType + " " + type}");
         maxLevelImage.texture = maxLevelTexture;
 
         TextMeshProUGUI maxLevelQuantity = maxLevelMaterialObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();

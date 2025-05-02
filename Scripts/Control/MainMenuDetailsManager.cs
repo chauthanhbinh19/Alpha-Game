@@ -457,7 +457,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
 
         // Gán tên cho itemName
-        Text nameText = newButton.transform.Find("ItemName").GetComponent<Text>();
+        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = itemName;
@@ -690,9 +690,123 @@ public class MainMenuDetailsManager : MonoBehaviour
                     FindAnyObjectByType<MainMenuFairyManager>().CreateMainMenuFairyManager(data);
                 });
             }
-            else
+            else if(set == 2)
             {
-
+                CreateButtonWithBackground(24, "Dark", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Dark"), buttonGroupPanel1);
+                CreateButtonWithBackground(25, "Light", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Light"), buttonGroupPanel1);
+                CreateButtonWithBackground(26, "Fire", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Fire"), buttonGroupPanel1);
+                CreateButtonWithBackground(27, "Ice", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Ice"), buttonGroupPanel1);
+                CreateButtonWithBackground(28, "Earth", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Earth"), buttonGroupPanel1);
+                CreateButtonWithBackground(29, "Thunder", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Thunder"), buttonGroupPanel1);
+                CreateButtonWithBackground(30, "Life", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Life"), buttonGroupPanel1);
+                CreateButtonWithBackground(31, "Space", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Space"), buttonGroupPanel1);
+                CreateButtonWithBackground(32, "Time", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Time"), buttonGroupPanel1);
+                CreateButtonWithBackground(33, "Nanotech", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Nanotech"), buttonGroupPanel2);
+                CreateButtonWithBackground(34, "Quantum", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Quantum"), buttonGroupPanel2);
+                CreateButtonWithBackground(35, "Holography", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Holography"), buttonGroupPanel2);
+                CreateButtonWithBackground(36, "Plasma", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Plasma"), buttonGroupPanel2);
+                CreateButtonWithBackground(37, "Biomech", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Biomech"), buttonGroupPanel2);
+                CreateButtonWithBackground(38, "Cryotech", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Cryotech"), buttonGroupPanel2);
+                CreateButtonWithBackground(39, "Psionics", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Psionics"), buttonGroupPanel2);
+                CreateButtonWithBackground(40, "Neurotech", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Neurotech"), buttonGroupPanel3);
+                CreateButtonWithBackground(41, "Antimatter", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Antimatter"), buttonGroupPanel3);
+                CreateButtonWithBackground(42, "Phantomware", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Phantomware"), buttonGroupPanel3);
+                CreateButtonWithBackground(43, "Gravitech", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Gravitech"), buttonGroupPanel3);
+                CreateButtonWithBackground(44, "Aethernet", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aethernet"), buttonGroupPanel3);
+                CreateButtonWithBackground(45, "Starforge", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Starforge"), buttonGroupPanel3);
+                CreateButtonWithBackground(46, "Orbitalis", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Orbitalis"), buttonGroupPanel3);
+                AssignButtonEvent("Button_24", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuDarkManager>().CreateMainMenuDarkManager(data);
+                });
+                AssignButtonEvent("Button_25", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuLightManager>().CreateMainMenuLightManager(data);
+                });
+                AssignButtonEvent("Button_26", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuFireManager>().CreateMainMenuFireManager(data);
+                });
+                AssignButtonEvent("Button_27", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuIceManager>().CreateMainMenuIceManager(data);
+                });
+                AssignButtonEvent("Button_28", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuEarthManager>().CreateMainMenuEarthManager(data);
+                });
+                AssignButtonEvent("Button_29", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuThunderManager>().CreateMainMenuThunderManager(data);
+                });
+                AssignButtonEvent("Button_30", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuLifeManager>().CreateMainMenuLifeManager(data);
+                });
+                AssignButtonEvent("Button_31", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuSpaceManager>().CreateMainMenuSpaceManager(data);
+                });
+                AssignButtonEvent("Button_32", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuTimeManager>().CreateMainMenuTimeManager(data);
+                });
+                AssignButtonEvent("Button_33", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuNanotechManager>().CreateMainMenuNanotechManager(data);
+                });
+                AssignButtonEvent("Button_34", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuQuantumManager>().CreateMainMenuQuantumManager(data);
+                });
+                AssignButtonEvent("Button_35", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuHolographyManager>().CreateMainMenuHolographyManager(data);
+                });
+                AssignButtonEvent("Button_36", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuPlasmaManager>().CreateMainMenuPlasmaManager(data);
+                });
+                AssignButtonEvent("Button_37", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuBiomechManager>().CreateMainMenuBiomechManager(data);
+                });
+                AssignButtonEvent("Button_38", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuCryotechManager>().CreateMainMenuCryotechManager(data);
+                });
+                AssignButtonEvent("Button_39", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuPsionicsManager>().CreateMainMenuPsionicsManager(data);
+                });
+                AssignButtonEvent("Button_40", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuNeurotechManager>().CreateMainMenuNeurotechManager(data);
+                });
+                AssignButtonEvent("Button_41", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuAntimatterManager>().CreateMainMenuAntimatterManager(data);
+                });
+                AssignButtonEvent("Button_42", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuPhantomwareManager>().CreateMainMenuPhantomwareManager(data);
+                });
+                AssignButtonEvent("Button_43", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuGravitechManager>().CreateMainMenuGravitechManager(data);
+                });
+                AssignButtonEvent("Button_44", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuAethernetManager>().CreateMainMenuAethernetManager(data);
+                });
+                AssignButtonEvent("Button_45", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuStarforgeManager>().CreateMainMenuStarforgeManager(data);
+                });
+                AssignButtonEvent("Button_46", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuOrbitalisManager>().CreateMainMenuOrbitalisManager(data);
+                });
             }
         }
         else if (data is Equipments equipments)

@@ -93,7 +93,7 @@ public class ButtonLoader : MonoBehaviour
         }
 
         // Gán tên cho itemName
-        Text nameText = newButton.transform.Find("ItemName").GetComponent<Text>();
+        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = itemName;
@@ -120,7 +120,7 @@ public class ButtonLoader : MonoBehaviour
         }
 
         // Gán tên cho itemName
-        Text nameText = newButton.transform.Find("ItemName").GetComponent<Text>();
+        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = itemName.Replace("_", " ");
@@ -134,7 +134,7 @@ public class ButtonLoader : MonoBehaviour
         // }
         return Equipments.GetUniqueEquipmentsTypes();
     }
-    private void CreateArenaButton(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    private void CreateArenaButtonUI(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(ArenaButtonPrefab, panel);
@@ -160,6 +160,38 @@ public class ButtonLoader : MonoBehaviour
         {
             nameText.text = itemName;
         }
+    }
+    private void CreateAnimeButtonUI(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(AnimeButtonPrefab, panel);
+        newButton.name = itemName;
+
+        // Gán màu cho itemBackground
+        // RawImage  background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        // if (background != null && itemBackground != null)
+        // {
+        //     background.texture = itemBackground;
+        // }
+
+        // Gán hình ảnh cho itemImage
+        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = itemName;
+        }
+
+        //Tạo animation cho border image
+        RawImage borderImage = newButton.transform.Find("BorderImage").GetComponent<RawImage>();
+        // Gán script RotateUI
+        borderImage.gameObject.AddComponent<RotateAnimation>();
     }
     public void CreateGalleryButton(Transform galleryMenuPanel)
     {
@@ -239,24 +271,25 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateAnimeButton(Transform animeMenuPanel)
     {
-        CreateArenaButton("One Piece", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Naruto", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Dragon Ball", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Fairy Tail", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Sword Art Online", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Demon Slayer", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Bleach", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Jujutsu Kaisen", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Black Clover", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        CreateArenaButton("Hunter x Hunter", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/"), animeMenuPanel);
-        FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeStats();
+        CreateAnimeButtonUI("One Piece", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/One Piece"), animeMenuPanel);
+        CreateAnimeButtonUI("Naruto", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Naruto"), animeMenuPanel);
+        CreateAnimeButtonUI("Dragon Ball", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Dragon Ball"), animeMenuPanel);
+        CreateAnimeButtonUI("Fairy Tail", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Fairy Tail"), animeMenuPanel);
+        CreateAnimeButtonUI("Sword Art Online", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Sword Art Online"), animeMenuPanel);
+        CreateAnimeButtonUI("Demon Slayer", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Demon Slayer"), animeMenuPanel);
+        CreateAnimeButtonUI("Bleach", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Bleach"), animeMenuPanel);
+        CreateAnimeButtonUI("Jujutsu Kaisen", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Jujutsu Kaisen"), animeMenuPanel);
+        CreateAnimeButtonUI("Black Clover", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Black Clover"), animeMenuPanel);
+        CreateAnimeButtonUI("Hunter x Hunter", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Hunter x Hunter"), animeMenuPanel);
+        CreateAnimeButtonUI("One Punch Man", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/One Punch Man"), animeMenuPanel);
+        FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButton(animeMenuPanel);
     }
     public void CreateArenaButton(Transform arenaMenuPanel)
     {
         List<string> uniqueMode = Arena.GetUniqueTypes();
         foreach (var type in uniqueMode)
         {
-            CreateArenaButton(type, Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/{type}"), arenaMenuPanel);
+            CreateArenaButtonUI(type, Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/{type}"), arenaMenuPanel);
         }
         FindAnyObjectByType<ArenaManager>().CreateArenaButton(arenaMenuPanel);
     }
