@@ -472,7 +472,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         data is Books books || data is Pets pets || data is Equipments equipments
         )
         {
-            int setButtonNumber = 2;
+            int setButtonNumber = 3;
             for (int i = 0; i < setButtonNumber; i++)
             {
                 int index = i; // <- tạo biến tạm
@@ -806,6 +806,122 @@ public class MainMenuDetailsManager : MonoBehaviour
                 AssignButtonEvent("Button_46", buttonGroupPanel3, () =>
                 {
                     FindAnyObjectByType<MainMenuOrbitalisManager>().CreateMainMenuOrbitalisManager(data);
+                });
+            }else if(set == 3){
+                CreateButtonWithBackground(47, "Azathoth", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Azathoth"), buttonGroupPanel1);
+                CreateButtonWithBackground(48, "Yog-Sothoth", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Yog-Sothoth"), buttonGroupPanel1);
+                CreateButtonWithBackground(49, "Nyarlathotep", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Nyarlathotep"), buttonGroupPanel1);
+                CreateButtonWithBackground(50, "Shub-Niggurath", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Shub-Niggurath"), buttonGroupPanel1);
+                CreateButtonWithBackground(51, "Nihorath", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Nihorath"), buttonGroupPanel1);
+                CreateButtonWithBackground(52, "Aeonax", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aeonax"), buttonGroupPanel1);
+                CreateButtonWithBackground(53, "Seraphiros", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Seraphiros"), buttonGroupPanel1);
+                CreateButtonWithBackground(54, "Thorindar", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Thorindar"), buttonGroupPanel1);
+                CreateButtonWithBackground(55, "Zilthros", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Zilthros"), buttonGroupPanel1);
+                CreateButtonWithBackground(56, "Khorazal", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Khorazal"), buttonGroupPanel2);
+                CreateButtonWithBackground(57, "Ixithra", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Ixithra"), buttonGroupPanel2);
+                CreateButtonWithBackground(58, "Omnitheus", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Omnitheus"), buttonGroupPanel2);
+                CreateButtonWithBackground(59, "Phyrixa", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Phyrixa"), buttonGroupPanel2);
+                CreateButtonWithBackground(60, "Atherion", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Atherion"), buttonGroupPanel2);
+                CreateButtonWithBackground(61, "Vorathos", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Vorathos"), buttonGroupPanel2);
+                CreateButtonWithBackground(62, "Tenebris", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Tenebris"), buttonGroupPanel2);
+                CreateButtonWithBackground(63, "Xylkor", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Xylkor"), buttonGroupPanel3);
+                CreateButtonWithBackground(64, "Veltharion", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Veltharion"), buttonGroupPanel3);
+                CreateButtonWithBackground(65, "Arcanos", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Arcanos"), buttonGroupPanel3);
+                CreateButtonWithBackground(66, "Dolomath", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Dolomath"), buttonGroupPanel3);
+                CreateButtonWithBackground(67, "Arathor", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Arathor"), buttonGroupPanel3);
+                CreateButtonWithBackground(68, "Xyphos", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Xyphos"), buttonGroupPanel3);
+                CreateButtonWithBackground(69, "Vaelith", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Vaelith"), buttonGroupPanel3);
+                AssignButtonEvent("Button_47", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuAzathothManager>().CreateMainMenuAzathothManager(data);
+                });
+                AssignButtonEvent("Button_48", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuYogSothothManager>().CreateMainMenuYogSothothManager(data);
+                });
+                AssignButtonEvent("Button_49", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuNyarlathotepManager>().CreateMainMenuNyarlathotepManager(data);
+                });
+                AssignButtonEvent("Button_50", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuShubNiggurathManager>().CreateMainMenuShubNiggurathManager(data);
+                });
+                AssignButtonEvent("Button_51", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuNihorathManager>().CreateMainMenuNihorathManager(data);
+                });
+                AssignButtonEvent("Button_52", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuAeonaxManager>().CreateMainMenuAeonaxManager(data);
+                });
+                AssignButtonEvent("Button_53", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuSeraphirosManager>().CreateMainMenuSeraphirosManager(data);
+                });
+                AssignButtonEvent("Button_54", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuThorindarManager>().CreateMainMenuThorindarManager(data);
+                });
+                AssignButtonEvent("Button_55", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuZilthrosManager>().CreateMainMenuZilthrosManager(data);
+                });
+                AssignButtonEvent("Button_56", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuKhorazalManager>().CreateMainMenuKhorazalManager(data);
+                });
+                AssignButtonEvent("Button_57", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuIxithraManager>().CreateMainMenuIxithraManager(data);
+                });
+                AssignButtonEvent("Button_58", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuOmnitheusManager>().CreateMainMenuOmnitheusManager(data);
+                });
+                AssignButtonEvent("Button_59", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuPhyrixaManager>().CreateMainMenuPhyrixaManager(data);
+                });
+                AssignButtonEvent("Button_60", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuAtherionManager>().CreateMainMenuAtherionManager(data);
+                });
+                AssignButtonEvent("Button_61", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuVorathosManager>().CreateMainMenuVorathosManager(data);
+                });
+                AssignButtonEvent("Button_62", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuTenebrisManager>().CreateMainMenuTenebrisManager(data);
+                });
+                AssignButtonEvent("Button_63", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuXylkorManager>().CreateMainMenuXylkorManager(data);
+                });
+                AssignButtonEvent("Button_64", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuVeltharionManager>().CreateMainMenuVeltharionManager(data);
+                });
+                AssignButtonEvent("Button_65", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuArcanosManager>().CreateMainMenuArcanosManager(data);
+                });
+                AssignButtonEvent("Button_66", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuDolomathManager>().CreateMainMenuDolomathManager(data);
+                });
+                AssignButtonEvent("Button_67", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuArathorManager>().CreateMainMenuArathorManager(data);
+                });
+                AssignButtonEvent("Button_68", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuXyphosManager>().CreateMainMenuXyphosManager(data);
+                });
+                AssignButtonEvent("Button_69", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuVaelithManager>().CreateMainMenuVaelithManager(data);
                 });
             }
         }
