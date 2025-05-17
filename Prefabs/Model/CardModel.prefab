@@ -1,0 +1,271 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1494543086608013903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1494543086608013902}
+  - component: {fileID: 1494543086608013899}
+  - component: {fileID: 1494543086608013900}
+  - component: {fileID: 1494543086608013901}
+  - component: {fileID: -2161081350093385204}
+  - component: {fileID: -2429760400923830431}
+  - component: {fileID: 5254054578928446954}
+  - component: {fileID: 2662590566798690515}
+  - component: {fileID: -7554673451094551407}
+  - component: {fileID: 5970807819216656731}
+  - component: {fileID: -142826273373320342}
+  - component: {fileID: 8756103851277193904}
+  - component: {fileID: 2738776813436230677}
+  m_Layer: 0
+  m_Name: CardModel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1494543086608013902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 7, y: 7.5, z: 8.75}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!33 &1494543086608013899
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1494543086608013900
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 1a9bd8ed4767a1d4ca7c6d3d9d8fdfad, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1494543086608013901
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &-2161081350093385204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b852c2ecd28c4549ae4e3d65b5cb02e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}
+--- !u!114 &-2429760400923830431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18be829ecb5d0bb4b8248a0ac1650c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}
+--- !u!114 &5254054578928446954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e8ad595d71998b4a815e27b4618e53a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}
+--- !u!114 &2662590566798690515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e400bc6fad30c224da1ad58a2411f5cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}
+--- !u!114 &-7554673451094551407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9496fa0169c44574fb6c84c8f58de055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}
+--- !u!114 &5970807819216656731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 704a4377d538bbe4580fc86f18b92fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}
+--- !u!114 &-142826273373320342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c18ce36666dd5428a6c128d84d04fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}
+--- !u!114 &8756103851277193904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933676914b173f64992b4a6fb92c2686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}
+--- !u!114 &2738776813436230677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494543086608013903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52fc99c4137dfae4a9ea6e80b2923c44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: 
+  health: 0
+  currentHealth: 0
+  attackPower: 0
+  position: 
+  damagePopupPrefab: {fileID: 5873141066790531118, guid: 3af367a859c38404281172482aaa8c6a, type: 3}

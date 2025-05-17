@@ -371,9 +371,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
             case "Hakalite_Equipment":
                 slot = 4;
                 break;
-            case "Heatherus_Equipment":
-                slot = 16;
-                break;
             case "Ignis_Equipment":
                 slot = 16;
                 break;
@@ -398,9 +395,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
             case "Morganis_Equipment":
                 slot = 12;
                 break;
-            case "Mythical_Object":
-                slot = 8;
-                break;
             case "Nimigazin_Equipment":
                 slot = 14;
                 break;
@@ -410,10 +404,19 @@ public class MainMenuEquipmentManager : MonoBehaviour
             case "Omonitus_Equipment":
                 slot = 4;
                 break;
+            case "Omega_Equipment":
+                slot = 8;
+                break;
             case "Pet_Equipment":
                 slot = 6;
                 break;
+            case "Pyros_Equipment":
+                slot = 16;
+                break;
             case "Qiyantus_Equipment":
+                slot = 1;
+                break;
+            case "Quasar_Equipment":
                 slot = 1;
                 break;
             case "Rainbow_Equipment":
@@ -421,9 +424,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 break;
             case "Redvenger_Equipment":
                 slot = 6;
-                break;
-            case "Retanic_Equipment":
-                slot = 4;
                 break;
             case "Souls_Equipment":
                 slot = 10;
@@ -437,10 +437,13 @@ public class MainMenuEquipmentManager : MonoBehaviour
             case "Uni_Equipment":
                 slot = 16;
                 break;
+            case "Ultrion_Equipment":
+                slot = 4;
+                break;
             case "Zodiac_Equipment":
                 slot = 12;
                 break;
-            case "Zpower_Equipment":
+            case "Zerox_Equipment":
                 slot = 16;
                 break;
             default:

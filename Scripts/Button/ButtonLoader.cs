@@ -8,6 +8,7 @@ public class ButtonLoader : MonoBehaviour
 {
     private GameObject buttonPrefab; // Prefab của button
     private Transform mainMenuButtonPanel; // Nơi chứa các button trong scene
+    private Transform mainMenuCampaignPanel;
     private Transform summonPanel;
     private GameObject ArenaButtonPrefab;
     private GameObject AnimeButtonPrefab;
@@ -16,9 +17,11 @@ public class ButtonLoader : MonoBehaviour
     {
         buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
         mainMenuButtonPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
+        mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         summonPanel = UIManager.Instance.GetTransform("summonPanel");
         ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
         AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
+        CreateButton(1, "Campaigns", Resources.Load<Texture2D>($"UI/Background4/Background_V4_110"), Resources.Load<Texture2D>($"UI/UI/Campaign"), mainMenuCampaignPanel);
         //Main menu
         CreateButton(1, "Card Heroes", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/UI/Cards"), mainMenuButtonPanel);
         CreateButton(2, "Books", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/UI/Books"), mainMenuButtonPanel);

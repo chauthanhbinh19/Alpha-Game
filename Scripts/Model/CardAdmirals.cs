@@ -1017,13 +1017,13 @@ public class CardAdmirals
                 FROM user_card_admirals uc
                 LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
                 LEFT JOIN fact_card_admirals fca ON fca.user_id = uc.user_id AND fca.user_card_admiral_id = uc.card_admiral_id
-                WHERE uc.user_id = @userId AND fca.team_id=@team_id and fca.position like @position
+                WHERE uc.user_id = @userId AND fca.team_id=@team_id and SUBSTRING_INDEX(fca.position, '-', 1) = @position
                 ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@team_id", teamId);
-                command.Parameters.AddWithValue("@position", position+"%");
+                command.Parameters.AddWithValue("@position", position);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -1214,11 +1214,11 @@ public class CardAdmirals
             {
                 connection.Open();
                 string query = @"select count(*) from fact_card_admirals
-                where team_id = @team_id and position like @position and user_id=@userId";
+                where team_id = @team_id and SUBSTRING_INDEX(position, '-', 1) = @position and user_id=@userId";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@team_id", team_id);
-                command.Parameters.AddWithValue("@position", position + "%");
+                command.Parameters.AddWithValue("@position", position);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

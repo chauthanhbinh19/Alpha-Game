@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Panels")]
     private Transform mainMenuButtonPanel;
+    private Transform mainMenuCampaignPanel;
     public Transform notificationPanel;
     public Transform WaitingPanel;
     public Transform MainScencePanel;
@@ -249,6 +250,7 @@ public class UIManager : MonoBehaviour
             Instance = this;
             // DontDestroyOnLoad(gameObject); // Keep this object across scenes
             mainMenuButtonPanel = MainScencePanel.transform.Find("MainMenu/MenuBackground/MainMenuButton");
+            mainMenuCampaignPanel = MainScencePanel.transform.Find("MainMenu/MenuCampaignBackground/MenuCampaign");
         }
         else
         {
@@ -267,6 +269,8 @@ public class UIManager : MonoBehaviour
                 return MainScencePanel;
             case "mainMenuButtonPanel":
                 return mainMenuButtonPanel;
+            case "mainMenuCampaignPanel":
+                return mainMenuCampaignPanel;
             case "notificationPanel":
                 return notificationPanel;
             case "popupPanel":

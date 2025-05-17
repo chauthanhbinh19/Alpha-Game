@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 public class MainMenuManager : MonoBehaviour
 {
     private Transform mainMenuPanel;
+    private Transform mainMenuCampaignPanel;
     private GameObject buttonPrefab;
     private GameObject DictionaryPanel;
     private GameObject PopupMenuPanelPrefab;
@@ -50,6 +51,7 @@ public class MainMenuManager : MonoBehaviour
         currentPage = 1;
         pageSize = 100;
         mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
+        mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         buttonPrefab2 = UIManager.Instance.GetGameObject("TabButton2");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
@@ -62,6 +64,8 @@ public class MainMenuManager : MonoBehaviour
         PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
         ArenaPanelPrefab = UIManager.Instance.GetGameObject("ArenaPanelPrefab");
         AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
+
+        AssignButtonEvent("Button_1", mainMenuCampaignPanel, () => loadScence());
 
         AssignButtonEvent("Button_1", mainMenuPanel, () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", mainMenuPanel, () => GetType("Books"));
@@ -222,6 +226,10 @@ public class MainMenuManager : MonoBehaviour
         else if (type.Equals("SummonBooks"))
         {
             return Books.GetUniqueBookTypes();
+        }
+        else if (type.Equals("SummonCardMonsters"))
+        {
+            return CardMonsters.GetUniqueCardMonstersTypes();
         }
         else if (type.Equals("SummonCardCaptains"))
         {
@@ -486,7 +494,7 @@ public class MainMenuManager : MonoBehaviour
                         List<CardHeroes> cards = cardsManager.GetUserCardHeroes(User.CurrentUserId, subtype, pageSize, offset);
                         createCardHeroes(cards);
                         listCount = cards.Count;
-
+                        Debug.Log(User.CurrentUserId);
                         totalRecord = cardsManager.GetUserCardHeroesCount(User.CurrentUserId, subtype);
                     }
                     else if (mainType.Equals("Books"))
@@ -713,11 +721,11 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon("monsters", "none", SummonAreaPanel, 1);
+                            FindObjectOfType<GachaSystem>().Summon("monsters", subtype, SummonAreaPanel, 1);
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon("monsters", "none", SummonAreaPanel, 10);
+                            FindObjectOfType<GachaSystem>().Summon("monsters", subtype, SummonAreaPanel, 10);
                         });
                     }
                     else if (mainType.Equals("SummonCardColonels"))
@@ -3172,6 +3180,8 @@ public class MainMenuManager : MonoBehaviour
         entry.callback.AddListener((data) => { callback(); });
         trigger.triggers.Add(entry);
     }
-    
+    public void loadScence(){
+        FindAnyObjectByType<SceneLoader>().LoadScene("TeamsScenes");
+    }
 
 }
