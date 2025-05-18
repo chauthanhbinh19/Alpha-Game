@@ -472,7 +472,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         data is Books books || data is Pets pets || data is Equipments equipments
         )
         {
-            int setButtonNumber = 3;
+            int setButtonNumber = 4;
             for (int i = 0; i < setButtonNumber; i++)
             {
                 int index = i; // <- tạo biến tạm
@@ -690,7 +690,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                     FindAnyObjectByType<MainMenuFairyManager>().CreateMainMenuFairyManager(data);
                 });
             }
-            else if(set == 2)
+            else if (set == 2)
             {
                 CreateButtonWithBackground(24, "Dark", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Dark"), buttonGroupPanel1);
                 CreateButtonWithBackground(25, "Light", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Light"), buttonGroupPanel1);
@@ -807,7 +807,9 @@ public class MainMenuDetailsManager : MonoBehaviour
                 {
                     FindAnyObjectByType<MainMenuOrbitalisManager>().CreateMainMenuOrbitalisManager(data);
                 });
-            }else if(set == 3){
+            }
+            else if (set == 3)
+            {
                 CreateButtonWithBackground(47, "Azathoth", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Azathoth"), buttonGroupPanel1);
                 CreateButtonWithBackground(48, "Yog-Sothoth", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Yog-Sothoth"), buttonGroupPanel1);
                 CreateButtonWithBackground(49, "Nyarlathotep", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Nyarlathotep"), buttonGroupPanel1);
@@ -923,6 +925,126 @@ public class MainMenuDetailsManager : MonoBehaviour
                 {
                     FindAnyObjectByType<MainMenuVaelithManager>().CreateMainMenuVaelithManager(data);
                 });
+            }
+            else if (set == 4)
+            {
+                CreateButtonWithBackground(70, "Zarx", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Zarx"), buttonGroupPanel1);
+                CreateButtonWithBackground(71, "Raik", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Raik"), buttonGroupPanel1);
+                CreateButtonWithBackground(72, "Drax", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Drax"), buttonGroupPanel1);
+                CreateButtonWithBackground(73, "Kron", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Kron"), buttonGroupPanel1);
+                CreateButtonWithBackground(74, "Zolt", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Zolt"), buttonGroupPanel1);
+                CreateButtonWithBackground(75, "Gorr", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Gorr"), buttonGroupPanel1);
+                CreateButtonWithBackground(76, "Ryze", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Ryze"), buttonGroupPanel1);
+                CreateButtonWithBackground(77, "Jaxx", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Jaxx"), buttonGroupPanel1);
+                CreateButtonWithBackground(78, "Thar", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Thar"), buttonGroupPanel1);
+                CreateButtonWithBackground(79, "Vorn", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Vorn"), buttonGroupPanel2);
+                CreateButtonWithBackground(80, "Nyx", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Nyx"), buttonGroupPanel2);
+                CreateButtonWithBackground(81, "Aros", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Aros"), buttonGroupPanel2);
+                CreateButtonWithBackground(82, "Hex", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Hex"), buttonGroupPanel2);
+                CreateButtonWithBackground(83, "Lorn", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Lorn"), buttonGroupPanel2);
+                CreateButtonWithBackground(84, "Baxx", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Baxx"), buttonGroupPanel2);
+                CreateButtonWithBackground(85, "Zeph", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Zeph"), buttonGroupPanel2);
+                CreateButtonWithBackground(86, "Kael", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Kael"), buttonGroupPanel3);
+                CreateButtonWithBackground(87, "Drav", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Drav"), buttonGroupPanel3);
+                CreateButtonWithBackground(88, "Torn", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Torn"), buttonGroupPanel3);
+                CreateButtonWithBackground(89, "Myrr", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Myrr"), buttonGroupPanel3);
+                CreateButtonWithBackground(90, "Vask", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Vask"), buttonGroupPanel3);
+                CreateButtonWithBackground(91, "Jorr", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Jorr"), buttonGroupPanel3);
+                CreateButtonWithBackground(92, "Quen", Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder"), Resources.Load<Texture2D>($"UI/Button/Quen"), buttonGroupPanel3);
+                AssignButtonEvent("Button_70", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuZarxManager>().CreateMainMenuZarxManager(data);
+                });
+                AssignButtonEvent("Button_71", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuRaikManager>().CreateMainMenuRaikManager(data);
+                });
+                AssignButtonEvent("Button_72", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuDraxManager>().CreateMainMenuDraxManager(data);
+                });
+                AssignButtonEvent("Button_73", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuKronManager>().CreateMainMenuKronManager(data);
+                });
+                AssignButtonEvent("Button_74", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuZoltManager>().CreateMainMenuZoltManager(data);
+                });
+                AssignButtonEvent("Button_75", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuGorrManager>().CreateMainMenuGorrManager(data);
+                });
+                AssignButtonEvent("Button_76", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuRyzeManager>().CreateMainMenuRyzeManager(data);
+                });
+                AssignButtonEvent("Button_77", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuJaxxManager>().CreateMainMenuJaxxManager(data);
+                });
+                AssignButtonEvent("Button_78", buttonGroupPanel1, () =>
+                {
+                    FindAnyObjectByType<MainMenuTharManager>().CreateMainMenuTharManager(data);
+                });
+                AssignButtonEvent("Button_79", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuVornManager>().CreateMainMenuVornManager(data);
+                });
+                AssignButtonEvent("Button_80", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuNyxManager>().CreateMainMenuNyxManager(data);
+                });
+                AssignButtonEvent("Button_81", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuArosManager>().CreateMainMenuArosManager(data);
+                });
+                AssignButtonEvent("Button_82", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuHexManager>().CreateMainMenuHexManager(data);
+                });
+                AssignButtonEvent("Button_83", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuLornManager>().CreateMainMenuLornManager(data);
+                });
+                AssignButtonEvent("Button_84", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuBaxxManager>().CreateMainMenuBaxxManager(data);
+                });
+                AssignButtonEvent("Button_85", buttonGroupPanel2, () =>
+                {
+                    FindAnyObjectByType<MainMenuZephManager>().CreateMainMenuZephManager(data);
+                });
+                AssignButtonEvent("Button_86", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuKaelManager>().CreateMainMenuKaelManager(data);
+                });
+                AssignButtonEvent("Button_87", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuDravManager>().CreateMainMenuDravManager(data);
+                });
+                AssignButtonEvent("Button_88", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuTornManager>().CreateMainMenuTornManager(data);
+                });
+                AssignButtonEvent("Button_89", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuMyrrManager>().CreateMainMenuMyrrManager(data);
+                });
+                AssignButtonEvent("Button_90", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuVaskManager>().CreateMainMenuVaskManager(data);
+                });
+                AssignButtonEvent("Button_91", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuJorrManager>().CreateMainMenuJorrManager(data);
+                });
+                AssignButtonEvent("Button_92", buttonGroupPanel3, () =>
+                {
+                    FindAnyObjectByType<MainMenuQuenManager>().CreateMainMenuQuenManager(data);
+                });
+
+
             }
         }
         else if (data is Equipments equipments)

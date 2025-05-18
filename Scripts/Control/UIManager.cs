@@ -148,6 +148,31 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuArathorPanelPrefab;
     public GameObject MainMenuXyphosPanelPrefab;
     public GameObject MainMenuVaelithPanelPrefab;
+    [Header("Main menu set 4")]
+    public GameObject MainMenuZarxPanelPrefab;
+    public GameObject MainMenuRaikPanelPrefab;
+    public GameObject MainMenuDraxPanelPrefab;
+    public GameObject MainMenuKronPanelPrefab;
+    public GameObject MainMenuZoltPanelPrefab;
+    public GameObject MainMenuGorrPanelPrefab;
+    public GameObject MainMenuRyzePanelPrefab;
+    public GameObject MainMenuJaxxPanelPrefab;
+    public GameObject MainMenuTharPanelPrefab;
+    public GameObject MainMenuVornPanelPrefab;
+    public GameObject MainMenuNyxPanelPrefab;
+    public GameObject MainMenuArosPanelPrefab;
+    public GameObject MainMenuHexPanelPrefab;
+    public GameObject MainMenuLornPanelPrefab;
+    public GameObject MainMenuBaxxPanelPrefab;
+    public GameObject MainMenuZephPanelPrefab;
+    public GameObject MainMenuKaelPanelPrefab;
+    public GameObject MainMenuDravPanelPrefab;
+    public GameObject MainMenuTornPanelPrefab;
+    public GameObject MainMenuMyrrPanelPrefab;
+    public GameObject MainMenuVaskPanelPrefab;
+    public GameObject MainMenuJorrPanelPrefab;
+    public GameObject MainMenuQuenPanelPrefab;
+    [Header("Other")]
     public GameObject MainMenuAnimePanelPrefab;
     public GameObject AnimePanelPrefab;
     public GameObject ArenaPanelPrefab;
@@ -239,6 +264,31 @@ public class UIManager : MonoBehaviour
     public GameObject ArathorSlotPrefab;
     public GameObject XyphosSlotPrefab;
     public GameObject VaelithSlotPrefab;
+    [Header("Main menu slot set 3")]
+    public GameObject ZarxSlotPrefab;
+    public GameObject RaikSlotPrefab;
+    public GameObject DraxSlotPrefab;
+    public GameObject KronSlotPrefab;
+    public GameObject ZoltSlotPrefab;
+    public GameObject GorrSlotPrefab;
+    public GameObject RyzeSlotPrefab;
+    public GameObject JaxxSlotPrefab;
+    public GameObject TharSlotPrefab;
+    public GameObject VornSlotPrefab;
+    public GameObject NyxSlotPrefab;
+    public GameObject ArosSlotPrefab;
+    public GameObject HexSlotPrefab;
+    public GameObject LornSlotPrefab;
+    public GameObject BaxxSlotPrefab;
+    public GameObject ZephSlotPrefab;
+    public GameObject KaelSlotPrefab;
+    public GameObject DravSlotPrefab;
+    public GameObject TornSlotPrefab;
+    public GameObject MyrrSlotPrefab;
+    public GameObject VaskSlotPrefab;
+    public GameObject JorrSlotPrefab;
+    public GameObject QuenSlotPrefab;
+    [Header("Other")]
     public GameObject AnimeSlotPrefab;
     public GameObject ArenaSlotPrefab;
 
@@ -529,6 +579,53 @@ public class UIManager : MonoBehaviour
                 return MainMenuXyphosPanelPrefab;
             case "MainMenuVaelithPanelPrefab":
                 return MainMenuVaelithPanelPrefab;
+            // MainMenu Set 4
+            case "MainMenuZarxPanelPrefab":
+                return MainMenuZarxPanelPrefab;
+            case "MainMenuRaikPanelPrefab":
+                return MainMenuRaikPanelPrefab;
+            case "MainMenuDraxPanelPrefab":
+                return MainMenuDraxPanelPrefab;
+            case "MainMenuKronPanelPrefab":
+                return MainMenuKronPanelPrefab;
+            case "MainMenuZoltPanelPrefab":
+                return MainMenuZoltPanelPrefab;
+            case "MainMenuGorrPanelPrefab":
+                return MainMenuGorrPanelPrefab;
+            case "MainMenuRyzePanelPrefab":
+                return MainMenuRyzePanelPrefab;
+            case "MainMenuJaxxPanelPrefab":
+                return MainMenuJaxxPanelPrefab;
+            case "MainMenuTharPanelPrefab":
+                return MainMenuTharPanelPrefab;
+            case "MainMenuVornPanelPrefab":
+                return MainMenuVornPanelPrefab;
+            case "MainMenuNyxPanelPrefab":
+                return MainMenuNyxPanelPrefab;
+            case "MainMenuArosPanelPrefab":
+                return MainMenuArosPanelPrefab;
+            case "MainMenuHexPanelPrefab":
+                return MainMenuHexPanelPrefab;
+            case "MainMenuLornPanelPrefab":
+                return MainMenuLornPanelPrefab;
+            case "MainMenuBaxxPanelPrefab":
+                return MainMenuBaxxPanelPrefab;
+            case "MainMenuZephPanelPrefab":
+                return MainMenuZephPanelPrefab;
+            case "MainMenuKaelPanelPrefab":
+                return MainMenuKaelPanelPrefab;
+            case "MainMenuDravPanelPrefab":
+                return MainMenuDravPanelPrefab;
+            case "MainMenuTornPanelPrefab":
+                return MainMenuTornPanelPrefab;
+            case "MainMenuMyrrPanelPrefab":
+                return MainMenuMyrrPanelPrefab;
+            case "MainMenuVaskPanelPrefab":
+                return MainMenuVaskPanelPrefab;
+            case "MainMenuJorrPanelPrefab":
+                return MainMenuJorrPanelPrefab;
+            case "MainMenuQuenPanelPrefab":
+                return MainMenuQuenPanelPrefab;
             case "MainMenuAnimePanelPrefab":
                 return MainMenuAnimePanelPrefab;
             case "ArenaPanelPrefab":
@@ -702,7 +799,52 @@ public class UIManager : MonoBehaviour
                 return XyphosSlotPrefab;
             case "VaelithSlotPrefab":
                 return VaelithSlotPrefab;
-                //
+            // MainMenu Slot Set 4
+            case "ZarxSlotPrefab": return ZarxSlotPrefab;
+            case "RaikSlotPrefab":
+                return RaikSlotPrefab;
+            case "DraxSlotPrefab":
+                return DraxSlotPrefab;
+            case "KronSlotPrefab":
+                return KronSlotPrefab;
+            case "ZoltSlotPrefab":
+                return ZoltSlotPrefab;
+            case "GorrSlotPrefab":
+                return GorrSlotPrefab;
+            case "RyzeSlotPrefab":
+                return RyzeSlotPrefab;
+            case "JaxxSlotPrefab":
+                return JaxxSlotPrefab;
+            case "TharSlotPrefab":
+                return TharSlotPrefab;
+            case "VornSlotPrefab":
+                return VornSlotPrefab;
+            case "NyxSlotPrefab":
+                return NyxSlotPrefab;
+            case "ArosSlotPrefab":
+                return ArosSlotPrefab;
+            case "HexSlotPrefab":
+                return HexSlotPrefab;
+            case "LornSlotPrefab":
+                return LornSlotPrefab;
+            case "BaxxSlotPrefab":
+                return BaxxSlotPrefab;
+            case "ZephSlotPrefab":
+                return ZephSlotPrefab;
+            case "KaelSlotPrefab":
+                return KaelSlotPrefab;
+            case "DravSlotPrefab":
+                return DravSlotPrefab;
+            case "TornSlotPrefab":
+                return TornSlotPrefab;
+            case "MyrrSlotPrefab":
+                return MyrrSlotPrefab;
+            case "VaskSlotPrefab":
+                return VaskSlotPrefab;
+            case "JorrSlotPrefab":
+                return JorrSlotPrefab;
+            case "QuenSlotPrefab":
+                return QuenSlotPrefab;
             case "AnimeSlotPrefab":
                 return AnimeSlotPrefab;
             case "ArenaSlotPrefab":
