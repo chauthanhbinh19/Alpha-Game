@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -36,13 +36,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,9 +51,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -103,18 +103,502 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_0
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 469
+        width: 5
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48aa646c227893b4e87aa2340bcc8408
+      internalID: 1314989664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_1
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 342
+        width: 106
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd12f8a0f1d687748b3307f124a0c4e2
+      internalID: -94284255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_2
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 475
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42b4d48bbca0ad343a4b5e24d282984f
+      internalID: -728268579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_3
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 466
+        width: 22
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b168c489cb64c13489028a4eb0f9c79c
+      internalID: -852659944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_4
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 341
+        width: 104
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb84c5cb8bbb69a4eac92aec956ede34
+      internalID: 1793074036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_5
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 341
+        width: 100
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b81e8d079521f349af91273cc2d8def
+      internalID: 1585283915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_6
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 412
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80ca1187ce894ac44b8b452165a93828
+      internalID: -1310355882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_7
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 341
+        width: 104
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b667c56d1e438f348ad8486ac8b47641
+      internalID: 943741962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_8
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 170
+        width: 101
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a41706d7882aeb54ebb21f93f37c38f4
+      internalID: 2045933427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_9
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 171
+        width: 98
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd3bc0a19600a8c419d115ebc615734d
+      internalID: 187141857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_10
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 309
+        width: 28
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e2588b8f81f47245b0dd118143fa0b3
+      internalID: -1272963654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_11
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 171
+        width: 97
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18c0765884596cc429643028471a1374
+      internalID: -514467709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_12
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 174
+        width: 110
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bf96d60a08ae7d4e955a7b17347d32f
+      internalID: 2031220480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_13
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 159
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fbb3234015d9794f9d5699187defbe1
+      internalID: -184301646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_14
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 3
+        width: 112
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9442405b21f74a945801b411d2b774e9
+      internalID: -11414325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_15
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 135
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a431d3fcd1122aa46bf30c40b2b212ca
+      internalID: -112760438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_16
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 2
+        width: 94
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15322db3b053c044ca4a116a55c78b0f
+      internalID: 1043375839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_17
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 2
+        width: 97
+        height: 137
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3152705ff6dfecd4e8b2462c1f082e2e
+      internalID: -1436068401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_18
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1
+        width: 101
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e3bd7a5b8c43f944a03e70a9b3505a4
+      internalID: -222372996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_19
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 133
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0193d2a7e779f24d8fc1bca1a3b9de1
+      internalID: 26427808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_20
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 74
+        width: 28
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb4621032e5592a479d9b0f4ae512237
+      internalID: -307596441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Fire_Effect_21
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 85
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea23f3e00712b7745bf5a3867c3baf03
+      internalID: 1859879000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 17a0af8d8ebc027409b53cccb3b3d35c
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Blue_Fire_Effect_0: 1314989664
+      Blue_Fire_Effect_1: -94284255
+      Blue_Fire_Effect_10: -1272963654
+      Blue_Fire_Effect_11: -514467709
+      Blue_Fire_Effect_12: 2031220480
+      Blue_Fire_Effect_13: -184301646
+      Blue_Fire_Effect_14: -11414325
+      Blue_Fire_Effect_15: -112760438
+      Blue_Fire_Effect_16: 1043375839
+      Blue_Fire_Effect_17: -1436068401
+      Blue_Fire_Effect_18: -222372996
+      Blue_Fire_Effect_19: 26427808
+      Blue_Fire_Effect_2: -728268579
+      Blue_Fire_Effect_20: -307596441
+      Blue_Fire_Effect_21: 1859879000
+      Blue_Fire_Effect_3: -852659944
+      Blue_Fire_Effect_4: 1793074036
+      Blue_Fire_Effect_5: 1585283915
+      Blue_Fire_Effect_6: -1310355882
+      Blue_Fire_Effect_7: 943741962
+      Blue_Fire_Effect_8: 2045933427
+      Blue_Fire_Effect_9: 187141857
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

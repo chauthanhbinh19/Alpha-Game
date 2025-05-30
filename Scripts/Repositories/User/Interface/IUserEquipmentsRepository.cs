@@ -1,0 +1,52 @@
+using System.Collections.Generic;
+
+public interface IUserEquipmentsRepository
+{
+    List<Equipments> GetUserEquipments(string user_id, string type, int pageSize, int offset);
+    int GetUserEquipmentsCount(string user_id, string type);
+    Equipments GetUserEquipmentsById(string user_id, string Id);
+    bool BuyEquipment(string Id, Equipments EquipmentFromDB);
+    bool UpdateEquipmentsLevel(Equipments equipments, int cardLevel);
+    bool UpdateEquipmentsBreakthrough(Equipments equipments, int star, int quantity);
+    void UpdateUserCurrency(string Id);
+    void InsertCardHeroesEquipments(string Id, Equipments equipments, int position);
+    void InsertCardCaptainsEquipments(string Id, Equipments equipments, int position);
+    void InsertCardColonelsEquipments(string Id, Equipments equipments, int position);
+    void InsertCardGeneralsEquipments(string Id, Equipments equipments, int position);
+    void InsertCardAdmiralsEquipments(string Id, Equipments equipments, int position);
+    void InsertCardMonstersEquipments(string Id, Equipments equipments, int position);
+    void InsertCardMilitaryEquipments(string Id, Equipments equipments, int position);
+    void InsertCardSpellEquipments(string Id, Equipments equipments, int position);
+    void InsertBooksEquipments(string Id, Equipments equipments, int position);
+    void InsertPetsEquipments(string Id, Equipments equipments, int position);
+    List<Equipments> GetCardHeroesEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetCardCaptainsEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetCardColonelsEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetCardGeneralsEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetCardAdmiralsEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetCardMonstersEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetCardMilitaryEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetCardSpellEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetBooksEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetPetsEquipments(string user_id, string card_id, string type);
+    List<Equipments> GetAllCardHeroesEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllCardCaptainsEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllCardColonelsEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllCardGeneralsEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllCardAdmiralsEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllCardMonstersEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllCardMilitaryEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllCardSpellEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllBooksEquipments(string user_id, string type, int limit, int offset, string status);
+    List<Equipments> GetAllPetsEquipments(string user_id, string type, int limit, int offset, string status);
+    Equipments GetAllEquipmentsByCardHeoresId(string user_id, string Id);
+    Equipments GetAllEquipmentsByCardCaptainsId(string user_id, string Id);
+    Equipments GetAllEquipmentsByCardColonelsId(string user_id, string Id);
+    Equipments GetAllEquipmentsByCardGeneralsId(string user_id, string Id);
+    Equipments GetAllEquipmentsByCardAdmiralsId(string user_id, string Id);
+    Equipments GetAllEquipmentsByCardMonstersId(string user_id, string Id);
+    Equipments GetAllEquipmentsByCardMilitaryId(string user_id, string Id);
+    Equipments GetAllEquipmentsByCardSpellId(string user_id, string Id);
+    Equipments GetAllEquipmentsByBooksId(string user_id, string Id);
+    Equipments GetAllEquipmentsByPetsId(string user_id, string Id);
+}

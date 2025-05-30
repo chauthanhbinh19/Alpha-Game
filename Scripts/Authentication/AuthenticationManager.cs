@@ -58,13 +58,15 @@ public class AuthenticationManager : MonoBehaviour
         startButton = WaitingPanel.transform.Find("StartButton").GetComponent<Button>();
         createSignInButton = WaitingPanel.transform.Find("SignInButton").GetComponent<Button>();
 
-        startButton.onClick.AddListener(()=>{
+        startButton.onClick.AddListener(() =>
+        {
             FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, MainPanel);
         });
-        createSignInButton.onClick.AddListener(()=>{
+        createSignInButton.onClick.AddListener(() =>
+        {
             createSignInPanel();
         });
-        if (User.CurrentUserId == 0)
+        if (string.IsNullOrEmpty(User.CurrentUserId))
         {
             // Kiểm tra xem SignInPanel đã tồn tại chưa
             Transform existingSignInPanel = WaitingPanel.Find("SignInPanel(Clone)");
@@ -83,14 +85,20 @@ public class AuthenticationManager : MonoBehaviour
     {
         string username = SI_usernameInput.text;
         string password = SI_passwordInput.text;
-        User user = new User(username, password, createNamePanel, signInPanel);
-        User loggedInUser = user.SignInUser();
+        IUserRepository _userRepository = new UserRepository();
+        UserService _userService = new UserService(_userRepository);
+        var loggedInUser = _userService.SignInUser(username, password);
         if (loggedInUser != null)
         {
             // Đăng nhập thành công, hiển thị MainPanel và ẩn WaitingPanel
             // MainPanel.gameObject.SetActive(true);
             // WaitingPanel.gameObject.SetActive(false);
             Destroy(currentObject);
+            if (string.IsNullOrEmpty(loggedInUser.name))
+            {
+                AuthenticationManager.Instance.createCreateNamePanel(username, password);
+                // signInPanel.SetActive(false);
+            }
             // WaitingPanel.gameObject.SetActive(false);
             // MainPanel.gameObject.SetActive(true);
 
@@ -115,8 +123,7 @@ public class AuthenticationManager : MonoBehaviour
             borderImage.texture = borderTexture;
 
             FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
-            PowerManager powerManager = new PowerManager();
-            powerManager.UpdateUserStats(User.CurrentUserId);
+            PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
             // foreach (var currency in loggedInUser.Currencies)
             // {
             //     if (currency.name.Equals("Diamond") || currency.name.Equals("Gold") || currency.name.Equals("Silver"))
@@ -135,7 +142,7 @@ public class AuthenticationManager : MonoBehaviour
         else
         {
             // Đăng nhập thất bại, hiển thị thông báo lỗi
-            SI_ErrorUsername.text = "Your account does not exist";
+            SI_ErrorUsername.text = MessageHelper.MessageConstants.UsernameNotExist;
         }
     }
     void SU_signUpButtonClicked()
@@ -150,33 +157,34 @@ public class AuthenticationManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(username))
         {
-            SU_ErrorUsername.text = "Username can not be empty!";
+            SU_ErrorUsername.text = MessageHelper.MessageConstants.UsernameIsEmpty;
             return;
         }
         if (string.IsNullOrEmpty(password))
         {
-            SU_ErrorPassword.text = "Password can not be empty!";
+            SU_ErrorPassword.text = MessageHelper.MessageConstants.PasswordIsEmpty;
             return;
         }
         if (string.IsNullOrEmpty(confirmPassword))
         {
-            SU_ErrorConfirmPassword.text = "Confirm password can not be empty!";
+            SU_ErrorConfirmPassword.text = MessageHelper.MessageConstants.ConfirmPasswordIsEmpty;
             return;
         }
 
         if (password != confirmPassword)
         {
-            SU_ErrorPassword.text = "Passwords do not match!";
+            SU_ErrorPassword.text = MessageHelper.MessageConstants.PasswordNotMatch;
             return;
         }
 
-        User newUser = new User(username, password);
-        int registerStatus = newUser.RegisterUser();
-        if (registerStatus == 0)
+        IUserRepository _userRepository = new UserRepository();
+        UserService _userService = new UserService(_userRepository);
+        string registerStatus = _userService.RegisterUser(username, password);
+        if (string.IsNullOrEmpty(registerStatus))
         {
-            SU_ErrorUsername.text = "Account already exists!";
+            SU_ErrorUsername.text = MessageHelper.MessageConstants.UsernameAlreadyExist;
         }
-        else if (registerStatus == 1)
+        else
         {
             SU_usernameInput.text = "";
             SU_passwordInput.text = "";
@@ -202,11 +210,13 @@ public class AuthenticationManager : MonoBehaviour
         SI_signUpButton.onClick.AddListener(SI_signUpButtonClicked);
         SI_signInButton.onClick.AddListener(SI_signInButtonClicked);
         SI_closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        SI_closeButton.onClick.AddListener(()=>{
+        SI_closeButton.onClick.AddListener(() =>
+        {
             Destroy(currentObject);
         });
     }
-    public void createSignUpPanel(){
+    public void createSignUpPanel()
+    {
         currentObject = Instantiate(signUpPanel, WaitingPanel);
         SU_usernameInput = currentObject.transform.Find("UsernameInput").GetComponent<InputField>();
         SU_passwordInput = currentObject.transform.Find("PasswordInput").GetComponent<InputField>();
@@ -219,20 +229,24 @@ public class AuthenticationManager : MonoBehaviour
         SU_signUpButton.onClick.AddListener(SU_signUpButtonClicked);
         SU_signInButton.onClick.AddListener(SU_signInButtonClicked);
         SU_closeButton = signUpPanel.transform.Find("CloseButton").GetComponent<Button>();
-        SU_closeButton.onClick.AddListener(()=>{
+        SU_closeButton.onClick.AddListener(() =>
+        {
             Destroy(currentObject);
         });
     }
-    public void createCreateNamePanel(){
+    public void createCreateNamePanel(string username, string password)
+    {
         Destroy(currentObject);
         currentObject = Instantiate(createNamePanel, WaitingPanel);
         InputField nameInput = currentObject.transform.Find("NameInput").GetComponent<InputField>();
         Button startButton = currentObject.transform.Find("Start").GetComponent<Button>();
 
-        startButton.onClick.AddListener(()=>{
-            User user = new User();
-            user.UpdateUserName(nameInput.text);
-            User loggedInUser = user.SignInUser();
+        startButton.onClick.AddListener(() =>
+        {
+            IUserRepository _userRepository = new UserRepository();
+            UserService _userService = new UserService(_userRepository);
+            _userService.UpdateUserName(User.CurrentUserId, nameInput.text);
+            User loggedInUser = _userService.SignInUser(username, password);
             Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
             nameText.text = loggedInUser.name;
             Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
@@ -251,7 +265,8 @@ public class AuthenticationManager : MonoBehaviour
             FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
         });
     }
-    public void deleteCreateNamePanel(){
+    public void deleteCreateNamePanel()
+    {
         Destroy(currentObject);
     }
 }
