@@ -38,7 +38,6 @@ public class UserService : IUserService
     public User SignInUser(string username, string password)
     {
         User user = _userRepository.SignInUser(username, password);
-        Debug.Log(user == null ? "User is null" : "User is OK");
 
         Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
         string Border = borders.image;

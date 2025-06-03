@@ -168,7 +168,7 @@ public class EquipmentManager : MonoBehaviour
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(equipment, MainPanel));
+            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(equipment, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -314,7 +314,7 @@ public class EquipmentManager : MonoBehaviour
                 eventTrigger = FlagImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => PopupCampaignDetail(campaignDetail));
+            ButtonEvent.Instance.AddClickListener(eventTrigger, () => PopupCampaignDetail(campaignDetail));
             index++; // Tăng chỉ số cho lần lặp tiếp theo
         }
         // GridLayoutGroup gridLayout = tempContent.GetComponent<GridLayoutGroup>();
@@ -726,15 +726,6 @@ public class EquipmentManager : MonoBehaviour
         {
            Destroy(obj);
         });
-        trigger.triggers.Add(entry);
-    }
-    void AddClickListener(EventTrigger trigger, System.Action callback)
-    {
-        EventTrigger.Entry entry = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerClick
-        };
-        entry.callback.AddListener((data) => { callback(); });
         trigger.triggers.Add(entry);
     }
     public void PopupCampaignDetail(CampaignDetail campaignDetail)

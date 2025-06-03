@@ -96,10 +96,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         CardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
 
-        ButtonLoader.Instance.CreateSetButtonGroup(data, TabButton5, setButtonGroupPanel);
         ButtonLoader.Instance.buttonGroupPanel1 = buttonGroupPanel1;
         ButtonLoader.Instance.buttonGroupPanel2 = buttonGroupPanel2;
         ButtonLoader.Instance.buttonGroupPanel3 = buttonGroupPanel3;
+        ButtonLoader.Instance.CreateSetButtonGroup(data, TabButton5, setButtonGroupPanel);
 
         // Kiểm tra kiểu của data và ép kiểu phù hợp
         if (data is CardHeroes card)
@@ -6876,7 +6876,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             Debug.LogError("Button does not have a RawImage component.");
         }
     }
-    public void CreatePropertyUI(int status, PropertyInfo property, object value)
+    public void CreatePropertyUI(int status, PropertyInfo property, object value, Transform descriptionPopupPanel = null)
     {
         if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
                 && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")

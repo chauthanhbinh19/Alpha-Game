@@ -20,37 +20,36 @@ public class GachaSystem : MonoBehaviour
             return;
         }
 
-        object manager = null;
         IList items = null;
 
         // Xác định class dựa trên type
-        switch (name.ToLower())
+        switch (name)
         {
-            case "cards":
+            case "SummonCardHeroes":
                 items = CardHeroesService.Create().GetAllCardHeroes(type);
                 break;
-            case "books":
+            case "SummonBooks":
                 items = BooksService.Create().GetAllBooks(type);
                 break;
-            case "captains":
+            case "SummonCardCaptains":
                 items = CardCaptainsService.Create().GetAllCardCaptains(type);
                 break;
-            case "monsters":
+            case "SummonCardMonsters":
                 items = CardMonstersService.Create().GetAllCardMonsters(type);
                 break;
-            case "military":
+            case "SummonCardMilitary":
                 items = CardMilitaryService.Create().GetAllCardMilitary(type);
                 break;
-            case "spell":
+            case "SummonCardSpell":
                 items = CardSpellService.Create().GetAllCardSpell(type);
                 break;
-            case "colonels":
+            case "SummonCardColonels":
                 items = CardColonelsService.Create().GetAllCardColonels(type);
                 break;
-            case "generals":
+            case "SummonCardGenerals":
                 items = CardGeneralsService.Create().GetAllCardGenerals(type);
                 break;
-            case "admirals":
+            case "SummonCardAdmirals":
                 items = CardAdmiralsService.Create().GetAllCardAdmirals(type);
                 break;
             default:
@@ -66,7 +65,7 @@ public class GachaSystem : MonoBehaviour
         backImage = Resources.Load<Texture>("UI/Frame_5");
         if (backImage == null)
         {
-            Debug.LogError("Back image not found in Resources!");
+            Debug.LogError(MessageHelper.ImageConstants.ImageIsNull);
             return;
         }
 
@@ -79,7 +78,7 @@ public class GachaSystem : MonoBehaviour
 
         if (cardPrefab == null)
         {
-            Debug.LogError("Card prefab is null! Check if the prefab is correctly loaded.");
+            Debug.LogError(MessageHelper.PrefabConstants.PrefabIsNull);
             return;
         }
 
@@ -90,15 +89,16 @@ public class GachaSystem : MonoBehaviour
         {
             // Debug.Log("Summoned item: " + item.ToString());
             // Thực hiện logic riêng tùy thuộc vào loại đối tượng
-            if (manager is CardHeroes)
+            if (name.Equals("SummonCardHeroes"))
             {
                 CardHeroes cardItem = item as CardHeroes;
-                if(cardItem != null){
+                if (cardItem != null)
+                {
                     UserCardHeroesService.Create().InsertUserCardHeroes(cardItem);
                     CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardItem.id);
                 }
             }
-            else if (manager is Books)
+            else if (name.Equals("SummonBooks"))
             {
                 Books bookItem = item as Books;
                 if (bookItem != null)
@@ -107,7 +107,7 @@ public class GachaSystem : MonoBehaviour
                     BooksGalleryService.Create().InsertBooksGallery(bookItem.id);
                 }
             }
-            else if (manager is CardCaptains)
+            else if (name.Equals("SummonCardCaptains"))
             {
                 CardCaptains captainItem = item as CardCaptains;
                 if (captainItem != null){
@@ -115,7 +115,7 @@ public class GachaSystem : MonoBehaviour
                     CardCaptainsGalleryService.Create().InsertCardCaptainsGallery(captainItem.id);
                 }
             }
-            else if (manager is CardMonsters)
+            else if (name.Equals("SummonCardMonsters"))
             {
                 CardMonsters monsterItem = item as CardMonsters;
                 if (monsterItem != null){
@@ -123,7 +123,7 @@ public class GachaSystem : MonoBehaviour
                     CardMonstersGalleryService.Create().InsertCardMonstersGallery(monsterItem.id);
                 }
             }
-            else if (manager is CardMilitary)
+            else if (name.Equals("SummonCardMilitary"))
             {
                 CardMilitary militaryItem = item as CardMilitary;
                 if(militaryItem != null){
@@ -131,7 +131,7 @@ public class GachaSystem : MonoBehaviour
                     CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(militaryItem.id);
                 }
             }
-            else if (manager is CardSpell)
+            else if (name.Equals("SummonCardSpell"))
             {
                 CardSpell spellItem = item as CardSpell;
                 if (spellItem != null){
@@ -139,7 +139,7 @@ public class GachaSystem : MonoBehaviour
                     CardSpellGalleryService.Create().InsertCardSpellGallery(spellItem.id);
                 }
             }
-            else if (manager is CardColonels)
+            else if (name.Equals("SummonCardColonels"))
             {
                 CardColonels spellItem = item as CardColonels;
                 if (spellItem != null){
@@ -147,7 +147,7 @@ public class GachaSystem : MonoBehaviour
                     CardColonelsGalleryService.Create().InsertCardColonelsGallery(spellItem.id);
                 }
             }
-            else if (manager is CardGenerals)
+            else if (name.Equals("SummonCardGenerals"))
             {
                 CardGenerals spellItem = item as CardGenerals;
                 if (spellItem != null){
@@ -155,7 +155,7 @@ public class GachaSystem : MonoBehaviour
                     CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(spellItem.id);
                 }
             }
-            else if (manager is CardAdmirals)
+            else if (name.Equals("SummonCardAdmirals"))
             {
                 CardAdmirals spellItem = item as CardAdmirals;
                 if (spellItem != null){

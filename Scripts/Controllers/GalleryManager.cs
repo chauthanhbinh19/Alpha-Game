@@ -14,12 +14,10 @@ public class GalleryManager : MonoBehaviour
     private GameObject buttonPrefab;
     private GameObject DictionaryPanel;
     private Transform MainPanel;
-    private GameObject cardsPrefab;
     private Transform DictionaryContentPanel;
     private Transform TabButtonPanel;
     private Button CloseButton;
     private Button HomeButton;
-    private GameObject equipmentsPrefab;
     //Variable for pagination
     private int offset;
     private int currentPage;
@@ -40,8 +38,6 @@ public class GalleryManager : MonoBehaviour
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
 
         AssignButtonEvent("Button_1", () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", () => GetType("Books"));
@@ -137,13 +133,13 @@ public class GalleryManager : MonoBehaviour
                 if (i == 0)
                 {
                     subType = subtype;
-                    ChangeButtonBackground(button, "Background_V4_166");
+                    ButtonLoader.Instance.ChangeButtonBackground(button, "Background_V4_166");
                     int totalRecord = 0;
                     if (mainType.Equals("CardHeroes"))
                     {
                         
                         List<CardHeroes> cards = CardHeroesService.Create().GetCardHeroes(subtype, pageSize, offset);
-                        createCardHeroes(cards);
+                        CardHeroesController.Instance.CreateCardHeroesGallery(cards, DictionaryContentPanel);
 
                         totalRecord = CardHeroesService.Create().GetCardHeroesCount(subtype);
                     }
@@ -151,7 +147,7 @@ public class GalleryManager : MonoBehaviour
                     {
                         
                         List<Books> books = BooksService.Create().GetBooks(subtype, pageSize, offset);
-                        createBooks(books);
+                        BooksController.Instance.CreateBooksGallery(books, DictionaryContentPanel);
 
                         totalRecord = BooksService.Create().GetBooksCount(subtype);
                     }
@@ -159,7 +155,7 @@ public class GalleryManager : MonoBehaviour
                     {
                         
                         List<CardCaptains> captains = CardCaptainsService.Create().GetCardCaptains(subtype, pageSize, offset);
-                        createCardCaptains(captains);
+                        CardCaptainsController.Instance.CreateCardCaptainsGallery(captains, DictionaryContentPanel);
 
                         totalRecord = CardCaptainsService.Create().GetCardCaptainsCount(subtype);
                     }
@@ -167,7 +163,7 @@ public class GalleryManager : MonoBehaviour
                     {
                         
                         List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipments(subtype, pageSize, offset);
-                        createCollaborationEquipments(collaborationEquipments);
+                        CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
 
                         totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentCount(subtype);
                     }
@@ -175,7 +171,7 @@ public class GalleryManager : MonoBehaviour
                     {
                         
                         List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subtype, pageSize, offset);
-                        createEquipments(equipments);
+                        EquipmentsController.Instance.CreateEquipmentsGallery(equipments, DictionaryContentPanel);
 
                         totalRecord = EquipmentsService.Create().GetEquipmentsCount(subtype);
                     }
@@ -183,7 +179,7 @@ public class GalleryManager : MonoBehaviour
                     {
                         
                         List<Pets> pets = PetsService.Create().GetPets(subtype, pageSize, offset);
-                        createPets(pets);
+                        PetsController.Instance.CreatePetsGallery(pets, DictionaryContentPanel);
 
                         totalRecord = PetsService.Create().GetPetsCount(subtype);
                     }
@@ -191,7 +187,7 @@ public class GalleryManager : MonoBehaviour
                     {
                         
                         List<Skills> skills = SkillsService.Create().GetSkills(subtype, pageSize, offset);
-                        createSkills(skills);
+                        SkillsController.Instance.CreateSkillsGallery(skills, DictionaryContentPanel);
 
                         totalRecord = SkillsService.Create().GetSkillsCount(subtype);
                     }
@@ -199,23 +195,23 @@ public class GalleryManager : MonoBehaviour
                     {
                         
                         List<Symbols> symbols = SymbolsService.Create().GetSymbols(subtype, pageSize, offset);
-                        createSymbols(symbols);
+                        SymbolsController.Instance.CreateSymbolsGallery(symbols, DictionaryContentPanel);
 
                         totalRecord = SymbolsService.Create().GetSymbolsCount(subtype);
                     }
                     else if (mainType.Equals("CardMilitary"))
                     {
                         
-                        List<CardMilitary> militaryList = CardMilitaryService.Create().GetCardMilitary(subtype, pageSize, offset);
-                        createCardMilitary(militaryList);
+                        List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitary(subtype, pageSize, offset);
+                        CardMilitaryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
 
                         totalRecord = CardMilitaryService.Create().GetCardMilitaryCount(subType);
                     }
                     else if (mainType.Equals("CardSpell"))
                     {
                         
-                        List<CardSpell> spellList = CardSpellService.Create().GetCardSpell(subtype, pageSize, offset);
-                        createCardSpell(spellList);
+                        List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpell(subtype, pageSize, offset);
+                        CardSpellController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
 
                         totalRecord = CardSpellService.Create().GetCardSpellCount(subType);
                     }
@@ -223,82 +219,82 @@ public class GalleryManager : MonoBehaviour
                     {
                         
                         List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircle(subtype, pageSize, offset);
-                        createMagicFormationCircle(magicFormationCircles);
+                        MagicFormationCircleController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
 
                         totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleCount(subType);
                     }
                     else if (mainType.Equals("Relics"))
                     {
                         
-                        List<Relics> relicsList = RelicsService.Create().GetRelics(subtype, pageSize, offset);
-                        createRelics(relicsList);
+                        List<Relics> relics = RelicsService.Create().GetRelics(subtype, pageSize, offset);
+                        RelicsController.Instance.CreateRelicsGallery(relics, DictionaryContentPanel);
 
                         totalRecord = RelicsService.Create().GetRelicsCount(subType);
                     }
                     else if (mainType.Equals("CardMonsters"))
                     {
                         
-                        List<CardMonsters> monstersList = CardMonstersService.Create().GetCardMonsters(subtype, pageSize, offset);
-                        createCardMonsters(monstersList);
+                        List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonsters(subtype, pageSize, offset);
+                        CardMonstersController.Instance.CreateCardMonstersGallery(cardMonsters, DictionaryContentPanel);
 
                         totalRecord = CardMonstersService.Create().GetCardMonstersCount(subType);
                     }
                     else if (mainType.Equals("CardColonels"))
                     {
                         
-                        List<CardColonels> colonels = CardColonelsService.Create().GetCardColonels(subtype, pageSize, offset);
-                        createCardColonels(colonels);
+                        List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonels(subtype, pageSize, offset);
+                        CardColonelsController.Instance.CreateCardColonelsGallery(cardColonels, DictionaryContentPanel);
 
                         totalRecord = CardColonelsService.Create().GetCardColonelsCount(subType);
                     }
                     else if (mainType.Equals("CardGenerals"))
                     {
                         
-                        List<CardGenerals> relicsList = CardGeneralsService.Create().GetCardGenerals(subtype, pageSize, offset);
-                        createCardGenerals(relicsList);
+                        List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGenerals(subtype, pageSize, offset);
+                        CardGeneralsController.Instance.CreateCardGeneralsGallery(cardGenerals, DictionaryContentPanel);
 
                         totalRecord = CardGeneralsService.Create().GetCardGeneralsCount(subType);
                     }
                     else if (mainType.Equals("CardAdmirals"))
                     {
                         
-                        List<CardAdmirals> relicsList = CardAdmiralsService.Create().GetCardAdmirals(subtype, pageSize, offset);
-                        createCardAdmirals(relicsList);
+                        List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmirals(subtype, pageSize, offset);
+                        CardAdmiralsController.Instance.CreateCardAdmiralsGallery(cardAdmirals, DictionaryContentPanel);
 
                         totalRecord = CardAdmiralsService.Create().GetCardAdmiralsCount(subType);
                     }
                     else if (mainType.Equals("Talisman"))
                     {
                         List<Talisman> talismans = TalismanService.Create().GetTalisman(subType, pageSize, offset);
-                        createTalisman(talismans);
+                        TalismanController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
 
                         totalRecord = TalismanService.Create().GetTalismanCount(subType);
                     }
                     else if (mainType.Equals("Puppet"))
                     {
                         List<Puppet> puppets = PuppetService.Create().GetPuppet(subType, pageSize, offset);
-                        createPuppet(puppets);
+                        PuppetController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
 
                         totalRecord = PuppetService.Create().GetPuppetCount(subType);
                     }
                     else if (mainType.Equals("Alchemy"))
                     {
                         List<Alchemy> alchemies = AlchemyService.Create().GetAlchemy(subType, pageSize, offset);
-                        createAlchemy(alchemies);
+                        AlchemyController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
 
                         totalRecord = AlchemyService.Create().GetAlchemyCount(subType);
                     }
                     else if (mainType.Equals("Forge"))
                     {
                         List<Forge> forges = ForgeService.Create().GetForge(subType, pageSize, offset);
-                        createForge(forges);
+                        ForgeController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
 
                         totalRecord = ForgeService.Create().GetForgeCount(subType);
                     }
                     else if (mainType.Equals("CardLife"))
                     {
                         List<CardLife> cardLives = CardLifeService.Create().GetCardLife(subType, pageSize, offset);
-                        createCardLife(cardLives);
+                        CardLifeController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
 
                         totalRecord = CardLifeService.Create().GetCardLifeCount(subType);
                     }
@@ -309,7 +305,7 @@ public class GalleryManager : MonoBehaviour
                 }
                 else
                 {
-                    ChangeButtonBackground(button, "Background_V4_167");
+                    ButtonLoader.Instance.ChangeButtonBackground(button, "Background_V4_167");
                 }
             }
         }
@@ -319,28 +315,28 @@ public class GalleryManager : MonoBehaviour
             if (mainType.Equals("Collaborations"))
             {
                 List<Collaboration> collaborations = CollaborationService.Create().GetCollaboration(pageSize, offset);
-                createCollaboration(collaborations);
+                CollaborationController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
 
                 totalRecord = CollaborationService.Create().GetCollaborationCount();
             }
             else if (mainType.Equals("Medals"))
             {
                 List<Medals> medalsList = MedalsService.Create().GetMedals(pageSize, offset);
-                createMedals(medalsList);
+                MedalsController.Instance.CreateMedalsGallery(medalsList, DictionaryContentPanel);
 
                 totalRecord = MedalsService.Create().GetMedalsCount();
             }
             else if (mainType.Equals("Titles"))
             {
-                List<Titles> titlesList = TitlesService.Create().GetTitles(pageSize, offset);
-                createTitles(titlesList);
+                List<Titles> titles = TitlesService.Create().GetTitles(pageSize, offset);
+                TitlesController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
 
                 totalRecord = TitlesService.Create().GetTitlesCount();
             }
             else if (mainType.Equals("Borders"))
             {
                 List<Borders> borders = BordersService.Create().GetBorders(pageSize, offset);
-                createBorders(borders);
+                BordersController.Instance.CreateBordersGallery(borders, DictionaryContentPanel);
 
                 totalRecord = BordersService.Create().GetBordersCount();
             }
@@ -359,7 +355,7 @@ public class GalleryManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, "Background_V4_167"); // Giả sử bạn có texture trắng
+                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, "Background_V4_167"); // Giả sử bạn có texture trắng
             }
         }
 
@@ -367,14 +363,14 @@ public class GalleryManager : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ChangeButtonBackground(clickedButton, "Background_V4_166");
+        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_166");
         int totalRecord = 0;
 
         if (mainType.Equals("CardHeroes"))
         {
             
             List<CardHeroes> cards = CardHeroesService.Create().GetCardHeroes(type, pageSize, offset);
-            createCardHeroes(cards);
+            CardHeroesController.Instance.CreateCardHeroesGallery(cards, DictionaryContentPanel);
 
             totalRecord = CardHeroesService.Create().GetCardHeroesCount(type);
         }
@@ -382,7 +378,7 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<Books> books = BooksService.Create().GetBooks(type, pageSize, offset);
-            createBooks(books);
+            BooksController.Instance.CreateBooksGallery(books, DictionaryContentPanel);
 
             totalRecord = BooksService.Create().GetBooksCount(type);
         }
@@ -390,7 +386,7 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<CardCaptains> captains = CardCaptainsService.Create().GetCardCaptains(type, pageSize, offset);
-            createCardCaptains(captains);
+            CardCaptainsController.Instance.CreateCardCaptainsGallery(captains, DictionaryContentPanel);
 
             totalRecord = CardCaptainsService.Create().GetCardCaptainsCount(type);
         }
@@ -398,7 +394,7 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipments(type, pageSize, offset);
-            createCollaborationEquipments(collaborationEquipments);
+            CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
 
             totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentCount(type);
         }
@@ -406,7 +402,7 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<Equipments> equipments = EquipmentsService.Create().GetEquipments(type, pageSize, offset);
-            createEquipments(equipments);
+            EquipmentsController.Instance.CreateEquipmentsGallery(equipments, DictionaryContentPanel);
 
             totalRecord = EquipmentsService.Create().GetEquipmentsCount(type);
         }
@@ -414,7 +410,7 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<Pets> pets = PetsService.Create().GetPets(type, pageSize, offset);
-            createPets(pets);
+            PetsController.Instance.CreatePetsGallery(pets, DictionaryContentPanel);
 
             totalRecord = PetsService.Create().GetPetsCount(type);
         }
@@ -422,7 +418,7 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<Skills> skills = SkillsService.Create().GetSkills(type, pageSize, offset);
-            createSkills(skills);
+            SkillsController.Instance.CreateSkillsGallery(skills, DictionaryContentPanel);
 
             totalRecord = SkillsService.Create().GetSkillsCount(type);
         }
@@ -430,23 +426,23 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<Symbols> symbols = SymbolsService.Create().GetSymbols(type, pageSize, offset);
-            createSymbols(symbols);
+            SymbolsController.Instance.CreateSymbolsGallery(symbols, DictionaryContentPanel);
 
             totalRecord = SymbolsService.Create().GetSymbolsCount(type);
         }
         else if (mainType.Equals("CardMilitary"))
         {
             
-            List<CardMilitary> militaryList = CardMilitaryService.Create().GetCardMilitary(type, pageSize, offset);
-            createCardMilitary(militaryList);
+            List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitary(type, pageSize, offset);
+            CardMilitaryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
 
             totalRecord = CardMilitaryService.Create().GetCardMilitaryCount(type);
         }
         else if (mainType.Equals("CardSpell"))
         {
             
-            List<CardSpell> spellList = CardSpellService.Create().GetCardSpell(type, pageSize, offset);
-            createCardSpell(spellList);
+            List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpell(type, pageSize, offset);
+            CardSpellController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
 
             totalRecord = CardSpellService.Create().GetCardSpellCount(type);
         }
@@ -454,23 +450,23 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircle(type, pageSize, offset);
-            createMagicFormationCircle(magicFormationCircles);
+            MagicFormationCircleController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
 
             totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleCount(subType);
         }
         else if (mainType.Equals("Relics"))
         {
             
-            List<Relics> relicsList = RelicsService.Create().GetRelics(type, pageSize, offset);
-            createRelics(relicsList);
+            List<Relics> relics = RelicsService.Create().GetRelics(type, pageSize, offset);
+            RelicsController.Instance.CreateRelicsGallery(relics, DictionaryContentPanel);
 
             totalRecord = RelicsService.Create().GetRelicsCount(subType);
         }
         else if (mainType.Equals("CardMonsters"))
         {
             
-            List<CardMonsters> monsters = CardMonstersService.Create().GetCardMonsters(type, pageSize, offset);
-            createCardMonsters(monsters);
+            List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonsters(type, pageSize, offset);
+            CardMonstersController.Instance.CreateCardMonstersGallery(cardMonsters, DictionaryContentPanel);
 
             totalRecord = CardMonstersService.Create().GetCardMonstersCount(type);
         }
@@ -478,7 +474,7 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonels(type, pageSize, offset);
-            createCardColonels(cardColonels);
+            CardColonelsController.Instance.CreateCardColonelsGallery(cardColonels, DictionaryContentPanel);
 
             totalRecord = CardColonelsService.Create().GetCardColonelsCount(subType);
         }
@@ -486,7 +482,7 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGenerals(type, pageSize, offset);
-            createCardGenerals(cardGenerals);
+            CardGeneralsController.Instance.CreateCardGeneralsGallery(cardGenerals, DictionaryContentPanel);
 
             totalRecord = CardGeneralsService.Create().GetCardGeneralsCount(subType);
         }
@@ -494,42 +490,42 @@ public class GalleryManager : MonoBehaviour
         {
             
             List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmirals(type, pageSize, offset);
-            createCardAdmirals(cardAdmirals);
+            CardAdmiralsController.Instance.CreateCardAdmiralsGallery(cardAdmirals, DictionaryContentPanel);
 
             totalRecord = CardAdmiralsService.Create().GetCardAdmiralsCount(type);
         }
         else if (mainType.Equals("Talisman"))
         {
             List<Talisman> talismans = TalismanService.Create().GetTalisman(type, pageSize, offset);
-            createTalisman(talismans);
+            TalismanController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
 
             totalRecord = TalismanService.Create().GetTalismanCount(type);
         }
         else if (mainType.Equals("Puppet"))
         {
             List<Puppet> puppets = PuppetService.Create().GetPuppet(type, pageSize, offset);
-            createPuppet(puppets);
+            PuppetController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
 
             totalRecord = PuppetService.Create().GetPuppetCount(type);
         }
         else if (mainType.Equals("Alchemy"))
         {
             List<Alchemy> alchemies = AlchemyService.Create().GetAlchemy(type, pageSize, offset);
-            createAlchemy(alchemies);
+            AlchemyController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
 
             totalRecord = AlchemyService.Create().GetAlchemyCount(type);
         }
         else if (mainType.Equals("Forge"))
         {
             List<Forge> forges = ForgeService.Create().GetForge(type, pageSize, offset);
-            createForge(forges);
+            ForgeController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
 
             totalRecord = ForgeService.Create().GetForgeCount(type);
         }
         else if (mainType.Equals("CardLife"))
         {
             List<CardLife> cardLives = CardLifeService.Create().GetCardLife(type, pageSize, offset);
-            createCardLife(cardLives);
+            CardLifeController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
 
             totalRecord = CardLifeService.Create().GetCardLifeCount(type);
         }
@@ -537,1219 +533,6 @@ public class GalleryManager : MonoBehaviour
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         // Debug.Log($"Button for type '{type}' clicked!");
-    }
-    private void ChangeButtonBackground(GameObject button, string image)
-    {
-        RawImage buttonImage = button.GetComponent<RawImage>();
-        if (buttonImage != null)
-        {
-            Texture texture = Resources.Load<Texture>($"UI/Background4/{image}");
-            if (texture != null)
-            {
-                buttonImage.texture = texture;
-            }
-            else
-            {
-                Debug.LogError($"Texture '{image}' not found in Resources.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Button does not have a RawImage component.");
-        }
-    }
-    private void createCardHeroes(List<CardHeroes> cards)
-    {
-        foreach (var card in cards)
-        {
-            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = card.name.Replace("_", " ");
-
-            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = card.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            // Lấy EventTrigger của RawImage
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(card, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createBooks(List<Books> books)
-    {
-        foreach (var book in books)
-        {
-            GameObject bookObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = book.name.Replace("_", " ");
-
-            RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = book.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(book, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
-            rareImage.texture = rareTexture;
-            // Đặt kích thước gốc
-            Image.SetNativeSize();
-
-            // Thay đổi tỉ lệ
-            if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
-            {
-                Image.transform.localScale = new Vector3(0.32f, 0.32f, 0.32f);
-            }
-            else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
-            {
-                Image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
-            }
-            else if (texture.width <= 700 && texture.height <= 700)
-            {
-                Image.transform.localScale = new Vector3(0.60f, 0.6f, 0.6f);
-            }
-            else if (texture.width <= 700 && texture.height <= 1100)
-            {
-                Image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-            }
-            else if (texture.width > 700 && texture.height <= 700)
-            {
-                Image.transform.localScale = new Vector3(0.3f, 0.4f, 0.3f);
-            }
-            else
-            {
-                Image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
-            }
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(280, 300);
-        }
-    }
-    private void createCardCaptains(List<CardCaptains> captainsList)
-    {
-        foreach (var captain in captainsList)
-        {
-            GameObject captainsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = captain.name.Replace("_", " ");
-
-            RawImage Image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = captain.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(captain, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = captainsObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createCollaboration(List<Collaboration> collaborationList)
-    {
-        foreach (var collaboration in collaborationList)
-        {
-            GameObject collaborationObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = collaboration.name.Replace("_", " ");
-
-            RawImage Image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = collaboration.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(collaboration, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = collaborationObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            rareImage.texture = rareTexture;
-
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(280, 230);
-        }
-    }
-    private void createCollaborationEquipments(List<CollaborationEquipment> collaborationEquipmentList)
-    {
-        foreach (var collaborationEquipment in collaborationEquipmentList)
-        {
-            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = collaborationEquipment.name.Replace("_", " ");
-
-            RawImage Image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(collaborationEquipment, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = collaborationEquipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 230);
-        }
-    }
-    private void createEquipments(List<Equipments> equipmentList)
-    {
-        foreach (var equipment in equipmentList)
-        {
-            GameObject equipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = equipment.name.Replace("_", " ");
-
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = equipment.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(equipment, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-            // cardImage.SetNativeSize();
-            // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
-
-            RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 230);
-        }
-    }
-    private void createMedals(List<Medals> medalsList)
-    {
-        foreach (var medal in medalsList)
-        {
-            GameObject medalObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = medal.name.Replace("_", " ");
-
-            RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = medal.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(medal, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = medalObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 230);
-        }
-    }
-    private void createCardMonsters(List<CardMonsters> monstersList)
-    {
-        foreach (var monster in monstersList)
-        {
-            GameObject monstersObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = monstersObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = monster.name.Replace("_", " ");
-
-            RawImage Image = monstersObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = monster.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(monster, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = monstersObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monster.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createPets(List<Pets> petsList)
-    {
-        Debug.Log(petsList.Count);
-        foreach (var pet in petsList)
-        {
-            GameObject petsObject;
-            if (pet.type.Equals("Legendary_Dragon") || pet.type.Equals("Naruto_Bijuu") || pet.type.Equals("Naruto_Susanoo") || pet.type.Equals("One_Piece_Ship") || pet.type.Equals("Prime_Monster"))
-            {
-                petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-                RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
-                Background.gameObject.SetActive(true);
-
-                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-                if (gridLayout != null)
-                {
-                    gridLayout.cellSize = new Vector2(280, 280);
-                }
-            }
-            else
-            {
-                petsObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-                if (gridLayout != null)
-                {
-                    gridLayout.cellSize = new Vector2(200, 230);
-                }
-            }
-
-            Text Title = petsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = pet.name.Replace("_", " ");
-
-            RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = pet.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(pet, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            if (pet.type.Equals("Prime_Monster"))
-            {
-                Image.SetNativeSize();
-                Image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            }
-
-            RawImage rareImage = petsObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            rareImage.texture = rareTexture;
-
-        }
-    }
-    private void createSkills(List<Skills> skillsList)
-    {
-        foreach (var skill in skillsList)
-        {
-            GameObject skillObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = skillObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = skill.name.Replace("_", " ");
-
-            RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = skill.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(skill, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-            // cardImage.SetNativeSize();
-            // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
-
-            RawImage rareImage = skillObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 230);
-        }
-    }
-    private void createSymbols(List<Symbols> symbolsList)
-    {
-        foreach (var symbol in symbolsList)
-        {
-            GameObject symbolObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = symbol.name.Replace("_", " ");
-
-            RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = symbol.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(symbol, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-            // cardImage.SetNativeSize();
-            // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
-
-            RawImage rareImage = symbolObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = symbolObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 230);
-        }
-    }
-    private void createTitles(List<Titles> titlesList)
-    {
-        foreach (var title in titlesList)
-        {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.name.Replace("_", " ");
-
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = title.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(title, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 230);
-        }
-    }
-    private void createCardMilitary(List<CardMilitary> militaryList)
-    {
-        foreach (var military in militaryList)
-        {
-            GameObject militaryObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = military.name.Replace("_", " ");
-
-            RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = military.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(military, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = militaryObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createCardSpell(List<CardSpell> spellList)
-    {
-        foreach (var spell in spellList)
-        {
-            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
-
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spell.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(spell, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createCardColonels(List<CardColonels> cardColonels)
-    {
-        foreach (var spell in cardColonels)
-        {
-            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
-
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spell.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(spell, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createCardGenerals(List<CardGenerals> cardGenerals)
-    {
-        foreach (var spell in cardGenerals)
-        {
-            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
-
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spell.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(spell, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createCardAdmirals(List<CardAdmirals> cardAdmirals)
-    {
-        foreach (var spell in cardAdmirals)
-        {
-            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
-
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spell.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(spell, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createMagicFormationCircle(List<MagicFormationCircle> magicFormationCircles)
-    {
-        foreach (var magicFormationCircle in magicFormationCircles)
-        {
-            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = magicFormationCircle.name.Replace("_", " ");
-
-            RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(magicFormationCircle, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
-            rareImage.texture = rareTexture;
-
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createRelics(List<Relics> relics)
-    {
-        foreach (var relic in relics)
-        {
-            GameObject relicObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = relic.name.Replace("_", " ");
-
-            RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = relic.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            // RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(relic, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = relicObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
-            rareImage.texture = rareTexture;
-
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createBorders(List<Borders> borders)
-    {
-        foreach (var border in borders)
-        {
-            GameObject borderObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = borderObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = border.name.Replace("_", " ");
-
-            RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = border.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(border, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = borderObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{border.rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = borderObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 230);
-        }
-    }
-    private void createTalisman(List<Talisman> talismans)
-    {
-        foreach (var talisman in talismans)
-        {
-            GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = talisman.name.Replace("_", " ");
-
-            RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = talisman.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(talisman, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
-            rareImage.texture = rareTexture;
-
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createPuppet(List<Puppet> puppets)
-    {
-        foreach (var puppet in puppets)
-        {
-            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = puppet.name.Replace("_", " ");
-
-            RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = puppet.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(puppet, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
-            rareImage.texture = rareTexture;
-
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createAlchemy(List<Alchemy> alchemies)
-    {
-        foreach (var magicFormationCircle in alchemies)
-        {
-            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = magicFormationCircle.name.Replace("_", " ");
-
-            RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(magicFormationCircle, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
-            rareImage.texture = rareTexture;
-
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createForge(List<Forge> forges)
-    {
-        foreach (var forge in forges)
-        {
-            GameObject forgeObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
-
-            Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = forge.name.Replace("_", " ");
-
-            RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = forge.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            // RawImage frameImage = forgeObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(forge, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = forgeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
-            rareImage.texture = rareTexture;
-
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
-    }
-    private void createCardLife(List<CardLife> cards)
-    {
-        foreach (var card in cards)
-        {
-            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
-
-            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = card.name.Replace("_", " ");
-
-            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = card.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            // Lấy EventTrigger của RawImage
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(card, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-
-            RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
-            rareImage.texture = rareTexture;
-        }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(200, 250);
-        }
     }
     public void ClearAllPrefabs()
     {
@@ -1787,7 +570,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<CardHeroes> cards = CardHeroesService.Create().GetCardHeroes(subType, pageSize, offset);
-                createCardHeroes(cards);
+                CardHeroesController.Instance.CreateCardHeroesGallery(cards, DictionaryContentPanel);
             }
             else if (mainType.Equals("Books"))
             {
@@ -1797,7 +580,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Books> books = BooksService.Create().GetBooks(subType, pageSize, offset);
-                createBooks(books);
+                BooksController.Instance.CreateBooksGallery(books, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardCaptains"))
             {
@@ -1806,8 +589,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardCaptains> army = CardCaptainsService.Create().GetCardCaptains(subType, pageSize, offset);
-                createCardCaptains(army);
+                List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptains(subType, pageSize, offset);
+                CardCaptainsController.Instance.CreateCardCaptainsGallery(cardCaptains, DictionaryContentPanel);
             }
             else if (mainType.Equals("CollaborationEquipments"))
             {
@@ -1817,7 +600,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipments(subType, pageSize, offset);
-                createCollaborationEquipments(collaborationEquipments);
+                CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
             }
             else if (mainType.Equals("Collaborations"))
             {
@@ -1825,8 +608,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Collaboration> collaboration = CollaborationService.Create().GetCollaboration(pageSize, offset);
-                createCollaboration(collaboration);
+                List<Collaboration> collaborations = CollaborationService.Create().GetCollaboration(pageSize, offset);
+                CollaborationController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
             }
             else if (mainType.Equals("Equipments"))
             {
@@ -1835,7 +618,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset);
-                createEquipments(equipments);
+                EquipmentsController.Instance.CreateEquipmentsGallery(equipments, DictionaryContentPanel);
             }
             else if (mainType.Equals("Medals"))
             {
@@ -1844,7 +627,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Medals> medalsList = MedalsService.Create().GetMedals(pageSize, offset);
-                createMedals(medalsList);
+                MedalsController.Instance.CreateMedalsGallery(medalsList, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardMonsters"))
             {
@@ -1853,8 +636,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardMonsters> monstersList = CardMonstersService.Create().GetCardMonsters(subType, pageSize, offset);
-                createCardMonsters(monstersList);
+                List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonsters(subType, pageSize, offset);
+                CardMonstersController.Instance.CreateCardMonstersGallery(cardMonsters, DictionaryContentPanel);
             }
             else if (mainType.Equals("Pets"))
             {
@@ -1863,8 +646,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Pets> petsList = PetsService.Create().GetPets(subType, pageSize, offset);
-                createPets(petsList);
+                List<Pets> pets = PetsService.Create().GetPets(subType, pageSize, offset);
+                PetsController.Instance.CreatePetsGallery(pets, DictionaryContentPanel);
             }
             else if (mainType.Equals("Skills"))
             {
@@ -1873,8 +656,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Skills> skillsList = SkillsService.Create().GetSkills(subType, pageSize, offset);
-                createSkills(skillsList);
+                List<Skills> skills = SkillsService.Create().GetSkills(subType, pageSize, offset);
+                SkillsController.Instance.CreateSkillsGallery(skills, DictionaryContentPanel);
             }
             else if (mainType.Equals("Symbols"))
             {
@@ -1883,8 +666,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Symbols> symbolsList = SymbolsService.Create().GetSymbols(subType, pageSize, offset);
-                createSymbols(symbolsList);
+                List<Symbols> symbols = SymbolsService.Create().GetSymbols(subType, pageSize, offset);
+                SymbolsController.Instance.CreateSymbolsGallery(symbols, DictionaryContentPanel);
             }
             else if (mainType.Equals("Titles"))
             {
@@ -1893,8 +676,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Titles> titlesList = TitlesService.Create().GetTitles(pageSize, offset);
-                createTitles(titlesList);
+                List<Titles> titles = TitlesService.Create().GetTitles(pageSize, offset);
+                TitlesController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardMilitary"))
             {
@@ -1903,8 +686,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardMilitary> militaryList = CardMilitaryService.Create().GetCardMilitary(subType, pageSize, offset);
-                createCardMilitary(militaryList);
+                List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitary(subType, pageSize, offset);
+                CardMilitaryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardSpell"))
             {
@@ -1913,8 +696,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardSpell> spellList = CardSpellService.Create().GetCardSpell(subType, pageSize, offset);
-                createCardSpell(spellList);
+                List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpell(subType, pageSize, offset);
+                CardSpellController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
             }
             else if (mainType.Equals("MagicFormationCircle"))
             {
@@ -1924,7 +707,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircle(subType, pageSize, offset);
-                createMagicFormationCircle(magicFormationCircles);
+                MagicFormationCircleController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
             }
             else if (mainType.Equals("Relics"))
             {
@@ -1933,8 +716,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Relics> relicsList = RelicsService.Create().GetRelics(subType, pageSize, offset);
-                createRelics(relicsList);
+                List<Relics> relics = RelicsService.Create().GetRelics(subType, pageSize, offset);
+                RelicsController.Instance.CreateRelicsGallery(relics, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardColonels"))
             {
@@ -1942,8 +725,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardColonels> relicsList = CardColonelsService.Create().GetCardColonels(subType, pageSize, offset);
-                createCardColonels(relicsList);
+                List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonels(subType, pageSize, offset);
+                CardColonelsController.Instance.CreateCardColonelsGallery(cardColonels, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardGenerals"))
             {
@@ -1951,8 +734,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardGenerals> relicsList = CardGeneralsService.Create().GetCardGenerals(subType, pageSize, offset);
-                createCardGenerals(relicsList);
+                List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGenerals(subType, pageSize, offset);
+                CardGeneralsController.Instance.CreateCardGeneralsGallery(cardGenerals, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardAdmirals"))
             {
@@ -1960,8 +743,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardAdmirals> relicsList = CardAdmiralsService.Create().GetCardAdmirals(subType, pageSize, offset);
-                createCardAdmirals(relicsList);
+                List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmirals(subType, pageSize, offset);
+                CardAdmiralsController.Instance.CreateCardAdmiralsGallery(cardAdmirals, DictionaryContentPanel);
             }
             else if (mainType.Equals("Borders"))
             {
@@ -1970,7 +753,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Borders> borders = BordersService.Create().GetBorders(pageSize, offset);
-                createBorders(borders);
+                BordersController.Instance.CreateBordersGallery(borders, DictionaryContentPanel);
             }
             else if (mainType.Equals("Talisman"))
             {
@@ -1979,7 +762,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Talisman> talismans = TalismanService.Create().GetTalisman(subType, pageSize, offset);
-                createTalisman(talismans);
+                TalismanController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
             }
             else if (mainType.Equals("Puppet"))
             {
@@ -1988,7 +771,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Puppet> puppets = PuppetService.Create().GetPuppet(subType, pageSize, offset);
-                createPuppet(puppets);
+                PuppetController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
             }
             else if (mainType.Equals("Alchemy"))
             {
@@ -1997,7 +780,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Alchemy> alchemies = AlchemyService.Create().GetAlchemy(subType, pageSize, offset);
-                createAlchemy(alchemies);
+                AlchemyController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
             }
             else if (mainType.Equals("Forge"))
             {
@@ -2006,7 +789,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Forge> forges = ForgeService.Create().GetForge(subType, pageSize, offset);
-                createForge(forges);
+                ForgeController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardLife"))
             {
@@ -2015,7 +798,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<CardLife> cardLives = CardLifeService.Create().GetCardLife(subType, pageSize, offset);
-                createCardLife(cardLives);
+                CardLifeController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
             }
 
 
@@ -2038,7 +821,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<CardHeroes> cards = CardHeroesService.Create().GetCardHeroes(subType, pageSize, offset);
-                createCardHeroes(cards);
+                CardHeroesController.Instance.CreateCardHeroesGallery(cards, DictionaryContentPanel);
             }
             else if (mainType.Equals("Books"))
             {
@@ -2048,7 +831,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Books> books = BooksService.Create().GetBooks(subType, pageSize, offset);
-                createBooks(books);
+                BooksController.Instance.CreateBooksGallery(books, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardCaptains"))
             {
@@ -2057,8 +840,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardCaptains> army = CardCaptainsService.Create().GetCardCaptains(subType, pageSize, offset);
-                createCardCaptains(army);
+                List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptains(subType, pageSize, offset);
+                CardCaptainsController.Instance.CreateCardCaptainsGallery(cardCaptains, DictionaryContentPanel);
             }
             else if (mainType.Equals("CollaborationEquipments"))
             {
@@ -2068,7 +851,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipments(subType, pageSize, offset);
-                createCollaborationEquipments(collaborationEquipments);
+                CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
             }
             else if (mainType.Equals("Collaborations"))
             {
@@ -2076,8 +859,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Collaboration> collaboration = CollaborationService.Create().GetCollaboration(pageSize, offset);
-                createCollaboration(collaboration);
+                List<Collaboration> collaborations = CollaborationService.Create().GetCollaboration(pageSize, offset);
+                CollaborationController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
             }
             else if (mainType.Equals("Equipments"))
             {
@@ -2086,7 +869,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset);
-                createEquipments(equipments);
+                EquipmentsController.Instance.CreateEquipmentsGallery(equipments, DictionaryContentPanel);
             }
             else if (mainType.Equals("Medals"))
             {
@@ -2095,7 +878,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Medals> medalsList = MedalsService.Create().GetMedals(pageSize, offset);
-                createMedals(medalsList);
+                MedalsController.Instance.CreateMedalsGallery(medalsList, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardMonsters"))
             {
@@ -2104,8 +887,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardMonsters> monstersList = CardMonstersService.Create().GetCardMonsters(subType, pageSize, offset);
-                createCardMonsters(monstersList);
+                List<CardMonsters> monsters = CardMonstersService.Create().GetCardMonsters(subType, pageSize, offset);
+                CardMonstersController.Instance.CreateCardMonstersGallery(monsters, DictionaryContentPanel);
             }
             else if (mainType.Equals("Pets"))
             {
@@ -2114,8 +897,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Pets> petsList = PetsService.Create().GetPets(subType, pageSize, offset);
-                createPets(petsList);
+                List<Pets> pets = PetsService.Create().GetPets(subType, pageSize, offset);
+                PetsController.Instance.CreatePetsGallery(pets, DictionaryContentPanel);
             }
             else if (mainType.Equals("Skills"))
             {
@@ -2124,8 +907,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Skills> skillsList = SkillsService.Create().GetSkills(subType, pageSize, offset);
-                createSkills(skillsList);
+                List<Skills> skills = SkillsService.Create().GetSkills(subType, pageSize, offset);
+                SkillsController.Instance.CreateSkillsGallery(skills, DictionaryContentPanel);
             }
             else if (mainType.Equals("Symbols"))
             {
@@ -2134,8 +917,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Symbols> symbolsList = SymbolsService.Create().GetSymbols(subType, pageSize, offset);
-                createSymbols(symbolsList);
+                List<Symbols> symbols = SymbolsService.Create().GetSymbols(subType, pageSize, offset);
+                SymbolsController.Instance.CreateSymbolsGallery(symbols, DictionaryContentPanel);
             }
             else if (mainType.Equals("Titles"))
             {
@@ -2144,8 +927,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Titles> titlesList = TitlesService.Create().GetTitles(pageSize, offset);
-                createTitles(titlesList);
+                List<Titles> titles = TitlesService.Create().GetTitles(pageSize, offset);
+                TitlesController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardMilitary"))
             {
@@ -2154,8 +937,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardMilitary> militaryList = CardMilitaryService.Create().GetCardMilitary(subType, pageSize, offset);
-                createCardMilitary(militaryList);
+                List<CardMilitary> militaries = CardMilitaryService.Create().GetCardMilitary(subType, pageSize, offset);
+                CardMilitaryController.Instance.CreateCardMilitaryGallery(militaries, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardSpell"))
             {
@@ -2164,8 +947,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardSpell> spellList = CardSpellService.Create().GetCardSpell(subType, pageSize, offset);
-                createCardSpell(spellList);
+                List<CardSpell> spells = CardSpellService.Create().GetCardSpell(subType, pageSize, offset);
+                CardSpellController.Instance.CreateCardSpellGallery(spells, DictionaryContentPanel);
             }
             else if (mainType.Equals("MagicFormationCircle"))
             {
@@ -2175,7 +958,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircle(subType, pageSize, offset);
-                createMagicFormationCircle(magicFormationCircles);
+                MagicFormationCircleController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
             }
             else if (mainType.Equals("Relics"))
             {
@@ -2184,8 +967,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Relics> relicsList = RelicsService.Create().GetRelics(subType, pageSize, offset);
-                createRelics(relicsList);
+                List<Relics> relics = RelicsService.Create().GetRelics(subType, pageSize, offset);
+                RelicsController.Instance.CreateRelicsGallery(relics, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardColonels"))
             {
@@ -2193,8 +976,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardColonels> relicsList = CardColonelsService.Create().GetCardColonels(subType, pageSize, offset);
-                createCardColonels(relicsList);
+                List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonels(subType, pageSize, offset);
+                CardColonelsController.Instance.CreateCardColonelsGallery(cardColonels, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardGenerals"))
             {
@@ -2202,8 +985,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardGenerals> relicsList = CardGeneralsService.Create().GetCardGenerals(subType, pageSize, offset);
-                createCardGenerals(relicsList);
+                List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGenerals(subType, pageSize, offset);
+                CardGeneralsController.Instance.CreateCardGeneralsGallery(cardGenerals, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardAdmirals"))
             {
@@ -2211,8 +994,8 @@ public class GalleryManager : MonoBehaviour
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardAdmirals> relicsList = CardAdmiralsService.Create().GetCardAdmirals(subType, pageSize, offset);
-                createCardAdmirals(relicsList);
+                List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmirals(subType, pageSize, offset);
+                CardAdmiralsController.Instance.CreateCardAdmiralsGallery(cardAdmirals, DictionaryContentPanel);
             }
             else if (mainType.Equals("Borders"))
             {
@@ -2221,7 +1004,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Borders> borders = BordersService.Create().GetBorders(pageSize, offset);
-                createBorders(borders);
+                BordersController.Instance.CreateBordersGallery(borders, DictionaryContentPanel);
             }
             else if (mainType.Equals("Talisman"))
             {
@@ -2230,7 +1013,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Talisman> talismans = TalismanService.Create().GetTalisman(subType, pageSize, offset);
-                createTalisman(talismans);
+                TalismanController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
             }
             else if (mainType.Equals("Puppet"))
             {
@@ -2239,7 +1022,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Puppet> puppets = PuppetService.Create().GetPuppet(subType, pageSize, offset);
-                createPuppet(puppets);
+                PuppetController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
             }
             else if (mainType.Equals("Alchemy"))
             {
@@ -2248,7 +1031,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Alchemy> alchemies = AlchemyService.Create().GetAlchemy(subType, pageSize, offset);
-                createAlchemy(alchemies);
+                AlchemyController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
             }
             else if (mainType.Equals("Forge"))
             {
@@ -2257,7 +1040,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Forge> forges = ForgeService.Create().GetForge(subType, pageSize, offset);
-                createForge(forges);
+                ForgeController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
             }
             else if (mainType.Equals("CardLife"))
             {
@@ -2266,7 +1049,7 @@ public class GalleryManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<CardLife> cardLives = CardLifeService.Create().GetCardLife(subType, pageSize, offset);
-                createCardLife(cardLives);
+                CardLifeController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -2292,16 +1075,6 @@ public class GalleryManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-    }
-    // Hàm thêm sự kiện click vào EventTrigger
-    void AddClickListener(EventTrigger trigger, System.Action callback)
-    {
-        EventTrigger.Entry entry = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerClick
-        };
-        entry.callback.AddListener((data) => { callback(); });
-        trigger.triggers.Add(entry);
     }
 
 }

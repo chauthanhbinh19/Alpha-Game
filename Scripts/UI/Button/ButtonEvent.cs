@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class ButtonEvent : MonoBehaviour
 {
@@ -42,6 +43,33 @@ public class ButtonEvent : MonoBehaviour
         {
             Debug.LogWarning($"Button {buttonName} not found!");
         }
+    }
+    public void AddClickListener(EventTrigger trigger, System.Action callback)
+    {
+        EventTrigger.Entry entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerClick
+        };
+        entry.callback.AddListener((data) => { callback(); });
+        trigger.triggers.Add(entry);
+    }
+    public void AddCloseEvent(GameObject obj)
+    {
+        EventTrigger trigger = obj.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            trigger = obj.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerClick
+        };
+        entry.callback.AddListener((data) =>
+        {
+            Destroy(obj);
+        });
+        trigger.triggers.Add(entry);
     }
     public void CheckLockedButton(object data, int value, GameObject button)
     {

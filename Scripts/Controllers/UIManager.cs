@@ -923,6 +923,10 @@ public class UIManager : MonoBehaviour
     // }
     public void SetUI(GameObject gameObject, string type, int level = 0, string mainType = "")
     {
+        if (mainType.Equals("Aptitude") || mainType.Equals("Blessing"))
+        {
+            return;
+        }
         RawImage BackgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
         Texture backgroundTexture = Resources.Load<Texture>($"UI/Background3/{mainType}");
         BackgroundImage.texture = backgroundTexture;

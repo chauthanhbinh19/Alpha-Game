@@ -326,6 +326,26 @@ public class ButtonLoader : MonoBehaviour
         // CreateArenaButton(6, "Tower 6",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_6"), towerMenuPanel);
         // CreateArenaButton(7, "Tower 7",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_7"), towerMenuPanel);
     }
+    public void ChangeButtonBackground(GameObject button, string image)
+    {
+        RawImage buttonImage = button.GetComponent<RawImage>();
+        if (buttonImage != null)
+        {
+            Texture texture = Resources.Load<Texture>($"UI/Background4/{image}");
+            if (texture != null)
+            {
+                buttonImage.texture = texture;
+            }
+            else
+            {
+                Debug.LogError($"Texture '{image}' not found in Resources.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Button does not have a RawImage component.");
+        }
+    }
     public void CreateSetButtonGroup(object data, GameObject buttonPrefab, Transform buttonPanel)
     {
         if (data is CardHeroes cardHeroes || data is CardCaptains cardCaptains ||
@@ -424,6 +444,11 @@ public class ButtonLoader : MonoBehaviour
     }
     private void CreateButtonWithBackground(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
+        if (panel == null)
+        {
+            Debug.Log("Panel is null for index: " + index);
+            return;
+        }
         // Tạo button từ prefab
         GameObject newButton = Instantiate(buttonPrefab, panel);
         newButton.name = "Button_" + index;
@@ -451,9 +476,9 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateButtonGroupDetails(object data)
     {
-        // Close(buttonGroupPanel1);
-        // Close(buttonGroupPanel2);
-        // Close(buttonGroupPanel3);
+        ButtonEvent.Instance.Close(buttonGroupPanel1);
+        ButtonEvent.Instance.Close(buttonGroupPanel2);
+        ButtonEvent.Instance.Close(buttonGroupPanel3);
         if (data is CardHeroes cardHeroes || data is CardCaptains cardCaptains ||
         data is CardColonels cardColonels || data is CardGenerals cardGenerals ||
         data is CardAdmirals cardAdmirals || data is CardMonsters cardMonsters ||
