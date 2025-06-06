@@ -23,9 +23,12 @@ public class ButtonEvent : MonoBehaviour
     }
     public void Close(Transform content)
     {
-        foreach (Transform child in content)
+        if (content != null)
         {
-            Destroy(child.gameObject);
+            foreach (Transform child in content)
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
     public void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)

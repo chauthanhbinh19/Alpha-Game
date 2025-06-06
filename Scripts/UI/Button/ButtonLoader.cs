@@ -10,6 +10,7 @@ public class ButtonLoader : MonoBehaviour
     private Transform mainMenuButtonPanel; // Nơi chứa các button trong scene
     private Transform mainMenuCampaignPanel;
     private Transform summonPanel;
+    private GameObject TabButton4;
     private GameObject ArenaButtonPrefab;
     private GameObject AnimeButtonPrefab;
     public Transform buttonGroupPanel1;
@@ -37,6 +38,7 @@ public class ButtonLoader : MonoBehaviour
         mainMenuButtonPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
         mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         summonPanel = UIManager.Instance.GetTransform("summonPanel");
+        TabButton4 = UIManager.Instance.GetGameObject("TabButton4");
         ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
         AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
         CreateButton(1, "Campaigns", Resources.Load<Texture2D>($"UI/Background4/Background_V4_110"), Resources.Load<Texture2D>($"UI/UI/Campaign"), mainMenuCampaignPanel);
@@ -325,6 +327,45 @@ public class ButtonLoader : MonoBehaviour
         // CreateArenaButton(5, "Tower 5",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_5"), towerMenuPanel);
         // CreateArenaButton(6, "Tower 6",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_6"), towerMenuPanel);
         // CreateArenaButton(7, "Tower 7",Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"),Resources.Load<Texture2D>($"UI/Button/Tower_7"), towerMenuPanel);
+    }
+    public void CreateButton(int index, string itemName, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(TabButton4, panel);
+        newButton.name = "Button_" + index;
+
+        // Gán tên cho itemName
+        TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (buttonText != null)
+        {
+            buttonText.text = itemName;
+        }
+    }
+    public void OnButtonClicked(string buttonName, Transform tabPanel)
+    {
+        // Tìm button hiện tại từ RightButtonContent
+        Button button = tabPanel.Find(buttonName)?.GetComponent<Button>();
+        if (button == null) return;
+
+        // Đổi background các button
+        ChangeBackgroundButtonTab(button, tabPanel);
+    }
+    public void ChangeBackgroundButtonTab(Button clickedButton, Transform tabPanel)
+    {
+        foreach (Transform child in tabPanel)
+        {
+            // Lấy component Button từ con cái
+            Button button = child.GetComponent<Button>();
+            if (button != null)
+            {
+                ChangeButtonBackground(button.gameObject, "Background_V4_216");
+            }
+        }
+        // Đổi background cho button được nhấn
+        if (clickedButton != null)
+        {
+            ChangeButtonBackground(clickedButton.gameObject, "Background_V4_241"); // Background clicked
+        }
     }
     public void ChangeButtonBackground(GameObject button, string image)
     {
