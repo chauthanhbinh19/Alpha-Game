@@ -19,9 +19,18 @@ public class UserItemsService : IUserItemsService
         return _userItemsRepository.GetUserItemByName(itemName);
     }
 
+    public Items InsertUserItems(Items items, int quantity)
+    {
+        return _userItemsRepository.InsertUserItems(items, quantity);
+    }
+
     public Items UpdateUserItemsQuantity(Items items)
     {
         return _userItemsRepository.UpdateUserItemsQuantity(items);
+    }
+    public Items UpdateUserItemsQuantity(Items items, int quantity)
+    {
+        return _userItemsRepository.UpdateUserItemsQuantity(items, quantity);
     }
     public List<Items> GetItemForLevel(string type)
     {
