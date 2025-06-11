@@ -21,7 +21,7 @@ public class BattleManager : MonoBehaviour
     {
         // Load teams and set up the initial state
         FindAnyObjectByType<LoadTeams>().LoadPlayerTeamCard("1");
-        FindAnyObjectByType<LoadTeams>().LoadEnemyTeamCard("!");
+        FindAnyObjectByType<LoadTeams>().LoadEnemyTeamCard("1");
         StartCoroutine(BattleLoop());
     }
 

@@ -58,7 +58,7 @@ public class LoadTeams : MonoBehaviour
             string position = i.ToString();
             if (type == "cardHeroes")
             {
-                cardHeroesList.AddRange(UserCardHeroesService.Create().GetUserCardHeroesTeam("1", team_id, position));
+                cardHeroesList.AddRange(UserCardHeroesService.Create().GetUserCardHeroesTeam("638841909493399392", team_id, position));
             }
             else if (type == "cardCaptains")
             {
@@ -115,7 +115,7 @@ public class LoadTeams : MonoBehaviour
             if (type == "cardHeroes")
             {
                 CardHeroes c = new CardHeroes();
-                cardHeroesList.AddRange(UserCardHeroesService.Create().GetUserCardHeroesTeam("2", team_id, position));
+                cardHeroesList.AddRange(UserCardHeroesService.Create().GetUserCardHeroesTeam("638841919769890938", team_id, position));
             }
             else if (type == "cardCaptains")
             {
@@ -202,41 +202,7 @@ public class LoadTeams : MonoBehaviour
             CardHeroesBattle battleScript = cardInstance.GetComponent<CardHeroesBattle>();
             if (battleScript != null)
             {
-                battleScript.name = card.name;
-                battleScript.type = card.type;
-                battleScript.power = card.all_power;
-                battleScript.health = card.all_health;
-                battleScript.physical_attack = card.all_physical_attack;
-                battleScript.physical_defense = card.all_physical_defense;
-                battleScript.magical_attack = card.all_magical_attack;
-                battleScript.magical_defense = card.all_magical_defense;
-                battleScript.chemical_attack = card.all_chemical_attack;
-                battleScript.chemical_defense = card.all_chemical_defense;
-                battleScript.atomic_attack = card.all_atomic_attack;
-                battleScript.atomic_defense = card.all_atomic_defense;
-                battleScript.mental_attack = card.all_mental_attack;
-                battleScript.mental_defense = card.all_mental_defense;
-                battleScript.speed = card.all_speed;
-                battleScript.critical_damage_rate = card.all_critical_damage_rate;
-                battleScript.critical_rate = card.all_critical_rate;
-                battleScript.penetration_rate = card.all_penetration_rate;
-                battleScript.evasion_rate = card.all_evasion_rate;
-                battleScript.damage_absorption_rate = card.all_damage_absorption_rate;
-                battleScript.vitality_regeneration_rate = card.all_vitality_regeneration_rate;
-                battleScript.accuracy_rate = card.all_accuracy_rate;
-                battleScript.lifesteal_rate = card.all_lifesteal_rate;
-                battleScript.mana = card.all_mana;
-                battleScript.mana_regeneration_rate = card.all_mana_regeneration_rate;
-                battleScript.shield_strength = card.all_shield_strength;
-                battleScript.tenacity = card.all_tenacity;
-                battleScript.resistance_rate = card.all_resistance_rate;
-                battleScript.combo_rate = card.all_combo_rate;
-                battleScript.reflection_rate = card.all_reflection_rate;
-                battleScript.damage_to_different_faction_rate = card.all_damage_to_different_faction_rate;
-                battleScript.resistance_to_different_faction_rate = card.all_resistance_to_different_faction_rate;
-                battleScript.damage_to_same_faction_rate = card.all_damage_to_same_faction_rate;
-                battleScript.resistance_to_same_faction_rate = card.all_resistance_to_same_faction_rate;
-                battleScript.position = card.position;
+                battleScript.SetProperty(card);
                 battleScript.healthBar = healthBar;
                 // Gán thêm các thuộc tính khác nếu có
                 foreach (var script in cardInstance.GetComponents<CardBase>())
@@ -603,41 +569,7 @@ public class LoadTeams : MonoBehaviour
             CardHeroesBattle battleScript = cardInstance.GetComponent<CardHeroesBattle>();
             if (battleScript != null)
             {
-                battleScript.name = card.name;
-                battleScript.type = card.type;
-                battleScript.power = card.all_power;
-                battleScript.health = card.all_health;
-                battleScript.physical_attack = card.all_physical_attack;
-                battleScript.physical_defense = card.all_physical_defense;
-                battleScript.magical_attack = card.all_magical_attack;
-                battleScript.magical_defense = card.all_magical_defense;
-                battleScript.chemical_attack = card.all_chemical_attack;
-                battleScript.chemical_defense = card.all_chemical_defense;
-                battleScript.atomic_attack = card.all_atomic_attack;
-                battleScript.atomic_defense = card.all_atomic_defense;
-                battleScript.mental_attack = card.all_mental_attack;
-                battleScript.mental_defense = card.all_mental_defense;
-                battleScript.speed = card.all_speed;
-                battleScript.critical_damage_rate = card.all_critical_damage_rate;
-                battleScript.critical_rate = card.all_critical_rate;
-                battleScript.penetration_rate = card.all_penetration_rate;
-                battleScript.evasion_rate = card.all_evasion_rate;
-                battleScript.damage_absorption_rate = card.all_damage_absorption_rate;
-                battleScript.vitality_regeneration_rate = card.all_vitality_regeneration_rate;
-                battleScript.accuracy_rate = card.all_accuracy_rate;
-                battleScript.lifesteal_rate = card.all_lifesteal_rate;
-                battleScript.mana = card.all_mana;
-                battleScript.mana_regeneration_rate = card.all_mana_regeneration_rate;
-                battleScript.shield_strength = card.all_shield_strength;
-                battleScript.tenacity = card.all_tenacity;
-                battleScript.resistance_rate = card.all_resistance_rate;
-                battleScript.combo_rate = card.all_combo_rate;
-                battleScript.reflection_rate = card.all_reflection_rate;
-                battleScript.damage_to_different_faction_rate = card.all_damage_to_different_faction_rate;
-                battleScript.resistance_to_different_faction_rate = card.all_resistance_to_different_faction_rate;
-                battleScript.damage_to_same_faction_rate = card.all_damage_to_same_faction_rate;
-                battleScript.resistance_to_same_faction_rate = card.all_resistance_to_same_faction_rate;
-                battleScript.position = card.position;
+                battleScript.SetProperty(card);
                 battleScript.healthBar = healthBar;
                 // Gán thêm các thuộc tính khác nếu có
                 foreach (var script in cardInstance.GetComponents<CardBase>())

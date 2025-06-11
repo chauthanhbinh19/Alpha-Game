@@ -32,6 +32,23 @@ public class UserService : IUserService
         PowerManagerService.Create().InsertUserStats(userId);
 
         TeamsService.Create().InsertUserTeams(userId);
+
+        Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket);
+        UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
+        Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket);
+        UserItemsService.Create().InsertUserItems(cardCaptainsTicket, 1000000);
+        Items cardMilitaryTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket);
+        UserItemsService.Create().InsertUserItems(cardMilitaryTicket, 1000000);
+        Items cardSpellTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket);
+        UserItemsService.Create().InsertUserItems(cardSpellTicket, 1000000);
+        Items cardMonstersTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket);
+        UserItemsService.Create().InsertUserItems(cardMonstersTicket, 1000000);
+        Items cardColonelsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket);
+        UserItemsService.Create().InsertUserItems(cardColonelsTicket, 1000000);
+        Items cardGeneralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket);
+        UserItemsService.Create().InsertUserItems(cardGeneralsTicket, 1000000);
+        Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket);
+        UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
         return userId;
     }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Video;
 
 public class GachaSystem : MonoBehaviour
 {
@@ -12,174 +13,227 @@ public class GachaSystem : MonoBehaviour
     private Texture backImage; // Mặt sau (image1.png)
     // private bool isSummonAreaActive = false;
 
-    public void Summon(string name, string type, Transform area, int quantity, List<Items> items)
+    public void Summon(string name, string type, GameObject summonObject, int quantity, List<Items> items)
     {
-        if (area == null)
-        {
-            Debug.LogError("Summon area is null!");
-            return;
-        }
+        Transform area = summonObject.transform.Find("DictionaryCards/Position");
+        StartCoroutine(PlaySummonVideoAndSummon(summonObject));
+        // if (area == null)
+        // {
+        //     Debug.LogError("Summon area is null!");
+        //     return;
+        // }
 
-        IList cards = null;
+        // IList cards = null;
 
-        foreach (Items item in items) {
-            if (item.quantity >= quantity)
-            {
-                item.quantity = item.quantity - quantity;
-                UserItemsService.Create().UpdateUserItemsQuantity(item);
-            }
-            else
-            {
-                return;
-            }
-        }
+        // foreach (Items item in items)
+        // {
+        //     if (item.quantity >= quantity)
+        //     {
+        //         item.quantity = item.quantity - quantity;
+        //         UserItemsService.Create().UpdateUserItemsQuantity(item);
+        //     }
+        //     else
+        //     {
+        //         return;
+        //     }
+        // }
 
-        // Xác định class dựa trên type
-        switch (name)
-        {
-            case "SummonCardHeroes":
-                cards = CardHeroesService.Create().GetAllCardHeroes(type);
-                break;
-            case "SummonBooks":
-                cards = BooksService.Create().GetAllBooks(type);
-                break;
-            case "SummonCardCaptains":
-                cards = CardCaptainsService.Create().GetAllCardCaptains(type);
-                break;
-            case "SummonCardMonsters":
-                cards = CardMonstersService.Create().GetAllCardMonsters(type);
-                break;
-            case "SummonCardMilitary":
-                cards = CardMilitaryService.Create().GetAllCardMilitary(type);
-                break;
-            case "SummonCardSpell":
-                cards = CardSpellService.Create().GetAllCardSpell(type);
-                break;
-            case "SummonCardColonels":
-                cards = CardColonelsService.Create().GetAllCardColonels(type);
-                break;
-            case "SummonCardGenerals":
-                cards = CardGeneralsService.Create().GetAllCardGenerals(type);
-                break;
-            case "SummonCardAdmirals":
-                cards = CardAdmiralsService.Create().GetAllCardAdmirals(type);
-                break;
-            default:
-                Debug.LogError("Invalid type: " + type);
-                return;
-        }
+        // // Xác định class dựa trên type
+        // switch (name)
+        // {
+        //     case "SummonCardHeroes":
+        //         cards = CardHeroesService.Create().GetAllCardHeroes(type);
+        //         break;
+        //     case "SummonBooks":
+        //         cards = BooksService.Create().GetAllBooks(type);
+        //         break;
+        //     case "SummonCardCaptains":
+        //         cards = CardCaptainsService.Create().GetAllCardCaptains(type);
+        //         break;
+        //     case "SummonCardMonsters":
+        //         cards = CardMonstersService.Create().GetAllCardMonsters(type);
+        //         break;
+        //     case "SummonCardMilitary":
+        //         cards = CardMilitaryService.Create().GetAllCardMilitary(type);
+        //         break;
+        //     case "SummonCardSpell":
+        //         cards = CardSpellService.Create().GetAllCardSpell(type);
+        //         break;
+        //     case "SummonCardColonels":
+        //         cards = CardColonelsService.Create().GetAllCardColonels(type);
+        //         break;
+        //     case "SummonCardGenerals":
+        //         cards = CardGeneralsService.Create().GetAllCardGenerals(type);
+        //         break;
+        //     case "SummonCardAdmirals":
+        //         cards = CardAdmiralsService.Create().GetAllCardAdmirals(type);
+        //         break;
+        //     default:
+        //         Debug.LogError("Invalid type: " + type);
+        //         return;
+        // }
 
-        if (items == null || items.Count == 0)
-        {
-            Debug.LogError("No items found for type: " + type);
-            return;
-        }
-        backImage = Resources.Load<Texture>("UI/Frame_5");
-        if (backImage == null)
-        {
-            Debug.LogError(MessageHelper.ImageConstants.ImageIsNull);
-            return;
-        }
+        // if (items == null || items.Count == 0)
+        // {
+        //     Debug.LogError("No items found for type: " + type);
+        //     return;
+        // }
+        // backImage = Resources.Load<Texture>("UI/Frame_5");
+        // if (backImage == null)
+        // {
+        //     Debug.LogError(MessageHelper.ImageConstants.ImageIsNull);
+        //     return;
+        // }
 
-        summonArea = area;
-        summonArea.gameObject.SetActive(true);
-        // isSummonAreaActive = true;
-        AddCloseEvent();
+        // summonArea = area;
+        // summonArea.gameObject.SetActive(true);
+        // // isSummonAreaActive = true;
+        // AddCloseEvent();
 
-        cardPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        // cardPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
 
-        if (cardPrefab == null)
-        {
-            Debug.LogError(MessageHelper.PrefabConstants.PrefabIsNull);
-            return;
-        }
+        // if (cardPrefab == null)
+        // {
+        //     Debug.LogError(MessageHelper.PrefabConstants.PrefabIsNull);
+        //     return;
+        // }
 
-        // Lấy 10 thẻ ngẫu nhiên
-        var randomItems = cards.Cast<object>().OrderBy(x => Random.value).Take(quantity).ToList();
+        // // Lấy 10 thẻ ngẫu nhiên
+        // var randomItems = cards.Cast<object>().OrderBy(x => Random.value).Take(quantity).ToList();
 
-        foreach (var card in randomItems)
-        {
-            // Debug.Log("Summoned item: " + item.ToString());
-            // Thực hiện logic riêng tùy thuộc vào loại đối tượng
-            if (name.Equals("SummonCardHeroes"))
-            {
-                CardHeroes cardItem = card as CardHeroes;
-                if (cardItem != null)
-                {
-                    UserCardHeroesService.Create().InsertUserCardHeroes(cardItem);
-                    CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardItem.id);
-                }
-            }
-            else if (name.Equals("SummonBooks"))
-            {
-                Books bookItem = card as Books;
-                if (bookItem != null)
-                {
-                    UserBooksService.Create().InsertUserBooks(bookItem);
-                    BooksGalleryService.Create().InsertBooksGallery(bookItem.id);
-                }
-            }
-            else if (name.Equals("SummonCardCaptains"))
-            {
-                CardCaptains captainItem = card as CardCaptains;
-                if (captainItem != null){
-                    UserCardCaptainsService.Create().InsertUserCardCaptains(captainItem);
-                    CardCaptainsGalleryService.Create().InsertCardCaptainsGallery(captainItem.id);
-                }
-            }
-            else if (name.Equals("SummonCardMonsters"))
-            {
-                CardMonsters monsterItem = card as CardMonsters;
-                if (monsterItem != null){
-                    UserCardMonstersService.Create().InsertUserCardMonsters(monsterItem);
-                    CardMonstersGalleryService.Create().InsertCardMonstersGallery(monsterItem.id);
-                }
-            }
-            else if (name.Equals("SummonCardMilitary"))
-            {
-                CardMilitary militaryItem = card as CardMilitary;
-                if(militaryItem != null){
-                    UserCardMilitaryService.Create().InsertUserCardMilitary(militaryItem);
-                    CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(militaryItem.id);
-                }
-            }
-            else if (name.Equals("SummonCardSpell"))
-            {
-                CardSpell spellItem = card as CardSpell;
-                if (spellItem != null){
-                    UserCardSpellService.Create().InsertUserCardSpell(spellItem);
-                    CardSpellGalleryService.Create().InsertCardSpellGallery(spellItem.id);
-                }
-            }
-            else if (name.Equals("SummonCardColonels"))
-            {
-                CardColonels spellItem = card as CardColonels;
-                if (spellItem != null){
-                    UserCardColonelsService.Create().InsertUserCardColonels(spellItem);
-                    CardColonelsGalleryService.Create().InsertCardColonelsGallery(spellItem.id);
-                }
-            }
-            else if (name.Equals("SummonCardGenerals"))
-            {
-                CardGenerals spellItem = card as CardGenerals;
-                if (spellItem != null){
-                    UserCardGeneralsService.Create().InsertUserCardGenerals(spellItem);
-                    CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(spellItem.id);
-                }
-            }
-            else if (name.Equals("SummonCardAdmirals"))
-            {
-                CardAdmirals spellItem = card as CardAdmirals;
-                if (spellItem != null){
-                    UserCardAdmiralsService.Create().InsertUserCardAdmirals(spellItem);
-                    CardAdmiralsGalleryService.Create().InsertCardAdmiralsGallery(spellItem.id);
-                }
-            }
-            // Thêm các xử lý tương tự cho các loại khác
-        }
-        // Hiển thị các thẻ bài mặt sau
-        StartCoroutine(DisplayCards(randomItems));
+        // foreach (var card in randomItems)
+        // {
+        //     // Debug.Log("Summoned item: " + item.ToString());
+        //     // Thực hiện logic riêng tùy thuộc vào loại đối tượng
+        //     if (name.Equals("SummonCardHeroes"))
+        //     {
+        //         CardHeroes cardItem = card as CardHeroes;
+        //         if (cardItem != null)
+        //         {
+        //             UserCardHeroesService.Create().InsertUserCardHeroes(cardItem);
+        //             CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardItem.id);
+        //         }
+        //     }
+        //     else if (name.Equals("SummonBooks"))
+        //     {
+        //         Books bookItem = card as Books;
+        //         if (bookItem != null)
+        //         {
+        //             UserBooksService.Create().InsertUserBooks(bookItem);
+        //             BooksGalleryService.Create().InsertBooksGallery(bookItem.id);
+        //         }
+        //     }
+        //     else if (name.Equals("SummonCardCaptains"))
+        //     {
+        //         CardCaptains captainItem = card as CardCaptains;
+        //         if (captainItem != null)
+        //         {
+        //             UserCardCaptainsService.Create().InsertUserCardCaptains(captainItem);
+        //             CardCaptainsGalleryService.Create().InsertCardCaptainsGallery(captainItem.id);
+        //         }
+        //     }
+        //     else if (name.Equals("SummonCardMonsters"))
+        //     {
+        //         CardMonsters monsterItem = card as CardMonsters;
+        //         if (monsterItem != null)
+        //         {
+        //             UserCardMonstersService.Create().InsertUserCardMonsters(monsterItem);
+        //             CardMonstersGalleryService.Create().InsertCardMonstersGallery(monsterItem.id);
+        //         }
+        //     }
+        //     else if (name.Equals("SummonCardMilitary"))
+        //     {
+        //         CardMilitary militaryItem = card as CardMilitary;
+        //         if (militaryItem != null)
+        //         {
+        //             UserCardMilitaryService.Create().InsertUserCardMilitary(militaryItem);
+        //             CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(militaryItem.id);
+        //         }
+        //     }
+        //     else if (name.Equals("SummonCardSpell"))
+        //     {
+        //         CardSpell spellItem = card as CardSpell;
+        //         if (spellItem != null)
+        //         {
+        //             UserCardSpellService.Create().InsertUserCardSpell(spellItem);
+        //             CardSpellGalleryService.Create().InsertCardSpellGallery(spellItem.id);
+        //         }
+        //     }
+        //     else if (name.Equals("SummonCardColonels"))
+        //     {
+        //         CardColonels spellItem = card as CardColonels;
+        //         if (spellItem != null)
+        //         {
+        //             UserCardColonelsService.Create().InsertUserCardColonels(spellItem);
+        //             CardColonelsGalleryService.Create().InsertCardColonelsGallery(spellItem.id);
+        //         }
+        //     }
+        //     else if (name.Equals("SummonCardGenerals"))
+        //     {
+        //         CardGenerals spellItem = card as CardGenerals;
+        //         if (spellItem != null)
+        //         {
+        //             UserCardGeneralsService.Create().InsertUserCardGenerals(spellItem);
+        //             CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(spellItem.id);
+        //         }
+        //     }
+        //     else if (name.Equals("SummonCardAdmirals"))
+        //     {
+        //         CardAdmirals spellItem = card as CardAdmirals;
+        //         if (spellItem != null)
+        //         {
+        //             UserCardAdmiralsService.Create().InsertUserCardAdmirals(spellItem);
+        //             CardAdmiralsGalleryService.Create().InsertCardAdmiralsGallery(spellItem.id);
+        //         }
+        //     }
+        //     // Thêm các xử lý tương tự cho các loại khác
+        // }
+        // // Hiển thị các thẻ bài mặt sau
+        // StartCoroutine(DisplayCards(randomItems));
     }
+    IEnumerator PlaySummonVideoAndSummon(GameObject summonObject)
+    {
+        RawImage summonEffectImage = summonObject.transform.Find("SummonEffectImage").GetComponent<RawImage>();
+        VideoPlayer videoPlayer = summonObject.transform.Find("SummonEffect").GetComponent<VideoPlayer>();
+
+        if (videoPlayer == null || videoPlayer.clip == null)
+        {
+            Debug.LogWarning("VideoPlayer or video clip is missing!");
+            yield break;
+        }
+
+        // Gán texture cho RawImage nếu có
+        if (videoPlayer.targetTexture != null)
+        {
+            summonEffectImage.texture = videoPlayer.targetTexture;
+        }
+
+        bool videoFinished = false;
+
+        // Gán sự kiện khi video kết thúc
+        videoPlayer.loopPointReached += (VideoPlayer vp) => { videoFinished = true; };
+
+        summonEffectImage.gameObject.SetActive(true);
+        videoPlayer.Play();
+
+        // Đợi cho video bắt đầu phát (tránh skip)
+        while (!videoPlayer.isPlaying && videoPlayer.frame == 0)
+        {
+            yield return null;
+        }
+
+        // Đợi video phát xong
+        while (!videoFinished)
+        {
+            yield return null;
+        }
+
+        // Chờ thêm 0.5 giây sau khi video kết thúc
+        yield return new WaitForSeconds(1.5f);
+        // Tắt RawImage sau khi video kết thúc
+        summonEffectImage.gameObject.SetActive(false);
+    }
+
 
     private IEnumerator DisplayCards(List<object> randomItems)
     {
