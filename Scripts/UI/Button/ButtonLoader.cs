@@ -88,6 +88,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(42, "Guild", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Guild"), summonPanel);
         CreateButton(43, "Tower", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Tower"), summonPanel);
         CreateButton(44, "Event", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/UI/Lobby_Icon-Event_002"), summonPanel);
+        CreateButton(45, "Master board", Resources.Load<Texture2D>($"UI/Background4/Background_V4_58"), Resources.Load<Texture2D>($"UI/Button/Master_Board"), summonPanel);
     }
 
     // Update is called once per frame

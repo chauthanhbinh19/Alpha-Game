@@ -22,4 +22,12 @@ public static class MessageHelper
     {
         public const string ImageIsNull = "Your image not found in Resources!";
     }
+    public static class ItemConstants
+    {
+        public const string ItemNotFound = "Item not found!";
+        public const string ItemNotEnough = "Not enough item quantity!";
+        public const string ItemAlreadyExists = "Item already exists!";
+        public const string ItemAdded = "Item added successfully!";
+        public const string ItemRemoved = "Item removed successfully!";
+    }
 }

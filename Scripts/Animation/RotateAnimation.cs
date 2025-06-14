@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RotateAnimation : MonoBehaviour
 {
-    public float rotationSpeed = 100f;
+    public float rotationSpeed = 50f;
 
     private RectTransform rectTransform;
     // Start is called before the first frame update

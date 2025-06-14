@@ -193,7 +193,7 @@ public class CardBase : MonoBehaviour, IAttack
 
         // Công thức tính damage theo tỉ lệ attack / (attack + defense)
         double ratio = attack / (attack + effectiveDefense);
-        double baseDamage = attack * ratio;
+        double baseDamage = attack * ratio * (1 + (QualityEvaluator.CheckQuality(type)/100));
         // Debug.Log("Attack " + attack);
         // Debug.Log("ratio " + ratio);
         // Debug.Log(baseDamage);
@@ -266,10 +266,13 @@ public class CardBase : MonoBehaviour, IAttack
 
     public bool IsAttackHit(CardBase enemy)
     {
-        double hitChance = Accuracy_rate / (Accuracy_rate + enemy.Evasion_rate) * 100;
-        double roll = UnityEngine.Random.Range(0f, 100f);
-        // return roll < hitChance;
-        return true;
+        if(Accuracy_rate >= enemy.Evasion_rate){
+            return true;
+        }else{
+            double hitChance = enemy.Evasion_rate - Accuracy_rate;
+            double roll = UnityEngine.Random.Range(0f, 100f);
+            return roll < hitChance;
+        }
     }
 
     public bool IsCriticalHit()

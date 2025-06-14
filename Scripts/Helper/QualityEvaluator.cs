@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 public static class QualityEvaluator
 {
-    public static int CheckQuality(string rare){
-        switch(rare){
+    public static int CheckQuality(string rare)
+    {
+        switch (rare)
+        {
             case "SR":
                 return 2;
             case "SSR":
@@ -24,6 +26,44 @@ public static class QualityEvaluator
             default:
                 return 0;
         }
+    }
+    private static readonly Dictionary<string, int> qualityMap = new Dictionary<string, int>
+    {
+        { "SR", 2 },
+        { "SSR", 5 },
+        { "UR", 10 },
+        { "LG", 15 },
+        { "LG+", 20 },
+        { "MR", 25 },
+        { "SLR", 30 },
+        { "SLR+", 35 },
+        { "SP", 40 },
+    };
+
+    public static int GetQualityValue(string rare)
+    {
+        return qualityMap.TryGetValue(rare, out int value) ? value : 0;
+    }
+
+    public static string GetHigherQuality(string currentRare, string newRare)
+    {
+        int current = GetQualityValue(currentRare);
+        int next = GetQualityValue(newRare);
+        return next > current ? newRare : currentRare;
+    }
+    private static readonly List<string> qualityOrder = new List<string>
+    {
+        "SR", "SSR", "UR", "LG", "LG+", "MR", "SLR", "SLR+", "SP"
+    };
+
+    public static string GetNextQuality(string currentRare)
+    {
+        int index = qualityOrder.IndexOf(currentRare);
+        if (index >= 0 && index < qualityOrder.Count - 1)
+        {
+            return qualityOrder[index + 1];
+        }
+        return currentRare; // không tăng được nữa
     }
     public static List<Achievements> GetQualityPower(List<Achievements> list)
     {
