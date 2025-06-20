@@ -199,7 +199,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             RawImage aptitudeImage = aptitudeSkill.Find("AptitudeImage").GetComponent<RawImage>();
             TextMeshProUGUI levelText = aptitudeSkill.Find("LevelText").GetComponent<TextMeshProUGUI>();
 
-            Texture texture = Resources.Load<Texture>($"UI/Rank/Anime");
+            Texture texture = Resources.Load<Texture>($"UI/animeStats/Anime");
             aptitudeImage.texture = texture;
 
             if (aptitudeImage != null) aptitudeImage.color = Color.black;
@@ -267,7 +267,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
 
         for (int lvl = startLevel; lvl < endLevel; lvl++)
         {
-            int statMultiplier = 10;  // Hệ số nhân dựa trên cấp độ hiện tại
+            int statMultiplier = 1;  // Hệ số nhân dựa trên cấp độ hiện tại
 
             if (lvl >= 0 && lvl <= 500)
             {
@@ -303,13 +303,19 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 animeStats.speed += 1500000 * statMultiplier;
                 animeStats.critical_damage_rate += 0.1 * statMultiplier;
                 animeStats.critical_rate += 0.1 * statMultiplier;
+                animeStats.critical_resistance_rate += 0.1 * statMultiplier;
+                animeStats.ignore_critical_rate += 0.1 * statMultiplier;
                 animeStats.penetration_rate += 0.1 * statMultiplier;
+                animeStats.penetration_resistance_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
                 animeStats.evasion_rate += 0.1 * statMultiplier;
                 animeStats.damage_absorption_rate += 0.1 * statMultiplier;
+                animeStats.ignore_damage_absorption_rate += 0.1 * statMultiplier;
+                animeStats.absorbed_damage_rate += 0.1 * statMultiplier;
                 animeStats.vitality_regeneration_rate += 0.1 * statMultiplier;
+                animeStats.vitality_regeneration_resistance_rate += 0.1 * statMultiplier;
                 animeStats.accuracy_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
@@ -324,18 +330,30 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 animeStats.tenacity += 0.5 * statMultiplier;
                 animeStats.resistance_rate += 0.1 * statMultiplier;
                 animeStats.combo_rate += 0.1 * statMultiplier;
-                animeStats.reflection_rate += 0.1 * statMultiplier;
+                animeStats.ignore_combo_rate += 0.1 * statMultiplier;
+                animeStats.combo_damage_rate += 0.1 * statMultiplier;
+                animeStats.combo_resistance_rate += 0.1 * statMultiplier;
+                animeStats.stun_rate += 0.1 * statMultiplier;
+                animeStats.ignore_stun_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
+                animeStats.reflection_rate += 0.1 * statMultiplier;
+                animeStats.ignore_reflection_rate += 0.1 * statMultiplier;
+                animeStats.reflection_damage_rate += 0.1 * statMultiplier;
+                animeStats.reflection_resistance_rate += 0.1 * statMultiplier;
                 animeStats.damage_to_different_faction_rate += 0.1 * statMultiplier;
                 animeStats.resistance_to_different_faction_rate += 0.1 * statMultiplier;
                 animeStats.damage_to_same_faction_rate += 0.1 * statMultiplier;
                 animeStats.resistance_to_same_faction_rate += 0.1 * statMultiplier;
-                animeStats.percent_all_health += 5 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
+                animeStats.normal_damage_rate += 0.1 * statMultiplier;
+                animeStats.normal_resistance_rate += 0.1 * statMultiplier;
+                animeStats.skill_damage_rate += 0.1 * statMultiplier;
+                animeStats.skill_resistance_rate += 0.1 * statMultiplier;
+                animeStats.percent_all_health += 5 * statMultiplier;
                 animeStats.percent_all_physical_attack += 5 * statMultiplier;
                 animeStats.percent_all_physical_defense += 5 * statMultiplier;
             }

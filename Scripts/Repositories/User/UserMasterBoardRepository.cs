@@ -49,23 +49,41 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                         speed = reader.GetDouble("speed"),
                         critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
+                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
+                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
                         penetration_rate = reader.GetDouble("penetration_rate"),
+                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
                         evasion_rate = reader.GetDouble("evasion_rate"),
                         damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
                         vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
                         accuracy_rate = reader.GetDouble("accuracy_rate"),
                         lifesteal_rate = reader.GetDouble("lifesteal_rate"),
                         shield_strength = reader.GetDouble("shield_strength"),
                         tenacity = reader.GetDouble("tenacity"),
                         resistance_rate = reader.GetDouble("resistance_rate"),
                         combo_rate = reader.GetDouble("combo_rate"),
+                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
+                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
+                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
+                        stun_rate = reader.GetDouble("stun_rate"),
+                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
                         reflection_rate = reader.GetDouble("reflection_rate"),
+                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
+                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
+                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
                         mana = reader.GetFloat("mana"),
                         mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
                         damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
                         resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
                         damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
                         resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
+                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
+                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
+                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
                         percent_all_health = reader.GetDouble("percent_all_health"),
                         percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -103,11 +121,19 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                     user_id, name, node_id, rank_level,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    speed, critical_damage_rate, critical_rate, penetration_rate, evasion_rate, damage_absorption_rate,
-                    vitality_regeneration_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity,
-                    resistance_rate, combo_rate, reflection_rate, mana, mana_regeneration_rate,
+                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                    penetration_rate, penetration_resistance_rate,
+                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                    stun_rate, ignore_stun_rate,
+                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                    mana, mana_regeneration_rate,
                     damage_to_different_faction_rate, resistance_to_different_faction_rate,
                     damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                    normal_damage_rate, normal_resistance_rate,
+                    skill_damage_rate, skill_resistance_rate, 
                     percent_all_health, percent_all_physical_attack, percent_all_physical_defense,
                     percent_all_magical_attack, percent_all_magical_defense,
                     percent_all_chemical_attack, percent_all_chemical_defense,
@@ -118,11 +144,19 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                     @user_id, @name, @node_id, @rank_level,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                    @speed, @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate, @damage_absorption_rate,
-                    @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity,
-                    @resistance_rate, @combo_rate, @reflection_rate, @mana, @mana_regeneration_rate,
+                    @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                    @penetration_rate, @penetration_resistance_rate,
+                    @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                    @stun_rate, @ignore_stun_rate,
+                    @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                    @mana, @mana_regeneration_rate,
                     @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
                     @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                    @normal_damage_rate, @normal_resistance_rate,
+                    @skill_damage_rate, @skill_resistance_rate,
                     @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense,
                     @percent_all_magical_attack, @percent_all_magical_defense,
                     @percent_all_chemical_attack, @percent_all_chemical_defense,
@@ -146,27 +180,45 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                 command.Parameters.AddWithValue("@atomic_attack", masterBoard.atomic_attack);
                 command.Parameters.AddWithValue("@atomic_defense", masterBoard.atomic_defense);
                 command.Parameters.AddWithValue("@mental_attack", masterBoard.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", masterBoard.mental_attack);
+                command.Parameters.AddWithValue("@mental_defense", masterBoard.mental_defense);
                 command.Parameters.AddWithValue("@speed", masterBoard.speed);
                 command.Parameters.AddWithValue("@critical_damage_rate", masterBoard.critical_damage_rate);
                 command.Parameters.AddWithValue("@critical_rate", masterBoard.critical_rate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", masterBoard.critical_resistance_rate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", masterBoard.ignore_critical_rate);
                 command.Parameters.AddWithValue("@penetration_rate", masterBoard.penetration_rate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", masterBoard.penetration_resistance_rate);
                 command.Parameters.AddWithValue("@evasion_rate", masterBoard.evasion_rate);
                 command.Parameters.AddWithValue("@damage_absorption_rate", masterBoard.damage_absorption_rate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", masterBoard.ignore_damage_absorption_rate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", masterBoard.absorbed_damage_rate);
                 command.Parameters.AddWithValue("@vitality_regeneration_rate", masterBoard.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", masterBoard.vitality_regeneration_resistance_rate);
                 command.Parameters.AddWithValue("@accuracy_rate", masterBoard.accuracy_rate);
                 command.Parameters.AddWithValue("@lifesteal_rate", masterBoard.lifesteal_rate);
                 command.Parameters.AddWithValue("@shield_strength", masterBoard.shield_strength);
                 command.Parameters.AddWithValue("@tenacity", masterBoard.tenacity);
                 command.Parameters.AddWithValue("@resistance_rate", masterBoard.resistance_rate);
                 command.Parameters.AddWithValue("@combo_rate", masterBoard.combo_rate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", masterBoard.ignore_combo_rate);
+                command.Parameters.AddWithValue("@combo_damage_rate", masterBoard.combo_damage_rate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", masterBoard.combo_resistance_rate);
+                command.Parameters.AddWithValue("@stun_rate", masterBoard.stun_rate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", masterBoard.ignore_stun_rate);
                 command.Parameters.AddWithValue("@reflection_rate", masterBoard.reflection_rate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", masterBoard.ignore_reflection_rate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", masterBoard.reflection_damage_rate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", masterBoard.reflection_resistance_rate);
                 command.Parameters.AddWithValue("@mana", masterBoard.mana);
                 command.Parameters.AddWithValue("@mana_regeneration_rate", masterBoard.mana_regeneration_rate);
                 command.Parameters.AddWithValue("@damage_to_different_faction_rate", masterBoard.damage_to_different_faction_rate);
                 command.Parameters.AddWithValue("@resistance_to_different_faction_rate", masterBoard.resistance_to_different_faction_rate);
                 command.Parameters.AddWithValue("@damage_to_same_faction_rate", masterBoard.damage_to_same_faction_rate);
                 command.Parameters.AddWithValue("@resistance_to_same_faction_rate", masterBoard.resistance_to_same_faction_rate);
+                command.Parameters.AddWithValue("@normal_damage_rate", masterBoard.normal_damage_rate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", masterBoard.normal_resistance_rate);
+                command.Parameters.AddWithValue("@skill_damage_rate", masterBoard.skill_damage_rate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", masterBoard.skill_resistance_rate);
 
                 command.Parameters.AddWithValue("@percent_all_health", masterBoard.percent_all_health);
                 command.Parameters.AddWithValue("@percent_all_physical_attack", masterBoard.percent_all_physical_attack);
@@ -202,25 +254,30 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                 string query = @"
                 UPDATE user_master_board SET
                 rank_level = @rank_level,
-                power = @power, health = @health,
-                physical_attack = @physical_attack, physical_defense = @physical_defense,
-                magical_attack = @magical_attack, magical_defense = @magical_defense,
-                chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,
-                atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,
-                mental_attack = @mental_attack, mental_defense = @mental_defense,
-                speed = @speed, critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,
-                penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,
-                damage_absorption_rate = @damage_absorption_rate,
-                vitality_regeneration_rate = @vitality_regeneration_rate,
-                accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,
-                shield_strength = @shield_strength, tenacity = @tenacity,
-                resistance_rate = @resistance_rate, combo_rate = @combo_rate,
-                reflection_rate = @reflection_rate, mana = @mana,
-                mana_regeneration_rate = @mana_regeneration_rate,
-                damage_to_different_faction_rate = @damage_to_different_faction_rate,
-                resistance_to_different_faction_rate = @resistance_to_different_faction_rate,
-                damage_to_same_faction_rate = @damage_to_same_faction_rate,
+                physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
+                penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
+                evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
+                vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
+                accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                tenacity = @tenacity, resistance_rate = @resistance_rate, 
+                combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
+                reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
+                reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
+                mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                damage_to_same_faction_rate = @damage_to_same_faction_rate, 
                 resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
+                normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
+                skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate,
                 percent_all_health = @percent_all_health,
                 percent_all_physical_attack = @percent_all_physical_attack,
                 percent_all_physical_defense = @percent_all_physical_defense,
@@ -252,27 +309,45 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                 command.Parameters.AddWithValue("@atomic_attack", masterBoard.atomic_attack * multiplier);
                 command.Parameters.AddWithValue("@atomic_defense", masterBoard.atomic_defense * multiplier);
                 command.Parameters.AddWithValue("@mental_attack", masterBoard.mental_attack * multiplier);
-                command.Parameters.AddWithValue("@mental_defense", masterBoard.mental_attack * multiplier);
+                command.Parameters.AddWithValue("@mental_defense", masterBoard.mental_defense * multiplier);
                 command.Parameters.AddWithValue("@speed", masterBoard.speed * multiplier);
                 command.Parameters.AddWithValue("@critical_damage_rate", masterBoard.critical_damage_rate * multiplier);
                 command.Parameters.AddWithValue("@critical_rate", masterBoard.critical_rate * multiplier);
+                command.Parameters.AddWithValue("@critical_resistance_rate", masterBoard.critical_resistance_rate * multiplier);
+                command.Parameters.AddWithValue("@ignore_critical_rate", masterBoard.ignore_critical_rate * multiplier);
                 command.Parameters.AddWithValue("@penetration_rate", masterBoard.penetration_rate * multiplier);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", masterBoard.penetration_resistance_rate * multiplier);
                 command.Parameters.AddWithValue("@evasion_rate", masterBoard.evasion_rate * multiplier);
                 command.Parameters.AddWithValue("@damage_absorption_rate", masterBoard.damage_absorption_rate * multiplier);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", masterBoard.ignore_damage_absorption_rate * multiplier);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", masterBoard.absorbed_damage_rate * multiplier);
                 command.Parameters.AddWithValue("@vitality_regeneration_rate", masterBoard.vitality_regeneration_rate * multiplier);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", masterBoard.vitality_regeneration_resistance_rate * multiplier);
                 command.Parameters.AddWithValue("@accuracy_rate", masterBoard.accuracy_rate * multiplier);
                 command.Parameters.AddWithValue("@lifesteal_rate", masterBoard.lifesteal_rate * multiplier);
                 command.Parameters.AddWithValue("@shield_strength", masterBoard.shield_strength * multiplier);
                 command.Parameters.AddWithValue("@tenacity", masterBoard.tenacity * multiplier);
                 command.Parameters.AddWithValue("@resistance_rate", masterBoard.resistance_rate * multiplier);
                 command.Parameters.AddWithValue("@combo_rate", masterBoard.combo_rate * multiplier);
+                command.Parameters.AddWithValue("@ignore_combo_rate", masterBoard.ignore_combo_rate * multiplier);
+                command.Parameters.AddWithValue("@combo_damage_rate", masterBoard.combo_damage_rate * multiplier);
+                command.Parameters.AddWithValue("@combo_resistance_rate", masterBoard.combo_resistance_rate * multiplier);
+                command.Parameters.AddWithValue("@stun_rate", masterBoard.stun_rate * multiplier);
+                command.Parameters.AddWithValue("@ignore_stun_rate", masterBoard.ignore_stun_rate * multiplier);
                 command.Parameters.AddWithValue("@reflection_rate", masterBoard.reflection_rate * multiplier);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", masterBoard.ignore_reflection_rate * multiplier);
+                command.Parameters.AddWithValue("@reflection_damage_rate", masterBoard.reflection_damage_rate * multiplier);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", masterBoard.reflection_resistance_rate * multiplier);
                 command.Parameters.AddWithValue("@mana", masterBoard.mana * multiplier);
                 command.Parameters.AddWithValue("@mana_regeneration_rate", masterBoard.mana_regeneration_rate * multiplier);
                 command.Parameters.AddWithValue("@damage_to_different_faction_rate", masterBoard.damage_to_different_faction_rate * multiplier);
                 command.Parameters.AddWithValue("@resistance_to_different_faction_rate", masterBoard.resistance_to_different_faction_rate * multiplier);
                 command.Parameters.AddWithValue("@damage_to_same_faction_rate", masterBoard.damage_to_same_faction_rate * multiplier);
                 command.Parameters.AddWithValue("@resistance_to_same_faction_rate", masterBoard.resistance_to_same_faction_rate * multiplier);
+                command.Parameters.AddWithValue("@normal_damage_rate", masterBoard.normal_damage_rate * multiplier);
+                command.Parameters.AddWithValue("@normal_resistance_rate", masterBoard.normal_resistance_rate * multiplier);
+                command.Parameters.AddWithValue("@skill_damage_rate", masterBoard.skill_damage_rate * multiplier);
+                command.Parameters.AddWithValue("@skill_resistance_rate", masterBoard.skill_resistance_rate * multiplier);
 
                 command.Parameters.AddWithValue("@percent_all_health", masterBoard.percent_all_health * multiplier);
                 command.Parameters.AddWithValue("@percent_all_physical_attack", masterBoard.percent_all_physical_attack * multiplier);

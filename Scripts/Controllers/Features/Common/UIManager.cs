@@ -1066,11 +1066,15 @@ public class UIManager : MonoBehaviour
         GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, detailsContent);
         GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, detailsContent);
         GameObject elementDetails2Object = Instantiate(NumberDetail3Prefab, detailsContent);
+        GameObject elementDetails3Object = Instantiate(NumberDetail3Prefab, detailsContent);
+        GameObject elementDetails4Object = Instantiate(NumberDetail3Prefab, detailsContent);
         GameObject descriptionDetailsObject = Instantiate(NumberDetail3Prefab, detailsContent);
 
         Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
         Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
         Transform element2PopupPanel = elementDetails2Object.transform.Find("ElementDetails");
+        Transform element3PopupPanel = elementDetails3Object.transform.Find("ElementDetails");
+        Transform element4PopupPanel = elementDetails4Object.transform.Find("ElementDetails");
         Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         foreach (var property in properties)
@@ -1079,11 +1083,11 @@ public class UIManager : MonoBehaviour
 
             // Gọi hàm xử lý riêng cho từng property
             CreateSinglePropertyUI(status, property, value,
-                firstPopupPanel, elementPopupPanel, element2PopupPanel, descriptionPopupPanel);
+                firstPopupPanel, elementPopupPanel, element2PopupPanel, element3PopupPanel, element4PopupPanel, descriptionPopupPanel);
         }
     }
     public void CreateSinglePropertyUI(int status, PropertyInfo property, object value,
-    Transform firstPopupPanel, Transform elementPopupPanel, Transform element2PopupPanel, Transform descriptionPopupPanel)
+    Transform firstPopupPanel, Transform elementPopupPanel, Transform element2PopupPanel, Transform element3PopupPanel, Transform element4PopupPanel, Transform descriptionPopupPanel)
     {
         // Transform DetailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
         // GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, DetailsContent);
@@ -1230,26 +1234,16 @@ public class UIManager : MonoBehaviour
                     }
                 }
             }
-            else if (property.Name.Equals("speed") || property.Name.Equals("critical_damage_rate") || property.Name.Equals("critical_rate") ||
-                property.Name.Equals("penetration_rate") || property.Name.Equals("evasion_rate") ||
-                property.Name.Equals("damage_absorption_rate") || property.Name.Equals("vitality_regeneration_rate") ||
-                property.Name.Equals("accuracy_rate") || property.Name.Equals("lifesteal_rate") ||
-                property.Name.Equals("shield_strength") || property.Name.Equals("tenacity") ||
-                property.Name.Equals("resistance_rate") || property.Name.Equals("combo_rate") ||
-                property.Name.Equals("mana") || property.Name.Equals("mana_regeneration_rate") ||
-                property.Name.Equals("reflection_rate") ||
-                property.Name.Equals("damage_to_different_faction_rate") || property.Name.Equals("resistance_to_different_faction_rate") ||
-                property.Name.Equals("damage_to_same_faction_rate") || property.Name.Equals("resistance_to_same_faction_rate") ||
-                property.Name.Equals("all_speed") || property.Name.Equals("all_critical_damage_rate") || property.Name.Equals("all_critical_rate") ||
-                property.Name.Equals("all_penetration_rate") || property.Name.Equals("all_evasion_rate") ||
-                property.Name.Equals("all_damage_absorption_rate") || property.Name.Equals("all_vitality_regeneration_rate") ||
-                property.Name.Equals("all_accuracy_rate") || property.Name.Equals("all_lifesteal_rate") ||
-                property.Name.Equals("all_shield_strength") || property.Name.Equals("all_tenacity") ||
-                property.Name.Equals("all_resistance_rate") || property.Name.Equals("all_combo_rate") ||
-                property.Name.Equals("all_mana") || property.Name.Equals("all_mana_regeneration_rate") ||
-                property.Name.Equals("all_reflection_rate") ||
-                property.Name.Equals("all_damage_to_different_faction_rate") || property.Name.Equals("all_resistance_to_different_faction_rate") ||
-                property.Name.Equals("all_damage_to_same_faction_rate") || property.Name.Equals("all_resistance_to_same_faction_rate"))
+            else if (property.Name.Equals("speed") || property.Name.Equals("critical_damage_rate") || property.Name.Equals("critical_rate")
+                || property.Name.Equals("critical_resistance_rate") || property.Name.Equals("ignore_critical_rate")
+                || property.Name.Equals("penetration_rate") || property.Name.Equals("penetration_resistance_rate") || property.Name.Equals("evasion_rate")
+                || property.Name.Equals("damage_absorption_rate") || property.Name.Equals("ignore_damage_absorption_rate") || property.Name.Equals("absorbed_damage_rate")
+                || property.Name.Equals("vitality_regeneration_rate") || property.Name.Equals("vitality_regeneration_resistance_rate")
+                || property.Name.Equals("all_speed") || property.Name.Equals("all_critical_damage_rate") || property.Name.Equals("all_critical_rate")
+                || property.Name.Equals("all_critical_resistance_rate") || property.Name.Equals("all_ignore_critical_rate")
+                || property.Name.Equals("all_penetration_rate") || property.Name.Equals("all_penetration_resistance_rate") || property.Name.Equals("all_evasion_rate")
+                || property.Name.Equals("all_damage_absorption_rate") || property.Name.Equals("all_ignore_damage_absorption_rate") || property.Name.Equals("all_absorbed_damage_rate")
+                || property.Name.Equals("all_vitality_regeneration_rate") || property.Name.Equals("all_vitality_regeneration_resistance_rate"))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1262,6 +1256,126 @@ public class UIManager : MonoBehaviour
                             {
                                 // Tạo một element mới từ prefab
                                 GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
+
+                                // Gán tên thuộc tính vào TitleText
+                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                                if (elementTitleText != null)
+                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+
+                                // Gán giá trị thuộc tính vào ContentText
+                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                                if (elementContentText != null)
+                                    elementContentText.text = intValue.ToString();
+                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                                CreatePropertyRuneUI(property.Name, runeImage);
+                            }
+                        }
+                        else if (status == 0)
+                        {
+                            if (!property.Name.Contains("all"))
+                            {
+                                // Tạo một element mới từ prefab
+                                GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+
+                                // Gán tên thuộc tính vào TitleText
+                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                                if (elementTitleText != null)
+                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+
+                                // Gán giá trị thuộc tính vào ContentText
+                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                                if (elementContentText != null)
+                                    elementContentText.text = intValue.ToString();
+
+                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                                CreatePropertyRuneUI(property.Name, runeImage);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (property.Name.Equals("accuracy_rate") || property.Name.Equals("lifesteal_rate")
+                || property.Name.Equals("shield_strength") || property.Name.Equals("tenacity")
+                || property.Name.Equals("resistance_rate") || property.Name.Equals("combo_rate") || property.Name.Equals("ignore_combo_rate")
+                || property.Name.Equals("combo_damage_rate") || property.Name.Equals("combo_resistance_rate") || property.Name.Equals("stun_rate") || property.Name.Equals("ignore_stun_rate")
+                || property.Name.Equals("mana") || property.Name.Equals("mana_regeneration_rate")
+                || property.Name.Equals("reflection_rate") || property.Name.Equals("ignore_reflection_rate") || property.Name.Equals("reflection_damage_rate") || property.Name.Equals("reflection_resistance_rate")
+                || property.Name.Equals("all_accuracy_rate") || property.Name.Equals("all_lifesteal_rate")
+                || property.Name.Equals("all_shield_strength") || property.Name.Equals("all_tenacity")
+                || property.Name.Equals("all_resistance_rate") || property.Name.Equals("all_combo_rate") || property.Name.Equals("all_ignore_combo_rate")
+                || property.Name.Equals("all_combo_damage_rate") || property.Name.Equals("all_combo_resistance_rate") || property.Name.Equals("all_stun_rate") || property.Name.Equals("all_ignore_stun_rate")
+                || property.Name.Equals("all_mana") || property.Name.Equals("all_mana_regeneration_rate")
+                || property.Name.Equals("all_reflection_rate") || property.Name.Equals("all_ignore_reflection_rate") || property.Name.Equals("all_reflection_damage_rate") || property.Name.Equals("all_reflection_resistance_rate"))
+            {
+                // Kiểm tra nếu value không phải null
+                if (value != null)
+                {
+                    if (value is double intValue && intValue != -1)
+                    {
+                        if (status == 1)
+                        {
+                            if (property.Name.Contains("all"))
+                            {
+                                // Tạo một element mới từ prefab
+                                GameObject elementObject = Instantiate(ElementDetailsPrefab, element3PopupPanel);
+
+                                // Gán tên thuộc tính vào TitleText
+                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                                if (elementTitleText != null)
+                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+
+                                // Gán giá trị thuộc tính vào ContentText
+                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                                if (elementContentText != null)
+                                    elementContentText.text = intValue.ToString();
+                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                                CreatePropertyRuneUI(property.Name, runeImage);
+                            }
+                        }
+                        else if (status == 0)
+                        {
+                            if (!property.Name.Contains("all"))
+                            {
+                                // Tạo một element mới từ prefab
+                                GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+
+                                // Gán tên thuộc tính vào TitleText
+                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                                if (elementTitleText != null)
+                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+
+                                // Gán giá trị thuộc tính vào ContentText
+                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                                if (elementContentText != null)
+                                    elementContentText.text = intValue.ToString();
+
+                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                                CreatePropertyRuneUI(property.Name, runeImage);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (property.Name.Equals("damage_to_different_faction_rate") || property.Name.Equals("resistance_to_different_faction_rate")
+                || property.Name.Equals("damage_to_same_faction_rate") || property.Name.Equals("resistance_to_same_faction_rate")
+                || property.Name.Equals("normal_damage_rate") || property.Name.Equals("normal_resistance_rate")
+                || property.Name.Equals("skill_damage_rate") || property.Name.Equals("skill_resistance_rate")
+                || property.Name.Equals("all_damage_to_different_faction_rate") || property.Name.Equals("all_resistance_to_different_faction_rate")
+                || property.Name.Equals("all_damage_to_same_faction_rate") || property.Name.Equals("all_resistance_to_same_faction_rate")
+                || property.Name.Equals("all_normal_damage_rate") || property.Name.Equals("all_normal_resistance_rate")
+                || property.Name.Equals("all_skill_damage_rate") || property.Name.Equals("all_skill_resistance_rate"))
+            {
+                // Kiểm tra nếu value không phải null
+                if (value != null)
+                {
+                    if (value is double intValue && intValue != -1)
+                    {
+                        if (status == 1)
+                        {
+                            if (property.Name.Contains("all"))
+                            {
+                                // Tạo một element mới từ prefab
+                                GameObject elementObject = Instantiate(ElementDetailsPrefab, element4PopupPanel);
 
                                 // Gán tên thuộc tính vào TitleText
                                 TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -1361,33 +1475,43 @@ public class UIManager : MonoBehaviour
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("speed") || title.Equals("critical_damage_rate") || title.Equals("critical_rate") ||
-                title.Equals("penetration_rate") || title.Equals("evasion_rate") ||
-                title.Equals("damage_absorption_rate") || title.Equals("vitality_regeneration_rate") ||
+                title.Equals("critical_resistance_rate") || title.Equals("ignore_critical_rate") ||
+                title.Equals("penetration_rate") || title.Equals("penetration_resistance_rate") || title.Equals("evasion_rate") ||
+                title.Equals("damage_absorption_rate") || title.Equals("ignore_damage_absorption_rate") || title.Equals("absorbed_damage_rate") ||
+                title.Equals("vitality_regeneration_rate") || title.Equals("vitality_regeneration_resistance_rate") ||
                 title.Equals("all_speed") || title.Equals("all_critical_damage_rate") || title.Equals("all_critical_rate") ||
-                title.Equals("all_penetration_rate") || title.Equals("all_evasion_rate") ||
-                title.Equals("all_damage_absorption_rate") || title.Equals("all_vitality_regeneration_rate"))
+                title.Equals("all_critical_resistance_rate") || title.Equals("all_ignore_critical_rate") ||
+                title.Equals("all_penetration_rate") || title.Equals("all_penetration_resistance_rate") || title.Equals("all_evasion_rate") ||
+                title.Equals("all_damage_absorption_rate") || title.Equals("all_ignore_damage_absorption_rate") || title.Equals("all_absorbed_damage_rate") ||
+                title.Equals("all_vitality_regeneration_rate") || title.Equals("all_vitality_regeneration_resistance_rate"))
         {
             runeTexture = Resources.Load<Texture>($"UI/Rune/Atomic_1");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("accuracy_rate") || title.Equals("lifesteal_rate") ||
                 title.Equals("shield_strength") || title.Equals("tenacity") ||
-                title.Equals("resistance_rate") || title.Equals("combo_rate") ||
+                title.Equals("resistance_rate") || title.Equals("combo_rate") || title.Equals("ignore_combo_rate") ||
+                title.Equals("combo_damage_rate") || title.Equals("combo_resistance_rate") || title.Equals("stun_rate") || title.Equals("ignore_stun_rate") ||
                 title.Equals("mana") || title.Equals("mana_regeneration_rate") ||
-                title.Equals("reflection_rate") ||
+                title.Equals("reflection_rate") || title.Equals("ignore_reflection_rate") || title.Equals("reflection_damage_rate") || title.Equals("reflection_resistance_rate") ||
                 title.Equals("all_accuracy_rate") || title.Equals("all_lifesteal_rate") ||
                 title.Equals("all_shield_strength") || title.Equals("all_tenacity") ||
-                title.Equals("all_resistance_rate") || title.Equals("all_combo_rate") ||
+                title.Equals("all_resistance_rate") || title.Equals("all_combo_rate") || title.Equals("all_ignore_combo_rate") ||
+                title.Equals("all_combo_damage_rate") || title.Equals("all_combo_resistance_rate") || title.Equals("all_stun_rate") || title.Equals("all_ignore_stun_rate") ||
                 title.Equals("all_mana") || title.Equals("all_mana_regeneration_rate") ||
-                title.Equals("all_reflection_rate"))
+                title.Equals("all_reflection_rate") || title.Equals("all_ignore_reflection_rate") || title.Equals("all_reflection_damage_rate") || title.Equals("all_reflection_resistance_rate"))
         {
             runeTexture = Resources.Load<Texture>($"UI/Rune/Chemical_1");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("damage_to_different_faction_rate") || title.Equals("resistance_to_different_faction_rate") ||
                 title.Equals("damage_to_same_faction_rate") || title.Equals("resistance_to_same_faction_rate") ||
+                title.Equals("normal_damage_rate") || title.Equals("normal_resistance_rate") ||
+                title.Equals("skill_damage_rate") || title.Equals("skill_resistance_rate") ||
                 title.Equals("all_damage_to_different_faction_rate") || title.Equals("all_resistance_to_different_faction_rate") ||
-                title.Equals("all_damage_to_same_faction_rate") || title.Equals("all_resistance_to_same_faction_rate"))
+                title.Equals("all_damage_to_same_faction_rate") || title.Equals("all_resistance_to_same_faction_rate") ||
+                title.Equals("all_normal_damage_rate") || title.Equals("all_normal_resistance_rate") ||
+                title.Equals("all_skill_damage_rate") || title.Equals("all_skill_resistance_rate"))
         {
             runeTexture = Resources.Load<Texture>($"UI/Rune/Magic_1");
             runeImage.texture = runeTexture;
@@ -1614,3 +1738,4 @@ public class UIManager : MonoBehaviour
         }
     }
 }
+    

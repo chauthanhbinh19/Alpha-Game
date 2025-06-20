@@ -45,13 +45,19 @@ public class RankService : IRankService
                 rank.speed += 1500000 * statMultiplier;
                 rank.critical_damage_rate += 0.1 * statMultiplier;
                 rank.critical_rate += 0.1 * statMultiplier;
+                rank.critical_resistance_rate += 0.1 * statMultiplier;
+                rank.ignore_critical_rate += 0.1 * statMultiplier;
                 rank.penetration_rate += 0.1 * statMultiplier;
+                rank.penetration_resistance_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
                 rank.evasion_rate += 0.1 * statMultiplier;
                 rank.damage_absorption_rate += 0.1 * statMultiplier;
+                rank.ignore_damage_absorption_rate += 0.1 * statMultiplier;
+                rank.absorbed_damage_rate += 0.1 * statMultiplier;
                 rank.vitality_regeneration_rate += 0.1 * statMultiplier;
+                rank.vitality_regeneration_resistance_rate += 0.1 * statMultiplier;
                 rank.accuracy_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
@@ -66,18 +72,30 @@ public class RankService : IRankService
                 rank.tenacity += 0.5 * statMultiplier;
                 rank.resistance_rate += 0.1 * statMultiplier;
                 rank.combo_rate += 0.1 * statMultiplier;
-                rank.reflection_rate += 0.1 * statMultiplier;
+                rank.ignore_combo_rate += 0.1 * statMultiplier;
+                rank.combo_damage_rate += 0.1 * statMultiplier;
+                rank.combo_resistance_rate += 0.1 * statMultiplier;
+                rank.stun_rate += 0.1 * statMultiplier;
+                rank.ignore_stun_rate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
+                rank.reflection_rate += 0.1 * statMultiplier;
+                rank.ignore_reflection_rate += 0.1 * statMultiplier;
+                rank.reflection_damage_rate += 0.1 * statMultiplier;
+                rank.reflection_resistance_rate += 0.1 * statMultiplier;
                 rank.damage_to_different_faction_rate += 0.1 * statMultiplier;
                 rank.resistance_to_different_faction_rate += 0.1 * statMultiplier;
                 rank.damage_to_same_faction_rate += 0.1 * statMultiplier;
                 rank.resistance_to_same_faction_rate += 0.1 * statMultiplier;
-                rank.percent_all_health += 5 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
+                rank.normal_damage_rate += 0.1 * statMultiplier;
+                rank.normal_resistance_rate += 0.1 * statMultiplier;
+                rank.skill_damage_rate += 0.1 * statMultiplier;
+                rank.skill_resistance_rate += 0.1 * statMultiplier;
+                rank.percent_all_health += 5 * statMultiplier;
                 rank.percent_all_physical_attack += 5 * statMultiplier;
                 rank.percent_all_physical_defense += 5 * statMultiplier;
             }

@@ -43,23 +43,41 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                     animeStats.speed = reader.GetDouble("speed");
                     animeStats.critical_damage_rate = reader.GetDouble("critical_damage_rate");
                     animeStats.critical_rate = reader.GetDouble("critical_rate");
+                    animeStats.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
+                    animeStats.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
                     animeStats.penetration_rate = reader.GetDouble("penetration_rate");
+                    animeStats.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
                     animeStats.evasion_rate = reader.GetDouble("evasion_rate");
                     animeStats.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
+                    animeStats.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
+                    animeStats.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
                     animeStats.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
+                    animeStats.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
                     animeStats.accuracy_rate = reader.GetDouble("accuracy_rate");
                     animeStats.lifesteal_rate = reader.GetDouble("lifesteal_rate");
                     animeStats.shield_strength = reader.GetDouble("shield_strength");
                     animeStats.tenacity = reader.GetDouble("tenacity");
                     animeStats.resistance_rate = reader.GetDouble("resistance_rate");
                     animeStats.combo_rate = reader.GetDouble("combo_rate");
+                    animeStats.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
+                    animeStats.combo_damage_rate = reader.GetDouble("combo_damage_rate");
+                    animeStats.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
+                    animeStats.stun_rate = reader.GetDouble("stun_rate");
+                    animeStats.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
                     animeStats.reflection_rate = reader.GetDouble("reflection_rate");
+                    animeStats.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
+                    animeStats.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
+                    animeStats.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
                     animeStats.mana = reader.GetFloat("mana");
                     animeStats.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
                     animeStats.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
                     animeStats.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
                     animeStats.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
                     animeStats.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
+                    animeStats.normal_damage_rate = reader.GetDouble("normal_damage_rate");
+                    animeStats.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
+                    animeStats.skill_damage_rate = reader.GetDouble("skill_damage_rate");
+                    animeStats.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
                     animeStats.percent_all_health = reader.GetDouble("percent_all_health");
                     animeStats.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
                     animeStats.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
@@ -151,23 +169,41 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                             updateCmd.Parameters.AddWithValue("@speed", animeStats.speed);
                             updateCmd.Parameters.AddWithValue("@critical_damage_rate", animeStats.critical_damage_rate);
                             updateCmd.Parameters.AddWithValue("@critical_rate", animeStats.critical_rate);
+                            updateCmd.Parameters.AddWithValue("@critical_resistance_rate", animeStats.critical_resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@ignore_critical_rate", animeStats.ignore_critical_rate);
                             updateCmd.Parameters.AddWithValue("@penetration_rate", animeStats.penetration_rate);
+                            updateCmd.Parameters.AddWithValue("@penetration_resistance_rate", animeStats.penetration_resistance_rate);
                             updateCmd.Parameters.AddWithValue("@evasion_rate", animeStats.evasion_rate);
                             updateCmd.Parameters.AddWithValue("@damage_absorption_rate", animeStats.damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@ignore_damage_absorption_rate", animeStats.ignore_damage_absorption_rate);
+                            updateCmd.Parameters.AddWithValue("@absorbed_damage_rate", animeStats.absorbed_damage_rate);
                             updateCmd.Parameters.AddWithValue("@vitality_regeneration_rate", animeStats.vitality_regeneration_rate);
+                            updateCmd.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", animeStats.vitality_regeneration_resistance_rate);
                             updateCmd.Parameters.AddWithValue("@accuracy_rate", animeStats.accuracy_rate);
                             updateCmd.Parameters.AddWithValue("@lifesteal_rate", animeStats.lifesteal_rate);
                             updateCmd.Parameters.AddWithValue("@shield_strength", animeStats.shield_strength);
                             updateCmd.Parameters.AddWithValue("@tenacity", animeStats.tenacity);
                             updateCmd.Parameters.AddWithValue("@resistance_rate", animeStats.resistance_rate);
                             updateCmd.Parameters.AddWithValue("@combo_rate", animeStats.combo_rate);
+                            updateCmd.Parameters.AddWithValue("@ignore_combo_rate", animeStats.ignore_combo_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_damage_rate", animeStats.combo_damage_rate);
+                            updateCmd.Parameters.AddWithValue("@combo_resistance_rate", animeStats.combo_resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@stun_rate", animeStats.stun_rate);
+                            updateCmd.Parameters.AddWithValue("@ignore_stun_rate", animeStats.ignore_stun_rate);
                             updateCmd.Parameters.AddWithValue("@reflection_rate", animeStats.reflection_rate);
+                            updateCmd.Parameters.AddWithValue("@ignore_reflection_rate", animeStats.ignore_reflection_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_damage_rate", animeStats.reflection_damage_rate);
+                            updateCmd.Parameters.AddWithValue("@reflection_resistance_rate", animeStats.reflection_resistance_rate);
                             updateCmd.Parameters.AddWithValue("@mana", animeStats.mana);
                             updateCmd.Parameters.AddWithValue("@mana_regeneration_rate", animeStats.mana_regeneration_rate);
                             updateCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", animeStats.damage_to_different_faction_rate);
                             updateCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", animeStats.resistance_to_different_faction_rate);
                             updateCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", animeStats.damage_to_same_faction_rate);
                             updateCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", animeStats.resistance_to_same_faction_rate);
+                            updateCmd.Parameters.AddWithValue("@normal_damage_rate", animeStats.normal_damage_rate);
+                            updateCmd.Parameters.AddWithValue("@normal_resistance_rate", animeStats.normal_resistance_rate);
+                            updateCmd.Parameters.AddWithValue("@skill_damage_rate", animeStats.skill_damage_rate);
+                            updateCmd.Parameters.AddWithValue("@skill_resistance_rate", animeStats.skill_resistance_rate);
                             updateCmd.Parameters.AddWithValue("@percent_all_health", animeStats.percent_all_health);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_attack", animeStats.percent_all_physical_attack);
                             updateCmd.Parameters.AddWithValue("@percent_all_physical_defense", animeStats.percent_all_physical_defense);
@@ -237,23 +273,41 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                             insertCmd.Parameters.AddWithValue("@speed", animeStats.speed);
                             insertCmd.Parameters.AddWithValue("@critical_damage_rate", animeStats.critical_damage_rate);
                             insertCmd.Parameters.AddWithValue("@critical_rate", animeStats.critical_rate);
+                            insertCmd.Parameters.AddWithValue("@critical_resistance_rate", animeStats.critical_resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@ignore_critical_rate", animeStats.ignore_critical_rate);
                             insertCmd.Parameters.AddWithValue("@penetration_rate", animeStats.penetration_rate);
+                            insertCmd.Parameters.AddWithValue("@penetration_resistance_rate", animeStats.penetration_resistance_rate);
                             insertCmd.Parameters.AddWithValue("@evasion_rate", animeStats.evasion_rate);
                             insertCmd.Parameters.AddWithValue("@damage_absorption_rate", animeStats.damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@ignore_damage_absorption_rate", animeStats.ignore_damage_absorption_rate);
+                            insertCmd.Parameters.AddWithValue("@absorbed_damage_rate", animeStats.absorbed_damage_rate);
                             insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", animeStats.vitality_regeneration_rate);
+                            insertCmd.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", animeStats.vitality_regeneration_resistance_rate);
                             insertCmd.Parameters.AddWithValue("@accuracy_rate", animeStats.accuracy_rate);
                             insertCmd.Parameters.AddWithValue("@lifesteal_rate", animeStats.lifesteal_rate);
                             insertCmd.Parameters.AddWithValue("@shield_strength", animeStats.shield_strength);
                             insertCmd.Parameters.AddWithValue("@tenacity", animeStats.tenacity);
                             insertCmd.Parameters.AddWithValue("@resistance_rate", animeStats.resistance_rate);
                             insertCmd.Parameters.AddWithValue("@combo_rate", animeStats.combo_rate);
+                            insertCmd.Parameters.AddWithValue("@ignore_combo_rate", animeStats.ignore_combo_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_damage_rate", animeStats.combo_damage_rate);
+                            insertCmd.Parameters.AddWithValue("@combo_resistance_rate", animeStats.combo_resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@stun_rate", animeStats.stun_rate);
+                            insertCmd.Parameters.AddWithValue("@ignore_stun", animeStats.ignore_stun_rate);
                             insertCmd.Parameters.AddWithValue("@reflection_rate", animeStats.reflection_rate);
+                            insertCmd.Parameters.AddWithValue("@ignore_reflection_rate", animeStats.ignore_reflection_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_damage_rate", animeStats.reflection_damage_rate);
+                            insertCmd.Parameters.AddWithValue("@reflection_resistance_rate", animeStats.reflection_resistance_rate);
                             insertCmd.Parameters.AddWithValue("@mana", animeStats.mana);
                             insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", animeStats.mana_regeneration_rate);
                             insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", animeStats.damage_to_different_faction_rate);
                             insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", animeStats.resistance_to_different_faction_rate);
                             insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", animeStats.damage_to_same_faction_rate);
                             insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", animeStats.resistance_to_same_faction_rate);
+                            insertCmd.Parameters.AddWithValue("@normal_damage_rate", animeStats.normal_damage_rate);
+                            insertCmd.Parameters.AddWithValue("@normal_resistance_rate", animeStats.normal_resistance_rate);
+                            insertCmd.Parameters.AddWithValue("@skill_damage_rate", animeStats.skill_damage_rate);
+                            insertCmd.Parameters.AddWithValue("@skill_resistance_rate", animeStats.skill_resistance_rate);
                             insertCmd.Parameters.AddWithValue("@percent_all_health", animeStats.percent_all_health);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_attack", animeStats.percent_all_physical_attack);
                             insertCmd.Parameters.AddWithValue("@percent_all_physical_defense", animeStats.percent_all_physical_defense);
@@ -287,24 +341,56 @@ public class AnimeStatsRepository : IAnimeStatsRepository
             {
                 connection.Open();
                 string query = @"SELECT 
-                SUM(power) AS power, SUM(health) AS health,
-                SUM(physical_attack) AS physical_attack, SUM(physical_defense) AS physical_defense,
-                SUM(magical_attack) AS magical_attack, SUM(magical_defense) AS magical_defense,
-                SUM(chemical_attack) AS chemical_attack, SUM(chemical_defense) AS chemical_defense,
-                SUM(atomic_attack) AS atomic_attack, SUM(atomic_defense) AS atomic_defense,
-                SUM(mental_attack) AS mental_attack, SUM(mental_defense) AS mental_defense,
-                SUM(speed) AS speed, SUM(critical_damage_rate) AS critical_damage_rate,
-                SUM(critical_rate) AS critical_rate, SUM(penetration_rate) AS penetration_rate,
-                SUM(evasion_rate) AS evasion_rate, SUM(damage_absorption_rate) AS damage_absorption_rate,
-                SUM(vitality_regeneration_rate) AS vitality_regeneration_rate, SUM(accuracy_rate) AS accuracy_rate,
-                SUM(lifesteal_rate) AS lifesteal_rate, SUM(shield_strength) AS shield_strength, 
-                SUM(tenacity) AS tenacity, SUM(resistance_rate) AS resistance_rate,
-                SUM(combo_rate) AS combo_rate, SUM(reflection_rate) AS reflection_rate,
-                SUM(mana) AS mana, SUM(mana_regeneration_rate) AS mana_regeneration_rate,
-                SUM(damage_to_different_faction_rate) AS damage_to_different_faction_rate, 
+                SUM(power) AS power,
+                SUM(health) AS health,
+                SUM(mana) AS mana,
+                SUM(physical_attack) AS physical_attack,
+                SUM(physical_defense) AS physical_defense,
+                SUM(magical_attack) AS magical_attack,
+                SUM(magical_defense) AS magical_defense,
+                SUM(chemical_attack) AS chemical_attack,
+                SUM(chemical_defense) AS chemical_defense,
+                SUM(atomic_attack) AS atomic_attack,
+                SUM(atomic_defense) AS atomic_defense,
+                SUM(mental_attack) AS mental_attack,
+                SUM(mental_defense) AS mental_defense,
+                SUM(speed) AS speed,
+                SUM(critical_damage_rate) AS critical_damage_rate,
+                SUM(critical_rate) AS critical_rate,
+                SUM(critical_resistance_rate) AS critical_resistance_rate,
+                SUM(ignore_critical_rate) AS ignore_critical_rate,
+                SUM(penetration_rate) AS penetration_rate,
+                SUM(penetration_resistance_rate) AS penetration_resistance_rate,
+                SUM(evasion_rate) AS evasion_rate,
+                SUM(damage_absorption_rate) AS damage_absorption_rate,
+                SUM(ignore_damage_absorption_rate) AS ignore_damage_absorption_rate,
+                SUM(absorbed_damage_rate) AS absorbed_damage_rate,
+                SUM(vitality_regeneration_rate) AS vitality_regeneration_rate,
+                SUM(vitality_regeneration_resistance_rate) AS vitality_regeneration_resistance_rate,
+                SUM(accuracy_rate) AS accuracy_rate,
+                SUM(lifesteal_rate) AS lifesteal_rate,
+                SUM(shield_strength) AS shield_strength,
+                SUM(tenacity) AS tenacity,
+                SUM(resistance_rate) AS resistance_rate,
+                SUM(combo_rate) AS combo_rate,
+                SUM(ignore_combo_rate) AS ignore_combo_rate,
+                SUM(combo_damage_rate) AS combo_damage_rate,
+                SUM(combo_resistance_rate) AS combo_resistance_rate,
+                SUM(stun_rate) AS stun_rate,
+                SUM(ignore_stun_rate) AS ignore_stun_rate,
+                SUM(reflection_rate) AS reflection_rate,
+                SUM(ignore_reflection_rate) AS ignore_reflection_rate,
+                SUM(reflection_damage_rate) AS reflection_damage_rate,
+                SUM(reflection_resistance_rate) AS reflection_resistance_rate,
+                SUM(mana_regeneration_rate) AS mana_regeneration_rate,
+                SUM(damage_to_different_faction_rate) AS damage_to_different_faction_rate,
                 SUM(resistance_to_different_faction_rate) AS resistance_to_different_faction_rate,
-                SUM(damage_to_same_faction_rate) AS damage_to_same_faction_rate, 
+                SUM(damage_to_same_faction_rate) AS damage_to_same_faction_rate,
                 SUM(resistance_to_same_faction_rate) AS resistance_to_same_faction_rate,
+                SUM(normal_damage_rate) AS normal_damage_rate,
+                SUM(normal_resistance_rate) AS normal_resistance_rate,
+                SUM(skill_damage_rate) AS skill_damage_rate,
+                SUM(skill_resistance_rate) AS skill_resistance_rate,
                 SUM(percent_all_health) AS percent_all_health,
                 SUM(percent_all_physical_attack) AS percent_all_physical_attack, SUM(percent_all_physical_defense) AS percent_all_physical_defense,
                 SUM(percent_all_magical_attack) AS percent_all_magical_attack, SUM(percent_all_magical_defense) AS percent_all_magical_defense,
@@ -337,23 +423,41 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                             animeStats.speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDouble("speed");
                             animeStats.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDouble("critical_damage_rate");
                             animeStats.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDouble("critical_rate");
+                            animeStats.critical_rate = reader.IsDBNull(reader.GetOrdinal("critical_resistance_rate")) ? 0 : reader.GetDouble("critical_resistance_rate");
+                            animeStats.critical_rate = reader.IsDBNull(reader.GetOrdinal("ignore_critical_rate")) ? 0 : reader.GetDouble("ignore_critical_rate");
                             animeStats.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDouble("penetration_rate");
+                            animeStats.penetration_rate = reader.IsDBNull(reader.GetOrdinal("penetration_resistance_rate")) ? 0 : reader.GetDouble("penetration_resistance_rate");
                             animeStats.evasion_rate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDouble("evasion_rate");
                             animeStats.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDouble("damage_absorption_rate");
+                            animeStats.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("ignore_damage_absorption_rate");
+                            animeStats.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("absorbed_damage_rate")) ? 0 : reader.GetDouble("absorbed_damage_rate");
                             animeStats.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDouble("vitality_regeneration_rate");
+                            animeStats.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("vitality_regeneration_resistance_rate");
                             animeStats.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDouble("accuracy_rate");
                             animeStats.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDouble("lifesteal_rate");
                             animeStats.shield_strength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDouble("shield_strength");
                             animeStats.tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDouble("tenacity");
                             animeStats.resistance_rate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDouble("resistance_rate");
                             animeStats.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDouble("combo_rate");
+                            animeStats.combo_rate = reader.IsDBNull(reader.GetOrdinal("ignore_combo_rate")) ? 0 : reader.GetDouble("ignore_combo_rate");
+                            animeStats.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_damage_rate")) ? 0 : reader.GetDouble("combo_damage_rate");
+                            animeStats.combo_rate = reader.IsDBNull(reader.GetOrdinal("combo_resistance_rate")) ? 0 : reader.GetDouble("combo_resistance_rate");
+                            animeStats.combo_rate = reader.IsDBNull(reader.GetOrdinal("stun_rate")) ? 0 : reader.GetDouble("stun_rate");
+                            animeStats.combo_rate = reader.IsDBNull(reader.GetOrdinal("ignore_stun_rate")) ? 0 : reader.GetDouble("ignore_stun_rate");
                             animeStats.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDouble("reflection_rate");
+                            animeStats.reflection_rate = reader.IsDBNull(reader.GetOrdinal("ignore_reflection_rate")) ? 0 : reader.GetDouble("ignore_reflection_rate");
+                            animeStats.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_damage_rate")) ? 0 : reader.GetDouble("reflection_damage_rate");
+                            animeStats.reflection_rate = reader.IsDBNull(reader.GetOrdinal("reflection_resistance_rate")) ? 0 : reader.GetDouble("reflection_resistance_rate");
                             animeStats.mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetFloat("mana");
                             animeStats.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDouble("mana_regeneration_rate");
                             animeStats.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDouble("damage_to_different_faction_rate");
                             animeStats.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("resistance_to_different_faction_rate");
                             animeStats.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDouble("damage_to_same_faction_rate");
                             animeStats.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("resistance_to_same_faction_rate");
+                            animeStats.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("normal_damage_rate")) ? 0 : reader.GetDouble("normal_damage_rate");
+                            animeStats.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("normal_resistance_rate")) ? 0 : reader.GetDouble("normal_resistance_rate");
+                            animeStats.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("skill_damage_rate")) ? 0 : reader.GetDouble("skill_damage_rate");
+                            animeStats.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("skill_resistance_rate")) ? 0 : reader.GetDouble("skill_resistance_rate");
                             animeStats.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
                             animeStats.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
                             animeStats.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");

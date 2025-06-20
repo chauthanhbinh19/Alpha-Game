@@ -54,23 +54,41 @@ public class UserSkillsRepository : IUserSkillsRepository
                         speed = reader.GetDouble("speed"),
                         critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
+                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
+                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
                         penetration_rate = reader.GetDouble("penetration_rate"),
+                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
                         evasion_rate = reader.GetDouble("evasion_rate"),
                         damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
                         vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
                         accuracy_rate = reader.GetDouble("accuracy_rate"),
                         lifesteal_rate = reader.GetDouble("lifesteal_rate"),
                         shield_strength = reader.GetDouble("shield_strength"),
                         tenacity = reader.GetDouble("tenacity"),
                         resistance_rate = reader.GetDouble("resistance_rate"),
                         combo_rate = reader.GetDouble("combo_rate"),
+                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
+                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
+                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
+                        stun_rate = reader.GetDouble("stun_rate"),
+                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
                         reflection_rate = reader.GetDouble("reflection_rate"),
+                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
+                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
+                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
                         mana = reader.GetFloat("mana"),
                         mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
                         damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
                         resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
                         damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
                         resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
+                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
+                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
+                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
                         description = reader.GetString("description")
                     };
 
@@ -133,21 +151,39 @@ public class UserSkillsRepository : IUserSkillsRepository
                 {
                     string query = @"
                 INSERT INTO user_skills (
-                    user_id, skill_id, level, experiment, star, quality, block, quantity, power, health, physical_attack, 
-                    physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, 
-                    atomic_defense, mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, 
-                    penetration_rate, evasion_rate, damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, 
-                    lifesteal_rate, shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
-                    mana, mana_regeneration_rate, damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate
+                    user_id, skill_id, level, experiment, star, quality, block, quantity,
+                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                    penetration_rate, penetration_resistance_rate,
+                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                    stun_rate, ignore_stun_rate,
+                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                    mana, mana_regeneration_rate,
+                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                    normal_damage_rate, normal_resistance_rate,
+                    skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @skill_id, @level, @experiment, @star, quality, @block, @quantity, @power, @health, @physical_attack, 
-                    @physical_defense, @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, 
-                    @atomic_defense, @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, 
-                    @penetration_rate, @evasion_rate, @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, 
-                    @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate, 
-                    @mana, @mana_regeneration_rate, @damage_to_different_faction_rate, 
-                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate
+                    @user_id, @skill_id, @level, @experiment, @star, @quality, @block, @quantity,
+                    @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                    @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                    @penetration_rate, @penetration_resistance_rate,
+                    @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                    @stun_rate, @ignore_stun_rate,
+                    @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                    @mana, @mana_regeneration_rate,
+                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                    @normal_damage_rate, @normal_resistance_rate,
+                    @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -173,23 +209,41 @@ public class UserSkillsRepository : IUserSkillsRepository
                     command.Parameters.AddWithValue("@speed", skills.speed);
                     command.Parameters.AddWithValue("@critical_damage_rate", skills.critical_damage_rate);
                     command.Parameters.AddWithValue("@critical_rate", skills.critical_rate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", skills.critical_resistance_rate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", skills.ignore_critical_rate);
                     command.Parameters.AddWithValue("@penetration_rate", skills.penetration_rate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", skills.penetration_resistance_rate);
                     command.Parameters.AddWithValue("@evasion_rate", skills.evasion_rate);
                     command.Parameters.AddWithValue("@damage_absorption_rate", skills.damage_absorption_rate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", skills.ignore_damage_absorption_rate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", skills.absorbed_damage_rate);
                     command.Parameters.AddWithValue("@vitality_regeneration_rate", skills.vitality_regeneration_rate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", skills.vitality_regeneration_resistance_rate);
                     command.Parameters.AddWithValue("@accuracy_rate", skills.accuracy_rate);
                     command.Parameters.AddWithValue("@lifesteal_rate", skills.lifesteal_rate);
                     command.Parameters.AddWithValue("@shield_strength", skills.shield_strength);
                     command.Parameters.AddWithValue("@tenacity", skills.tenacity);
                     command.Parameters.AddWithValue("@resistance_rate", skills.resistance_rate);
                     command.Parameters.AddWithValue("@combo_rate", skills.combo_rate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", skills.ignore_combo_rate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", skills.combo_damage_rate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", skills.combo_resistance_rate);
+                    command.Parameters.AddWithValue("@stun_rate", skills.stun_rate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", skills.ignore_stun_rate);
                     command.Parameters.AddWithValue("@reflection_rate", skills.reflection_rate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", skills.ignore_reflection_rate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", skills.reflection_damage_rate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", skills.reflection_resistance_rate);
                     command.Parameters.AddWithValue("@mana", skills.mana);
                     command.Parameters.AddWithValue("@mana_regeneration_rate", skills.mana_regeneration_rate);
                     command.Parameters.AddWithValue("@damage_to_different_faction_rate", skills.damage_to_different_faction_rate);
                     command.Parameters.AddWithValue("@resistance_to_different_faction_rate", skills.resistance_to_different_faction_rate);
                     command.Parameters.AddWithValue("@damage_to_same_faction_rate", skills.damage_to_same_faction_rate);
                     command.Parameters.AddWithValue("@resistance_to_same_faction_rate", skills.resistance_to_same_faction_rate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", skills.normal_damage_rate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", skills.normal_resistance_rate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", skills.skill_damage_rate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", skills.skill_resistance_rate);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -234,16 +288,24 @@ public class UserSkillsRepository : IUserSkillsRepository
                     atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
                     mental_attack = @mental_attack, mental_defense = @mental_defense, 
                     speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
+                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
                     evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
-                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
-                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
+                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
+                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
+                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
+                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
+                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
+                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
                     damage_to_different_faction_rate = @damage_to_different_faction_rate, 
                     resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
                     damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
+                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
+                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND skill_id = @skill_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -264,23 +326,41 @@ public class UserSkillsRepository : IUserSkillsRepository
                 command.Parameters.AddWithValue("@speed", skills.speed);
                 command.Parameters.AddWithValue("@critical_damage_rate", skills.critical_damage_rate);
                 command.Parameters.AddWithValue("@critical_rate", skills.critical_rate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", skills.critical_resistance_rate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", skills.ignore_critical_rate);
                 command.Parameters.AddWithValue("@penetration_rate", skills.penetration_rate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", skills.penetration_resistance_rate);
                 command.Parameters.AddWithValue("@evasion_rate", skills.evasion_rate);
                 command.Parameters.AddWithValue("@damage_absorption_rate", skills.damage_absorption_rate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", skills.ignore_damage_absorption_rate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", skills.absorbed_damage_rate);
                 command.Parameters.AddWithValue("@vitality_regeneration_rate", skills.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", skills.vitality_regeneration_resistance_rate);
                 command.Parameters.AddWithValue("@accuracy_rate", skills.accuracy_rate);
                 command.Parameters.AddWithValue("@lifesteal_rate", skills.lifesteal_rate);
                 command.Parameters.AddWithValue("@shield_strength", skills.shield_strength);
                 command.Parameters.AddWithValue("@tenacity", skills.tenacity);
                 command.Parameters.AddWithValue("@resistance_rate", skills.resistance_rate);
                 command.Parameters.AddWithValue("@combo_rate", skills.combo_rate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", skills.ignore_combo_rate);
+                command.Parameters.AddWithValue("@combo_damage_rate", skills.combo_damage_rate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", skills.combo_resistance_rate);
+                command.Parameters.AddWithValue("@stun_rate", skills.stun_rate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", skills.ignore_stun_rate);
                 command.Parameters.AddWithValue("@reflection_rate", skills.reflection_rate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", skills.ignore_reflection_rate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", skills.reflection_damage_rate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", skills.reflection_resistance_rate);
                 command.Parameters.AddWithValue("@mana", skills.mana);
                 command.Parameters.AddWithValue("@mana_regeneration_rate", skills.mana_regeneration_rate);
                 command.Parameters.AddWithValue("@damage_to_different_faction_rate", skills.damage_to_different_faction_rate);
                 command.Parameters.AddWithValue("@resistance_to_different_faction_rate", skills.resistance_to_different_faction_rate);
                 command.Parameters.AddWithValue("@damage_to_same_faction_rate", skills.damage_to_same_faction_rate);
                 command.Parameters.AddWithValue("@resistance_to_same_faction_rate", skills.resistance_to_same_faction_rate);
+                command.Parameters.AddWithValue("@normal_damage_rate", skills.normal_damage_rate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", skills.normal_resistance_rate);
+                command.Parameters.AddWithValue("@skill_damage_rate", skills.skill_damage_rate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", skills.skill_resistance_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -308,16 +388,24 @@ public class UserSkillsRepository : IUserSkillsRepository
                     atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
                     mental_attack = @mental_attack, mental_defense = @mental_defense, 
                     speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, penetration_rate = @penetration_rate, 
+                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
+                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
                     evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    vitality_regeneration_rate = @vitality_regeneration_rate, accuracy_rate = @accuracy_rate, 
-                    lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, combo_rate = @combo_rate, 
-                    reflection_rate = @reflection_rate, mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
+                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
+                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
+                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
+                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
+                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
+                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
                     damage_to_different_faction_rate = @damage_to_different_faction_rate, 
                     resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
                     damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
+                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
+                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND skill_id = @skill_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -339,23 +427,41 @@ public class UserSkillsRepository : IUserSkillsRepository
                 command.Parameters.AddWithValue("@speed", skills.speed);
                 command.Parameters.AddWithValue("@critical_damage_rate", skills.critical_damage_rate);
                 command.Parameters.AddWithValue("@critical_rate", skills.critical_rate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", skills.critical_resistance_rate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", skills.ignore_critical_rate);
                 command.Parameters.AddWithValue("@penetration_rate", skills.penetration_rate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", skills.penetration_resistance_rate);
                 command.Parameters.AddWithValue("@evasion_rate", skills.evasion_rate);
                 command.Parameters.AddWithValue("@damage_absorption_rate", skills.damage_absorption_rate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", skills.ignore_damage_absorption_rate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", skills.absorbed_damage_rate);
                 command.Parameters.AddWithValue("@vitality_regeneration_rate", skills.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", skills.vitality_regeneration_resistance_rate);
                 command.Parameters.AddWithValue("@accuracy_rate", skills.accuracy_rate);
                 command.Parameters.AddWithValue("@lifesteal_rate", skills.lifesteal_rate);
                 command.Parameters.AddWithValue("@shield_strength", skills.shield_strength);
                 command.Parameters.AddWithValue("@tenacity", skills.tenacity);
                 command.Parameters.AddWithValue("@resistance_rate", skills.resistance_rate);
                 command.Parameters.AddWithValue("@combo_rate", skills.combo_rate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", skills.ignore_combo_rate);
+                command.Parameters.AddWithValue("@combo_damage_rate", skills.combo_damage_rate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", skills.combo_resistance_rate);
+                command.Parameters.AddWithValue("@stun_rate", skills.stun_rate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", skills.ignore_stun_rate);
                 command.Parameters.AddWithValue("@reflection_rate", skills.reflection_rate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", skills.ignore_reflection_rate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", skills.reflection_damage_rate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", skills.reflection_resistance_rate);
                 command.Parameters.AddWithValue("@mana", skills.mana);
                 command.Parameters.AddWithValue("@mana_regeneration_rate", skills.mana_regeneration_rate);
                 command.Parameters.AddWithValue("@damage_to_different_faction_rate", skills.damage_to_different_faction_rate);
                 command.Parameters.AddWithValue("@resistance_to_different_faction_rate", skills.resistance_to_different_faction_rate);
                 command.Parameters.AddWithValue("@damage_to_same_faction_rate", skills.damage_to_same_faction_rate);
                 command.Parameters.AddWithValue("@resistance_to_same_faction_rate", skills.resistance_to_same_faction_rate);
+                command.Parameters.AddWithValue("@normal_damage_rate", skills.normal_damage_rate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", skills.normal_resistance_rate);
+                command.Parameters.AddWithValue("@skill_damage_rate", skills.skill_damage_rate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", skills.skill_resistance_rate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -404,23 +510,41 @@ public class UserSkillsRepository : IUserSkillsRepository
                         speed = reader.GetDouble("speed"),
                         critical_damage_rate = reader.GetDouble("critical_damage_rate"),
                         critical_rate = reader.GetDouble("critical_rate"),
+                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
+                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
                         penetration_rate = reader.GetDouble("penetration_rate"),
+                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
                         evasion_rate = reader.GetDouble("evasion_rate"),
                         damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
+                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
                         vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
+                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
                         accuracy_rate = reader.GetDouble("accuracy_rate"),
                         lifesteal_rate = reader.GetDouble("lifesteal_rate"),
                         shield_strength = reader.GetDouble("shield_strength"),
                         tenacity = reader.GetDouble("tenacity"),
                         resistance_rate = reader.GetDouble("resistance_rate"),
                         combo_rate = reader.GetDouble("combo_rate"),
+                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
+                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
+                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
+                        stun_rate = reader.GetDouble("stun_rate"),
+                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
                         reflection_rate = reader.GetDouble("reflection_rate"),
+                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
+                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
+                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
                         mana = reader.GetFloat("mana"),
                         mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
                         damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
                         resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
                         damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
                         resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
+                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
+                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
+                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
                     };
                 }
             }

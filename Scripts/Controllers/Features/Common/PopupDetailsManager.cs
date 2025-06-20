@@ -17,8 +17,10 @@ public class PopupDetailsManager : MonoBehaviour
     private Transform firstPopupPanel;
     private Transform elementPopupPanel;
     private Transform element2PopupPanel;
+    private Transform element3PopupPanel;
+    private Transform element4PopupPanel;
     private Transform descriptionPopupPanel;
-    private string descriptionColor="#F9EED9";
+    private string descriptionColor = "#F9EED9";
     // Start is called before the first frame update
     void Start()
     {
@@ -42,10 +44,14 @@ public class PopupDetailsManager : MonoBehaviour
         GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, numberDetailsPanel);
         GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, numberDetailsPanel);
         GameObject elementDetails2Object = Instantiate(NumberDetail3Prefab, numberDetailsPanel);
+        GameObject elementDetails3Object = Instantiate(NumberDetail3Prefab, numberDetailsPanel);
+        GameObject elementDetails4Object = Instantiate(NumberDetail3Prefab, numberDetailsPanel);
         GameObject descriptionDetailsObject = Instantiate(NumberDetail3Prefab, numberDetailsPanel);
         firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
         elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
         element2PopupPanel = elementDetails2Object.transform.Find("ElementDetails");
+        element3PopupPanel = elementDetails3Object.transform.Find("ElementDetails");
+        element4PopupPanel = elementDetails4Object.transform.Find("ElementDetails");
         descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
         // Kiểm tra kiểu của data và ép kiểu phù hợp
         if (data is CardHeroes card)
@@ -1262,119 +1268,173 @@ public class PopupDetailsManager : MonoBehaviour
             CreatePropertyUI(1, property, value);
         }
     }
-    public void CreatePropertyUI(int status, PropertyInfo property, object value){
+    public void CreatePropertyUI(int status, PropertyInfo property, object value)
+    {
         if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
             && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
             && !property.Name.Equals("status") && !property.Name.Equals("name")
             && !property.Name.Equals("image"))
+        {
+            if (property.Name.Equals("description"))
             {
-                if (property.Name.Equals("description"))
+                // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
+                GameObject descriptionTextObject = new GameObject("DescriptionText");
+                descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
+
+                // Thêm component TextMeshProUGUI vào đối tượng mới
+                TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
+
+                // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
+                descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
+                descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
+                descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
+
+                // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
+                // Đổi màu chữ bằng mã hex #844000
+                Color color;
+                if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
                 {
-                    // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
-                    GameObject descriptionTextObject = new GameObject("DescriptionText");
-                    descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
-
-                    // Thêm component TextMeshProUGUI vào đối tượng mới
-                    TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
-
-                    // Cấu hình các thuộc tính cơ bản cho TextMeshProUGUI
-                    descriptionText.text = value != null ? value.ToString() : "null"; // Gán nội dung mô tả vào text
-                    descriptionText.fontSize = 24; // Cài đặt kích thước font, có thể thay đổi theo nhu cầu
-                    descriptionText.alignment = TextAlignmentOptions.TopLeft; // Cài đặt căn chỉnh văn bản
-
-                    // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
-                    // Đổi màu chữ bằng mã hex #844000
-                    Color color;
-                    if (ColorUtility.TryParseHtmlString(descriptionColor, out color)) // Chuyển mã hex thành Color
-                    {
-                        descriptionText.color = color; // Gán màu cho text
-                    }
-
-                    // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
-                    RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                    rectTransform.sizeDelta = new Vector2(600, 100);
-                    rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
+                    descriptionText.color = color; // Gán màu cho text
                 }
-                else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-                || property.Name.Equals("star") || property.Name.Equals("level"))
-                {
-                    // Tạo một element mới từ prefab
-                    GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
 
-                    // Gán tên thuộc tính vào TitleText
-                    TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                    if (elementTitleText != null)
-                        elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+                // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
+                RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
+                rectTransform.sizeDelta = new Vector2(600, 100);
+                rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
+            }
+            else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
+            || property.Name.Equals("star") || property.Name.Equals("level"))
+            {
+                // Tạo một element mới từ prefab
+                GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
 
-                    // Gán giá trị thuộc tính vào ContentText
-                    TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                    if (elementContentText != null)
-                        elementContentText.text = value != null ? value.ToString() : "";
-                }
-                else if(property.Name.Equals("health") || property.Name.Equals("physical_attack") || property.Name.Equals("physical_defense")
-                || property.Name.Equals("magical_attack") || property.Name.Equals("magical_defense")
-                || property.Name.Equals("chemical_attack") || property.Name.Equals("chemical_defense")
-                || property.Name.Equals("atomic_attack") || property.Name.Equals("atomic_defense")
-                || property.Name.Equals("mental_attack") || property.Name.Equals("mental_defense"))
+                // Gán tên thuộc tính vào TitleText
+                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                if (elementTitleText != null)
+                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+
+                // Gán giá trị thuộc tính vào ContentText
+                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                if (elementContentText != null)
+                    elementContentText.text = value != null ? value.ToString() : "";
+            }
+            else if (property.Name.Equals("health") || property.Name.Equals("physical_attack") || property.Name.Equals("physical_defense")
+            || property.Name.Equals("magical_attack") || property.Name.Equals("magical_defense")
+            || property.Name.Equals("chemical_attack") || property.Name.Equals("chemical_defense")
+            || property.Name.Equals("atomic_attack") || property.Name.Equals("atomic_defense")
+            || property.Name.Equals("mental_attack") || property.Name.Equals("mental_defense"))
+            {
+                // Kiểm tra nếu value không phải null
+                if (value != null)
                 {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
+                    if (value is double intValue && intValue != -1)
                     {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                        // Tạo một element mới từ prefab
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
 
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+                        // Gán tên thuộc tính vào TitleText
+                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                        if (elementTitleText != null)
+                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
 
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
+                        // Gán giá trị thuộc tính vào ContentText
+                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                        if (elementContentText != null)
+                            elementContentText.text = intValue.ToString();
 
-                            RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                            CreatePropertyRuneUI(property.Name, runeImage);
-                        }
-                    }
-                }
-                else if(property.Name.Equals("speed") || property.Name.Equals("critical_damage_rate") || property.Name.Equals("critical_rate")
-                || property.Name.Equals("penetration_rate") || property.Name.Equals("evasion_rate")
-                || property.Name.Equals("damage_absorption_rate") || property.Name.Equals("vitality_regeneration_rate")
-                || property.Name.Equals("accuracy_rate") || property.Name.Equals("lifesteal_rate")
-                || property.Name.Equals("shield_strength") || property.Name.Equals("tenacity")
-                || property.Name.Equals("resistance_rate") || property.Name.Equals("combo_rate")
-                || property.Name.Equals("mana") || property.Name.Equals("mana_regeneration_rate")
-                || property.Name.Equals("reflection_rate")
-                || property.Name.Equals("damage_to_different_faction_rate") || property.Name.Equals("resistance_to_different_faction_rate")
-                || property.Name.Equals("damage_to_same_faction_rate") || property.Name.Equals("resistance_to_same_faction_rate"))
-                {
-                    // Kiểm tra nếu value không phải null
-                    if (value != null)
-                    {
-                        if (value is double intValue && intValue != -1)
-                        {
-                            // Tạo một element mới từ prefab
-                            GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
-
-                            // Gán tên thuộc tính vào TitleText
-                            TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                            if (elementTitleText != null)
-                                elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
-
-                            // Gán giá trị thuộc tính vào ContentText
-                            TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                            if (elementContentText != null)
-                                elementContentText.text = intValue.ToString();
-                            
-                            RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                            CreatePropertyRuneUI(property.Name, runeImage);
-                        }
+                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                        CreatePropertyRuneUI(property.Name, runeImage);
                     }
                 }
             }
+            else if (property.Name.Equals("speed") || property.Name.Equals("critical_damage_rate") || property.Name.Equals("critical_rate")
+            || property.Name.Equals("critical_resistance_rate") || property.Name.Equals("ignore_critical_rate")
+            || property.Name.Equals("penetration_rate") || property.Name.Equals("penetration_resistance_rate") || property.Name.Equals("evasion_rate")
+            || property.Name.Equals("damage_absorption_rate") || property.Name.Equals("ignore_damage_absorption_rate") || property.Name.Equals("absorbed_damage_rate")
+            || property.Name.Equals("vitality_regeneration_rate") || property.Name.Equals("vitality_regeneration_resistance_rate"))
+            {
+                // Kiểm tra nếu value không phải null
+                if (value != null)
+                {
+                    if (value is double intValue && intValue != -1)
+                    {
+                        // Tạo một element mới từ prefab
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
+
+                        // Gán tên thuộc tính vào TitleText
+                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                        if (elementTitleText != null)
+                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+
+                        // Gán giá trị thuộc tính vào ContentText
+                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                        if (elementContentText != null)
+                            elementContentText.text = intValue.ToString();
+
+                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                        CreatePropertyRuneUI(property.Name, runeImage);
+                    }
+                }
+            }
+            else if (property.Name.Equals("accuracy_rate") || property.Name.Equals("lifesteal_rate")
+            || property.Name.Equals("shield_strength") || property.Name.Equals("tenacity")
+            || property.Name.Equals("resistance_rate") || property.Name.Equals("combo_rate") || property.Name.Equals("ignore_combo_rate")
+            || property.Name.Equals("combo_damage_rate") || property.Name.Equals("combo_resistance_rate") || property.Name.Equals("stun_rate") || property.Name.Equals("ignore_stun_rate")
+            || property.Name.Equals("mana") || property.Name.Equals("mana_regeneration_rate")
+            || property.Name.Equals("reflection_rate") || property.Name.Equals("ignore_reflection_rate") || property.Name.Equals("reflection_damage_rate") || property.Name.Equals("reflection_resistance_rate"))
+            {
+                // Kiểm tra nếu value không phải null
+                if (value != null)
+                {
+                    if (value is double intValue && intValue != -1)
+                    {
+                        // Tạo một element mới từ prefab
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element3PopupPanel);
+
+                        // Gán tên thuộc tính vào TitleText
+                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                        if (elementTitleText != null)
+                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+
+                        // Gán giá trị thuộc tính vào ContentText
+                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                        if (elementContentText != null)
+                            elementContentText.text = intValue.ToString();
+
+                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                        CreatePropertyRuneUI(property.Name, runeImage);
+                    }
+                }
+            }
+            else if (property.Name.Equals("damage_to_different_faction_rate") || property.Name.Equals("resistance_to_different_faction_rate")
+            || property.Name.Equals("damage_to_same_faction_rate") || property.Name.Equals("resistance_to_same_faction_rate")
+            || property.Name.Equals("normal_damage_rate") || property.Name.Equals("normal_resistance_rate")
+            || property.Name.Equals("skill_damage_rate") || property.Name.Equals("skill_resistance_rate"))
+            {
+                // Kiểm tra nếu value không phải null
+                if (value != null)
+                {
+                    if (value is double intValue && intValue != -1)
+                    {
+                        // Tạo một element mới từ prefab
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element4PopupPanel);
+
+                        // Gán tên thuộc tính vào TitleText
+                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                        if (elementTitleText != null)
+                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name);
+
+                        // Gán giá trị thuộc tính vào ContentText
+                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                        if (elementContentText != null)
+                            elementContentText.text = intValue.ToString();
+
+                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                        CreatePropertyRuneUI(property.Name, runeImage);
+                    }
+                }
+            }
+        }
     }
     public void CreatePropertyRuneUI(string title, RawImage runeImage)
     {
@@ -1435,33 +1495,43 @@ public class PopupDetailsManager : MonoBehaviour
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("speed") || title.Equals("critical_damage_rate") || title.Equals("critical_rate") ||
-                title.Equals("penetration_rate") || title.Equals("evasion_rate") ||
-                title.Equals("damage_absorption_rate") || title.Equals("vitality_regeneration_rate") ||
+                title.Equals("critical_resistance_rate") || title.Equals("ignore_critical_rate") ||
+                title.Equals("penetration_rate") || title.Equals("penetration_resistance_rate") || title.Equals("evasion_rate") ||
+                title.Equals("damage_absorption_rate") || title.Equals("ignore_damage_absorption_rate") || title.Equals("absorbed_damage_rate") ||
+                title.Equals("vitality_regeneration_rate") || title.Equals("vitality_regeneration_resistance_rate") ||
                 title.Equals("all_speed") || title.Equals("all_critical_damage_rate") || title.Equals("all_critical_rate") ||
-                title.Equals("all_penetration_rate") || title.Equals("all_evasion_rate") ||
-                title.Equals("all_damage_absorption_rate") || title.Equals("all_vitality_regeneration_rate"))
+                title.Equals("all_critical_resistance_rate") || title.Equals("all_ignore_critical_rate") ||
+                title.Equals("all_penetration_rate") || title.Equals("all_penetration_resistance_rate") || title.Equals("all_evasion_rate") ||
+                title.Equals("all_damage_absorption_rate") || title.Equals("all_ignore_damage_absorption_rate") || title.Equals("all_absorbed_damage_rate") ||
+                title.Equals("all_vitality_regeneration_rate") || title.Equals("all_vitality_regeneration_resistance_rate"))
         {
             runeTexture = Resources.Load<Texture>($"UI/Rune/Atomic_1");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("accuracy_rate") || title.Equals("lifesteal_rate") ||
                 title.Equals("shield_strength") || title.Equals("tenacity") ||
-                title.Equals("resistance_rate") || title.Equals("combo_rate") ||
+                title.Equals("resistance_rate") || title.Equals("combo_rate") || title.Equals("ignore_combo_rate") ||
+                title.Equals("combo_damage_rate") || title.Equals("combo_resistance_rate") || title.Equals("stun_rate") || title.Equals("ignore_stun_rate") ||
                 title.Equals("mana") || title.Equals("mana_regeneration_rate") ||
-                title.Equals("reflection_rate") ||
+                title.Equals("reflection_rate") || title.Equals("ignore_reflection_rate") || title.Equals("reflection_damage_rate") || title.Equals("reflection_resistance_rate") ||
                 title.Equals("all_accuracy_rate") || title.Equals("all_lifesteal_rate") ||
                 title.Equals("all_shield_strength") || title.Equals("all_tenacity") ||
-                title.Equals("all_resistance_rate") || title.Equals("all_combo_rate") ||
+                title.Equals("all_resistance_rate") || title.Equals("all_combo_rate") || title.Equals("all_ignore_combo_rate") ||
+                title.Equals("all_combo_damage_rate") || title.Equals("all_combo_resistance_rate") || title.Equals("all_stun_rate") || title.Equals("all_ignore_stun_rate") ||
                 title.Equals("all_mana") || title.Equals("all_mana_regeneration_rate") ||
-                title.Equals("all_reflection_rate"))
+                title.Equals("all_reflection_rate") || title.Equals("all_ignore_reflection_rate") || title.Equals("all_reflection_damage_rate") || title.Equals("all_reflection_resistance_rate"))
         {
             runeTexture = Resources.Load<Texture>($"UI/Rune/Chemical_1");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("damage_to_different_faction_rate") || title.Equals("resistance_to_different_faction_rate") ||
                 title.Equals("damage_to_same_faction_rate") || title.Equals("resistance_to_same_faction_rate") ||
+                title.Equals("normal_damage_rate") || title.Equals("normal_resistance_rate") ||
+                title.Equals("skill_damage_rate") || title.Equals("skill_resistance_rate") ||
                 title.Equals("all_damage_to_different_faction_rate") || title.Equals("all_resistance_to_different_faction_rate") ||
-                title.Equals("all_damage_to_same_faction_rate") || title.Equals("all_resistance_to_same_faction_rate"))
+                title.Equals("all_damage_to_same_faction_rate") || title.Equals("all_resistance_to_same_faction_rate") ||
+                title.Equals("all_normal_damage_rate") || title.Equals("all_normal_resistance_rate") ||
+                title.Equals("all_skill_damage_rate") || title.Equals("all_skill_resistance_rate"))
         {
             runeTexture = Resources.Load<Texture>($"UI/Rune/Magic_1");
             runeImage.texture = runeTexture;
