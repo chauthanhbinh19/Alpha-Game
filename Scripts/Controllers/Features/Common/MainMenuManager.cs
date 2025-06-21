@@ -517,19 +517,38 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
+
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("SummonBooks"))
@@ -546,19 +565,37 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("SummonCardCaptains"))
@@ -575,19 +612,37 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("SummonCardMilitary"))
@@ -604,19 +659,37 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("SummonCardSpell"))
@@ -633,19 +706,37 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("SummonCardMonsters"))
@@ -662,19 +753,37 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("SummonCardColonels"))
@@ -691,19 +800,37 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("SummonCardGenerals"))
@@ -720,19 +847,37 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("SummonCardAdmirals"))
@@ -749,19 +894,37 @@ public class MainMenuManager : MonoBehaviour
 
                         SummonButton.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 1, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                         Summon10Button.onClick.AddListener(() =>
                         {
-                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items);
-                            CurrencyManager.Instance.GetTicketsCurrency(
-                                new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
-                                CurrencyPanel
-                                );
+                            FindObjectOfType<GachaSystem>().Summon(mainType, subtype, summonObject, 10, items, (success) =>
+                            {
+                                if (success)
+                                {
+                                    CurrencyManager.Instance.GetTicketsCurrency(
+                                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
+                                    CurrencyPanel
+                                    );
+                                }
+                                else
+                                {
+                                    // Debug.Log("Summon thất bại!");
+                                }
+                            });
                         });
                     }
                     else if (mainType.Equals("Talisman"))
@@ -1025,19 +1188,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("SummonBooks"))
@@ -1057,19 +1238,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("SummonCardCaptains"))
@@ -1089,19 +1288,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("SummonCardMilitary"))
@@ -1121,19 +1338,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("SummonCardSpell"))
@@ -1153,19 +1388,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("SummonCardMonsters"))
@@ -1185,19 +1438,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("SummonCardColonels"))
@@ -1217,19 +1488,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("SummonCardGenerals"))
@@ -1249,19 +1538,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("SummonCardAdmirals"))
@@ -1281,19 +1588,37 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items);
-                CurrencyManager.Instance.GetTicketsCurrency(
-                    new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
-                    CurrencyPanel
-                    );
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                {
+                    if (success)
+                    {
+                        CurrencyManager.Instance.GetTicketsCurrency(
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
+                        CurrencyPanel
+                        );
+                    }
+                    else
+                    {
+                        // Debug.Log("Summon thất bại!");
+                    }
+                });
             });
         }
         else if (mainType.Equals("Talisman"))

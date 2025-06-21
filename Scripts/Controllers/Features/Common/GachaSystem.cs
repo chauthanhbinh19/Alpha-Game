@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Video;
+using System;
 
 public class GachaSystem : MonoBehaviour
 {
@@ -13,12 +14,12 @@ public class GachaSystem : MonoBehaviour
     private Texture backImage; // Mặt sau (image1.png)
     // private bool isSummonAreaActive = false;
 
-    public void Summon(string name, string type, GameObject summonObject, int quantity, List<Items> items)
+    public void Summon(string name, string type, GameObject summonObject, int quantity, List<Items> items, Action<bool> onFinished)
     {
-        StartCoroutine(PlaySummonVideoAndSummon(name, type, summonObject, quantity, items));
+        StartCoroutine(PlaySummonVideoAndSummon(name, type, summonObject, quantity, items, onFinished));
         
     }
-    IEnumerator PlaySummonVideoAndSummon(string name, string type, GameObject summonObject, int quantity, List<Items> items)
+    IEnumerator PlaySummonVideoAndSummon(string name, string type, GameObject summonObject, int quantity, List<Items> items, Action<bool> onFinished)
     {
         RawImage summonEffectImage = summonObject.transform.Find("SummonEffectImage").GetComponent<RawImage>();
         VideoPlayer videoPlayer = summonObject.transform.Find("SummonEffect").GetComponent<VideoPlayer>();
@@ -26,6 +27,7 @@ public class GachaSystem : MonoBehaviour
         if (videoPlayer == null || videoPlayer.clip == null)
         {
             Debug.LogWarning("VideoPlayer or video clip is missing!");
+            onFinished?.Invoke(false); // Thất bại
             yield break;
         }
 
@@ -59,16 +61,17 @@ public class GachaSystem : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         // Tắt RawImage sau khi video kết thúc
         summonEffectImage.gameObject.SetActive(false);
-        SummonEvent(name, type, summonObject, quantity, items);
+        bool result = SummonEvent(name, type, summonObject, quantity, items);
+        onFinished?.Invoke(result);
     }
-    private void SummonEvent(string name, string type, GameObject summonObject, int quantity, List<Items> items)
+    private bool SummonEvent(string name, string type, GameObject summonObject, int quantity, List<Items> items)
     {
         Transform area = summonObject.transform.Find("SummonArea");
-        
+
         if (area == null)
         {
             Debug.LogError("Summon area is null!");
-            return;
+            return false;
         }
 
         IList cards = null;
@@ -82,7 +85,7 @@ public class GachaSystem : MonoBehaviour
             }
             else
             {
-                return;
+                return false;
             }
         }
 
@@ -118,19 +121,19 @@ public class GachaSystem : MonoBehaviour
                 break;
             default:
                 Debug.LogError("Invalid type: " + type);
-                return;
+                return false;
         }
 
         if (items == null || items.Count == 0)
         {
             Debug.LogError("No items found for type: " + type);
-            return;
+            return false;
         }
         backImage = Resources.Load<Texture>("UI/Frame_5");
         if (backImage == null)
         {
             Debug.LogError(MessageHelper.ImageConstants.ImageIsNull);
-            return;
+            return false;
         }
 
         summonArea = area;
@@ -143,11 +146,11 @@ public class GachaSystem : MonoBehaviour
         if (cardPrefab == null)
         {
             Debug.LogError(MessageHelper.PrefabConstants.PrefabIsNull);
-            return;
+            return false;
         }
 
         // Lấy 10 thẻ ngẫu nhiên
-        var randomItems = cards.Cast<object>().OrderBy(x => Random.value).Take(quantity).ToList();
+        var randomItems = cards.Cast<object>().OrderBy(x => UnityEngine.Random.value).Take(quantity).ToList();
 
         foreach (var card in randomItems)
         {
@@ -238,6 +241,7 @@ public class GachaSystem : MonoBehaviour
         }
         // Hiển thị các thẻ bài mặt sau
         StartCoroutine(DisplayCards(randomItems));
+        return true;
     }
     private IEnumerator DisplayCards(List<object> randomItems)
     {
