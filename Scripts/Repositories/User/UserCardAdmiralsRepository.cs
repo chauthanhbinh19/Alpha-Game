@@ -45,7 +45,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         block = reader.GetBoolean("block"),
-                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
                         position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
 
                         power = reader.GetDouble("power"),
@@ -199,7 +199,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         block = reader.GetBoolean("block"),
-                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
                         position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
 
                         power = reader.GetDouble("power"),
@@ -1104,7 +1104,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                     experiment = reader.GetInt32("experiment"),
                     quantity = reader.GetInt32("quantity"),
                     block = reader.GetBoolean("block"),
-                    team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? -1 : reader.GetInt32("team_id"),
+                    team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
                     position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
                     power = reader.GetDouble("power"),
                     health = reader.GetDouble("health"),

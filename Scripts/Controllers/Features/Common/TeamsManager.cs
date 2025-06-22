@@ -1180,7 +1180,7 @@ public class TeamsManager : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardHeroes.rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
-                if (cardHeroes.team_id != -1)
+                if (cardHeroes.team_id != null)
                 {
                     InTeam.gameObject.SetActive(true);
                 }
@@ -1233,7 +1233,7 @@ public class TeamsManager : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardCaptains.rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
-                if (cardCaptains.team_id != -1)
+                if (cardCaptains.team_id != null)
                 {
                     InTeam.gameObject.SetActive(true);
                 }
@@ -1285,7 +1285,7 @@ public class TeamsManager : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardColonels.rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
-                if (cardColonels.team_id != -1)
+                if (cardColonels.team_id != null)
                 {
                     InTeam.gameObject.SetActive(true);
                 }
@@ -1337,7 +1337,7 @@ public class TeamsManager : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardGenerals.rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
-                if (cardGenerals.team_id != -1)
+                if (cardGenerals.team_id != null)
                 {
                     InTeam.gameObject.SetActive(true);
                 }
@@ -1389,7 +1389,7 @@ public class TeamsManager : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmirals.rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
-                if (cardAdmirals.team_id != -1)
+                if (cardAdmirals.team_id != null)
                 {
                     InTeam.gameObject.SetActive(true);
                 }
@@ -1441,7 +1441,7 @@ public class TeamsManager : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonsters.rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
-                if (cardMonsters.team_id != -1)
+                if (cardMonsters.team_id != null)
                 {
                     InTeam.gameObject.SetActive(true);
                 }
@@ -1493,7 +1493,7 @@ public class TeamsManager : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMilitary.rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
-                if (cardMilitary.team_id != -1)
+                if (cardMilitary.team_id != null)
                 {
                     InTeam.gameObject.SetActive(true);
                 }
@@ -1545,7 +1545,7 @@ public class TeamsManager : MonoBehaviour
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
-                if (cardSpell.team_id != -1)
+                if (cardSpell.team_id != null)
                 {
                     InTeam.gameObject.SetActive(true);
                 }

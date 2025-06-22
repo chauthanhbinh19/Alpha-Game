@@ -1508,8 +1508,10 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Transform borderEffect = button.transform.Find("BorderEffect");
                     if (borderEffect != null)
                     {
-                        if(EvaluateSlotForEquipment.CanUseBorderEffect(mainType))
-                        borderEffect.gameObject.SetActive(true);
+                        if (EvaluateSlotForEquipment.CanUseBorderEffect(mainType))
+                        {
+                            borderEffect.gameObject.SetActive(true);
+                        }
                     }
                 }
 

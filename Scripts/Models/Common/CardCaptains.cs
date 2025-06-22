@@ -20,7 +20,6 @@ public class CardCaptains
     private string position1;
     private string description1;
     private string status1;
-    private int team_id1;
     private double percent_all_health1;
     private double percent_all_physical_attack1;
     private double percent_all_physical_defense1;
@@ -148,7 +147,7 @@ public class CardCaptains
     public double all_skill_resistance_rate { get; set; }
     public string description { get => description1; set => description1 = value; }
     public string status { get => status1; set => status1 = value; }
-    public int team_id { get => team_id1; set => team_id1 = value; }
+    public string team_id { get; set; }
     public double percent_all_health { get => percent_all_health1; set => percent_all_health1 = value; }
     public double percent_all_physical_attack { get => percent_all_physical_attack1; set => percent_all_physical_attack1 = value; }
     public double percent_all_physical_defense { get => percent_all_physical_defense1; set => percent_all_physical_defense1 = value; }
@@ -229,7 +228,7 @@ public class CardCaptains
         all_damage_to_same_faction_rate = -1;
         all_resistance_to_same_faction_rate = -1;
 
-        team_id = -1;
+        team_id = "-1";
         percent_all_health = -1;
         percent_all_physical_attack = -1;
         percent_all_physical_defense = -1;
