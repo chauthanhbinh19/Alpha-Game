@@ -401,7 +401,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         }
         else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
         {
-            GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
+            slotObject = Instantiate(Slot16Prefab, SlotPanel);
             Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
@@ -1504,6 +1504,13 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
                     Transform currentStar = button.transform.Find("Star");
                     CreateStarUI(equipment.star, currentStar);
+
+                    Transform borderEffect = button.transform.Find("BorderEffect");
+                    if (borderEffect != null)
+                    {
+                        if(EvaluateSlotForEquipment.CanUseBorderEffect(mainType))
+                        borderEffect.gameObject.SetActive(true);
+                    }
                 }
 
                 foundEquipment = true; // Đánh dấu là đã tìm thấy thiết bị

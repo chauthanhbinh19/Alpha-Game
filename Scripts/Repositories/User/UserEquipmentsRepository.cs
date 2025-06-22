@@ -240,7 +240,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 connection.Open();
                 string query = @"
                 INSERT INTO user_equipments (
-                    user_id, equipment_id, sequence, level, experiment, star, quality, block, power,
+                    user_id, equipment_id, sequence, level, experiment, star, quality, block,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -255,12 +255,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     damage_to_different_faction_rate, resistance_to_different_faction_rate,
                     damage_to_same_faction_rate, resistance_to_same_faction_rate,
                     normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate
+                    skill_damage_rate, skill_resistance_rate,
                     special_health, special_physical_attack, special_physical_defense, special_magical_attack,
                     special_magical_defense, special_chemical_attack, special_chemical_defense, special_atomic_attack,
                     special_atomic_defense, special_mental_attack, special_mental_defense, special_speed
                 ) VALUES (
-                    @user_id, @equipment_id, @sequence, @level, @experiment, @star, @quality, @block, @power, 
+                    @user_id, @equipment_id, @sequence, @level, @experiment, @star, @quality, @block, 
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -275,7 +275,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
                     @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
                     @normal_damage_rate, @normal_resistance_rate,
-                    @skill_damage_rate, @skill_resistance_rate
+                    @skill_damage_rate, @skill_resistance_rate,
+                    @special_health, @special_physical_attack, @special_physical_defense, @special_magical_attack,
                     @special_magical_defense, @special_chemical_attack, @special_chemical_defense, @special_atomic_attack,
                     @special_atomic_defense, @special_mental_attack, @special_mental_defense, @special_speed
                 )";

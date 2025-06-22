@@ -56,18 +56,20 @@ public class UserService : IUserService
     {
         User user = _userRepository.SignInUser(username, password);
 
-        Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
-        string Border = borders.image;
+        if (user != null)
+        {
+            Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
+            string Border = borders.image;
 
-        Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.id);
-        string Image = avatar.image;
+            Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.id);
+            string Image = avatar.image;
 
-        User.CurrentUserAvatar = Image;
-        User.CurrentUserBorder = Border;
+            User.CurrentUserAvatar = Image;
+            User.CurrentUserBorder = Border;
 
-        user.image = Image;
-        user.border = Border;
-
+            user.image = Image;
+            user.border = Border;
+        }
         // Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket);
         // UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
         // Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket);

@@ -26,7 +26,7 @@ public class CardColonelsGalleryController : MonoBehaviour
     void Start()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
     }
 
     // Update is called once per frame

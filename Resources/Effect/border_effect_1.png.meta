@@ -1,0 +1,2103 @@
+fileFormatVersion: 2
+guid: e11570253359f9c498f90b3abc4ab551
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: border_effect_1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5814
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9f3f1bf8ab1988408ea173765b56ee7
+      internalID: 2001113391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_1
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 5814
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 508eadc3ed8e807478d4c3a86f4a2c1f
+      internalID: -2069612686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_2
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 5814
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 856b0442be9f0844e9b5319005720a35
+      internalID: -1738953595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_3
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 5814
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4772bcd05f30aa34fa9da9d7db29e8c4
+      internalID: -2139161609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_4
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 5814
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbe478c779601354daca3034164ca850
+      internalID: -195063740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5472
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f97617ff1d780be4ab4dc8c2c23617e4
+      internalID: 1961093196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_6
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 5472
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59ceef9a3c298ca458324058067bd5a0
+      internalID: -2081668477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_7
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 5472
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5de57f61385b1564fb46ded8d7795fd2
+      internalID: -934351380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_8
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 5472
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e484eb59790c7c243a2053d51a760080
+      internalID: -1830501161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_9
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 5472
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bad4ea455c2ee4f4e90d94d3a5ecd5a2
+      internalID: -790107114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5130
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92fdd2f33ada81349bd0ce9369e487dc
+      internalID: 1079957325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_11
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 5130
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 217fb16b8f1d0b14b8563b2c416aba6c
+      internalID: 1442700153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_12
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 5130
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f92f4763dcbaa247a89e36b0b508e0f
+      internalID: -1377605488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_13
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 5130
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 452d090497fe439478d510ef228184df
+      internalID: 2072575652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_14
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 5130
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b41f5ae73eeece24494e799aa8b975c4
+      internalID: 1150892162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4788
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc8eea68291645f4b82f5ec737c0c745
+      internalID: 1889286521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_16
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 4788
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a6abbc9db9b2064fb21bedac29dfc10
+      internalID: 2050800593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_17
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 4788
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70837e9c1afd2c64ba16ec23b29f10cd
+      internalID: -347094674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_18
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 4788
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a8e9b2365e07b349a9779f7f6bf7b4c
+      internalID: -626561966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_19
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 4788
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc7b4b2c6041cbb419f3afc809f14bf6
+      internalID: -1517586108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4446
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5968a38d2f0c404aa8610725f85afbf
+      internalID: -352543116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_21
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 4446
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75209a0ac9439fd47a2c853b3cf7c88d
+      internalID: -1802152449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_22
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 4446
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6713e38cc278b7458d95aded25c339a
+      internalID: 117521050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_23
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 4446
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17689a4391ae9c04b90ff55771b81e96
+      internalID: -1889112172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_24
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 4446
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48cb1819e0ecb2a4d93fef032d79d0ac
+      internalID: 150228081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4104
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 877d1c2f1cf554945a23dcba0ab13399
+      internalID: -1426769408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_26
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 4104
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90aaae268c7d45042933bd33c2341f42
+      internalID: -1725804253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_27
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 4104
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b0c7dc965c13ab479164fde72432ab9
+      internalID: -67493346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_28
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 4104
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47312fbf792790743b4d2f5c0a4432bc
+      internalID: 1855718196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_29
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 4104
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1093c214bdf9a6841bcc6bc994f1ab94
+      internalID: -1117798422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3762
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd332d35801699d4db05c696f0d2b83c
+      internalID: -1316871473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_31
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 3762
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60a448e564c60b043a523ba012f3b951
+      internalID: 730123246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_32
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 3762
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c736aec9b36dfeb459a49243f081738f
+      internalID: 1931483529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_33
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 3762
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da98e52a0bb52a04d99aa20a64e12bf7
+      internalID: 1283172382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_34
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 3762
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db51b518e688fd0439ae9a438368cf6f
+      internalID: 1629376256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3420
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77e07f34ca4293c4b8911a1f3c9a7063
+      internalID: 1718683379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_36
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 3420
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d704a394d4a481b4e9165dc6ff572ad9
+      internalID: 697011373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_37
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 3420
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a11e421d6e3c861478d03dea50c3acb4
+      internalID: -925783870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_38
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 3420
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b33446004bab4104c85f24d056ccc048
+      internalID: 935800450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_39
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 3420
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c946d0d2cf6756439ee0b93b7f3ac8f
+      internalID: 1270226609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3078
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 764e0c3cd67a2234d979d900f240977f
+      internalID: 1329519560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_41
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 3078
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 132e0142000d03c4fa0b8c21a1921c13
+      internalID: -165233820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_42
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 3078
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8594bb64a1dd6f04c85e76fdbaa3e1d1
+      internalID: -955704747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_43
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 3078
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9d3bf75fa24f8a44be59f732952f23e
+      internalID: 1762619594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_44
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 3078
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 979280c75da5b6f4da0dd71b54d6710e
+      internalID: -1189416260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2736
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fc8c13d83e6b4e46999229f9c07df68
+      internalID: -907150277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_46
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 2736
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 373c75ad3c1f1ca4ca5e1405eb4b78d8
+      internalID: -1871031626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_47
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 2736
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5d04d29170070a44b8b48962ec37da3
+      internalID: 688285131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_48
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 2736
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8f8b9f0383827346a146c333ec8ddd0
+      internalID: 1659139794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_49
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 2736
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f024dd0acaf9584bb7b682104e8450a
+      internalID: -495956710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2394
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7df39cfc01146a04abc1c3026a25db2d
+      internalID: -1232576409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_51
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 2394
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2da32bf3037e876439cb8585cf91b600
+      internalID: 589965105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_52
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 2394
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da94e03406a6a47439c2c0aa5c4cf36e
+      internalID: -1918687349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_53
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 2394
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d77cac6e5a9947468835b2fc7e55157
+      internalID: -2144482298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_54
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 2394
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5befcb88c027ea48bf134203a40bba0
+      internalID: -1245482604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2052
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8a520f7445dbe4428d58e28280e30d4
+      internalID: -718653945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_56
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 2052
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec2a708c59987534da24fe22eb1beea7
+      internalID: -2139750372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_57
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 2052
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b093681dffe24f489deb5f485ebcf08
+      internalID: -217223958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_58
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 2052
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df56d9cdcff4f1145b2487130b17c652
+      internalID: 838063348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_59
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 2052
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56e9ce1d9378b364aa4943123cac8a97
+      internalID: 1851775273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1710
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 233659332984830409b87024397a91c8
+      internalID: -786992869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_61
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 1710
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97034a36d8ff9a2419ee85c67f5ee143
+      internalID: -1260450638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_62
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 1710
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f53526be19d02044937a8240e696090
+      internalID: 1518105743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_63
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 1710
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbfb3f2674ae10743b335cf8b0810dd0
+      internalID: 1130529892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_64
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 1710
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14e48d15400bdc74297945d952bee8bf
+      internalID: 2048301406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_65
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1368
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55219dcb701d9134496658533b0c71ae
+      internalID: -585093263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_66
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 1368
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 866f01e3cf09fc1458b13254fc090c64
+      internalID: 1100273250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_67
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 1368
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 282d9eeb01e12974ba73001362e862e8
+      internalID: -1874313165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_68
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 1368
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 365563d917f8c32449fbaa13bb328397
+      internalID: -1439910823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_69
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 1368
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ddefd7fd45fa70418628c009bac92c1
+      internalID: 311256265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1026
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8790c0825693144c9af9449551e5430
+      internalID: 853930825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_71
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 1026
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e994ed8b3839e147be7d285beec7c6a
+      internalID: 1130788414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_72
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 1026
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fbbb733150009142bb4e4a639fa77eb
+      internalID: 877815141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_73
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 1026
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e7d11a404eea3346b9514c7f0c6937d
+      internalID: 1063943803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_74
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 1026
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd67d6050ca74d147b17452754a49a46
+      internalID: 2039787951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_75
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 684
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 148195c404baf34499e59a844147d156
+      internalID: -2035778204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_76
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 684
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8040bbfe78d69a84c935469923291165
+      internalID: 1062026113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_77
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 684
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16c5d86d333b92346b5dc9d0e649d1c3
+      internalID: 124360926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_78
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 684
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 413b57ccb18f70d4ab2d04ddd4ac2a3d
+      internalID: -1859411880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_79
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 684
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 398d1df267455b245923b3c12a7c6b05
+      internalID: -1138682086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_80
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 342
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e83c0baf8f7c7b147bcae1c85a035363
+      internalID: -2133438744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_81
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 342
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b8a492801d30de418a888954fc34465
+      internalID: -1633255100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_82
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 342
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00863591717bd844e91e81323b000b44
+      internalID: -98771582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_83
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 342
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 875546a3e743c3641bcc753df4d122d5
+      internalID: 1727984348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_84
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 342
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1c544b44ed2c9f41a75f561525b1b78
+      internalID: -1037492976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_85
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ed9d5a96a261ae43ad9856f2e505779
+      internalID: 1799251834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_86
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 0
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f160443068c400479c6a9aadb613269
+      internalID: 842096037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_87
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 0
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fab1a25b4c56574c8c7740dd1d704fd
+      internalID: 1664898570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_88
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 0
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e65c0b727985376449563350e60c603a
+      internalID: -877887573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: border_effect_1_89
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 0
+        width: 348
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa2f5b83fe901524dae5ca502eb6a3a1
+      internalID: 1821755158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 7b565c5b0bea0604897169ec72b59af5
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      border_effect_1_0: 2001113391
+      border_effect_1_1: -2069612686
+      border_effect_1_10: 1079957325
+      border_effect_1_11: 1442700153
+      border_effect_1_12: -1377605488
+      border_effect_1_13: 2072575652
+      border_effect_1_14: 1150892162
+      border_effect_1_15: 1889286521
+      border_effect_1_16: 2050800593
+      border_effect_1_17: -347094674
+      border_effect_1_18: -626561966
+      border_effect_1_19: -1517586108
+      border_effect_1_2: -1738953595
+      border_effect_1_20: -352543116
+      border_effect_1_21: -1802152449
+      border_effect_1_22: 117521050
+      border_effect_1_23: -1889112172
+      border_effect_1_24: 150228081
+      border_effect_1_25: -1426769408
+      border_effect_1_26: -1725804253
+      border_effect_1_27: -67493346
+      border_effect_1_28: 1855718196
+      border_effect_1_29: -1117798422
+      border_effect_1_3: -2139161609
+      border_effect_1_30: -1316871473
+      border_effect_1_31: 730123246
+      border_effect_1_32: 1931483529
+      border_effect_1_33: 1283172382
+      border_effect_1_34: 1629376256
+      border_effect_1_35: 1718683379
+      border_effect_1_36: 697011373
+      border_effect_1_37: -925783870
+      border_effect_1_38: 935800450
+      border_effect_1_39: 1270226609
+      border_effect_1_4: -195063740
+      border_effect_1_40: 1329519560
+      border_effect_1_41: -165233820
+      border_effect_1_42: -955704747
+      border_effect_1_43: 1762619594
+      border_effect_1_44: -1189416260
+      border_effect_1_45: -907150277
+      border_effect_1_46: -1871031626
+      border_effect_1_47: 688285131
+      border_effect_1_48: 1659139794
+      border_effect_1_49: -495956710
+      border_effect_1_5: 1961093196
+      border_effect_1_50: -1232576409
+      border_effect_1_51: 589965105
+      border_effect_1_52: -1918687349
+      border_effect_1_53: -2144482298
+      border_effect_1_54: -1245482604
+      border_effect_1_55: -718653945
+      border_effect_1_56: -2139750372
+      border_effect_1_57: -217223958
+      border_effect_1_58: 838063348
+      border_effect_1_59: 1851775273
+      border_effect_1_6: -2081668477
+      border_effect_1_60: -786992869
+      border_effect_1_61: -1260450638
+      border_effect_1_62: 1518105743
+      border_effect_1_63: 1130529892
+      border_effect_1_64: 2048301406
+      border_effect_1_65: -585093263
+      border_effect_1_66: 1100273250
+      border_effect_1_67: -1874313165
+      border_effect_1_68: -1439910823
+      border_effect_1_69: 311256265
+      border_effect_1_7: -934351380
+      border_effect_1_70: 853930825
+      border_effect_1_71: 1130788414
+      border_effect_1_72: 877815141
+      border_effect_1_73: 1063943803
+      border_effect_1_74: 2039787951
+      border_effect_1_75: -2035778204
+      border_effect_1_76: 1062026113
+      border_effect_1_77: 124360926
+      border_effect_1_78: -1859411880
+      border_effect_1_79: -1138682086
+      border_effect_1_8: -1830501161
+      border_effect_1_80: -2133438744
+      border_effect_1_81: -1633255100
+      border_effect_1_82: -98771582
+      border_effect_1_83: 1727984348
+      border_effect_1_84: -1037492976
+      border_effect_1_85: 1799251834
+      border_effect_1_86: 842096037
+      border_effect_1_87: 1664898570
+      border_effect_1_88: -877887573
+      border_effect_1_89: 1821755158
+      border_effect_1_9: -790107114
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

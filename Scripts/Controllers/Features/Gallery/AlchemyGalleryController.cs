@@ -26,7 +26,7 @@ public class AlchemyGalleryController : MonoBehaviour
     void Start()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
 
     // Update is called once per frame

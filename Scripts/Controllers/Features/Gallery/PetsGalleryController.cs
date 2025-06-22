@@ -27,8 +27,8 @@ public class PetsGalleryController : MonoBehaviour
     void Start()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
 
     // Update is called once per frame
