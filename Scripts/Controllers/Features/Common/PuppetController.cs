@@ -53,7 +53,7 @@ public class PuppetController : MonoBehaviour
             Title.text = puppet.name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = puppet.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -101,7 +101,7 @@ public class PuppetController : MonoBehaviour
             Title.text = puppet.name.Replace("_", " ");
 
             RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = puppet.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = puppetObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -131,7 +131,7 @@ public class PuppetController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = puppetObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = puppet.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -191,7 +191,7 @@ public class PuppetController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -201,7 +201,7 @@ public class PuppetController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -310,7 +310,7 @@ public class PuppetController : MonoBehaviour
                 {
                     PuppetGalleryService.Create().InsertPuppetGallery(puppet.id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = puppet.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

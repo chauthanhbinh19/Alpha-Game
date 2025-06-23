@@ -53,7 +53,7 @@ public class CardHeroesController : MonoBehaviour
             Title.text = card.name.Replace("_", " ");
 
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = card.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             // Lấy EventTrigger của RawImage
@@ -98,7 +98,7 @@ public class CardHeroesController : MonoBehaviour
             Title.text = card.name.Replace("_", " ");
 
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = card.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = cardObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -127,7 +127,7 @@ public class CardHeroesController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = cardObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = card.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -185,7 +185,7 @@ public class CardHeroesController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -195,7 +195,7 @@ public class CardHeroesController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -304,7 +304,7 @@ public class CardHeroesController : MonoBehaviour
                 {
                     CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardHeroes.id);
                     currencies = UserCurrencyService.Create().GetCardHeroesCurrency(subType);
-                    fileNameWithoutExtension = cardHeroes.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHeroes.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

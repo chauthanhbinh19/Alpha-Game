@@ -71,7 +71,7 @@ public class UserAchievementsController : MonoBehaviour
         if (obj is Achievements achievements)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = achievements.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
@@ -203,7 +203,7 @@ public class UserAchievementsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -213,7 +213,7 @@ public class UserAchievementsController : MonoBehaviour
             GameObject achievementsObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage achievementsImage = achievementsObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = achievements.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.image);
             Texture achievementsTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             achievementsImage.texture = achievementsTexture;
 

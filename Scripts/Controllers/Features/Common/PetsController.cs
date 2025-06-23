@@ -77,8 +77,7 @@ public class PetsController : MonoBehaviour
             Title.text = pet.name.Replace("_", " ");
 
             RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = pet.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
@@ -146,8 +145,7 @@ public class PetsController : MonoBehaviour
             Title.text = pet.name.Replace("_", " ");
 
             RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = pet.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = petsObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -181,7 +179,7 @@ public class PetsController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = petsObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = pet.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -240,7 +238,7 @@ public class PetsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -250,7 +248,7 @@ public class PetsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -359,7 +357,7 @@ public class PetsController : MonoBehaviour
                 {
                     PetsGalleryService.Create().InsertPetsGallery(pets.id);
                     currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
-                    fileNameWithoutExtension = pets.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pets.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

@@ -37,8 +37,7 @@ public class CurrencyManager : MonoBehaviour
             Title.text = currency.quantity.ToString();
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = currency.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
         }
@@ -53,8 +52,7 @@ public class CurrencyManager : MonoBehaviour
             Title.text = item.quantity.ToString();
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = item.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
         }

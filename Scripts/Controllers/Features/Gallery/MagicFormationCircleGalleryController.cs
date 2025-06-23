@@ -44,7 +44,7 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
             Title.text = magicFormationCircle.name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

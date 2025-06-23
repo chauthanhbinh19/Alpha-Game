@@ -53,7 +53,7 @@ public class BooksController : MonoBehaviour
             Title.text = book.name.Replace("_", " ");
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = book.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -126,7 +126,7 @@ public class BooksController : MonoBehaviour
             Title.text = book.name.Replace("_", " ");
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = book.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -155,7 +155,7 @@ public class BooksController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = bookObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = book.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -214,7 +214,7 @@ public class BooksController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -224,7 +224,7 @@ public class BooksController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -333,7 +333,7 @@ public class BooksController : MonoBehaviour
                 {
                     BooksGalleryService.Create().InsertBooksGallery(books.id);
                     currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
-                    fileNameWithoutExtension = books.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(books.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

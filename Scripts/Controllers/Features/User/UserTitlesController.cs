@@ -54,8 +54,7 @@ public class UserTitlesController : MonoBehaviour
             Title.text = title.name.Replace("_", " ");
 
             RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = title.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -128,7 +127,7 @@ public class UserTitlesController : MonoBehaviour
         if (obj is Titles title)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = title.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
@@ -260,7 +259,7 @@ public class UserTitlesController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -270,7 +269,7 @@ public class UserTitlesController : MonoBehaviour
             GameObject titleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage titleImage = titleObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = title.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
             Texture titleTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             titleImage.texture = titleTexture;
 

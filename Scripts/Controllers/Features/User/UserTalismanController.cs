@@ -54,7 +54,7 @@ public class UserTalismanController : MonoBehaviour
             Title.text = talisman.name.Replace("_", " ");
 
             RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = talisman.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -124,7 +124,7 @@ public class UserTalismanController : MonoBehaviour
         if (obj is Talisman talisman)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = talisman.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
@@ -256,7 +256,7 @@ public class UserTalismanController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -266,7 +266,7 @@ public class UserTalismanController : MonoBehaviour
             GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = talisman.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
             Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             magicFormationImage.texture = magicFormationTexture;
 

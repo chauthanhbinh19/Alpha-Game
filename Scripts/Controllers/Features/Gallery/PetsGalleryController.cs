@@ -68,8 +68,7 @@ public class PetsGalleryController : MonoBehaviour
             Title.text = pet.name.Replace("_", " ");
 
             RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = pet.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

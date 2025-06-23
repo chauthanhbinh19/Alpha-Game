@@ -44,7 +44,7 @@ public class ForgeGalleryController : MonoBehaviour
             Title.text = forge.name.Replace("_", " ");
 
             RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = forge.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

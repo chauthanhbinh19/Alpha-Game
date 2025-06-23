@@ -53,7 +53,7 @@ public class MagicFormationCircleController : MonoBehaviour
             Title.text = magicFormationCircle.name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -101,7 +101,7 @@ public class MagicFormationCircleController : MonoBehaviour
             Title.text = magicFormationCircle.name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = magicFormationCircleObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -131,7 +131,7 @@ public class MagicFormationCircleController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = magicFormationCircleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = magicFormationCircle.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -191,7 +191,7 @@ public class MagicFormationCircleController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -201,7 +201,7 @@ public class MagicFormationCircleController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -310,7 +310,7 @@ public class MagicFormationCircleController : MonoBehaviour
                 {
                     MagicFormationCircleGalleryService.Create().InsertMagicFormationCircleGallery(magicFormationCircle.id);
                     currencies = UserCurrencyService.Create().GetMagicFormationCircleCurrency(subType);
-                    fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

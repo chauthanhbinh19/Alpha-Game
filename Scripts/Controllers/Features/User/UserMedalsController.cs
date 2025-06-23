@@ -54,8 +54,7 @@ public class UserMedalsController : MonoBehaviour
             Title.text = medal.name.Replace("_", " ");
 
             RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = medal.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -120,7 +119,7 @@ public class UserMedalsController : MonoBehaviour
         if (obj is Medals medal)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = medal.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
@@ -252,7 +251,7 @@ public class UserMedalsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -262,7 +261,7 @@ public class UserMedalsController : MonoBehaviour
             GameObject medalObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage medalImage = medalObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = medal.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
             Texture medalTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             medalImage.texture = medalTexture;
 

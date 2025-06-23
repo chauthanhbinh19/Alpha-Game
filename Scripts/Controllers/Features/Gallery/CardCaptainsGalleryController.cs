@@ -44,8 +44,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             Title.text = captain.name.Replace("_", " ");
 
             RawImage Image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = captain.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

@@ -54,8 +54,7 @@ public class UserSkillsController : MonoBehaviour
             Title.text = skill.name.Replace("_", " ");
 
             RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = skill.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -112,7 +111,7 @@ public class UserSkillsController : MonoBehaviour
         if (obj is Skills skill)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = skill.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
@@ -244,7 +243,7 @@ public class UserSkillsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -254,7 +253,7 @@ public class UserSkillsController : MonoBehaviour
             GameObject skillObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage skillImage = skillObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = skill.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
             Texture skillTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             skillImage.texture = skillTexture;
 

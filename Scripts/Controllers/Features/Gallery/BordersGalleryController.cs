@@ -44,8 +44,7 @@ public class BordersGalleryController : MonoBehaviour
             Title.text = border.name.Replace("_", " ");
 
             RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = border.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();

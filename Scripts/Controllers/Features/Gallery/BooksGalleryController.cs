@@ -44,7 +44,7 @@ public class BooksGalleryController : MonoBehaviour
             Title.text = book.name.Replace("_", " ");
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = book.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();

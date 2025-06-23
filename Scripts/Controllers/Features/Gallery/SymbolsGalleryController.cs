@@ -44,8 +44,7 @@ public class SymbolsGalleryController : MonoBehaviour
             Title.text = symbol.name.Replace("_", " ");
 
             RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = symbol.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

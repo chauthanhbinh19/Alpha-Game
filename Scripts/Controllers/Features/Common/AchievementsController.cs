@@ -52,8 +52,7 @@ public class AchievementsController : MonoBehaviour
             Title.text = achievement.name.Replace("_", " ");
 
             RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = achievement.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -82,7 +81,7 @@ public class AchievementsController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = achievement.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -141,7 +140,7 @@ public class AchievementsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -151,7 +150,7 @@ public class AchievementsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -260,7 +259,7 @@ public class AchievementsController : MonoBehaviour
                 {
                     // achievements.InsertUserAchievements(achievements);
                     currencies = UserCurrencyService.Create().GetAchievementsCurrency();
-                    fileNameWithoutExtension = achievements.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.image);
                     objType = "Achievements";
                 }
                 ButtonEvent.Instance.Close(currencyPanel);

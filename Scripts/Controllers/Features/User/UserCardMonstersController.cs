@@ -56,7 +56,7 @@ public class UserCardMonstersController : MonoBehaviour
             Title.text = monster.name.Replace("_", " ");
 
             RawImage Image = monstersObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = monster.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monster.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -97,7 +97,7 @@ public class UserCardMonstersController : MonoBehaviour
             GameObject monsterObject = Instantiate(PositionPrefab, PositionPanel);
 
             RawImage Image = monsterObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = monster.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monster.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -153,7 +153,7 @@ public class UserCardMonstersController : MonoBehaviour
         if (obj is CardMonsters cardMonsters)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = cardMonsters.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonsters.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -285,7 +285,7 @@ public class UserCardMonstersController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
@@ -295,7 +295,7 @@ public class UserCardMonstersController : MonoBehaviour
             GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = cardMonsters.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonsters.image);
             Texture cardTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             cardImage.texture = cardTexture;
 

@@ -53,7 +53,7 @@ public class RelicsController : MonoBehaviour
             Title.text = relic.name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = relic.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -101,7 +101,7 @@ public class RelicsController : MonoBehaviour
             Title.text = relic.name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = relic.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = relicObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -131,7 +131,7 @@ public class RelicsController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = relicObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = relic.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -190,7 +190,7 @@ public class RelicsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -200,7 +200,7 @@ public class RelicsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -309,7 +309,7 @@ public class RelicsController : MonoBehaviour
                 {
                     RelicsGalleryService.Create().InsertRelicsGallery(relics.id);
                     currencies = UserCurrencyService.Create().GetRelicsCurrency(subType);
-                    fileNameWithoutExtension = relics.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

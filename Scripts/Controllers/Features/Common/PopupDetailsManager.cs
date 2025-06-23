@@ -197,7 +197,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardHeroesDetails(CardHeroes card)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = card.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -229,7 +229,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowBookDetails(Books book)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = book.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -276,7 +276,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardCaptainDetails(CardCaptains captains)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = captains.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captains.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -308,7 +308,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowPetDetails(Pets pet)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = pet.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -360,7 +360,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCollaborationEquipmentDetails(CollaborationEquipment collaborationEquipment)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -408,7 +408,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardMilitaryDetails(CardMilitary military)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = military.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -440,7 +440,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardSpellDetails(CardSpell spell)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = spell.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -472,7 +472,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCollaborationDetails(Collaboration collaboration)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = collaboration.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -504,7 +504,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardMonsterDetails(CardMonsters monsters)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = monsters.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monsters.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -536,7 +536,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowEquipmentDetails(Equipments equipments)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = equipments.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -583,7 +583,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowMedalDetails(Medals medals)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = medals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medals.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -631,7 +631,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowSkillDetails(Skills skills)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = skills.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skills.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -679,7 +679,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowSymbolDetails(Symbols symbols)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = symbols.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbols.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -711,7 +711,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowTitleDetails(Titles titles)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = titles.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(titles.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -759,7 +759,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowBorderDetails(Borders borders)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = borders.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(borders.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -807,7 +807,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowAchievementDetails(Achievements achievements)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = achievements.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -855,7 +855,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowMagicFormationCircleDetails(MagicFormationCircle magicFormationCircle)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = magicFormationCircle.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -903,7 +903,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowRelicsDetails(Relics relics)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = relics.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -951,7 +951,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardColonelsDetails(CardColonels colonels)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = colonels.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(colonels.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -983,7 +983,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardGeneralsDetails(CardGenerals generals)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = generals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(generals.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -1015,7 +1015,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardAdmiralsDetails(CardAdmirals admirals)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = admirals.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(admirals.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
@@ -1047,7 +1047,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowTalismanDetails(Talisman talisman)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = talisman.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -1095,7 +1095,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowPuppetDetails(Puppet puppet)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = puppet.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -1143,7 +1143,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowAlchemyDetails(Alchemy alchemy)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = alchemy.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -1191,7 +1191,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowForgeDetails(Forge forge)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = forge.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
@@ -1239,7 +1239,7 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardLifeDetails(CardLife card)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = card.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 

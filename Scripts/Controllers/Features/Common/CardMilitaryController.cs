@@ -53,7 +53,7 @@ public class CardMilitaryController : MonoBehaviour
             Title.text = military.name.Replace("_", " ");
 
             RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = military.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
@@ -97,7 +97,7 @@ public class CardMilitaryController : MonoBehaviour
             Title.text = military.name.Replace("_", " ");
 
             RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = military.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = militaryObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -126,7 +126,7 @@ public class CardMilitaryController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = militaryObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = military.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -185,7 +185,7 @@ public class CardMilitaryController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -195,7 +195,7 @@ public class CardMilitaryController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -304,7 +304,7 @@ public class CardMilitaryController : MonoBehaviour
                 {
                     CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(cardMilitary.id);
                     currencies = UserCurrencyService.Create().GetCardMilitaryCurrency(subType);
-                    fileNameWithoutExtension = cardMilitary.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

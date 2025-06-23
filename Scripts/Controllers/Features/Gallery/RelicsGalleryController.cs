@@ -44,7 +44,7 @@ public class RelicsGalleryController : MonoBehaviour
             Title.text = relic.name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = relic.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

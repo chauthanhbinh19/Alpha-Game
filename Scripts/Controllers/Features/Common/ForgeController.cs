@@ -53,7 +53,7 @@ public class ForgeController : MonoBehaviour
             Title.text = forge.name.Replace("_", " ");
 
             RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = forge.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -101,7 +101,7 @@ public class ForgeController : MonoBehaviour
             Title.text = forge.name.Replace("_", " ");
 
             RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = forge.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = forgeObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -131,7 +131,7 @@ public class ForgeController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = forgeObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = forge.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -191,7 +191,7 @@ public class ForgeController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -201,7 +201,7 @@ public class ForgeController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -310,7 +310,7 @@ public class ForgeController : MonoBehaviour
                 {
                     ForgeGalleryService.Create().InsertForgeGallery(forge.id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = forge.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

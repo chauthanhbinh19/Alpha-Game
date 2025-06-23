@@ -53,8 +53,7 @@ public class SkillsController : MonoBehaviour
             Title.text = skill.name.Replace("_", " ");
 
             RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = skill.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
@@ -100,8 +99,7 @@ public class SkillsController : MonoBehaviour
             Title.text = skill.name.Replace("_", " ");
 
             RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = skill.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = skillObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -131,7 +129,7 @@ public class SkillsController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = skillObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = skill.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -190,7 +188,7 @@ public class SkillsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -200,7 +198,7 @@ public class SkillsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -309,7 +307,7 @@ public class SkillsController : MonoBehaviour
                 {
                     SkillsGalleryService.Create().InsertSkillsGallery(skill.id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = skill.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
                 }
                 ButtonEvent.Instance.Close(currencyPanel);
                 FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

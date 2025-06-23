@@ -44,7 +44,7 @@ public class AlchemyGalleryController : MonoBehaviour
             Title.text = alchemy.name.Replace("_", " ");
 
             RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = alchemy.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

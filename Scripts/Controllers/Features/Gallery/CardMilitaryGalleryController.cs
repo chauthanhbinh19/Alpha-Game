@@ -44,7 +44,7 @@ public class CardMilitaryGalleryController : MonoBehaviour
             Title.text = military.name.Replace("_", " ");
 
             RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = military.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

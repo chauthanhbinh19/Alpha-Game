@@ -44,7 +44,7 @@ public class TalismanGalleryController : MonoBehaviour
             Title.text = talisman.name.Replace("_", " ");
 
             RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = talisman.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

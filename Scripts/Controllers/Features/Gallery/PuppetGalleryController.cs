@@ -44,7 +44,7 @@ public class PuppetGalleryController : MonoBehaviour
             Title.text = puppet.name.Replace("_", " ");
 
             RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = puppet.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

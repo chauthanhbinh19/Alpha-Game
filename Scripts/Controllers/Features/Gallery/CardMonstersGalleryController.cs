@@ -44,7 +44,7 @@ public class CardMonstersGalleryController : MonoBehaviour
             Title.text = monster.name.Replace("_", " ");
 
             RawImage Image = monstersObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = monster.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monster.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

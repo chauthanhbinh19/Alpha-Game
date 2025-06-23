@@ -54,8 +54,7 @@ public class UserSymbolsController : MonoBehaviour
             Title.text = symbol.name.Replace("_", " ");
 
             RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = symbol.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -133,7 +132,7 @@ public class UserSymbolsController : MonoBehaviour
         if (obj is Symbols symbol)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = symbol.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
@@ -265,7 +264,7 @@ public class UserSymbolsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -275,7 +274,7 @@ public class UserSymbolsController : MonoBehaviour
             GameObject symbolObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage symbolImage = symbolObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = symbol.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image);
             Texture symbolTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             symbolImage.texture = symbolTexture;
 

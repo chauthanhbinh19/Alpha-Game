@@ -53,8 +53,7 @@ public class BordersController : MonoBehaviour
             Title.text = border.name.Replace("_", " ");
 
             RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = border.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -104,8 +103,7 @@ public class BordersController : MonoBehaviour
             Title.text = border.name.Replace("_", " ");
 
             RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = border.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = borderObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -134,7 +132,7 @@ public class BordersController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = borderObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = border.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -193,7 +191,7 @@ public class BordersController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -203,7 +201,7 @@ public class BordersController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -312,7 +310,7 @@ public class BordersController : MonoBehaviour
                 {
                     BordersGalleryService.Create().InsertBordersGallery(borders.id);
                     currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
-                    fileNameWithoutExtension = borders.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(borders.image);
                     objType = "Borders";
                 }
                 ButtonEvent.Instance.Close(currencyPanel);

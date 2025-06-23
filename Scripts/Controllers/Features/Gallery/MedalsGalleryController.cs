@@ -44,8 +44,7 @@ public class MedalsGalleryController : MonoBehaviour
             Title.text = medal.name.Replace("_", " ");
 
             RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = medal.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

@@ -54,7 +54,7 @@ public class UserRelicsController : MonoBehaviour
             Title.text = relic.name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = relic.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -124,7 +124,7 @@ public class UserRelicsController : MonoBehaviour
         if (obj is Relics relics)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = relics.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
@@ -256,7 +256,7 @@ public class UserRelicsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -266,7 +266,7 @@ public class UserRelicsController : MonoBehaviour
             GameObject relicsObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage relicsImage = relicsObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = relics.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.image);
             Texture relicsTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             relicsImage.texture = relicsTexture;
 

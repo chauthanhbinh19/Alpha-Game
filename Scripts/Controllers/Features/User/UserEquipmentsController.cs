@@ -72,7 +72,7 @@ public class UserEquipmentsController : MonoBehaviour
         if (obj is Equipments equipment)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = equipment.image.Replace(".png", ""); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
@@ -204,7 +204,7 @@ public class UserEquipmentsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
@@ -214,7 +214,7 @@ public class UserEquipmentsController : MonoBehaviour
             GameObject equipmentObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage equipmentImage = equipmentObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = equipments.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.image);
             Texture equipTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             equipmentImage.texture = equipTexture;
 

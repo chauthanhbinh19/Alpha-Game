@@ -103,49 +103,49 @@ public class TeamsManager : MonoBehaviour
         CreateButton(6, "Card Monsters", tempLeftContent);
         CreateButton(7, "Card Military", tempLeftContent);
         CreateButton(8, "Card Spell", tempLeftContent);
-        AssignButtonEvent("Button_1", tempLeftContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", tempLeftContent, () =>
         {
             mainType = "CardHeroes";
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
-        AssignButtonEvent("Button_2", tempLeftContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", tempLeftContent, () =>
         {
             mainType = "CardCaptains";
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
-        AssignButtonEvent("Button_3", tempLeftContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", tempLeftContent, () =>
         {
             mainType = "CardColonels";
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
-        AssignButtonEvent("Button_4", tempLeftContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", tempLeftContent, () =>
         {
             mainType = "CardGenerals";
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
-        AssignButtonEvent("Button_5", tempLeftContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", tempLeftContent, () =>
         {
             mainType = "CardAdmirals";
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
-        AssignButtonEvent("Button_6", tempLeftContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", tempLeftContent, () =>
         {
             mainType = "CardMonsters";
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
-        AssignButtonEvent("Button_7", tempLeftContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", tempLeftContent, () =>
         {
             mainType = "CardMilitary";
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
-        AssignButtonEvent("Button_8", tempLeftContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", tempLeftContent, () =>
         {
             mainType = "CardSpell";
             CreateTeamsPosition(positionTeamsPanel);
@@ -226,21 +226,12 @@ public class TeamsManager : MonoBehaviour
 
             // Gán sự kiện click
             int index = i;
-            AddClickListener(eventTrigger, () =>
+            ButtonEvent.Instance.AddClickListener(eventTrigger, () =>
             {
                 position = index.ToString();
                 CreatePopupTeams();
             });
         }
-    }
-    void AddClickListener(EventTrigger trigger, System.Action callback)
-    {
-        EventTrigger.Entry entry = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerClick
-        };
-        entry.callback.AddListener((data) => { callback(); });
-        trigger.triggers.Add(entry);
     }
     public void CreatePopupTeams()
     {
@@ -331,22 +322,6 @@ public class TeamsManager : MonoBehaviour
         if (buttonText != null)
         {
             buttonText.text = itemName;
-        }
-    }
-    void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
-    {
-        Transform buttonTransform = panel.Find(buttonName);
-        if (buttonTransform != null)
-        {
-            Button button = buttonTransform.GetComponent<Button>();
-            if (button != null)
-            {
-                button.onClick.AddListener(action);
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"Button {buttonName} not found!");
         }
     }
     public void GetTeamsType(string type, TMP_Dropdown dropdownType, Transform panel, Text pageText, int team_limit, Action<int> onOffsetUpdated, Action<int> onCurrentPageUpdated)

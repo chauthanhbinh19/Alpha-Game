@@ -53,8 +53,7 @@ public class MedalsController : MonoBehaviour
             Title.text = medal.name.Replace("_", " ");
 
             RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = medal.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
@@ -102,8 +101,7 @@ public class MedalsController : MonoBehaviour
             Title.text = medal.name.Replace("_", " ");
 
             RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = medal.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = medalObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -132,7 +130,7 @@ public class MedalsController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = medalObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = medal.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -191,7 +189,7 @@ public class MedalsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -201,7 +199,7 @@ public class MedalsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -310,7 +308,7 @@ public class MedalsController : MonoBehaviour
                 {
                     MedalsGalleryService.Create().InsertMedalsGallery(medals.id);
                     currencies = UserCurrencyService.Create().GetMedalsCurrency(subType);
-                    fileNameWithoutExtension = medals.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medals.image);
                     objType = "Medals";
                 }
                 ButtonEvent.Instance.Close(currencyPanel);

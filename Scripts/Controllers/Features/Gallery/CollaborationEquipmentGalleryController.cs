@@ -44,7 +44,7 @@ public class CollaborationEquipmentGalleryController : MonoBehaviour
             Title.text = collaborationEquipment.name.Replace("_", " ");
 
             RawImage Image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

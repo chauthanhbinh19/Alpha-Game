@@ -592,8 +592,7 @@ public class ShopManager : MonoBehaviour
             Title.text = equipment.name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = equipment.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = equipmentObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -604,7 +603,7 @@ public class ShopManager : MonoBehaviour
             }
 
             // Gán sự kiện click
-            AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(equipment, MainPanel));
+            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(equipment, MainPanel));
             // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
             EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
             scrollEntry.callback.AddListener((eventData) =>
@@ -1169,16 +1168,6 @@ public class ShopManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-    }
-    // Hàm thêm sự kiện click vào EventTrigger
-    void AddClickListener(EventTrigger trigger, System.Action callback)
-    {
-        EventTrigger.Entry entry = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerClick
-        };
-        entry.callback.AddListener((data) => { callback(); });
-        trigger.triggers.Add(entry);
     }
     // public void GetQuantity(int price, object obj)
     // {

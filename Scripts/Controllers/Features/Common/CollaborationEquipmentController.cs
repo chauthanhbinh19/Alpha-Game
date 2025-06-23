@@ -53,7 +53,7 @@ public class CollaborationEquipmentController : MonoBehaviour
             Title.text = collaborationEquipment.name.Replace("_", " ");
 
             RawImage Image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
@@ -97,7 +97,7 @@ public class CollaborationEquipmentController : MonoBehaviour
             Title.text = collaborationEquipment.name.Replace("_", " ");
 
             RawImage Image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = collaborationEquipmentObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -125,7 +125,7 @@ public class CollaborationEquipmentController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = collaborationEquipmentObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = collaborationEquipment.currency.image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -184,7 +184,7 @@ public class CollaborationEquipmentController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -194,7 +194,7 @@ public class CollaborationEquipmentController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
                 Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -303,7 +303,7 @@ public class CollaborationEquipmentController : MonoBehaviour
                 {
                     CollaborationEquipmentGalleryService.Create().InsertCollaborationEquipmentsGallery(collaborationEquipment.id);
                     currencies = UserCurrencyService.Create().GetCollaborationEquipmentsCurrency(subType);
-                    fileNameWithoutExtension = collaborationEquipment.image.Replace(".png", "");
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.image);
                     objType = "CollaborationEquipment";
                 }
                 ButtonEvent.Instance.Close(currencyPanel);

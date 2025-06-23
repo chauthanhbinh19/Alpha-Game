@@ -397,7 +397,7 @@ public class GachaSystem : MonoBehaviour
         }
 
         // Thay đổi từ mặt sau sang mặt trước
-        string fileNameWithoutExtension = frontImagePath.Replace(".png", "");
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(frontImagePath);
         Texture frontTexture = Resources.Load<Texture>(fileNameWithoutExtension);
 
         if (frontTexture != null)
