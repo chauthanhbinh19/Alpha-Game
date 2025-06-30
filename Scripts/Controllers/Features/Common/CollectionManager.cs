@@ -1118,14 +1118,4 @@ public class CollectionManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    // Hàm thêm sự kiện click vào EventTrigger
-    void AddClickListener(EventTrigger trigger, System.Action callback)
-    {
-        EventTrigger.Entry entry = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerClick
-        };
-        entry.callback.AddListener((data) => { callback(); });
-        trigger.triggers.Add(entry);
-    }
 }

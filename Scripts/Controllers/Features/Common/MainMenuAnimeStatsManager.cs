@@ -184,8 +184,18 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     public void SetUI(GameObject gameObject, string type, int level = 0)
     {
         RawImage BackgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
-        Texture backgroundTexture = Resources.Load<Texture>("UI/Background3/Angel_Wings");
+        Texture backgroundTexture = Resources.Load<Texture>("UI/Background3/Anime");
         BackgroundImage.texture = backgroundTexture;
+        
+        Transform backgroundTransform = gameObject.transform.Find("BackgroundCircle");
+        if (backgroundTransform != null)
+        {
+            RawImage backgroundImageCircle = backgroundTransform.GetComponent<RawImage>();
+            if (backgroundImageCircle != null)
+            {
+                backgroundImageCircle.gameObject.AddComponent<RotateAnimation>();
+            }
+        }
 
         int totalSkills = 10;
         int levelsPerSkill = 1000;

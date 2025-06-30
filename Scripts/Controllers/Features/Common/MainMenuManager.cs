@@ -65,54 +65,41 @@ public class MainMenuManager : MonoBehaviour
         AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
 
-        AssignButtonEvent("Button_1", mainMenuCampaignPanel, () => loadScence());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuCampaignPanel, () => loadScence());
 
-        AssignButtonEvent("Button_1", mainMenuPanel, () => GetType("CardHeroes"));
-        AssignButtonEvent("Button_2", mainMenuPanel, () => GetType("Books"));
-        AssignButtonEvent("Button_3", mainMenuPanel, () => GetType("Pets"));
-        AssignButtonEvent("Button_4", mainMenuPanel, () => GetType("CardCaptains"));
-        AssignButtonEvent("Button_5", mainMenuPanel, () => GetType("CardColonels"));
-        AssignButtonEvent("Button_6", mainMenuPanel, () => GetType("CardGenerals"));
-        AssignButtonEvent("Button_7", mainMenuPanel, () => GetType("CardAdmirals"));
-        AssignButtonEvent("Button_8", mainMenuPanel, () => GetType("CollaborationEquipments"));
-        AssignButtonEvent("Button_9", mainMenuPanel, () => GetType("CardMilitary"));
-        AssignButtonEvent("Button_10", mainMenuPanel, () => GetType("CardSpell"));
-        AssignButtonEvent("Button_11", mainMenuPanel, () => GetType("Collaborations"));
-        AssignButtonEvent("Button_12", mainMenuPanel, () => GetType("CardMonsters"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuPanel, () => GetType("CardHeroes"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", mainMenuPanel, () => GetType("Books"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", mainMenuPanel, () => GetType("Pets"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", mainMenuPanel, () => GetType("CardCaptains"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", mainMenuPanel, () => GetType("CardColonels"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", mainMenuPanel, () => GetType("CardGenerals"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", mainMenuPanel, () => GetType("CardAdmirals"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", mainMenuPanel, () => GetType("CardMilitary"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", mainMenuPanel, () => GetType("CardSpell"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", mainMenuPanel, () => GetType("CardMonsters"));
         // AssignButtonEvent("Button_13", mainMenuPanel, () => GetType("Equipments"));
-        AssignButtonEvent("Button_14", mainMenuPanel, () => GetType("Medals"));
-        AssignButtonEvent("Button_15", mainMenuPanel, () => GetType("Skills"));
-        AssignButtonEvent("Button_16", mainMenuPanel, () => GetType("Symbols"));
-        AssignButtonEvent("Button_17", mainMenuPanel, () => GetType("Titles"));
-        AssignButtonEvent("Button_18", mainMenuPanel, () => GetType("Bag"));
-        AssignButtonEvent("Button_19", mainMenuPanel, () => GetType("Teams"));
-        AssignButtonEvent("Button_20", SummonMainMenuPanel, () => GetType("MagicFormationCircle"));
-        AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType("Relics"));
-        AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType("Talisman"));
-        AssignButtonEvent("Button_23", SummonMainMenuPanel, () => GetType("Puppet"));
-        AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType("Alchemy"));
-        AssignButtonEvent("Button_25", SummonMainMenuPanel, () => GetType("Forge"));
-        AssignButtonEvent("Button_26", SummonMainMenuPanel, () => GetType("CardLife"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", mainMenuPanel, () => GetType("Bag"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", mainMenuPanel, () => GetType("Teams"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", mainMenuPanel, () => GetType("More"));
 
-        AssignButtonEvent("Button_27", SummonMainMenuPanel, () => GetType("SummonCardHeroes"));
-        AssignButtonEvent("Button_28", SummonMainMenuPanel, () => GetType("SummonBooks"));
-        AssignButtonEvent("Button_29", SummonMainMenuPanel, () => GetType("SummonCardCaptains"));
-        AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType("SummonCardMonsters"));
-        AssignButtonEvent("Button_31", SummonMainMenuPanel, () => GetType("SummonCardMilitary"));
-        AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType("SummonCardSpell"));
-        AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType("SummonCardColonels"));
-        AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType("SummonCardGenerals"));
-        AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType("SummonCardAdmirals"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", SummonMainMenuPanel, () => GetType("SummonCardHeroes"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", SummonMainMenuPanel, () => GetType("SummonBooks"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", SummonMainMenuPanel, () => GetType("SummonCardCaptains"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", SummonMainMenuPanel, () => GetType("SummonCardMonsters"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", SummonMainMenuPanel, () => GetType("SummonCardMilitary"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", SummonMainMenuPanel, () => GetType("SummonCardSpell"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", SummonMainMenuPanel, () => GetType("SummonCardColonels"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType("SummonCardGenerals"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType("SummonCardAdmirals"));
 
-        AssignButtonEvent("Button_37", SummonMainMenuPanel, () => GetType("Gallery"));
-        AssignButtonEvent("Button_38", SummonMainMenuPanel, () => GetType("Collection"));
-        AssignButtonEvent("Button_39", SummonMainMenuPanel, () => GetType("Equipments"));
-        AssignButtonEvent("Button_40", SummonMainMenuPanel, () => GetType("Anime"));
-        AssignButtonEvent("Button_41", SummonMainMenuPanel, () => GetType("Arena"));
-        AssignButtonEvent("Button_42", SummonMainMenuPanel, () => GetType("Guild"));
-        AssignButtonEvent("Button_43", SummonMainMenuPanel, () => GetType("Tower"));
-        AssignButtonEvent("Button_44", SummonMainMenuPanel, () => GetType("Event"));
-        AssignButtonEvent("Button_45", SummonMainMenuPanel, () => GetType("MasterBoard"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType("Gallery"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_25", SummonMainMenuPanel, () => GetType("Collection"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_26", SummonMainMenuPanel, () => GetType("Equipments"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", SummonMainMenuPanel, () => GetType("Anime"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", SummonMainMenuPanel, () => GetType("Arena"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", SummonMainMenuPanel, () => GetType("Guild"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType("Tower"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_31", SummonMainMenuPanel, () => GetType("Event"));
         // GetCardsType();
     }
 
@@ -120,21 +107,22 @@ public class MainMenuManager : MonoBehaviour
     {
 
     }
-    void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
+    public void GetMoreButtonEvent(Transform moreMenuPanel)
     {
-        Transform buttonTransform = panel.Find(buttonName);
-        if (buttonTransform != null)
-        {
-            Button button = buttonTransform.GetComponent<Button>();
-            if (button != null)
-            {
-                button.onClick.AddListener(action);
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"Button {buttonName} not found!");
-        }
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", moreMenuPanel, () => GetType("CollaborationEquipments"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", moreMenuPanel, () => GetType("Collaborations"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", moreMenuPanel, () => GetType("Medals"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", moreMenuPanel, () => GetType("Skills"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", moreMenuPanel, () => GetType("Symbols"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", moreMenuPanel, () => GetType("Titles"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", moreMenuPanel, () => GetType("MagicFormationCircle"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", moreMenuPanel, () => GetType("Relics"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", moreMenuPanel, () => GetType("Talisman"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", moreMenuPanel, () => GetType("Puppet"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", moreMenuPanel, () => GetType("Alchemy"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", moreMenuPanel, () => GetType("Forge"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", moreMenuPanel, () => GetType("CardLife"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", SummonMainMenuPanel, () => GetType("MasterBoard"));
     }
     public void GetType(string type)
     {
@@ -235,7 +223,7 @@ public class MainMenuManager : MonoBehaviour
             TitleText.text = "Gallery";
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
-            FindObjectOfType<ButtonLoader>().CreateGalleryButton(popupObject.transform.Find("Content"));
+            ButtonLoader.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
         }
         else if (mainType.Equals("Collection"))
         {
@@ -244,7 +232,7 @@ public class MainMenuManager : MonoBehaviour
             TitleText.text = "Collection";
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
-            FindObjectOfType<ButtonLoader>().CreateCollectionButton(popupObject.transform.Find("Content"));
+            ButtonLoader.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
         }
         else if (mainType.Equals("Equipments"))
         {
@@ -253,7 +241,7 @@ public class MainMenuManager : MonoBehaviour
             TitleText.text = "Equipments";
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
-            FindObjectOfType<ButtonLoader>().CreateEquipmentsButton(popupObject.transform.Find("Content"));
+            ButtonLoader.Instance.CreateEquipmentsButton(popupObject.transform.Find("Content"));
         }
         else if (mainType.Equals("Anime"))
         {
@@ -263,7 +251,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
-            FindObjectOfType<ButtonLoader>().CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            ButtonLoader.Instance.CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
         else if (mainType.Equals("Arena"))
         {
@@ -273,7 +261,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
-            FindObjectOfType<ButtonLoader>().CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            ButtonLoader.Instance.CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
         else if (mainType.Equals("Guild"))
         {
@@ -293,7 +281,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
-            FindObjectOfType<ButtonLoader>().CreateTowerButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            ButtonLoader.Instance.CreateTowerButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
         else if (mainType.Equals("Event"))
         {
@@ -314,6 +302,16 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals("Teams"))
         {
             FindAnyObjectByType<TeamsManager>().CreateTeams();
+        }
+        else if (mainType.Equals("More"))
+        {
+            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TitleText.text = "More";
+            CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(() => Close(MainPanel));
+            ButtonLoader.Instance.CreateMoreButton(popupObject.transform.Find("Content"));
+            GetMoreButtonEvent(popupObject.transform.Find("Content"));
         }
         else
         {
