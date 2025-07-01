@@ -1,0 +1,8 @@
+[
+  { "key": "start_game", "value": "Start game" },
+  { "key": "start", "value": "Start" },
+  { "key": "exit", "value": "Thoát" },
+  { "key": "settings", "value": "Cài đặt" },
+  { "key": "language", "value": "Ngôn ngữ" },
+  { "key": "card_heroes", "value": "Card Heroes" }
+]

@@ -1535,7 +1535,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             Equipments tempEquip = foundEquip;
             button.onClick.AddListener(() =>
             {
-                FindObjectOfType<MainMenuDetailsManager>().PopupDetails(tempEquip, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(tempEquip, MainPanel);
             });
         }
     }
