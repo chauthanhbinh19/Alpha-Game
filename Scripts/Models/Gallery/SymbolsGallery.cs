@@ -5,7 +5,7 @@ using System;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 
-public class SymbolsGallery
+public class SymbolsGallery : BaseEntity
 {
     private string id1;
     private string name1;
@@ -41,56 +41,6 @@ public class SymbolsGallery
     public int level { get => level1; set => level1 = value; }
     public int experiment { get => experiment1; set => experiment1 = value; }
     public int quantity { get => quantity1; set => quantity1 = value; }
-    public double power { get; set; }
-    public double health { get; set; }
-    public double physical_attack { get; set; }
-    public double physical_defense { get; set; }
-    public double magical_attack { get; set; }
-    public double magical_defense { get; set; }
-    public double chemical_attack { get; set; }
-    public double chemical_defense { get; set; }
-    public double atomic_attack { get; set; }
-    public double atomic_defense { get; set; }
-    public double mental_attack { get; set; }
-    public double mental_defense { get; set; }
-    public double speed { get; set; }
-    public double critical_damage_rate { get; set; }
-    public double critical_rate { get; set; }
-    public double critical_resistance_rate { get; set; }
-    public double ignore_critical_rate { get; set; }
-    public double penetration_rate { get; set; }
-    public double penetration_resistance_rate { get; set; }
-    public double evasion_rate { get; set; }
-    public double damage_absorption_rate { get; set; }
-    public double ignore_damage_absorption_rate { get; set; }
-    public double absorbed_damage_rate { get; set; }
-    public double vitality_regeneration_rate { get; set; }
-    public double vitality_regeneration_resistance_rate { get; set; }
-    public double accuracy_rate { get; set; }
-    public double lifesteal_rate { get; set; }
-    public float mana { get; set; }
-    public double mana_regeneration_rate { get; set; }
-    public double shield_strength { get; set; }
-    public double tenacity { get; set; }
-    public double resistance_rate { get; set; }
-    public double combo_rate { get; set; }
-    public double ignore_combo_rate { get; set; }
-    public double combo_damage_rate { get; set; }
-    public double combo_resistance_rate { get; set; }
-    public double stun_rate { get; set; }
-    public double ignore_stun_rate { get; set; }
-    public double reflection_rate { get; set; }
-    public double ignore_reflection_rate { get; set; }
-    public double reflection_damage_rate { get; set; }
-    public double reflection_resistance_rate { get; set; }
-    public double damage_to_different_faction_rate { get; set; }
-    public double resistance_to_different_faction_rate { get; set; }
-    public double damage_to_same_faction_rate { get; set; }
-    public double resistance_to_same_faction_rate { get; set; }
-    public double normal_damage_rate { get; set; }
-    public double normal_resistance_rate { get; set; }
-    public double skill_damage_rate { get; set; }
-    public double skill_resistance_rate { get; set; }
     public string description { get => description1; set => description1 = value; }
     public string status { get => status1; set => status1 = value; }
     public double percent_all_health { get => percent_all_health1; set => percent_all_health1 = value; }

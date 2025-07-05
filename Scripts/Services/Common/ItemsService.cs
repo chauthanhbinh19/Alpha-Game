@@ -9,4 +9,13 @@ public class ItemsService : IItemsService
         _itemsRepository = itemsRepository;
     }
 
+    public static ItemsService Create()
+    {
+        return new ItemsService(new ItemsRepository());
+    }
+
+    public List<string> GetUniqueItemId()
+    {
+        return _itemsRepository.GetUniqueItemId();
+    }
 }

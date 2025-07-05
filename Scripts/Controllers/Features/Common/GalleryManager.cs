@@ -91,7 +91,7 @@ public class GalleryManager : MonoBehaviour
     {
         mainType = type; // Gán giá trị cho mainType
         GetButtonType(); // Gọi hàm xử lý
-        titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
+        titleText.text = LocalizationManager.Get(type);
     }
     public void GetButtonType()
     {

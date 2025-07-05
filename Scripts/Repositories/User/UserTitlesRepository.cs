@@ -201,7 +201,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(titles.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", titles.quantity);
                     command.Parameters.AddWithValue("@power", titles.power);
                     command.Parameters.AddWithValue("@health", titles.health);
                     command.Parameters.AddWithValue("@physical_attack", titles.physical_attack);
@@ -259,12 +259,13 @@ public class UserTitlesRepository : IUserTitlesRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_titles
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND title_id = @title_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@title_id", titles.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", titles.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

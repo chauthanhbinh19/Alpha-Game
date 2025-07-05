@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,6 +70,29 @@ public class UserService : IUserService
 
             user.image = Image;
             user.border = Border;
+
+            DateTime now = DateTime.Now;
+            int year = now.Year;
+            int month = now.Month;
+            if (!UserDailyCheckinService.Create().CheckUserDailyCheckinStatus(User.CurrentUserId, month, year))
+            {
+                int daysInMonth = DateTime.DaysInMonth(year, month);
+                for (int day = 1; day <= daysInMonth; day++)
+                {
+                    DateTime currentDate = new DateTime(year, month, day);
+                    UserDailyCheckinService.Create().DeleteUserDailyCheckin(User.CurrentUserId, day.ToString());
+                    UserDailyCheckin userDailyCheckin = new UserDailyCheckin
+                    {
+                        user_id = User.CurrentUserId,
+                        daily_checkin_id = day.ToString(),
+                        status = false,
+                        day = currentDate,
+                        month = month,
+                        year = year
+                    };
+                    UserDailyCheckinService.Create().InsertUserDailyCheckin(User.CurrentUserId, userDailyCheckin);
+                }
+            }
         }
         // Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket);
         // UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);

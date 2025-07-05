@@ -203,7 +203,7 @@ public class UserMagicFormationCirlceRepository : IUserMagicFormationCircleRepos
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(magicFormationCircle.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", magicFormationCircle.quantity);
                     command.Parameters.AddWithValue("@power", magicFormationCircle.power);
                     command.Parameters.AddWithValue("@health", magicFormationCircle.health);
                     command.Parameters.AddWithValue("@physical_attack", magicFormationCircle.physical_attack);
@@ -282,12 +282,13 @@ public class UserMagicFormationCirlceRepository : IUserMagicFormationCircleRepos
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_magic_formation_circle
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND mfc_id = @mfc_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", magicFormationCircle.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

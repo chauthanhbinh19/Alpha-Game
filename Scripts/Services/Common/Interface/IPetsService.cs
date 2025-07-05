@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public interface IPetsService
 {
     List<string> GetUniquePetsTypes();
+    List<string> GetUniquePetsId();
     List<Pets> GetPets(string type, int pageSize, int offset);
     int GetPetsCount(string type);
     List<Pets> GetPetsWithPrice(string type, int pageSize, int offset);

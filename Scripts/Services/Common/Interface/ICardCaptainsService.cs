@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public interface ICardCaptainsService
 {
     List<string> GetUniqueCardCaptainsTypes();
+    List<string> GetUniqueCardCaptainsId();
     List<CardCaptains> GetCardCaptains(string type, int pageSize, int offset);
     int GetCardCaptainsCount(string type);
     List<CardCaptains> GetCardCaptainsRandom(string type, int pageSize);

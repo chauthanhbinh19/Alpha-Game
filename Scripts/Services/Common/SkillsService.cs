@@ -47,4 +47,9 @@ public class SkillsService : ISkillsService
     {
         return _skillsRepository.GetSkillsById(Id);
     }
+
+    public List<string> GetUniqueSkillsId()
+    {
+        return _skillsRepository.GetUniqueSkillsId();
+    }
 }

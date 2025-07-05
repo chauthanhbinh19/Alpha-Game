@@ -6,7 +6,24 @@ using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 public class BordersRepository : IBordersRepository
 {
-    
+    public List<string> GetUniqueBordersId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from borders";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<Borders> GetBorders(int pageSize, int offset)
     {
         List<Borders> borders = new List<Borders>();

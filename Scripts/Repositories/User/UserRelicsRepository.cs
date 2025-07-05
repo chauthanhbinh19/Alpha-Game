@@ -204,6 +204,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(relics.rare));
                     command.Parameters.AddWithValue("@block", false);
+                    command.Parameters.AddWithValue("@quantity", relics.quantity);
                     command.Parameters.AddWithValue("@power", relics.power);
                     command.Parameters.AddWithValue("@health", relics.health);
                     command.Parameters.AddWithValue("@physical_attack", relics.physical_attack);
@@ -282,12 +283,13 @@ public class UserRelicsRepository : IUserRelicsRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_relics
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND relic_id = @relic_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@relic_id", relics.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", relics.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

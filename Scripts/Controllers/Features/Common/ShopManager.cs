@@ -48,7 +48,7 @@ public class ShopManager : MonoBehaviour
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
-        AssignButtonEvent("Button_36", SummonMainMenuPanel, () => CreateShopButton());
+        AssignButtonEvent("Button_23", SummonMainMenuPanel, () => CreateShopButton());
     }
 
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
@@ -71,7 +71,7 @@ public class ShopManager : MonoBehaviour
     {
         currentObject = Instantiate(ShopManagerPrefab, MainPanel);
         titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        titleText.text = "Shop";
+        titleText.text = LocalizationManager.Get("shop");
         CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() => Destroy(currentObject));
         HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
@@ -83,32 +83,32 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, "Card Heroes", Resources.Load<Texture2D>($"UI/Button/CardsGallery"), tempContent);
-        CreateButton(2, "Books", Resources.Load<Texture2D>($"UI/Button/BooksGallery"), tempContent);
-        CreateButton(3, "Pets", Resources.Load<Texture2D>($"UI/Button/PetsGallery"), tempContent);
-        CreateButton(4, "Card Captains", Resources.Load<Texture2D>($"UI/Button/CaptainsGallery"), tempContent);
-        CreateButton(5, "Collaboration Equipments", Resources.Load<Texture2D>($"UI/Button/CollaborationEquipmentsGallery"), tempContent);
-        CreateButton(6, "Card Military", Resources.Load<Texture2D>($"UI/Button/MilitaryGallery"), tempContent);
-        CreateButton(7, "Card Spell", Resources.Load<Texture2D>($"UI/Button/SpellGallery"), tempContent);
-        CreateButton(8, "Collaborations", Resources.Load<Texture2D>($"UI/Button/CollaborationsGallery"), tempContent);
-        CreateButton(9, "Card Monsters", Resources.Load<Texture2D>($"UI/Button/MonstersGallery"), tempContent);
-        CreateButton(10, "Borders", Resources.Load<Texture2D>($"UI/Button/BorderGallery"), tempContent);
-        CreateButton(11, "Medals", Resources.Load<Texture2D>($"UI/Button/MedalsGallery"), tempContent);
-        CreateButton(12, "Skills", Resources.Load<Texture2D>($"UI/Button/SkillsGallery"), tempContent);
-        CreateButton(13, "Symbols", Resources.Load<Texture2D>($"UI/Button/SymbolsGallery"), tempContent);
-        CreateButton(14, "Titles", Resources.Load<Texture2D>($"UI/Button/TitlesGallery"), tempContent);
-        CreateButton(15, "Magic Formation Circle", Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"), tempContent);
-        CreateButton(16, "Relics", Resources.Load<Texture2D>($"UI/Button/RelicsGallery"), tempContent);
-        CreateButton(17, "Items", Resources.Load<Texture2D>($"UI/Button/ItemsGallery"), tempContent);
-        CreateButton(18, "Achievements", Resources.Load<Texture2D>($"UI/Button/AchievementGallery"), tempContent);
-        CreateButton(19, "Card Colonels", Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"), tempContent);
-        CreateButton(20, "Card Generals", Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"), tempContent);
-        CreateButton(21, "Card Admirals", Resources.Load<Texture2D>($"UI/Button/teachings_of_diligence"), tempContent);
-        CreateButton(22, "Talisman", Resources.Load<Texture2D>($"UI/Button/TalismanGallery"), tempContent);
-        CreateButton(23, "Puppet", Resources.Load<Texture2D>($"UI/Button/PuppetGallery"), tempContent);
-        CreateButton(24, "Alchemy", Resources.Load<Texture2D>($"UI/Button/AlchemyGallery"), tempContent);
-        CreateButton(25, "Forge", Resources.Load<Texture2D>($"UI/Button/ForgeGallery"), tempContent);
-        CreateButton(26, "Card Life", Resources.Load<Texture2D>($"UI/Button/LifeGallery"), tempContent);
+        CreateButton(1, "card_heroes", Resources.Load<Texture2D>($"UI/Button/CardsGallery"), tempContent);
+        CreateButton(2, "books", Resources.Load<Texture2D>($"UI/Button/BooksGallery"), tempContent);
+        CreateButton(3, "pets", Resources.Load<Texture2D>($"UI/Button/PetsGallery"), tempContent);
+        CreateButton(4, "card_captains", Resources.Load<Texture2D>($"UI/Button/CaptainsGallery"), tempContent);
+        CreateButton(5, "collaboration_equipments", Resources.Load<Texture2D>($"UI/Button/CollaborationEquipmentsGallery"), tempContent);
+        CreateButton(6, "card_military", Resources.Load<Texture2D>($"UI/Button/MilitaryGallery"), tempContent);
+        CreateButton(7, "card_spell", Resources.Load<Texture2D>($"UI/Button/SpellGallery"), tempContent);
+        CreateButton(8, "collaborations", Resources.Load<Texture2D>($"UI/Button/CollaborationsGallery"), tempContent);
+        CreateButton(9, "card_monsters", Resources.Load<Texture2D>($"UI/Button/MonstersGallery"), tempContent);
+        CreateButton(10, "borders", Resources.Load<Texture2D>($"UI/Button/BorderGallery"), tempContent);
+        CreateButton(11, "medals", Resources.Load<Texture2D>($"UI/Button/MedalsGallery"), tempContent);
+        CreateButton(12, "skills", Resources.Load<Texture2D>($"UI/Button/SkillsGallery"), tempContent);
+        CreateButton(13, "symbols", Resources.Load<Texture2D>($"UI/Button/SymbolsGallery"), tempContent);
+        CreateButton(14, "titles", Resources.Load<Texture2D>($"UI/Button/TitlesGallery"), tempContent);
+        CreateButton(15, "magic_formation_circle", Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"), tempContent);
+        CreateButton(16, "relics", Resources.Load<Texture2D>($"UI/Button/RelicsGallery"), tempContent);
+        CreateButton(17, "items", Resources.Load<Texture2D>($"UI/Button/ItemsGallery"), tempContent);
+        CreateButton(18, "achievements", Resources.Load<Texture2D>($"UI/Button/AchievementGallery"), tempContent);
+        CreateButton(19, "card_colonels", Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"), tempContent);
+        CreateButton(20, "card_generals", Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"), tempContent);
+        CreateButton(21, "card_admirals", Resources.Load<Texture2D>($"UI/Button/teachings_of_diligence"), tempContent);
+        CreateButton(22, "talisman", Resources.Load<Texture2D>($"UI/Button/TalismanGallery"), tempContent);
+        CreateButton(23, "puppet", Resources.Load<Texture2D>($"UI/Button/PuppetGallery"), tempContent);
+        CreateButton(24, "alchemy", Resources.Load<Texture2D>($"UI/Button/AlchemyGallery"), tempContent);
+        CreateButton(25, "forge", Resources.Load<Texture2D>($"UI/Button/ForgeGallery"), tempContent);
+        CreateButton(26, "card_life", Resources.Load<Texture2D>($"UI/Button/LifeGallery"), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType("CardHeroes"));
         AssignButtonEvent("Button_2", tempContent, () => GetType("Books"));
@@ -154,14 +154,14 @@ public class ShopManager : MonoBehaviour
         Text nameText = newButton.transform.Find("ItemName").GetComponent<Text>();
         if (nameText != null)
         {
-            nameText.text = itemName;
+            nameText.text = LocalizationManager.Get(itemName);
         }
     }
     public void GetType(string type)
     {
         mainType = type; // Gán giá trị cho mainType
         GetButtonType(); // Gọi hàm xử lý
-        titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Shop"; // Cập nhật tiêu đề
+        titleText.text = LocalizationManager.Get(type); // Cập nhật tiêu đề
     }
     public void GetButtonType()
     {
@@ -1190,7 +1190,7 @@ public class ShopManager : MonoBehaviour
     //     var idProperty = obj.GetType().GetProperty("id");
     //     var imageProperty = obj.GetType().GetProperty("image");
     //     var currencyProperty = obj.GetType().GetProperty("currency");
-        
+
 
     //     if (idProperty != null && imageProperty != null && currencyProperty != null)
     //     {

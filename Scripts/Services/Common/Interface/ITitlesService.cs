@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 public interface ITitlesService
 {
+    List<string> GetUniqueTitleId();
     List<Titles> GetTitles(int pageSize, int offset);
     int GetTitlesCount();
     List<Titles> GetTitlesWithPrice(int pageSize, int offset);

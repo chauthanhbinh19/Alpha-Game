@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 public interface IAvatarsService
 {
+    List<string> GetUniqueAvatarsId();
     List<Avatars> GetAvatars(int pageSize, int offset);
     int GetAvatarsCount();
     List<Avatars> GetAvatarsWithPrice(int pageSize, int offset);

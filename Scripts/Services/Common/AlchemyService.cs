@@ -52,4 +52,9 @@ public class AlchemyService : IAlchemyService
     {
         return _alchemyRepository.SumPowerAlchemyPercent();
     }
+
+    public List<string> GetUniqueAlchemyId()
+    {
+        return _alchemyRepository.GetUniqueAlchemyId();
+    }
 }

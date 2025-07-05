@@ -62,4 +62,9 @@ public class CardHeroesService : ICardHeroesService
     {
         return _cardHeroesRepository.GetCardHeroesWithPriceCount(type);
     }
+
+    public List<string> GetUniqueCardHeroId()
+    {
+        return _cardHeroesRepository.GetUniqueCardHeroId();
+    }
 }

@@ -47,4 +47,9 @@ public class PetsService : IPetsService
     {
         return _petsRepository.GetPetsById(Id);
     }
+
+    public List<string> GetUniquePetsId()
+    {
+        return _petsRepository.GetUniquePetsId();
+    }
 }

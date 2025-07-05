@@ -203,7 +203,7 @@ public class UserForgeRepository : IUserForgeRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Forge.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", Forge.quantity);
                     command.Parameters.AddWithValue("@power", Forge.power);
                     command.Parameters.AddWithValue("@health", Forge.health);
                     command.Parameters.AddWithValue("@physical_attack", Forge.physical_attack);
@@ -282,12 +282,13 @@ public class UserForgeRepository : IUserForgeRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_forge
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND forge_id = @forge_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@forge_id", Forge.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", Forge.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

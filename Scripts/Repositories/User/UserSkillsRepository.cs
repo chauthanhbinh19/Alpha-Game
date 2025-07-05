@@ -193,7 +193,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(skills.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 1);
+                    command.Parameters.AddWithValue("@quantity", skills.quantity);
                     command.Parameters.AddWithValue("@power", skills.power);
                     command.Parameters.AddWithValue("@health", skills.health);
                     command.Parameters.AddWithValue("@physical_attack", skills.physical_attack);
@@ -251,12 +251,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_skills
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND skill_id = @skill_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@skill_id", skills.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", skills.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

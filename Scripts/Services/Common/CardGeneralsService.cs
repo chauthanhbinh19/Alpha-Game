@@ -57,4 +57,9 @@ public class CardGeneralsService : ICardGeneralsService
     {
         return _cardGeneralsRepository.GetCardGeneralsWithPriceCount(type);
     }
+
+    public List<string> GetUniqueCardGeneralsId()
+    {
+        return _cardGeneralsRepository.GetUniqueCardGeneralsId();
+    }
 }

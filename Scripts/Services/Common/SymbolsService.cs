@@ -53,4 +53,8 @@ public class SymbolsService : ISymbolsService
         return _symbolsRepository.SumPowerSymbolsPercent();
     }
 
+    public List<string> GetUniqueSymbolsId()
+    {
+        return _symbolsRepository.GetUniqueSymbolsId();
+    }
 }

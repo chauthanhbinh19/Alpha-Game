@@ -487,7 +487,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(CardSpell.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", CardSpell.quantity);
                     command.Parameters.AddWithValue("@power", CardSpell.power);
                     command.Parameters.AddWithValue("@health", CardSpell.health);
                     command.Parameters.AddWithValue("@physical_attack", CardSpell.physical_attack);
@@ -546,12 +546,13 @@ public class UserCardSpellRepository : IUserCardSpellRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_card_spell
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND card_spell_id = @card_spell_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@card_spell_id", CardSpell.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", CardSpell.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

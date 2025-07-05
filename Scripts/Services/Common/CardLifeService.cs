@@ -52,4 +52,9 @@ public class CardLifeService : ICardLifeService
     {
         return _cardLifeRepository.SumPowerCardLifePercent();
     }
+
+    public List<string> GetUniqueCardLifeId()
+    {
+        return _cardLifeRepository.GetUniqueCardLifeId();
+    }
 }

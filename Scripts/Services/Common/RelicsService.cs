@@ -51,4 +51,9 @@ public class RelicsService : IRelicsService
     {
         return _relicsRepository.SumPowerRelicsPercent();
     }
+
+    public List<string> GetUniqueRelicsId()
+    {
+        return _relicsRepository.GetUniqueRelicsId();
+    }
 }

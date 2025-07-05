@@ -434,7 +434,7 @@ public class UserBooksRepository : IUserBooksRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(books.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", books.quantity);
                     command.Parameters.AddWithValue("@power", books.power);
                     command.Parameters.AddWithValue("@health", books.health);
                     command.Parameters.AddWithValue("@physical_attack", books.physical_attack);
@@ -493,12 +493,13 @@ public class UserBooksRepository : IUserBooksRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_books
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND book_id = @book_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@book_id", books.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", books.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

@@ -24,6 +24,24 @@ public class SymbolsRepository : ISymbolsRepository
         }
         return typeList;
     }
+    public List<string> GetUniqueSymbolsId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from symbols";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<Symbols> GetSymbols(string type, int pageSize, int offset)
     {
         List<Symbols> symbolsList = new List<Symbols>();

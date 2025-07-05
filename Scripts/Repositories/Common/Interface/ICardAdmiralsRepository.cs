@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public interface ICardAdmiralsRepository
 {
     List<string> GetUniqueCardAdmiralsTypes();
+    List<string> GetUniqueCardAdmiralsId();
     List<CardAdmirals> GetCardAdmirals(string type, int pageSize, int offset);
     int GetCardAdmiralsCount(string type);    
     List<CardAdmirals> GetCardAdmiralsRandom(string type, int pageSize);

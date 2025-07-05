@@ -52,4 +52,9 @@ public class TalismanService : ITalismanService
     {
         return _talismanRepository.GetUniqueTalismanTypes();
     }
+
+    public List<string> GetUniqueTalismanId()
+    {
+        return _talismanRepository.GetUniqueTalismanId();
+    }
 }

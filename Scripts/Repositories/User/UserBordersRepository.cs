@@ -197,7 +197,7 @@ public class UserBordersRepository : IUserBordersRepository
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(borders.rare));
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@is_used", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", borders.quantity);
                     command.Parameters.AddWithValue("@power", borders.power);
                     command.Parameters.AddWithValue("@health", borders.health);
                     command.Parameters.AddWithValue("@physical_attack", borders.physical_attack);
@@ -255,12 +255,13 @@ public class UserBordersRepository : IUserBordersRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_borders
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND border_id = @border_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@border_id", borders.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", borders.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

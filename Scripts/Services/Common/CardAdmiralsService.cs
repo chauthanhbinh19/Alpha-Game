@@ -57,4 +57,9 @@ public class CardAdmiralsService : ICardAdmiralsService
     {
         return _cardAdmiralsRepository.GetCardAdmiralsWithPriceCount(type);
     }
+
+    public List<string> GetUniqueCardAdmiralsId()
+    {
+        return _cardAdmiralsRepository.GetUniqueCardAdmiralsId();
+    }
 }

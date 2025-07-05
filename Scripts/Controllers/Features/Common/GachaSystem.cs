@@ -161,6 +161,7 @@ public class GachaSystem : MonoBehaviour
                 CardHeroes cardItem = card as CardHeroes;
                 if (cardItem != null)
                 {
+                    cardItem.quantity = cardItem.quantity + 1;
                     UserCardHeroesService.Create().InsertUserCardHeroes(cardItem);
                     CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardItem.id);
                 }
@@ -170,6 +171,7 @@ public class GachaSystem : MonoBehaviour
                 Books bookItem = card as Books;
                 if (bookItem != null)
                 {
+                    bookItem.quantity = bookItem.quantity + 1;
                     UserBooksService.Create().InsertUserBooks(bookItem);
                     BooksGalleryService.Create().InsertBooksGallery(bookItem.id);
                 }
@@ -179,6 +181,7 @@ public class GachaSystem : MonoBehaviour
                 CardCaptains captainItem = card as CardCaptains;
                 if (captainItem != null)
                 {
+                    captainItem.quantity = captainItem.quantity + 1;
                     UserCardCaptainsService.Create().InsertUserCardCaptains(captainItem);
                     CardCaptainsGalleryService.Create().InsertCardCaptainsGallery(captainItem.id);
                 }
@@ -188,6 +191,7 @@ public class GachaSystem : MonoBehaviour
                 CardMonsters monsterItem = card as CardMonsters;
                 if (monsterItem != null)
                 {
+                    monsterItem.quantity = monsterItem.quantity + 1;
                     UserCardMonstersService.Create().InsertUserCardMonsters(monsterItem);
                     CardMonstersGalleryService.Create().InsertCardMonstersGallery(monsterItem.id);
                 }
@@ -197,6 +201,7 @@ public class GachaSystem : MonoBehaviour
                 CardMilitary militaryItem = card as CardMilitary;
                 if (militaryItem != null)
                 {
+                    militaryItem.quantity = militaryItem.quantity + 1;
                     UserCardMilitaryService.Create().InsertUserCardMilitary(militaryItem);
                     CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(militaryItem.id);
                 }
@@ -206,35 +211,39 @@ public class GachaSystem : MonoBehaviour
                 CardSpell spellItem = card as CardSpell;
                 if (spellItem != null)
                 {
+                    spellItem.quantity = spellItem.quantity + 1;
                     UserCardSpellService.Create().InsertUserCardSpell(spellItem);
                     CardSpellGalleryService.Create().InsertCardSpellGallery(spellItem.id);
                 }
             }
             else if (name.Equals("SummonCardColonels"))
             {
-                CardColonels spellItem = card as CardColonels;
-                if (spellItem != null)
+                CardColonels colonelItem = card as CardColonels;
+                if (colonelItem != null)
                 {
-                    UserCardColonelsService.Create().InsertUserCardColonels(spellItem);
-                    CardColonelsGalleryService.Create().InsertCardColonelsGallery(spellItem.id);
+                    colonelItem.quantity = colonelItem.quantity + 1;
+                    UserCardColonelsService.Create().InsertUserCardColonels(colonelItem);
+                    CardColonelsGalleryService.Create().InsertCardColonelsGallery(colonelItem.id);
                 }
             }
             else if (name.Equals("SummonCardGenerals"))
             {
-                CardGenerals spellItem = card as CardGenerals;
-                if (spellItem != null)
+                CardGenerals generalItem = card as CardGenerals;
+                if (generalItem != null)
                 {
-                    UserCardGeneralsService.Create().InsertUserCardGenerals(spellItem);
-                    CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(spellItem.id);
+                    generalItem.quantity = generalItem.quantity + 1;
+                    UserCardGeneralsService.Create().InsertUserCardGenerals(generalItem);
+                    CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(generalItem.id);
                 }
             }
             else if (name.Equals("SummonCardAdmirals"))
             {
-                CardAdmirals spellItem = card as CardAdmirals;
-                if (spellItem != null)
+                CardAdmirals admiralItem = card as CardAdmirals;
+                if (admiralItem != null)
                 {
-                    UserCardAdmiralsService.Create().InsertUserCardAdmirals(spellItem);
-                    CardAdmiralsGalleryService.Create().InsertCardAdmiralsGallery(spellItem.id);
+                    admiralItem.quantity = admiralItem.quantity + 1;
+                    UserCardAdmiralsService.Create().InsertUserCardAdmirals(admiralItem);
+                    CardAdmiralsGalleryService.Create().InsertCardAdmiralsGallery(admiralItem.id);
                 }
             }
             // Thêm các xử lý tương tự cho các loại khác

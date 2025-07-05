@@ -52,4 +52,9 @@ public class ForgeService : IForgeService
     {
         return _forgeRepository.SumPowerForgePercent();
     }
+
+    public List<string> GetUniqueForgeId()
+    {
+        return _forgeRepository.GetUniqueForgeId();
+    }
 }

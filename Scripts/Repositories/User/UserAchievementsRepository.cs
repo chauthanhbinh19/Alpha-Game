@@ -200,7 +200,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Achievements.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", Achievements.quantity);
                     command.Parameters.AddWithValue("@power", Achievements.power);
                     command.Parameters.AddWithValue("@health", Achievements.health);
                     command.Parameters.AddWithValue("@physical_attack", Achievements.physical_attack);
@@ -259,12 +259,13 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_Achievements
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND achievement_id = @achievement_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@achievement_id", Achievements.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", Achievements.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

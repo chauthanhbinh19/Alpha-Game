@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public interface IEquipmentsService
 {
     List<string> GetUniqueEquipmentsTypes();
+    List<string> GetUniqueEquipmentsId();
     List<Equipments> GetEquipments(string type, int pageSize, int offset);
     int GetEquipmentsCount(string type);
     List<Equipments> GetEquipmentsWithCurrency(string type, int pageSize, int offset);

@@ -47,4 +47,9 @@ public class AvatarsService : IAvatarsService
     {
         return _avatarsRepository.SumPowerAvatarsPercent();
     }
+
+    public List<string> GetUniqueAvatarsId()
+    {
+        return _avatarsRepository.GetUniqueAvatarsId();
+    }
 }

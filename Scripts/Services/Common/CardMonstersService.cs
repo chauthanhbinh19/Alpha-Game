@@ -57,4 +57,9 @@ public class CardMonstersService : ICardMonstersService
     {
         return _cardMonstersRepository.GetCardMonstersWithPriceCount(type);
     }
+
+    public List<string> GetUniqueCardMonstersId()
+    {
+        return _cardMonstersRepository.GetUniqueCardMonstersId();
+    }
 }

@@ -57,4 +57,9 @@ public class CardMilitaryService : ICardMilitaryService
     {
         return _cardMilitaryRepository.GetCardMilitaryWithPriceCount(type);
     }
+
+    public List<string> GetUniqueCardMilitaryId()
+    {
+        return _cardMilitaryRepository.GetUniqueCardMilitaryId();
+    }
 }

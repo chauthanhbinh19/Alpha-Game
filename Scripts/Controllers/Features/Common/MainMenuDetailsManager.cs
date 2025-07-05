@@ -9,10 +9,6 @@ using System;
 public class MainMenuDetailsManager : MonoBehaviour
 {
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject ElementDetailsPrefab;
-    private GameObject NumberDetailPrefab;
-    private GameObject NumberDetail2Prefab;
-    private GameObject NumberDetail3Prefab;
     private Transform MainPanel;
     // private Transform RightButtonContent;
     private Transform DetailsPanel;
@@ -26,7 +22,6 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform UpgradeElementContent;
     private Transform UpgradeMaterialContent;
     private GameObject currentObject;
-    private GameObject ElementDetails2Prefab;
     // private GameObject firstDetailsObject;
     // private GameObject elementDetailsObject;
     // private GameObject elementDetails2Object;
@@ -65,11 +60,6 @@ public class MainMenuDetailsManager : MonoBehaviour
     {
         MainMenuDetailPanel2Prefab = UIManager.Instance.GetGameObject("MainMenuDetailPanel2Prefab");
 
-        ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
-        NumberDetailPrefab = UIManager.Instance.GetGameObject("NumberDetailPrefab");
-        NumberDetail2Prefab = UIManager.Instance.GetGameObject("NumberDetail2Prefab");
-        NumberDetail3Prefab = UIManager.Instance.GetGameObject("NumberDetail3Prefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         TabButton5 = UIManager.Instance.GetGameObject("TabButton5");
 
         // teamsService = TeamsService.Create();

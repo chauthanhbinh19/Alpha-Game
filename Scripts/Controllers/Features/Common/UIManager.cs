@@ -178,6 +178,7 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuAnimePanelPrefab;
     public GameObject AnimePanelPrefab;
     public GameObject MasterBoardPanelPrefab;
+    public GameObject DailyCheckinPanelPrefab;
     public GameObject ArenaPanelPrefab;
     public GameObject ArenaDetailsPanelPrefab;
     public GameObject TowerDetailsPanelPrefab;
@@ -194,6 +195,7 @@ public class UIManager : MonoBehaviour
     public GameObject Slot16Prefab;
     public GameObject ArenaButtonPrefab;
     public GameObject AnimeButtonPrefab;
+    public GameObject DailyCheckinComponentPrefab;
     // MainMenu Slot Set 1
     [Header("Main menu slot set 1")]
     public GameObject AptitudeSlotPrefab;
@@ -452,6 +454,8 @@ public class UIManager : MonoBehaviour
                 return AnimePanelPrefab;
             case "MasterBoardPanelPrefab":
                 return MasterBoardPanelPrefab;
+            case "DailyCheckinPanelPrefab":
+                return DailyCheckinPanelPrefab;
             case "ArenaDetailsPanelPrefab":
                 return ArenaDetailsPanelPrefab;
             case "TowerDetailsPanelPrefab":
@@ -482,7 +486,8 @@ public class UIManager : MonoBehaviour
                 return ArenaButtonPrefab;
             case "AnimeButtonPrefab":
                 return AnimeButtonPrefab;
-
+            case "DailyCheckinComponentPrefab":
+                return DailyCheckinComponentPrefab;
             case "AnimeSlotPrefab":
                 return AnimeSlotPrefab;
             case "MasterBoardNodePrefab":

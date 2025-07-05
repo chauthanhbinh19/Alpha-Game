@@ -47,4 +47,9 @@ public class MedalsService : IMedalsService
     {
         return _medalsRepository.SumPowerMedalsPercent();
     }
+
+    public List<string> GetUniqueMedalId()
+    {
+        return _medalsRepository.GetUniqueMedalId();
+    }
 }

@@ -203,7 +203,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(CardLife.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", CardLife.quantity);
                     command.Parameters.AddWithValue("@power", CardLife.power);
                     command.Parameters.AddWithValue("@health", CardLife.health);
                     command.Parameters.AddWithValue("@physical_attack", CardLife.physical_attack);
@@ -283,12 +283,13 @@ public class UserCardLifeRepository : IUserCardLifeRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_card_life
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND card_life_id = @card_life_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@card_life_id", CardLife.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", CardLife.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

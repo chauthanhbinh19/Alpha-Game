@@ -52,4 +52,9 @@ public class MagicFormationCircleService : IMagicFormationCircleService
     {
         return _magicFormationCircleRepository.SumPowerMagicFormationCirclePercent();
     }
+
+    public List<string> GetUniqueMagicFormationCircleId()
+    {
+        return _magicFormationCircleRepository.GetUniqueMagicFormationCircleId();
+    }
 }

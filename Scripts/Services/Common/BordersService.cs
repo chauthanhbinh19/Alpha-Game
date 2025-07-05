@@ -47,4 +47,9 @@ public class BordersService : IBordersService
     {
         return _bordersRepository.SumPowerBordersPercent();
     }
+
+    public List<string> GetUniqueBordersId()
+    {
+        return _bordersRepository.GetUniqueBordersId();
+    }
 }

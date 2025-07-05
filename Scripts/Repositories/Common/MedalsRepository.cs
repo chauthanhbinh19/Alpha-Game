@@ -6,6 +6,24 @@ using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 public class MedalsRepository : IMedalsRepository
 { 
+    public List<string> GetUniqueMedalId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from medals";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<Medals> GetMedals(int pageSize, int offset)
     {
         List<Medals> medalsList = new List<Medals>();

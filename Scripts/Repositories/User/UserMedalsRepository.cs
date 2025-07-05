@@ -201,7 +201,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(medals.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", medals.quantity);
                     command.Parameters.AddWithValue("@power", medals.power);
                     command.Parameters.AddWithValue("@health", medals.health);
                     command.Parameters.AddWithValue("@physical_attack", medals.physical_attack);
@@ -259,12 +259,13 @@ public class UserMedalsRepository : IUserMedalsRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_medals
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND medal_id = @medal_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@medal_id", medals.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", medals.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

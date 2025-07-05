@@ -58,4 +58,8 @@ public class CardCaptainsService : ICardCaptainsService
         return _cardCaptainsRepository.GetCardCaptainsWithPriceCount(type);
     }
 
+    public List<string> GetUniqueCardCaptainsId()
+    {
+        return _cardCaptainsRepository.GetUniqueCardCaptainsId();
+    }
 }

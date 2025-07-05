@@ -24,6 +24,24 @@ public class SkillsRepository : ISkillsRepository
         }
         return typeList;
     }
+    public List<string> GetUniqueSkillsId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from Skills";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<Skills> GetSkills(string type, int pageSize, int offset)
     {
         List<Skills> skillsList = new List<Skills>();

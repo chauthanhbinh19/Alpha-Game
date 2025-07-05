@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public interface IMagicFormationCircleRepository
 {
     List<string> GetUniqueMagicFormationCircleTypes();
+    List<string> GetUniqueMagicFormationCircleId();
     List<MagicFormationCircle> GetMagicFormationCircle(string type, int pageSize, int offset);
     int GetMagicFormationCircleCount(string type);
     List<MagicFormationCircle> GetMagicFormationCircleWithPrice(string type, int pageSize, int offset);

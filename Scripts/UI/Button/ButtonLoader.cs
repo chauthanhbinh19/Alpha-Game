@@ -47,45 +47,46 @@ public class ButtonLoader : MonoBehaviour
         backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Background_V4_58");
         backgroundImage2 = Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder");
 
-        CreateButton(1, "Campaigns", Resources.Load<Texture2D>($"UI/Background4/Background_V4_110"), Resources.Load<Texture2D>($"UI/UI/Campaign"), mainMenuCampaignPanel);
+        CreateButton(1, "campaigns", Resources.Load<Texture2D>($"UI/Background4/Background_V4_110"), Resources.Load<Texture2D>($"UI/UI/Campaign"), mainMenuCampaignPanel);
         //Main menu
-        CreateButton(1, "Card Heroes", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Cards"), mainMenuButtonPanel);
-        CreateButton(2, "Books", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Books"), mainMenuButtonPanel);
-        CreateButton(3, "Pets", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Pets"), mainMenuButtonPanel);
-        CreateButton(4, "Card Captains", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Captains"), mainMenuButtonPanel);
-        CreateButton(5, "Card Colonels", backgroundImage, Resources.Load<Texture2D>($"UI/Button/philosophies_of_conflict"), mainMenuButtonPanel);
-        CreateButton(6, "Card Generals", backgroundImage, Resources.Load<Texture2D>($"UI/Button/philosophies_of_contention"), mainMenuButtonPanel);
-        CreateButton(7, "Card Admirals", backgroundImage, Resources.Load<Texture2D>($"UI/Button/philosophies_of_diligence"), mainMenuButtonPanel);
-        CreateButton(8, "Card Military", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Military"), mainMenuButtonPanel);
-        CreateButton(9, "Card Spell", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Spell"), mainMenuButtonPanel);
-        CreateButton(10, "Card Monsters", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Monsters"), mainMenuButtonPanel);
-        // CreateButton(13, "Equipments",backgroundImage,Resources.Load<Texture2D>($"UI/UI/equipments"), mainMenuButtonPanel);
-        CreateButton(11, "Bag", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Bag"), mainMenuButtonPanel);
-        CreateButton(12, "Teams", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Teams"), mainMenuButtonPanel);
-        CreateButton(13, "More", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Teams"), mainMenuButtonPanel);
-        
+        CreateButton(1, "card_heroes", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Cards"), mainMenuButtonPanel);
+        CreateButton(2, "books", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Books"), mainMenuButtonPanel);
+        CreateButton(3, "pets", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Pets"), mainMenuButtonPanel);
+        CreateButton(4, "card_captains", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Captains"), mainMenuButtonPanel);
+        CreateButton(5, "card_colonels", backgroundImage, Resources.Load<Texture2D>($"UI/Button/philosophies_of_conflict"), mainMenuButtonPanel);
+        CreateButton(6, "card_generals", backgroundImage, Resources.Load<Texture2D>($"UI/Button/philosophies_of_contention"), mainMenuButtonPanel);
+        CreateButton(7, "card_admirals", backgroundImage, Resources.Load<Texture2D>($"UI/Button/philosophies_of_diligence"), mainMenuButtonPanel);
+        CreateButton(8, "card_military", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Military"), mainMenuButtonPanel);
+        CreateButton(9, "card_spell", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Spell"), mainMenuButtonPanel);
+        CreateButton(10, "card_monsters", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Monsters"), mainMenuButtonPanel);
+        // CreateButton(13, "equipments",backgroundImage,Resources.Load<Texture2D>($"UI/UI/equipments"), mainMenuButtonPanel);
+        CreateButton(11, "bag", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Bag"), mainMenuButtonPanel);
+        CreateButton(12, "teams", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Teams"), mainMenuButtonPanel);
+        CreateButton(13, "more", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Teams"), mainMenuButtonPanel);
 
-        CreateButton(14, "Summon Card Heroes", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonCards"), summonPanel);
-        CreateButton(15, "Summon Books", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonBooks"), summonPanel);
-        CreateButton(16, "Summon CardCaptains", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonCaptains"), summonPanel);
-        CreateButton(17, "Summon Card Monsters", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonMonsters"), summonPanel);
-        CreateButton(18, "Summon Card Military", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonMilitary"), summonPanel);
-        CreateButton(19, "Summon Card Spell", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonSpell"), summonPanel);
-        CreateButton(20, "Summon Card Colonels", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonColonels"), summonPanel);
-        CreateButton(21, "Summon Card Generals", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonGenerals"), summonPanel);
-        CreateButton(22, "Summon Card Admirals", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonAdmirals"), summonPanel);
 
-        CreateButton(23, "Shop", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Shop"), summonPanel);
-        
-        CreateButton(24, "Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery"), summonPanel);
-        CreateButton(25, "Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection"), summonPanel);
-        CreateButton(26, "Equipments", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Legend_Equipment"), summonPanel);
-        CreateButton(27, "Anime", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Lobby_Icon-That_Time_I_Got_Reincarnated_as_a_Slime_Collab"), summonPanel);
-        CreateButton(28, "Arena", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Arena"), summonPanel);
-        CreateButton(29, "Guild", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Guild"), summonPanel);
-        CreateButton(30, "Tower", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Tower"), summonPanel);
-        CreateButton(31, "Event", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Lobby_Icon-Event_002"), summonPanel);
-        
+        CreateButton(14, "summon_card_heroes", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonCards"), summonPanel);
+        CreateButton(15, "summon_books", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonBooks"), summonPanel);
+        CreateButton(16, "summon_card_captains", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonCaptains"), summonPanel);
+        CreateButton(17, "summon_card_monsters", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonMonsters"), summonPanel);
+        CreateButton(18, "summon_card_military", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonMilitary"), summonPanel);
+        CreateButton(19, "summon_card_spell", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonSpell"), summonPanel);
+        CreateButton(20, "summon_card_colonels", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonColonels"), summonPanel);
+        CreateButton(21, "summon_card_generals", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonGenerals"), summonPanel);
+        CreateButton(22, "summon_card_admirals", backgroundImage, Resources.Load<Texture2D>($"UI/UI/SummonAdmirals"), summonPanel);
+
+        CreateButton(23, "shop", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Shop"), summonPanel);
+
+        CreateButton(24, "gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery"), summonPanel);
+        CreateButton(25, "collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection"), summonPanel);
+        CreateButton(26, "equipments", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Legend_Equipment"), summonPanel);
+        CreateButton(27, "anime", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Lobby_Icon-That_Time_I_Got_Reincarnated_as_a_Slime_Collab"), summonPanel);
+        CreateButton(28, "arena", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Arena"), summonPanel);
+        CreateButton(29, "guild", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Guild"), summonPanel);
+        CreateButton(30, "tower", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Tower"), summonPanel);
+        CreateButton(31, "event", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Lobby_Icon-Event_002"), summonPanel);
+        CreateButton(32, "daily_checkin", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Daily_Checkin"), summonPanel);
+
     }
 
     // Update is called once per frame
@@ -95,20 +96,20 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateMoreButton(Transform moreMenuPanel)
     {
-        CreateButton(1, "Collaboration Equipments", backgroundImage, Resources.Load<Texture2D>($"UI/UI/CollaborationEquipments"), moreMenuPanel);
-        CreateButton(2, "Collaborations", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Collaboration"), moreMenuPanel);
-        CreateButton(3, "Medals", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Bag"), moreMenuPanel);
-        CreateButton(4, "Skills", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Skills"), moreMenuPanel);
-        CreateButton(5, "Symbols", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Symbols"), moreMenuPanel);
-        CreateButton(6, "Titles", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Titles"), moreMenuPanel);
-        CreateButton(7, "Magic Formation Circle", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MagicFormationCircle"), moreMenuPanel);
-        CreateButton(8, "Relics", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Relics"), moreMenuPanel);
-        CreateButton(9, "Talisman", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Talisman"), moreMenuPanel);
-        CreateButton(10, "Puppet", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Puppet"), moreMenuPanel);
-        CreateButton(11, "Alchemy", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Alchemy"), moreMenuPanel);
-        CreateButton(12, "Forge", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Forge"), moreMenuPanel);
-        CreateButton(13, "Card Life", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Life"), moreMenuPanel);
-        CreateButton(14, "Master board", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Master_Board"), moreMenuPanel);
+        CreateButton(1, "collaboration_equipments", backgroundImage, Resources.Load<Texture2D>($"UI/UI/CollaborationEquipments"), moreMenuPanel);
+        CreateButton(2, "collaborations", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Collaboration"), moreMenuPanel);
+        CreateButton(3, "medals", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Bag"), moreMenuPanel);
+        CreateButton(4, "skills", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Skills"), moreMenuPanel);
+        CreateButton(5, "symbols", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Symbols"), moreMenuPanel);
+        CreateButton(6, "titles", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Titles"), moreMenuPanel);
+        CreateButton(7, "magic_formation_circle", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MagicFormationCircle"), moreMenuPanel);
+        CreateButton(8, "relics", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Relics"), moreMenuPanel);
+        CreateButton(9, "talisman", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Talisman"), moreMenuPanel);
+        CreateButton(10, "puppet", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Puppet"), moreMenuPanel);
+        CreateButton(11, "alchemy", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Alchemy"), moreMenuPanel);
+        CreateButton(12, "forge", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Forge"), moreMenuPanel);
+        CreateButton(13, "card_life", backgroundImage, Resources.Load<Texture2D>($"UI/UI/Life"), moreMenuPanel);
+        CreateButton(14, "master_board", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Master_Board"), moreMenuPanel);
     }
     private void CreateButton(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
@@ -134,7 +135,7 @@ public class ButtonLoader : MonoBehaviour
         TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
-            nameText.text = itemName;
+            nameText.text = LocalizationManager.Get(itemName);
         }
     }
     private void CreateButtonWithName(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
@@ -235,62 +236,62 @@ public class ButtonLoader : MonoBehaviour
     public void CreateGalleryButton(Transform galleryMenuPanel)
     {
         //Gallery menu
-        CreateButton(1, "Card Heroes Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CardsGallery"), galleryMenuPanel);
-        CreateButton(2, "Books Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/BooksGallery"), galleryMenuPanel);
-        CreateButton(3, "Pets Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/PetsGallery"), galleryMenuPanel);
-        CreateButton(4, "Card Captains Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CaptainsGallery"), galleryMenuPanel);
-        CreateButton(5, "Collaboration Equipments Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CollaborationEquipmentsGallery"), galleryMenuPanel);
-        CreateButton(6, "Card Military Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MilitaryGallery"), galleryMenuPanel);
-        CreateButton(7, "Card Spell Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpellGallery"), galleryMenuPanel);
-        CreateButton(8, "Collaborations Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CollaborationsGallery"), galleryMenuPanel);
-        CreateButton(9, "Card Monsters Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MonstersGallery"), galleryMenuPanel);
-        CreateButton(10, "Equipments Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/EquipmentsGallery"), galleryMenuPanel);
-        CreateButton(11, "Medals Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MedalsGallery"), galleryMenuPanel);
-        CreateButton(12, "Skills Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SkillsGallery"), galleryMenuPanel);
-        CreateButton(13, "Symbols Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SymbolsGallery"), galleryMenuPanel);
-        CreateButton(14, "Titles Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/TitlesGallery"), galleryMenuPanel);
-        CreateButton(15, "Magic Formation Circle Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"), galleryMenuPanel);
-        CreateButton(16, "Relics Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/RelicsGallery"), galleryMenuPanel);
-        CreateButton(17, "Card Colonels Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"), galleryMenuPanel);
-        CreateButton(18, "Card Generals Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"), galleryMenuPanel);
-        CreateButton(19, "Card Admirals Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/teachings_of_diligence"), galleryMenuPanel);
-        CreateButton(20, "Borders Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/BorderGallery"), galleryMenuPanel);
-        CreateButton(21, "Talisman Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/TalismanGallery"), galleryMenuPanel);
-        CreateButton(22, "Puppet Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/PuppetGallery"), galleryMenuPanel);
-        CreateButton(23, "Alchemy Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/AlchemyGallery"), galleryMenuPanel);
-        CreateButton(24, "Forge Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/ForgeGallery"), galleryMenuPanel);
-        CreateButton(25, "Life Gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/LifeGallery"), galleryMenuPanel);
+        CreateButton(1, "card_heroes_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CardsGallery"), galleryMenuPanel);
+        CreateButton(2, "books_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/BooksGallery"), galleryMenuPanel);
+        CreateButton(3, "pets_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/PetsGallery"), galleryMenuPanel);
+        CreateButton(4, "card_captains_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CaptainsGallery"), galleryMenuPanel);
+        CreateButton(5, "collaboration_equipments_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CollaborationEquipmentsGallery"), galleryMenuPanel);
+        CreateButton(6, "card_military_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MilitaryGallery"), galleryMenuPanel);
+        CreateButton(7, "card_spell_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpellGallery"), galleryMenuPanel);
+        CreateButton(8, "collaborations_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CollaborationsGallery"), galleryMenuPanel);
+        CreateButton(9, "card_monsters_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MonstersGallery"), galleryMenuPanel);
+        CreateButton(10, "equipments_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/EquipmentsGallery"), galleryMenuPanel);
+        CreateButton(11, "medals_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MedalsGallery"), galleryMenuPanel);
+        CreateButton(12, "skills_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SkillsGallery"), galleryMenuPanel);
+        CreateButton(13, "symbols_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SymbolsGallery"), galleryMenuPanel);
+        CreateButton(14, "titles_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/TitlesGallery"), galleryMenuPanel);
+        CreateButton(15, "magic_formation_circle_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"), galleryMenuPanel);
+        CreateButton(16, "relics_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/RelicsGallery"), galleryMenuPanel);
+        CreateButton(17, "card_colonels_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"), galleryMenuPanel);
+        CreateButton(18, "card_generals_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"), galleryMenuPanel);
+        CreateButton(19, "card_admirals_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/teachings_of_diligence"), galleryMenuPanel);
+        CreateButton(20, "borders_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/BorderGallery"), galleryMenuPanel);
+        CreateButton(21, "talisman_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/TalismanGallery"), galleryMenuPanel);
+        CreateButton(22, "puppet_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/PuppetGallery"), galleryMenuPanel);
+        CreateButton(23, "alchemy_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/AlchemyGallery"), galleryMenuPanel);
+        CreateButton(24, "forge_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/ForgeGallery"), galleryMenuPanel);
+        CreateButton(25, "life_gallery", backgroundImage, Resources.Load<Texture2D>($"UI/Button/LifeGallery"), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
     }
     public void CreateCollectionButton(Transform collectionMenuPanel)
     {
         //Collection menu
-        CreateButton(1, "Card Heroes Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CardsCollection"), collectionMenuPanel);
-        CreateButton(2, "Books Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/BooksCollection"), collectionMenuPanel);
-        CreateButton(3, "Pets Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/PetsCollection"), collectionMenuPanel);
-        CreateButton(4, "Card Captains Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CaptainsCollection"), collectionMenuPanel);
-        CreateButton(5, "Collaboration Equipments Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CollaborationEquipmentsCollection"), collectionMenuPanel);
-        CreateButton(6, "Card Military Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MilitaryCollection"), collectionMenuPanel);
-        CreateButton(7, "Card Spell Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpellCollection"), collectionMenuPanel);
-        CreateButton(8, "Collaborations Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CollaborationsCollection"), collectionMenuPanel);
-        CreateButton(9, "Card Monsters Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MonstersCollection"), collectionMenuPanel);
-        CreateButton(10, "Equipments Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/EquipmentsCollection"), collectionMenuPanel);
-        CreateButton(11, "Medals Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MedalsCollection"), collectionMenuPanel);
-        CreateButton(12, "Skills Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SkillsCollection"), collectionMenuPanel);
-        CreateButton(13, "Symbols Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SymbolsCollection"), collectionMenuPanel);
-        CreateButton(14, "Titles Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/TitlesCollection"), collectionMenuPanel);
-        CreateButton(15, "Magic Formation Circle Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleCollection"), collectionMenuPanel);
-        CreateButton(16, "Relics Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/RelicsCollection"), collectionMenuPanel);
-        CreateButton(17, "Card Colonels Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/guide_to_conflict"), collectionMenuPanel);
-        CreateButton(18, "Card Generals Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/guide_to_contention"), collectionMenuPanel);
-        CreateButton(19, "Card Admirals Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/guide_to_diligence"), collectionMenuPanel);
-        CreateButton(20, "Borders Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/BordersCollection"), collectionMenuPanel);
-        CreateButton(21, "Talisman Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/TalismanCollection"), collectionMenuPanel);
-        CreateButton(22, "Puppet Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/PuppetCollection"), collectionMenuPanel);
-        CreateButton(23, "Alchemy Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/AlchemyCollection"), collectionMenuPanel);
-        CreateButton(24, "Forge Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/ForgeCollection"), collectionMenuPanel);
-        CreateButton(25, "Life Collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/LifeCollection"), collectionMenuPanel);
+        CreateButton(1, "card_heroes_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CardsCollection"), collectionMenuPanel);
+        CreateButton(2, "books_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/BooksCollection"), collectionMenuPanel);
+        CreateButton(3, "pets_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/PetsCollection"), collectionMenuPanel);
+        CreateButton(4, "card_captains_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CaptainsCollection"), collectionMenuPanel);
+        CreateButton(5, "collaboration_equipments_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CollaborationEquipmentsCollection"), collectionMenuPanel);
+        CreateButton(6, "card_military_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MilitaryCollection"), collectionMenuPanel);
+        CreateButton(7, "card_spell_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpellCollection"), collectionMenuPanel);
+        CreateButton(8, "collaborations_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/CollaborationsCollection"), collectionMenuPanel);
+        CreateButton(9, "card_monsters_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MonstersCollection"), collectionMenuPanel);
+        CreateButton(10, "equipments_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/EquipmentsCollection"), collectionMenuPanel);
+        CreateButton(11, "medals_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MedalsCollection"), collectionMenuPanel);
+        CreateButton(12, "skills_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SkillsCollection"), collectionMenuPanel);
+        CreateButton(13, "symbols_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/SymbolsCollection"), collectionMenuPanel);
+        CreateButton(14, "titles_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/TitlesCollection"), collectionMenuPanel);
+        CreateButton(15, "magic_formation_circle_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleCollection"), collectionMenuPanel);
+        CreateButton(16, "relics_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/RelicsCollection"), collectionMenuPanel);
+        CreateButton(17, "card_colonels_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/guide_to_conflict"), collectionMenuPanel);
+        CreateButton(18, "card_generals_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/guide_to_contention"), collectionMenuPanel);
+        CreateButton(19, "card_admirals_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/guide_to_diligence"), collectionMenuPanel);
+        CreateButton(20, "borders_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/BordersCollection"), collectionMenuPanel);
+        CreateButton(21, "talisman_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/TalismanCollection"), collectionMenuPanel);
+        CreateButton(22, "puppet_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/PuppetCollection"), collectionMenuPanel);
+        CreateButton(23, "alchemy_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/AlchemyCollection"), collectionMenuPanel);
+        CreateButton(24, "forge_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/ForgeCollection"), collectionMenuPanel);
+        CreateButton(25, "life_collection", backgroundImage, Resources.Load<Texture2D>($"UI/Button/LifeCollection"), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
     }
@@ -310,17 +311,18 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateAnimeButton(Transform animeMenuPanel)
     {
-        CreateAnimeButtonUI("One Piece", backgroundImage, Resources.Load<Texture2D>($"UI/Button/One Piece"), animeMenuPanel);
-        CreateAnimeButtonUI("Naruto", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Naruto"), animeMenuPanel);
-        CreateAnimeButtonUI("Dragon Ball", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Dragon Ball"), animeMenuPanel);
-        CreateAnimeButtonUI("Fairy Tail", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Fairy Tail"), animeMenuPanel);
-        CreateAnimeButtonUI("Sword Art Online", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Sword Art Online"), animeMenuPanel);
-        CreateAnimeButtonUI("Demon Slayer", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Demon Slayer"), animeMenuPanel);
-        CreateAnimeButtonUI("Bleach", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Bleach"), animeMenuPanel);
-        CreateAnimeButtonUI("Jujutsu Kaisen", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Jujutsu Kaisen"), animeMenuPanel);
-        CreateAnimeButtonUI("Black Clover", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Black Clover"), animeMenuPanel);
-        CreateAnimeButtonUI("Hunter x Hunter", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Hunter x Hunter"), animeMenuPanel);
-        CreateAnimeButtonUI("One Punch Man", backgroundImage, Resources.Load<Texture2D>($"UI/Button/One Punch Man"), animeMenuPanel);
+        CreateAnimeButtonUI("one_piece", backgroundImage, Resources.Load<Texture2D>($"UI/Button/One Piece"), animeMenuPanel);
+        CreateAnimeButtonUI("naruto", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Naruto"), animeMenuPanel);
+        CreateAnimeButtonUI("dragon_ball", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Dragon Ball"), animeMenuPanel);
+        CreateAnimeButtonUI("fairy_tail", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Fairy Tail"), animeMenuPanel);
+        CreateAnimeButtonUI("sword_art_online", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Sword Art Online"), animeMenuPanel);
+        CreateAnimeButtonUI("demon_slayer", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Demon Slayer"), animeMenuPanel);
+        CreateAnimeButtonUI("bleach", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Bleach"), animeMenuPanel);
+        CreateAnimeButtonUI("jujutsu_kaisen", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Jujutsu Kaisen"), animeMenuPanel);
+        CreateAnimeButtonUI("black_clover", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Black Clover"), animeMenuPanel);
+        CreateAnimeButtonUI("hunter_x_hunter", backgroundImage, Resources.Load<Texture2D>($"UI/Button/Hunter x Hunter"), animeMenuPanel);
+        CreateAnimeButtonUI("one_punch_man", backgroundImage, Resources.Load<Texture2D>($"UI/Button/One Punch Man"), animeMenuPanel);
+
         FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButton(animeMenuPanel);
     }
     public void CreateArenaButton(Transform arenaMenuPanel)

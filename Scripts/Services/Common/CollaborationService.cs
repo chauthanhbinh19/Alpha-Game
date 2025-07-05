@@ -47,4 +47,9 @@ public class CollaborationService : ICollaborationService
     {
         return _collaborationRepository.SumPowerCollaborationsPercent();
     }
+
+    public List<string> GetUniqueCollaborationId()
+    {
+        return _collaborationRepository.GetUniqueCollaborationId();
+    }
 }

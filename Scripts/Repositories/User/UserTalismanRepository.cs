@@ -203,7 +203,7 @@ public class UserTalismanRepository : IUserTalismanRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Talisman.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", Talisman.quantity);
                     command.Parameters.AddWithValue("@power", Talisman.power);
                     command.Parameters.AddWithValue("@health", Talisman.health);
                     command.Parameters.AddWithValue("@physical_attack", Talisman.physical_attack);
@@ -282,12 +282,13 @@ public class UserTalismanRepository : IUserTalismanRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_talisman
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND talisman_id = @talisman_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@talisman_id", Talisman.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", Talisman.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

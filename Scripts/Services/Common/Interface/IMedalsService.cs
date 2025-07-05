@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 public interface IMedalsService
 {
+    List<string> GetUniqueMedalId();
     List<Medals> GetMedals(int pageSize, int offset);
     int GetMedalsCount();
     List<Medals> GetMedalsWithPrice(int pageSize, int offset);

@@ -218,7 +218,7 @@ public class PetsController : MonoBehaviour
         var idProperty = obj.GetType().GetProperty("id");
         var imageProperty = obj.GetType().GetProperty("image");
         var currencyProperty = obj.GetType().GetProperty("currency");
-        
+
 
         if (idProperty != null && imageProperty != null && currencyProperty != null)
         {
@@ -332,65 +332,61 @@ public class PetsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            for (int i = 1; i <= quantity; i++) // Duyệt từ 1 đến giá trị trong quantityText
+            if (obj is Pets pets)
             {
-                if (obj is Pets pets)
+                pets.quantity = pets.quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(pets.currency.id, price);
+                bool success = UserPetsService.Create().InsertUserPets(pets);
+                if (!success)
                 {
-                    UserCurrencyService.Create().UpdateUserCurrency(pets.currency.id, price);
-                    bool success = UserPetsService.Create().InsertUserPets(pets);
-                    if (!success)
-                    {
-                        allSuccess = false;
-                        break;
-                    }
+                    allSuccess = false;
                 }
-            }
 
-            // Hiển thị thông báo dựa trên kết quả
-            if (allSuccess)
-            {
-                string fileNameWithoutExtension = "";
-                // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                List<Currency> currencies = new List<Currency>();
-                string objType = "";
-                if (obj is Pets pets)
+                // Hiển thị thông báo dựa trên kết quả
+                if (allSuccess)
                 {
+                    string fileNameWithoutExtension = "";
+                    // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
+                    List<Currency> currencies = new List<Currency>();
+                    string objType = "";
+
                     PetsGalleryService.Create().InsertPetsGallery(pets.id);
                     currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pets.image);
+
+                    ButtonEvent.Instance.Close(currencyPanel);
+                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    ButtonEvent.Instance.Close(popupPanel);
+                    // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
+                    GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
+
+                    ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
+                    Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
+                    GameObject itemObject = Instantiate(ItemThird, itemContent);
+
+                    RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
+                    Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    eImage.texture = equipmentTexture;
+
+                    TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
+                    eQuantity.text = quantity.ToString();
+
+                    if (objType.Equals("Achievements") || objType.Equals("Borders")
+                    || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
+                    || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
+                    || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
+                    || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
+                    {
+                        double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                        PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                        double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                        FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    }
                 }
-                ButtonEvent.Instance.Close(currencyPanel);
-                FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
-                ButtonEvent.Instance.Close(popupPanel);
-                // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
-                GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
-
-                ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
-                Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
-                GameObject itemObject = Instantiate(ItemThird, itemContent);
-
-                RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-                Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-                eImage.texture = equipmentTexture;
-
-                TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = quantity.ToString();
-
-                if (objType.Equals("Achievements") || objType.Equals("Borders")
-                || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
-                || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
-                || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
-                || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
+                else
                 {
-                    double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
-                    double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
                 }
-            }
-            else
-            {
-                FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
             }
         });
     }

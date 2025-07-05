@@ -57,4 +57,9 @@ public class CardColonelsService : ICardColonelsService
     {
         return _cardColonelsRepository.GetCardColonelsWithPriceCount(type);
     }
+
+    public List<string> GetUniqueCardColonelsId()
+    {
+        return _cardColonelsRepository.GetUniqueCardColonelsId();
+    }
 }

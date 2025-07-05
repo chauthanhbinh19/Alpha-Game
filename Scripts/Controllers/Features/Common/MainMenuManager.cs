@@ -100,6 +100,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_29", SummonMainMenuPanel, () => GetType("Guild"));
         ButtonEvent.Instance.AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType("Tower"));
         ButtonEvent.Instance.AssignButtonEvent("Button_31", SummonMainMenuPanel, () => GetType("Event"));
+        ButtonEvent.Instance.AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType("daily_checkin"));
         // GetCardsType();
     }
 
@@ -220,7 +221,7 @@ public class MainMenuManager : MonoBehaviour
         {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = "Gallery";
+            TitleText.text = LocalizationManager.Get("gallery");
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
@@ -229,7 +230,7 @@ public class MainMenuManager : MonoBehaviour
         {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = "Collection";
+            TitleText.text = LocalizationManager.Get("collection");
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
@@ -238,7 +239,7 @@ public class MainMenuManager : MonoBehaviour
         {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = "Equipments";
+            TitleText.text = LocalizationManager.Get("equipments");
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateEquipmentsButton(popupObject.transform.Find("Content"));
@@ -295,23 +296,27 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
-            titleTMPText.text = "Master Board";
+            titleTMPText.text = LocalizationManager.Get("master_board");
             // FindObjectOfType<ButtonLoader>().CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             MasterBoardController.Instance.CreateMasterBoard(popupObject);
         }
         else if (mainType.Equals("Teams"))
         {
-            FindAnyObjectByType<TeamsManager>().CreateTeams();
+            TeamsManager.Instance.CreateTeams();
         }
         else if (mainType.Equals("More"))
         {
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = "More";
+            TitleText.text = LocalizationManager.Get("more");
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateMoreButton(popupObject.transform.Find("Content"));
             GetMoreButtonEvent(popupObject.transform.Find("Content"));
+        }
+        else if (mainType.Equals("daily_checkin"))
+        {
+            DailyCheckinManager.Instance.CreateDailyCheckinGroup();
         }
         else
         {

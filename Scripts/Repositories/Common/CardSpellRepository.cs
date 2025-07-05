@@ -24,6 +24,24 @@ public class CardSpellRepository : ICardSpellRepository
         }
         return typeList;
     }
+    public List<string> GetUniqueCardSpellId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from card_spell";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<CardSpell> GetCardSpell(string type, int pageSize, int offset)
     {
         List<CardSpell> CardSpellList = new List<CardSpell>();

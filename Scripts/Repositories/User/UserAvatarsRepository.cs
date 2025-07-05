@@ -199,7 +199,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(avatars.rare));
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@is_used", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", avatars.quantity);
                     command.Parameters.AddWithValue("@power", avatars.power);
                     command.Parameters.AddWithValue("@health", avatars.health);
                     command.Parameters.AddWithValue("@physical_attack", avatars.physical_attack);
@@ -257,12 +257,13 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_avatars
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND avatar_id = @avatar_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@avatar_id", avatars.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", avatars.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public interface ICardColonelsService
 {
     List<string> GetUniqueCardColonelsTypes();
+    List<string> GetUniqueCardColonelsId();
     List<CardColonels> GetCardColonels(string type, int pageSize, int offset);
     int GetCardColonelsCount(string type);
     List<CardColonels> GetCardColonelsRandom(string type, int pageSize);

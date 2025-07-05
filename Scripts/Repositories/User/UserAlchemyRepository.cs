@@ -204,7 +204,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Alchemy.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", Alchemy.quantity);
                     command.Parameters.AddWithValue("@power", Alchemy.power);
                     command.Parameters.AddWithValue("@health", Alchemy.health);
                     command.Parameters.AddWithValue("@physical_attack", Alchemy.physical_attack);
@@ -283,12 +283,13 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_alchemy
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND alchemy_id = @alchemy_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@alchemy_id", Alchemy.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", Alchemy.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

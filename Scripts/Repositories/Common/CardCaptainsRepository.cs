@@ -25,6 +25,24 @@ public class CardCaptainsRepository:ICardCaptainsRepository
         }
         return typeList;
     }
+    public List<string> GetUniqueCardCaptainsId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from card_captains";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<CardCaptains> GetCardCaptains(string type, int pageSize, int offset)
     {
         List<CardCaptains> CardCaptainsList = new List<CardCaptains>();

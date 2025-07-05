@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public interface ICardMonstersService
 {
     List<string> GetUniqueCardMonstersTypes();
+    List<string> GetUniqueCardMonstersId();
     List<CardMonsters> GetCardMonsters(string type, int pageSize, int offset);
     int GetCardMonstersCount(string type);
     List<CardMonsters> GetCardMonstersRandom(string type, int pageSize);

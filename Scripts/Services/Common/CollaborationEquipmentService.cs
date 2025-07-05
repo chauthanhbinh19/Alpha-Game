@@ -49,4 +49,8 @@ public class CollaborationEquipmentService : ICollaborationEquipmentService
         return _collaborationEquipmentRepository.GetCollaborationEquipmentsById(Id);
     }
 
+    public List<string> GetUniqueCollaborationEquipmentId()
+    {
+        return _collaborationEquipmentRepository.GetUniqueCollaborationEquipmentId();
+    }
 }

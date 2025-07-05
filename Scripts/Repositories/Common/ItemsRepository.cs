@@ -6,5 +6,22 @@ using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 public class ItemsRepository : IItemsRepository
 { 
-    
+    public List<string> GetUniqueItemId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from items";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
 }

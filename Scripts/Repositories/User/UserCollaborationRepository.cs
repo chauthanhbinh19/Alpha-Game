@@ -201,7 +201,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                     command.Parameters.AddWithValue("@star", 0);
                     command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(collaboration.rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", 0);
+                    command.Parameters.AddWithValue("@quantity", collaboration.quantity);
                     command.Parameters.AddWithValue("@power", collaboration.power);
                     command.Parameters.AddWithValue("@health", collaboration.health);
                     command.Parameters.AddWithValue("@physical_attack", collaboration.physical_attack);
@@ -259,12 +259,13 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
                     UPDATE user_collaborations
-                    SET quantity = quantity + 1
+                    SET quantity = @quantity
                     WHERE user_id = @user_id AND collaboration_id = @collaboration_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@collaboration_id", collaboration.id);
+                    updateCommand.Parameters.AddWithValue("@quantity", collaboration.quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }

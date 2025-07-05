@@ -24,6 +24,24 @@ public class PuppetRepository : IPuppetRepository
         }
         return typeList;
     }
+    public List<string> GetUniquePuppetId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from puppet";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<Puppet> GetPuppet(string type, int pageSize, int offset)
     {
         List<Puppet> Puppets = new List<Puppet>();

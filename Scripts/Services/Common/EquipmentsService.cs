@@ -45,4 +45,9 @@ public class EquipmentsService : IEquipmentsService
     {
         return _equipmentsRepository.GetEquipmentById(Id);
     }
+
+    public List<string> GetUniqueEquipmentsId()
+    {
+        return _equipmentsRepository.GetUniqueEquipmentsId();
+    }
 }

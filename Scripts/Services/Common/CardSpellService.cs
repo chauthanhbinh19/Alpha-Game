@@ -57,4 +57,9 @@ public class CardSpellService : ICardSpellService
     {
         return _cardSpellRepository.GetCardSpellWithPriceCount(type);
     }
+
+    public List<string> GetUniqueCardSpellId()
+    {
+        return _cardSpellRepository.GetUniqueCardSpellId();
+    }
 }

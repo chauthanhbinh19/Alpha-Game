@@ -89,7 +89,7 @@ public class EquipmentManager : MonoBehaviour
         GameObject equipmentObject = Instantiate(EquipmentsPanelPrefab, MainPanel);
 
         Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
-        Title.text = type.Replace("_", " ");
+        Title.text = LocalizationManager.Get(type);
 
         RawImage Image = equipmentObject.transform.Find("Background").GetComponent<RawImage>();
         string image = "Background_V1_" + count;
@@ -339,7 +339,7 @@ public class EquipmentManager : MonoBehaviour
         if (DictionaryPanel != null)
         {
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
-            Title.text = "Bag";
+            Title.text = LocalizationManager.Get("bag");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Destroy(currentObject));
@@ -379,7 +379,7 @@ public class EquipmentManager : MonoBehaviour
         if (DictionaryPanel != null)
         {
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
-            Title.text = "Shop";
+            Title.text = LocalizationManager.Get("shop");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Destroy(currentObject));
@@ -417,7 +417,7 @@ public class EquipmentManager : MonoBehaviour
         if (DictionaryPanel != null)
         {
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
-            Title.text = "Enhancement";
+            Title.text = LocalizationManager.Get("enhancement");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuEnhancementContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Destroy(currentObject));
@@ -453,7 +453,7 @@ public class EquipmentManager : MonoBehaviour
         if (DictionaryPanel != null)
         {
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
-            Title.text = "Campaign";
+            Title.text = LocalizationManager.Get("campaign");
             TextMeshProUGUI chapter = DictionaryPanel.transform.Find("CampaignTitleText").GetComponent<TextMeshProUGUI>();
             chapter.text = userCampaigns.chapter.Replace("_", " ");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuCampaignContentPanel");

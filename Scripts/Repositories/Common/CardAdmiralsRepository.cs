@@ -24,6 +24,24 @@ public class CardAdmiralsRepository : ICardAdmiralsRepository
         }
         return typeList;
     }
+    public List<string> GetUniqueCardAdmiralsId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from card_admirals";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public int GetCardAdmiralsCount(string type)
     {
         int count = 0;

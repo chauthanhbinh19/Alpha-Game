@@ -24,6 +24,24 @@ public class CollaborationEquipmentRepository : ICollaborationEquipmentRepositor
         }
         return typeList;
     }
+    public List<string> GetUniqueCollaborationEquipmentId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from collaboration_equipments";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<CollaborationEquipment> GetCollaborationEquipments(string type, int pageSize, int offset)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();

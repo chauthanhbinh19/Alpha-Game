@@ -52,4 +52,9 @@ public class PuppetService : IPuppetService
     {
         return _puppetRepository.SumPowerPuppetPercent();
     }
+
+    public List<string> GetUniquePuppetId()
+    {
+        return _puppetRepository.GetUniquePuppetId();
+    }
 }

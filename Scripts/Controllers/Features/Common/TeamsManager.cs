@@ -9,6 +9,7 @@ using System;
 
 public class TeamsManager : MonoBehaviour
 {
+    public static TeamsManager Instance { get; private set; }
     private Transform MainPanel;
     private Transform positionPanel;
     private GameObject cardsPrefab3;
@@ -48,7 +49,16 @@ public class TeamsManager : MonoBehaviour
     TeamsService teamsService;
     private void Awake()
     {
-
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
     }
     // Start is called before the first frame update
     void Start()

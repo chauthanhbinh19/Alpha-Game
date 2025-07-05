@@ -6,6 +6,24 @@ using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 public class TitlesRepository : ITitlesRepository
 { 
+    public List<string> GetUniqueTitleId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from titles";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<Titles> GetTitles(int pageSize, int offset)
     {
         List<Titles> titlesList = new List<Titles>();

@@ -58,4 +58,8 @@ public class BooksService : IBooksService
         return _booksRepository.GetBookssWithPriceCount(type);
     }
 
+    public List<string> GetUniqueBookId()
+    {
+        return _booksRepository.GetUniqueBookId();
+    }
 }

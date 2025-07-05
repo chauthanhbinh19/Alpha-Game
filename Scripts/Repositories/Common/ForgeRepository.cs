@@ -24,6 +24,24 @@ public class ForgeRepository : IForgeRepository
         }
         return typeList;
     }
+    public List<string> GetUniqueForgeId()
+    {
+        List<string> typeList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "Select distinct id from forge";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                typeList.Add(reader.GetString(0));
+            }
+        }
+        return typeList;
+    }
     public List<Forge> GetForge(string type, int pageSize, int offset)
     {
         List<Forge> Forges = new List<Forge>();

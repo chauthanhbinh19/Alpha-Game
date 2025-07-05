@@ -47,4 +47,9 @@ public class TitlesService : ITitlesService
     {
         return _titlesRepository.SumPowerTitlesPercent();
     }
+
+    public List<string> GetUniqueTitleId()
+    {
+        return _titlesRepository.GetUniqueTitleId();
+    }
 }
