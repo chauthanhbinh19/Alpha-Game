@@ -13,8 +13,6 @@ public class MainMenuPhantomwareManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuPhantomwareManager : MonoBehaviour
         MainMenuPhantomwarePanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuPhantomwarePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu2("PhantomwareSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuPhantomwareManager(object data)
@@ -36,8 +33,8 @@ public class MainMenuPhantomwareManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Phantomware";
-        parentType = "Phantomware";
+        titleText.text = LocalizationManager.Get(AppConstants.Phantomware.ToLower());
+        parentType = AppConstants.Phantomware;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +46,7 @@ public class MainMenuPhantomwareManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Phantomware");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Phantomware);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

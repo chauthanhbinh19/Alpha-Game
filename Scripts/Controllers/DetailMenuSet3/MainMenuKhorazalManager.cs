@@ -13,8 +13,6 @@ public class MainMenuKhorazalManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuKhorazalManager : MonoBehaviour
         MainMenuKhorazalPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuKhorazalPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("KhorazalSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuKhorazalManager(object data)
@@ -36,8 +33,8 @@ public class MainMenuKhorazalManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Khorazal";
-        parentType = "Khorazal";
+        titleText.text = LocalizationManager.Get(AppConstants.Khorazal.ToLower());
+        parentType = AppConstants.Khorazal;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +46,7 @@ public class MainMenuKhorazalManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Khorazal");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Khorazal);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

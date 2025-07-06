@@ -13,8 +13,6 @@ public class MainMenuXylkorManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuXylkorManager : MonoBehaviour
         MainMenuXylkorPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuXylkorPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("XylkorSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuXylkorManager(object data)
@@ -36,8 +33,8 @@ public class MainMenuXylkorManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Xylkor";
-        parentType = "Xylkor";
+        titleText.text = LocalizationManager.Get(AppConstants.Xylkor.ToLower());
+        parentType = AppConstants.Xylkor;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +46,7 @@ public class MainMenuXylkorManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Xylkor");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Xylkor);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

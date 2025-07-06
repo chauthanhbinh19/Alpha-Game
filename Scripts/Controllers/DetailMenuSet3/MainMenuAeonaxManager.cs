@@ -13,8 +13,6 @@ public class MainMenuAeonaxManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuAeonaxManager : MonoBehaviour
         MainMenuAeonaxPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuAeonaxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("AeonaxSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuAeonaxManager(object data)
@@ -36,8 +33,8 @@ public class MainMenuAeonaxManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Aeonax";
-        parentType = "Aeonax";
+        titleText.text = LocalizationManager.Get(AppConstants.Aeonax.ToLower());
+        parentType = AppConstants.Aeonax;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +46,7 @@ public class MainMenuAeonaxManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Aeonax");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Aeonax);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

@@ -13,8 +13,6 @@ public class MainMenuOmniscienceManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuOmniscienceManager : MonoBehaviour
         MainMenuOmnisciencePanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuOmnisciencePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("OmniscienceSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuOmniscienceManager(object data)
@@ -36,8 +33,8 @@ public class MainMenuOmniscienceManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Omniscience";
-        parentType = "Omniscience";
+        titleText.text = LocalizationManager.Get(AppConstants.Omniscience.ToLower());
+        parentType = AppConstants.Omniscience;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +46,7 @@ public class MainMenuOmniscienceManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Omniscience");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Omniscience);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

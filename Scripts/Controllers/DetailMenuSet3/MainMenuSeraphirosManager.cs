@@ -13,8 +13,6 @@ public class MainMenuSeraphirosManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuSeraphirosManager : MonoBehaviour
         MainMenuSeraphirosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuSeraphirosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("SeraphirosSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuSeraphirosManager(object data)
@@ -36,8 +33,8 @@ public class MainMenuSeraphirosManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Seraphiros";
-        parentType = "Seraphiros";
+        titleText.text = LocalizationManager.Get(AppConstants.Seraphiros.ToLower());
+        parentType = AppConstants.Seraphiros;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +46,7 @@ public class MainMenuSeraphirosManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Seraphiros");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Seraphiros);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

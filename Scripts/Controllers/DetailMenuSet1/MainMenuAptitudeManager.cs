@@ -13,8 +13,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
     private GameObject buttonPrefab;
     private GameObject MainMenuAptitudePanelPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuAptitudeManager : MonoBehaviour
         MainMenuAptitudePanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuAptitudePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("AptitudeSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
 
     }
 
@@ -37,8 +34,8 @@ public class MainMenuAptitudeManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Aptitude";
-        parentType = "Aptitude";
+        titleText.text = LocalizationManager.Get(AppConstants.Aptitude.ToLower());
+        parentType = AppConstants.Aptitude;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -50,7 +47,7 @@ public class MainMenuAptitudeManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Aptitude");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Aptitude);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

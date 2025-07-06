@@ -36,8 +36,8 @@ public class MainMenuAntimatterManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Antimatter";
-        parentType = "Antimatter";
+        titleText.text = LocalizationManager.Get(AppConstants.Antimatter.ToLower());
+        parentType = AppConstants.Antimatter;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +49,7 @@ public class MainMenuAntimatterManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Antimatter");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Antimatter);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

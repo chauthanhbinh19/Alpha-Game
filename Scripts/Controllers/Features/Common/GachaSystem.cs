@@ -92,31 +92,31 @@ public class GachaSystem : MonoBehaviour
         // Xác định class dựa trên type
         switch (name)
         {
-            case "SummonCardHeroes":
+            case AppConstants.SummonCardHeroes:
                 cards = CardHeroesService.Create().GetAllCardHeroes(type);
                 break;
-            case "SummonBooks":
+            case AppConstants.Book:
                 cards = BooksService.Create().GetAllBooks(type);
                 break;
-            case "SummonCardCaptains":
+            case AppConstants.CardCaptain:
                 cards = CardCaptainsService.Create().GetAllCardCaptains(type);
                 break;
-            case "SummonCardMonsters":
+            case AppConstants.CardMonster:
                 cards = CardMonstersService.Create().GetAllCardMonsters(type);
                 break;
-            case "SummonCardMilitary":
+            case AppConstants.CardMilitary:
                 cards = CardMilitaryService.Create().GetAllCardMilitary(type);
                 break;
-            case "SummonCardSpell":
+            case AppConstants.CardSpell:
                 cards = CardSpellService.Create().GetAllCardSpell(type);
                 break;
-            case "SummonCardColonels":
+            case AppConstants.CardColonel:
                 cards = CardColonelsService.Create().GetAllCardColonels(type);
                 break;
-            case "SummonCardGenerals":
+            case AppConstants.CardGeneral:
                 cards = CardGeneralsService.Create().GetAllCardGenerals(type);
                 break;
-            case "SummonCardAdmirals":
+            case AppConstants.CardAdmiral:
                 cards = CardAdmiralsService.Create().GetAllCardAdmirals(type);
                 break;
             default:
@@ -156,7 +156,7 @@ public class GachaSystem : MonoBehaviour
         {
             // Debug.Log("Summoned item: " + item.ToString());
             // Thực hiện logic riêng tùy thuộc vào loại đối tượng
-            if (name.Equals("SummonCardHeroes"))
+            if (name.Equals(AppConstants.CardHero))
             {
                 CardHeroes cardItem = card as CardHeroes;
                 if (cardItem != null)
@@ -166,7 +166,7 @@ public class GachaSystem : MonoBehaviour
                     CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardItem.id);
                 }
             }
-            else if (name.Equals("SummonBooks"))
+            else if (name.Equals(AppConstants.Book))
             {
                 Books bookItem = card as Books;
                 if (bookItem != null)
@@ -176,7 +176,7 @@ public class GachaSystem : MonoBehaviour
                     BooksGalleryService.Create().InsertBooksGallery(bookItem.id);
                 }
             }
-            else if (name.Equals("SummonCardCaptains"))
+            else if (name.Equals(AppConstants.CardCaptain))
             {
                 CardCaptains captainItem = card as CardCaptains;
                 if (captainItem != null)
@@ -186,7 +186,7 @@ public class GachaSystem : MonoBehaviour
                     CardCaptainsGalleryService.Create().InsertCardCaptainsGallery(captainItem.id);
                 }
             }
-            else if (name.Equals("SummonCardMonsters"))
+            else if (name.Equals(AppConstants.CardMonster))
             {
                 CardMonsters monsterItem = card as CardMonsters;
                 if (monsterItem != null)
@@ -196,7 +196,7 @@ public class GachaSystem : MonoBehaviour
                     CardMonstersGalleryService.Create().InsertCardMonstersGallery(monsterItem.id);
                 }
             }
-            else if (name.Equals("SummonCardMilitary"))
+            else if (name.Equals(AppConstants.CardMilitary))
             {
                 CardMilitary militaryItem = card as CardMilitary;
                 if (militaryItem != null)
@@ -206,7 +206,7 @@ public class GachaSystem : MonoBehaviour
                     CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(militaryItem.id);
                 }
             }
-            else if (name.Equals("SummonCardSpell"))
+            else if (name.Equals(AppConstants.CardSpell))
             {
                 CardSpell spellItem = card as CardSpell;
                 if (spellItem != null)
@@ -216,7 +216,7 @@ public class GachaSystem : MonoBehaviour
                     CardSpellGalleryService.Create().InsertCardSpellGallery(spellItem.id);
                 }
             }
-            else if (name.Equals("SummonCardColonels"))
+            else if (name.Equals(AppConstants.CardColonel))
             {
                 CardColonels colonelItem = card as CardColonels;
                 if (colonelItem != null)
@@ -226,7 +226,7 @@ public class GachaSystem : MonoBehaviour
                     CardColonelsGalleryService.Create().InsertCardColonelsGallery(colonelItem.id);
                 }
             }
-            else if (name.Equals("SummonCardGenerals"))
+            else if (name.Equals(AppConstants.CardGeneral))
             {
                 CardGenerals generalItem = card as CardGenerals;
                 if (generalItem != null)
@@ -236,7 +236,7 @@ public class GachaSystem : MonoBehaviour
                     CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(generalItem.id);
                 }
             }
-            else if (name.Equals("SummonCardAdmirals"))
+            else if (name.Equals(AppConstants.CardAdmiral))
             {
                 CardAdmirals admiralItem = card as CardAdmirals;
                 if (admiralItem != null)

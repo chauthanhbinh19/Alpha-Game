@@ -14,8 +14,6 @@ public class MainMenuOmnivoryManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -28,7 +26,6 @@ public class MainMenuOmnivoryManager : MonoBehaviour
         MainMenuOmnivoryPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuOmnivoryPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("OmnivorySlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuOmnivoryManager(object data)
@@ -37,8 +34,8 @@ public class MainMenuOmnivoryManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Omnivory";
-        parentType = "Omnivory";
+        titleText.text = LocalizationManager.Get(AppConstants.Omnivory.ToLower());
+        parentType = AppConstants.Omnivory;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -50,7 +47,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Omnivory");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Omnivory);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

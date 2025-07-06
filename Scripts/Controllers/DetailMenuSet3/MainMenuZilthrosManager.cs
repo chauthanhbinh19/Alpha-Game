@@ -13,8 +13,6 @@ public class MainMenuZilthrosManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuZilthrosManager : MonoBehaviour
         MainMenuZilthrosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuZilthrosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("ZilthrosSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuZilthrosManager(object data)
@@ -36,8 +33,8 @@ public class MainMenuZilthrosManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Zilthros";
-        parentType = "Zilthros";
+        titleText.text = LocalizationManager.Get(AppConstants.Zilthros.ToLower());
+        parentType = AppConstants.Zilthros;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +46,7 @@ public class MainMenuZilthrosManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Zilthros");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Zilthros);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

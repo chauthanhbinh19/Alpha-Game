@@ -51,7 +51,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_heroes",
+                        type = AppConstants.CardHeroes,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -72,7 +72,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "alchemy",
+                        type = AppConstants.Alchemy,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -93,7 +93,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "avatars",
+                        type = AppConstants.Avatar,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -114,7 +114,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "borders",
+                        type = AppConstants.Border,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -135,7 +135,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "books",
+                        type = AppConstants.Book,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -156,7 +156,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_admirals",
+                        type = AppConstants.CardAdmiral,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -177,7 +177,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_captains",
+                        type = AppConstants.CardCaptain,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -198,7 +198,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_colonels",
+                        type = AppConstants.CardColonel,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -219,7 +219,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_generals",
+                        type = AppConstants.CardGeneral,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -240,7 +240,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_life",
+                        type = AppConstants.CardLife,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -261,7 +261,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_military",
+                        type = AppConstants.CardMilitary,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -282,7 +282,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_monsters",
+                        type = AppConstants.CardMonster,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -303,7 +303,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "card_spell",
+                        type = AppConstants.CardSpell,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -324,7 +324,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "collaboration_equipment",
+                        type = AppConstants.CollaborationEquipment,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -345,7 +345,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "collaboration",
+                        type = AppConstants.Collaboration,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -366,7 +366,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "equipments",
+                        type = AppConstants.Equipment,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -387,7 +387,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "forge",
+                        type = AppConstants.Forge,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -408,7 +408,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "magic_formation_circle",
+                        type = AppConstants.MagicFormationCircle,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -429,7 +429,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "medals",
+                        type = AppConstants.Medal,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -450,7 +450,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "pet",
+                        type = AppConstants.Pet,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -471,7 +471,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "puppet",
+                        type = AppConstants.Puppet,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -492,7 +492,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "relic",
+                        type = AppConstants.Relic,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -513,7 +513,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "skill",
+                        type = AppConstants.Skill,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -534,7 +534,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "symbol",
+                        type = AppConstants.Symbol,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -555,7 +555,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "talisman",
+                        type = AppConstants.Talisman,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -576,7 +576,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "title",
+                        type = AppConstants.Title,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -597,7 +597,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "item",
+                        type = AppConstants.Item,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -618,7 +618,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "item",
+                        type = AppConstants.Item,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -639,7 +639,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "item",
+                        type = AppConstants.Item,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -660,7 +660,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "item",
+                        type = AppConstants.Item,
                         object_id = randomItem,
                         quantity = 5000
                     };
@@ -681,7 +681,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         date = currentDate,
                         month = currentDate.Month,
                         year = currentDate.Year,
-                        type = "item",
+                        type = AppConstants.Item,
                         object_id = randomItem,
                         quantity = 5000
                     };

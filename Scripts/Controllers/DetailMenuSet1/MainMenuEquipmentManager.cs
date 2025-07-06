@@ -70,7 +70,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Equipments";
+        titleText.text = LocalizationManager.Get(AppConstants.Equipments.ToLower());
         SetPanel = currentObject.transform.Find("DictionaryCards/SetGroup/Viewport/Content");
         mainImage = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();

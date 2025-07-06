@@ -13,8 +13,6 @@ public class MainMenuNyarlathotepManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject buttonPrefab;
     private GameObject currentObject;
-    private GameObject slotObject;
-    private GameObject ElementDetails2Prefab;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
@@ -27,7 +25,6 @@ public class MainMenuNyarlathotepManager : MonoBehaviour
         MainMenuNyarlathotepPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuNyarlathotepPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("NyarlathotepSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
     }
 
     public void CreateMainMenuNyarlathotepManager(object data)
@@ -36,8 +33,8 @@ public class MainMenuNyarlathotepManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Nyarlathotep";
-        parentType = "Nyarlathotep";
+        titleText.text = LocalizationManager.Get(AppConstants.Nyarlathotep.ToLower());
+        parentType = AppConstants.Nyarlathotep;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -49,7 +46,7 @@ public class MainMenuNyarlathotepManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Nyarlathotep");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Nyarlathotep);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

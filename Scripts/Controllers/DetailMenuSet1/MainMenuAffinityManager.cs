@@ -38,7 +38,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         mainLevelText = currentObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = "Affinity";
+        titleText.text = LocalizationManager.Get(AppConstants.Affinity.ToLower());
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
