@@ -58,6 +58,9 @@ public class UIManager : MonoBehaviour
     public GameObject ShopManagerPrefab;
     public GameObject ShopButtonPrefab;
     public GameObject ShopPrefab;
+    public GameObject MysticMarketManagerPrefab;
+    public GameObject MysticMarketPrefab;
+    public GameObject MysticMarketButtonPrefab;
     public GameObject NumberDetailPrefab;
     public GameObject NumberDetail2Prefab;
     public GameObject NumberDetail3Prefab;
@@ -413,6 +416,12 @@ public class UIManager : MonoBehaviour
                 return ShopManagerPrefab;
             case "ShopPrefab":
                 return ShopPrefab;
+            case "MysticMarketManagerPrefab":
+                return MysticMarketManagerPrefab;
+            case "MysticMarketButtonPrefab":
+                return MysticMarketButtonPrefab;
+            case "MysticMarketPrefab":
+                return MysticMarketPrefab;
             case "NumberDetailPrefab":
                 return NumberDetailPrefab;
             case "NumberDetail2Prefab":

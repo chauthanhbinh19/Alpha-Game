@@ -8,4 +8,14 @@ public class CurrencyService : ICurrencyService
     {
         _currencyRepository = currencyRepository;
     }
+
+    public static CurrencyService Create()
+    {
+        return new CurrencyService(new CurrencyRepository());
+    }
+
+    public List<Currency> GetCurrencyList()
+    {
+        return _currencyRepository.GetCurrencyList();
+    }
 }

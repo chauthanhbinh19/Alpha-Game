@@ -86,6 +86,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(30, AppConstants.Tower, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Tower"), summonPanel);
         CreateButton(31, AppConstants.Event, backgroundImage, Resources.Load<Texture2D>($"UI/UI/Lobby_Icon-Event_002"), summonPanel);
         CreateButton(32, AppConstants.DailyCheckin, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Daily_Checkin"), summonPanel);
+        CreateButton(33, AppConstants.MysticMarket, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mystic_Market"), summonPanel);
 
     }
 

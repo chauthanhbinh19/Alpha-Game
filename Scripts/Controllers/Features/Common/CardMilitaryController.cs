@@ -134,6 +134,8 @@ public class CardMilitaryController : MonoBehaviour
             currencyText.text = military.currency.quantity.ToString();
 
             Button buy = militaryObject.transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
             buy.onClick.AddListener(() =>
             {
                 GetQuantity(military.currency.quantity, military, subType, popupPanel, currencyPanel);
@@ -161,6 +163,8 @@ public class CardMilitaryController : MonoBehaviour
         TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
+        TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty("id");
         var imageProperty = obj.GetType().GetProperty("image");

@@ -269,7 +269,7 @@ public static class AppConstants
     public const string Lorn = "Lorn";
     public const string Baxx = "Baxx";
     public const string Zeph = "Zeph";
-    
+
     public const string Kael = "Kael";
     public const string Drav = "Drav";
     public const string Torn = "Torn";
@@ -277,4 +277,7 @@ public static class AppConstants
     public const string Vask = "Vask";
     public const string Jorr = "Jorr";
     public const string Quen = "Quen";
+
+    public const string Buy = "buy";
+    public const string MysticMarket = "mystic_market";
 }

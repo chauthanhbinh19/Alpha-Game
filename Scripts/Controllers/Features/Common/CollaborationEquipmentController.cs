@@ -133,6 +133,8 @@ public class CollaborationEquipmentController : MonoBehaviour
             currencyText.text = collaborationEquipment.currency.quantity.ToString();
 
             Button buy = collaborationEquipmentObject.transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
             buy.onClick.AddListener(() =>
             {
                 GetQuantity(collaborationEquipment.currency.quantity, collaborationEquipment, subType, popupPanel, currencyPanel);
@@ -160,6 +162,8 @@ public class CollaborationEquipmentController : MonoBehaviour
         TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
+        TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
+        buttonText.text = LocalizationManager.Get(AppConstants.Buy);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty("id");
         var imageProperty = obj.GetType().GetProperty("image");

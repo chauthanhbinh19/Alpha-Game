@@ -46,7 +46,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Shub-Niggurath");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(LocalizationManager.Get(AppConstants.ShubNiggurath.ToLower()));
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

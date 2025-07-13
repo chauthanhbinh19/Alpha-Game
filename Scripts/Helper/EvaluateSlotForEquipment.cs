@@ -30,14 +30,8 @@ public static class EvaluateSlotForEquipment
             case "Domitius_Equipment":
                 slot = 8;
                 break;
-            case "Etherium_Equipment":
-                slot = 10;
-                break;
             case "Everlyn_Equipment":
                 slot = 6;
-                break;
-            case "EvilFruit_Equipment":
-                slot = 10;
                 break;
             case "Extra_Equipment":
                 slot = 4;
@@ -65,6 +59,12 @@ public static class EvaluateSlotForEquipment
                 break;
             case "Ivitus_Equipment":
                 slot = 14;
+                break;
+            case "Jorvan_Equipment":
+                slot = 10;
+                break;
+            case "Jullian_Equipment":
+                slot = 10;
                 break;
             case "Karis_Equipment":
                 slot = 8;
@@ -117,11 +117,11 @@ public static class EvaluateSlotForEquipment
             case "Souls_Equipment":
                 slot = 10;
                 break;
-            case "Support_Equipment":
-                slot = 1;
-                break;
             case "Syncroharon_Equipment":
                 slot = 16;
+                break;
+            case "Tarian_Equipment":
+                slot = 1;
                 break;
             case "Uni_Equipment":
                 slot = 16;
@@ -161,12 +161,8 @@ public static class EvaluateSlotForEquipment
                 return true;
             case "Domitius_Equipment":
                 return true;
-            case "Etherium_Equipment":
-                return true;
             case "Everlyn_Equipment":
                 return true;
-            case "EvilFruit_Equipment":
-                return false;
             case "Extra_Equipment":
                 return true;
             case "Faltus_Equipment":
@@ -184,6 +180,10 @@ public static class EvaluateSlotForEquipment
             case "Ignis_Equipment":
                 return false;
             case "Ivitus_Equipment":
+                return true;
+            case "Jorvan_Equipment":
+                return false;
+            case "Jullian_Equipment":
                 return true;
             case "Karis_Equipment":
                 return true;
@@ -219,10 +219,10 @@ public static class EvaluateSlotForEquipment
                 return true;
             case "Souls_Equipment":
                 return false;
-            case "Support_Equipment":
-                return false;
             case "Syncroharon_Equipment":
                 return true;
+            case "Tarian_Equipment":
+                return false;
             case "Uni_Equipment":
                 return true;
             case "Ultrion_Equipment":

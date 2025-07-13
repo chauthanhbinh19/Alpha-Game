@@ -163,6 +163,8 @@ public class BooksController : MonoBehaviour
             currencyText.text = book.currency.quantity.ToString();
 
             Button buy = bookObject.transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
             buy.onClick.AddListener(() =>
             {
                 GetQuantity(book.currency.quantity, book, subType, popupPanel, currencyPanel);
@@ -190,6 +192,8 @@ public class BooksController : MonoBehaviour
         TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
+        TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty("id");
         var imageProperty = obj.GetType().GetProperty("image");

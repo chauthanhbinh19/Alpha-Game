@@ -1,10 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ItemsController : MonoBehaviour
 {
     public static ItemsController Instance { get; private set; }
+    private Transform MainPanel;
+    private GameObject equipmentsPrefab;
+    private GameObject equipmentsShopPrefab;
+    private GameObject quantityPopupPrefab;
+    private GameObject receivedNotification;
+    private GameObject ItemThird;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -21,12 +30,264 @@ public class ItemsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
+        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
+        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    public void CreateItemsTrade(Currency currency, Transform currentContent, Transform currencyPanel)
+    {
+        List<Items> items = ItemsService.Create().GetItems();
+        foreach (var item in items)
+        {
+            GameObject itemObject = Instantiate(equipmentsShopPrefab, currentContent);
+
+            Text Title = itemObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = item.name.Replace("_", " ");
+
+            RawImage Image = itemObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            // // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
+            // EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
+            // scrollEntry.callback.AddListener((eventData) =>
+            // {
+            //     var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
+            //     if (scrollRect != null)
+            //     {
+            //         scrollRect.OnScroll((PointerEventData)eventData);
+            //     }
+            // });
+            // eventTrigger.triggers.Add(scrollEntry);
+
+            // RawImage rareImage = collaborationObject.transform.Find("Rare").GetComponent<RawImage>();
+            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
+            // rareImage.texture = rareTexture;
+
+            RawImage currencyImage = itemObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);
+            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
+
+            Text currencyText = itemObject.transform.Find("CurrencyText").GetComponent<Text>();
+            // currencyText.text = collaboration.currency.quantity.ToString();
+
+            Button buy = itemObject.transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
+            // buy.onClick.AddListener(() =>
+            // {
+            //     GetQuantity(collaboration.currency.quantity, collaboration, subType, popupPanel, currencyPanel);
+            // });
+        }
+
+        List<Currency> currencies = new List<Currency>();
+        currencies.Add(currency);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+    }
+    public void GetQuantity(int price, object obj, string subType, Transform popupPanel, Transform currencyPanel)
+    {
+        GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
+
+        Button increaseButton = quantityObject.transform.Find("IncreaseButton").GetComponent<Button>();
+        Button decreaseButton = quantityObject.transform.Find("DecreaseButton").GetComponent<Button>();
+        Button increase10Button = quantityObject.transform.Find("Increase10Button").GetComponent<Button>();
+        Button decrease10Button = quantityObject.transform.Find("Decrease10Button").GetComponent<Button>();
+        Button maxButton = quantityObject.transform.Find("MaxButton").GetComponent<Button>();
+        Button minButton = quantityObject.transform.Find("MinButton").GetComponent<Button>();
+        Button closeButton = quantityObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button confirmButton = quantityObject.transform.Find("Buy").GetComponent<Button>();
+        TextMeshProUGUI quantityText = quantityObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+        RawImage currencyImage = quantityObject.transform.Find("Price/CurrencyImage").GetComponent<RawImage>();
+        TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
+        RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
+
+        TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
+        buttonText.text = LocalizationManager.Get(AppConstants.Buy);
+        // Lấy thuộc tính `Id` và `Image` từ object
+        var idProperty = obj.GetType().GetProperty("id");
+        var imageProperty = obj.GetType().GetProperty("image");
+        var currencyProperty = obj.GetType().GetProperty("currency");
+
+
+        if (idProperty != null && imageProperty != null && currencyProperty != null)
+        {
+            string id = (string)idProperty.GetValue(obj);
+            string image = (string)imageProperty.GetValue(obj);
+
+            // Lấy đối tượng currency từ obj
+            var currencyObject = currencyProperty.GetValue(obj);
+
+            if (currencyObject != null)
+            {
+                // Lấy thuộc tính "image" từ currencyObject
+                var currencyImageProperty = currencyObject.GetType().GetProperty("image");
+                if (currencyImageProperty != null)
+                {
+                    string currencyImageValue = (string)currencyImageProperty.GetValue(currencyObject);
+
+                    if (!string.IsNullOrEmpty(currencyImageValue))
+                    {
+                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
+                        Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
+                        currencyImage.texture = currencyTexture;
+                    }
+                }
+            }
+
+            // Xử lý image của obj
+            if (!string.IsNullOrEmpty(image))
+            {
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                equipmentImage.texture = entityTexture;
+            }
+
+            priceText.text = price.ToString();
+        }
+
+        else
+        {
+            Debug.LogError("Object không có thuộc tính Id hoặc Image");
+        }
+
+        priceText.text = price.ToString();
+        double originPrice = price;
+        increaseButton.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
+            currentQuantity++;
+            price = originPrice * currentQuantity;
+            quantityText.text = currentQuantity.ToString();
+            priceText.text = price.ToString();
+        });
+        decreaseButton.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
+            if (currentQuantity > 1)
+            {
+                currentQuantity--;
+                price = originPrice * currentQuantity;
+                quantityText.text = currentQuantity.ToString();
+                priceText.text = price.ToString();
+            }
+        });
+        increase10Button.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
+            currentQuantity = currentQuantity + 10;
+            price = originPrice * currentQuantity;
+            quantityText.text = currentQuantity.ToString();
+            priceText.text = price.ToString();
+        });
+        decrease10Button.onClick.AddListener(() =>
+        {
+            int currentQuantity = int.Parse(quantityText.text);
+            double price = double.Parse(priceText.text);
+            if (currentQuantity > 10)
+            {
+                currentQuantity = currentQuantity - 10;
+                price = originPrice * currentQuantity;
+                quantityText.text = currentQuantity.ToString();
+                priceText.text = price.ToString();
+            }
+        });
+        maxButton.onClick.AddListener(() =>
+        {
+            Currency userCurrency = new Currency();
+            if (obj is Collaboration collaboration)
+            {
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(collaboration.currency.id);
+            }
+            // double price = double.Parse(priceText.text);
+
+            int max = (int)(userCurrency.quantity / price);
+            double newprice = originPrice * max;
+            quantityText.text = max.ToString();
+            priceText.text = newprice.ToString();
+        });
+        minButton.onClick.AddListener(() =>
+        {
+            quantityText.text = "1";
+            double price = double.Parse(priceText.text);
+            price = originPrice * 1;
+            priceText.text = price.ToString();
+        });
+        closeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(popupPanel));
+        confirmButton.onClick.AddListener(() =>
+        {
+            int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
+            bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
+
+            if (obj is Collaboration collaboration)
+            {
+                collaboration.quantity = collaboration.quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(collaboration.currency.id, price);
+                bool success = UserCollaborationService.Create().InsertUserCollaborations(collaboration);
+                if (!success)
+                {
+                    allSuccess = false;
+                }
+
+                // Hiển thị thông báo dựa trên kết quả
+                if (allSuccess)
+                {
+                    string fileNameWithoutExtension = "";
+                    // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
+                    List<Currency> currencies = new List<Currency>();
+                    string objType = "";
+
+                    CollaborationGalleryService.Create().InsertCollaborationsGallery(collaboration.id);
+                    currencies = UserCurrencyService.Create().GetCardMilitaryCurrency(subType);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image);
+                    objType = "Collaboration";
+
+                    ButtonEvent.Instance.Close(currencyPanel);
+                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    ButtonEvent.Instance.Close(popupPanel);
+                    // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
+                    GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
+
+                    ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
+                    Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
+                    GameObject itemObject = Instantiate(ItemThird, itemContent);
+
+                    RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
+                    Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    eImage.texture = equipmentTexture;
+
+                    TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
+                    eQuantity.text = quantity.ToString();
+
+                    if (objType.Equals("Achievements") || objType.Equals("Borders")
+                    || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
+                    || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
+                    || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
+                    || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
+                    {
+                        double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                        PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                        double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                        FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    }
+                }
+                else
+                {
+                    FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
+                }
+            }
+        });
     }
 }

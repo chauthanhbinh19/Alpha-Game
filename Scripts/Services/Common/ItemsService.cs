@@ -14,6 +14,11 @@ public class ItemsService : IItemsService
         return new ItemsService(new ItemsRepository());
     }
 
+    public List<Items> GetItems()
+    {
+        return _itemsRepository.GetItems();
+    }
+
     public List<string> GetUniqueItemId()
     {
         return _itemsRepository.GetUniqueItemId();

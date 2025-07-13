@@ -152,8 +152,7 @@ public class EquipmentManager : MonoBehaviour
             Power.text = equipment.power.ToString();
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = equipment.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             // cardImage.SetNativeSize();
@@ -201,8 +200,7 @@ public class EquipmentManager : MonoBehaviour
             Title.text = equipment.name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = equipment.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             // RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
@@ -210,7 +208,7 @@ public class EquipmentManager : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = equipmentObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = equipment.currency_image.Replace(".png", "");
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.currency_image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -218,6 +216,8 @@ public class EquipmentManager : MonoBehaviour
             currencyTitle.text = equipment.price.ToString().Replace("_", " ");
 
             Button buy = equipmentObject.transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
             Equipments equipments = new Equipments();
             buy.onClick.AddListener(() =>
             {
@@ -240,8 +240,7 @@ public class EquipmentManager : MonoBehaviour
             Title.text = equipment.name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = equipment.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             // cardImage.SetNativeSize();
@@ -585,12 +584,11 @@ public class EquipmentManager : MonoBehaviour
         var equipmentsGalleryService = EquipmentsGalleryService.Create();
         var userCurrencyService = UserCurrencyService.Create();
         Currency currency = userCurrencyService.GetUserEquipmentsPrice(type, equipments.id);
-        string fileNameWithoutExtension = currency.image.Replace(".png", "");
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);;
         Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         currencyImage.texture = currencyTexture;
 
-        fileNameWithoutExtension = equipments.image.Replace(".png", "");
-        fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+        fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.image);
         Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         equipmentImage.texture = equipmentTexture;
 
@@ -697,7 +695,7 @@ public class EquipmentManager : MonoBehaviour
                 GameObject itemObject = Instantiate(ItemThird, itemContent);
 
                 RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = equipments.image.Replace(".png", "");
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
@@ -756,8 +754,7 @@ public class EquipmentManager : MonoBehaviour
             itemBackground.texture = backgroundTexture;
 
             RawImage itemImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = campaignReward.items.image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(campaignReward.items.image);
             Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             itemImage.texture = itemTexture;
 
@@ -772,7 +769,7 @@ public class EquipmentManager : MonoBehaviour
         {
             GameObject cardObject = Instantiate(cardsPrefab, enemyGroup);
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = campaignDetailCardcard.cards.image.Replace(".png", "");
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(campaignDetailCardcard.cards.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
         }

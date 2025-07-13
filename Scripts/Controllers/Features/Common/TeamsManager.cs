@@ -101,63 +101,63 @@ public class TeamsManager : MonoBehaviour
         HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
 
-        mainType = "CardHeroes";
+        mainType = AppConstants.CardHero;
         team_id = "1";
         teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         CreateTeamsPosition(positionTeamsPanel);
-        CreateButton(1, "Card Heroes", tempLeftContent);
-        CreateButton(2, "Card Captains", tempLeftContent);
-        CreateButton(3, "Card Colonels", tempLeftContent);
-        CreateButton(4, "Card Generals", tempLeftContent);
-        CreateButton(5, "Card Admirals", tempLeftContent);
-        CreateButton(6, "Card Monsters", tempLeftContent);
-        CreateButton(7, "Card Military", tempLeftContent);
-        CreateButton(8, "Card Spell", tempLeftContent);
+        CreateButton(1, AppConstants.CardHero, tempLeftContent);
+        CreateButton(2, AppConstants.CardCaptain, tempLeftContent);
+        CreateButton(3, AppConstants.CardColonel, tempLeftContent);
+        CreateButton(4, AppConstants.CardGeneral, tempLeftContent);
+        CreateButton(5, AppConstants.CardAdmiral, tempLeftContent);
+        CreateButton(6, AppConstants.CardMonster, tempLeftContent);
+        CreateButton(7, AppConstants.CardMilitary, tempLeftContent);
+        CreateButton(8, AppConstants.CardSpell, tempLeftContent);
         ButtonEvent.Instance.AssignButtonEvent("Button_1", tempLeftContent, () =>
         {
-            mainType = "CardHeroes";
+            mainType = AppConstants.CardHero;
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", tempLeftContent, () =>
         {
-            mainType = "CardCaptains";
+            mainType = AppConstants.CardCaptain;
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", tempLeftContent, () =>
         {
-            mainType = "CardColonels";
+            mainType = AppConstants.CardColonel;
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", tempLeftContent, () =>
         {
-            mainType = "CardGenerals";
+            mainType = AppConstants.CardGeneral;
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_5", tempLeftContent, () =>
         {
-            mainType = "CardAdmirals";
+            mainType = AppConstants.CardAdmiral;
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_6", tempLeftContent, () =>
         {
-            mainType = "CardMonsters";
+            mainType = AppConstants.CardMonster;
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_7", tempLeftContent, () =>
         {
-            mainType = "CardMilitary";
+            mainType = AppConstants.CardMilitary;
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_8", tempLeftContent, () =>
         {
-            mainType = "CardSpell";
+            mainType = AppConstants.CardSpell;
             CreateTeamsPosition(positionTeamsPanel);
             teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         });
@@ -193,35 +193,35 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI teamsContentText = cardTeam.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
             teamsPositionText.text = i.ToString();
             int positionNumber = 0;
-            if (mainType.Equals("CardHeroes"))
+            if (mainType.Equals(AppConstants.CardHero))
             {
                 positionNumber = userCardHeroesService.GetUserCardHeroesTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
             }
-            else if (mainType.Equals("CardCaptains"))
+            else if (mainType.Equals(AppConstants.CardCaptain))
             {
                 positionNumber = userCardCaptainsService.GetUserCardCaptainsTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
             }
-            else if (mainType.Equals("CardColonels"))
+            else if (mainType.Equals(AppConstants.CardColonel))
             {
                 positionNumber = userCardColonelsService.GetUserCardColonelsTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
             }
-            else if (mainType.Equals("CardGenerals"))
+            else if (mainType.Equals(AppConstants.CardGeneral))
             {
                 positionNumber = userCardGeneralsService.GetUserCardGeneralsTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
             }
-            else if (mainType.Equals("CardAdmirals"))
+            else if (mainType.Equals(AppConstants.CardAdmiral))
             {
                 positionNumber = userCardAdmiralsService.GetUserCardAdmiralsTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
             }
-            else if (mainType.Equals("CardMonsters"))
+            else if (mainType.Equals(AppConstants.CardMonster))
             {
                 positionNumber = userCardMonstersService.GetUserCardMonstersTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
             }
-            else if (mainType.Equals("CardMilitary"))
+            else if (mainType.Equals(AppConstants.CardMilitary))
             {
                 positionNumber = userCardMilitaryService.GetUserCardMilitaryTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
             }
-            else if (mainType.Equals("CardSpell"))
+            else if (mainType.Equals(AppConstants.CardSpell))
             {
                 positionNumber = userCardSpellService.GetUserCardSpellTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
             }
@@ -345,7 +345,7 @@ public class TeamsManager : MonoBehaviour
         int team_offset = 0;
         int page = 1;
 
-        if (type.Equals("CardHeroes"))
+        if (type.Equals(AppConstants.CardHero))
         {
             List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
@@ -353,7 +353,7 @@ public class TeamsManager : MonoBehaviour
             int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
-        else if (type.Equals("CardCaptains"))
+        else if (type.Equals(AppConstants.CardCaptain))
         {
             List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardCaptainsList.Cast<object>().ToList();
@@ -361,7 +361,7 @@ public class TeamsManager : MonoBehaviour
             int totalRecord = userCardCaptainsService.GetUserCardCaptainsCount(User.CurrentUserId, selectedOptionName);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
-        else if (type.Equals("CardColonels"))
+        else if (type.Equals(AppConstants.CardColonel))
         {
             List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardColonelsList.Cast<object>().ToList();
@@ -369,7 +369,7 @@ public class TeamsManager : MonoBehaviour
             int totalRecord = userCardColonelsService.GetUserCardColonelsCount(User.CurrentUserId, selectedOptionName);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
-        else if (type.Equals("CardGenerals"))
+        else if (type.Equals(AppConstants.CardGeneral))
         {
             List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardGeneralsList.Cast<object>().ToList();
@@ -377,7 +377,7 @@ public class TeamsManager : MonoBehaviour
             int totalRecord = userCardGeneralsService.GetUserCardGeneralsCount(User.CurrentUserId, selectedOptionName);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
-        else if (type.Equals("CardAdmirals"))
+        else if (type.Equals(AppConstants.CardAdmiral))
         {
             List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardAdmiralsList.Cast<object>().ToList();
@@ -385,7 +385,7 @@ public class TeamsManager : MonoBehaviour
             int totalRecord = userCardAdmiralsService.GetUserCardAdmiralsCount(User.CurrentUserId, selectedOptionName);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
-        else if (type.Equals("CardMonsters"))
+        else if (type.Equals(AppConstants.CardMonster))
         {
             List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardMonstersList.Cast<object>().ToList();
@@ -393,7 +393,7 @@ public class TeamsManager : MonoBehaviour
             int totalRecord = userCardMonstersService.GetUserCardMonstersCount(User.CurrentUserId, selectedOptionName);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
-        else if (type.Equals("CardMilitary"))
+        else if (type.Equals(AppConstants.CardMilitary))
         {
             List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardMilitaryList.Cast<object>().ToList();
@@ -401,7 +401,7 @@ public class TeamsManager : MonoBehaviour
             int totalRecord = userCardMilitaryService.GetUserCardMilitaryCount(User.CurrentUserId, selectedOptionName);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
-        else if (type.Equals("CardSpell"))
+        else if (type.Equals(AppConstants.CardSpell))
         {
             List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
             List<object> cardObjects = cardSpellList.Cast<object>().ToList();
@@ -434,42 +434,42 @@ public class TeamsManager : MonoBehaviour
 
         switch (type)
         {
-            case "CardHeroes":
+            case AppConstants.CardHero:
                 List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
                 cardObjects = cardHeroesList.Cast<object>().ToList();
                 break;
 
-            case "CardCaptains":
+            case AppConstants.CardCaptain:
                 List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
                 cardObjects = cardCaptainsList.Cast<object>().ToList();
                 break;
 
-            case "CardColonels":
+            case AppConstants.CardColonel:
                 List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
                 cardObjects = cardColonelsList.Cast<object>().ToList();
                 break;
 
-            case "CardGenerals":
+            case AppConstants.CardGeneral:
                 List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
                 cardObjects = cardGeneralsList.Cast<object>().ToList();
                 break;
 
-            case "CardAdmirals":
+            case AppConstants.CardAdmiral:
                 List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
                 cardObjects = cardAdmiralsList.Cast<object>().ToList();
                 break;
 
-            case "CardMonsters":
+            case AppConstants.CardMonster:
                 List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
                 cardObjects = cardMonstersList.Cast<object>().ToList();
                 break;
 
-            case "CardMilitary":
+            case AppConstants.CardMilitary:
                 List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
                 cardObjects = cardMilitaryList.Cast<object>().ToList();
                 break;
 
-            case "CardSpell":
+            case AppConstants.CardSpell:
                 List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
                 cardObjects = cardSpellList.Cast<object>().ToList();
                 break;
@@ -490,7 +490,7 @@ public class TeamsManager : MonoBehaviour
         {
             Destroy(child.gameObject); // Hoặc DestroyImmediate(child.gameObject) nếu cần xóa ngay lập tức
         }
-        if (mainType.Equals("CardHeroes"))
+        if (mainType.Equals(AppConstants.CardHero))
         {
             double totalPower = 0;
             List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroesTeam(User.CurrentUserId, team_id, position);
@@ -524,7 +524,7 @@ public class TeamsManager : MonoBehaviour
                 if (matchingCardHero != null)
                 {
                     // Gán texture từ cardHero vào Image
-                    string fileNameWithoutExtension = matchingCardHero.image.Replace(".png", "");
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardHero.image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
 
@@ -571,7 +571,7 @@ public class TeamsManager : MonoBehaviour
             }
             powerText.text = totalPower.ToString();
         }
-        else if (mainType.Equals("CardCaptains"))
+        else if (mainType.Equals(AppConstants.CardCaptain))
         {
             double totalPower = 0;
             List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptainsTeam(User.CurrentUserId, team_id, position);
@@ -605,7 +605,7 @@ public class TeamsManager : MonoBehaviour
                 if (matchingCardCaptain != null)
                 {
                     // Gán texture từ cardHero vào Image
-                    string fileNameWithoutExtension = matchingCardCaptain.image.Replace(".png", "");
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardCaptain.image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
 
@@ -652,7 +652,7 @@ public class TeamsManager : MonoBehaviour
             }
             powerText.text = totalPower.ToString();
         }
-        else if (mainType.Equals("CardColonels"))
+        else if (mainType.Equals(AppConstants.CardColonel))
         {
             double totalPower = 0;
             List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonelsTeam(User.CurrentUserId, team_id, position);
@@ -686,7 +686,7 @@ public class TeamsManager : MonoBehaviour
                 if (matchingCardColonel != null)
                 {
                     // Gán texture từ cardHero vào Image
-                    string fileNameWithoutExtension = matchingCardColonel.image.Replace(".png", "");
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardColonel.image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
 
@@ -733,7 +733,7 @@ public class TeamsManager : MonoBehaviour
             }
             powerText.text = totalPower.ToString();
         }
-        else if (mainType.Equals("CardGenerals"))
+        else if (mainType.Equals(AppConstants.CardGeneral))
         {
             double totalPower = 0;
             List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGeneralsTeam(User.CurrentUserId, team_id, position);
@@ -767,7 +767,7 @@ public class TeamsManager : MonoBehaviour
                 if (matchingCardGeneral != null)
                 {
                     // Gán texture từ cardHero vào Image
-                    string fileNameWithoutExtension = matchingCardGeneral.image.Replace(".png", "");
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardGeneral.image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
 
@@ -814,7 +814,7 @@ public class TeamsManager : MonoBehaviour
             }
             powerText.text = totalPower.ToString();
         }
-        else if (mainType.Equals("CardAdmirals"))
+        else if (mainType.Equals(AppConstants.CardAdmiral))
         {
             double totalPower = 0;
             List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmiralsTeam(User.CurrentUserId, team_id, position);
@@ -848,7 +848,7 @@ public class TeamsManager : MonoBehaviour
                 if (matchingCardAdmiral != null)
                 {
                     // Gán texture từ cardHero vào Image
-                    string fileNameWithoutExtension = matchingCardAdmiral.image.Replace(".png", "");
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardAdmiral.image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
 
@@ -895,7 +895,7 @@ public class TeamsManager : MonoBehaviour
             }
             powerText.text = totalPower.ToString();
         }
-        else if (mainType.Equals("CardMonsters"))
+        else if (mainType.Equals(AppConstants.CardMonster))
         {
             double totalPower = 0;
             List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonstersTeam(User.CurrentUserId, team_id, position);
@@ -929,7 +929,7 @@ public class TeamsManager : MonoBehaviour
                 if (matchingCardMonster != null)
                 {
                     // Gán texture từ cardHero vào Image
-                    string fileNameWithoutExtension = matchingCardMonster.image.Replace(".png", "");
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardMonster.image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
 
@@ -976,7 +976,7 @@ public class TeamsManager : MonoBehaviour
             }
             powerText.text = totalPower.ToString();
         }
-        else if (mainType.Equals("CardMilitary"))
+        else if (mainType.Equals(AppConstants.CardMilitary))
         {
             double totalPower = 0;
             List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitaryTeam(User.CurrentUserId, team_id, position);
@@ -1010,7 +1010,7 @@ public class TeamsManager : MonoBehaviour
                 if (matchingCardMilitary != null)
                 {
                     // Gán texture từ cardHero vào Image
-                    string fileNameWithoutExtension = matchingCardMilitary.image.Replace(".png", "");
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardMilitary.image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
 
@@ -1057,7 +1057,7 @@ public class TeamsManager : MonoBehaviour
             }
             powerText.text = totalPower.ToString();
         }
-        else if (mainType.Equals("CardSpell"))
+        else if (mainType.Equals(AppConstants.CardSpell))
         {
             double totalPower = 0;
             List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpellTeam(User.CurrentUserId, team_id, position);
@@ -1091,7 +1091,7 @@ public class TeamsManager : MonoBehaviour
                 if (matchingCardSpell != null)
                 {
                     // Gán texture từ cardHero vào Image
-                    string fileNameWithoutExtension = matchingCardSpell.image.Replace(".png", "");
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardSpell.image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     image.texture = texture;
 
@@ -1157,7 +1157,7 @@ public class TeamsManager : MonoBehaviour
                 Power.text = cardHeroes.all_power.ToString();
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = cardHeroes.image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHeroes.image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 Image.texture = texture;
 
@@ -1182,7 +1182,7 @@ public class TeamsManager : MonoBehaviour
                         dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
-                            LoadCardDataByType("CardHeroes", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardHero, selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
@@ -1193,7 +1193,7 @@ public class TeamsManager : MonoBehaviour
                         entry.callback.AddListener((data) =>
                         {
                             dragHandler.OnCardClicked();
-                            LoadCardDataByType("CardHeroes", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardHero, selectedOptionName, team_limit, team_offset, choseTeam);
                             // CreatePosition("CardHeroes", team, positionPanel, typePanel, level, teamsObject);
                         }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
@@ -1210,7 +1210,7 @@ public class TeamsManager : MonoBehaviour
                 Power.text = cardCaptains.all_power.ToString();
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = cardCaptains.image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptains.image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 Image.texture = texture;
 
@@ -1235,7 +1235,7 @@ public class TeamsManager : MonoBehaviour
                         dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
-                            LoadCardDataByType("CardCaptains", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardCaptain, selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
@@ -1246,7 +1246,7 @@ public class TeamsManager : MonoBehaviour
                         entry.callback.AddListener((data) =>
                         {
                             dragHandler.OnCardClicked();
-                            LoadCardDataByType("CardCaptains", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardCaptain, selectedOptionName, team_limit, team_offset, choseTeam);
                         }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
@@ -1262,7 +1262,7 @@ public class TeamsManager : MonoBehaviour
                 Power.text = cardColonels.all_power.ToString();
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = cardColonels.image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonels.image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 Image.texture = texture;
 
@@ -1287,7 +1287,7 @@ public class TeamsManager : MonoBehaviour
                         dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
-                            LoadCardDataByType("CardColonels", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardColonel, selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
@@ -1298,7 +1298,7 @@ public class TeamsManager : MonoBehaviour
                         entry.callback.AddListener((data) =>
                         {
                             dragHandler.OnCardClicked();
-                            LoadCardDataByType("CardColonels", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardColonel, selectedOptionName, team_limit, team_offset, choseTeam);
                         }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
@@ -1314,7 +1314,7 @@ public class TeamsManager : MonoBehaviour
                 Power.text = cardGenerals.all_power.ToString();
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = cardGenerals.image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGenerals.image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 Image.texture = texture;
 
@@ -1339,7 +1339,7 @@ public class TeamsManager : MonoBehaviour
                         dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
-                            LoadCardDataByType("CardGenerals", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardGeneral, selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
@@ -1350,7 +1350,7 @@ public class TeamsManager : MonoBehaviour
                         entry.callback.AddListener((data) =>
                         {
                             dragHandler.OnCardClicked();
-                            LoadCardDataByType("CardGenerals", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardGeneral, selectedOptionName, team_limit, team_offset, choseTeam);
                         }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
@@ -1366,7 +1366,7 @@ public class TeamsManager : MonoBehaviour
                 Power.text = cardAdmirals.all_power.ToString();
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = cardAdmirals.image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 Image.texture = texture;
 
@@ -1391,7 +1391,7 @@ public class TeamsManager : MonoBehaviour
                         dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
-                            LoadCardDataByType("CardAdmirals", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardAdmiral, selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
@@ -1402,7 +1402,7 @@ public class TeamsManager : MonoBehaviour
                         entry.callback.AddListener((data) =>
                         {
                             dragHandler.OnCardClicked();
-                            LoadCardDataByType("CardAdmirals", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardAdmiral, selectedOptionName, team_limit, team_offset, choseTeam);
                         }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
@@ -1418,7 +1418,7 @@ public class TeamsManager : MonoBehaviour
                 Power.text = cardMonsters.all_power.ToString();
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = cardMonsters.image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonsters.image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 Image.texture = texture;
 
@@ -1443,7 +1443,7 @@ public class TeamsManager : MonoBehaviour
                         dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
-                            LoadCardDataByType("CardMonsters", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardMonster, selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
@@ -1454,7 +1454,7 @@ public class TeamsManager : MonoBehaviour
                         entry.callback.AddListener((data) =>
                         {
                             dragHandler.OnCardClicked();
-                            LoadCardDataByType("CardMonsters", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardMonster, selectedOptionName, team_limit, team_offset, choseTeam);
                         }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
@@ -1470,7 +1470,7 @@ public class TeamsManager : MonoBehaviour
                 Power.text = cardMilitary.all_power.ToString();
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = cardMilitary.image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 Image.texture = texture;
 
@@ -1495,7 +1495,7 @@ public class TeamsManager : MonoBehaviour
                         dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
-                            LoadCardDataByType("CardMilitary", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardMilitary, selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
@@ -1506,7 +1506,7 @@ public class TeamsManager : MonoBehaviour
                         entry.callback.AddListener((data) =>
                         {
                             dragHandler.OnCardClicked();
-                            LoadCardDataByType("CardMilitary", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardMilitary, selectedOptionName, team_limit, team_offset, choseTeam);
                         }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }
@@ -1522,7 +1522,7 @@ public class TeamsManager : MonoBehaviour
                 Power.text = cardSpell.power.ToString();
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = cardSpell.image.Replace(".png", "");
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 Image.texture = texture;
 
@@ -1547,7 +1547,7 @@ public class TeamsManager : MonoBehaviour
                         dragHandler.positionPanel = positionPanel;
                         dragHandler.OnDragEnd = () =>
                         {
-                            LoadCardDataByType("CardSpell", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardSpell, selectedOptionName, team_limit, team_offset, choseTeam);
                         };
 
                         cardDragHandlers.Add(dragHandler);  // Lưu CardDragHandler vào danh sách
@@ -1558,7 +1558,7 @@ public class TeamsManager : MonoBehaviour
                         entry.callback.AddListener((data) =>
                         {
                             dragHandler.OnCardClicked();
-                            LoadCardDataByType("CardSpell", selectedOptionName, team_limit, team_offset, choseTeam);
+                            LoadCardDataByType(AppConstants.CardSpell, selectedOptionName, team_limit, team_offset, choseTeam);
                         }); // Gọi OnCardClicked của dragHandler
                         trigger.triggers.Add(entry);
                     }

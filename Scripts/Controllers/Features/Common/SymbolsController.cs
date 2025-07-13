@@ -140,6 +140,8 @@ public class SymbolsController : MonoBehaviour
             currencyText.text = symbol.currency.quantity.ToString();
 
             Button buy = symbolObject.transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
             buy.onClick.AddListener(() =>
             {
                 GetQuantity(symbol.currency.quantity, symbol, subType, popupPanel, currencyPanel);
@@ -167,6 +169,8 @@ public class SymbolsController : MonoBehaviour
         TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
+        TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
+        buttonText.text = LocalizationManager.Get(AppConstants.Buy);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty("id");
         var imageProperty = obj.GetType().GetProperty("image");

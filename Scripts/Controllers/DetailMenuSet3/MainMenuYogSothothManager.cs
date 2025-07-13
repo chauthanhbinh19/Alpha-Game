@@ -46,7 +46,7 @@ public class MainMenuYogSothothManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType("Yog-Sothoth");
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(LocalizationManager.Get(AppConstants.YogSothoth.ToLower()));
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

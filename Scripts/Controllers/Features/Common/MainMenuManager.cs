@@ -101,6 +101,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType(AppConstants.Tower));
         ButtonEvent.Instance.AssignButtonEvent("Button_31", SummonMainMenuPanel, () => GetType(AppConstants.Event));
         ButtonEvent.Instance.AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType(AppConstants.DailyCheckin));
+        ButtonEvent.Instance.AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType(AppConstants.MysticMarket));
         // GetCardsType();
     }
 
@@ -313,6 +314,10 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.DailyCheckin))
         {
             DailyCheckinManager.Instance.CreateDailyCheckinGroup();
+        }
+        else if (mainType.Equals(AppConstants.MysticMarket))
+        {
+            MysticMarketManager.Instance.CreateMysticMarket();
         }
         else
         {
