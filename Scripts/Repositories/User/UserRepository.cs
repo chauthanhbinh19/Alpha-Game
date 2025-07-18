@@ -7,6 +7,40 @@ using System.Xml.Linq;
 
 public class UserRepository : IUserRepository
 {
+    public User GetUserByUsername(string username)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "SELECT * FROM users WHERE username = @username";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@username", username);
+
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    return new User
+                    {
+                        id = reader["id"].ToString(),
+                        Username = reader.GetString("username"),
+                        Password = reader.GetString("password"),
+                        name = reader["name"].ToString(),
+                        level = Convert.ToInt32(reader["level"]),
+                        experiment = Convert.ToInt32(reader["experiment"]),
+                        vip = Convert.ToInt32(reader["vip"]),
+                        power = Convert.ToInt32(reader["power"])
+                    };
+                }
+            }
+        }
+
+        return null; // Không tìm thấy
+    }
+
     public string RegisterUser(string username, string password)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -97,11 +131,8 @@ public class UserRepository : IUserRepository
                 User.savedPassword = Password;
                 User.CurrentUserLevel = Level;
 
-                
-                // Đóng `reader` trước khi thực hiện truy vấn tiếp theo
                 reader.Close();
 
-                // Lấy thông tin từ bảng `user_currency`
                 string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
                 MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
                 currencyCommand.Parameters.AddWithValue("@userId", userId);
@@ -111,8 +142,8 @@ public class UserRepository : IUserRepository
                 List<Currency> currencies = new List<Currency>();
                 while (currencyReader.Read())
                 {
-                    string image=currencyReader.GetString("image");
-                    string name=currencyReader.GetString("name");
+                    string image = currencyReader.GetString("image");
+                    string name = currencyReader.GetString("name");
                     string currencyId = currencyReader.GetString("currency_id");
                     int quantity = currencyReader.GetInt32("quantity");
                     currencies.Add(new Currency
@@ -125,17 +156,18 @@ public class UserRepository : IUserRepository
                 }
                 currencyReader.Close();
 
-                User user = new User{
+                User user = new User
+                {
                     id = userId,
-                    name=Name,
+                    name = Name,
                     Username = username,
-                    Password=password,
-                    level=Level,
-                    vip=Vip,
-                    experiment=Experiment,
-                    power=Power,
-                    image= "", 
-                    border = "",   
+                    Password = password,
+                    level = Level,
+                    vip = Vip,
+                    experiment = Experiment,
+                    power = Power,
+                    image = "",
+                    border = "",
                     Currencies = currencies
                 };
                 // Debug.Log(user.name);
@@ -143,7 +175,7 @@ public class UserRepository : IUserRepository
             }
             else
             {
-                return null; // Đăng nhập thất bại
+                return null;
             }
         }
     }
@@ -182,8 +214,8 @@ public class UserRepository : IUserRepository
                 List<Currency> currencies = new List<Currency>();
                 while (currencyReader.Read())
                 {
-                    string image=currencyReader.GetString("image");
-                    string name=currencyReader.GetString("name");
+                    string image = currencyReader.GetString("image");
+                    string name = currencyReader.GetString("name");
                     string currencyId = currencyReader.GetString("currency_id");
                     int quantity = currencyReader.GetInt32("quantity");
                     currencies.Add(new Currency
@@ -196,17 +228,18 @@ public class UserRepository : IUserRepository
                 }
                 currencyReader.Close();
 
-                User user = new User{
+                User user = new User
+                {
                     id = userId,
-                    name=Name,
+                    name = Name,
                     Username = username,
-                    Password=password,
-                    level=Level,
-                    vip=Vip,
-                    experiment=Experiment,
-                    power= Power,
-                    image= "", 
-                    border = "",   
+                    Password = password,
+                    level = Level,
+                    vip = Vip,
+                    experiment = Experiment,
+                    power = Power,
+                    image = "",
+                    border = "",
                     Currencies = currencies
                 };
                 return user;

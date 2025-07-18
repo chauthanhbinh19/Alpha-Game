@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 public static class AppConstants
 {
+    public const string Username = "username";
+    public const string Password = "password";
+    
     public const string Alchievement = "alchievement";
     public const string Alchievements = "alchievements";
     public const string CardHero = "card_hero";

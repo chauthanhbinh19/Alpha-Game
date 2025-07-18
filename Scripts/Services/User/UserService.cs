@@ -53,12 +53,22 @@ public class UserService : IUserService
         return userId;
     }
 
-    public User SignInUser(string username, string password)
+    public AuthResult SignInUser(string username, string password)
     {
-        User user = _userRepository.SignInUser(username, password);
+        User user = _userRepository.GetUserByUsername(username);
 
         if (user != null)
         {
+            if (!user.Password.Equals(password))
+            {
+                return new AuthResult
+                {
+                    Success = false,
+                    ErrorField = AppConstants.Password,
+                    ErrorMessage = MessageConstants.IncorrectPassword,
+                    User = null
+                };
+            }
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
             string Border = borders.image;
 
@@ -93,6 +103,24 @@ public class UserService : IUserService
                     UserDailyCheckinService.Create().InsertUserDailyCheckin(User.CurrentUserId, userDailyCheckin);
                 }
             }
+
+            return new AuthResult
+            {
+                Success = true,
+                ErrorField = "",
+                ErrorMessage = "",
+                User = user
+            };
+        }
+        else
+        {
+            return new AuthResult
+            {
+                Success = false,
+                ErrorField = AppConstants.Username,
+                ErrorMessage = MessageConstants.UsernameDoesNotExist,
+                User = null
+            };
         }
         // Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket);
         // UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
@@ -110,8 +138,6 @@ public class UserService : IUserService
         // UserItemsService.Create().InsertUserItems(cardGeneralsTicket, 1000000);
         // Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket);
         // UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
-        return user;
-
     }
 
     public User GetUserById(string Id)

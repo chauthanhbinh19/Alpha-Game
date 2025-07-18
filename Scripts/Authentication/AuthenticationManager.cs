@@ -87,63 +87,48 @@ public class AuthenticationManager : MonoBehaviour
         string password = SI_passwordInput.text;
         IUserRepository _userRepository = new UserRepository();
         UserService _userService = new UserService(_userRepository);
-        var loggedInUser = _userService.SignInUser(username, password);
-        if (loggedInUser != null)
+        var authResult = _userService.SignInUser(username, password);
+
+        if (authResult.Success)
         {
-            // Đăng nhập thành công, hiển thị MainPanel và ẩn WaitingPanel
-            // MainPanel.gameObject.SetActive(true);
-            // WaitingPanel.gameObject.SetActive(false);
             Destroy(currentObject);
-            if (string.IsNullOrEmpty(loggedInUser.name))
+            if (string.IsNullOrEmpty(authResult.User.name))
             {
                 AuthenticationManager.Instance.createCreateNamePanel(username, password);
                 // signInPanel.SetActive(false);
             }
-            // WaitingPanel.gameObject.SetActive(false);
-            // MainPanel.gameObject.SetActive(true);
-
-            // Lưu thông tin người dùng vào nơi bạn muốn, ví dụ lưu vào một biến static hoặc quản lý trong game
-            // Ví dụ: lưu vào UserManager
-            // UserManager.Instance.InitializeUser(loggedInUser);
             Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
-            nameText.text = loggedInUser.name;
+            nameText.text = authResult.User.name;
             Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
-            levelText.text = loggedInUser.level.ToString();
+            levelText.text = authResult.User.level.ToString();
             Text powerText = userPanel.transform.Find("PowerText").GetComponent<Text>();
-            powerText.text = loggedInUser.power.ToString();
+            powerText.text = authResult.User.power.ToString();
             RawImage avatarImage = userPanel.transform.Find("AvatarImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = loggedInUser.image.Replace(".png", "");
+            string fileNameWithoutExtension = authResult.User.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             avatarImage.texture = texture;
 
             RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
-            // Debug.Log(loggedInUser.border);
-            fileNameWithoutExtension = loggedInUser.border.Replace(".png", "");
+
+            fileNameWithoutExtension = authResult.User.border.Replace(".png", "");
             Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             borderImage.texture = borderTexture;
 
-            FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
+            FindObjectOfType<CurrencyManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
             PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
-            // foreach (var currency in loggedInUser.Currencies)
-            // {
-            //     if (currency.name.Equals("Diamond") || currency.name.Equals("Gold") || currency.name.Equals("Silver"))
-            //     {
-            //         GameObject currencyObject = Instantiate(currencyPrefab, currencyPanel);
-            //         RawImage currencyImage = currencyObject.transform.Find("Image").GetComponent<RawImage>();
-            //         string currencyWithoutExtension = currency.image.Replace(".png", "");
-            //         Texture currencyTexture = Resources.Load<Texture>($"{currencyWithoutExtension}");
-            //         currencyImage.texture = currencyTexture;
-
-            //         Text currencyQuantity = currencyObject.transform.Find("Content").GetComponent<Text>();
-            //         currencyQuantity.text = currency.quantity.ToString();
-            //     }
-            // }
         }
         else
         {
-            // Đăng nhập thất bại, hiển thị thông báo lỗi
-            SI_ErrorUsername.text = MessageHelper.MessageConstants.UsernameNotExist;
+            if (authResult.ErrorField.Equals(AppConstants.Username))
+            {
+                SI_ErrorUsername.text = authResult.ErrorMessage;
+            }
+            else
+            {
+                SI_ErrorPassword.text = authResult.ErrorMessage;
+            }
         }
+
     }
     void SU_signUpButtonClicked()
     {
@@ -246,23 +231,23 @@ public class AuthenticationManager : MonoBehaviour
             IUserRepository _userRepository = new UserRepository();
             UserService _userService = new UserService(_userRepository);
             _userService.UpdateUserName(User.CurrentUserId, nameInput.text);
-            User loggedInUser = _userService.SignInUser(username, password);
+            var authResult = _userService.SignInUser(username, password);
             Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
-            nameText.text = loggedInUser.name;
+            nameText.text = authResult.User.name;
             Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
-            levelText.text = loggedInUser.level.ToString();
+            levelText.text = authResult.User.level.ToString();
             Text powerText = userPanel.transform.Find("PowerText").GetComponent<Text>();
-            powerText.text = loggedInUser.power.ToString();
+            powerText.text = authResult.User.power.ToString();
             RawImage avatarImage = userPanel.transform.Find("AvatarImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = loggedInUser.image.Replace(".png", "");
+            string fileNameWithoutExtension = authResult.User.image.Replace(".png", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             avatarImage.texture = texture;
 
             RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = loggedInUser.border.Replace(".png", "");
+            fileNameWithoutExtension = authResult.User.border.Replace(".png", "");
             Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             borderImage.texture = borderTexture;
-            FindObjectOfType<CurrencyManager>().GetMainCurrency(loggedInUser.Currencies, currencyPanel);
+            FindObjectOfType<CurrencyManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
         });
     }
     public void deleteCreateNamePanel()
