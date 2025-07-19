@@ -68,6 +68,7 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_23", () => GetType(AppConstants.Alchemy));
         AssignButtonEvent("Button_24", () => GetType(AppConstants.Forge));
         AssignButtonEvent("Button_25", () => GetType(AppConstants.CardLife));
+        AssignButtonEvent("Button_26", () => GetType(AppConstants.Artwork));
 
         // GetCardsType();
     }
@@ -310,6 +311,14 @@ public class CollectionManager : MonoBehaviour
 
                         totalRecord = cardLifeGalleryService.GetCardLifeCount(subtype);
                     }
+                    else if (mainType.Equals(AppConstants.Artwork))
+                    {
+                        var artworkGalleryService = ArtworkGalleryService.Create();
+                        List<Artwork> artworks = artworkGalleryService.GetArtworkCollection(subtype, pageSize, offset);
+                        ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
+
+                        totalRecord = artworkGalleryService.GetArtworkCount(subtype);
+                    }
 
                     totalPage = CalculateTotalPages(totalRecord, pageSize);
                     PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -548,6 +557,14 @@ public class CollectionManager : MonoBehaviour
             CardLifeGalleryController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
 
             totalRecord = cardLifeGalleryService.GetCardLifeCount(type);
+        }
+        else if (mainType.Equals(AppConstants.Artwork))
+        {
+            var artworkGalleryService = ArtworkGalleryService.Create();
+            List<Artwork> artworks = artworkGalleryService.GetArtworkCollection(type, pageSize, offset);
+            ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
+
+            totalRecord = artworkGalleryService.GetArtworkCount(type);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -831,6 +848,16 @@ public class CollectionManager : MonoBehaviour
                 List<CardLife> cardLives = cardLifeGalleryService.GetCardLifeCollection(subType, pageSize, offset);
                 CardLifeGalleryController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
             }
+            else if (mainType.Equals(AppConstants.Artwork))
+            {
+                var artworkGalleryService = ArtworkGalleryService.Create();
+                totalRecord = artworkGalleryService.GetArtworkCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Artwork> artworks = artworkGalleryService.GetArtworkCollection(subType, pageSize, offset);
+                ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
+            }
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }
@@ -924,7 +951,7 @@ public class CollectionManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Pet))
             {
-                var petsGalleryService = PetsGalleryService.Create(); 
+                var petsGalleryService = PetsGalleryService.Create();
                 totalRecord = petsGalleryService.GetPetsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1092,7 +1119,16 @@ public class CollectionManager : MonoBehaviour
                 List<CardLife> cardLives = cardLifeGalleryService.GetCardLifeCollection(subType, pageSize, offset);
                 CardLifeGalleryController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
             }
-
+            else if (mainType.Equals(AppConstants.Artwork))
+            {
+                var artworkGalleryService = ArtworkGalleryService.Create();
+                totalRecord = artworkGalleryService.GetArtworkCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Artwork> artworks = artworkGalleryService.GetArtworkCollection(subType, pageSize, offset);
+                ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
+            }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 

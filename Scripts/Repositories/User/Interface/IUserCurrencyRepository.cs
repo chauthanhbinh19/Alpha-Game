@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 public interface IUserCurrencyRepository
-{ 
+{
     List<Currency> GetUserCurrency();
     Currency GetUserCurrencyById(string Id);
     void UpdateUserCurrency(string currency_id, double price);
@@ -34,6 +34,7 @@ public interface IUserCurrencyRepository
     Currency GetUserAlchemyPrice(string Id);
     Currency GetUserForgePrice(string Id);
     Currency GetUserCardLifePrice(string Id);
+    Currency GetUserArtworkPrice(string Id);
     List<Currency> GetAchievementsCurrency();
     List<Currency> GetBooksCurrency(string type);
     List<Currency> GetCardHeroesCurrency(string type);
@@ -60,4 +61,5 @@ public interface IUserCurrencyRepository
     List<Currency> GetAlchemyCurrency(string type);
     List<Currency> GetForgeCurrency(string type);
     List<Currency> GetCardLifeCurrency(string type);
+    List<Currency> GetArtworkCurrency(string type);
 }

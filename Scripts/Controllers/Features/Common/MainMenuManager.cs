@@ -127,8 +127,8 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_11", moreMenuPanel, () => GetType(AppConstants.Alchemy));
         ButtonEvent.Instance.AssignButtonEvent("Button_12", moreMenuPanel, () => GetType(AppConstants.Forge));
         ButtonEvent.Instance.AssignButtonEvent("Button_13", moreMenuPanel, () => GetType(AppConstants.CardLife));
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", moreMenuPanel, () => GetType(AppConstants.MasterBoard)); // <- dòng này cần bạn thêm hằng số
-
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", moreMenuPanel, () => GetType(AppConstants.MasterBoard));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", moreMenuPanel, () => GetType(AppConstants.Artwork));
     }
     public void GetType(string type)
     {
@@ -1006,6 +1006,14 @@ public class MainMenuManager : MonoBehaviour
 
                         totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, subType);
                     }
+                    else if (mainType.Equals(AppConstants.Artwork))
+                    {
+                        List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset);
+                        UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
+                        listCount = artworks.Count;
+
+                        totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType);
+                    }
 
                     if (listCount > 0)
                     {
@@ -1711,7 +1719,14 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, type);
         }
+        else if (mainType.Equals(AppConstants.Artwork))
+        {
+            List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, type, pageSize, offset);
+            UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
+            listCount = artworks.Count;
 
+            totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, type);
+        }
 
         if (listCount > 0)
         {
@@ -2013,6 +2028,15 @@ public class MainMenuManager : MonoBehaviour
                 List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, subType, pageSize, offset);
                 UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             }
+            else if (mainType.Equals(AppConstants.Artwork))
+            {
+                totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset);
+                UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
+            }
 
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -2232,6 +2256,15 @@ public class MainMenuManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, subType, pageSize, offset);
                 UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.Artwork))
+            {
+                totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset);
+                UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

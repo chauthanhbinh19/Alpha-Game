@@ -174,6 +174,11 @@ public class UserCurrencyService : IUserCurrencyService
         return _userCurrencyRepository.GetUserCardLifePrice(Id);
     }
 
+    public Currency GetUserArtworkPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserArtworkPrice(Id);
+    }
+
     public List<Currency> GetAchievementsCurrency()
     {
         return _userCurrencyRepository.GetAchievementsCurrency();
@@ -302,5 +307,10 @@ public class UserCurrencyService : IUserCurrencyService
     public List<Currency> GetCardLifeCurrency(string type)
     {
         return _userCurrencyRepository.GetCardLifeCurrency(type);
+    }
+
+    public List<Currency> GetArtworkCurrency(string type)
+    {
+        return _userCurrencyRepository.GetArtworkCurrency(type);
     }
 }

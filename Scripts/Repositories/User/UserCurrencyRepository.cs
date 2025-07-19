@@ -137,7 +137,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
                 return currencies;
             }
             catch (MySqlException ex)
@@ -174,7 +175,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("image"),
                         quantity = reader.GetInt32("price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -211,7 +213,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("image"),
                         quantity = reader.GetInt32("quantity"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -249,7 +252,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -287,7 +291,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -325,7 +330,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -363,7 +369,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -401,7 +408,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -439,7 +447,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -477,7 +486,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -515,7 +525,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -553,7 +564,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -591,7 +603,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -629,7 +642,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -667,7 +681,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -705,7 +720,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -743,7 +759,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -781,7 +798,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -819,7 +837,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -857,7 +876,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -895,7 +915,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -933,7 +954,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -971,7 +993,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -1009,7 +1032,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -1047,7 +1071,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -1085,7 +1110,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -1123,7 +1149,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -1161,7 +1188,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -1199,7 +1227,47 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         image = reader.GetString("currency_image"),
                         quantity = reader.GetInt32("trade_price"),
                     };
-                };
+                }
+                ;
+                return currency;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return currency;
+    }
+    public Currency GetUserArtworkPrice(string Id)
+    {
+        Currency currency = new Currency();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                FROM artwork ch
+                left JOIN artwork_trade et ON ch.id = et.artwork_id
+                left JOIN currency c ON c.id = et.currency_id
+                left JOIN user_currency uc ON uc.currency_id = c.id
+                where ch.id=@id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    currency = new Currency
+                    {
+                        id = reader.GetString("currency_id"),
+                        name = reader.GetString("currency_name"),
+                        image = reader.GetString("currency_image"),
+                        quantity = reader.GetInt32("trade_price"),
+                    };
+                }
+                ;
                 return currency;
             }
             catch (MySqlException ex)
@@ -1235,7 +1303,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1270,7 +1339,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1305,7 +1375,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1340,7 +1411,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1375,7 +1447,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1410,7 +1483,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1445,7 +1519,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1479,7 +1554,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1514,7 +1590,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1549,7 +1626,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1583,7 +1661,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1618,7 +1697,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1652,7 +1732,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1687,7 +1768,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1722,7 +1804,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1756,7 +1839,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1791,7 +1875,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1826,7 +1911,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1861,7 +1947,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1896,7 +1983,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1930,7 +2018,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -1965,7 +2054,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -2000,7 +2090,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -2035,7 +2126,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -2070,7 +2162,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
@@ -2091,6 +2184,42 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 string query = @"select distinct c.id, c.image , c.name, uc.quantity 
                 from card_life a, card_life_trade at, currency c, user_currency uc
                 where a.id=at.card_life_id and at.currency_id = c.id and c.id =uc.currency_id and a.type=@type;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Currency currency = new Currency
+                    {
+                        id = reader.GetString("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        quantity = reader.GetInt32("quantity"),
+                    };
+                    currencies.Add(currency);
+                }
+                ;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return currencies;
+    }
+    public List<Currency> GetArtworkCurrency(string type)
+    {
+        List<Currency> currencies = new List<Currency>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select distinct c.id, c.image , c.name, uc.quantity 
+                from artwork a, artwork_trade at, currency c, user_currency uc
+                where a.id=at.artwork_id and at.currency_id = c.id and c.id =uc.currency_id and a.type=@type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 MySqlDataReader reader = command.ExecuteReader();

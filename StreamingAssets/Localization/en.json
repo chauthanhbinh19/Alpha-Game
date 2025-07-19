@@ -73,6 +73,8 @@
   { "key": "forges", "value": "Forges" },
   { "key": "card_life", "value": "Card Life" },
   { "key": "card_lives", "value": "Card Lives" },
+  { "key": "artwork", "value": "Artwork" },
+  { "key": "artworks", "value": "Artworks" },
   { "key": "master_board", "value": "Master board" },
   { "key": "enhancement", "value": "Enhancement" },
   { "key": "daily_checkin", "value": "Daily Checkin" },
@@ -107,6 +109,7 @@
   { "key": "alchemy_gallery", "value": "Alchemy Gallery" },
   { "key": "forge_gallery", "value": "Forge Gallery" },
   { "key": "life_gallery", "value": "Life Gallery" },
+  { "key": "artwork_gallery", "value": "Artwork Gallery" },
 
   { "key": "card_heroes_collection", "value": "Card Heroes Collection" },
   { "key": "books_collection", "value": "Books Collection" },
@@ -133,8 +136,9 @@
   { "key": "alchemy_collection", "value": "Alchemy Collection" },
   { "key": "forge_collection", "value": "Forge Collection" },
   { "key": "life_collection", "value": "Life Collection" },
+  { "key": "artwork_collection", "value": "Artowkr Collection" },
 
-   { "key": "CardHeroes", "value": "Card Heroes" },
+  { "key": "CardHeroes", "value": "Card Heroes" },
   { "key": "Books", "value": "Books" },
   { "key": "Pets", "value": "Pets" },
   { "key": "CardCaptains", "value": "Card Captains" },

@@ -64,6 +64,7 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_23", () => GetType(AppConstants.Alchemy));
         AssignButtonEvent("Button_24", () => GetType(AppConstants.Forge));
         AssignButtonEvent("Button_25", () => GetType(AppConstants.CardLife));
+        AssignButtonEvent("Button_26", () => GetType(AppConstants.Artwork));
         // GetCardsType();
     }
 
@@ -137,7 +138,7 @@ public class GalleryManager : MonoBehaviour
                     int totalRecord = 0;
                     if (mainType.Equals(AppConstants.CardHero))
                     {
-                        
+
                         List<CardHeroes> cards = CardHeroesService.Create().GetCardHeroes(subtype, pageSize, offset);
                         CardHeroesController.Instance.CreateCardHeroesGallery(cards, DictionaryContentPanel);
 
@@ -145,7 +146,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.Book))
                     {
-                        
+
                         List<Books> books = BooksService.Create().GetBooks(subtype, pageSize, offset);
                         BooksController.Instance.CreateBooksGallery(books, DictionaryContentPanel);
 
@@ -153,7 +154,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.CardCaptain))
                     {
-                        
+
                         List<CardCaptains> captains = CardCaptainsService.Create().GetCardCaptains(subtype, pageSize, offset);
                         CardCaptainsController.Instance.CreateCardCaptainsGallery(captains, DictionaryContentPanel);
 
@@ -161,7 +162,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.CollaborationEquipment))
                     {
-                        
+
                         List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipments(subtype, pageSize, offset);
                         CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
 
@@ -169,7 +170,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.Equipment))
                     {
-                        
+
                         List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subtype, pageSize, offset);
                         EquipmentsController.Instance.CreateEquipmentsGallery(equipments, DictionaryContentPanel);
 
@@ -177,7 +178,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.Pet))
                     {
-                        
+
                         List<Pets> pets = PetsService.Create().GetPets(subtype, pageSize, offset);
                         PetsController.Instance.CreatePetsGallery(pets, DictionaryContentPanel);
 
@@ -185,7 +186,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.Skill))
                     {
-                        
+
                         List<Skills> skills = SkillsService.Create().GetSkills(subtype, pageSize, offset);
                         SkillsController.Instance.CreateSkillsGallery(skills, DictionaryContentPanel);
 
@@ -193,7 +194,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.Symbol))
                     {
-                        
+
                         List<Symbols> symbols = SymbolsService.Create().GetSymbols(subtype, pageSize, offset);
                         SymbolsController.Instance.CreateSymbolsGallery(symbols, DictionaryContentPanel);
 
@@ -201,7 +202,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.CardMilitary))
                     {
-                        
+
                         List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitary(subtype, pageSize, offset);
                         CardMilitaryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
 
@@ -209,7 +210,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.CardSpell))
                     {
-                        
+
                         List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpell(subtype, pageSize, offset);
                         CardSpellController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
 
@@ -217,7 +218,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.MagicFormationCircle))
                     {
-                        
+
                         List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircle(subtype, pageSize, offset);
                         MagicFormationCircleController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
 
@@ -225,7 +226,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.Relic))
                     {
-                        
+
                         List<Relics> relics = RelicsService.Create().GetRelics(subtype, pageSize, offset);
                         RelicsController.Instance.CreateRelicsGallery(relics, DictionaryContentPanel);
 
@@ -233,7 +234,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.CardMonster))
                     {
-                        
+
                         List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonsters(subtype, pageSize, offset);
                         CardMonstersController.Instance.CreateCardMonstersGallery(cardMonsters, DictionaryContentPanel);
 
@@ -241,7 +242,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.CardColonel))
                     {
-                        
+
                         List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonels(subtype, pageSize, offset);
                         CardColonelsController.Instance.CreateCardColonelsGallery(cardColonels, DictionaryContentPanel);
 
@@ -249,7 +250,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.CardGeneral))
                     {
-                        
+
                         List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGenerals(subtype, pageSize, offset);
                         CardGeneralsController.Instance.CreateCardGeneralsGallery(cardGenerals, DictionaryContentPanel);
 
@@ -257,7 +258,7 @@ public class GalleryManager : MonoBehaviour
                     }
                     else if (mainType.Equals(AppConstants.CardAdmiral))
                     {
-                        
+
                         List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmirals(subtype, pageSize, offset);
                         CardAdmiralsController.Instance.CreateCardAdmiralsGallery(cardAdmirals, DictionaryContentPanel);
 
@@ -297,6 +298,13 @@ public class GalleryManager : MonoBehaviour
                         CardLifeController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
 
                         totalRecord = CardLifeService.Create().GetCardLifeCount(subType);
+                    }
+                    else if (mainType.Equals(AppConstants.Artwork))
+                    {
+                        List<Artwork> artworks = ArtworkService.Create().GetArtwork(subType, pageSize, offset);
+                        ArtworkController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
+
+                        totalRecord = ArtworkService.Create().GetArtworkCount(subType);
                     }
 
                     totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -368,7 +376,7 @@ public class GalleryManager : MonoBehaviour
 
         if (mainType.Equals(AppConstants.CardHero))
         {
-            
+
             List<CardHeroes> cards = CardHeroesService.Create().GetCardHeroes(type, pageSize, offset);
             CardHeroesController.Instance.CreateCardHeroesGallery(cards, DictionaryContentPanel);
 
@@ -376,7 +384,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Book))
         {
-            
+
             List<Books> books = BooksService.Create().GetBooks(type, pageSize, offset);
             BooksController.Instance.CreateBooksGallery(books, DictionaryContentPanel);
 
@@ -384,7 +392,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.CardCaptain))
         {
-            
+
             List<CardCaptains> captains = CardCaptainsService.Create().GetCardCaptains(type, pageSize, offset);
             CardCaptainsController.Instance.CreateCardCaptainsGallery(captains, DictionaryContentPanel);
 
@@ -392,7 +400,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.CollaborationEquipment))
         {
-            
+
             List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipments(type, pageSize, offset);
             CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
 
@@ -400,7 +408,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Equipment))
         {
-            
+
             List<Equipments> equipments = EquipmentsService.Create().GetEquipments(type, pageSize, offset);
             EquipmentsController.Instance.CreateEquipmentsGallery(equipments, DictionaryContentPanel);
 
@@ -408,7 +416,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Pet))
         {
-            
+
             List<Pets> pets = PetsService.Create().GetPets(type, pageSize, offset);
             PetsController.Instance.CreatePetsGallery(pets, DictionaryContentPanel);
 
@@ -416,7 +424,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Skill))
         {
-            
+
             List<Skills> skills = SkillsService.Create().GetSkills(type, pageSize, offset);
             SkillsController.Instance.CreateSkillsGallery(skills, DictionaryContentPanel);
 
@@ -424,7 +432,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Symbol))
         {
-            
+
             List<Symbols> symbols = SymbolsService.Create().GetSymbols(type, pageSize, offset);
             SymbolsController.Instance.CreateSymbolsGallery(symbols, DictionaryContentPanel);
 
@@ -432,7 +440,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.CardMilitary))
         {
-            
+
             List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitary(type, pageSize, offset);
             CardMilitaryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
 
@@ -440,7 +448,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.CardSpell))
         {
-            
+
             List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpell(type, pageSize, offset);
             CardSpellController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
 
@@ -448,7 +456,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MagicFormationCircle))
         {
-            
+
             List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircle(type, pageSize, offset);
             MagicFormationCircleController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
 
@@ -456,7 +464,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Relic))
         {
-            
+
             List<Relics> relics = RelicsService.Create().GetRelics(type, pageSize, offset);
             RelicsController.Instance.CreateRelicsGallery(relics, DictionaryContentPanel);
 
@@ -464,7 +472,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.CardMonster))
         {
-            
+
             List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonsters(type, pageSize, offset);
             CardMonstersController.Instance.CreateCardMonstersGallery(cardMonsters, DictionaryContentPanel);
 
@@ -472,7 +480,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.CardColonel))
         {
-            
+
             List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonels(type, pageSize, offset);
             CardColonelsController.Instance.CreateCardColonelsGallery(cardColonels, DictionaryContentPanel);
 
@@ -480,7 +488,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.CardGeneral))
         {
-            
+
             List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGenerals(type, pageSize, offset);
             CardGeneralsController.Instance.CreateCardGeneralsGallery(cardGenerals, DictionaryContentPanel);
 
@@ -488,7 +496,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.CardAdmiral))
         {
-            
+
             List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmirals(type, pageSize, offset);
             CardAdmiralsController.Instance.CreateCardAdmiralsGallery(cardAdmirals, DictionaryContentPanel);
 
@@ -529,6 +537,13 @@ public class GalleryManager : MonoBehaviour
 
             totalRecord = CardLifeService.Create().GetCardLifeCount(type);
         }
+        else if (mainType.Equals(AppConstants.Artwork))
+        {
+            List<Artwork> artworks = ArtworkService.Create().GetArtwork(type, pageSize, offset);
+            ArtworkController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
+
+            totalRecord = ArtworkService.Create().GetArtworkCount(type);
+        }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -564,7 +579,7 @@ public class GalleryManager : MonoBehaviour
 
             if (mainType.Equals(AppConstants.CardHero))
             {
-                
+
                 totalRecord = CardHeroesService.Create().GetCardHeroesCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -574,7 +589,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Book))
             {
-                
+
                 totalRecord = BooksService.Create().GetBooksCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -584,7 +599,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CardCaptain))
             {
-                
+
                 totalRecord = CardCaptainsService.Create().GetCardCaptainsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -594,7 +609,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CollaborationEquipment))
             {
-                
+
                 totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -631,7 +646,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CardMonster))
             {
-                
+
                 totalRecord = CardMonstersService.Create().GetCardMonstersCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -641,7 +656,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Pet))
             {
-                
+
                 totalRecord = PetsService.Create().GetPetsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -651,7 +666,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Skill))
             {
-                
+
                 totalRecord = SkillsService.Create().GetSkillsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -661,7 +676,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Symbol))
             {
-                
+
                 totalRecord = SymbolsService.Create().GetSymbolsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -671,7 +686,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Title))
             {
-                
+
                 totalRecord = TitlesService.Create().GetTitlesCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -681,7 +696,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CardMilitary))
             {
-                
+
                 totalRecord = CardMilitaryService.Create().GetCardMilitaryCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -691,7 +706,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CardSpell))
             {
-                
+
                 totalRecord = CardSpellService.Create().GetCardSpellCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -701,7 +716,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MagicFormationCircle))
             {
-                
+
                 totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -711,7 +726,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Relic))
             {
-                
+
                 totalRecord = RelicsService.Create().GetRelicsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -799,6 +814,15 @@ public class GalleryManager : MonoBehaviour
                 offset = offset + pageSize;
                 List<CardLife> cardLives = CardLifeService.Create().GetCardLife(subType, pageSize, offset);
                 CardLifeController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.Artwork))
+            {
+                totalRecord = ArtworkService.Create().GetArtworkCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Artwork> artworks = ArtworkService.Create().GetArtwork(subType, pageSize, offset);
+                ArtworkController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
             }
 
 
@@ -815,7 +839,7 @@ public class GalleryManager : MonoBehaviour
 
             if (mainType.Equals(AppConstants.CardHero))
             {
-                
+
                 totalRecord = CardHeroesService.Create().GetCardHeroesCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -825,7 +849,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Book))
             {
-                
+
                 totalRecord = BooksService.Create().GetBooksCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -835,7 +859,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CardCaptain))
             {
-                
+
                 totalRecord = CardCaptainsService.Create().GetCardCaptainsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -845,7 +869,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CollaborationEquipment))
             {
-                
+
                 totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -882,7 +906,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CardMonster))
             {
-                
+
                 totalRecord = CardMonstersService.Create().GetCardMonstersCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -892,7 +916,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Pet))
             {
-                
+
                 totalRecord = PetsService.Create().GetPetsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -902,7 +926,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Skill))
             {
-                
+
                 totalRecord = SkillsService.Create().GetSkillsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -912,7 +936,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Symbol))
             {
-                
+
                 totalRecord = SymbolsService.Create().GetSymbolsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -922,7 +946,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Title))
             {
-                
+
                 totalRecord = TitlesService.Create().GetTitlesCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -932,7 +956,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CardMilitary))
             {
-                
+
                 totalRecord = CardMilitaryService.Create().GetCardMilitaryCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -942,7 +966,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.CardSpell))
             {
-                
+
                 totalRecord = CardSpellService.Create().GetCardSpellCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -952,7 +976,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MagicFormationCircle))
             {
-                
+
                 totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -962,7 +986,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Relic))
             {
-                
+
                 totalRecord = RelicsService.Create().GetRelicsCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1050,6 +1074,15 @@ public class GalleryManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<CardLife> cardLives = CardLifeService.Create().GetCardLife(subType, pageSize, offset);
                 CardLifeController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.Artwork))
+            {
+                totalRecord = ArtworkService.Create().GetArtworkCount(subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Artwork> artworks = ArtworkService.Create().GetArtwork(subType, pageSize, offset);
+                ArtworkController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

@@ -26,6 +26,7 @@ public static class TypeManager
         { AppConstants.Alchemy, () => new AlchemyService(new AlchemyRepository()).GetUniqueAlchemyTypes() },
         { AppConstants.Forge, () => new ForgeService(new ForgeRepository()).GetUniqueForgeTypes() },
         { AppConstants.CardLife, () => new CardLifeService(new CardLifeRepository()).GetUniqueCardLifeTypes() },
+        { AppConstants.Artwork, () => new ArtworkService(new ArtworkRepository()).GetUniqueArtworkTypes() },
         { AppConstants.SummonCardHeroes, () => new CardHeroesService(new CardHeroesRepository()).GetUniqueCardHeroTypes() },
         { AppConstants.SummonBooks, () => new BooksService(new BooksRepository()).GetUniqueBookTypes() },
         { AppConstants.SummonCardCaptains, () => new CardCaptainsService(new CardCaptainsRepository()).GetUniqueCardCaptainsTypes() },
