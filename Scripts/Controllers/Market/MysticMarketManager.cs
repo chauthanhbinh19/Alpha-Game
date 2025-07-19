@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,6 +26,9 @@ public class MysticMarketManager : MonoBehaviour
     private Button NextButton;
     private Button PreviousButton;
     private Text titleText;
+    private List<Items> items;
+    private Currency currentCurrency;
+
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -68,6 +72,7 @@ public class MysticMarketManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
+        items = new List<Items>();
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MysticMarketButtonPrefab = UIManager.Instance.GetGameObject("MysticMarketButtonPrefab");
         MysticMarketManagerPrefab = UIManager.Instance.GetGameObject("MysticMarketManagerPrefab");
@@ -77,6 +82,14 @@ public class MysticMarketManager : MonoBehaviour
     {
         GameObject mysticMarketManagerObject = Instantiate(MysticMarketManagerPrefab, MainPanel);
         Transform mysticMarketTransform = mysticMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        titleText = mysticMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        CloseButton = mysticMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() => Destroy(mysticMarketManagerObject));
+        HomeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener(() => Close(MainPanel));
+
+        titleText.text = LocalizationManager.Get(AppConstants.MysticMarket);
+
         var currencies = CurrencyService.Create().GetCurrencyList();
         foreach (var currency in currencies)
         {
@@ -89,19 +102,16 @@ public class MysticMarketManager : MonoBehaviour
             Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            EventTrigger eventTrigger = currencyObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            Button currencyButton = currencyObject.GetComponent<Button>();
+            currencyButton.onClick.AddListener(() =>
             {
-                eventTrigger = currencyObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-            ButtonEvent.Instance.AddClickListener(
-                eventTrigger,
-                () => CreateMysticMarketItemUI()
-            );
+                CreateMysticMarketItemUI(currency);
+            });
         }
     }
-    public void CreateMysticMarketItemUI()
+    public void CreateMysticMarketItemUI(Currency currency)
     {
+        currentCurrency = currency;
         GameObject mysticMarketObject = Instantiate(MysticMarketPrefab, MainPanel);
         currentContent = mysticMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = mysticMarketObject.transform.Find("Scroll View/Viewport/Content");
@@ -116,52 +126,49 @@ public class MysticMarketManager : MonoBehaviour
         HomeButton.onClick.AddListener(() => Close(MainPanel));
         NextButton.onClick.AddListener(ChangeNextPage);
         PreviousButton.onClick.AddListener(ChangePreviousPage);
+
+        titleText.text = LocalizationManager.Get(AppConstants.MysticMarket);
+
+        items = ItemsService.Create().GetItems()
+            .Where(item => item.type.Equals(AppConstants.PackageItem, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        totalPage = Mathf.CeilToInt((float)items.Count / pageSize);
+        currentPage = 1;
+
+        LoadCurrentPage(currency);
     }
+    private void LoadCurrentPage(Currency currency)
+    {
+        ClearAllPrefabs();
+
+        offset = (currentPage - 1) * pageSize;
+
+        var pagedItems = items.Skip(offset).Take(pageSize).ToList();
+
+        ItemsController.Instance.CreateItemsTrade(pagedItems, currency, currentContent, currencyPanel);
+
+        PageText.text = $"{currentPage}/{totalPage}";
+    }
+
     public void ChangeNextPage()
     {
         if (currentPage < totalPage)
         {
-            ClearAllPrefabs();
-            int totalRecord = 0;
-
-            // if (mainType.Equals(AppConstants.CardHero))
-            // {
-            //     totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(subType);
-            //     totalPage = CalculateTotalPages(totalRecord, pageSize);
-            //     currentPage = currentPage + 1;
-            //     offset = offset + pageSize;
-            //     List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesWithPrice(subType, pageSize, offset);
-            //     CardHeroesController.Instance.CreateCardHeroesTrade(cardHeroes, subType, currentContent, currencyPanel, popupPanel);
-            // }
-
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-
+            currentPage++;
+            LoadCurrentPage(currentCurrency);
         }
     }
     public void ChangePreviousPage()
     {
         if (currentPage > 1)
         {
-            ClearAllPrefabs();
-            int totalRecord = 0;
-
-            // if (mainType.Equals(AppConstants.CardHero))
-            // {
-            //     totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(subType);
-            //     totalPage = CalculateTotalPages(totalRecord, pageSize);
-            //     currentPage = currentPage - 1;
-            //     offset = offset - pageSize;
-            //     List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesWithPrice(subType, pageSize, offset);
-            //     CardHeroesController.Instance.CreateCardHeroesTrade(cardHeroes, subType, currentContent, currencyPanel, popupPanel);
-            // }
-
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-
+            currentPage--;
+            LoadCurrentPage(currentCurrency);
         }
     }
     public void ClearAllPrefabs()
     {
-        // Duyệt qua tất cả các con cái của cardsContent
         foreach (Transform child in currentContent)
         {
             Destroy(child.gameObject);

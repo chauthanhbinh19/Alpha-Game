@@ -86,7 +86,10 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(30, AppConstants.Tower, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Tower"), summonPanel);
         CreateButton(31, AppConstants.Event, backgroundImage, Resources.Load<Texture2D>($"UI/UI/Lobby_Icon-Event_002"), summonPanel);
         CreateButton(32, AppConstants.DailyCheckin, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Daily_Checkin"), summonPanel);
-        CreateButton(33, AppConstants.MysticMarket, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mystic_Market"), summonPanel);
+        CreateButton(33, AppConstants.RareMarket, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Rare_Market"), summonPanel);
+        CreateButton(34, AppConstants.UltraRareMarket, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Ultra_Rare_Market"), summonPanel);
+        CreateButton(35, AppConstants.LegendaryMarket, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Legendary_Market"), summonPanel);
+        CreateButton(36, AppConstants.MysticMarket, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mystic_Market"), summonPanel);
 
     }
 

@@ -43,9 +43,8 @@ public class ItemsController : MonoBehaviour
     {
 
     }
-    public void CreateItemsTrade(Currency currency, Transform currentContent, Transform currencyPanel)
+    public void CreateItemsTrade(List<Items> items, Currency currency, Transform currentContent, Transform currencyPanel)
     {
-        List<Items> items = ItemsService.Create().GetItems();
         foreach (var item in items)
         {
             GameObject itemObject = Instantiate(equipmentsShopPrefab, currentContent);

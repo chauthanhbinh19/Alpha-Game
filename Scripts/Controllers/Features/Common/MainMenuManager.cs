@@ -101,7 +101,10 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType(AppConstants.Tower));
         ButtonEvent.Instance.AssignButtonEvent("Button_31", SummonMainMenuPanel, () => GetType(AppConstants.Event));
         ButtonEvent.Instance.AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType(AppConstants.DailyCheckin));
-        ButtonEvent.Instance.AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType(AppConstants.MysticMarket));
+        ButtonEvent.Instance.AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType(AppConstants.RareMarket));
+        ButtonEvent.Instance.AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType(AppConstants.UltraRareMarket));
+        ButtonEvent.Instance.AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType(AppConstants.LegendaryMarket));
+        ButtonEvent.Instance.AssignButtonEvent("Button_36", SummonMainMenuPanel, () => GetType(AppConstants.MysticMarket));
         // GetCardsType();
     }
 
@@ -314,6 +317,18 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.DailyCheckin))
         {
             DailyCheckinManager.Instance.CreateDailyCheckinGroup();
+        }
+        else if (mainType.Equals(AppConstants.RareMarket))
+        {
+            RareMarketManager.Instance.CreateRareMarket();
+        }
+        else if (mainType.Equals(AppConstants.UltraRareMarket))
+        {
+            UltraRareMarketManager.Instance.CreateUltraRareMarket();
+        }
+        else if (mainType.Equals(AppConstants.LegendaryMarket))
+        {
+            LegendaryMarketManager.Instance.CreateLegendaryMarket();
         }
         else if (mainType.Equals(AppConstants.MysticMarket))
         {

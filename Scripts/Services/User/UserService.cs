@@ -69,6 +69,8 @@ public class UserService : IUserService
                     User = null
                 };
             }
+
+            user = _userRepository.SignInUser(username, password);
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
             string Border = borders.image;
 

@@ -58,9 +58,6 @@ public class UIManager : MonoBehaviour
     public GameObject ShopManagerPrefab;
     public GameObject ShopButtonPrefab;
     public GameObject ShopPrefab;
-    public GameObject MysticMarketManagerPrefab;
-    public GameObject MysticMarketPrefab;
-    public GameObject MysticMarketButtonPrefab;
     public GameObject NumberDetailPrefab;
     public GameObject NumberDetail2Prefab;
     public GameObject NumberDetail3Prefab;
@@ -78,6 +75,19 @@ public class UIManager : MonoBehaviour
     public GameObject StarPrefab;
     public GameObject PowerPrefab;
     public GameObject LoadingPanelPrefab;
+    [Header("Market")]
+    public GameObject RareMarketManagerPrefab;
+    public GameObject RareMarketPrefab;
+    public GameObject RareMarketButtonPrefab;
+    public GameObject UltraRareMarketManagerPrefab;
+    public GameObject UltraRareMarketPrefab;
+    public GameObject UltraRareMarketButtonPrefab;
+    public GameObject LegendaryMarketManagerPrefab;
+    public GameObject LegendaryMarketPrefab;
+    public GameObject LegendaryMarketButtonPrefab;
+    public GameObject MysticMarketManagerPrefab;
+    public GameObject MysticMarketPrefab;
+    public GameObject MysticMarketButtonPrefab;
     // MainMenu Set 1
     [Header("Main menu set 1")]
     public GameObject MainMenuEquipmentPanelPrefab;
@@ -416,12 +426,6 @@ public class UIManager : MonoBehaviour
                 return ShopManagerPrefab;
             case "ShopPrefab":
                 return ShopPrefab;
-            case "MysticMarketManagerPrefab":
-                return MysticMarketManagerPrefab;
-            case "MysticMarketButtonPrefab":
-                return MysticMarketButtonPrefab;
-            case "MysticMarketPrefab":
-                return MysticMarketPrefab;
             case "NumberDetailPrefab":
                 return NumberDetailPrefab;
             case "NumberDetail2Prefab":
@@ -454,6 +458,31 @@ public class UIManager : MonoBehaviour
                 return PowerPrefab;
             case "LoadingPanelPrefab":
                 return LoadingPanelPrefab;
+            //Market
+            case "RareMarketManagerPrefab":
+                return RareMarketManagerPrefab;
+            case "RareMarketButtonPrefab":
+                return RareMarketButtonPrefab;
+            case "RareMarketPrefab":
+                return RareMarketPrefab;
+            case "UltraRareMarketManagerPrefab":
+                return UltraRareMarketManagerPrefab;
+            case "UltraRareMarketButtonPrefab":
+                return UltraRareMarketButtonPrefab;
+            case "UltraRareMarketPrefab":
+                return UltraRareMarketPrefab;
+            case "LegendaryMarketManagerPrefab":
+                return LegendaryMarketManagerPrefab;
+            case "LegendaryMarketButtonPrefab":
+                return LegendaryMarketButtonPrefab;
+            case "LegendaryMarketPrefab":
+                return LegendaryMarketPrefab;
+            case "MysticMarketManagerPrefab":
+                return MysticMarketManagerPrefab;
+            case "MysticMarketButtonPrefab":
+                return MysticMarketButtonPrefab;
+            case "MysticMarketPrefab":
+                return MysticMarketPrefab;
 
             case "MainMenuAnimePanelPrefab":
                 return MainMenuAnimePanelPrefab;

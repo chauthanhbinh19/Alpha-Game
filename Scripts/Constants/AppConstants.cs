@@ -3,7 +3,7 @@ public static class AppConstants
 {
     public const string Username = "username";
     public const string Password = "password";
-    
+
     public const string Alchievement = "alchievement";
     public const string Alchievements = "alchievements";
     public const string CardHero = "card_hero";
@@ -282,5 +282,13 @@ public static class AppConstants
     public const string Quen = "Quen";
 
     public const string Buy = "buy";
+    public const string RareMarket = "rare_market";
+    public const string UltraRareMarket = "ultra_rare_market";
+    public const string LegendaryMarket = "legendary_market";
     public const string MysticMarket = "mystic_market";
+    public const string RareMaterialItem = "Material – Rare Tier";
+    public const string UltraRareMaterialItem = "Material – Ultra Rare Tier";
+    public const string LegendaryMaterialItem = "Material – Legendary Tier";
+    public const string MysticMaterialItem = "Material – Mystic Tier";
+    public const string PackageItem = "Package";
 }

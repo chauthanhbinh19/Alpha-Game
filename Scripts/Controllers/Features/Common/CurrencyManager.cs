@@ -29,6 +29,7 @@ public class CurrencyManager : MonoBehaviour
 
     public void createCurrency(List<Currency> currencies, Transform CurrencyPanel)
     {
+        ButtonEvent.Instance.Close(CurrencyPanel);
         foreach (var currency in currencies)
         {
             GameObject currencyObject = Instantiate(currencyPrefab, CurrencyPanel);
@@ -44,6 +45,7 @@ public class CurrencyManager : MonoBehaviour
     }
     public void createTicketsCurrency(List<Items> items, Transform itemPanel)
     {
+        ButtonEvent.Instance.Close(itemPanel);
         foreach (var item in items)
         {
             GameObject currencyObject = Instantiate(currencyPrefab, itemPanel);
@@ -66,7 +68,6 @@ public class CurrencyManager : MonoBehaviour
     }
     public void GetMainCurrency(List<Currency> currencies, Transform panel)
     {
-        ButtonEvent.Instance.Close(panel);
         List<Currency> filteredCurrencies = currencies
             .Where(c => c.name == "Diamond" || c.name == "Gold" || c.name == "Silver")
             .ToList();
@@ -74,7 +75,6 @@ public class CurrencyManager : MonoBehaviour
     }
     public void GetTicketsCurrency(List<Items> items, Transform itemPanel)
     {
-        ButtonEvent.Instance.Close(itemPanel);
         createTicketsCurrency(items, itemPanel);
     }
 }
