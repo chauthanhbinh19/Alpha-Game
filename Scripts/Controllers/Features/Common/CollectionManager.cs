@@ -142,186 +142,7 @@ public class CollectionManager : MonoBehaviour
                 {
                     subType = subtype;
                     ButtonLoader.Instance.ChangeButtonBackground(button, "Background_V4_166");
-                    int totalRecord = 0;
-                    if (mainType.Equals(AppConstants.CardHero))
-                    {
-                        var cardHeroesGalleryService = CardHeroesGalleryService.Create();
-                        List<CardHeroes> cardHeroes = cardHeroesGalleryService.GetCardHeroesCollection(subtype, pageSize, offset);
-                        CardHeroesGalleryController.Instance.CreateCardHeroesGallery(cardHeroes, DictionaryContentPanel);
-
-                        totalRecord = cardHeroesGalleryService.GetCardHeroesCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Book))
-                    {
-                        var booksGalleryService = BooksGalleryService.Create();
-                        List<Books> books = booksGalleryService.GetBooksCollection(subtype, pageSize, offset);
-                        BooksGalleryController.Instance.CreateBooksGallery(books, DictionaryContentPanel);
-
-                        totalRecord = booksGalleryService.GetBooksCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CardCaptain))
-                    {
-                        var cardCaptainsGalleryService = CardCaptainsGalleryService.Create();
-                        List<CardCaptains> cardCaptains = cardCaptainsGalleryService.GetCardCaptainsCollection(subtype, pageSize, offset);
-                        CardCaptainsGalleryController.Instance.CreateCardCaptainsGallery(cardCaptains, DictionaryContentPanel);
-
-                        totalRecord = cardCaptainsGalleryService.GetCardCaptainsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CollaborationEquipment))
-                    {
-                        var collaborationEquipmentGalleryService = CollaborationEquipmentGalleryService.Create();
-                        List<CollaborationEquipment> collaborationEquipments = collaborationEquipmentGalleryService.GetCollaborationEquipmentsCollection(subtype, pageSize, offset);
-                        CollaborationEquipmentGalleryController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
-
-                        totalRecord = collaborationEquipmentGalleryService.GetCollaborationEquipmentCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Equipment))
-                    {
-                        var equipmentsGalleryService = EquipmentsGalleryService.Create();
-                        List<Equipments> equipments = equipmentsGalleryService.GetEquipmentsCollection(subtype, pageSize, offset);
-                        EquipmentsGalleryController.Instance.CreateEquipmentsGallery(equipments, DictionaryContentPanel);
-
-                        totalRecord = equipmentsGalleryService.GetEquipmentsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Pet))
-                    {
-                        var petsGalleryService = PetsGalleryService.Create();
-                        List<Pets> pets = petsGalleryService.GetPetsCollection(subtype, pageSize, offset);
-                        PetsGalleryController.Instance.CreatePetsGallery(pets, DictionaryContentPanel);
-
-                        totalRecord = petsGalleryService.GetPetsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Skill))
-                    {
-                        var skillsGalleryService = SkillsGalleryService.Create();
-                        List<Skills> skills = skillsGalleryService.GetSkillsCollection(subtype, pageSize, offset);
-                        SkillsGalleryController.Instance.CreateSkillsGallery(skills, DictionaryContentPanel);
-
-                        totalRecord = skillsGalleryService.GetSkillsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Symbol))
-                    {
-                        var symbolsGalleryService = SymbolsGalleryService.Create();
-                        List<Symbols> symbols = symbolsGalleryService.GetSymbolsCollection(subtype, pageSize, offset);
-                        SymbolsGalleryController.Instance.CreateSymbolsGallery(symbols, DictionaryContentPanel);
-
-                        totalRecord = symbolsGalleryService.GetSymbolsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CardMilitary))
-                    {
-                        var cardMilitaryGalleryService = CardMilitaryGalleryService.Create();
-                        List<CardMilitary> cardMilitaries = cardMilitaryGalleryService.GetCardMilitaryCollection(subtype, pageSize, offset);
-                        CardMilitaryGalleryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
-
-                        totalRecord = cardMilitaryGalleryService.GetCardMilitaryCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CardSpell))
-                    {
-                        var cardSpellGalleryService = CardSpellGalleryService.Create();
-                        List<CardSpell> cardSpells = cardSpellGalleryService.GetCardSpellCollection(subtype, pageSize, offset);
-                        CardSpellGalleryController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
-
-                        totalRecord = cardSpellGalleryService.GetCardSpellCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.MagicFormationCircle))
-                    {
-                        var magicFormationCircleGalleryService = MagicFormationCircleGalleryService.Create();
-                        List<MagicFormationCircle> magicFormationCircles = magicFormationCircleGalleryService.GetMagicFormationCircleCollection(subtype, pageSize, offset);
-                        MagicFormationCircleGalleryController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
-
-                        totalRecord = magicFormationCircleGalleryService.GetMagicFormationCircleCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Relic))
-                    {
-                        var relicsGalleryService = RelicsGalleryService.Create();
-                        List<Relics> relics = relicsGalleryService.GetRelicsCollection(subtype, pageSize, offset);
-                        RelicsGalleryController.Instance.CreateRelicsGallery(relics, DictionaryContentPanel);
-
-                        totalRecord = relicsGalleryService.GetRelicsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CardMonster))
-                    {
-                        var cardMonstersGalleryService = CardMonstersGalleryService.Create();
-                        List<CardMonsters> monsters = cardMonstersGalleryService.GetCardMonstersCollection(subtype, pageSize, offset);
-                        CardMonstersGalleryController.Instance.CreateCardMonstersGallery(monsters, DictionaryContentPanel);
-
-                        totalRecord = cardMonstersGalleryService.GetCardMonstersCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CardColonel))
-                    {
-                        var cardColonelsGalleryService = CardColonelsGalleryService.Create();
-                        List<CardColonels> cardColonels = cardColonelsGalleryService.GetCardColonelsCollection(subtype, pageSize, offset);
-                        CardColonelsGalleryController.Instance.CreateCardColonelsGallery(cardColonels, DictionaryContentPanel);
-
-                        totalRecord = cardColonelsGalleryService.GetCardColonelsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CardGeneral))
-                    {
-                        var cardGeneralsGalleryService = CardGeneralsGalleryService.Create();
-                        List<CardGenerals> cardGenerals = cardGeneralsGalleryService.GetCardGeneralsCollection(subtype, pageSize, offset);
-                        CardGeneralsGalleryController.Instance.CreateCardGeneralsGallery(cardGenerals, DictionaryContentPanel);
-
-                        totalRecord = cardGeneralsGalleryService.GetCardGeneralsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CardAdmiral))
-                    {
-                        var cardAdmiralsGalleryService = CardAdmiralsGalleryService.Create();
-                        List<CardAdmirals> cardAdmirals = cardAdmiralsGalleryService.GetCardAdmiralsCollection(subtype, pageSize, offset);
-                        CardAdmiralsGalleryController.Instance.CreateCardAdmiralsGallery(cardAdmirals, DictionaryContentPanel);
-
-                        totalRecord = cardAdmiralsGalleryService.GetCardAdmiralsCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Talisman))
-                    {
-                        var talismanGalleryService = TalismanGalleryService.Create();
-                        List<Talisman> talismans = talismanGalleryService.GetTalismanCollection(subtype, pageSize, offset);
-                        TalismanGalleryController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
-
-                        totalRecord = talismanGalleryService.GetTalismanCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Puppet))
-                    {
-                        var puppetGalleryService = PuppetGalleryService.Create();
-                        List<Puppet> puppets = puppetGalleryService.GetPuppetCollection(subtype, pageSize, offset);
-                        PuppetGalleryController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
-
-                        totalRecord = puppetGalleryService.GetPuppetCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Alchemy))
-                    {
-                        var alchemyGalleryService = AlchemyGalleryService.Create();
-                        List<Alchemy> alchemies = alchemyGalleryService.GetAlchemyCollection(subtype, pageSize, offset);
-                        AlchemyGalleryController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
-
-                        totalRecord = alchemyGalleryService.GetAlchemyCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Forge))
-                    {
-                        var forgeGalleryService = ForgeGalleryService.Create();
-                        List<Forge> forges = forgeGalleryService.GetForgeCollection(subtype, pageSize, offset);
-                        ForgeGalleryController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
-
-                        totalRecord = forgeGalleryService.GetForgeCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.CardLife))
-                    {
-                        var cardLifeGalleryService = CardLifeGalleryService.Create();
-                        List<CardLife> cardLives = cardLifeGalleryService.GetCardLifeCollection(subtype, pageSize, offset);
-                        CardLifeGalleryController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
-
-                        totalRecord = cardLifeGalleryService.GetCardLifeCount(subtype);
-                    }
-                    else if (mainType.Equals(AppConstants.Artwork))
-                    {
-                        var artworkGalleryService = ArtworkGalleryService.Create();
-                        List<Artwork> artworks = artworkGalleryService.GetArtworkCollection(subtype, pageSize, offset);
-                        ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
-
-                        totalRecord = artworkGalleryService.GetArtworkCount(subtype);
-                    }
-
-                    totalPage = CalculateTotalPages(totalRecord, pageSize);
-                    PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                    LoadCurrentPage(subtype);
 
                 }
                 else
@@ -388,6 +209,10 @@ public class CollectionManager : MonoBehaviour
         offset = 0;
         ClearAllPrefabs();
         ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_166");
+        LoadCurrentPage(type);
+    }
+    public void LoadCurrentPage(string type)
+    {
         int totalRecord = 0;
 
         if (mainType.Equals(AppConstants.CardHero))
@@ -568,7 +393,6 @@ public class CollectionManager : MonoBehaviour
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-        // Debug.Log($"Button for type '{type}' clicked!");
     }
     public void ClearAllPrefabs()
     {

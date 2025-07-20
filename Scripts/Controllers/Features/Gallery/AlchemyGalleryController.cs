@@ -51,25 +51,11 @@ public class AlchemyGalleryController : MonoBehaviour
             // RawImage frameImage = alchemyObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
 
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            Button button = alchemyObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(alchemy, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(alchemy, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = alchemyObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");

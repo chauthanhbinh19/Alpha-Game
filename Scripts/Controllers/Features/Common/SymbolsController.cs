@@ -56,25 +56,12 @@ public class SymbolsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            
+            Button button = symbolObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(symbol, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(symbol, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
@@ -107,25 +94,12 @@ public class SymbolsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = symbolObject.transform.Find("Frame").GetComponent<RawImage>();
-            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            
+            Button button = symbolObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(symbol, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(symbol, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             // RawImage rareImage = symbolObject.transform.Find("Rare").GetComponent<RawImage>();
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.rare}");

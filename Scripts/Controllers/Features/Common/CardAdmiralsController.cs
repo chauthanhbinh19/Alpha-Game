@@ -56,25 +56,12 @@ public class CardAdmiralsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            
+            Button button = spellObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(spell, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(spell, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
@@ -91,49 +78,36 @@ public class CardAdmiralsController : MonoBehaviour
     {
         foreach (var cardAdmiral in cardAdmirals)
         {
-            GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject admiralObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = achievementObject.transform.Find("Title").GetComponent<Text>();
+            Text Title = admiralObject.transform.Find("Title").GetComponent<Text>();
             Title.text = cardAdmiral.name.Replace("_", " ");
 
-            RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage Image = admiralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
-            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            RawImage FrameImage = admiralObject.transform.Find("Frame").GetComponent<RawImage>();
+            
+            Button button = admiralObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(cardAdmiral, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
             // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
             // rareImage.texture = rareTexture;
 
-            RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = admiralObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.currency.image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
+            Text currencyText = admiralObject.transform.Find("CurrencyText").GetComponent<Text>();
             currencyText.text = cardAdmiral.currency.quantity.ToString();
 
-            Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = admiralObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppConstants.Buy);
             buy.onClick.AddListener(() =>

@@ -58,25 +58,11 @@ public class UserForgeController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            Button button = forgeObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(forge, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                MainMenuDetailsManager.Instance.PopupDetails(forge, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             RawImage frameImage = forgeObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);

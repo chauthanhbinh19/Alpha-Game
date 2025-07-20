@@ -62,26 +62,11 @@ public class UserCardLifeController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
             rareImage.texture = rareTexture;
 
-            // Lấy EventTrigger của RawImage
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            Button button = cardObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<MainMenuDetailsManager>().PopupDetails(card, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)

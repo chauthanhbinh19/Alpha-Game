@@ -47,25 +47,12 @@ public class BooksGalleryController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
 
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(book, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
+            Button button = bookObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(book, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");

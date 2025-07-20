@@ -43,51 +43,37 @@ public class ArtworkController : MonoBehaviour
     {
 
     }
-    public void CreateArtworkGallery(List<Artwork> alchemies, Transform DictionaryContentPanel)
+    public void CreateArtworkGallery(List<Artwork> artworks, Transform DictionaryContentPanel)
     {
-        foreach (var magicFormationCircle in alchemies)
+        foreach (var artwork in artworks)
         {
-            GameObject magicFormationCircleObject = Instantiate(ArtworkFirstPrefab, DictionaryContentPanel);
+            GameObject artworkObject = Instantiate(ArtworkFirstPrefab, DictionaryContentPanel);
 
-            Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = magicFormationCircle.name.Replace("_", " ");
+            Text Title = artworkObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = artwork.name.Replace("_", " ");
 
-            RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
+            RawImage Image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            Button button = artworkObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(magicFormationCircle, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(artwork, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
-            RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
+            RawImage rareImage = artworkObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.rare}");
             rareImage.texture = rareTexture;
 
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(270, 220);
+            gridLayout.cellSize = new Vector2(270, 200);
         }
     }
     public void CreateArtworkTrade(List<Artwork> alchemies, string subType, Transform currentContent,
@@ -107,25 +93,11 @@ public class ArtworkController : MonoBehaviour
             RawImage FrameImage = ArtworkObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = ArtworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            Button button = ArtworkObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(Artwork, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(Artwork, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             // RawImage rareImage = ArtworkObject.transform.Find("Rare").GetComponent<RawImage>();
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.rare}");

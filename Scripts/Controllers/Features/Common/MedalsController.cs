@@ -56,25 +56,12 @@ public class MedalsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            
+            Button button = medalObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(medal, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(medal, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
@@ -105,25 +92,12 @@ public class MedalsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = medalObject.transform.Find("Frame").GetComponent<RawImage>();
-            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            
+            Button button = medalObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(medal, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(medal, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
             // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");

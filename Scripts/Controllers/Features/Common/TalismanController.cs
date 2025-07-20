@@ -59,25 +59,11 @@ public class TalismanController : MonoBehaviour
 
             // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = Image.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            Button button = talismanObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = Image.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(talisman, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = DictionaryContentPanel.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(talisman, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
@@ -107,25 +93,11 @@ public class TalismanController : MonoBehaviour
             RawImage FrameImage = talismanObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = talismanObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
+            Button button = talismanObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
             {
-                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(talisman, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
+                PopupDetailsManager.Instance.PopupDetails(talisman, MainPanel);
             });
-            eventTrigger.triggers.Add(scrollEntry);
 
             // RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");

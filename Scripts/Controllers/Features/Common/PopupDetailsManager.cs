@@ -7,6 +7,7 @@ using System.Reflection;
 
 public class PopupDetailsManager : MonoBehaviour
 {
+    public static PopupDetailsManager Instance { get; private set; }
     private GameObject MainMenuDetailPanelPrefab;
     private GameObject ElementDetailsPrefab;
     private GameObject NumberDetailPrefab;
@@ -21,6 +22,19 @@ public class PopupDetailsManager : MonoBehaviour
     private Transform element4PopupPanel;
     private Transform descriptionPopupPanel;
     private string descriptionColor = "#F9EED9";
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
