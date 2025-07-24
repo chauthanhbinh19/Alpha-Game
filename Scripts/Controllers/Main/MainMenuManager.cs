@@ -53,6 +53,7 @@ public class MainMenuManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
+        buttonType = "";
         rare = AppConstants.All;
         mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
         mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
@@ -137,7 +138,10 @@ public class MainMenuManager : MonoBehaviour
     {
         mainType = type; // Gán giá trị cho mainType
         GetButtonType(); // Gọi hàm xử lý
-        titleText.text = LocalizationManager.Get(type);
+        if (titleText != null)
+        {
+            titleText.text = LocalizationManager.Get(type);   
+        }
     }
     public void GetButtonType()
     {
