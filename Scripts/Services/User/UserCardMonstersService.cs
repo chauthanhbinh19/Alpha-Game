@@ -517,9 +517,9 @@ public class UserCardMonstersService : IUserCardMonstersService
         return cardMonsters;
     }
 
-    public List<CardMonsters> GetUserCardMonsters(string user_id, string type, int pageSize, int offset)
+    public List<CardMonsters> GetUserCardMonsters(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardMonsters> list = _userCardMonstersRepository.GetUserCardMonsters(user_id, type, pageSize, offset);
+        List<CardMonsters> list = _userCardMonstersRepository.GetUserCardMonsters(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -544,9 +544,9 @@ public class UserCardMonstersService : IUserCardMonstersService
         return _userCardMonstersRepository.GetUniqueCardMonsterTypesTeam(teamId);
     }
 
-    public int GetUserCardMonstersCount(string user_id, string type)
+    public int GetUserCardMonstersCount(string user_id, string type, string rare)
     {
-        return _userCardMonstersRepository.GetUserCardMonstersCount(user_id, type);
+        return _userCardMonstersRepository.GetUserCardMonstersCount(user_id, type, rare);
     }
 
     public int GetUserCardMonstersTeamsPositionCount(string user_id, string team_id, string position)

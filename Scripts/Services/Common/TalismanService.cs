@@ -14,16 +14,16 @@ public class TalismanService : ITalismanService
         return new TalismanService(new TalismanRepository());
     }
 
-    public List<Talisman> GetTalisman(string type, int pageSize, int offset)
+    public List<Talisman> GetTalisman(string type, int pageSize, int offset, string rare)
     {
-        List<Talisman> list = _talismanRepository.GetTalisman(type, pageSize, offset);
+        List<Talisman> list = _talismanRepository.GetTalisman(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTalismanCount(string type)
+    public int GetTalismanCount(string type, string rare)
     {
-        return _talismanRepository.GetTalismanCount(type);
+        return _talismanRepository.GetTalismanCount(type, rare);
     }
 
     public List<Talisman> GetTalismanWithPrice(string type, int pageSize, int offset)

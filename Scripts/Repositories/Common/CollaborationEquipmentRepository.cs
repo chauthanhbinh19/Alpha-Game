@@ -42,7 +42,7 @@ public class CollaborationEquipmentRepository : ICollaborationEquipmentRepositor
         }
         return typeList;
     }
-    public List<CollaborationEquipment> GetCollaborationEquipments(string type, int pageSize, int offset)
+    public List<CollaborationEquipment> GetCollaborationEquipments(string type, int pageSize, int offset, string rare)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -51,10 +51,11 @@ public class CollaborationEquipmentRepository : ICollaborationEquipmentRepositor
             try
             {
                 connection.Open();
-                string query = @"Select * from collaboration_equipments where type= @type 
+                string query = @"Select * from collaboration_equipments where type= @type AND (@rare = 'All' or rare = @rare)
                 ORDER BY collaboration_equipments.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(collaboration_equipments.name, '[0-9]+$') AS UNSIGNED), collaboration_equipments.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -133,7 +134,7 @@ public class CollaborationEquipmentRepository : ICollaborationEquipmentRepositor
         }
         return collaborationEquipmentList;
     }
-    public int GetCollaborationEquipmentCount(string type)
+    public int GetCollaborationEquipmentCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -142,9 +143,10 @@ public class CollaborationEquipmentRepository : ICollaborationEquipmentRepositor
             try
             {
                 connection.Open();
-                string query = "Select count(*) from collaboration_equipments where type= @type";
+                string query = "Select count(*) from collaboration_equipments where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

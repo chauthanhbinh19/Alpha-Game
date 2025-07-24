@@ -34,7 +34,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
         }
         return count;
     }
-    public List<CardGenerals> GetUserCardGenerals(string user_id, string type, int pageSize, int offset)
+    public List<CardGenerals> GetUserCardGenerals(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardGenerals> CardGeneralsList = new List<CardGenerals>();
         // string user_id=User.CurrentUserId;
@@ -48,13 +48,14 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
                 FROM user_card_generals uc
                 LEFT JOIN card_generals c ON c.id = uc.card_general_id 
                 LEFT JOIN fact_card_generals fcg ON fcg.user_id = uc.user_id AND fcg.user_card_general_id = uc.card_general_id
-                WHERE uc.user_id = @userId AND c.type = @type
+                WHERE uc.user_id = @userId AND c.type = @type AND (@rare = 'All' or c.rare = @rare)
                 ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
                 LIMIT @limit OFFSET @offset;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -398,7 +399,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
         }
         return true;
     }
-    public int GetUserCardGeneralsCount(string user_id, string type)
+    public int GetUserCardGeneralsCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id=User.CurrentUserId;
@@ -408,10 +409,12 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_generals c, user_card_generals uc where c.id=uc.card_general_id and uc.user_id=@userId and c.type= @type";
+                string query = @"Select count(*) from card_generals c, user_card_generals uc 
+                where c.id=uc.card_general_id and uc.user_id=@userId and c.type= @type AND (@rare = 'All' or c.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

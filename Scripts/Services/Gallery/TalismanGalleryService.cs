@@ -14,16 +14,16 @@ public class TalismanGalleryService : ITalismanGalleryService
         return new TalismanGalleryService(new TalismanGalleryRepository());
     }
 
-    public List<Talisman> GetTalismanCollection(string type, int pageSize, int offset)
+    public List<Talisman> GetTalismanCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Talisman> list = _talismanGalleryRepository.GetTalismanCollection(type, pageSize, offset);
+        List<Talisman> list = _talismanGalleryRepository.GetTalismanCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTalismanCount(string type)
+    public int GetTalismanCount(string type, string rare)
     {
-        return _talismanGalleryRepository.GetTalismanCount(type);
+        return _talismanGalleryRepository.GetTalismanCount(type, rare);
     }
 
     public void InsertTalismanGallery(string Id)

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class AvatarsGalleryRepository : IAvatarsGalleryRepository
 {
-    public List<Avatars> GetAvatarsCollection(int pageSize, int offset)
+    public List<Avatars> GetAvatarsCollection(int pageSize, int offset, string rare)
     {
         List<Avatars> avatars = new List<Avatars>();
         string user_id = User.CurrentUserId;
@@ -19,9 +19,11 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                 connection.Open();
                 string query = @"SELECT m.*, CASE WHEN mg.avatar_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
                 FROM avatars m LEFT JOIN avatars_gallery mg ON m.id = mg.avatar_id and mg.user_id = @userId 
+                Where (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -110,7 +112,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
         }
         return avatars;
     }
-    public int GetAvatarsCount()
+    public int GetAvatarsCount(string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -119,8 +121,9 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Avatars";
+                string query = "Select count(*) from Avatars Where (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

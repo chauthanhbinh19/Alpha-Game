@@ -181,16 +181,16 @@ public class UserTalismanService : IUserTalismanService
         return talisman;
     }
 
-    public List<Talisman> GetUserTalisman(string user_id, string type, int pageSize, int offset)
+    public List<Talisman> GetUserTalisman(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Talisman> list = _userTalismanRepository.GetUserTalisman(user_id, type, pageSize, offset);
+        List<Talisman> list = _userTalismanRepository.GetUserTalisman(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserTalismanCount(string user_id, string type)
+    public int GetUserTalismanCount(string user_id, string type, string rare)
     {
-        return _userTalismanRepository.GetUserTalismanCount(user_id, type);
+        return _userTalismanRepository.GetUserTalismanCount(user_id, type, rare);
     }
 
     public bool InsertUserTalisman(Talisman talisman)

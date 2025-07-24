@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class PetsGalleryRepository : IPetsGalleryRepository
 {
-    public List<Pets> GetPetsCollection(string type, int pageSize, int offset)
+    public List<Pets> GetPetsCollection(string type, int pageSize, int offset, string rare)
     {
         List<Pets> petsList = new List<Pets>();
         string user_id = User.CurrentUserId;
@@ -18,11 +18,13 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             {
                 connection.Open();
                 string query = @"SELECT p.*, CASE WHEN pg.pet_id IS NULL THEN 'block' WHEN pg.status = 'pending' THEN 'pending' WHEN pg.status = 'available' THEN 'available' END AS status 
-                FROM pets p LEFT JOIN pets_gallery pg ON p.id = pg.pet_id and pg.user_id = @userId where p.type=@type 
+                FROM pets p LEFT JOIN pets_gallery pg ON p.id = pg.pet_id and pg.user_id = @userId 
+                where p.type=@type AND (@rare = 'All' or p.rare = @rare)
                 ORDER BY p.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -102,7 +104,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
         }
         return petsList;
     }
-    public int GetPetsCount(string type)
+    public int GetPetsCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -111,9 +113,10 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Pets where type= @type";
+                string query = "Select count(*) from Pets where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

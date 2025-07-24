@@ -7,8 +7,8 @@ using System.Xml.Linq;
 
 public interface IAchievementsService
 {
-    List<Achievements> GetAchievement(int pageSize, int offset);
-    int GetAchievementCount();
+    List<Achievements> GetAchievement(int pageSize, int offset, string rare);
+    int GetAchievementCount(string rare);
     Achievements GetAchievementsById(string Id);
     List<Achievements> GetAchievementsWithPrice(int pageSize, int offset);
     int GetAchievementsWithPriceCount();

@@ -517,9 +517,9 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         return cardGenerals;
     }
 
-    public List<CardGenerals> GetUserCardGenerals(string user_id, string type, int pageSize, int offset)
+    public List<CardGenerals> GetUserCardGenerals(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardGenerals> list = _userCardGeneralsRepository.GetUserCardGenerals(user_id, type, pageSize, offset);
+        List<CardGenerals> list = _userCardGeneralsRepository.GetUserCardGenerals(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -554,9 +554,9 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         return _userCardGeneralsRepository.UpdateTeamFactCardGenerals(team_id, position, card_id);
     }
 
-    public int GetUserCardGeneralsCount(string user_id, string type)
+    public int GetUserCardGeneralsCount(string user_id, string type, string rare)
     {
-        return _userCardGeneralsRepository.GetUserCardGeneralsCount(user_id, type);
+        return _userCardGeneralsRepository.GetUserCardGeneralsCount(user_id, type, rare);
     }
 
     public bool InsertUserCardGenerals(CardGenerals CardGenerals)

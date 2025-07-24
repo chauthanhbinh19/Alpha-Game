@@ -181,16 +181,16 @@ public class UserRelicsService : IUserRelicsService
         return relics;
     }
 
-    public List<Relics> GetUserRelics(string user_id, string type, int pageSize, int offset)
+    public List<Relics> GetUserRelics(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = _userRelicsRepository.GetUserRelics(user_id, type, pageSize, offset);
+        List<Relics> list = _userRelicsRepository.GetUserRelics(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserRelicsCount(string user_id, string type)
+    public int GetUserRelicsCount(string user_id, string type, string rare)
     {
-        return _userRelicsRepository.GetUserRelicsCount(user_id, type);
+        return _userRelicsRepository.GetUserRelicsCount(user_id, type, rare);
     }
 
     public bool InsertUserReclis(Relics relics)

@@ -53,7 +53,28 @@ public static class QualityEvaluator
     }
     private static readonly List<string> qualityOrder = new List<string>
     {
-        "SR", "SSR", "UR", "LG", "LG+", "MR", "SLR", "SLR+", "SP"
+        AppConstants.SR,
+        AppConstants.SSR,
+        AppConstants.UR,
+        AppConstants.LG,
+        AppConstants.LGPlus,
+        AppConstants.MR,
+        AppConstants.SLG,
+        AppConstants.SLGPlus,
+        AppConstants.SP
+    };
+    public static List<string> rarities = new List<string>
+    {
+        AppConstants.All,
+        AppConstants.SR,
+        AppConstants.SSR,
+        AppConstants.UR,
+        AppConstants.LG,
+        AppConstants.LGPlus,
+        AppConstants.MR,
+        AppConstants.SLG,
+        AppConstants.SLGPlus,
+        AppConstants.SP
     };
 
     public static string GetNextQuality(string currentRare)

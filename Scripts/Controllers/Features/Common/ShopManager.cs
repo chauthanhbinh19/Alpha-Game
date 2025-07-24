@@ -34,12 +34,14 @@ public class ShopManager : MonoBehaviour
     private string mainType;
     private string subType;
     private Text titleText;
+    private string rare;
     // Start is called before the first frame update
     void Start()
     {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
+        rare = "All";
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         SummonMainMenuPanel = UIManager.Instance.GetTransform("summonPanel");
         ShopButtonPrefab = UIManager.Instance.GetGameObject("ShopButtonPrefab");
@@ -315,10 +317,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Equipment))
         {
-            List<Equipments> equipments = EquipmentsService.Create().GetEquipments(type, pageSize, offset);
+            List<Equipments> equipments = EquipmentsService.Create().GetEquipments(type, pageSize, offset, rare);
             createEquipments(equipments);
 
-            totalRecord = EquipmentsService.Create().GetEquipmentsCount(type);
+            totalRecord = EquipmentsService.Create().GetEquipmentsCount(type, rare);
         }
         else if (mainType.Equals(AppConstants.Pet))
         {
@@ -570,11 +572,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Equipment))
             {
-                totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType);
+                totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset);
+                List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset, rare);
                 createEquipments(equipments);
             }
             else if (mainType.Equals(AppConstants.Medal))
@@ -826,11 +828,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.Equipment))
             {
-                totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType);
+                totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset);
+                List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset, rare);
                 createEquipments(equipments);
             }
             else if (mainType.Equals(AppConstants.Medal))

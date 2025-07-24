@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
 {
-    public List<CardMilitary> GetCardMilitaryCollection(string type, int pageSize, int offset)
+    public List<CardMilitary> GetCardMilitaryCollection(string type, int pageSize, int offset, string rare)
     {
         List<CardMilitary> CardMilitaryList = new List<CardMilitary>();
         string user_id = User.CurrentUserId;
@@ -18,11 +18,13 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
             {
                 connection.Open();
                 string query = @"SELECT m.*, CASE WHEN mg.card_military_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
-                FROM card_military m LEFT JOIN card_military_gallery mg ON m.id = mg.card_military_id and mg.user_id = @userId where m.type=@type 
+                FROM card_military m LEFT JOIN card_military_gallery mg ON m.id = mg.card_military_id and mg.user_id = @userId 
+                where m.type=@type Where (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -102,7 +104,7 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
         }
         return CardMilitaryList;
     }
-    public int GetCardMilitaryCount(string type)
+    public int GetCardMilitaryCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -111,9 +113,10 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_military where type= @type";
+                string query = "Select count(*) from card_military where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

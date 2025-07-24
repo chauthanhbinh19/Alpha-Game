@@ -14,16 +14,16 @@ public class PuppetGalleryService : IPuppetGalleryService
         return new PuppetGalleryService(new PuppetGalleryRepository());
     }
 
-    public List<Puppet> GetPuppetCollection(string type, int pageSize, int offset)
+    public List<Puppet> GetPuppetCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Puppet> list = _puppetGalleryRepository.GetPuppetCollection(type, pageSize, offset);
+        List<Puppet> list = _puppetGalleryRepository.GetPuppetCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetPuppetCount(string type)
+    public int GetPuppetCount(string type, string rare)
     {
-        return _puppetGalleryRepository.GetPuppetCount(type);
+        return _puppetGalleryRepository.GetPuppetCount(type, rare);
     }
 
     public void InsertPuppetGallery(string Id)

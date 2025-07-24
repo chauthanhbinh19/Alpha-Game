@@ -19,16 +19,16 @@ public class AlchemyService : IAlchemyService
         return _alchemyRepository.GetUniqueAlchemyTypes();
     }
 
-    public List<Alchemy> GetAlchemy(string type, int pageSize, int offset)
+    public List<Alchemy> GetAlchemy(string type, int pageSize, int offset, string rare)
     {
-        List<Alchemy> list = _alchemyRepository.GetAlchemy(type, pageSize, offset);
+        List<Alchemy> list = _alchemyRepository.GetAlchemy(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetAlchemyCount(string type)
+    public int GetAlchemyCount(string type, string rare)
     {
-        return _alchemyRepository.GetAlchemyCount(type);
+        return _alchemyRepository.GetAlchemyCount(type, rare);
     }
 
     public List<Alchemy> GetAlchemyWithPrice(string type, int pageSize, int offset)

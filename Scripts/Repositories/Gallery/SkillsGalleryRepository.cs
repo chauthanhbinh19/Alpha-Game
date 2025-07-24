@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class SkillsGalleryRepository : ISkillsGalleryRepository
 {
-    public List<Skills> GetSkillsCollection(string type, int pageSize, int offset)
+    public List<Skills> GetSkillsCollection(string type, int pageSize, int offset, string rare)
     {
         List<Skills> skillsList = new List<Skills>();
         string user_id = User.CurrentUserId;
@@ -18,11 +18,13 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 connection.Open();
                 string query = @"SELECT s.*, CASE WHEN sg.skill_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status 
-                FROM skills s LEFT JOIN skills_gallery sg ON s.id = sg.skill_id and sg.user_id = @userId where s.type=@type 
+                FROM skills s LEFT JOIN skills_gallery sg ON s.id = sg.skill_id and sg.user_id = @userId 
+                where s.type=@type AND (@rare = 'All' or s.rare = @rare)
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -101,7 +103,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
         }
         return skillsList;
     }
-    public int GetSkillsCount(string type)
+    public int GetSkillsCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -110,9 +112,10 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from skills where type= @type";
+                string query = "Select count(*) from skills where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

@@ -14,16 +14,16 @@ public class CollaborationEquipmentGalleryService : ICollaborationEquipmentGalle
         return new CollaborationEquipmentGalleryService(new CollaborationEquipmentGalleryRepository());
     }
 
-    public List<CollaborationEquipment> GetCollaborationEquipmentsCollection(string type, int pageSize, int offset)
+    public List<CollaborationEquipment> GetCollaborationEquipmentsCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipment> list = _collabEquipmentGalleryRepo.GetCollaborationEquipmentsCollection(type, pageSize, offset);
+        List<CollaborationEquipment> list = _collabEquipmentGalleryRepo.GetCollaborationEquipmentsCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCollaborationEquipmentCount(string type)
+    public int GetCollaborationEquipmentCount(string type, string rare)
     {
-        return _collabEquipmentGalleryRepo.GetCollaborationEquipmentCount(type);
+        return _collabEquipmentGalleryRepo.GetCollaborationEquipmentCount(type, rare);
     }
 
     public void InsertCollaborationEquipmentsGallery(string Id)

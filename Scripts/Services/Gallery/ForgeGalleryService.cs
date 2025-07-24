@@ -15,16 +15,16 @@ public class ForgeGalleryService : IForgeGalleryService
         return new ForgeGalleryService(new ForgeGalleryRepository());
     }
 
-    public List<Forge> GetForgeCollection(string type, int pageSize, int offset)
+    public List<Forge> GetForgeCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Forge> list = _forgeGalleryRepository.GetForgeCollection(type, pageSize, offset);
+        List<Forge> list = _forgeGalleryRepository.GetForgeCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetForgeCount(string type)
+    public int GetForgeCount(string type, string rare)
     {
-        return _forgeGalleryRepository.GetForgeCount(type);
+        return _forgeGalleryRepository.GetForgeCount(type, rare);
     }
 
     public void InsertForgeGallery(string Id)

@@ -181,16 +181,16 @@ public class UserSymbolsService : IUserSymbolsService
         return symbols;
     }
 
-    public List<Symbols> GetUserSymbols(string user_id, string type, int pageSize, int offset)
+    public List<Symbols> GetUserSymbols(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = _userSymbolsRepository.GetUserSymbols(user_id, type, pageSize, offset);
+        List<Symbols> list = _userSymbolsRepository.GetUserSymbols(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserSymbolsCount(string user_id, string type)
+    public int GetUserSymbolsCount(string user_id, string type, string rare)
     {
-        return _userSymbolsRepository.GetUserSymbolsCount(user_id, type);
+        return _userSymbolsRepository.GetUserSymbolsCount(user_id, type, rare);
     }
 
     public bool InsertUserSymbols(Symbols symbols)

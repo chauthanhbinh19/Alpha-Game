@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserPetsRepository : IUserPetsRepository
 {
-    public List<Pets> GetUserPets(string user_id, string type, int pageSize, int offset)
+    public List<Pets> GetUserPets(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<Pets> petsList = new List<Pets>();
         // string user_id = User.CurrentUserId;
@@ -21,13 +21,14 @@ public class UserPetsRepository : IUserPetsRepository
                 FROM user_pets up
                 LEFT JOIN Pets p ON p.id = up.pet_id
                 LEFT JOIN fact_pets fp ON fp.user_id = up.user_id AND fp.user_pet_id = up.pet_id
-                WHERE up.user_id = @userId AND p.type = @type
+                WHERE up.user_id = @userId AND p.type = @type AND (@rare = 'All' or p.rare = @rare)
                 ORDER BY p.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name
                 LIMIT @limit OFFSET @offset;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -336,7 +337,7 @@ public class UserPetsRepository : IUserPetsRepository
         }
         return result;
     }
-    public int GetUserPetsCount(string user_id, string type)
+    public int GetUserPetsCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -346,10 +347,12 @@ public class UserPetsRepository : IUserPetsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Pets p, user_pets up where p.id=up.pet_id and up.user_id=@userId and p.type= @type";
+                string query = @"Select count(*) from Pets p, user_pets up 
+                where p.id=up.pet_id and up.user_id=@userId and p.type= @type AND (@rare = 'All' or p.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

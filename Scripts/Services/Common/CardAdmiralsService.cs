@@ -19,16 +19,16 @@ public class CardAdmiralsService : ICardAdmiralsService
         return _cardAdmiralsRepository.GetUniqueCardAdmiralsTypes();
     }
 
-    public List<CardAdmirals> GetCardAdmirals(string type, int pageSize, int offset)
+    public List<CardAdmirals> GetCardAdmirals(string type, int pageSize, int offset, string rare)
     {
-        List<CardAdmirals> list = _cardAdmiralsRepository.GetCardAdmirals(type, pageSize, offset);
+        List<CardAdmirals> list = _cardAdmiralsRepository.GetCardAdmirals(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardAdmiralsCount(string type)
+    public int GetCardAdmiralsCount(string type, string rare)
     {
-        return _cardAdmiralsRepository.GetCardAdmiralsCount(type);
+        return _cardAdmiralsRepository.GetCardAdmiralsCount(type, rare);
     }
 
     public List<CardAdmirals> GetCardAdmiralsRandom(string type, int pageSize)

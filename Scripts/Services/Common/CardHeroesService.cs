@@ -19,16 +19,16 @@ public class CardHeroesService : ICardHeroesService
         return _cardHeroesRepository.GetUniqueCardHeroTypes();
     }
 
-    public List<CardHeroes> GetCardHeroes(string type, int pageSize, int offset)
+    public List<CardHeroes> GetCardHeroes(string type, int pageSize, int offset, string rare)
     {
-        List<CardHeroes> list = _cardHeroesRepository.GetCardHeroes(type, pageSize, offset);
+        List<CardHeroes> list = _cardHeroesRepository.GetCardHeroes(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardHeroesCount(string type)
+    public int GetCardHeroesCount(string type, string rare)
     {
-        return _cardHeroesRepository.GetCardHeroesCount(type);
+        return _cardHeroesRepository.GetCardHeroesCount(type, rare);
     }
 
     public List<CardHeroes> GetCardHeroesRandom(string type, int pageSize)

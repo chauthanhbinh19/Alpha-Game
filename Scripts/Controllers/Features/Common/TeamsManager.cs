@@ -47,6 +47,7 @@ public class TeamsManager : MonoBehaviour
     UserCardMilitaryService userCardMilitaryService;
     UserCardSpellService userCardSpellService;
     TeamsService teamsService;
+    private string rare;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -82,6 +83,7 @@ public class TeamsManager : MonoBehaviour
         userCardMilitaryService = UserCardMilitaryService.Create();
         userCardSpellService = UserCardSpellService.Create();
         teamsService = TeamsService.Create();
+        rare = "All";
     }
     public void CreateTeams()
     {
@@ -275,7 +277,7 @@ public class TeamsManager : MonoBehaviour
         User user = new User();
         user = UserService.Create().GetUserById(User.CurrentUserId);
         CardHeroes cardHeroes = new CardHeroes();
-        List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, "Adamas", team_limit, team_offset);
+        List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, "Adamas", team_limit, team_offset, rare);
         // Gọi script quản lý cuộn
         // ScrollManager scrollManager = teamsObject.AddComponent<ScrollManager>();
         // scrollManager.Initialize(scrollRect, arrowUp, arrowDown);
@@ -296,7 +298,7 @@ public class TeamsManager : MonoBehaviour
         CreatePosition(positionPanel, user.level, teamsObject);
         createCardTeams(cardObjects, choseTeam);
         selectedOptionName = dropdownType.options[dropdownType.value].text;
-        int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName);
+        int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName, rare);
         totalPage = CalculateTotalPages(totalRecord, team_limit);
         pageText.text = page.ToString() + "/" + totalPage.ToString();
 
@@ -347,66 +349,66 @@ public class TeamsManager : MonoBehaviour
 
         if (type.Equals(AppConstants.CardHero))
         {
-            List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+            List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName);
+            int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         else if (type.Equals(AppConstants.CardCaptain))
         {
-            List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+            List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardCaptainsList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = userCardCaptainsService.GetUserCardCaptainsCount(User.CurrentUserId, selectedOptionName);
+            int totalRecord = userCardCaptainsService.GetUserCardCaptainsCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         else if (type.Equals(AppConstants.CardColonel))
         {
-            List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+            List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardColonelsList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = userCardColonelsService.GetUserCardColonelsCount(User.CurrentUserId, selectedOptionName);
+            int totalRecord = userCardColonelsService.GetUserCardColonelsCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         else if (type.Equals(AppConstants.CardGeneral))
         {
-            List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+            List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardGeneralsList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = userCardGeneralsService.GetUserCardGeneralsCount(User.CurrentUserId, selectedOptionName);
+            int totalRecord = userCardGeneralsService.GetUserCardGeneralsCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         else if (type.Equals(AppConstants.CardAdmiral))
         {
-            List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+            List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardAdmiralsList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = userCardAdmiralsService.GetUserCardAdmiralsCount(User.CurrentUserId, selectedOptionName);
+            int totalRecord = userCardAdmiralsService.GetUserCardAdmiralsCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         else if (type.Equals(AppConstants.CardMonster))
         {
-            List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+            List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardMonstersList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = userCardMonstersService.GetUserCardMonstersCount(User.CurrentUserId, selectedOptionName);
+            int totalRecord = userCardMonstersService.GetUserCardMonstersCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         else if (type.Equals(AppConstants.CardMilitary))
         {
-            List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+            List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardMilitaryList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = userCardMilitaryService.GetUserCardMilitaryCount(User.CurrentUserId, selectedOptionName);
+            int totalRecord = userCardMilitaryService.GetUserCardMilitaryCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         else if (type.Equals(AppConstants.CardSpell))
         {
-            List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+            List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardSpellList.Cast<object>().ToList();
             createCardTeams(cardObjects, panel);
-            int totalRecord = userCardSpellService.GetUserCardSpellCount(User.CurrentUserId, selectedOptionName);
+            int totalRecord = userCardSpellService.GetUserCardSpellCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
         onOffsetUpdated?.Invoke(team_offset);
@@ -435,42 +437,42 @@ public class TeamsManager : MonoBehaviour
         switch (type)
         {
             case AppConstants.CardHero:
-                List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+                List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
                 cardObjects = cardHeroesList.Cast<object>().ToList();
                 break;
 
             case AppConstants.CardCaptain:
-                List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+                List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
                 cardObjects = cardCaptainsList.Cast<object>().ToList();
                 break;
 
             case AppConstants.CardColonel:
-                List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+                List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
                 cardObjects = cardColonelsList.Cast<object>().ToList();
                 break;
 
             case AppConstants.CardGeneral:
-                List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+                List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
                 cardObjects = cardGeneralsList.Cast<object>().ToList();
                 break;
 
             case AppConstants.CardAdmiral:
-                List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+                List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
                 cardObjects = cardAdmiralsList.Cast<object>().ToList();
                 break;
 
             case AppConstants.CardMonster:
-                List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+                List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
                 cardObjects = cardMonstersList.Cast<object>().ToList();
                 break;
 
             case AppConstants.CardMilitary:
-                List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+                List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
                 cardObjects = cardMilitaryList.Cast<object>().ToList();
                 break;
 
             case AppConstants.CardSpell:
-                List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset);
+                List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
                 cardObjects = cardSpellList.Cast<object>().ToList();
                 break;
 

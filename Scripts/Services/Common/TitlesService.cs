@@ -14,16 +14,16 @@ public class TitlesService : ITitlesService
         return new TitlesService(new TitlesRepository());
     }
 
-    public List<Titles> GetTitles(int pageSize, int offset)
+    public List<Titles> GetTitles(int pageSize, int offset, string rare)
     {
-        List<Titles> list = _titlesRepository.GetTitles(pageSize, offset);
+        List<Titles> list = _titlesRepository.GetTitles(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTitlesCount()
+    public int GetTitlesCount(string rare)
     {
-        return _titlesRepository.GetTitlesCount();
+        return _titlesRepository.GetTitlesCount(rare);
     }
 
     public List<Titles> GetTitlesWithPrice(int pageSize, int offset)

@@ -14,16 +14,16 @@ public class CardMonstersGalleryService : ICardMonstersGalleryService
         return new CardMonstersGalleryService(new CardMonstersGalleryRepository());
     }
 
-    public List<CardMonsters> GetCardMonstersCollection(string type, int pageSize, int offset)
+    public List<CardMonsters> GetCardMonstersCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardMonsters> list = _cardMonstersGalleryRepository.GetCardMonstersCollection(type, pageSize, offset);
+        List<CardMonsters> list = _cardMonstersGalleryRepository.GetCardMonstersCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardMonstersCount(string type)
+    public int GetCardMonstersCount(string type, string rare)
     {
-        return _cardMonstersGalleryRepository.GetCardMonstersCount(type);
+        return _cardMonstersGalleryRepository.GetCardMonstersCount(type, rare);
     }
 
     public void InsertCardMonstersGallery(string Id)

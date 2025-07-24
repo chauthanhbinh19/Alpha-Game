@@ -24,13 +24,13 @@ public class MainMenuManager : MonoBehaviour
     private Button SummonButton;
     private Button Summon10Button;
     private GameObject equipmentsPrefab;
-    private Transform TabButtonPanel;
+    private Transform RightScrollViewContentPanel;
+    private Transform LeftScrollViewContentPanel;
     private GameObject buttonPrefab2;
 
     private GameObject SummonPanel;
     private Transform PositionPanel;
     private GameObject summonObject;
-    private Transform SummonAreaPanel;
     private Transform SummonMainMenuPanel;
     private Transform CurrencyPanel;
     //Variable for pagination
@@ -46,11 +46,14 @@ public class MainMenuManager : MonoBehaviour
     private Text titleText;
     private TextMeshProUGUI titleText2;
     private string buttonType;
+    private string type;
+    private string rare;
     void Start()
     {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
+        rare = AppConstants.All;
         mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
         mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
@@ -134,10 +137,7 @@ public class MainMenuManager : MonoBehaviour
     {
         mainType = type; // Gán giá trị cho mainType
         GetButtonType(); // Gọi hàm xử lý
-        if (titleText != null)
-        {
-            titleText.text = string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
-        }
+        titleText.text = LocalizationManager.Get(type);
     }
     public void GetButtonType()
     {
@@ -149,7 +149,7 @@ public class MainMenuManager : MonoBehaviour
             buttonType = "button2";
             summonObject = Instantiate(SummonPanel, MainPanel);
             DictionaryContentPanel = summonObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
-            TabButtonPanel = summonObject.transform.Find("Scroll View/Viewport/ButtonContent");
+            LeftScrollViewContentPanel = summonObject.transform.Find("Scroll View/Viewport/ButtonContent");
             PositionPanel = summonObject.transform.Find("DictionaryCards/Position");
 
             titleText = summonObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
@@ -160,7 +160,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(ClosePanel);
             HomeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
-            SummonAreaPanel = summonObject.transform.Find("SummonArea");
+            // SummonAreaPanel = summonObject.transform.Find("SummonArea");
             CurrencyPanel = summonObject.transform.Find("DictionaryCards/Currency");
 
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
@@ -339,7 +339,8 @@ public class MainMenuManager : MonoBehaviour
             buttonType = "button1";
             GameObject mainMenuObject = Instantiate(DictionaryPanel, MainPanel);
             DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
-            TabButtonPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
+            RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
+            LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
             PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<Text>();
             NextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
             PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
@@ -357,33 +358,66 @@ public class MainMenuManager : MonoBehaviour
             currencies = UserCurrencyService.Create().GetUserCurrency();
             FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
         }
+        List<string> uniqueRaries = QualityEvaluator.rarities;
+        if (uniqueRaries.Count > 0)
+        {
+            for (int i = 0; i < uniqueRaries.Count; i++)
+            {
+                string selectedRare = uniqueRaries[i];
+                GameObject button = Instantiate(buttonPrefab, RightScrollViewContentPanel);
+
+                Text buttonText = button.GetComponentInChildren<Text>();
+                buttonText.text = LocalizationManager.Get(selectedRare);
+
+                Button btn = button.GetComponent<Button>();
+                btn.onClick.AddListener(() => OnRareTabButtonClick(button, selectedRare));
+
+                if (i == 0)
+                {
+                    if (buttonType.Equals("button1"))
+                    {
+                        rare = selectedRare;
+                        ButtonLoader.Instance.ChangeButtonBackground(button, "Background_V4_84_2");
+                        LoadCurrentPage();
+                    }
+                }
+                else
+                {
+                    if (buttonType.Equals("button1"))
+                    {
+                        ButtonLoader.Instance.ChangeButtonBackground(button, "Background_V4_84_1");
+                    }
+                }
+            }
+        }
+
         List<string> uniqueTypes = TypeManager.GetUniqueTypes(mainType);
         if (uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.Equipment))
         {
             for (int i = 0; i < uniqueTypes.Count; i++)
             {
                 // Tạo một nút mới từ prefab
-                string subtype = uniqueTypes[i];
+                string subType = uniqueTypes[i];
                 GameObject button = null;
                 if (buttonType.Equals("button1"))
                 {
-                    button = Instantiate(buttonPrefab, TabButtonPanel);
+                    button = Instantiate(buttonPrefab, LeftScrollViewContentPanel);
                     Text buttonText = button.GetComponentInChildren<Text>();
-                    buttonText.text = subtype.Replace("_", " ");
+                    buttonText.text = subType.Replace("_", " ");
                 }
                 else if (buttonType.Equals("button2"))
                 {
-                    button = Instantiate(buttonPrefab2, TabButtonPanel);
+                    button = Instantiate(buttonPrefab2, LeftScrollViewContentPanel);
                     TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                    buttonText.text = subtype.Replace("_", " ");
+                    buttonText.text = subType.Replace("_", " ");
                 }
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, subtype));
+                btn.onClick.AddListener(() => OnButtonClick(button, subType));
 
                 if (i == 0)
                 {
-                    subType = subtype;
+                    type = subType;
                     if (buttonType.Equals("button1"))
                     {
                         ButtonLoader.Instance.ChangeButtonBackground(button, "Background_V4_166");
@@ -392,7 +426,7 @@ public class MainMenuManager : MonoBehaviour
                     {
                         ButtonLoader.Instance.ChangeButtonBackground(button, "Background_V4_211");
                     }
-                    LoadCurrentPage(subtype);
+                    LoadCurrentPage();
 
                 }
                 else
@@ -414,27 +448,27 @@ public class MainMenuManager : MonoBehaviour
             int listCount = 0;
             if (mainType.Equals(AppConstants.Collaboration))
             {
-                List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset);
+                List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
                 UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
                 listCount = collaborations.Count;
 
-                totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId);
+                totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.Medal))
             {
-                List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset);
+                List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
                 UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
                 listCount = medals.Count;
 
-                totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId);
+                totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.Title))
             {
-                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset);
+                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
                 listCount = titles.Count;
 
-                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId);
+                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
             }
 
             if (listCount > 0)
@@ -445,9 +479,9 @@ public class MainMenuManager : MonoBehaviour
         }
 
     }
-    void OnButtonClick(GameObject clickedButton, string type)
+    void OnButtonClick(GameObject clickedButton, string subType)
     {
-        foreach (Transform child in TabButtonPanel)
+        foreach (Transform child in LeftScrollViewContentPanel)
         {
             // Lấy component Button từ con cái
             Button button = child.GetComponent<Button>();
@@ -465,7 +499,7 @@ public class MainMenuManager : MonoBehaviour
             }
         }
 
-        subType = type;
+        type = subType;
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
@@ -477,44 +511,62 @@ public class MainMenuManager : MonoBehaviour
         {
             ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_211");
         }
-        LoadCurrentPage(type);
+        LoadCurrentPage();
     }
-    public void LoadCurrentPage(string type)
+    public void OnRareTabButtonClick(GameObject clickedButton, string selectedRare)
+    {
+        foreach (Transform child in RightScrollViewContentPanel)
+        {
+            Button button = child.GetComponent<Button>();
+            if (button != null)
+            {
+                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, "Background_V4_84_1");
+            }
+        }
+
+        rare = selectedRare;
+        currentPage = 1;
+        offset = 0;
+        ClearAllPrefabs();
+        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_84_2");
+        LoadCurrentPage();
+    }
+    public void LoadCurrentPage()
     {
         int totalRecord = 0;
         int listCount = 0;
 
         if (mainType.Equals(AppConstants.CardHero))
         {
-            List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, type, pageSize, offset);
+            List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardHeroesController.Instance.CreateUserCardHeroes(cardHeroes, DictionaryContentPanel);
             listCount = cardHeroes.Count;
 
-            totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, type);
+            totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.Book))
         {
-            List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, type, pageSize, offset);
+            List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, type, pageSize, offset, rare);
             UserBooksController.Instance.CreateUserBooks(books, DictionaryContentPanel);
             listCount = books.Count;
 
-            totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, type);
+            totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CardCaptain))
         {
-            List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, type, pageSize, offset);
+            List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardCaptainsController.Instance.CreateUserCardCaptains(cardCaptains, DictionaryContentPanel);
             listCount = cardCaptains.Count;
 
-            totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, type);
+            totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CollaborationEquipment))
         {
-            List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, type, pageSize, offset);
+            List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, type, pageSize, offset, rare);
             UserCollaborationEquipmentController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
             listCount = collaborationEquipments.Count;
 
-            totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, type);
+            totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, type, rare);
         }
         // else if (mainType.Equals("Equipments"))
         // {
@@ -526,91 +578,91 @@ public class MainMenuManager : MonoBehaviour
         // }
         else if (mainType.Equals(AppConstants.Pet))
         {
-            List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, type, pageSize, offset);
+            List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, type, pageSize, offset, rare);
             UserPetsController.Instance.CreateUserPets(pets, DictionaryContentPanel);
             listCount = pets.Count;
 
-            totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, type);
+            totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.Skill))
         {
-            List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, type, pageSize, offset);
+            List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, type, pageSize, offset, rare);
             UserSkillsController.Instance.CreateUserSkills(skills, DictionaryContentPanel);
             listCount = skills.Count;
 
-            totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, type);
+            totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.Symbol))
         {
-            List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, type, pageSize, offset);
+            List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, type, pageSize, offset, rare);
             UserSymbolsController.Instance.CreateUserSymbols(symbols, DictionaryContentPanel);
             listCount = symbols.Count;
 
-            totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, type);
+            totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CardMilitary))
         {
-            List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, type, pageSize, offset);
+            List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardMilitaryController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
             listCount = cardMilitaries.Count;
 
-            totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, type);
+            totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CardSpell))
         {
-            List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, type, pageSize, offset);
+            List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardSpellController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
             listCount = cardSpells.Count;
 
-            totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, type);
+            totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MagicFormationCircle))
         {
-            List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, type, pageSize, offset);
+            List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, type, pageSize, offset, rare);
             UserMagicFormationCircleController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
             listCount = magicFormationCircles.Count;
 
-            totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, type);
+            totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.Relic))
         {
-            List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, type, pageSize, offset);
+            List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, type, pageSize, offset, rare);
             UserRelicsController.Instance.CreateUserRelics(relics, DictionaryContentPanel);
             listCount = relics.Count;
 
-            totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, type);
+            totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CardMonster))
         {
-            List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, type, pageSize, offset);
+            List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardMonstersController.Instance.CreateUserCardMonsters(cardMonsters, DictionaryContentPanel);
             listCount = cardMonsters.Count;
 
-            totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, type);
+            totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CardColonel))
         {
-            List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, type, pageSize, offset);
+            List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardColonelsController.Instance.CreateUserCardColonels(cardColonels, DictionaryContentPanel);
             listCount = cardColonels.Count;
 
-            totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, type);
+            totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CardGeneral))
         {
-            List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, type, pageSize, offset);
+            List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardGeneralsController.Instance.CreateUserCardGenerals(cardGenerals, DictionaryContentPanel);
             listCount = cardGenerals.Count;
 
-            totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, type);
+            totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CardAdmiral))
         {
-            List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, type, pageSize, offset);
+            List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardAdmiralsController.Instance.CreateUserCardAdmirals(cardAdmirals, DictionaryContentPanel);
             listCount = cardAdmirals.Count;
 
-            totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, type);
+            totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.SummonCardHeroes))
         {
@@ -1058,51 +1110,51 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Talisman))
         {
-            List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, type, pageSize, offset);
+            List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, type, pageSize, offset, rare);
             UserTalismanController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
             listCount = talismans.Count;
 
-            totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, type);
+            totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.Puppet))
         {
-            List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, type, pageSize, offset);
+            List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, type, pageSize, offset, rare);
             UserPuppetController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
             listCount = puppets.Count;
 
-            totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, type);
+            totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.Alchemy))
         {
-            List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, type, pageSize, offset);
+            List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, type, pageSize, offset, rare);
             UserAlchemyController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
             listCount = alchemies.Count;
 
-            totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, type);
+            totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.Forge))
         {
-            List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, type, pageSize, offset);
+            List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, type, pageSize, offset, rare);
             UserForgeController.Instance.CreateUserForge(forges, DictionaryContentPanel);
             listCount = forges.Count;
 
-            totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, type);
+            totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.CardLife))
         {
-            List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, type, pageSize, offset);
+            List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, type, pageSize, offset, rare);
             UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             listCount = cardLives.Count;
 
-            totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, type);
+            totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.Artwork))
         {
-            List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, type, pageSize, offset);
+            List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, type, pageSize, offset, rare);
             UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             listCount = artworks.Count;
 
-            totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, type);
+            totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, type, rare);
         }
 
         if (listCount > 0)
@@ -1180,7 +1232,7 @@ public class MainMenuManager : MonoBehaviour
     public void ClearAllButton()
     {
         // Duyệt qua tất cả các con cái của cardsContent
-        foreach (Transform child in TabButtonPanel)
+        foreach (Transform child in LeftScrollViewContentPanel)
         {
             Destroy(child.gameObject);
         }
@@ -1199,218 +1251,218 @@ public class MainMenuManager : MonoBehaviour
 
             if (mainType.Equals(AppConstants.CardHero))
             {
-                totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, subType);
+                totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, subType, pageSize, offset);
+                List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardHeroesController.Instance.CreateUserCardHeroes(cardHeroes, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Book))
             {
-                totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, subType);
+                totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, subType, pageSize, offset);
+                List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserBooksController.Instance.CreateUserBooks(books, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardCaptain))
             {
-                totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, subType);
+                totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, subType, pageSize, offset);
+                List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardCaptainsController.Instance.CreateUserCardCaptains(cardCaptains, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CollaborationEquipment))
             {
-                totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, subType);
+                totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, subType, pageSize, offset);
+                List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCollaborationEquipmentController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Collaboration))
             {
-                totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId);
+                totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset);
+                List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
                 UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Medal))
             {
-                totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId);
+                totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset);
+                List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
                 UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardMonster))
             {
-                totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, subType);
+                totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, subType, pageSize, offset);
+                List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardMonstersController.Instance.CreateUserCardMonsters(cardMonsters, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Pet))
             {
-                totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, subType);
+                totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, subType, pageSize, offset);
+                List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserPetsController.Instance.CreateUserPets(pets, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Skill))
             {
-                totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, subType);
+                totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, subType, pageSize, offset);
+                List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSkillsController.Instance.CreateUserSkills(skills, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Symbol))
             {
-                totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, subType);
+                totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, subType, pageSize, offset);
+                List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSymbolsController.Instance.CreateUserSymbols(symbols, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Title))
             {
-                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId);
+                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset);
+                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardMilitary))
             {
-                totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, subType);
+                totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, subType, pageSize, offset);
+                List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardMilitaryController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardSpell))
             {
-                totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, subType);
+                totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, subType, pageSize, offset);
+                List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardSpellController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.MagicFormationCircle))
             {
-                totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, subType);
+                totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, subType, pageSize, offset);
+                List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserMagicFormationCircleController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Relic))
             {
-                totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, subType);
+                totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, subType, pageSize, offset);
+                List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserRelicsController.Instance.CreateUserRelics(relics, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Talisman))
             {
-                totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, subType);
+                totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, subType, pageSize, offset);
+                List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserTalismanController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Puppet))
             {
-                totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, subType);
+                totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, subType, pageSize, offset);
+                List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserPuppetController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Alchemy))
             {
-                totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, subType);
+                totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, subType, pageSize, offset);
+                List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserAlchemyController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Forge))
             {
-                totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, subType);
+                totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, subType, pageSize, offset);
+                List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserForgeController.Instance.CreateUserForge(forges, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardColonel))
             {
-                totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, subType);
+                totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, subType, pageSize, offset);
+                List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardColonelsController.Instance.CreateUserCardColonels(cardColonels, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardGeneral))
             {
-                totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, subType);
+                totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, subType, pageSize, offset);
+                List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardGeneralsController.Instance.CreateUserCardGenerals(cardGenerals, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardAdmiral))
             {
-                totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, subType);
+                totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, subType, pageSize, offset);
+                List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardAdmiralsController.Instance.CreateUserCardAdmirals(cardAdmirals, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardLife))
             {
-                totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, subType);
+                totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, subType, pageSize, offset);
+                List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Artwork))
             {
-                totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType);
+                totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset);
+                List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             }
 
@@ -1428,218 +1480,218 @@ public class MainMenuManager : MonoBehaviour
 
             if (mainType.Equals(AppConstants.CardHero))
             {
-                totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, subType);
+                totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, subType, pageSize, offset);
+                List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardHeroesController.Instance.CreateUserCardHeroes(cardHeroes, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Book))
             {
-                totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, subType);
+                totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, subType, pageSize, offset);
+                List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserBooksController.Instance.CreateUserBooks(books, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardCaptain))
             {
-                totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, subType);
+                totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, subType, pageSize, offset);
+                List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardCaptainsController.Instance.CreateUserCardCaptains(cardCaptains, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CollaborationEquipment))
             {
-                totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, subType);
+                totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, subType, pageSize, offset);
+                List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCollaborationEquipmentController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Collaboration))
             {
-                totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId);
+                totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset);
+                List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
                 UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Medal))
             {
-                totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId);
+                totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset);
+                List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
                 UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardMonster))
             {
-                totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, subType);
+                totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, subType, pageSize, offset);
+                List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardMonstersController.Instance.CreateUserCardMonsters(cardMonsters, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Pet))
             {
-                totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, subType);
+                totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, subType, pageSize, offset);
+                List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserPetsController.Instance.CreateUserPets(pets, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Skill))
             {
-                totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, subType);
+                totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, subType, pageSize, offset);
+                List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSkillsController.Instance.CreateUserSkills(skills, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Symbol))
             {
-                totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, subType);
+                totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, subType, pageSize, offset);
+                List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSymbolsController.Instance.CreateUserSymbols(symbols, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Title))
             {
-                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId);
+                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset);
+                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardMilitary))
             {
-                totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, subType);
+                totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, subType, pageSize, offset);
+                List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardMilitaryController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardSpell))
             {
-                totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, subType);
+                totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, subType, pageSize, offset);
+                List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardSpellController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.MagicFormationCircle))
             {
-                totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, subType);
+                totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, subType, pageSize, offset);
+                List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserMagicFormationCircleController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Relic))
             {
-                totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, subType);
+                totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, subType, pageSize, offset);
+                List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserRelicsController.Instance.CreateUserRelics(relics, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Talisman))
             {
-                totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, subType);
+                totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, subType, pageSize, offset);
+                List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserTalismanController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Puppet))
             {
-                totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, subType);
+                totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, subType, pageSize, offset);
+                List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserPuppetController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Alchemy))
             {
-                totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, subType);
+                totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, subType, pageSize, offset);
+                List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserAlchemyController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Forge))
             {
-                totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, subType);
+                totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, subType, pageSize, offset);
+                List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserForgeController.Instance.CreateUserForge(forges, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardColonel))
             {
-                totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, subType);
+                totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, subType, pageSize, offset);
+                List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardColonelsController.Instance.CreateUserCardColonels(cardColonels, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardGeneral))
             {
-                totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, subType);
+                totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, subType, pageSize, offset);
+                List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardGeneralsController.Instance.CreateUserCardGenerals(cardGenerals, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardAdmiral))
             {
-                totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, subType);
+                totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, subType, pageSize, offset);
+                List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardAdmiralsController.Instance.CreateUserCardAdmirals(cardAdmirals, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.CardLife))
             {
-                totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, subType);
+                totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, subType, pageSize, offset);
+                List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             }
             else if (mainType.Equals(AppConstants.Artwork))
             {
-                totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType);
+                totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset);
+                List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             }
 

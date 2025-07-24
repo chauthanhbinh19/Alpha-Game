@@ -24,7 +24,7 @@ public class MedalsRepository : IMedalsRepository
         }
         return typeList;
     }
-    public List<Medals> GetMedals(int pageSize, int offset)
+    public List<Medals> GetMedals(int pageSize, int offset, string rare)
     {
         List<Medals> medalsList = new List<Medals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -33,9 +33,10 @@ public class MedalsRepository : IMedalsRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from Medals 
+                string query = @"Select * from Medals WHERE (@rare = 'All' or rare = @rare)
                 ORDER BY Medals.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Medals.name, '[0-9]+$') AS UNSIGNED), Medals.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -123,7 +124,7 @@ public class MedalsRepository : IMedalsRepository
         }
         return medalsList;
     }
-    public int GetMedalsCount(){
+    public int GetMedalsCount(string rare){
         int count =0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -131,8 +132,9 @@ public class MedalsRepository : IMedalsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Medals";
+                string query = "Select count(*) from Medals WHERE (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

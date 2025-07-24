@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 public class UserBooksRepository : IUserBooksRepository
 {
-    public List<Books> GetUserBooks(string user_id, string type, int pageSize, int offset)
+    public List<Books> GetUserBooks(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<Books> bookslist = new List<Books>();
         // string user_id = User.CurrentUserId;
@@ -20,12 +20,13 @@ public class UserBooksRepository : IUserBooksRepository
                 FROM user_books ub
                 LEFT JOIN books b ON ub.book_id = b.id 
                 LEFT JOIN fact_books fb ON fb.user_id = ub.user_id AND fb.user_book_id = ub.book_id
-                WHERE ub.user_id = @userId AND b.type = @type
+                WHERE ub.user_id = @userId AND b.type = @type AND (@rare = 'All' or b.rare = @rare)
                 ORDER BY b.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(b.name, '[0-9]+$') AS UNSIGNED), b.name
                 LIMIT @limit OFFSET @offset;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -344,7 +345,7 @@ public class UserBooksRepository : IUserBooksRepository
         }
         return result;
     }
-    public int GetUserBooksCount(string user_id, string type)
+    public int GetUserBooksCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -354,10 +355,12 @@ public class UserBooksRepository : IUserBooksRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from books b, user_books ub where b.id=ub.book_id and ub.user_id=@userId and type= @type";
+                string query = @"Select count(*) from books b, user_books ub 
+                where b.id=ub.book_id and ub.user_id=@userId and type= @type AND (@rare = 'All' or b.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

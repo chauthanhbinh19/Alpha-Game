@@ -14,16 +14,16 @@ public class MedalsService : IMedalsService
         return new MedalsService(new MedalsRepository());
     }
 
-    public List<Medals> GetMedals(int pageSize, int offset)
+    public List<Medals> GetMedals(int pageSize, int offset, string rare)
     {
-        List<Medals> list = _medalsRepository.GetMedals(pageSize, offset);
+        List<Medals> list = _medalsRepository.GetMedals(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMedalsCount()
+    public int GetMedalsCount(string rare)
     {
-        return _medalsRepository.GetMedalsCount();
+        return _medalsRepository.GetMedalsCount(rare);
     }
 
     public List<Medals> GetMedalsWithPrice(int pageSize, int offset)

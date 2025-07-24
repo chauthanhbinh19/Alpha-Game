@@ -24,7 +24,7 @@ public class TitlesRepository : ITitlesRepository
         }
         return typeList;
     }
-    public List<Titles> GetTitles(int pageSize, int offset)
+    public List<Titles> GetTitles(int pageSize, int offset, string rare)
     {
         List<Titles> titlesList = new List<Titles>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -33,9 +33,10 @@ public class TitlesRepository : ITitlesRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from Titles 
+                string query = @"Select * from Titles WHERE (@rare = 'All' or rare = @rare)
                 ORDER BY Titles.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Titles.name, '[0-9]+$') AS UNSIGNED), Titles.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -123,7 +124,7 @@ public class TitlesRepository : ITitlesRepository
         }
         return titlesList;
     }
-    public int GetTitlesCount()
+    public int GetTitlesCount(string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -132,8 +133,9 @@ public class TitlesRepository : ITitlesRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Titles";
+                string query = "Select count(*) from Titles WHERE (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

@@ -83,6 +83,17 @@
   { "key": "ultra_rare_market", "value": "Ultra Rare Market" },
   { "key": "legendary_market", "value": "Legendary Market" },
   { "key": "mystic_market", "value": "Mystic Market" },
+  
+  { "key": "All", "value": "All" },
+  { "key": "SR", "value": "SR" },
+  { "key": "SSR", "value": "SSR" },
+  { "key": "UR", "value": "UR" },
+  { "key": "LG", "value": "LG" },
+  { "key": "LGPlus", "value": "LG+" },
+  { "key": "MR", "value": "MR" },
+  { "key": "SLG", "value": "SLG" },
+  { "key": "SLGPlus", "value": "SLG+" },
+  { "key": "SP", "value": "SP" },
 
   { "key": "card_heroes_gallery", "value": "Card Heroes Gallery" },
   { "key": "books_gallery", "value": "Books Gallery" },

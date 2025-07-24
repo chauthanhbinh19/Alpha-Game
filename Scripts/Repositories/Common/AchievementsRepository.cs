@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class AchievementsRepository : IAchievementsRepository
 {
-    public List<Achievements> GetAchievement(int pageSize, int offset)
+    public List<Achievements> GetAchievement(int pageSize, int offset, string rare)
     {
         List<Achievements> achievementList = new List<Achievements>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -16,8 +16,9 @@ public class AchievementsRepository : IAchievementsRepository
             try
             {
                 connection.Open();
-                string query = "Select * from achievements limit @limit offset @offset";
+                string query = "Select * from achievements where (@rare = 'All' or rare = @rare) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -105,7 +106,7 @@ public class AchievementsRepository : IAchievementsRepository
         }
         return achievementList;
     }
-    public int GetAchievementCount()
+    public int GetAchievementCount(string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -114,8 +115,9 @@ public class AchievementsRepository : IAchievementsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from achievements";
+                string query = "Select count(*) from achievements where (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

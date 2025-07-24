@@ -14,16 +14,16 @@ public class ArtworkGalleryService : IArtworkGalleryService
         return new ArtworkGalleryService(new ArtworkGalleryRepository());
     }
 
-    public List<Artwork> GetArtworkCollection(string type, int pageSize, int offset)
+    public List<Artwork> GetArtworkCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Artwork> list = _ArtworkGalleryRepository.GetArtworkCollection(type, pageSize, offset);
+        List<Artwork> list = _ArtworkGalleryRepository.GetArtworkCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetArtworkCount(string type)
+    public int GetArtworkCount(string type, string rare)
     {
-        return _ArtworkGalleryRepository.GetArtworkCount(type);
+        return _ArtworkGalleryRepository.GetArtworkCount(type, rare);
     }
 
     public void InsertArtworkGallery(string Id)

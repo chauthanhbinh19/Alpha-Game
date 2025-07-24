@@ -42,7 +42,7 @@ public class MagicFormationCircleRepository : IMagicFormationCircleRepository
         }
         return typeList;
     }
-    public List<MagicFormationCircle> GetMagicFormationCircle(string type, int pageSize, int offset)
+    public List<MagicFormationCircle> GetMagicFormationCircle(string type, int pageSize, int offset, string rare)
     {
         List<MagicFormationCircle> magicFormationCircles = new List<MagicFormationCircle>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -51,10 +51,11 @@ public class MagicFormationCircleRepository : IMagicFormationCircleRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from magic_formation_circle where type =@type 
+                string query = @"Select * from magic_formation_circle where type =@type AND (@rare = 'All' or rare = @rare)
                 ORDER BY magic_formation_circle.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(magic_formation_circle.name, '[0-9]+$') AS UNSIGNED), magic_formation_circle.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -142,7 +143,7 @@ public class MagicFormationCircleRepository : IMagicFormationCircleRepository
         }
         return magicFormationCircles;
     }
-    public int GetMagicFormationCircleCount(string type)
+    public int GetMagicFormationCircleCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -151,9 +152,10 @@ public class MagicFormationCircleRepository : IMagicFormationCircleRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from magic_formation_circle where type =@type";
+                string query = "Select count(*) from magic_formation_circle where type =@type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

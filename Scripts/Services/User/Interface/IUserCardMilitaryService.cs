@@ -8,11 +8,11 @@ public interface IUserCardMilitaryService
     List<CardMilitary> GetAllAnimeStatsPower(string user_id, List<CardMilitary> CardMilitaryList);
     CardMilitary GetNewLevelPower(CardMilitary c, double coefficient);
     CardMilitary GetNewBreakthroughPower(CardMilitary c, double coefficient);
-    List<CardMilitary> GetUserCardMilitary(string user_id, string type, int pageSize, int offset);
+    List<CardMilitary> GetUserCardMilitary(string user_id, string type, int pageSize, int offset, string rare);
     List<CardMilitary> GetUserCardMilitaryTeam(string user_id, string teamId, string position);
     Dictionary<string, int> GetUniqueCardMilitaryTypesTeam(string teamId);
     bool UpdateTeamFactCardMilitary(string team_id, string position, string card_id);
-    int GetUserCardMilitaryCount(string user_id, string type);
+    int GetUserCardMilitaryCount(string user_id, string type, string rare);
     int GetUserCardMilitaryTeamsPositionCount(string user_id, string team_id, string position);
     bool InsertUserCardMilitary(CardMilitary CardMilitary);
     bool UpdateCardMilitaryLevel(CardMilitary cardMilitary, int cardLevel);

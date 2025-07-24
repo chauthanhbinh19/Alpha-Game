@@ -4,8 +4,8 @@ public interface IBooksService
 {
     List<string> GetUniqueBookTypes();
     List<string> GetUniqueBookId();
-    List<Books> GetBooks(string type, int pageSize, int offset);
-    int GetBooksCount(string type);
+    List<Books> GetBooks(string type, int pageSize, int offset, string rare);
+    int GetBooksCount(string type, string rare);
     List<Books> GetBooksRandom(string type, int pageSize);
     List<Books> GetAllBooks(string type);
     Books GetBooksById(string Id);

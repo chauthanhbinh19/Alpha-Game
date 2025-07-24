@@ -19,16 +19,16 @@ public class CardSpellService : ICardSpellService
         return _cardSpellRepository.GetUniqueCardSpellTypes();
     }
 
-    public List<CardSpell> GetCardSpell(string type, int pageSize, int offset)
+    public List<CardSpell> GetCardSpell(string type, int pageSize, int offset, string rare)
     {
-        List<CardSpell> list = _cardSpellRepository.GetCardSpell(type, pageSize, offset);
+        List<CardSpell> list = _cardSpellRepository.GetCardSpell(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardSpellCount(string type)
+    public int GetCardSpellCount(string type, string rare)
     {
-        return _cardSpellRepository.GetCardSpellCount(type);
+        return _cardSpellRepository.GetCardSpellCount(type, rare);
     }
 
     public List<CardSpell> GetCardSpellRandom(string type, int pageSize)

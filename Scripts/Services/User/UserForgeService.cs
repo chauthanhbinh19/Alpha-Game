@@ -181,16 +181,16 @@ public class UserForgeService : IUserForgeService
         return Forge;
     }
 
-    public List<Forge> GetUserForge(string user_id, string type, int pageSize, int offset)
+    public List<Forge> GetUserForge(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Forge> list = _userForgeRepository.GetUserForge(user_id, type, pageSize, offset);
+        List<Forge> list = _userForgeRepository.GetUserForge(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserForgeCount(string user_id, string type)
+    public int GetUserForgeCount(string user_id, string type, string rare)
     {
-        return _userForgeRepository.GetUserForgeCount(user_id, type);
+        return _userForgeRepository.GetUserForgeCount(user_id, type, rare);
     }
 
     public bool InsertUserForge(Forge forge)

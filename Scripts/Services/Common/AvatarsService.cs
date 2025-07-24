@@ -14,16 +14,16 @@ public class AvatarsService : IAvatarsService
         return new AvatarsService(new AvatarsRepository());
     }
 
-    public List<Avatars> GetAvatars(int pageSize, int offset)
+    public List<Avatars> GetAvatars(int pageSize, int offset, string rare)
     {
-        List<Avatars> list = _avatarsRepository.GetAvatars(pageSize, offset);
+        List<Avatars> list = _avatarsRepository.GetAvatars(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetAvatarsCount()
+    public int GetAvatarsCount(string rare)
     {
-        return _avatarsRepository.GetAvatarsCount();
+        return _avatarsRepository.GetAvatarsCount(rare);
     }
 
     public List<Avatars> GetAvatarsWithPrice(int pageSize, int offset)

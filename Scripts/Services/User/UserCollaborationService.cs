@@ -181,16 +181,16 @@ public class UserCollaborationService : IUserCollaborationService
         return collaboration;
     }
 
-    public List<Collaboration> GetUserCollaboration(string user_id, int pageSize, int offset)
+    public List<Collaboration> GetUserCollaboration(string user_id, int pageSize, int offset, string rare)
     {
-        List<Collaboration> list = _userCollaborationRepository.GetUserCollaboration(user_id, pageSize, offset);
+        List<Collaboration> list = _userCollaborationRepository.GetUserCollaboration(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserCollaborationCount(string user_id)
+    public int GetUserCollaborationCount(string user_id, string rare)
     {
-        return _userCollaborationRepository.GetUserCollaborationCount(user_id);
+        return _userCollaborationRepository.GetUserCollaborationCount(user_id, rare);
     }
 
     public bool InsertUserCollaborations(Collaboration collaboration)

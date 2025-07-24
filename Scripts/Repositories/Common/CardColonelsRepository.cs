@@ -43,7 +43,7 @@ public class CardColonelsRepository : ICardColonelsRepository
         }
         return typeList;
     }
-    public int GetCardColonelsCount(string type)
+    public int GetCardColonelsCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -52,9 +52,10 @@ public class CardColonelsRepository : ICardColonelsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_colonels where type= @type";
+                string query = "Select count(*) from card_colonels where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;
@@ -66,7 +67,7 @@ public class CardColonelsRepository : ICardColonelsRepository
         }
         return count;
     }
-    public List<CardColonels> GetCardColonels(string type, int pageSize, int offset)
+    public List<CardColonels> GetCardColonels(string type, int pageSize, int offset, string rare)
     {
         List<CardColonels> CardColonelsList = new List<CardColonels>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -75,10 +76,11 @@ public class CardColonelsRepository : ICardColonelsRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from card_colonels where type= @type 
+                string query = @"Select * from card_colonels where type= @type AND (@rare = 'All' or rare = @rare)
                 ORDER BY card_colonels.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(card_colonels.name, '[0-9]+$') AS UNSIGNED), card_colonels.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();

@@ -14,16 +14,16 @@ public class CardLifeGalleryService : ICardLifeGalleryService
         return new CardLifeGalleryService(new CardLifeGalleryRepository());
     }
 
-    public List<CardLife> GetCardLifeCollection(string type, int pageSize, int offset)
+    public List<CardLife> GetCardLifeCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardLife> list = _cardLifeGalleryRepository.GetCardLifeCollection(type, pageSize, offset);
+        List<CardLife> list = _cardLifeGalleryRepository.GetCardLifeCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardLifeCount(string type)
+    public int GetCardLifeCount(string type, string rare)
     {
-        return _cardLifeGalleryRepository.GetCardLifeCount(type);
+        return _cardLifeGalleryRepository.GetCardLifeCount(type, rare);
     }
 
     public void InsertCardLifeGallery(string Id)

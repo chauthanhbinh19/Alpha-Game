@@ -14,16 +14,16 @@ public class MedalsGalleryService : IMedalsGalleryService
         return new MedalsGalleryService(new MedalsGalleryRepository());
     }
 
-    public List<Medals> GetMedalsCollection(int pageSize, int offset)
+    public List<Medals> GetMedalsCollection(int pageSize, int offset, string rare)
     {
-        List<Medals> list = _medalsGalleryRepository.GetMedalsCollection(pageSize, offset);
+        List<Medals> list = _medalsGalleryRepository.GetMedalsCollection(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMedalsCount()
+    public int GetMedalsCount(string rare)
     {
-        return _medalsGalleryRepository.GetMedalsCount();
+        return _medalsGalleryRepository.GetMedalsCount(rare);
     }
 
     public void InsertMedalsGallery(string Id)

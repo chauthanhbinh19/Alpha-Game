@@ -14,16 +14,16 @@ public class BordersGalleryService : IBordersGalleryService
         return new BordersGalleryService(new BordersGalleryRepository());
     }
 
-    public List<Borders> GetBordersCollection(int pageSize, int offset)
+    public List<Borders> GetBordersCollection(int pageSize, int offset, string rare)
     {
-        List<Borders> list = _bordersGalleryRepository.GetBordersCollection(pageSize, offset);
+        List<Borders> list = _bordersGalleryRepository.GetBordersCollection(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBordersCount()
+    public int GetBordersCount(string rare)
     {
-        return _bordersGalleryRepository.GetBordersCount();
+        return _bordersGalleryRepository.GetBordersCount(rare);
     }
 
     public void InsertBordersGallery(string Id)

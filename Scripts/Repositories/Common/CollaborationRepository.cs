@@ -24,7 +24,7 @@ public class CollaborationRepository : ICollaborationRepository
         }
         return typeList;
     }
-    public List<Collaboration> GetCollaboration(int pageSize, int offset)
+    public List<Collaboration> GetCollaboration(int pageSize, int offset, string rare)
     {
         List<Collaboration> collaborationList = new List<Collaboration>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -33,9 +33,10 @@ public class CollaborationRepository : ICollaborationRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from Collaborations 
+                string query = @"Select * from Collaborations where (@rare = 'All' or rare = @rare)
                 ORDER BY Collaborations.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Collaborations.name, '[0-9]+$') AS UNSIGNED), Collaborations.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -123,7 +124,7 @@ public class CollaborationRepository : ICollaborationRepository
         }
         return collaborationList;
     }
-    public int GetCollaborationCount(){
+    public int GetCollaborationCount(string rare){
         int count =0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -131,8 +132,9 @@ public class CollaborationRepository : ICollaborationRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Collaborations";
+                string query = "Select count(*) from Collaborations WHERE (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

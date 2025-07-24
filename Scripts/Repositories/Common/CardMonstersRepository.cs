@@ -42,7 +42,7 @@ public class CardMonstersRepository : ICardMonstersRepository
         }
         return typeList;
     }
-    public List<CardMonsters> GetCardMonsters(string type, int pageSize, int offset)
+    public List<CardMonsters> GetCardMonsters(string type, int pageSize, int offset, string rare)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -51,10 +51,11 @@ public class CardMonstersRepository : ICardMonstersRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from card_monsters where type= @type 
+                string query = @"Select * from card_monsters where type= @type AND (@rare = 'All' or rare = @rare)
                 ORDER BY card_monsters.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(card_monsters.name, '[0-9]+$') AS UNSIGNED), card_monsters.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -133,7 +134,7 @@ public class CardMonstersRepository : ICardMonstersRepository
         }
         return CardMonstersList;
     }
-    public int GetCardMonstersCount(string type){
+    public int GetCardMonstersCount(string type, string rare){
         int count =0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -141,9 +142,10 @@ public class CardMonstersRepository : ICardMonstersRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_monsters where type= @type";
+                string query = "Select count(*) from card_monsters where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

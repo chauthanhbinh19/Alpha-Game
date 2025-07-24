@@ -5,8 +5,8 @@ public interface IUserEquipmentsService
     List<Equipments> GetAllRankPower(string user_id, List<Equipments> EquipmentsList);
     Equipments GetNewLevelPower(Equipments c, double coefficient);
     Equipments GetNewBreakthroughPower(Equipments c, double coefficient);
-    List<Equipments> GetUserEquipments(string user_id, string type, int pageSize, int offset);
-    int GetUserEquipmentsCount(string user_id, string type);
+    List<Equipments> GetUserEquipments(string user_id, string type, int pageSize, int offset, string rare);
+    int GetUserEquipmentsCount(string user_id, string type, string rare);
     Equipments GetUserEquipmentsById(string user_id, string Id);
     bool BuyEquipment(string Id);
     bool UpdateEquipmentsLevel(Equipments equipments, int cardLevel);

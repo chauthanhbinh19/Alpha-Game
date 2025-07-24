@@ -19,16 +19,16 @@ public class ArtworkService : IArtworkService
         return _ArtworkRepository.GetUniqueArtworkTypes();
     }
 
-    public List<Artwork> GetArtwork(string type, int pageSize, int offset)
+    public List<Artwork> GetArtwork(string type, int pageSize, int offset, string rare)
     {
-        List<Artwork> list = _ArtworkRepository.GetArtwork(type, pageSize, offset);
+        List<Artwork> list = _ArtworkRepository.GetArtwork(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetArtworkCount(string type)
+    public int GetArtworkCount(string type, string rare)
     {
-        return _ArtworkRepository.GetArtworkCount(type);
+        return _ArtworkRepository.GetArtworkCount(type, rare);
     }
 
     public List<Artwork> GetArtworkWithPrice(string type, int pageSize, int offset)

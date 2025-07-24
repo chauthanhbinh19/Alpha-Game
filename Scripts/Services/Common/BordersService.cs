@@ -14,16 +14,16 @@ public class BordersService : IBordersService
         return new BordersService(new BordersRepository());
     }
 
-    public List<Borders> GetBorders(int pageSize, int offset)
+    public List<Borders> GetBorders(int pageSize, int offset, string rare)
     {
-        List<Borders> list = _bordersRepository.GetBorders(pageSize, offset);
+        List<Borders> list = _bordersRepository.GetBorders(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBordersCount()
+    public int GetBordersCount(string rare)
     {
-        return _bordersRepository.GetBordersCount();
+        return _bordersRepository.GetBordersCount(rare);
     }
 
     public List<Borders> GetBordersWithPrice(int pageSize, int offset)

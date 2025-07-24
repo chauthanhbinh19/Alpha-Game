@@ -20,16 +20,16 @@ public class AchievementsService : IAchievementsService
     }
 
 
-    public List<Achievements> GetAchievement(int pageSize, int offset)
+    public List<Achievements> GetAchievement(int pageSize, int offset, string rare)
     {
-        List<Achievements> list = _achievementsRepository.GetAchievement(pageSize, offset);
+        List<Achievements> list = _achievementsRepository.GetAchievement(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetAchievementCount()
+    public int GetAchievementCount(string rare)
     {
-        return _achievementsRepository.GetAchievementCount();
+        return _achievementsRepository.GetAchievementCount(rare);
     }
 
     public Achievements GetAchievementsById(string Id)

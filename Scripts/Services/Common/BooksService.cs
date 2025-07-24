@@ -19,16 +19,16 @@ public class BooksService : IBooksService
         return _booksRepository.GetUniqueBookTypes();
     }
 
-    public List<Books> GetBooks(string type, int pageSize, int offset)
+    public List<Books> GetBooks(string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = _booksRepository.GetBooks(type, pageSize, offset);
+        List<Books> list = _booksRepository.GetBooks(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBooksCount(string type)
+    public int GetBooksCount(string type, string rare)
     {
-        return _booksRepository.GetBooksCount(type);
+        return _booksRepository.GetBooksCount(type, rare);
     }
 
     public List<Books> GetBooksRandom(string type, int pageSize)

@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 public class UserBordersRepository : IUserBordersRepository
 {
-    public List<Borders> GetUserBorders(string user_id, int pageSize, int offset)
+    public List<Borders> GetUserBorders(string user_id, int pageSize, int offset, string rare)
     {
         List<Borders> borders = new List<Borders>();
         // string user_id=User.CurrentUserId;
@@ -16,10 +16,12 @@ public class UserBordersRepository : IUserBordersRepository
             try
             {
                 connection.Open();
-                string query = @"Select um.*, m.id, m.name, m.image, m.rare, m.description from borders m, user_borders um where m.id=um.border_id and um.user_id=@userId 
+                string query = @"Select um.*, m.id, m.name, m.image, m.rare, m.description from borders m, user_borders um 
+                where m.id=um.border_id and um.user_id=@userId AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -107,7 +109,7 @@ public class UserBordersRepository : IUserBordersRepository
         }
         return borders;
     }
-    public int GetUserBordersCount(string user_id)
+    public int GetUserBordersCount(string user_id, string rare)
     {
         int count = 0;
         // string user_id=User.CurrentUserId;
@@ -117,9 +119,11 @@ public class UserBordersRepository : IUserBordersRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Medals m, user_medals um where m.id=um.medal_id and um.user_id=@userId";
+                string query = @"Select count(*) from Medals m, user_medals um 
+                where m.id=um.medal_id and um.user_id=@userId AND (@rare = 'All' or m.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 public interface IUserCardLifeRepository
 {
-    List<CardLife> GetUserCardLife(string user_id, string type, int pageSize, int offset);
-    int GetUserCardLifeCount(string user_id, string type);
+    List<CardLife> GetUserCardLife(string user_id, string type, int pageSize, int offset, string rare);
+    int GetUserCardLifeCount(string user_id, string type, string rare);
     bool InsertUserCardLife(CardLife CardLife);
     bool UpdateCardLifeLevel(CardLife CardLife, int cardLevel);
     bool UpdateCardLifeBreakthrough(CardLife CardLife, int star, int quantity);

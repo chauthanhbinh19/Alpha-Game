@@ -14,16 +14,16 @@ public class RelicsGalleryService : IRelicsGalleryService
         return new RelicsGalleryService(new RelicsGalleryRepository());
     }
 
-    public List<Relics> GetRelicsCollection(string type, int pageSize, int offset)
+    public List<Relics> GetRelicsCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = _relicsGalleryRepository.GetRelicsCollection(type, pageSize, offset);
+        List<Relics> list = _relicsGalleryRepository.GetRelicsCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRelicsCount(string type)
+    public int GetRelicsCount(string type, string rare)
     {
-        return _relicsGalleryRepository.GetRelicsCount(type);
+        return _relicsGalleryRepository.GetRelicsCount(type, rare);
     }
 
     public void InsertRelicsGallery(string Id)

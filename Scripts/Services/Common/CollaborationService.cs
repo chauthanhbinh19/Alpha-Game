@@ -14,16 +14,16 @@ public class CollaborationService : ICollaborationService
         return new CollaborationService(new CollaborationRepository());
     }
 
-    public List<Collaboration> GetCollaboration(int pageSize, int offset)
+    public List<Collaboration> GetCollaboration(int pageSize, int offset, string rare)
     {
-        List<Collaboration> list = _collaborationRepository.GetCollaboration(pageSize, offset);
+        List<Collaboration> list = _collaborationRepository.GetCollaboration(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCollaborationCount()
+    public int GetCollaborationCount(string rare)
     {
-        return _collaborationRepository.GetCollaborationCount();
+        return _collaborationRepository.GetCollaborationCount(rare);
     }
 
     public List<Collaboration> GetCollaborationWithPrice(int pageSize, int offset)

@@ -18,16 +18,16 @@ public class RelicsService : IRelicsService
         return _relicsRepository.GetUniqueRelicsTypes();
     }
 
-    public List<Relics> GetRelics(string type, int pageSize, int offset)
+    public List<Relics> GetRelics(string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = _relicsRepository.GetRelics(type, pageSize, offset);
+        List<Relics> list = _relicsRepository.GetRelics(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRelicsCount(string type)
+    public int GetRelicsCount(string type, string rare)
     {
-        return _relicsRepository.GetRelicsCount(type);
+        return _relicsRepository.GetRelicsCount(type, rare);
     }
 
     public List<Relics> GetRelicsWithPrice(string type, int pageSize, int offset)

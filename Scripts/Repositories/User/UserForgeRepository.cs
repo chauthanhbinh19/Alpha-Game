@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserForgeRepository : IUserForgeRepository
 {
-    public List<Forge> GetUserForge(string user_id, string type, int pageSize, int offset)
+    public List<Forge> GetUserForge(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<Forge> Forges = new List<Forge>();
         // string user_id = User.CurrentUserId;
@@ -17,11 +17,13 @@ public class UserForgeRepository : IUserForgeRepository
             try
             {
                 connection.Open();
-                string query = @"Select um.*, m.id, m.name, m.image, m.rare, m.description from forge m, user_forge um where m.id=um.forge_id and um.user_id=@userId and m.type=@type 
+                string query = @"Select um.*, m.id, m.name, m.image, m.rare, m.description from forge m, user_forge um 
+                where m.id=um.forge_id and um.user_id=@userId and m.type=@type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -113,7 +115,7 @@ public class UserForgeRepository : IUserForgeRepository
         }
         return Forges;
     }
-    public int GetUserForgeCount(string user_id, string type)
+    public int GetUserForgeCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -123,10 +125,12 @@ public class UserForgeRepository : IUserForgeRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from forge m, user_forge um where m.id=um.forge_id and um.user_id=@userId and m.type= @type";
+                string query = @"Select count(*) from forge m, user_forge um 
+                where m.id=um.forge_id and um.user_id=@userId and m.type= @type AND (@rare = 'All' or m.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

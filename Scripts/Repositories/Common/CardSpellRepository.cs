@@ -42,7 +42,7 @@ public class CardSpellRepository : ICardSpellRepository
         }
         return typeList;
     }
-    public List<CardSpell> GetCardSpell(string type, int pageSize, int offset)
+    public List<CardSpell> GetCardSpell(string type, int pageSize, int offset, string rare)
     {
         List<CardSpell> CardSpellList = new List<CardSpell>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -51,10 +51,11 @@ public class CardSpellRepository : ICardSpellRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from card_spell where type= @type 
+                string query = @"Select * from card_spell where type= @type AND (@rare = 'All' or rare = @rare)
                 ORDER BY card_spell.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(card_spell.name, '[0-9]+$') AS UNSIGNED), card_spell.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -133,7 +134,7 @@ public class CardSpellRepository : ICardSpellRepository
         }
         return CardSpellList;
     }
-    public int GetCardSpellCount(string type)
+    public int GetCardSpellCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -142,9 +143,10 @@ public class CardSpellRepository : ICardSpellRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_spell where type= @type";
+                string query = "Select count(*) from card_spell where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

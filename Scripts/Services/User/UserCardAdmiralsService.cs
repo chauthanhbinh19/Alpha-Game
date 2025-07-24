@@ -516,9 +516,9 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         return cardAdmirals;
     }
 
-    public List<CardAdmirals> GetUserCardAdmirals(string user_id, string type, int pageSize, int offset)
+    public List<CardAdmirals> GetUserCardAdmirals(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardAdmirals> list = _userCardAdmiralsRepository.GetUserCardAdmirals(user_id, type, pageSize, offset);
+        List<CardAdmirals> list = _userCardAdmiralsRepository.GetUserCardAdmirals(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -548,9 +548,9 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         return _userCardAdmiralsRepository.UpdateTeamFactCardAdmirals(team_id, position, card_id);
     }
 
-    public int GetUserCardAdmiralsCount(string user_id, string type)
+    public int GetUserCardAdmiralsCount(string user_id, string type, string rare)
     {
-        return _userCardAdmiralsRepository.GetUserCardAdmiralsCount(user_id, type);
+        return _userCardAdmiralsRepository.GetUserCardAdmiralsCount(user_id, type, rare);
     }
 
     public int GetUserCardAdmiralsTeamsPositionCount(string user_id, string team_id, string position)

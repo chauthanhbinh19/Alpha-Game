@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentRepository
 {
-    public List<CollaborationEquipment> GetUserCollaborationEquipments(string user_id, string type, int pageSize, int offset)
+    public List<CollaborationEquipment> GetUserCollaborationEquipments(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CollaborationEquipment> collaborationEquipmentList = new List<CollaborationEquipment>();
         // string user_id = User.CurrentUserId;
@@ -17,11 +17,13 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
             try
             {
                 connection.Open();
-                string query = @"Select uce.*, ce.image, ce.rare, ce.type, ce.name, ce.description from collaboration_equipments ce, user_collaboration_equipments uce where ce.id=uce.collaboration_equipment_id and uce.user_id=@userId and ce.type= @type 
+                string query = @"Select uce.*, ce.image, ce.rare, ce.type, ce.name, ce.description from collaboration_equipments ce, user_collaboration_equipments uce 
+                where ce.id=uce.collaboration_equipment_id and uce.user_id=@userId and ce.type= @type AND (@rare = 'All' or ce.rare = @rare)
                 ORDER BY ce.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(ce.name, '[0-9]+$') AS UNSIGNED), ce.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -104,7 +106,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
         }
         return collaborationEquipmentList;
     }
-    public int GetUserCollaborationEquipmentCount(string user_id, string type)
+    public int GetUserCollaborationEquipmentCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -114,10 +116,12 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
             try
             {
                 connection.Open();
-                string query = "Select count(*) from collaboration_equipments ce, user_collaboration_equipments uce where ce.id=uce.collaboration_equipment_id and uce.user_id=@userId and type= @type";
+                string query = @"Select count(*) from collaboration_equipments ce, user_collaboration_equipments uce 
+                where ce.id=uce.collaboration_equipment_id and uce.user_id=@userId and type= @type AND (@rare = 'All' or ce.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

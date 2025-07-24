@@ -4,8 +4,8 @@ public interface ICardColonelsService
 {
     List<string> GetUniqueCardColonelsTypes();
     List<string> GetUniqueCardColonelsId();
-    List<CardColonels> GetCardColonels(string type, int pageSize, int offset);
-    int GetCardColonelsCount(string type);
+    List<CardColonels> GetCardColonels(string type, int pageSize, int offset, string rare);
+    int GetCardColonelsCount(string type, string rare);
     List<CardColonels> GetCardColonelsRandom(string type, int pageSize);
     List<CardColonels> GetAllCardColonels(string type);
     CardColonels GetCardColonelsById(string Id);

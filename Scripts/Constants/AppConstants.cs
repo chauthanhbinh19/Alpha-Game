@@ -4,6 +4,17 @@ public static class AppConstants
     public const string Username = "username";
     public const string Password = "password";
 
+    public const string All = "All";
+    public const string SR = "SR";
+    public const string SSR = "SSR";
+    public const string UR = "UR";
+    public const string LG = "LG";
+    public const string LGPlus = "LG+";
+    public const string MR = "MR";
+    public const string SLG = "SLG";
+    public const string SLGPlus = "SLG+";
+    public const string SP = "SP";
+
     public const string Alchievement = "alchievement";
     public const string Alchievements = "alchievements";
     public const string CardHero = "card_hero";

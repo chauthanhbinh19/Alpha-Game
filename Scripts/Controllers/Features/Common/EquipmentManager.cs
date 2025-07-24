@@ -36,7 +36,7 @@ public class EquipmentManager : MonoBehaviour
     private int totalPage;
     private int pageSize;
     private int count = 1;
-
+    private string rare;
     private GameObject currentObject;
     // Start is called before the first frame update
     public void CreateEquipments(Transform EquipmentMenuPanel)
@@ -44,6 +44,7 @@ public class EquipmentManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
+        rare = AppConstants.All;
         equipmentMenuPanel = EquipmentMenuPanel.gameObject;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ItemsPrefab = UIManager.Instance.GetGameObject("ItemPrefab");
@@ -327,11 +328,11 @@ public class EquipmentManager : MonoBehaviour
         currentObject = Instantiate(MainMenuPanel, MainPanel);
         int totalRecord = 0;
         var userEquipmentsService = UserEquipmentsService.Create();
-        List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, type, pageSize, offset);
+        List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, type, pageSize, offset, rare);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel");
         createEquipmentsBag(equipments);
 
-        totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, type);
+        totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
@@ -371,7 +372,7 @@ public class EquipmentManager : MonoBehaviour
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel");
         createEquipmentsShop(equipments, type);
 
-        totalRecord = equipmentsService.GetEquipmentsCount(type);
+        totalRecord = equipmentsService.GetEquipmentsCount(type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
@@ -405,11 +406,11 @@ public class EquipmentManager : MonoBehaviour
         currentObject = Instantiate(MainMenuEnhancementPanel, MainPanel);
         int totalRecord = 0;
         var userEquipmentsService = UserEquipmentsService.Create();
-        List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, type, pageSize, offset);
+        List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, type, pageSize, offset, rare);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel");
         createEquipmentsEnhancement(equipments);
 
-        totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, type);
+        totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
@@ -489,17 +490,17 @@ public class EquipmentManager : MonoBehaviour
             if (status == 1)
             {
                 var userEquipmentsService = UserEquipmentsService.Create();
-                totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, subType);
+                totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset);
+                List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
                 createEquipmentsBag(equipments);
             }
             else if (status == 2)
             {
                 var equipmentsService = EquipmentsService.Create();
-                totalRecord = equipmentsService.GetEquipmentsCount(subType);
+                totalRecord = equipmentsService.GetEquipmentsCount(subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -509,11 +510,11 @@ public class EquipmentManager : MonoBehaviour
             else if (status == 3)
             {
                 var userEquipmentsService = UserEquipmentsService.Create();
-                totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, subType);
+                totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset);
+                List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
                 createEquipmentsEnhancement(equipments);
             }
 
@@ -531,17 +532,17 @@ public class EquipmentManager : MonoBehaviour
             if (status == 1)
             {
                 var userEquipmentsService = UserEquipmentsService.Create();
-                totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, subType);
+                totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset);
+                List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
                 createEquipmentsBag(equipments);
             }
             else if (status == 2)
             {
                 var equipmentsService = EquipmentsService.Create();
-                totalRecord = equipmentsService.GetEquipmentsCount(subType);
+                totalRecord = equipmentsService.GetEquipmentsCount(subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -551,11 +552,11 @@ public class EquipmentManager : MonoBehaviour
             else if (status == 3)
             {
                 var userEquipmentsService = UserEquipmentsService.Create();
-                totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, subType);
+                totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset);
+                List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
                 createEquipmentsShop(equipments, subType);
             }
 

@@ -25,7 +25,7 @@ public class AvatarsRepository : IAvatarsRepository
         }
         return typeList;
     }
-    public List<Avatars> GetAvatars(int pageSize, int offset)
+    public List<Avatars> GetAvatars(int pageSize, int offset, string rare)
     {
         List<Avatars> avatars = new List<Avatars>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -34,9 +34,10 @@ public class AvatarsRepository : IAvatarsRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from avatars 
+                string query = @"Select * from avatars where (@rare = 'All' or rare = @rare)
                 ORDER BY avatars.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(avatars.name, '[0-9]+$') AS UNSIGNED), avatars.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -124,7 +125,7 @@ public class AvatarsRepository : IAvatarsRepository
         }
         return avatars;
     }
-    public int GetAvatarsCount(){
+    public int GetAvatarsCount(string rare){
         int count =0;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -132,8 +133,9 @@ public class AvatarsRepository : IAvatarsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Avatars";
+                string query = "Select count(*) from Avatars where (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

@@ -181,16 +181,16 @@ public class UserMedalsService : IUserMedalsService
         return medals;
     }
 
-    public List<Medals> GetUserMedals(string user_id, int pageSize, int offset)
+    public List<Medals> GetUserMedals(string user_id, int pageSize, int offset, string rare)
     {
-        List<Medals> list = _userMedalsRepository.GetUserMedals(user_id, pageSize, offset);
+        List<Medals> list = _userMedalsRepository.GetUserMedals(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserMedalsCount(string user_id)
+    public int GetUserMedalsCount(string user_id, string rare)
     {
-        return _userMedalsRepository.GetUserMedalsCount(user_id);
+        return _userMedalsRepository.GetUserMedalsCount(user_id, rare);
     }
 
     public bool InsertUserMedals(Medals medals)

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserCardColonelsRepository : IUserCardColonelsRepository
 {
-    public List<CardColonels> GetUserCardColonels(string user_id, string type, int pageSize, int offset)
+    public List<CardColonels> GetUserCardColonels(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardColonels> CardColonelsList = new List<CardColonels>();
         // string user_id=User.CurrentUserId;
@@ -21,13 +21,14 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                 FROM user_card_colonels uc
                 LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
                 LEFT JOIN fact_card_colonels fcc ON fcc.user_id = uc.user_id AND fcc.user_card_colonel_id = uc.card_colonel_id
-                WHERE uc.user_id = @userId AND c.type = @type
+                WHERE uc.user_id = @userId AND c.type = @type AND (@rare = 'All' or c.rare = @rare)
                 ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
                 LIMIT @limit OFFSET @offset;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -345,7 +346,7 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
         }
         return result;
     }
-    public int GetUserCardColonelsCount(string user_id, string type)
+    public int GetUserCardColonelsCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id=User.CurrentUserId;
@@ -355,10 +356,12 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_colonels c, user_card_colonels uc where c.id=uc.card_colonel_id and uc.user_id=@userId and c.type= @type";
+                string query = @"Select count(*) from card_colonels c, user_card_colonels uc 
+                where c.id=uc.card_colonel_id and uc.user_id=@userId and c.type= @type and (@rare = 'All' or c.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

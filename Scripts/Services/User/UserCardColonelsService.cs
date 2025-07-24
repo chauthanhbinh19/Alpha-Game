@@ -518,9 +518,9 @@ public class UserCardColonelsService : IUseCardColonelsService
         return cardColonels;
     }
 
-    public List<CardColonels> GetUserCardColonels(string user_id, string type, int pageSize, int offset)
+    public List<CardColonels> GetUserCardColonels(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardColonels> list = _userCardColonelsRepository.GetUserCardColonels(user_id, type, pageSize, offset);
+        List<CardColonels> list = _userCardColonelsRepository.GetUserCardColonels(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -545,9 +545,9 @@ public class UserCardColonelsService : IUseCardColonelsService
         return _userCardColonelsRepository.GetUniqueCardColonelTypesTeam(teamId);
     }
 
-    public int GetUserCardColonelsCount(string user_id, string type)
+    public int GetUserCardColonelsCount(string user_id, string type, string rare)
     {
-        return _userCardColonelsRepository.GetUserCardColonelsCount(user_id, type);
+        return _userCardColonelsRepository.GetUserCardColonelsCount(user_id, type, rare);
     }
 
     public int GetUserCardColonelsTeamsPositionCount(string user_id, string team_id, string position)

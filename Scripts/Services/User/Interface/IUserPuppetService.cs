@@ -4,8 +4,8 @@ public interface IUserPuppetService
 {
     Puppet GetNewLevelPower(Puppet c, double coefficient);
     Puppet GetNewBreakthroughPower(Puppet c, double coefficient);
-    List<Puppet> GetUserPuppet(string user_id, string type, int pageSize, int offset);
-    int GetUserPuppetCount(string user_id, string type);
+    List<Puppet> GetUserPuppet(string user_id, string type, int pageSize, int offset, string rare);
+    int GetUserPuppetCount(string user_id, string type, string rare);
     bool InsertUserPuppet(Puppet Puppet);
     bool UpdatePuppetLevel(Puppet Puppet, int cardLevel);
     bool UpdatePuppetBreakthrough(Puppet Puppet, int star, int quantity);

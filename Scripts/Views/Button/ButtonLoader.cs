@@ -11,6 +11,7 @@ public class ButtonLoader : MonoBehaviour
     private Transform mainMenuCampaignPanel;
     private Transform summonPanel;
     private GameObject TabButton4;
+    private GameObject TabButton3;
     private GameObject ArenaButtonPrefab;
     private GameObject AnimeButtonPrefab;
     public Transform buttonGroupPanel1;
@@ -41,6 +42,7 @@ public class ButtonLoader : MonoBehaviour
         mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         summonPanel = UIManager.Instance.GetTransform("summonPanel");
         TabButton4 = UIManager.Instance.GetGameObject("TabButton4");
+        TabButton3 = UIManager.Instance.GetGameObject("TabButton3");
         ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
         AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
 
@@ -423,7 +425,7 @@ public class ButtonLoader : MonoBehaviour
             int setButtonNumber = 4;
             for (int i = 0; i < setButtonNumber; i++)
             {
-                int index = i; // <- tạo biến tạm
+                int index = i;
                 GameObject button = Instantiate(buttonPrefab, buttonPanel);
 
                 TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
@@ -435,11 +437,9 @@ public class ButtonLoader : MonoBehaviour
                     set = index + 1;
                     foreach (Transform child in buttonPanel)
                     {
-                        // Lấy component Button từ con cái
                         Button button = child.GetComponent<Button>();
                         if (button != null)
                         {
-                            // Gọi hàm ChangeButtonBackground với màu trắng
                             UIManager.Instance.ChangeButtonBackground(button.gameObject, "Background_V4_259"); // Giả sử bạn có texture trắng
                         }
                     }

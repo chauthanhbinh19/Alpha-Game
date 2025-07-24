@@ -19,16 +19,16 @@ public class CardMilitaryService : ICardMilitaryService
         return _cardMilitaryRepository.GetUniqueCardMilitaryTypes();
     }
 
-    public List<CardMilitary> GetCardMilitary(string type, int pageSize, int offset)
+    public List<CardMilitary> GetCardMilitary(string type, int pageSize, int offset, string rare)
     {
-        List<CardMilitary> list = _cardMilitaryRepository.GetCardMilitary(type, pageSize, offset);
+        List<CardMilitary> list = _cardMilitaryRepository.GetCardMilitary(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardMilitaryCount(string type)
+    public int GetCardMilitaryCount(string type, string rare)
     {
-        return _cardMilitaryRepository.GetCardMilitaryCount(type);
+        return _cardMilitaryRepository.GetCardMilitaryCount(type, rare);
     }
 
     public List<CardMilitary> GetCardMilitaryRandom(string type, int pageSize)

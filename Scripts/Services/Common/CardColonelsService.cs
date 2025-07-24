@@ -19,16 +19,16 @@ public class CardColonelsService : ICardColonelsService
         return _cardColonelsRepository.GetUniqueCardColonelsTypes();
     }
 
-    public List<CardColonels> GetCardColonels(string type, int pageSize, int offset)
+    public List<CardColonels> GetCardColonels(string type, int pageSize, int offset, string rare)
     {
-        List<CardColonels> list = _cardColonelsRepository.GetCardColonels(type, pageSize, offset);
+        List<CardColonels> list = _cardColonelsRepository.GetCardColonels(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardColonelsCount(string type)
+    public int GetCardColonelsCount(string type, string rare)
     {
-        return _cardColonelsRepository.GetCardColonelsCount(type);
+        return _cardColonelsRepository.GetCardColonelsCount(type, rare);
     }
 
     public List<CardColonels> GetCardColonelsRandom(string type, int pageSize)

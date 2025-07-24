@@ -19,16 +19,16 @@ public class CardLifeService : ICardLifeService
         return _cardLifeRepository.GetUniqueCardLifeTypes();
     }
 
-    public List<CardLife> GetCardLife(string type, int pageSize, int offset)
+    public List<CardLife> GetCardLife(string type, int pageSize, int offset, string rare)
     {
-        List<CardLife> list = _cardLifeRepository.GetCardLife(type, pageSize, offset);
+        List<CardLife> list = _cardLifeRepository.GetCardLife(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardLifeCount(string type)
+    public int GetCardLifeCount(string type, string rare)
     {
-        return _cardLifeRepository.GetCardLifeCount(type);
+        return _cardLifeRepository.GetCardLifeCount(type, rare);
     }
 
     public List<CardLife> GetCardLifeWithPrice(string type, int pageSize, int offset)

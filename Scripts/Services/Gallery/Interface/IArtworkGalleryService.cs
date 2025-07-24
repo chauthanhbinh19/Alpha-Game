@@ -7,8 +7,8 @@ using System.Xml.Linq;
 
 public interface IArtworkGalleryService
 {
-    List<Artwork> GetArtworkCollection(string type, int pageSize, int offset);
-    int GetArtworkCount(string type);
+    List<Artwork> GetArtworkCollection(string type, int pageSize, int offset, string rare);
+    int GetArtworkCount(string type, string rare);
     void InsertArtworkGallery(string Id);
     void UpdateStatusArtworkGallery(string Id);
     Artwork SumPowerArtworkGallery();

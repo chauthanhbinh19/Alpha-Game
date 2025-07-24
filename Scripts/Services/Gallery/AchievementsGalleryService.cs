@@ -19,9 +19,9 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         return new AchievementsGalleryService(new AchievementsGalleryRepository());
     }
 
-    public List<Achievements> GetAchievementCollection(int pageSize, int offset)
+    public List<Achievements> GetAchievementCollection(int pageSize, int offset, string rare)
     {
-        List<Achievements> list = _achievementsGalleryRepository.GetAchievementCollection(pageSize, offset);
+        List<Achievements> list = _achievementsGalleryRepository.GetAchievementCollection(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }

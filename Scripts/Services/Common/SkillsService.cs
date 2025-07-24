@@ -19,16 +19,16 @@ public class SkillsService : ISkillsService
         return _skillsRepository.GetUniqueSkillsTypes();
     }
 
-    public List<Skills> GetSkills(string type, int pageSize, int offset)
+    public List<Skills> GetSkills(string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = _skillsRepository.GetSkills(type, pageSize, offset);
+        List<Skills> list = _skillsRepository.GetSkills(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSkillsCount(string type)
+    public int GetSkillsCount(string type, string rare)
     {
-        return _skillsRepository.GetSkillsCount(type);
+        return _skillsRepository.GetSkillsCount(type, rare);
     }
 
     public List<Skills> GetSkillsWithPrice(string type, int pageSize, int offset)

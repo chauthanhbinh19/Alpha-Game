@@ -14,14 +14,14 @@ public class AvatarsGalleryService : IAvatarsGalleryService
         return new AvatarsGalleryService(new AvatarsGalleryRepository());
     }
 
-    public List<Avatars> GetAvatarsCollection(int pageSize, int offset)
+    public List<Avatars> GetAvatarsCollection(int pageSize, int offset, string rare)
     {
-        return _avatarsGalleryRepository.GetAvatarsCollection(pageSize, offset);
+        return _avatarsGalleryRepository.GetAvatarsCollection(pageSize, offset, rare);
     }
 
-    public int GetAvatarsCount()
+    public int GetAvatarsCount(string rare)
     {
-        return _avatarsGalleryRepository.GetAvatarsCount();
+        return _avatarsGalleryRepository.GetAvatarsCount(rare);
     }
 
     public void InsertAvatarsGallery(string Id)

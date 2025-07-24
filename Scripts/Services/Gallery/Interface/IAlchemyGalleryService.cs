@@ -7,8 +7,8 @@ using System.Xml.Linq;
 
 public interface IAlchemyGalleryService
 {
-    List<Alchemy> GetAlchemyCollection(string type, int pageSize, int offset);
-    int GetAlchemyCount(string type);
+    List<Alchemy> GetAlchemyCollection(string type, int pageSize, int offset, string rare);
+    int GetAlchemyCount(string type, string rare);
     void InsertAlchemyGallery(string Id);
     void UpdateStatusAlchemyGallery(string Id);
     Alchemy SumPowerAlchemyGallery();

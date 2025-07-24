@@ -187,16 +187,16 @@ public class UserAchievementsService : IUserAchievementsService
         return achievements;
     }
 
-    public List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset)
+    public List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset, string rare)
     {
-        List<Achievements> list = _userAchievementsRepository.GetUserAchievements(user_id, pageSize, offset);
+        List<Achievements> list = _userAchievementsRepository.GetUserAchievements(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserCollaborationCount(string user_id)
+    public int GetUserCollaborationCount(string user_id, string rare)
     {
-        return _userAchievementsRepository.GetUserCollaborationCount(user_id);
+        return _userAchievementsRepository.GetUserCollaborationCount(user_id, rare);
     }
 
     public bool InsertUserAchievements(Achievements Achievements)

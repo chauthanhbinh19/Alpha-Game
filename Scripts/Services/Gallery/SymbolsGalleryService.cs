@@ -14,16 +14,16 @@ public class SymbolsGalleryService : ISymbolsGalleryService
         return new SymbolsGalleryService(new SymbolsGalleryRepository());
     }
 
-    public List<Symbols> GetSymbolsCollection(string type, int pageSize, int offset)
+    public List<Symbols> GetSymbolsCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = _symbolsGalleryRepository.GetSymbolsCollection(type, pageSize, offset);
+        List<Symbols> list = _symbolsGalleryRepository.GetSymbolsCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSymbolsCount(string type)
+    public int GetSymbolsCount(string type, string rare)
     {
-        return _symbolsGalleryRepository.GetSymbolsCount(type);
+        return _symbolsGalleryRepository.GetSymbolsCount(type, rare);
     }
 
     public void InsertSymbolsGallery(string Id)

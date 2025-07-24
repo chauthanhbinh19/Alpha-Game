@@ -181,16 +181,16 @@ public class UserPuppetService : IUserPuppetService
         return Puppet;
     }
 
-    public List<Puppet> GetUserPuppet(string user_id, string type, int pageSize, int offset)
+    public List<Puppet> GetUserPuppet(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Puppet> list = _userPuppetRepository.GetUserPuppet(user_id, type, pageSize, offset);
+        List<Puppet> list = _userPuppetRepository.GetUserPuppet(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserPuppetCount(string user_id, string type)
+    public int GetUserPuppetCount(string user_id, string type, string rare)
     {
-        return _userPuppetRepository.GetUserPuppetCount(user_id, type);
+        return _userPuppetRepository.GetUserPuppetCount(user_id, type, rare);
     }
 
     public bool InsertUserPuppet(Puppet puppet)

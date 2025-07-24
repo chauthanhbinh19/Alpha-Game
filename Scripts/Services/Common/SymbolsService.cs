@@ -19,16 +19,16 @@ public class SymbolsService : ISymbolsService
         return _symbolsRepository.GetUniqueSymbolsTypes();
     }
 
-    public List<Symbols> GetSymbols(string type, int pageSize, int offset)
+    public List<Symbols> GetSymbols(string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = _symbolsRepository.GetSymbols(type, pageSize, offset);
+        List<Symbols> list = _symbolsRepository.GetSymbols(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSymbolsCount(string type)
+    public int GetSymbolsCount(string type, string rare)
     {
-        return _symbolsRepository.GetSymbolsCount(type);
+        return _symbolsRepository.GetSymbolsCount(type, rare);
     }
 
     public List<Symbols> GetSymbolsWithPrice(string type, int pageSize, int offset)

@@ -181,16 +181,16 @@ public class UserTitlesService : IUserTitlesService
         return titles;
     }
 
-    public List<Titles> GetUserTitles(string user_id, int pageSize, int offset)
+    public List<Titles> GetUserTitles(string user_id, int pageSize, int offset, string rare)
     {
-        List<Titles> list = _userTitlesRepository.GetUserTitles(user_id, pageSize, offset);
+        List<Titles> list = _userTitlesRepository.GetUserTitles(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserTitlesCount(string user_id)
+    public int GetUserTitlesCount(string user_id, string rare)
     {
-        return _userTitlesRepository.GetUserTitlesCount(user_id);
+        return _userTitlesRepository.GetUserTitlesCount(user_id, rare);
     }
 
     public bool InsertUserTitles(Titles titles)

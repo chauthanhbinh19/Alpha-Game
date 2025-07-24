@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserSkillsRepository : IUserSkillsRepository
 {
-    public List<Skills> GetUserSkills(string user_id, string type, int pageSize, int offset)
+    public List<Skills> GetUserSkills(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<Skills> skillsList = new List<Skills>();
         // string user_id = User.CurrentUserId;
@@ -17,11 +17,13 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description from Skills s,user_skills us where s.id=us.skill_id and us.user_id=@userId and s.type= @type 
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description from Skills s,user_skills us 
+                where s.id=us.skill_id and us.user_id=@userId and s.type= @type AND (@rare = 'All' or s.rare = @rare)
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -103,7 +105,7 @@ public class UserSkillsRepository : IUserSkillsRepository
         }
         return skillsList;
     }
-    public int GetUserSkillsCount(string user_id, string type)
+    public int GetUserSkillsCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -113,10 +115,12 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from skills s, user_skills us where s.id=us.skill_id and us.user_id=@userId and s.type= @type";
+                string query = @"Select count(*) from skills s, user_skills us 
+                where s.id=us.skill_id and us.user_id=@userId and s.type= @type AND (@rare = 'All' or s.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

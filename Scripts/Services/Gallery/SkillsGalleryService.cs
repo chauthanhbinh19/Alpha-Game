@@ -14,16 +14,16 @@ public class SkillsGalleryService : ISkillsGalleryService
         return new SkillsGalleryService(new SkillsGalleryRepository());
     }
 
-    public List<Skills> GetSkillsCollection(string type, int pageSize, int offset)
+    public List<Skills> GetSkillsCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = _skillsGalleryRepository.GetSkillsCollection(type, pageSize, offset);
+        List<Skills> list = _skillsGalleryRepository.GetSkillsCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSkillsCount(string type)
+    public int GetSkillsCount(string type, string rare)
     {
-        return _skillsGalleryRepository.GetSkillsCount(type);
+        return _skillsGalleryRepository.GetSkillsCount(type, rare);
     }
 
     public void InsertSkillsGallery(string Id)

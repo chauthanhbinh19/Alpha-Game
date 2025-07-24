@@ -14,16 +14,16 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
         return new CardAdmiralsGalleryService(new CardAdmiralsGalleryRepository());
     }
 
-    public List<CardAdmirals> GetCardAdmiralsCollection(string type, int pageSize, int offset)
+    public List<CardAdmirals> GetCardAdmiralsCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardAdmirals> list = _cardAdmiralsGalleryRepository.GetCardAdmiralsCollection(type, pageSize, offset);
+        List<CardAdmirals> list = _cardAdmiralsGalleryRepository.GetCardAdmiralsCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardAdmiralsCount(string type)
+    public int GetCardAdmiralsCount(string type, string rare)
     {
-        return _cardAdmiralsGalleryRepository.GetCardAdmiralsCount(type);
+        return _cardAdmiralsGalleryRepository.GetCardAdmiralsCount(type, rare);
     }
 
     public void InsertCardAdmiralsGallery(string Id)

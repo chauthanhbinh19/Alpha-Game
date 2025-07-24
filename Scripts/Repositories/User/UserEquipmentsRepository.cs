@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserEquipmentsRepository : IUserEquipmentsRepository
 {
-    public List<Equipments> GetUserEquipments(string user_id, string type, int pageSize, int offset)
+    public List<Equipments> GetUserEquipments(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         // string user_id = User.CurrentUserId;
@@ -17,10 +17,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             try
             {
                 connection.Open();
-                string query = "Select e.id, e.name, ue.*, e.image, e.rare, e.type from Equipments e, user_equipments ue where e.id=ue.equipment_id and ue.user_id=@userId and e.type= @type limit @limit offset @offset";
+                string query = @"Select e.id, e.name, ue.*, e.image, e.rare, e.type from Equipments e, user_equipments ue 
+                where e.id=ue.equipment_id and ue.user_id=@userId and e.type= @type AND (@rare = 'All' or e.rare = @rare) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -114,7 +116,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipmentList;
     }
-    public int GetUserEquipmentsCount(string user_id, string type)
+    public int GetUserEquipmentsCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -124,10 +126,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Equipments e, user_equipments ue where e.id=ue.equipment_id and ue.user_id=@userId and e.type= @type";
+                string query = @"Select count(*) from Equipments e, user_equipments ue 
+                where e.id=ue.equipment_id and ue.user_id=@userId and e.type= @type AND (@rare = 'All' or e.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

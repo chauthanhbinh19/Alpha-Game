@@ -181,16 +181,16 @@ public class UserSkillsService : IUserSkillsService
         return skills;
     }
 
-    public List<Skills> GetUserSkills(string user_id, string type, int pageSize, int offset)
+    public List<Skills> GetUserSkills(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = _userSkillsRepository.GetUserSkills(user_id, type, pageSize, offset);
+        List<Skills> list = _userSkillsRepository.GetUserSkills(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserSkillsCount(string user_id, string type)
+    public int GetUserSkillsCount(string user_id, string type, string rare)
     {
-        return _userSkillsRepository.GetUserSkillsCount(user_id, type);
+        return _userSkillsRepository.GetUserSkillsCount(user_id, type, rare);
     }
 
     public bool InsertUserSkills(Skills skills)

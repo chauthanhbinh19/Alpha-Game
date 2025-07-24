@@ -4,8 +4,8 @@ public interface ICardCaptainsRepository
 {
     List<string> GetUniqueCardCaptainsTypes();
     List<string> GetUniqueCardCaptainsId();
-    List<CardCaptains> GetCardCaptains(string type, int pageSize, int offset);
-    int GetCardCaptainsCount(string type);
+    List<CardCaptains> GetCardCaptains(string type, int pageSize, int offset, string rare);
+    int GetCardCaptainsCount(string type, string rare);
     List<CardCaptains> GetCardCaptainsRandom(string type, int pageSize);
     List<CardCaptains> GetAllCardCaptains(string type);
     CardCaptains GetCardCaptainsById(string Id);

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserCardHeroesRepository : IUserCardHeroesRepository
 {
-    public List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset)
+    public List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardHeroes> CardHeroesList = new List<CardHeroes>();
         // string user_id = User.CurrentUserId;
@@ -21,13 +21,14 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                 FROM user_card_heroes uc
                 LEFT JOIN card_heroes c ON uc.card_hero_id = c.id 
                 LEFT JOIN fact_card_heroes fch ON fch.user_id = uc.user_id AND fch.user_card_hero_id = uc.card_hero_id
-                WHERE uc.user_id = @userId AND c.type = @type
+                WHERE uc.user_id = @userId AND c.type = @type AND (@rare = 'All' or c.rare = @rare)
                 ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
                 LIMIT @limit OFFSET @offset;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -346,7 +347,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
         }
         return result;
     }
-    public int GetUserCardHeroesCount(string user_id, string type)
+    public int GetUserCardHeroesCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -356,10 +357,12 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_heroes c, user_card_heroes uc where c.id=uc.card_hero_id and uc.user_id=@userId and type= @type";
+                string query = @"Select count(*) from card_heroes c, user_card_heroes uc 
+                where c.id=uc.card_hero_id and uc.user_id=@userId and type= @type AND (@rare = 'All' or c.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

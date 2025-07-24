@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 public interface IUserCardHeroesRepository
 {
-    List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset);
+    List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset, string rare);
     List<CardHeroes> GetUserCardHeroesTeam(string user_id, string teamId, string position);
     Dictionary<string, int> GetUniqueCardHeroTypesTeam(string teamId);
-    int GetUserCardHeroesCount(string user_id, string type);
+    int GetUserCardHeroesCount(string user_id, string type, string rare);
     int GetUserCardHeroesTeamsPositionCount(string user_id, string team_id, string position);
     bool InsertUserCardHeroes(CardHeroes CardHeroes);
     bool UpdateCardHeroesLevel(CardHeroes cardHeroes, int cardLevel);

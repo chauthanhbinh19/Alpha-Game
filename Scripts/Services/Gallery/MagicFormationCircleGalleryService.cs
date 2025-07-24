@@ -14,16 +14,16 @@ public class MagicFormationCircleGalleryService : IMagicFormationCircleGallerySe
         return new MagicFormationCircleGalleryService(new MagicFormationCircleGalleryRepository());
     }
 
-    public List<MagicFormationCircle> GetMagicFormationCircleCollection(string type, int pageSize, int offset)
+    public List<MagicFormationCircle> GetMagicFormationCircleCollection(string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircle> list = _magicFormationCircleRepository.GetMagicFormationCircleCollection(type, pageSize, offset);
+        List<MagicFormationCircle> list = _magicFormationCircleRepository.GetMagicFormationCircleCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMagicFormationCircleCount(string type)
+    public int GetMagicFormationCircleCount(string type, string rare)
     {
-        return _magicFormationCircleRepository.GetMagicFormationCircleCount(type);
+        return _magicFormationCircleRepository.GetMagicFormationCircleCount(type, rare);
     }
 
     public void InsertMagicFormationCircleGallery(string Id)

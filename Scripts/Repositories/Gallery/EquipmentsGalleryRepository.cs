@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
 {
-    public List<Equipments> GetEquipmentsCollection(string type, int pageSize, int offset)
+    public List<Equipments> GetEquipmentsCollection(string type, int pageSize, int offset, string rare)
     {
         List<Equipments> equipmentList = new List<Equipments>();
         string user_id = User.CurrentUserId;
@@ -17,11 +17,14 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             try
             {
                 connection.Open();
-                string query = "SELECT e.*, CASE WHEN eg.equipment_id IS NULL THEN 'block' WHEN eg.status = 'pending' THEN 'pending' WHEN eg.status = 'available' THEN 'available' END AS status "
-                + "FROM equipments e LEFT JOIN equipments_gallery eg ON e.id = eg.equipment_id and eg.user_id = @userId where e.type=@type limit @limit offset @offset";
+                string query = @"SELECT e.*, CASE WHEN eg.equipment_id IS NULL THEN 'block' WHEN eg.status = 'pending' THEN 'pending' WHEN eg.status = 'available' THEN 'available' END AS status 
+                FROM equipments e LEFT JOIN equipments_gallery eg ON e.id = eg.equipment_id and eg.user_id = @userId 
+                where e.type=@type AND (@rare = 'All' or e.rare = @rare)
+                limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -117,7 +120,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
         }
         return equipmentList;
     }
-    public int GetEquipmentsCount(string type)
+    public int GetEquipmentsCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -126,9 +129,10 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Equipments where type= @type";
+                string query = "Select count(*) from Equipments where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

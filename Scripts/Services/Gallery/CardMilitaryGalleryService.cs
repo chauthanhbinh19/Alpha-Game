@@ -14,16 +14,16 @@ public class CardMilitaryGalleryService : ICardMilitaryGallerService
         return new CardMilitaryGalleryService(new CardMilitaryGalleryRepository());
     }
 
-    public List<CardMilitary> GetCardMilitaryCollection(string type, int pageSize, int offset)
+    public List<CardMilitary> GetCardMilitaryCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardMilitary> list = _cardMilitaryGalleryRepository.GetCardMilitaryCollection(type, pageSize, offset);
+        List<CardMilitary> list = _cardMilitaryGalleryRepository.GetCardMilitaryCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardMilitaryCount(string type)
+    public int GetCardMilitaryCount(string type, string rare)
     {
-        return _cardMilitaryGalleryRepository.GetCardMilitaryCount(type);
+        return _cardMilitaryGalleryRepository.GetCardMilitaryCount(type, rare);
     }
 
     public void InsertCardMilitaryGallery(string Id)

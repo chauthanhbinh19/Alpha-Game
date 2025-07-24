@@ -19,16 +19,16 @@ public class PetsService : IPetsService
         return _petsRepository.GetUniquePetsTypes();
     }
 
-    public List<Pets> GetPets(string type, int pageSize, int offset)
+    public List<Pets> GetPets(string type, int pageSize, int offset, string rare)
     {
-        List<Pets> list = _petsRepository.GetPets(type, pageSize, offset);
+        List<Pets> list = _petsRepository.GetPets(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetPetsCount(string type)
+    public int GetPetsCount(string type, string rare)
     {
-        return _petsRepository.GetPetsCount(type);
+        return _petsRepository.GetPetsCount(type, rare);
     }
 
     public List<Pets> GetPetsWithPrice(string type, int pageSize, int offset)

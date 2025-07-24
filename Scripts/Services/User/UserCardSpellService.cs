@@ -517,9 +517,9 @@ public class UserCardSpellService : IUserCardSpellService
         return cardSpell;
     }
 
-    public List<CardSpell> GetUserCardSpell(string user_id, string type, int pageSize, int offset)
+    public List<CardSpell> GetUserCardSpell(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardSpell> list = _userCardSpellRepository.GetUserCardSpell(user_id, type, pageSize, offset);
+        List<CardSpell> list = _userCardSpellRepository.GetUserCardSpell(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -549,9 +549,9 @@ public class UserCardSpellService : IUserCardSpellService
         return _userCardSpellRepository.UpdateTeamFactCardSpell(team_id, position, card_id);
     }
 
-    public int GetUserCardSpellCount(string user_id, string type)
+    public int GetUserCardSpellCount(string user_id, string type, string rare)
     {
-        return _userCardSpellRepository.GetUserCardSpellCount(user_id, type);
+        return _userCardSpellRepository.GetUserCardSpellCount(user_id, type, rare);
     }
 
     public int GetUserCardSpellTeamsPositionCount(string user_id, string team_id, string position)

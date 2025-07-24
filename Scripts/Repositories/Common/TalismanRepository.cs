@@ -42,7 +42,7 @@ public class TalismanRepository : ITalismanRepository
         }
         return typeList;
     }
-    public List<Talisman> GetTalisman(string type, int pageSize, int offset)
+    public List<Talisman> GetTalisman(string type, int pageSize, int offset, string rare)
     {
         List<Talisman> talismanList = new List<Talisman>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -51,10 +51,11 @@ public class TalismanRepository : ITalismanRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from talisman where type =@type 
+                string query = @"Select * from talisman where type =@type AND (@rare = 'All' or rare = @rare)
                 ORDER BY talisman.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(talisman.name, '[0-9]+$') AS UNSIGNED), talisman.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -142,7 +143,7 @@ public class TalismanRepository : ITalismanRepository
         }
         return talismanList;
     }
-    public int GetTalismanCount(string type)
+    public int GetTalismanCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -151,9 +152,10 @@ public class TalismanRepository : ITalismanRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from talisman where type =@type";
+                string query = "Select count(*) from talisman where type =@type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

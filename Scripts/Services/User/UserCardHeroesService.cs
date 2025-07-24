@@ -518,9 +518,9 @@ public class UserCardHeroesService : IUserCardHeroesService
         return cardHeroes;
     }
 
-    public List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset)
+    public List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardHeroes> list = _userCardHeroesRepository.GetUserCardHeroes(user_id, type, pageSize, offset);
+        List<CardHeroes> list = _userCardHeroesRepository.GetUserCardHeroes(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -545,9 +545,9 @@ public class UserCardHeroesService : IUserCardHeroesService
         return _userCardHeroesRepository.GetUniqueCardHeroTypesTeam(teamId);
     }
 
-    public int GetUserCardHeroesCount(string user_id, string type)
+    public int GetUserCardHeroesCount(string user_id, string type, string rare)
     {
-        return _userCardHeroesRepository.GetUserCardHeroesCount(user_id, type);
+        return _userCardHeroesRepository.GetUserCardHeroesCount(user_id, type, rare);
     }
 
     public int GetUserCardHeroesTeamsPositionCount(string user_id, string team_id, string position)

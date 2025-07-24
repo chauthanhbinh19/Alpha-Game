@@ -42,7 +42,7 @@ public class SkillsRepository : ISkillsRepository
         }
         return typeList;
     }
-    public List<Skills> GetSkills(string type, int pageSize, int offset)
+    public List<Skills> GetSkills(string type, int pageSize, int offset, string rare)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -51,10 +51,11 @@ public class SkillsRepository : ISkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from Skills where type= @type 
+                string query = @"Select * from Skills where type= @type AND (@rare = 'All' or rare = @rare)
                 ORDER BY Skills.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Skills.name, '[0-9]+$') AS UNSIGNED), Skills.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -132,7 +133,7 @@ public class SkillsRepository : ISkillsRepository
         }
         return skillsList;
     }
-    public int GetSkillsCount(string type)
+    public int GetSkillsCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -141,9 +142,10 @@ public class SkillsRepository : ISkillsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from skills where type= @type";
+                string query = "Select count(*) from skills where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

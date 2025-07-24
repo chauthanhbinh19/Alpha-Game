@@ -7,8 +7,8 @@ using System.Xml.Linq;
 
 public interface IUserAchievementsRepository
 {
-    List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset);
-    int GetUserCollaborationCount(string user_id);
+    List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset, string rare);
+    int GetUserCollaborationCount(string user_id, string rare);
     bool InsertUserAchievements(Achievements Achievements);
     bool UpdateAchievementLevel(Achievements achievements, int cardLevel);
     bool UpdateAchievementsBreakthrough(Achievements achievements, int star, int quantity);

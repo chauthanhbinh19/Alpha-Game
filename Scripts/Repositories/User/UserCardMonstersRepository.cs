@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserCardMonstersRepository : IUserCardMonstersRepository
 {
-    public List<CardMonsters> GetUserCardMonsters(string user_id, string type, int pageSize, int offset)
+    public List<CardMonsters> GetUserCardMonsters(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardMonsters> CardMonstersList = new List<CardMonsters>();
         // string user_id=User.CurrentUserId;
@@ -21,13 +21,14 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 FROM user_card_monsters um
                 LEFT JOIN card_monsters m ON um.card_monster_id = m.id
                 LEFT JOIN fact_card_monsters fcm ON fcm.user_id = um.user_id AND fcm.user_card_monster_id = um.card_monster_id
-                WHERE um.user_id = @userId AND m.type = @type
+                WHERE um.user_id = @userId AND m.type = @type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
                 LIMIT @limit OFFSET @offset;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -345,7 +346,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         }
         return result;
     }
-    public int GetUserCardMonstersCount(string user_id, string type)
+    public int GetUserCardMonstersCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id=User.CurrentUserId;
@@ -355,10 +356,12 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_monsters m, user_card_monsters um where m.id=um.card_monster_id and um.user_id=@userId and m.type= @type";
+                string query = @"Select count(*) from card_monsters m, user_card_monsters um 
+                where m.id=um.card_monster_id and um.user_id=@userId and m.type= @type AND (@rare = 'All' or m.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

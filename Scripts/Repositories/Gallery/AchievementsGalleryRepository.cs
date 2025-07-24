@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 {
-    public List<Achievements> GetAchievementCollection(int pageSize, int offset)
+    public List<Achievements> GetAchievementCollection(int pageSize, int offset, string rare)
     {
         List<Achievements> achievementsList = new List<Achievements>();
         string user_id = User.CurrentUserId;
@@ -17,10 +17,12 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             try
             {
                 connection.Open();
-                string query = "SELECT c.*, CASE WHEN cg.collaboration_id IS NULL THEN 'block' WHEN cg.status = 'pending' THEN 'pending' WHEN cg.status = 'available' THEN 'available' END AS status "
-                + "FROM achievements c LEFT JOIN collaborations_gallery cg ON c.id = cg.collaboration_id and cg.user_id = @userId limit @limit offset @offset";
+                string query = @"SELECT c.*, CASE WHEN cg.collaboration_id IS NULL THEN 'block' WHEN cg.status = 'pending' THEN 'pending' WHEN cg.status = 'available' THEN 'available' END AS status 
+                FROM achievements c LEFT JOIN collaborations_gallery cg ON c.id = cg.collaboration_id and cg.user_id = @userId 
+                Where (@rare = 'All' or c.rare = @rare) limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();

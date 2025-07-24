@@ -42,7 +42,7 @@ public class PuppetRepository : IPuppetRepository
         }
         return typeList;
     }
-    public List<Puppet> GetPuppet(string type, int pageSize, int offset)
+    public List<Puppet> GetPuppet(string type, int pageSize, int offset, string rare)
     {
         List<Puppet> Puppets = new List<Puppet>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -51,10 +51,11 @@ public class PuppetRepository : IPuppetRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from puppet where type =@type 
+                string query = @"Select * from puppet where type =@type AND (@rare = 'All' or rare = @rare)
                 ORDER BY puppet.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(puppet.name, '[0-9]+$') AS UNSIGNED), puppet.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -142,7 +143,7 @@ public class PuppetRepository : IPuppetRepository
         }
         return Puppets;
     }
-    public int GetPuppetCount(string type)
+    public int GetPuppetCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -151,9 +152,10 @@ public class PuppetRepository : IPuppetRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from puppet where type =@type";
+                string query = "Select count(*) from puppet where type =@type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

@@ -14,16 +14,16 @@ public class UserBordersService : IUserBordersService
         return new UserBordersService(new UserBordersRepository());
     }
 
-    public List<Borders> GetUserBorders(string user_id, int pageSize, int offset)
+    public List<Borders> GetUserBorders(string user_id, int pageSize, int offset, string rare)
     {
-        List<Borders> list = _userBordersRepository.GetUserBorders(user_id, pageSize, offset);
+        List<Borders> list = _userBordersRepository.GetUserBorders(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserBordersCount(string user_id)
+    public int GetUserBordersCount(string user_id, string rare)
     {
-        return _userBordersRepository.GetUserBordersCount(user_id);
+        return _userBordersRepository.GetUserBordersCount(user_id, rare);
     }
 
     public bool InsertUserBorders(Borders borders)

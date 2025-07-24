@@ -4,8 +4,8 @@ public interface ICardAdmiralsService
 {
     List<string> GetUniqueCardAdmiralsTypes();
     List<string> GetUniqueCardAdmiralsId();
-    List<CardAdmirals> GetCardAdmirals(string type, int pageSize, int offset);
-    int GetCardAdmiralsCount(string type);    
+    List<CardAdmirals> GetCardAdmirals(string type, int pageSize, int offset, string rare);
+    int GetCardAdmiralsCount(string type, string rare);    
     List<CardAdmirals> GetCardAdmiralsRandom(string type, int pageSize);
     List<CardAdmirals> GetAllCardAdmirals(string type);
     CardAdmirals GetCardAdmiralsById(string Id);

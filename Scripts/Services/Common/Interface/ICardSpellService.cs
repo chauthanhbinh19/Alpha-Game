@@ -4,8 +4,8 @@ public interface ICardSpellService
 {
     List<string> GetUniqueCardSpellTypes();
     List<string> GetUniqueCardSpellId();
-    List<CardSpell> GetCardSpell(string type, int pageSize, int offset);
-    int GetCardSpellCount(string type);
+    List<CardSpell> GetCardSpell(string type, int pageSize, int offset, string rare);
+    int GetCardSpellCount(string type, string rare);
     List<CardSpell> GetCardSpellRandom(string type, int pageSize);
     List<CardSpell> GetAllCardSpell(string type);
     CardSpell GetCardSpellById(string Id);

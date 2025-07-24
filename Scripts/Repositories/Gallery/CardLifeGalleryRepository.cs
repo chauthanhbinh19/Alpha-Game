@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class CardLifeGalleryRepository : ICardLifeGalleryRepository
 {
-    public List<CardLife> GetCardLifeCollection(string type, int pageSize, int offset)
+    public List<CardLife> GetCardLifeCollection(string type, int pageSize, int offset, string rare)
     {
         List<CardLife> CardLifes = new List<CardLife>();
         string user_id = User.CurrentUserId;
@@ -18,10 +18,12 @@ public class CardLifeGalleryRepository : ICardLifeGalleryRepository
             {
                 connection.Open();
                 string query = @"SELECT m.*, CASE WHEN mg.card_life_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
-                FROM card_life m LEFT JOIN card_life_gallery mg ON m.id = mg.card_life_id and mg.user_id = @userId where m.type=@type 
+                FROM card_life m LEFT JOIN card_life_gallery mg ON m.id = mg.card_life_id and mg.user_id = @userId 
+                where m.type=@type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -111,7 +113,7 @@ public class CardLifeGalleryRepository : ICardLifeGalleryRepository
         }
         return CardLifes;
     }
-    public int GetCardLifeCount(string type)
+    public int GetCardLifeCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -120,9 +122,10 @@ public class CardLifeGalleryRepository : ICardLifeGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_life where type =@type";
+                string query = "Select count(*) from card_life where type =@type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

@@ -271,16 +271,16 @@ public class UserEquipmentsService : IUserEquipmentsService
         return equipments;
     }
 
-    public List<Equipments> GetUserEquipments(string user_id, string type, int pageSize, int offset)
+    public List<Equipments> GetUserEquipments(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> list = _userEquipmentsRepository.GetUserEquipments(user_id, type, pageSize, offset);
+        List<Equipments> list = _userEquipmentsRepository.GetUserEquipments(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserEquipmentsCount(string user_id, string type)
+    public int GetUserEquipmentsCount(string user_id, string type, string rare)
     {
-        return _userEquipmentsRepository.GetUserEquipmentsCount(user_id, type);
+        return _userEquipmentsRepository.GetUserEquipmentsCount(user_id, type, rare);
     }
 
     public Equipments GetUserEquipmentsById(string user_id, string Id)

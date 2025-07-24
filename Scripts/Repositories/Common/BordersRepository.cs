@@ -24,7 +24,7 @@ public class BordersRepository : IBordersRepository
         }
         return typeList;
     }
-    public List<Borders> GetBorders(int pageSize, int offset)
+    public List<Borders> GetBorders(int pageSize, int offset, string rare)
     {
         List<Borders> borders = new List<Borders>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -33,9 +33,10 @@ public class BordersRepository : IBordersRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from borders 
+                string query = @"Select * from borders where (@rare = 'All' or rare = @rare)
                 ORDER BY borders.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(borders.name, '[0-9]+$') AS UNSIGNED), borders.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -123,7 +124,7 @@ public class BordersRepository : IBordersRepository
         }
         return borders;
     }
-    public int GetBordersCount()
+    public int GetBordersCount(string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -132,8 +133,9 @@ public class BordersRepository : IBordersRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from Borders";
+                string query = "Select count(*) from Borders where (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

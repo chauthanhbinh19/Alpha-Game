@@ -19,16 +19,16 @@ public class PuppetService : IPuppetService
         return _puppetRepository.GetUniquePuppetTypes();
     }
 
-    public List<Puppet> GetPuppet(string type, int pageSize, int offset)
+    public List<Puppet> GetPuppet(string type, int pageSize, int offset, string rare)
     {
-        List<Puppet> list = _puppetRepository.GetPuppet(type, pageSize, offset);
+        List<Puppet> list = _puppetRepository.GetPuppet(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetPuppetCount(string type)
+    public int GetPuppetCount(string type, string rare)
     {
-        return _puppetRepository.GetPuppetCount(type);
+        return _puppetRepository.GetPuppetCount(type, rare);
     }
 
     public List<Puppet> GetPuppetWithPrice(string type, int pageSize, int offset)

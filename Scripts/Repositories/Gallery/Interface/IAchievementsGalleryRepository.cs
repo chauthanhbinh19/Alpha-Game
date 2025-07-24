@@ -7,5 +7,5 @@ using System.Xml.Linq;
 
 public interface IAchievementsGalleryRepository
 {
-    List<Achievements> GetAchievementCollection(int pageSize, int offset);
+    List<Achievements> GetAchievementCollection(int pageSize, int offset, string rare);
 }

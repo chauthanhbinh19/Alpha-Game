@@ -181,16 +181,16 @@ public class UserCollaborationEquipmentService : IUserCollaborationEquipmentServ
         return collaborationEquipment;
     }
 
-    public List<CollaborationEquipment> GetUserCollaborationEquipments(string user_id, string type, int pageSize, int offset)
+    public List<CollaborationEquipment> GetUserCollaborationEquipments(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipment> list = _userCollabEquipmentsRepo.GetUserCollaborationEquipments(user_id, type, pageSize, offset);
+        List<CollaborationEquipment> list = _userCollabEquipmentsRepo.GetUserCollaborationEquipments(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserCollaborationEquipmentCount(string user_id, string type)
+    public int GetUserCollaborationEquipmentCount(string user_id, string type, string rare)
     {
-        return _userCollabEquipmentsRepo.GetUserCollaborationEquipmentCount(user_id, type);
+        return _userCollabEquipmentsRepo.GetUserCollaborationEquipmentCount(user_id, type, rare);
     }
 
     public bool InsertUserCollaborationEquipments(CollaborationEquipment collaborationEquipment)

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserAchievementsRepository : IUserAchievementsRepository
 {
-    public List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset)
+    public List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset, string rare)
     {
         List<Achievements> achievementsList = new List<Achievements>();
         // string user_id = User.CurrentUserId;
@@ -17,9 +17,12 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             try
             {
                 connection.Open();
-                string query = "Select uc.*, c.id, c.name, c.image, c.rare, c.description from achievements c, user_achievements uc where uc.achievement_id=c.id and uc.user_id =@userId limit @limit offset @offset";
+                string query = @"Select uc.*, c.id, c.name, c.image, c.rare, c.description from achievements c, user_achievements uc 
+                where uc.achievement_id=c.id and uc.user_id =@userId AND (@rare = 'All' or c.rare = @rare)
+                limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -111,7 +114,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
         }
         return achievementsList;
     }
-    public int GetUserCollaborationCount(string user_id)
+    public int GetUserCollaborationCount(string user_id, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -121,9 +124,11 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from collaborations c, user_collaborations uc where c.id=uc.collaboration_id and uc.user_id=@userId";
+                string query = @"Select count(*) from collaborations c, user_collaborations uc 
+                where c.id=uc.collaboration_id and uc.user_id=@userId AND (@rare = 'All' or c.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

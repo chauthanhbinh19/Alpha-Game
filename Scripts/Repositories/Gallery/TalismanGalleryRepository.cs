@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class TalismanGalleryRepository : ITalismanGalleryRepository
 {
-    public List<Talisman> GetTalismanCollection(string type, int pageSize, int offset)
+    public List<Talisman> GetTalismanCollection(string type, int pageSize, int offset, string rare)
     {
         List<Talisman> talismanList = new List<Talisman>();
         string user_id = User.CurrentUserId;
@@ -18,10 +18,12 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
             {
                 connection.Open();
                 string query = @"SELECT m.*, CASE WHEN mg.talisman_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
-                FROM talisman m LEFT JOIN talisman_gallery mg ON m.id = mg.talisman_id and mg.user_id = @userId where m.type=@type 
+                FROM talisman m LEFT JOIN talisman_gallery mg ON m.id = mg.talisman_id and mg.user_id = @userId 
+                where m.type=@type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -111,7 +113,7 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
         }
         return talismanList;
     }
-    public int GetTalismanCount(string type)
+    public int GetTalismanCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -120,9 +122,10 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from talisman where type =@type";
+                string query = "Select count(*) from talisman where type =@type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

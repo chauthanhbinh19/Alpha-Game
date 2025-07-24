@@ -20,16 +20,16 @@ public class CollaborationEquipmentService : ICollaborationEquipmentService
         return _collaborationEquipmentRepository.GetUniqueCollaborationEquipmentTypes();
     }
 
-    public List<CollaborationEquipment> GetCollaborationEquipments(string type, int pageSize, int offset)
+    public List<CollaborationEquipment> GetCollaborationEquipments(string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipment> list = _collaborationEquipmentRepository.GetCollaborationEquipments(type, pageSize, offset);
+        List<CollaborationEquipment> list = _collaborationEquipmentRepository.GetCollaborationEquipments(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCollaborationEquipmentCount(string type)
+    public int GetCollaborationEquipmentCount(string type, string rare)
     {
-        return _collaborationEquipmentRepository.GetCollaborationEquipmentCount(type);
+        return _collaborationEquipmentRepository.GetCollaborationEquipmentCount(type, rare);
     }
 
     public List<CollaborationEquipment> GetCollaborationEquipmentsWithPrice(string type, int pageSize, int offset)

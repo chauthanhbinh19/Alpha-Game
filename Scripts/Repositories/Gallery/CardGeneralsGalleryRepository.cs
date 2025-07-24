@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
 {
-    public List<CardGenerals> GetCardGeneralsCollection(string type, int pageSize, int offset)
+    public List<CardGenerals> GetCardGeneralsCollection(string type, int pageSize, int offset, string rare)
     {
         List<CardGenerals> CardGeneralsList = new List<CardGenerals>();
         string user_id = User.CurrentUserId;
@@ -18,10 +18,12 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 connection.Open();
                 string query = @"SELECT c.*, CASE WHEN cg.card_general_id IS NULL THEN 'block' WHEN cg.status = 'pending' THEN 'pending' WHEN cg.status = 'available' THEN 'available' END AS status
-                FROM card_generals c LEFT JOIN card_generals_gallery cg ON c.id = cg.card_general_id and cg.user_id = @userId where c.type=@type 
+                FROM card_generals c LEFT JOIN card_generals_gallery cg ON c.id = cg.card_general_id and cg.user_id = @userId 
+                where c.type=@type AND (@rare = 'All' or c.rare = @rare)
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -102,7 +104,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
         }
         return CardGeneralsList;
     }
-    public int GetCardGeneralsCount(string type)
+    public int GetCardGeneralsCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -111,9 +113,10 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_generals where type= @type";
+                string query = "Select count(*) from card_generals where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

@@ -516,9 +516,9 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         return cardCaptains;
     }
 
-    public List<CardCaptains> GetUserCardCaptains(string user_id, string type, int pageSize, int offset)
+    public List<CardCaptains> GetUserCardCaptains(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardCaptains> list = _userCardCaptainsRepository.GetUserCardCaptains(user_id, type, pageSize, offset);
+        List<CardCaptains> list = _userCardCaptainsRepository.GetUserCardCaptains(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -548,9 +548,9 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         return _userCardCaptainsRepository.UpdateTeamFactCardCaptains(team_id, position, card_id);
     }
 
-    public int GetUserCardCaptainsCount(string user_id, string type)
+    public int GetUserCardCaptainsCount(string user_id, string type, string rare)
     {
-        return _userCardCaptainsRepository.GetUserCardCaptainsCount(user_id, type);
+        return _userCardCaptainsRepository.GetUserCardCaptainsCount(user_id, type, rare);
     }
 
     public int GetUserCardCaptainsTeamsPositionCount(string user_id, string team_id, string position)

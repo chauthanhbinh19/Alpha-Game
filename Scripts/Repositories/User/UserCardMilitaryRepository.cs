@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserCardMilitaryRepository : IUserCardMilitaryRepository
 {
-    public List<CardMilitary> GetUserCardMilitary(string user_id, string type, int pageSize, int offset)
+    public List<CardMilitary> GetUserCardMilitary(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardMilitary> CardMilitaryList = new List<CardMilitary>();
         // string user_id=User.CurrentUserId;
@@ -21,13 +21,14 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                 FROM user_card_military um
                 LEFT JOIN card_military m ON um.card_military_id = m.id 
                 LEFT JOIN fact_card_military fcm ON fcm.user_id = um.user_id AND fcm.user_card_military_id = um.card_military_id
-                WHERE um.user_id = @userId AND m.type = @type
+                WHERE um.user_id = @userId AND m.type = @type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
                 LIMIT @limit OFFSET @offset;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -371,7 +372,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
         }
         return true;
     }
-    public int GetUserCardMilitaryCount(string user_id, string type)
+    public int GetUserCardMilitaryCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id=User.CurrentUserId;
@@ -381,10 +382,12 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_military m, user_card_military um where m.id=um.card_military_id and um.user_id=@userId and m.type= @type";
+                string query = @"Select count(*) from card_military m, user_card_military um 
+                where m.id=um.card_military_id and um.user_id=@userId and m.type= @type AND (@rare = 'All' or m.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

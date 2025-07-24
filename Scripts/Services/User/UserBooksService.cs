@@ -516,9 +516,9 @@ public class UserBooksService : IUserBooksService
         return books;
     }
 
-    public List<Books> GetUserBooks(string user_id, string type, int pageSize, int offset)
+    public List<Books> GetUserBooks(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = _userBooksRepository.GetUserBooks(user_id, type, pageSize, offset);
+        List<Books> list = _userBooksRepository.GetUserBooks(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -543,9 +543,9 @@ public class UserBooksService : IUserBooksService
         return _userBooksRepository.GetUniqueBookTypesTeam(teamId);
     }
 
-    public int GetUserBooksCount(string user_id, string type)
+    public int GetUserBooksCount(string user_id, string type, string rare)
     {
-        return _userBooksRepository.GetUserBooksCount(user_id, type);
+        return _userBooksRepository.GetUserBooksCount(user_id, type, rare);
     }
 
     public bool InsertUserBooks(Books books)

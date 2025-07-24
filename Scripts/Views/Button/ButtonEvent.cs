@@ -39,6 +39,7 @@ public class ButtonEvent : MonoBehaviour
             Button button = buttonTransform.GetComponent<Button>();
             if (button != null)
             {
+                button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(action);
             }
         }

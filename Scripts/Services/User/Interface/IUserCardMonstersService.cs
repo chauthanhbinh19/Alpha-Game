@@ -8,10 +8,10 @@ public interface IUserCardMonstersService
     List<CardMonsters> GetAllAnimeStatsPower(string user_id, List<CardMonsters> CardMonstersList);
     CardMonsters GetNewLevelPower(CardMonsters c, double coefficient);
     CardMonsters GetNewBreakthroughPower(CardMonsters c, double coefficient);
-    List<CardMonsters> GetUserCardMonsters(string user_id, string type, int pageSize, int offset);
+    List<CardMonsters> GetUserCardMonsters(string user_id, string type, int pageSize, int offset, string rare);
     List<CardMonsters> GetUserCardMonstersTeam(string user_id, string teamId, string position);
     Dictionary<string, int> GetUniqueCardMonsterTypesTeam(string teamId);
-    int GetUserCardMonstersCount(string user_id, string type);
+    int GetUserCardMonstersCount(string user_id, string type, string rare);
     int GetUserCardMonstersTeamsPositionCount(string user_id, string team_id, string position);
     bool InsertUserCardMonsters(CardMonsters CardMonsters);
     bool UpdateCardMonstersLevel(CardMonsters cardMonsters, int cardLevel);

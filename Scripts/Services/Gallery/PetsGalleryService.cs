@@ -14,16 +14,16 @@ public class PetsGalleryService : IPetsGalleryService
         return new PetsGalleryService(new PetsGalleryRepository());
     }
 
-    public List<Pets> GetPetsCollection(string type, int pageSize, int offset)
+    public List<Pets> GetPetsCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Pets> list = _petsGalleryRepository.GetPetsCollection(type, pageSize, offset);
+        List<Pets> list = _petsGalleryRepository.GetPetsCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetPetsCount(string type)
+    public int GetPetsCount(string type, string rare)
     {
-        return _petsGalleryRepository.GetPetsCount(type);
+        return _petsGalleryRepository.GetPetsCount(type, rare);
     }
 
     public void InsertPetsGallery(string Id)

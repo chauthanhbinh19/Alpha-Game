@@ -14,16 +14,16 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
         return new EquipmentsGalleryService(new EquipmentsGalleryRepository());
     }
 
-    public List<Equipments> GetEquipmentsCollection(string type, int pageSize, int offset)
+    public List<Equipments> GetEquipmentsCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> list = _equipmentsGalleryRepository.GetEquipmentsCollection(type, pageSize, offset);
+        List<Equipments> list = _equipmentsGalleryRepository.GetEquipmentsCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetEquipmentsCount(string type)
+    public int GetEquipmentsCount(string type, string rare)
     {
-        return _equipmentsGalleryRepository.GetEquipmentsCount(type);
+        return _equipmentsGalleryRepository.GetEquipmentsCount(type, rare);
     }
 
     public void InsertEquipmentsGallery(string Id)

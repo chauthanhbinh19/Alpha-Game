@@ -19,16 +19,16 @@ public class EquipmentsService : IEquipmentsService
         return _equipmentsRepository.GetUniqueEquipmentsTypes();
     }
 
-    public List<Equipments> GetEquipments(string type, int pageSize, int offset)
+    public List<Equipments> GetEquipments(string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> list = _equipmentsRepository.GetEquipments(type, pageSize, offset);
+        List<Equipments> list = _equipmentsRepository.GetEquipments(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetEquipmentsCount(string type)
+    public int GetEquipmentsCount(string type, string rare)
     {
-        return _equipmentsRepository.GetEquipmentsCount(type);
+        return _equipmentsRepository.GetEquipmentsCount(type, rare);
     }
 
     public List<Equipments> GetEquipmentsWithCurrency(string type, int pageSize, int offset)

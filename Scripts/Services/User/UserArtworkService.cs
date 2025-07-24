@@ -182,16 +182,16 @@ public class UserArtworkService : IUserArtworkService
         return Artwork;
     }
 
-    public List<Artwork> GetUserArtwork(string user_id, string type, int pageSize, int offset)
+    public List<Artwork> GetUserArtwork(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Artwork> list = _userArtworkRepository.GetUserArtwork(user_id, type, pageSize, offset);
+        List<Artwork> list = _userArtworkRepository.GetUserArtwork(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserArtworkCount(string user_id, string type)
+    public int GetUserArtworkCount(string user_id, string type, string rare)
     {
-        return _userArtworkRepository.GetUserArtworkCount(user_id, type);
+        return _userArtworkRepository.GetUserArtworkCount(user_id, type, rare);
     }
 
     public bool InsertUserArtwork(Artwork Artwork)

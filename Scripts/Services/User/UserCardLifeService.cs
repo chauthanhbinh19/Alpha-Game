@@ -181,16 +181,16 @@ public class UserCardLifeService : IUserCardLifeService
         return CardLife;
     }
 
-    public List<CardLife> GetUserCardLife(string user_id, string type, int pageSize, int offset)
+    public List<CardLife> GetUserCardLife(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardLife> list = _userCardLifeRepository.GetUserCardLife(user_id, type, pageSize, offset);
+        List<CardLife> list = _userCardLifeRepository.GetUserCardLife(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserCardLifeCount(string user_id, string type)
+    public int GetUserCardLifeCount(string user_id, string type, string rare)
     {
-        return _userCardLifeRepository.GetUserCardLifeCount(user_id, type);
+        return _userCardLifeRepository.GetUserCardLifeCount(user_id, type, rare);
     }
 
     public bool InsertUserCardLife(CardLife cardLife)

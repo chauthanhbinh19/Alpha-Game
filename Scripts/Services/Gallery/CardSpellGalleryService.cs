@@ -14,16 +14,16 @@ public class CardSpellGalleryService : ICardSpellGalleryService
         return new CardSpellGalleryService(new CardSpellGalleryRepository());
     }
 
-    public List<CardSpell> GetCardSpellCollection(string type, int pageSize, int offset)
+    public List<CardSpell> GetCardSpellCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardSpell> list = _cardSpellGalleryRepository.GetCardSpellCollection(type, pageSize, offset);
+        List<CardSpell> list = _cardSpellGalleryRepository.GetCardSpellCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardSpellCount(string type)
+    public int GetCardSpellCount(string type, string rare)
     {
-        return _cardSpellGalleryRepository.GetCardSpellCount(type);
+        return _cardSpellGalleryRepository.GetCardSpellCount(type, rare);
     }
 
     public void InsertCardSpellGallery(string Id)

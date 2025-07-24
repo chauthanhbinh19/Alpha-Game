@@ -14,16 +14,16 @@ public class BooksGalleryService : IBooksGalleryService
         return new BooksGalleryService(new BooksGalleryRepository());
     }
 
-    public List<Books> GetBooksCollection(string type, int pageSize, int offset)
+    public List<Books> GetBooksCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = _booksGalleryRepository.GetBooksCollection(type, pageSize, offset);
+        List<Books> list = _booksGalleryRepository.GetBooksCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBooksCount(string type)
+    public int GetBooksCount(string type, string rare)
     {
-        return _booksGalleryRepository.GetBooksCount(type);
+        return _booksGalleryRepository.GetBooksCount(type, rare);
     }
 
     public void InsertBooksGallery(string Id)

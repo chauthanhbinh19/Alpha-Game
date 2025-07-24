@@ -19,16 +19,16 @@ public class MagicFormationCircleService : IMagicFormationCircleService
         return _magicFormationCircleRepository.GetUniqueMagicFormationCircleTypes();
     }
 
-    public List<MagicFormationCircle> GetMagicFormationCircle(string type, int pageSize, int offset)
+    public List<MagicFormationCircle> GetMagicFormationCircle(string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircle> list = _magicFormationCircleRepository.GetMagicFormationCircle(type, pageSize, offset);
+        List<MagicFormationCircle> list = _magicFormationCircleRepository.GetMagicFormationCircle(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMagicFormationCircleCount(string type)
+    public int GetMagicFormationCircleCount(string type, string rare)
     {
-        return _magicFormationCircleRepository.GetMagicFormationCircleCount(type);
+        return _magicFormationCircleRepository.GetMagicFormationCircleCount(type, rare);
     }
 
     public List<MagicFormationCircle> GetMagicFormationCircleWithPrice(string type, int pageSize, int offset)

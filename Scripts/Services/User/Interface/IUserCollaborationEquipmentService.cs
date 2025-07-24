@@ -4,8 +4,8 @@ public interface IUserCollaborationEquipmentService
 {
     CollaborationEquipment GetNewLevelPower(CollaborationEquipment c, double coefficient);
     CollaborationEquipment GetNewBreakthroughPower(CollaborationEquipment c, double coefficient);
-    List<CollaborationEquipment> GetUserCollaborationEquipments(string user_id, string type, int pageSize, int offset);
-    int GetUserCollaborationEquipmentCount(string user_id, string type);
+    List<CollaborationEquipment> GetUserCollaborationEquipments(string user_id, string type, int pageSize, int offset, string rare);
+    int GetUserCollaborationEquipmentCount(string user_id, string type, string rare);
     bool InsertUserCollaborationEquipments(CollaborationEquipment collaborationEquipment);
     bool UpdateCollaborationEquipmentsLevel(CollaborationEquipment collaborationEquipment, int cardLevel);
     bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipment collaborationEquipment, int star, int quantity);

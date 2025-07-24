@@ -19,16 +19,16 @@ public class ForgeService : IForgeService
         return _forgeRepository.GetUniqueForgeTypes();
     }
 
-    public List<Forge> GetForge(string type, int pageSize, int offset)
+    public List<Forge> GetForge(string type, int pageSize, int offset, string rare)
     {
-        List<Forge> list = _forgeRepository.GetForge(type, pageSize, offset);
+        List<Forge> list = _forgeRepository.GetForge(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetForgeCount(string type)
+    public int GetForgeCount(string type, string rare)
     {
-        return _forgeRepository.GetForgeCount(type);
+        return _forgeRepository.GetForgeCount(type, rare);
     }
 
     public List<Forge> GetForgeWithPrice(string type, int pageSize, int offset)

@@ -42,7 +42,7 @@ public class CardLifeRepository:ICardLifeRepository
         }
         return typeList;
     }
-    public List<CardLife> GetCardLife(string type, int pageSize, int offset)
+    public List<CardLife> GetCardLife(string type, int pageSize, int offset, string rare)
     {
         List<CardLife> CardLifes = new List<CardLife>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -51,10 +51,11 @@ public class CardLifeRepository:ICardLifeRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from card_life where type =@type 
+                string query = @"Select * from card_life where type =@type AND (@rare = 'All' or rare = @rare)
                 ORDER BY card_life.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(card_life.name, '[0-9]+$') AS UNSIGNED), card_life.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -142,7 +143,7 @@ public class CardLifeRepository:ICardLifeRepository
         }
         return CardLifes;
     }
-    public int GetCardLifeCount(string type)
+    public int GetCardLifeCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -151,9 +152,10 @@ public class CardLifeRepository:ICardLifeRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_life where type =@type";
+                string query = "Select count(*) from card_life where type =@type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

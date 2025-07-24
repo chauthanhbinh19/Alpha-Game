@@ -14,16 +14,16 @@ public class CollaborationGalleryService : ICollaborationGalleryService
         return new CollaborationGalleryService(new CollaborationGalleryRepository());
     }
 
-    public List<Collaboration> GetCollaborationCollection(int pageSize, int offset)
+    public List<Collaboration> GetCollaborationCollection(int pageSize, int offset, string rare)
     {
-        List<Collaboration> list = _collaborationGalleryRepository.GetCollaborationCollection(pageSize, offset);
+        List<Collaboration> list = _collaborationGalleryRepository.GetCollaborationCollection(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCollaborationCount()
+    public int GetCollaborationCount(string rare)
     {
-        return _collaborationGalleryRepository.GetCollaborationCount();
+        return _collaborationGalleryRepository.GetCollaborationCount(rare);
     }
 
     public void InsertCollaborationsGallery(string Id)

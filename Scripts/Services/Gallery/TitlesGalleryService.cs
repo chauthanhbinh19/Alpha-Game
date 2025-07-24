@@ -14,16 +14,16 @@ public class TitlesGalleryService : ITitlesGalleryService
         return new TitlesGalleryService(new TitlesGalleryRepository());
     }
 
-    public List<Titles> GetTitlesCollection(int pageSize, int offset)
+    public List<Titles> GetTitlesCollection(int pageSize, int offset, string rare)
     {
-        List<Titles> list = _titlesGalleryRepository.GetTitlesCollection(pageSize, offset);
+        List<Titles> list = _titlesGalleryRepository.GetTitlesCollection(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTitlesCount()
+    public int GetTitlesCount(string rare)
     {
-        return _titlesGalleryRepository.GetTitlesCount();
+        return _titlesGalleryRepository.GetTitlesCount(rare);
     }
 
     public void InsertTitlesGallery(string Id)

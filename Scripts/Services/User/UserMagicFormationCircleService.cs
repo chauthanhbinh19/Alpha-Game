@@ -181,16 +181,16 @@ public class UserMagicFormationCircleService : IUserMagicFormationCircleService
         return magicFormationCircle;
     }
 
-    public List<MagicFormationCircle> GetUserMagicFormationCircle(string user_id, string type, int pageSize, int offset)
+    public List<MagicFormationCircle> GetUserMagicFormationCircle(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircle> list = _userMagicFormationCircleRepository.GetUserMagicFormationCircle(user_id, type, pageSize, offset);
+        List<MagicFormationCircle> list = _userMagicFormationCircleRepository.GetUserMagicFormationCircle(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserMagicFormationCircleCount(string user_id, string type)
+    public int GetUserMagicFormationCircleCount(string user_id, string type, string rare)
     {
-        return _userMagicFormationCircleRepository.GetUserMagicFormationCircleCount(user_id, type);
+        return _userMagicFormationCircleRepository.GetUserMagicFormationCircleCount(user_id, type, rare);
     }
 
     public bool InsertUserMagicFormationCircle(MagicFormationCircle magicFormationCircle)

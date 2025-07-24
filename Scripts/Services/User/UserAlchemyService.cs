@@ -182,16 +182,16 @@ public class UserAlchemyService : IUserAlchemyService
         return Alchemy;
     }
 
-    public List<Alchemy> GetUserAlchemy(string user_id, string type, int pageSize, int offset)
+    public List<Alchemy> GetUserAlchemy(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Alchemy> list = _userAlchemyRepository.GetUserAlchemy(user_id, type, pageSize, offset);
+        List<Alchemy> list = _userAlchemyRepository.GetUserAlchemy(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserAlchemyCount(string user_id, string type)
+    public int GetUserAlchemyCount(string user_id, string type, string rare)
     {
-        return _userAlchemyRepository.GetUserAlchemyCount(user_id, type);
+        return _userAlchemyRepository.GetUserAlchemyCount(user_id, type, rare);
     }
 
     public bool InsertUserAlchemy(Alchemy alchemy)

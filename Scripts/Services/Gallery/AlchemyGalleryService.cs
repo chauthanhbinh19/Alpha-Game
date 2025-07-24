@@ -14,16 +14,16 @@ public class AlchemyGalleryService : IAlchemyGalleryService
         return new AlchemyGalleryService(new AlchemyGalleryRepository());
     }
 
-    public List<Alchemy> GetAlchemyCollection(string type, int pageSize, int offset)
+    public List<Alchemy> GetAlchemyCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Alchemy> list = _alchemyGalleryRepository.GetAlchemyCollection(type, pageSize, offset);
+        List<Alchemy> list = _alchemyGalleryRepository.GetAlchemyCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetAlchemyCount(string type)
+    public int GetAlchemyCount(string type, string rare)
     {
-        return _alchemyGalleryRepository.GetAlchemyCount(type);
+        return _alchemyGalleryRepository.GetAlchemyCount(type, rare);
     }
 
     public void InsertAlchemyGallery(string Id)

@@ -518,9 +518,9 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         return cardMilitary;
     }
 
-    public List<CardMilitary> GetUserCardMilitary(string user_id, string type, int pageSize, int offset)
+    public List<CardMilitary> GetUserCardMilitary(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardMilitary> list = _userCardMilitaryRepository.GetUserCardMilitary(user_id, type, pageSize, offset);
+        List<CardMilitary> list = _userCardMilitaryRepository.GetUserCardMilitary(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -550,9 +550,9 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         return _userCardMilitaryRepository.UpdateTeamFactCardMilitary(team_id, position, card_id);
     }
 
-    public int GetUserCardMilitaryCount(string user_id, string type)
+    public int GetUserCardMilitaryCount(string user_id, string type, string rare)
     {
-        return _userCardMilitaryRepository.GetUserCardMilitaryCount(user_id, type);
+        return _userCardMilitaryRepository.GetUserCardMilitaryCount(user_id, type, rare);
     }
 
     public int GetUserCardMilitaryTeamsPositionCount(string user_id, string team_id, string position)

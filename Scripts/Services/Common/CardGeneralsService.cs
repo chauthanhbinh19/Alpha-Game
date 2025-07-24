@@ -19,16 +19,16 @@ public class CardGeneralsService : ICardGeneralsService
         return _cardGeneralsRepository.GetUniqueCardGeneralsTypes();
     }
 
-    public List<CardGenerals> GetCardGenerals(string type, int pageSize, int offset)
+    public List<CardGenerals> GetCardGenerals(string type, int pageSize, int offset, string rare)
     {
-        List<CardGenerals> list = _cardGeneralsRepository.GetCardGenerals(type, pageSize, offset);
+        List<CardGenerals> list = _cardGeneralsRepository.GetCardGenerals(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardGeneralsCount(string type)
+    public int GetCardGeneralsCount(string type, string rare)
     {
-        return _cardGeneralsRepository.GetCardGeneralsCount(type);
+        return _cardGeneralsRepository.GetCardGeneralsCount(type, rare);
     }
 
     public List<CardGenerals> GetCardGeneralsRandom(string type, int pageSize)

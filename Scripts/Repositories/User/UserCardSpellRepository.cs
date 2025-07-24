@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserCardSpellRepository : IUserCardSpellRepository
 {
-    public List<CardSpell> GetUserCardSpell(string user_id, string type, int pageSize, int offset)
+    public List<CardSpell> GetUserCardSpell(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardSpell> CardSpellList = new List<CardSpell>();
         // string user_id = User.CurrentUserId;
@@ -21,12 +21,13 @@ public class UserCardSpellRepository : IUserCardSpellRepository
                 FROM user_card_spell us
                 LEFT JOIN card_spell s ON us.card_spell_id = s.id 
                 LEFT JOIN fact_card_spell fcs ON fcs.user_id = us.user_id AND fcs.user_card_spell_id = us.card_spell_id
-                WHERE us.user_id = @userId AND s.type = @type
+                WHERE us.user_id = @userId AND s.type = @type AND (@rare = 'All' or s.rare = @rare)
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name 
                 limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -370,7 +371,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
         }
         return true;
     }
-    public int GetUserCardSpellCount(string user_id, string type)
+    public int GetUserCardSpellCount(string user_id, string type, string rare)
     {
         int count = 0;
         // string user_id = User.CurrentUserId;
@@ -380,10 +381,12 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from card_spell s, user_card_spell us where s.id=us.card_spell_id and us.user_id=@userId and s.type= @type";
+                string query = @"Select count(*) from card_spell s, user_card_spell us 
+                where s.id=us.card_spell_id and us.user_id=@userId and s.type= @type AND (@rare = 'All' or s.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
                 return count;

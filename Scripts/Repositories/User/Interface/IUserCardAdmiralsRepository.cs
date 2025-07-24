@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 public interface IUserCardAdmiralsRepository
 {
-    List<CardAdmirals> GetUserCardAdmirals(string user_id, string type, int pageSize, int offset);
+    List<CardAdmirals> GetUserCardAdmirals(string user_id, string type, int pageSize, int offset, string rare);
     List<CardAdmirals> GetUserCardAdmiralsTeam(string user_id, string teamId, string position);
     Dictionary<string, int> GetUniqueCardAdmiralTypesTeam(string teamId);
     bool UpdateTeamFactCardAdmirals(string team_id, string position, string card_id);
-    int GetUserCardAdmiralsCount(string user_id, string type);
+    int GetUserCardAdmiralsCount(string user_id, string type, string rare);
     int GetUserCardAdmiralsTeamsPositionCount(string user_id, string team_id, string position);
     bool InsertUserCardAdmirals(CardAdmirals CardAdmirals);
     bool UpdateCardAdmiralsLevel(CardAdmirals cardAdmirals, int cardLevel);
