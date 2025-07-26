@@ -1169,7 +1169,7 @@ public class UIManager : MonoBehaviour
                 // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
                 // Đổi màu chữ bằng mã hex #844000
                 Color color;
-                if (ColorUtility.TryParseHtmlString(ColorConstanst.HexColor.descriptionColor, out color)) // Chuyển mã hex thành Color
+                if (ColorUtility.TryParseHtmlString(ColorConstants.HexColor.descriptionColor, out color)) // Chuyển mã hex thành Color
                 {
                     descriptionText.color = color; // Gán màu cho text
                 }
@@ -1470,57 +1470,57 @@ public class UIManager : MonoBehaviour
         Texture runeTexture;
         if (title.Equals("physical_attack") || title.Equals("all_physical_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Physical_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.PhysicalAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("physical_defense") || title.Equals("all_physical_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Physical_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.PhysicalDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("magical_attack") || title.Equals("all_magical_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Magic_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("magical_defense") || title.Equals("all_magical_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Magic_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.MagicDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("chemical_attack") || title.Equals("all_chemical_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Chemical_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.ChemicalAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("chemical_defense") || title.Equals("all_chemical_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Chemical_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.ChemicalDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("atomic_attack") || title.Equals("all_atomic_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Atomic_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.AtomicAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("atomic_defense") || title.Equals("all_atomic_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Atomic_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.AtomicDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("mental_attack") || title.Equals("all_mental_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Mental_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("mental_defense") || title.Equals("all_mental_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Mental_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("health") || title.Equals("all_health"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Mental_1");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Mental1Url}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("speed") || title.Equals("critical_damage_rate") || title.Equals("critical_rate") ||
@@ -1534,7 +1534,7 @@ public class UIManager : MonoBehaviour
                 title.Equals("all_damage_absorption_rate") || title.Equals("all_ignore_damage_absorption_rate") || title.Equals("all_absorbed_damage_rate") ||
                 title.Equals("all_vitality_regeneration_rate") || title.Equals("all_vitality_regeneration_resistance_rate"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Atomic_1");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Atomic1Url}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("accuracy_rate") || title.Equals("lifesteal_rate") ||
@@ -1550,7 +1550,7 @@ public class UIManager : MonoBehaviour
                 title.Equals("all_mana") || title.Equals("all_mana_regeneration_rate") ||
                 title.Equals("all_reflection_rate") || title.Equals("all_ignore_reflection_rate") || title.Equals("all_reflection_damage_rate") || title.Equals("all_reflection_resistance_rate"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Chemical_1");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Chemical1Url}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("damage_to_different_faction_rate") || title.Equals("resistance_to_different_faction_rate") ||
@@ -1562,7 +1562,7 @@ public class UIManager : MonoBehaviour
                 title.Equals("all_normal_damage_rate") || title.Equals("all_normal_resistance_rate") ||
                 title.Equals("all_skill_damage_rate") || title.Equals("all_skill_resistance_rate"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Magic_1");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Magic1Url}");
             runeImage.texture = runeTexture;
         }
         runeImage.gameObject.SetActive(true);

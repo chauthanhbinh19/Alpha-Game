@@ -140,7 +140,7 @@ public class MainMenuManager : MonoBehaviour
         GetButtonType(); // Gọi hàm xử lý
         if (titleText != null)
         {
-            titleText.text = LocalizationManager.Get(type);   
+            titleText.text = LocalizationManager.Get(type);
         }
     }
     public void GetButtonType()
@@ -363,7 +363,9 @@ public class MainMenuManager : MonoBehaviour
             FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
         }
         List<string> uniqueRaries = QualityEvaluator.rarities;
-        if (uniqueRaries.Count > 0)
+        List<string> uniqueTypes = TypeManager.GetUniqueTypes(mainType);
+
+        if (uniqueRaries.Count > 0 && uniqueTypes.Count > 0)
         {
             for (int i = 0; i < uniqueRaries.Count; i++)
             {
@@ -395,7 +397,6 @@ public class MainMenuManager : MonoBehaviour
             }
         }
 
-        List<string> uniqueTypes = TypeManager.GetUniqueTypes(mainType);
         if (uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.Equipment))
         {
             for (int i = 0; i < uniqueTypes.Count; i++)
@@ -510,6 +511,28 @@ public class MainMenuManager : MonoBehaviour
         if (buttonType.Equals("button1"))
         {
             ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_166");
+
+            if (RightScrollViewContentPanel.childCount > 0)
+            {
+                for (int i = 0; i < RightScrollViewContentPanel.childCount; i++)
+                {
+                    Transform child = RightScrollViewContentPanel.GetChild(i);
+                    Button rareButton = child.GetComponent<Button>();
+
+                    if (rareButton != null)
+                    {
+                        if (i == 0)
+                        {
+                            rare = QualityEvaluator.rarities[0]; // hoặc AppConstants.All
+                            ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, "Background_V4_84_2");
+                        }
+                        else
+                        {
+                            ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, "Background_V4_84_1");
+                        }
+                    }
+                }
+            }
         }
         else if (buttonType.Equals("button2"))
         {

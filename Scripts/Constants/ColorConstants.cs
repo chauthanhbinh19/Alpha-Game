@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public static class ColorConstanst
+public static class ColorConstants
 {
     public const string DefaultText = "#F9EED9";
     public const string RareText = "#FFD700"; // Vàng

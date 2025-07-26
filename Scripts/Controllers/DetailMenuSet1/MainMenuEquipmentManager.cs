@@ -46,7 +46,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         set = "set1";
-        rare = "All";
+        rare = AppConstants.All;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuEquipmentPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuEquipmentPanelPrefab");
         PopupEquipmentsPanelPrefab = UIManager.Instance.GetGameObject("PopupEquipmentsPanelPrefab");

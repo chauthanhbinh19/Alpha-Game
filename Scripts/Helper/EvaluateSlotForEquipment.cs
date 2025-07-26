@@ -6,133 +6,133 @@ public static class EvaluateSlotForEquipment
         int slot = 0;
         switch (type)
         {
-            case "Amnitus_Equipment":
+            case AppConstants.Amnitus:
                 slot = 4;
                 break;
-            case "Angelis_Equipment":
+            case AppConstants.Angelis:
                 slot = 1;
                 break;
-            case "Bellion_Equipment":
+            case AppConstants.Bellion:
                 slot = 16;
                 break;
-            case "Benzamin_Equipment":
+            case AppConstants.Benzamin:
                 slot = 4;
                 break;
-            case "Celestial_Equipment":
+            case AppConstants.Celestial:
                 slot = 4;
                 break;
-            case "Ceverus_Equipment":
+            case AppConstants.Ceverus:
                 slot = 10;
                 break;
-            case "Delius_Equipment":
+            case AppConstants.Delius:
                 slot = 10;
                 break;
-            case "Domitius_Equipment":
+            case AppConstants.Domitius:
                 slot = 8;
                 break;
-            case "Everlyn_Equipment":
+            case AppConstants.Everlyn:
                 slot = 6;
                 break;
-            case "Extra_Equipment":
+            case AppConstants.Extra:
                 slot = 4;
                 break;
-            case "Faltus_Equipment":
+            case AppConstants.Faltus:
                 slot = 16;
                 break;
-            case "Fealan_Equipment":
+            case AppConstants.Fealan:
                 slot = 16;
                 break;
-            case "Gamma_Equipment":
+            case AppConstants.Gamma:
                 slot = 8;
                 break;
-            case "Gem_Equipment":
+            case AppConstants.Gem:
                 slot = 8;
                 break;
-            case "Hagoro_Equipment":
+            case AppConstants.Hagoro:
                 slot = 6;
                 break;
-            case "Hakalite_Equipment":
+            case AppConstants.Hakalite:
                 slot = 4;
                 break;
-            case "Ignis_Equipment":
+            case AppConstants.Ignis:
                 slot = 16;
                 break;
-            case "Ivitus_Equipment":
+            case AppConstants.Ivitus:
                 slot = 14;
                 break;
-            case "Jorvan_Equipment":
+            case AppConstants.Jorvan:
                 slot = 10;
                 break;
-            case "Jullian_Equipment":
+            case AppConstants.Jullian:
                 slot = 10;
                 break;
-            case "Karis_Equipment":
+            case AppConstants.Karis:
                 slot = 8;
                 break;
-            case "Karmus_Equipment":
+            case AppConstants.Karmus:
                 slot = 8;
                 break;
-            case "Lotus_Equipment":
+            case AppConstants.Lotus:
                 slot = 16;
                 break;
-            case "Luminius_Equipment":
+            case AppConstants.Luminius:
                 slot = 1;
                 break;
-            case "Macus_Equipment":
+            case AppConstants.Macus:
                 slot = 14;
                 break;
-            case "Morganis_Equipment":
+            case AppConstants.Morganis:
                 slot = 12;
                 break;
-            case "Nimigazin_Equipment":
+            case AppConstants.Nimigazin:
                 slot = 14;
                 break;
-            case "Nova_Equipment":
+            case AppConstants.Nova:
                 slot = 4;
                 break;
-            case "Omonitus_Equipment":
+            case AppConstants.Omonitus:
                 slot = 4;
                 break;
-            case "Omega_Equipment":
+            case AppConstants.Omega:
                 slot = 8;
                 break;
-            case "Pet_Equipment":
+            case AppConstants.Pet:
                 slot = 6;
                 break;
-            case "Pyros_Equipment":
+            case AppConstants.Pyros:
                 slot = 16;
                 break;
-            case "Qiyantus_Equipment":
+            case AppConstants.Qiyantus:
                 slot = 1;
                 break;
-            case "Quasar_Equipment":
+            case AppConstants.Quasar:
                 slot = 1;
                 break;
-            case "Rainbow_Equipment":
+            case AppConstants.Rainbow:
                 slot = 4;
                 break;
-            case "Redvenger_Equipment":
+            case AppConstants.Redvenger:
                 slot = 6;
                 break;
-            case "Souls_Equipment":
+            case AppConstants.Souls:
                 slot = 10;
                 break;
-            case "Syncroharon_Equipment":
+            case AppConstants.Syncroharon:
                 slot = 16;
                 break;
-            case "Tarian_Equipment":
+            case AppConstants.Tarian:
                 slot = 1;
                 break;
-            case "Uni_Equipment":
+            case AppConstants.Uni:
                 slot = 16;
                 break;
-            case "Ultrion_Equipment":
+            case AppConstants.Ultrion:
                 slot = 4;
                 break;
-            case "Zodiac_Equipment":
+            case AppConstants.Zodiac:
                 slot = 12;
                 break;
-            case "Zerox_Equipment":
+            case AppConstants.Zerox:
                 slot = 16;
                 break;
             default:
@@ -145,94 +145,95 @@ public static class EvaluateSlotForEquipment
     {
         switch (type)
         {
-            case "Amnitus_Equipment":
+            case "Amnitus":
                 return true;
-            case "Angelis_Equipment":
+            case "Angelis":
                 return false;
-            case "Bellion_Equipment":
+            case "Bellion":
                 return true;
-            case "Benzamin_Equipment":
+            case "Benzamin":
                 return false;
-            case "Celestial_Equipment":
+            case "Celestial":
                 return true;
-            case "Ceverus_Equipment":
+            case "Ceverus":
                 return true;
-            case "Delius_Equipment":
+            case "Delius":
                 return true;
-            case "Domitius_Equipment":
+            case "Domitius":
                 return true;
-            case "Everlyn_Equipment":
+            case "Everlyn":
                 return true;
-            case "Extra_Equipment":
+            case "Extra":
                 return true;
-            case "Faltus_Equipment":
+            case "Faltus":
                 return true;
-            case "Fealan_Equipment":
+            case "Fealan":
                 return true;
-            case "Gamma_Equipment":
+            case "Gamma":
                 return true;
-            case "Gem_Equipment":
+            case "Gem":
                 return true;
-            case "Hagoro_Equipment":
+            case "Hagoro":
                 return true;
-            case "Hakalite_Equipment":
+            case "Hakalite":
                 return true;
-            case "Ignis_Equipment":
+            case "Ignis":
                 return false;
-            case "Ivitus_Equipment":
+            case "Ivitus":
                 return true;
-            case "Jorvan_Equipment":
+            case "Jorvan":
                 return false;
-            case "Jullian_Equipment":
+            case "Jullian":
                 return true;
-            case "Karis_Equipment":
+            case "Karis":
                 return true;
-            case "Karmus_Equipment":
+            case "Karmus":
                 return false;
-            case "Lotus_Equipment":
+            case "Lotus":
                 return false;
-            case "Luminius_Equipment":
+            case "Luminius":
                 return false;
-            case "Macus_Equipment":
+            case "Macus":
                 return false;
-            case "Morganis_Equipment":
+            case "Morganis":
                 return true;
-            case "Nimigazin_Equipment":
+            case "Nimigazin":
                 return true;
-            case "Nova_Equipment":
+            case "Nova":
                 return true;
-            case "Omonitus_Equipment":
+            case "Omonitus":
                 return true;
-            case "Omega_Equipment":
+            case "Omega":
                 return false;
-            case "Pet_Equipment":
+            case "Pet":
                 return true;
-            case "Pyros_Equipment":
+            case "Pyros":
                 return true;
-            case "Qiyantus_Equipment":
+            case "Qiyantus":
                 return false;
-            case "Quasar_Equipment":
+            case "Quasar":
                 return false;
-            case "Rainbow_Equipment":
+            case "Rainbow":
                 return true;
-            case "Redvenger_Equipment":
+            case "Redvenger":
                 return true;
-            case "Souls_Equipment":
+            case "Souls":
                 return false;
-            case "Syncroharon_Equipment":
+            case "Syncroharon":
                 return true;
-            case "Tarian_Equipment":
+            case "Tarian":
                 return false;
-            case "Uni_Equipment":
+            case "Uni":
                 return true;
-            case "Ultrion_Equipment":
+            case "Ultrion":
                 return false;
-            case "Zodiac_Equipment":
+            case "Zodiac":
                 return false;
-            case "Zerox_Equipment":
+            case "Zerox":
                 return false;
             default:
                 return false;
         }
+
     }
 }

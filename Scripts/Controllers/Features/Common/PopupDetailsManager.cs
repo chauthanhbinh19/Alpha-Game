@@ -198,6 +198,11 @@ public class PopupDetailsManager : MonoBehaviour
             // Xử lý đối tượng achievements
             ShowCardLifeDetails(cardLife);
         }
+        else if (data is Artwork artwork)
+        {
+            // Xử lý đối tượng achievements
+            ShowArtworkDetails(artwork);
+        }
         else
         {
             Debug.LogError("Không hỗ trợ loại dữ liệu này!");
@@ -1282,6 +1287,38 @@ public class PopupDetailsManager : MonoBehaviour
             CreatePropertyUI(1, property, value);
         }
     }
+    private void ShowArtworkDetails(Artwork artwork)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = artwork.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = artwork.power.ToString();
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = artwork.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = artwork.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(artwork, null);
+            CreatePropertyUI(1, property, value);
+        }
+    }
     public void CreatePropertyUI(int status, PropertyInfo property, object value)
     {
         if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
@@ -1455,57 +1492,57 @@ public class PopupDetailsManager : MonoBehaviour
         Texture runeTexture;
         if (title.Equals("physical_attack") || title.Equals("all_physical_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Physical_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.PhysicalAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("physical_defense") || title.Equals("all_physical_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Physical_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.PhysicalDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("magical_attack") || title.Equals("all_magical_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Magic_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("magical_defense") || title.Equals("all_magical_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Magic_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.MagicDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("chemical_attack") || title.Equals("all_chemical_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Chemical_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.ChemicalAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("chemical_defense") || title.Equals("all_chemical_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Chemical_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.ChemicalDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("atomic_attack") || title.Equals("all_atomic_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Atomic_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.AtomicAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("atomic_defense") || title.Equals("all_atomic_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Atomic_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.AtomicDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("mental_attack") || title.Equals("all_mental_attack"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Mental_Attack");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalAttackUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("mental_defense") || title.Equals("all_mental_defense"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Mental_Defense");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalDefenseUrl}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("health") || title.Equals("all_health"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Mental_1");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Mental1Url}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("speed") || title.Equals("critical_damage_rate") || title.Equals("critical_rate") ||
@@ -1519,7 +1556,7 @@ public class PopupDetailsManager : MonoBehaviour
                 title.Equals("all_damage_absorption_rate") || title.Equals("all_ignore_damage_absorption_rate") || title.Equals("all_absorbed_damage_rate") ||
                 title.Equals("all_vitality_regeneration_rate") || title.Equals("all_vitality_regeneration_resistance_rate"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Atomic_1");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Atomic1Url}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("accuracy_rate") || title.Equals("lifesteal_rate") ||
@@ -1535,7 +1572,7 @@ public class PopupDetailsManager : MonoBehaviour
                 title.Equals("all_mana") || title.Equals("all_mana_regeneration_rate") ||
                 title.Equals("all_reflection_rate") || title.Equals("all_ignore_reflection_rate") || title.Equals("all_reflection_damage_rate") || title.Equals("all_reflection_resistance_rate"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Chemical_1");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Chemical1Url}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals("damage_to_different_faction_rate") || title.Equals("resistance_to_different_faction_rate") ||
@@ -1547,7 +1584,7 @@ public class PopupDetailsManager : MonoBehaviour
                 title.Equals("all_normal_damage_rate") || title.Equals("all_normal_resistance_rate") ||
                 title.Equals("all_skill_damage_rate") || title.Equals("all_skill_resistance_rate"))
         {
-            runeTexture = Resources.Load<Texture>($"UI/Rune/Magic_1");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Magic1Url}");
             runeImage.texture = runeTexture;
         }
         runeImage.gameObject.SetActive(true);

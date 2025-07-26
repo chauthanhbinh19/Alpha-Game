@@ -37,7 +37,7 @@ public class GalleryManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        rare = AppConstants.All; 
+        rare = AppConstants.All;
         galleryMenuPanel = GalleryMenuPanel;
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
@@ -230,6 +230,29 @@ public class GalleryManager : MonoBehaviour
         offset = 0;
         ClearAllPrefabs();
         ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_166");
+
+        if (RightScrollViewContentPanel.childCount > 0)
+        {
+            for (int i = 0; i < RightScrollViewContentPanel.childCount; i++)
+            {
+                Transform child = RightScrollViewContentPanel.GetChild(i);
+                Button rareButton = child.GetComponent<Button>();
+
+                if (rareButton != null)
+                {
+                    if (i == 0)
+                    {
+                        rare = QualityEvaluator.rarities[0]; // hoặc AppConstants.All
+                        ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, "Background_V4_84_2");
+                    }
+                    else
+                    {
+                        ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, "Background_V4_84_1");
+                    }
+                }
+            }
+        }
+
         LoadCurrentPage();
     }
     public void OnRareTabButtonClick(GameObject clickedButton, string selectedRare)

@@ -227,7 +227,7 @@ public class CardBase : MonoBehaviour, IAttack
     public void PhysicalAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(Physical_attack, enemyCard.Physical_defense, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstanst.PhysicalGradient, 1f);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.PhysicalGradient, 1f);
         Debug.Log("Physical damage " + damage);
         enemyCard.TakeDamage(damage);
     }
@@ -235,7 +235,7 @@ public class CardBase : MonoBehaviour, IAttack
     public void MagicalAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(Magical_attack, enemyCard.Magical_attack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstanst.MagicGradient, 2f);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.MagicGradient, 2f);
         Debug.Log("Magical damage " + damage);
         enemyCard.TakeDamage(damage);
     }
@@ -243,7 +243,7 @@ public class CardBase : MonoBehaviour, IAttack
     public void ChemicalAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(Chemical_attack, enemyCard.Chemical_attack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstanst.ChemicalGradient, 3f);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.ChemicalGradient, 3f);
         Debug.Log("Chemical damage " + damage);
         enemyCard.TakeDamage(damage);
     }
@@ -251,7 +251,7 @@ public class CardBase : MonoBehaviour, IAttack
     public void AtomicAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(Atomic_attack, enemyCard.Atomic_attack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstanst.AtomicGradient, 4f);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.AtomicGradient, 4f);
         Debug.Log("Atomic damage " + damage);
         enemyCard.TakeDamage(damage);
     }
@@ -259,7 +259,7 @@ public class CardBase : MonoBehaviour, IAttack
     public void MentalAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(Mental_attack, enemyCard.Mental_attack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstanst.MentalGradient, 5f);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.MentalGradient, 5f);
         Debug.Log("Mental damage " + damage);
         enemyCard.TakeDamage(damage);
     }
