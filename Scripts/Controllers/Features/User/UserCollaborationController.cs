@@ -124,7 +124,7 @@ public class UserCollaborationController : MonoBehaviour
             name.text = collaboration.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = collaboration.power.ToString();
+            power.text = NumberFormatter.FormatNumber(collaboration.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

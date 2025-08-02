@@ -119,7 +119,7 @@ public class UserPuppetController : MonoBehaviour
             name.text = puppet.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = puppet.power.ToString();
+            power.text = NumberFormatter.FormatNumber(puppet.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

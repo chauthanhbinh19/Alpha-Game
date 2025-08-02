@@ -111,7 +111,7 @@ public class BordersController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = borderObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = border.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(border.currency.quantity, false);
 
             Button buy = borderObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

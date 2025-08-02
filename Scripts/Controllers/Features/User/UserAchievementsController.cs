@@ -80,7 +80,7 @@ public class UserAchievementsController : MonoBehaviour
             name.text = achievements.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = achievements.power.ToString();
+            power.text = NumberFormatter.FormatNumber(achievements.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

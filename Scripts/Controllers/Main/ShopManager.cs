@@ -101,7 +101,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(14, AppConstants.Titles, Resources.Load<Texture2D>($"UI/Button/TitlesGallery"), tempContent);
         CreateButton(15, AppConstants.MagicFormationCircles, Resources.Load<Texture2D>($"UI/Button/MagicFormationCircleGallery"), tempContent);
         CreateButton(16, AppConstants.Relics, Resources.Load<Texture2D>($"UI/Button/RelicsGallery"), tempContent);
-        CreateButton(17, AppConstants.Items, Resources.Load<Texture2D>($"UI/Button/ItemsGallery"), tempContent);
+        CreateButton(17, AppConstants.Artworks, Resources.Load<Texture2D>($"UI/Button/ArtworkGallery"), tempContent);
         CreateButton(18, AppConstants.Alchievements, Resources.Load<Texture2D>($"UI/Button/AchievementGallery"), tempContent);
         CreateButton(19, AppConstants.CardColonels, Resources.Load<Texture2D>($"UI/Button/teachings_of_conflict"), tempContent);
         CreateButton(20, AppConstants.CardGenerals, Resources.Load<Texture2D>($"UI/Button/teachings_of_contention"), tempContent);
@@ -111,7 +111,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(24, AppConstants.Alchemies, Resources.Load<Texture2D>($"UI/Button/AlchemyGallery"), tempContent);
         CreateButton(25, AppConstants.Forges, Resources.Load<Texture2D>($"UI/Button/ForgeGallery"), tempContent);
         CreateButton(26, AppConstants.CardLives, Resources.Load<Texture2D>($"UI/Button/LifeGallery"), tempContent);
-        CreateButton(27, AppConstants.Artwork, Resources.Load<Texture2D>($"UI/Button/ArtworkGallery"), tempContent);
+        // CreateButton(27, AppConstants.Artwork, Resources.Load<Texture2D>($"UI/Button/ArtworkGallery"), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.CardHero));
         AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.Book));
@@ -129,7 +129,7 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_14", tempContent, () => GetType(AppConstants.Title));
         AssignButtonEvent("Button_15", tempContent, () => GetType(AppConstants.MagicFormationCircle));
         AssignButtonEvent("Button_16", tempContent, () => GetType(AppConstants.Relic));
-        AssignButtonEvent("Button_17", tempContent, () => GetType(AppConstants.Item));
+        AssignButtonEvent("Button_17", tempContent, () => GetType(AppConstants.Artwork));
         AssignButtonEvent("Button_18", tempContent, () => GetType(AppConstants.Alchievement));
         AssignButtonEvent("Button_19", tempContent, () => GetType(AppConstants.CardColonel));
         AssignButtonEvent("Button_20", tempContent, () => GetType(AppConstants.CardGeneral));
@@ -139,7 +139,7 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_24", tempContent, () => GetType(AppConstants.Alchemy));
         AssignButtonEvent("Button_25", tempContent, () => GetType(AppConstants.Forge));
         AssignButtonEvent("Button_26", tempContent, () => GetType(AppConstants.CardLife));
-        AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.Artwork));
+        // AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.Artwork));
     }
     private void CreateButton(int index, string itemName, Texture2D itemImage, Transform panel)
     {

@@ -36,6 +36,7 @@ public class CurrencyManager : MonoBehaviour
 
             Text Title = currencyObject.transform.Find("Content").GetComponent<Text>();
             Title.text = currency.quantity.ToString();
+            Title.text = NumberFormatter.FormatNumber(currency.quantity, false);
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);
@@ -51,7 +52,7 @@ public class CurrencyManager : MonoBehaviour
             GameObject currencyObject = Instantiate(currencyPrefab, itemPanel);
 
             Text Title = currencyObject.transform.Find("Content").GetComponent<Text>();
-            Title.text = item.quantity.ToString();
+            Title.text = NumberFormatter.FormatNumber(item.quantity, false);
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);

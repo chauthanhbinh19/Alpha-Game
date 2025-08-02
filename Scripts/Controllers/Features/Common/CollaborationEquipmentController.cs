@@ -104,7 +104,7 @@ public class CollaborationEquipmentController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = collaborationEquipmentObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = collaborationEquipment.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(collaborationEquipment.currency.quantity, false);
 
             Button buy = collaborationEquipmentObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

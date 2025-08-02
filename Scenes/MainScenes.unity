@@ -5320,7 +5320,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: c47be30920de57c45b205a278bc6e298, type: 3}
+  m_Texture: {fileID: 2800000, guid: 08494c720fd1b4d4fa0e091ff8fc56d4, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -9499,6 +9499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebc18ce203f3004da3316d25ccc83f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rareTabButtons: []
 --- !u!1 &2124865761
 GameObject:
   m_ObjectHideFlags: 0

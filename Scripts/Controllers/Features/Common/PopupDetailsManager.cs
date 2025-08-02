@@ -224,7 +224,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = card.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = card.power.ToString();
+        power.text = NumberFormatter.FormatNumber(card.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = card.level.ToString();
@@ -271,7 +271,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = book.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = book.power.ToString();
+        power.text = NumberFormatter.FormatNumber(book.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = book.level.ToString();
@@ -303,7 +303,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = captains.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = captains.power.ToString();
+        power.text = NumberFormatter.FormatNumber(captains.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = captains.level.ToString();
@@ -355,7 +355,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = pet.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = pet.power.ToString();
+        power.text = NumberFormatter.FormatNumber(pet.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = pet.level.ToString();
@@ -403,7 +403,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = collaborationEquipment.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = collaborationEquipment.power.ToString();
+        power.text = NumberFormatter.FormatNumber(collaborationEquipment.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = collaborationEquipment.level.ToString();
@@ -435,7 +435,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = military.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = military.power.ToString();
+        power.text = NumberFormatter.FormatNumber(military.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = military.level.ToString();
@@ -467,7 +467,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = spell.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = spell.power.ToString();
+        power.text = NumberFormatter.FormatNumber(spell.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = spell.level.ToString();
@@ -499,7 +499,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = collaboration.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = collaboration.power.ToString();
+        power.text = NumberFormatter.FormatNumber(collaboration.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = collaboration.level.ToString();
@@ -531,7 +531,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = monsters.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = monsters.power.ToString();
+        power.text = NumberFormatter.FormatNumber(monsters.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = monsters.level.ToString();
@@ -579,7 +579,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = equipments.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = equipments.power.ToString();
+        power.text = NumberFormatter.FormatNumber(equipments.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = equipments.level.ToString();
@@ -626,7 +626,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = medals.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = medals.power.ToString();
+        power.text = NumberFormatter.FormatNumber(medals.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = medals.level.ToString();
@@ -674,7 +674,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = skills.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = skills.power.ToString();
+        power.text = NumberFormatter.FormatNumber(skills.power, false);
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() => ClosePopup(popupObject));
@@ -706,7 +706,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = symbols.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = symbols.power.ToString();
+        power.text = NumberFormatter.FormatNumber(symbols.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -754,7 +754,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = titles.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = titles.power.ToString();
+        power.text = NumberFormatter.FormatNumber(titles.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -802,7 +802,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = borders.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = borders.power.ToString();
+        power.text = NumberFormatter.FormatNumber(borders.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -850,7 +850,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = achievements.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = achievements.power.ToString();
+        power.text = NumberFormatter.FormatNumber(achievements.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -898,7 +898,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = magicFormationCircle.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = magicFormationCircle.power.ToString();
+        power.text = NumberFormatter.FormatNumber(magicFormationCircle.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -946,7 +946,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = relics.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = relics.power.ToString();
+        power.text = NumberFormatter.FormatNumber(relics.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -978,7 +978,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = colonels.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = colonels.power.ToString();
+        power.text = NumberFormatter.FormatNumber(colonels.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -1010,7 +1010,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = generals.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = generals.power.ToString();
+        power.text = NumberFormatter.FormatNumber(generals.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -1042,7 +1042,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = admirals.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = admirals.power.ToString();
+        power.text = NumberFormatter.FormatNumber(admirals.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -1090,7 +1090,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = talisman.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = talisman.power.ToString();
+        power.text = NumberFormatter.FormatNumber(talisman.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -1138,7 +1138,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = puppet.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = puppet.power.ToString();
+        power.text = NumberFormatter.FormatNumber(puppet.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -1186,7 +1186,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = alchemy.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = alchemy.power.ToString();
+        power.text = NumberFormatter.FormatNumber(alchemy.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -1234,7 +1234,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = forge.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = forge.power.ToString();
+        power.text = NumberFormatter.FormatNumber(forge.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -1266,7 +1266,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = card.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = card.power.ToString();
+        power.text = NumberFormatter.FormatNumber(card.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = card.level.ToString();
@@ -1298,7 +1298,7 @@ public class PopupDetailsManager : MonoBehaviour
         name.text = artwork.name;
 
         TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = artwork.power.ToString();
+        power.text = NumberFormatter.FormatNumber(artwork.power, false);
 
         TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = artwork.level.ToString();
@@ -1391,7 +1391,7 @@ public class PopupDetailsManager : MonoBehaviour
                         // Gán giá trị thuộc tính vào ContentText
                         TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                         if (elementContentText != null)
-                            elementContentText.text = intValue.ToString();
+                            elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
 
                         RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
                         CreatePropertyRuneUI(property.Name, runeImage);
@@ -1420,7 +1420,7 @@ public class PopupDetailsManager : MonoBehaviour
                         // Gán giá trị thuộc tính vào ContentText
                         TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                         if (elementContentText != null)
-                            elementContentText.text = intValue.ToString();
+                            elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
 
                         RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
                         CreatePropertyRuneUI(property.Name, runeImage);
@@ -1450,7 +1450,7 @@ public class PopupDetailsManager : MonoBehaviour
                         // Gán giá trị thuộc tính vào ContentText
                         TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                         if (elementContentText != null)
-                            elementContentText.text = intValue.ToString();
+                            elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
 
                         RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
                         CreatePropertyRuneUI(property.Name, runeImage);
@@ -1478,7 +1478,7 @@ public class PopupDetailsManager : MonoBehaviour
                         // Gán giá trị thuộc tính vào ContentText
                         TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                         if (elementContentText != null)
-                            elementContentText.text = intValue.ToString();
+                            elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
 
                         RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
                         CreatePropertyRuneUI(property.Name, runeImage);

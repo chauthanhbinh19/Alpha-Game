@@ -81,7 +81,7 @@ public class UserEquipmentsController : MonoBehaviour
             name.text = equipment.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = equipment.power.ToString();
+            power.text = NumberFormatter.FormatNumber(equipment.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

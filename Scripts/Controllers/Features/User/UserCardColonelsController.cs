@@ -142,7 +142,7 @@ public class UserCardColonelsController : MonoBehaviour
             name.text = cardColonels.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = cardColonels.all_power.ToString();
+            power.text = NumberFormatter.FormatNumber(cardColonels.all_power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

@@ -105,7 +105,7 @@ public class CardSpellController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = spellObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = spell.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(spell.currency.quantity, false);
 
             Button buy = spellObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

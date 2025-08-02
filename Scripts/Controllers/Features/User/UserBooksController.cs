@@ -204,7 +204,7 @@ public class UserBooksController : MonoBehaviour
             name.text = book.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = book.all_power.ToString();
+            power.text = NumberFormatter.FormatNumber(book.all_power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

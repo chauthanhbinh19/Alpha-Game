@@ -160,7 +160,7 @@ public class MasterBoardController : MonoBehaviour
 
         TextMeshProUGUI materialNameText = popup.transform.Find("Material/QuantityText").GetComponent<TextMeshProUGUI>();
         int materialQuantity = QualityEvaluator.CheckQuality(masterBoard.rank_level);
-        materialNameText.text = materialQuantity.ToString();
+        materialNameText.text = NumberFormatter.FormatNumber(materialQuantity, false);
 
         buyButton.onClick.AddListener(() =>
         {

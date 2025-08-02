@@ -104,7 +104,7 @@ public class CardLifeController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = cardObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = card.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(card.currency.quantity, false);
 
             Button buy = cardObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

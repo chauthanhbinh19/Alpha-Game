@@ -114,7 +114,7 @@ public class UserMedalsController : MonoBehaviour
             name.text = medal.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = medal.power.ToString();
+            power.text = NumberFormatter.FormatNumber(medal.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

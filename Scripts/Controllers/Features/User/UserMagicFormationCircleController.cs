@@ -119,7 +119,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             name.text = magicFormationCircle.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = magicFormationCircle.power.ToString();
+            power.text = NumberFormatter.FormatNumber(magicFormationCircle.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

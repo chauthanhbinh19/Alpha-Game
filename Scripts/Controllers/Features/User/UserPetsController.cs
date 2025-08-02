@@ -148,7 +148,7 @@ public class UserPetsController : MonoBehaviour
             name.text = pet.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = pet.all_power.ToString();
+            power.text = NumberFormatter.FormatNumber(pet.all_power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

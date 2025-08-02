@@ -147,7 +147,7 @@ public class UserCardMonstersController : MonoBehaviour
             name.text = cardMonsters.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = cardMonsters.all_power.ToString();
+            power.text = NumberFormatter.FormatNumber(cardMonsters.all_power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

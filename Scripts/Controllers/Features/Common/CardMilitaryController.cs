@@ -105,7 +105,7 @@ public class CardMilitaryController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = militaryObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = military.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(military.currency.quantity, false);
 
             Button buy = militaryObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

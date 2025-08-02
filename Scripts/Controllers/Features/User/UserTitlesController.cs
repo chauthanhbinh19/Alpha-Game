@@ -122,7 +122,7 @@ public class UserTitlesController : MonoBehaviour
             name.text = title.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = title.power.ToString();
+            power.text = NumberFormatter.FormatNumber(title.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

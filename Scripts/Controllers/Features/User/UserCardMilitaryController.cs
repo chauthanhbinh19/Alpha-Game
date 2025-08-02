@@ -148,7 +148,7 @@ public class UserCardMilitaryController : MonoBehaviour
             name.text = cardMilitary.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = cardMilitary.all_power.ToString();
+            power.text = NumberFormatter.FormatNumber(cardMilitary.all_power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

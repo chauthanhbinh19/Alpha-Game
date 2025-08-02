@@ -56,17 +56,6 @@ public class ItemsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            // // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            // EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            // scrollEntry.callback.AddListener((eventData) =>
-            // {
-            //     var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
-            //     if (scrollRect != null)
-            //     {
-            //         scrollRect.OnScroll((PointerEventData)eventData);
-            //     }
-            // });
-            // eventTrigger.triggers.Add(scrollEntry);
 
             // RawImage rareImage = collaborationObject.transform.Find("Rare").GetComponent<RawImage>();
             // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
@@ -78,7 +67,7 @@ public class ItemsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = itemObject.transform.Find("CurrencyText").GetComponent<Text>();
-            // currencyText.text = collaboration.currency.quantity.ToString();
+            // currencyText.text = NumberFormatter.FormatNumber(item.currency.quantity, false);
 
             Button buy = itemObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

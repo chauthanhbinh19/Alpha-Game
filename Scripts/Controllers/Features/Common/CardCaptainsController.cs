@@ -104,7 +104,7 @@ public class CardCaptainsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = captainsObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = captain.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(captain.currency.quantity, false);
 
             Button buy = captainsObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

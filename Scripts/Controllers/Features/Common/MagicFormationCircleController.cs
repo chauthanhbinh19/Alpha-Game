@@ -108,7 +108,7 @@ public class MagicFormationCircleController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = magicFormationCircleObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = magicFormationCircle.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(magicFormationCircle.currency.quantity, false);
 
             Button buy = magicFormationCircleObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

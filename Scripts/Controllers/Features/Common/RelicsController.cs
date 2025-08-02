@@ -108,7 +108,7 @@ public class RelicsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = relicObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = relic.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(relic.currency.quantity, false);
 
             Button buy = relicObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

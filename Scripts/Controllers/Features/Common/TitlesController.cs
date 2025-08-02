@@ -113,7 +113,7 @@ public class TitlesController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = titleObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = title.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(title.currency.quantity, false);
 
             Button buy = titleObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

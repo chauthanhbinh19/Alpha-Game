@@ -347,6 +347,7 @@ public static class AppConstants
     public const string Souls = "Souls_Equipment";
     public const string Syncroharon = "Syncroharon_Equipment";
     public const string Tarian = "Tarian_Equipment";
+    public const string Teyric = "Teyric_Equipment";
     public const string Uni = "Uni_Equipment";
     public const string Ultrion = "Ultrion_Equipment";
     public const string Zodiac = "Zodiac_Equipment";

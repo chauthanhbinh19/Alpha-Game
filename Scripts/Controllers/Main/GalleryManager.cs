@@ -127,13 +127,14 @@ public class GalleryManager : MonoBehaviour
             for (int i = 0; i < uniqueRaries.Count; i++)
             {
                 string selectedRare = uniqueRaries[i];
+                string rareTemp = selectedRare;
                 GameObject button = Instantiate(buttonPrefab, RightScrollViewContentPanel);
 
                 Text buttonText = button.GetComponentInChildren<Text>();
                 buttonText.text = LocalizationManager.Get(selectedRare);
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnRareTabButtonClick(button, selectedRare));
+                btn.onClick.AddListener(() => OnRareTabButtonClick(button, rareTemp));
 
                 if (i == 0)
                 {
@@ -356,6 +357,34 @@ public class GalleryManager : MonoBehaviour
             CardSpellController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
 
             totalRecord = CardSpellService.Create().GetCardSpellCount(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.Collaboration))
+        {
+            List<Collaboration> collaborations = CollaborationService.Create().GetCollaboration(pageSize, offset, rare);
+            CollaborationController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
+
+            totalRecord = CollaborationService.Create().GetCollaborationCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.Medal))
+        {
+            List<Medals> medalsList = MedalsService.Create().GetMedals(pageSize, offset, rare);
+            MedalsController.Instance.CreateMedalsGallery(medalsList, DictionaryContentPanel);
+
+            totalRecord = MedalsService.Create().GetMedalsCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.Title))
+        {
+            List<Titles> titles = TitlesService.Create().GetTitles(pageSize, offset, rare);
+            TitlesController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
+
+            totalRecord = TitlesService.Create().GetTitlesCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.Border))
+        {
+            List<Borders> borders = BordersService.Create().GetBorders(pageSize, offset, rare);
+            BordersController.Instance.CreateBordersGallery(borders, DictionaryContentPanel);
+
+            totalRecord = BordersService.Create().GetBordersCount(rare);
         }
         else if (mainType.Equals(AppConstants.MagicFormationCircle))
         {

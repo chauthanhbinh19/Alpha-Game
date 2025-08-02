@@ -133,7 +133,7 @@ public class BooksController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = bookObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = book.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(book.currency.quantity, false);
 
             Button buy = bookObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

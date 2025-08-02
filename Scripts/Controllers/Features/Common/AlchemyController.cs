@@ -108,7 +108,7 @@ public class AlchemyController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = alchemyObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = alchemy.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(alchemy.currency.quantity, false);
 
             Button buy = alchemyObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

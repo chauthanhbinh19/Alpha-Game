@@ -108,7 +108,7 @@ public class ForgeController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = forgeObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = forge.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(forge.currency.quantity, false);
 
             Button buy = forgeObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

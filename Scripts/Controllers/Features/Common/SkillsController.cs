@@ -108,7 +108,7 @@ public class SkillsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = skillObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = skill.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(skill.currency.quantity, false);
 
             Button buy = skillObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

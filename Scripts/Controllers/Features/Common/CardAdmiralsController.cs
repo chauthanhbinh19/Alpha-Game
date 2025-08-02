@@ -105,7 +105,7 @@ public class CardAdmiralsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = admiralObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = cardAdmiral.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(cardAdmiral.currency.quantity, false);
 
             Button buy = admiralObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

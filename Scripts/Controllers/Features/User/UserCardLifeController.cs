@@ -116,7 +116,7 @@ public class UserCardLifeController : MonoBehaviour
             name.text = cardLife.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = cardLife.power.ToString();
+            power.text = NumberFormatter.FormatNumber(cardLife.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

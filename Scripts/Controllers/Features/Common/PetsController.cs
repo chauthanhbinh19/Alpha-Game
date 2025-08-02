@@ -158,7 +158,7 @@ public class PetsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = petsObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = pet.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(pet.currency.quantity, false);
 
             Button buy = petsObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

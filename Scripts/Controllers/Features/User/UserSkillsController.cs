@@ -106,7 +106,7 @@ public class UserSkillsController : MonoBehaviour
             name.text = skill.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = skill.power.ToString();
+            power.text = NumberFormatter.FormatNumber(skill.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

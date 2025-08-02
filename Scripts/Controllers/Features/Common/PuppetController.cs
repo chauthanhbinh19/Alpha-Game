@@ -108,7 +108,7 @@ public class PuppetController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = puppetObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = puppet.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(puppet.currency.quantity, false);
 
             Button buy = puppetObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

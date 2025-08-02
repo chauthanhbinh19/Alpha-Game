@@ -108,7 +108,7 @@ public class ArtworkController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = ArtworkObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = Artwork.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(Artwork.currency.quantity, false);
 
             Button buy = ArtworkObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

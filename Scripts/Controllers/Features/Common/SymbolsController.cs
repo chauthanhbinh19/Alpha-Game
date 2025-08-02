@@ -111,7 +111,7 @@ public class SymbolsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = symbolObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = symbol.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(symbol.currency.quantity, false);
 
             Button buy = symbolObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

@@ -248,6 +248,6 @@ public class DailyCheckinManager : MonoBehaviour
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         dailyCheckinImage.texture = texture;
 
-        quantityText.text = quantity.ToString();
+        quantityText.text = NumberFormatter.FormatNumber(quantity, false);
     }
 }

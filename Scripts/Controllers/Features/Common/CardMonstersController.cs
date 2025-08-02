@@ -104,7 +104,7 @@ public class CardMonstersController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = monstersObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = monster.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(monster.currency.quantity, false);
 
             Button buy = monstersObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

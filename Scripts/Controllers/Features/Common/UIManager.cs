@@ -1253,7 +1253,7 @@ public class UIManager : MonoBehaviour
                                 // Gán giá trị thuộc tính vào ContentText
                                 TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                                 if (elementContentText != null)
-                                    elementContentText.text = intValue.ToString();
+                                    elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
 
                                 RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
                                 CreatePropertyRuneUI(property.Name, runeImage);
@@ -1274,7 +1274,7 @@ public class UIManager : MonoBehaviour
                                 // Gán giá trị thuộc tính vào ContentText
                                 TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                                 if (elementContentText != null)
-                                    elementContentText.text = intValue.ToString();
+                                    elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
 
                                 RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
                                 CreatePropertyRuneUI(property.Name, runeImage);
@@ -1314,7 +1314,7 @@ public class UIManager : MonoBehaviour
                                 // Gán giá trị thuộc tính vào ContentText
                                 TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                                 if (elementContentText != null)
-                                    elementContentText.text = intValue.ToString();
+                                    elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
                                 RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
                                 CreatePropertyRuneUI(property.Name, runeImage);
                             }
@@ -1608,7 +1608,7 @@ public class UIManager : MonoBehaviour
                         if (elementContentText != null)
                         {
                             double newintValue = increasePerLevel * intValue;
-                            elementContentText.text = "+" + newintValue.ToString();
+                            elementContentText.text = "+" + NumberFormatter.FormatNumber(newintValue, false);
                             Color greenColor;
                             if (ColorUtility.TryParseHtmlString("#32CD32", out greenColor)) // Màu xanh lá LimeGreen
                             {
@@ -1656,7 +1656,7 @@ public class UIManager : MonoBehaviour
                         if (elementContentText != null)
                         {
                             double newintValue = increasePerUpgrade * intValue;
-                            elementContentText.text = "+" + newintValue.ToString();
+                            elementContentText.text = "+" + NumberFormatter.FormatNumber(newintValue, false);
                             Color greenColor;
                             if (ColorUtility.TryParseHtmlString("#32CD32", out greenColor)) // Màu xanh lá LimeGreen
                             {
@@ -1688,17 +1688,17 @@ public class UIManager : MonoBehaviour
     public void CreateMaterialUI(List<Items> items, GameObject currentObject)
     {
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        foreach (Items items1 in items)
+        foreach (Items item in items)
         {
             GameObject itemObject = Instantiate(ItemThird, LevelMaterialContent);
 
             RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = items1.image.Replace(".png", "");
+            string fileNameWithoutExtension = item.image.Replace(".png", "");
             Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             eImage.texture = equipmentTexture;
 
             TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
-            eQuantity.text = items1.quantity.ToString();
+            eQuantity.text = NumberFormatter.FormatNumber(item.quantity, false);
         }
     }
     public void CreateStarUI(int star, GameObject currentObject)

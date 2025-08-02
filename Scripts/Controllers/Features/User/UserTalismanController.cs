@@ -119,7 +119,7 @@ public class UserTalismanController : MonoBehaviour
             name.text = talisman.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = talisman.power.ToString();
+            power.text = NumberFormatter.FormatNumber(talisman.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

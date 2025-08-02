@@ -127,7 +127,7 @@ public class UserSymbolsController : MonoBehaviour
             name.text = symbol.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = symbol.power.ToString();
+            power.text = NumberFormatter.FormatNumber(symbol.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();

@@ -105,7 +105,7 @@ public class CardGeneralsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = cardGeneral.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(cardGeneral.currency.quantity, false);
 
             Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

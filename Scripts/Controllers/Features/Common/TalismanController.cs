@@ -108,7 +108,7 @@ public class TalismanController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = talismanObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = talisman.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(talisman.currency.quantity, false);
 
             Button buy = talismanObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();

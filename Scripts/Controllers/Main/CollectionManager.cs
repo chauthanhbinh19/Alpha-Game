@@ -135,13 +135,14 @@ public class CollectionManager : MonoBehaviour
             for (int i = 0; i < uniqueRaries.Count; i++)
             {
                 string selectedRare = uniqueRaries[i];
+                string rareTemp = selectedRare;
                 GameObject button = Instantiate(buttonPrefab, RightScrollViewContentPanel);
 
                 Text buttonText = button.GetComponentInChildren<Text>();
                 buttonText.text = LocalizationManager.Get(selectedRare);
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnRareTabButtonClick(button, selectedRare));
+                btn.onClick.AddListener(() => OnRareTabButtonClick(button, rareTemp));
 
                 if (i == 0)
                 {
@@ -238,24 +239,6 @@ public class CollectionManager : MonoBehaviour
         offset = 0;
         ClearAllPrefabs();
         ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_166");
-        LoadCurrentPage();
-    }
-    public void OnRareTabButtonClick(GameObject clickedButton, string selectedRare)
-    {
-        foreach (Transform child in RightScrollViewContentPanel)
-        {
-            Button button = child.GetComponent<Button>();
-            if (button != null)
-            {
-                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, "Background_V4_84_1");
-            }
-        }
-
-        rare = selectedRare;
-        currentPage = 1;
-        offset = 0;
-        ClearAllPrefabs();
-        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_84_2");
 
         if (RightScrollViewContentPanel.childCount > 0)
         {
@@ -278,7 +261,25 @@ public class CollectionManager : MonoBehaviour
                 }
             }
         }
-        
+
+        LoadCurrentPage();
+    }
+    public void OnRareTabButtonClick(GameObject clickedButton, string selectedRare)
+    {
+        foreach (Transform child in RightScrollViewContentPanel)
+        {
+            Button button = child.GetComponent<Button>();
+            if (button != null)
+            {
+                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, "Background_V4_84_1");
+            }
+        }
+
+        rare = selectedRare;
+        currentPage = 1;
+        offset = 0;
+        ClearAllPrefabs();
+        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, "Background_V4_84_2");
         LoadCurrentPage();
     }
     public void LoadCurrentPage()
@@ -364,6 +365,38 @@ public class CollectionManager : MonoBehaviour
             CardSpellGalleryController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
 
             totalRecord = cardSpellGalleryService.GetCardSpellCount(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.Collaboration))
+        {
+            var collaborationGalleryService = CollaborationGalleryService.Create();
+            List<Collaboration> collaborations = collaborationGalleryService.GetCollaborationCollection(pageSize, offset, rare);
+            CollaborationGalleryController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
+
+            totalRecord = collaborationGalleryService.GetCollaborationCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.Medal))
+        {
+            var medalsGalleryService = MedalsGalleryService.Create();
+            List<Medals> medals = medalsGalleryService.GetMedalsCollection(pageSize, offset, rare);
+            MedalsGalleryController.Instance.CreateMedalsGallery(medals, DictionaryContentPanel);
+
+            totalRecord = medalsGalleryService.GetMedalsCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.Title))
+        {
+            var titlesGalleryService = TitlesGalleryService.Create();
+            List<Titles> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
+            TitlesGalleryController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
+
+            totalRecord = titlesGalleryService.GetTitlesCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.Border))
+        {
+            var bordersGalleryService = BordersGalleryService.Create();
+            List<Borders> borders = bordersGalleryService.GetBordersCollection(pageSize, offset, rare);
+            BordersGalleryController.Instance.CreateBordersGallery(borders, DictionaryContentPanel);
+
+            totalRecord = bordersGalleryService.GetBordersCount(rare);
         }
         else if (mainType.Equals(AppConstants.MagicFormationCircle))
         {

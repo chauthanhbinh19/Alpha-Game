@@ -370,13 +370,14 @@ public class MainMenuManager : MonoBehaviour
             for (int i = 0; i < uniqueRaries.Count; i++)
             {
                 string selectedRare = uniqueRaries[i];
+                string rareTemp = selectedRare;
                 GameObject button = Instantiate(buttonPrefab, RightScrollViewContentPanel);
 
                 Text buttonText = button.GetComponentInChildren<Text>();
                 buttonText.text = LocalizationManager.Get(selectedRare);
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnRareTabButtonClick(button, selectedRare));
+                btn.onClick.AddListener(() => OnRareTabButtonClick(button, rareTemp));
 
                 if (i == 0)
                 {
@@ -642,6 +643,30 @@ public class MainMenuManager : MonoBehaviour
             listCount = cardSpells.Count;
 
             totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, type, rare);
+        }
+        else if (mainType.Equals(AppConstants.Collaboration))
+        {
+            List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
+            UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
+            listCount = collaborations.Count;
+
+            totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.Medal))
+        {
+            List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
+            UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
+            listCount = medals.Count;
+
+            totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.Title))
+        {
+            List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
+            UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
+            listCount = titles.Count;
+
+            totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MagicFormationCircle))
         {

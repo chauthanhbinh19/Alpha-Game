@@ -109,7 +109,7 @@ public class MedalsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = medalObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = medal.currency.quantity.ToString();
+            currencyText.text = NumberFormatter.FormatNumber(medal.currency.quantity, false);
 
             Button buy = medalObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
