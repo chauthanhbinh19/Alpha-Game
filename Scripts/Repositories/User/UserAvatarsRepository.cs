@@ -276,6 +276,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -422,6 +423,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }

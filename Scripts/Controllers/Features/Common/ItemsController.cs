@@ -43,8 +43,13 @@ public class ItemsController : MonoBehaviour
     {
 
     }
-    public void CreateItemsTrade(List<Items> items, Currency currency, Transform currentContent, Transform currencyPanel)
+    public void CreateItemsTrade(List<Items> items, Currency currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
+        List<Currency> currencies = new List<Currency>();
+        var tempCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.id);
+        currencies.Add(tempCurrency);
+        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+
         foreach (var item in items)
         {
             GameObject itemObject = Instantiate(equipmentsShopPrefab, currentContent);
@@ -67,22 +72,18 @@ public class ItemsController : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Text currencyText = itemObject.transform.Find("CurrencyText").GetComponent<Text>();
-            // currencyText.text = NumberFormatter.FormatNumber(item.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(item.price, false);
 
             Button buy = itemObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppConstants.Buy);
-            // buy.onClick.AddListener(() =>
-            // {
-            //     GetQuantity(collaboration.currency.quantity, collaboration, subType, popupPanel, currencyPanel);
-            // });
+            buy.onClick.AddListener(() =>
+            {
+                GetQuantity(item.price, item, popupPanel, currency, currencyPanel);
+            });
         }
-
-        List<Currency> currencies = new List<Currency>();
-        currencies.Add(currency);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
-    public void GetQuantity(int price, object obj, string subType, Transform popupPanel, Transform currencyPanel)
+    public void GetQuantity(double originPrice, object obj, Transform popupPanel, Currency currency, Transform currencyPanel)
     {
         GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
 
@@ -104,33 +105,22 @@ public class ItemsController : MonoBehaviour
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty("id");
         var imageProperty = obj.GetType().GetProperty("image");
-        var currencyProperty = obj.GetType().GetProperty("currency");
+
+        priceText.text = originPrice.ToString();
+        double price = originPrice;
+        int quantity = 1;
+
+        quantityText.text = quantity.ToString();
 
 
-        if (idProperty != null && imageProperty != null && currencyProperty != null)
+        if (idProperty != null && imageProperty != null)
         {
             string id = (string)idProperty.GetValue(obj);
             string image = (string)imageProperty.GetValue(obj);
 
-            // Lấy đối tượng currency từ obj
-            var currencyObject = currencyProperty.GetValue(obj);
-
-            if (currencyObject != null)
-            {
-                // Lấy thuộc tính "image" từ currencyObject
-                var currencyImageProperty = currencyObject.GetType().GetProperty("image");
-                if (currencyImageProperty != null)
-                {
-                    string currencyImageValue = (string)currencyImageProperty.GetValue(currencyObject);
-
-                    if (!string.IsNullOrEmpty(currencyImageValue))
-                    {
-                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
-                        Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
-                        currencyImage.texture = currencyTexture;
-                    }
-                }
-            }
+            string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);
+            Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
+            currencyImage.texture = currencyTexture;
 
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
@@ -140,7 +130,7 @@ public class ItemsController : MonoBehaviour
                 equipmentImage.texture = entityTexture;
             }
 
-            priceText.text = price.ToString();
+            priceText.text = originPrice.ToString();
         }
 
         else
@@ -148,68 +138,51 @@ public class ItemsController : MonoBehaviour
             Debug.LogError("Object không có thuộc tính Id hoặc Image");
         }
 
-        priceText.text = price.ToString();
-        double originPrice = price;
         increaseButton.onClick.AddListener(() =>
         {
-            int currentQuantity = int.Parse(quantityText.text);
-            double price = double.Parse(priceText.text);
-            currentQuantity++;
-            price = originPrice * currentQuantity;
-            quantityText.text = currentQuantity.ToString();
+            quantity = quantity + 1;
+            price = originPrice * quantity;
+            quantityText.text = quantity.ToString();
             priceText.text = price.ToString();
         });
         decreaseButton.onClick.AddListener(() =>
         {
-            int currentQuantity = int.Parse(quantityText.text);
-            double price = double.Parse(priceText.text);
-            if (currentQuantity > 1)
+            if (quantity > 1)
             {
-                currentQuantity--;
-                price = originPrice * currentQuantity;
-                quantityText.text = currentQuantity.ToString();
+                quantity = quantity - 1;
+                price = originPrice * quantity;
+                quantityText.text = quantity.ToString();
                 priceText.text = price.ToString();
             }
         });
         increase10Button.onClick.AddListener(() =>
         {
-            int currentQuantity = int.Parse(quantityText.text);
-            double price = double.Parse(priceText.text);
-            currentQuantity = currentQuantity + 10;
-            price = originPrice * currentQuantity;
-            quantityText.text = currentQuantity.ToString();
+            quantity = quantity + 10;
+            price = originPrice * quantity;
+            quantityText.text = quantity.ToString();
             priceText.text = price.ToString();
         });
         decrease10Button.onClick.AddListener(() =>
         {
-            int currentQuantity = int.Parse(quantityText.text);
-            double price = double.Parse(priceText.text);
-            if (currentQuantity > 10)
+            if (quantity > 10)
             {
-                currentQuantity = currentQuantity - 10;
-                price = originPrice * currentQuantity;
-                quantityText.text = currentQuantity.ToString();
+                quantity = quantity - 10;
+                price = originPrice * quantity;
+                quantityText.text = quantity.ToString();
                 priceText.text = price.ToString();
             }
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is Collaboration collaboration)
-            {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(collaboration.currency.id);
-            }
-            // double price = double.Parse(priceText.text);
-
+            Currency userCurrency = userCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.id);
             int max = (int)(userCurrency.quantity / price);
-            double newprice = originPrice * max;
+            price = originPrice * max;
             quantityText.text = max.ToString();
-            priceText.text = newprice.ToString();
+            priceText.text = price.ToString();
         });
         minButton.onClick.AddListener(() =>
         {
             quantityText.text = "1";
-            double price = double.Parse(priceText.text);
             price = originPrice * 1;
             priceText.text = price.ToString();
         });
@@ -219,11 +192,10 @@ public class ItemsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Collaboration collaboration)
+            if (obj is Items item)
             {
-                collaboration.quantity = collaboration.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(collaboration.currency.id, price);
-                bool success = UserCollaborationService.Create().InsertUserCollaborations(collaboration);
+                UserCurrencyService.Create().UpdateUserCurrency(currency.id, price);
+                bool success = UserItemsService.Create().InsertUserItems(item, quantity);
                 if (!success)
                 {
                     allSuccess = false;
@@ -235,12 +207,9 @@ public class ItemsController : MonoBehaviour
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currency> currencies = new List<Currency>();
-                    string objType = "";
-
-                    CollaborationGalleryService.Create().InsertCollaborationsGallery(collaboration.id);
-                    currencies = UserCurrencyService.Create().GetCardMilitaryCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image);
-                    objType = "Collaboration";
+                    var tempCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.id);
+                    currencies.Add(tempCurrency);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
@@ -258,18 +227,6 @@ public class ItemsController : MonoBehaviour
 
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
-
-                    if (objType.Equals("Achievements") || objType.Equals("Borders")
-                    || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
-                    || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
-                    || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
-                    || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
-                    {
-                        double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                        PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
-                        double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
-                    }
                 }
                 else
                 {

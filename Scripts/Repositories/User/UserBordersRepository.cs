@@ -274,6 +274,7 @@ public class UserBordersRepository : IUserBordersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -419,6 +420,7 @@ public class UserBordersRepository : IUserBordersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }

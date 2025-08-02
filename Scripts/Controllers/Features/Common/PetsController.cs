@@ -326,7 +326,6 @@ public class PetsController : MonoBehaviour
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currency> currencies = new List<Currency>();
-                    string objType = "";
 
                     PetsGalleryService.Create().InsertPetsGallery(pets.id);
                     currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
@@ -348,18 +347,6 @@ public class PetsController : MonoBehaviour
 
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
-
-                    if (objType.Equals("Achievements") || objType.Equals("Borders")
-                    || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
-                    || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
-                    || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
-                    || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
-                    {
-                        double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                        PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
-                        double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
-                    }
                 }
                 else
                 {

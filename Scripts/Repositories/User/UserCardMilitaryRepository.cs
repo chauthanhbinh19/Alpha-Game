@@ -368,6 +368,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -565,6 +566,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -666,6 +668,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -767,6 +770,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -891,6 +895,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -989,6 +994,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

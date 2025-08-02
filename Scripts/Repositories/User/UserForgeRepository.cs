@@ -10,7 +10,6 @@ public class UserForgeRepository : IUserForgeRepository
     public List<Forge> GetUserForge(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<Forge> Forges = new List<Forge>();
-        // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -301,6 +300,7 @@ public class UserForgeRepository : IUserForgeRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -402,6 +402,7 @@ public class UserForgeRepository : IUserForgeRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -503,6 +504,7 @@ public class UserForgeRepository : IUserForgeRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

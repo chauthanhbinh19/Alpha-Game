@@ -301,6 +301,7 @@ public class UserTalismanRepository : IUserTalismanRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -402,6 +403,7 @@ public class UserTalismanRepository : IUserTalismanRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -503,6 +505,7 @@ public class UserTalismanRepository : IUserTalismanRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

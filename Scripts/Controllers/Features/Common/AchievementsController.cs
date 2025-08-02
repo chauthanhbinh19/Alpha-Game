@@ -56,7 +56,7 @@ public class AchievementsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
-            
+
             Button button = achievementObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -241,12 +241,10 @@ public class AchievementsController : MonoBehaviour
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currency> currencies = new List<Currency>();
-                    string objType = "";
 
                     // achievements.InsertUserAchievements(achievements);
                     currencies = UserCurrencyService.Create().GetAchievementsCurrency();
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.image);
-                    objType = "Achievements";
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
@@ -265,17 +263,10 @@ public class AchievementsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    if (objType.Equals("Achievements") || objType.Equals("Borders")
-                    || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
-                    || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
-                    || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
-                    || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
-                    {
-                        double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                        PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
-                        double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
-                    }
+                    double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

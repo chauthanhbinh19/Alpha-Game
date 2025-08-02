@@ -16,6 +16,7 @@ public class RareMarketManager : MonoBehaviour
     private Transform MainPanel;
     private Transform currentContent;
     private Transform currencyPanel;
+    private Transform popupPanel;
     private Button CloseButton;
     private Button HomeButton;
     private int offset;
@@ -53,6 +54,7 @@ public class RareMarketManager : MonoBehaviour
         RareMarketButtonPrefab = UIManager.Instance.GetGameObject("RareMarketButtonPrefab");
         RareMarketManagerPrefab = UIManager.Instance.GetGameObject("RareMarketManagerPrefab");
         RareMarketPrefab = UIManager.Instance.GetGameObject("RareMarketPrefab");
+        popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
     public void CreateRareMarket()
     {
@@ -122,7 +124,7 @@ public class RareMarketManager : MonoBehaviour
 
         var pagedItems = items.Skip(offset).Take(pageSize).ToList();
 
-        ItemsController.Instance.CreateItemsTrade(pagedItems, currency, currentContent, currencyPanel);
+        ItemsController.Instance.CreateItemsTrade(pagedItems, currency, currentContent, currencyPanel, popupPanel);
 
         PageText.text = $"{currentPage}/{totalPage}";
     }

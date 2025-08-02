@@ -270,6 +270,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -371,6 +372,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -472,6 +474,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

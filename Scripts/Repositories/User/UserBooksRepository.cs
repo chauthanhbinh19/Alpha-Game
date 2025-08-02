@@ -511,6 +511,7 @@ public class UserBooksRepository : IUserBooksRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -612,6 +613,7 @@ public class UserBooksRepository : IUserBooksRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -713,6 +715,7 @@ public class UserBooksRepository : IUserBooksRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -838,6 +841,7 @@ public class UserBooksRepository : IUserBooksRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -937,6 +941,7 @@ public class UserBooksRepository : IUserBooksRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -963,6 +968,7 @@ public class UserBooksRepository : IUserBooksRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

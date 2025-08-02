@@ -302,6 +302,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -403,6 +404,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -504,6 +506,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

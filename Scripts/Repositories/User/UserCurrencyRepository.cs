@@ -52,7 +52,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             try
             {
                 connection.Open();
-                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id and c.id=@id;";
+                string currencyQuery = @"SELECT c.image, c.name, uc.currency_id, uc.quantity 
+                FROM user_currency uc, currency c 
+                WHERE user_id = @userId and uc.currency_id=c.id and c.id=@id;";
                 MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
                 currencyCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
                 currencyCommand.Parameters.AddWithValue("@id", Id);

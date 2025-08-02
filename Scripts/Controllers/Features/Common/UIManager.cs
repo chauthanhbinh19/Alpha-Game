@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     public GameObject SignUpPanel;
     public GameObject CreateNamePanel;
     public GameObject buttonPrefab;
+    public GameObject itemSecondPrefab;
     public GameObject notificationPrefab;
     public GameObject DictionaryPanel;
     public GameObject TabButton;
@@ -372,6 +373,8 @@ public class UIManager : MonoBehaviour
                 return CreateNamePanel;
             case "buttonPrefab":
                 return buttonPrefab;
+            case "itemSecondPrefab":
+                return itemSecondPrefab;
             case "notificationPrefab":
                 return notificationPrefab;
             case "DictionaryPanel":

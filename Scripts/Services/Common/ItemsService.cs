@@ -19,6 +19,11 @@ public class ItemsService : IItemsService
         return _itemsRepository.GetItems();
     }
 
+    public List<string> GetUniqueItemTypes()
+    {
+        return _itemsRepository.GetUniqueItemTypes();
+    }
+
     public List<string> GetUniqueItemId()
     {
         return _itemsRepository.GetUniqueItemId();

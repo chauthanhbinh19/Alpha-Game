@@ -7,6 +7,73 @@ using System.Xml.Linq;
 
 public class UserItemsRepository : IUserItemsRepository
 {
+    public List<Items> GetUserItems(string user_id, string type, int pageSize, int offset)
+    {
+        List<Items> Items = new List<Items>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select ui.*, i.id, i.name, i.image
+                from items i, user_items ui 
+                where i.id=ui.item_id and ui.user_id= @userId and i.type= @type
+                ORDER BY i.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(i.name, '[0-9]+$') AS UNSIGNED), i.name limit @limit offset @offset";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
+                command.Parameters.AddWithValue("@limit", pageSize);
+                command.Parameters.AddWithValue("@offset", offset);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Items item = new Items
+                    {
+                        id = reader.GetString("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        quantity = reader.GetInt32("quantity"),
+                        
+                    };
+
+                    Items.Add(item);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return Items;
+    }
+    public int GetUserItemCount(string user_id, string type)
+    {
+        int count = 0;
+        // string user_id = User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"Select count(*) from items i, user_items ui 
+                where i.id=ui.item_id and ui.user_id=@userId and i.type= @type";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@type", type);
+                count = Convert.ToInt32(command.ExecuteScalar());
+
+                return count;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return count;
+    }
     public Items GetUserItemByName(string itemName)
     {
         Items items = new Items();
@@ -36,34 +103,43 @@ public class UserItemsRepository : IUserItemsRepository
         }
         return items;
     }
-    public Items InsertUserItems(Items items, int quantity)
+    public bool InsertUserItems(Items items, int quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
-            string query = @"select count(*) from user_items where user_id=@user_id and item_id=@item_id";
-            MySqlCommand checkCommand = new MySqlCommand(query, connection);
-            checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            checkCommand.Parameters.AddWithValue("@item_id", items.id);
-            int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-            if (count == 0)
+            try
             {
-                string insertQuery = @"insert into user_items (user_id, item_id, quantity) values
+                connection.Open();
+                string query = @"select count(*) from user_items where user_id=@user_id and item_id=@item_id";
+                MySqlCommand checkCommand = new MySqlCommand(query, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@item_id", items.id);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string insertQuery = @"insert into user_items (user_id, item_id, quantity) values
                 (@user_id, @item_id, @quantity)";
-                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
-                insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                insertCommand.Parameters.AddWithValue("@item_id", items.id);
-                insertCommand.Parameters.AddWithValue("@quantity", quantity);
-                insertCommand.ExecuteNonQuery();
+                    MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@item_id", items.id);
+                    insertCommand.Parameters.AddWithValue("@quantity", quantity);
+                    insertCommand.ExecuteNonQuery();
+                }
+                else
+                {
+                    items.quantity = quantity;
+                    UpdateUserItemsQuantity(items);
+                }
             }
-            else
+            catch (MySqlException ex)
             {
-                UpdateUserItemsQuantity(items);
+                Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
-        return items;
+        return true;
     }
     public Items UpdateUserItemsQuantity(Items items)
     {
@@ -71,7 +147,7 @@ public class UserItemsRepository : IUserItemsRepository
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string query = @"Update user_items set quantity=@quantity 
+            string query = @"Update user_items set quantity = quantity + @quantity
             where user_id=@user_id and item_id=@item_id";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);

@@ -281,6 +281,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -382,6 +383,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -483,6 +485,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

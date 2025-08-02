@@ -58,7 +58,7 @@ public class TitlesController : MonoBehaviour
             Image.texture = texture;
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            
+
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -96,7 +96,7 @@ public class TitlesController : MonoBehaviour
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
             RawImage FrameImage = titleObject.transform.Find("Frame").GetComponent<RawImage>();
-            
+
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -281,12 +281,10 @@ public class TitlesController : MonoBehaviour
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currency> currencies = new List<Currency>();
-                    string objType = "";
 
                     TitlesGalleryService.Create().InsertTitlesGallery(titles.id);
                     currencies = UserCurrencyService.Create().GetTitlesCurrency(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(titles.image);
-                    objType = "Titles";
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
@@ -305,17 +303,10 @@ public class TitlesController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    if (objType.Equals("Achievements") || objType.Equals("Borders")
-                    || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
-                    || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
-                    || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
-                    || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
-                    {
-                        double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                        PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
-                        double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
-                    }
+                    double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

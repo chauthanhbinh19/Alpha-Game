@@ -367,6 +367,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -564,6 +565,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -665,6 +667,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -766,6 +769,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -890,6 +894,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -989,6 +994,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

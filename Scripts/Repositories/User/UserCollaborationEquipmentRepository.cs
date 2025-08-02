@@ -374,6 +374,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -475,6 +476,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

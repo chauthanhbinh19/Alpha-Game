@@ -278,6 +278,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -379,6 +380,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -480,6 +482,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

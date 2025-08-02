@@ -14,12 +14,21 @@ public class UserItemsService : IUserItemsService
         return new UserItemsService(new UserItemsRepository());
     }
 
+    public List<Items> GetUserItems(string user_id, string type, int pageSize, int offset)
+    {
+        return _userItemsRepository.GetUserItems(user_id, type, pageSize, offset);
+    }
+
+    public int GetUserItemCount(string user_id, string type)
+    {
+        return _userItemsRepository.GetUserItemCount(user_id, type);
+    }
     public Items GetUserItemByName(string itemName)
     {
         return _userItemsRepository.GetUserItemByName(itemName);
     }
 
-    public Items InsertUserItems(Items items, int quantity)
+    public bool InsertUserItems(Items items, int quantity)
     {
         return _userItemsRepository.InsertUserItems(items, quantity);
     }

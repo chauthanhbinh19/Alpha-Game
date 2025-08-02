@@ -82,7 +82,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_9", mainMenuPanel, () => GetType(AppConstants.CardSpell));
         ButtonEvent.Instance.AssignButtonEvent("Button_10", mainMenuPanel, () => GetType(AppConstants.CardMonster));
         // Button_13 Equipments có thể được thêm lại nếu cần
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", mainMenuPanel, () => GetType(AppConstants.Bag));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", mainMenuPanel, () => GetType(AppConstants.Item));
         ButtonEvent.Instance.AssignButtonEvent("Button_12", mainMenuPanel, () => GetType(AppConstants.Teams));
         ButtonEvent.Instance.AssignButtonEvent("Button_13", mainMenuPanel, () => GetType(AppConstants.More));
 
@@ -365,7 +365,7 @@ public class MainMenuManager : MonoBehaviour
         List<string> uniqueRaries = QualityEvaluator.rarities;
         List<string> uniqueTypes = TypeManager.GetUniqueTypes(mainType);
 
-        if (uniqueRaries.Count > 0 && uniqueTypes.Count > 0)
+        if (uniqueRaries.Count > 0 && uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.Item))
         {
             for (int i = 0; i < uniqueRaries.Count; i++)
             {
@@ -596,14 +596,14 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, type, rare);
         }
-        // else if (mainType.Equals("Equipments"))
-        // {
-        //     List<Equipments> equipments = EquipmentsService.Create().GetEquipments(type, pageSize, offset);
-        //     createEquipments(equipments);
-        //     listCount = equipments.Count;
+        else if (mainType.Equals(AppConstants.Item))
+        {
+            List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId,type, pageSize, offset);
+            UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
+            listCount = items.Count;
 
-        //     totalRecord = EquipmentsService.Create().GetEquipmentsCount(type);
-        // }
+            totalRecord = UserItemsService.Create().GetUserItemCount(User.CurrentUserId, type);
+        }
         else if (mainType.Equals(AppConstants.Pet))
         {
             List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, type, pageSize, offset, rare);
@@ -1517,6 +1517,15 @@ public class MainMenuManager : MonoBehaviour
                 List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             }
+            else if (mainType.Equals(AppConstants.Item))
+            {
+                totalRecord = UserItemsService.Create().GetUserItemCount(User.CurrentUserId, subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, subType, pageSize, offset);
+                UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
+            }
 
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -1745,6 +1754,15 @@ public class MainMenuManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.Item))
+            {
+                totalRecord = UserItemsService.Create().GetUserItemCount(User.CurrentUserId, subType);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, subType, pageSize, offset);
+                UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

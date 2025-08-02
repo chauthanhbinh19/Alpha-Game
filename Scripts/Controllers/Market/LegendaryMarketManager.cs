@@ -16,6 +16,7 @@ public class LegendaryMarketManager : MonoBehaviour
     private Transform MainPanel;
     private Transform currentContent;
     private Transform currencyPanel;
+    private Transform popupPanel;
     private Button CloseButton;
     private Button HomeButton;
     private int offset;
@@ -53,6 +54,7 @@ public class LegendaryMarketManager : MonoBehaviour
         LegendaryMarketButtonPrefab = UIManager.Instance.GetGameObject("LegendaryMarketButtonPrefab");
         LegendaryMarketManagerPrefab = UIManager.Instance.GetGameObject("LegendaryMarketManagerPrefab");
         LegendaryMarketPrefab = UIManager.Instance.GetGameObject("LegendaryMarketPrefab");
+        popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
     public void CreateLegendaryMarket()
     {
@@ -122,7 +124,7 @@ public class LegendaryMarketManager : MonoBehaviour
 
         var pagedItems = items.Skip(offset).Take(pageSize).ToList();
 
-        ItemsController.Instance.CreateItemsTrade(pagedItems, currency, currentContent, currencyPanel);
+        ItemsController.Instance.CreateItemsTrade(pagedItems, currency, currentContent, currencyPanel, popupPanel);
 
         PageText.text = $"{currentPage}/{totalPage}";
     }

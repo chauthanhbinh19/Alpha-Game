@@ -36,6 +36,7 @@ public static class TypeManager
         { AppConstants.SummonCardColonels, () => new CardColonelsService(new CardColonelsRepository()).GetUniqueCardColonelsTypes() },
         { AppConstants.SummonCardGenerals, () => new CardGeneralsService(new CardGeneralsRepository()).GetUniqueCardGeneralsTypes() },
         { AppConstants.SummonCardAdmirals, () => new CardAdmiralsService(new CardAdmiralsRepository()).GetUniqueCardAdmiralsTypes() },
+        { AppConstants.Item, () => new ItemsService(new ItemsRepository()).GetUniqueItemTypes() },
     };
     public static List<string> GetUniqueTypes(string type)
     {

@@ -539,6 +539,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
 
         }
@@ -640,6 +641,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -741,6 +743,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -865,6 +868,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -963,6 +967,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -989,6 +994,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;

@@ -302,6 +302,7 @@ public class UserRelicsRepository : IUserRelicsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
             finally
             {
@@ -406,6 +407,7 @@ public class UserRelicsRepository : IUserRelicsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
@@ -508,6 +510,7 @@ public class UserRelicsRepository : IUserRelicsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
         }
         return true;
