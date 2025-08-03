@@ -80,7 +80,7 @@ public class AchievementsController : MonoBehaviour
             buttonText.text = LocalizationManager.Get(AppConstants.Buy);
             buy.onClick.AddListener(() =>
             {
-                GetQuantity(achievement.currency.quantity, achievement, subType, popupPanel, currencyPanel);
+                GetQuantity(achievement.currency.quantity, achievement, popupPanel, currencyPanel);
             });
         }
 
@@ -88,7 +88,7 @@ public class AchievementsController : MonoBehaviour
         currencies = UserCurrencyService.Create().GetAchievementsCurrency();
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
-    public void GetQuantity(int price, object obj, string subType, Transform popupPanel, Transform currencyPanel)
+    public void GetQuantity(int originPrice, object obj, Transform popupPanel, Transform currencyPanel)
     {
         GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
 
@@ -112,6 +112,10 @@ public class AchievementsController : MonoBehaviour
         var imageProperty = obj.GetType().GetProperty("image");
         var currencyProperty = obj.GetType().GetProperty("currency");
 
+        priceText.text = originPrice.ToString();
+        double price = originPrice;
+        int quantity = 1;
+        quantityText.text = quantity.ToString();
 
         if (idProperty != null && imageProperty != null && currencyProperty != null)
         {
@@ -154,47 +158,37 @@ public class AchievementsController : MonoBehaviour
             Debug.LogError("Object không có thuộc tính Id hoặc Image");
         }
 
-        priceText.text = price.ToString();
-        double originPrice = price;
         increaseButton.onClick.AddListener(() =>
         {
-            int currentQuantity = int.Parse(quantityText.text);
-            double price = double.Parse(priceText.text);
-            currentQuantity++;
-            price = originPrice * currentQuantity;
-            quantityText.text = currentQuantity.ToString();
+            quantity = quantity + 1;
+            price = originPrice * quantity;
+            quantityText.text = quantity.ToString();
             priceText.text = price.ToString();
         });
         decreaseButton.onClick.AddListener(() =>
         {
-            int currentQuantity = int.Parse(quantityText.text);
-            double price = double.Parse(priceText.text);
-            if (currentQuantity > 1)
+            if (quantity > 1)
             {
-                currentQuantity--;
-                price = originPrice * currentQuantity;
-                quantityText.text = currentQuantity.ToString();
+                quantity = quantity - 1;
+                price = originPrice * quantity;
+                quantityText.text = quantity.ToString();
                 priceText.text = price.ToString();
             }
         });
         increase10Button.onClick.AddListener(() =>
         {
-            int currentQuantity = int.Parse(quantityText.text);
-            double price = double.Parse(priceText.text);
-            currentQuantity = currentQuantity + 10;
-            price = originPrice * currentQuantity;
-            quantityText.text = currentQuantity.ToString();
+            quantity = quantity + 10;
+            price = originPrice * quantity;
+            quantityText.text = quantity.ToString();
             priceText.text = price.ToString();
         });
         decrease10Button.onClick.AddListener(() =>
         {
-            int currentQuantity = int.Parse(quantityText.text);
-            double price = double.Parse(priceText.text);
-            if (currentQuantity > 10)
+            if (quantity > 10)
             {
-                currentQuantity = currentQuantity - 10;
-                price = originPrice * currentQuantity;
-                quantityText.text = currentQuantity.ToString();
+                quantity = quantity - 10;
+                price = originPrice * quantity;
+                quantityText.text = quantity.ToString();
                 priceText.text = price.ToString();
             }
         });
@@ -208,14 +202,13 @@ public class AchievementsController : MonoBehaviour
             // double price = double.Parse(priceText.text);
 
             int max = (int)(userCurrency.quantity / price);
-            double newprice = originPrice * max;
+            price = originPrice * max;
             quantityText.text = max.ToString();
-            priceText.text = newprice.ToString();
+            priceText.text = price.ToString();
         });
         minButton.onClick.AddListener(() =>
         {
             quantityText.text = "1";
-            double price = double.Parse(priceText.text);
             price = originPrice * 1;
             priceText.text = price.ToString();
         });
