@@ -14,7 +14,8 @@ public class EquipmentsRepository : IEquipmentsRepository
         {
             connection.Open();
 
-            string query = "Select distinct type from Equipments";
+            string query = @"Select distinct type from Equipments
+            ORDER BY Equipments.type REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Equipments.type, '[0-9]+$') AS UNSIGNED), Equipments.type";
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())

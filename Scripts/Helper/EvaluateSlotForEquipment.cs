@@ -129,6 +129,30 @@ public static class EvaluateSlotForEquipment
             case AppConstants.Ultrion:
                 slot = 4;
                 break;
+            case AppConstants.Varethion:
+                slot = 16;
+                break;
+            case AppConstants.Velmira:
+                slot = 4;
+                break;
+            case AppConstants.Wenlithar:
+                slot = 16;
+                break;
+            case AppConstants.Wyrmora:
+                slot = 4;
+                break;
+            case AppConstants.Xaltheon:
+                slot = 16;
+                break;
+            case AppConstants.Xyralis:
+                slot = 10;
+                break;
+            case AppConstants.Yloran:
+                slot = 16;
+                break;
+            case AppConstants.Yvarion:
+                slot = 10;
+                break;
             case AppConstants.Zodiac:
                 slot = 12;
                 break;
@@ -145,91 +169,107 @@ public static class EvaluateSlotForEquipment
     {
         switch (type)
         {
-            case "Amnitus":
+            case AppConstants.Amnitus:
                 return true;
-            case "Angelis":
+            case AppConstants.Angelis:
                 return false;
-            case "Bellion":
+            case AppConstants.Bellion:
                 return true;
-            case "Benzamin":
+            case AppConstants.Benzamin:
                 return false;
-            case "Celestial":
+            case AppConstants.Celestial:
                 return true;
-            case "Ceverus":
+            case AppConstants.Ceverus:
                 return true;
-            case "Delius":
+            case AppConstants.Delius:
                 return true;
-            case "Domitius":
+            case AppConstants.Domitius:
                 return true;
-            case "Everlyn":
+            case AppConstants.Everlyn:
                 return true;
-            case "Extra":
+            case AppConstants.Extra:
                 return true;
-            case "Faltus":
+            case AppConstants.Faltus:
                 return true;
-            case "Fealan":
+            case AppConstants.Fealan:
                 return true;
-            case "Gamma":
+            case AppConstants.Gamma:
                 return true;
-            case "Gem":
+            case AppConstants.Gem:
                 return true;
-            case "Hagoro":
+            case AppConstants.Hagoro:
                 return true;
-            case "Hakalite":
+            case AppConstants.Hakalite:
                 return true;
-            case "Ignis":
+            case AppConstants.Ignis:
                 return false;
-            case "Ivitus":
+            case AppConstants.Ivitus:
                 return true;
-            case "Jorvan":
+            case AppConstants.Jorvan:
                 return false;
-            case "Jullian":
+            case AppConstants.Jullian:
                 return true;
-            case "Karis":
+            case AppConstants.Karis:
                 return true;
-            case "Karmus":
+            case AppConstants.Karmus:
                 return false;
-            case "Lotus":
+            case AppConstants.Lotus:
                 return false;
-            case "Luminius":
+            case AppConstants.Luminius:
                 return false;
-            case "Macus":
+            case AppConstants.Macus:
                 return false;
-            case "Morganis":
+            case AppConstants.Morganis:
                 return true;
-            case "Nimigazin":
+            case AppConstants.Nimigazin:
                 return true;
-            case "Nova":
+            case AppConstants.Nova:
                 return true;
-            case "Omonitus":
+            case AppConstants.Omonitus:
                 return true;
-            case "Omega":
+            case AppConstants.Omega:
                 return false;
-            case "Pet":
+            case AppConstants.Pet:
                 return true;
-            case "Pyros":
+            case AppConstants.Pyros:
                 return true;
-            case "Qiyantus":
+            case AppConstants.Qiyantus:
                 return false;
-            case "Quasar":
+            case AppConstants.Quasar:
                 return false;
-            case "Rainbow":
+            case AppConstants.Rainbow:
                 return true;
-            case "Redvenger":
+            case AppConstants.Redvenger:
                 return true;
-            case "Souls":
+            case AppConstants.Souls:
                 return false;
-            case "Syncroharon":
+            case AppConstants.Syncroharon:
                 return true;
-            case "Tarian":
+            case AppConstants.Tarian:
                 return false;
-            case "Uni":
+            case AppConstants.Uni:
                 return true;
-            case "Ultrion":
+            case AppConstants.Ultrion:
                 return false;
-            case "Zodiac":
+            case AppConstants.Varethion:
+                return true;
+            case AppConstants.Velmira:
+                return true;
+            case AppConstants.Wenlithar:
+                return true;
+            case AppConstants.Wyrmora:
+                return true;
+            case AppConstants.Xaltheon:
+                return true;
+            case AppConstants.Xyralis:
                 return false;
-            case "Zerox":
+            case AppConstants.Yloran:
+                return true;
+            case AppConstants.Yvarion:
+                return false;
+            case AppConstants.Zodiac:
+                return false;
+            case AppConstants.Zerox:
                 return false;
             default:
                 return false;

@@ -350,6 +350,14 @@ public static class AppConstants
     public const string Teyric = "Teyric_Equipment";
     public const string Uni = "Uni_Equipment";
     public const string Ultrion = "Ultrion_Equipment";
+    public const string Varethion = "Varethion_Equipment";
+    public const string Velmira = "Velmira_Equipment";
+    public const string Wenlithar = "Wenlithar_Equipment";
+    public const string Wyrmora = "Wyrmora_Equipment";
+    public const string Xaltheon = "Xaltheon_Equipment";
+    public const string Xyralis = "Xyralis_Equipment";
+    public const string Yloran = "Yloran_Equipment";
+    public const string Yvarion = "Yvarion_Equipment";
     public const string Zodiac = "Zodiac_Equipment";
     public const string Zerox = "Zerox_Equipment";
 }
