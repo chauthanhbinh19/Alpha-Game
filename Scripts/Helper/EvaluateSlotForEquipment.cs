@@ -133,13 +133,13 @@ public static class EvaluateSlotForEquipment
                 slot = 16;
                 break;
             case AppConstants.Velmira:
-                slot = 4;
+                slot = 16;
                 break;
             case AppConstants.Wenlithar:
                 slot = 16;
                 break;
             case AppConstants.Wyrmora:
-                slot = 4;
+                slot = 16;
                 break;
             case AppConstants.Xaltheon:
                 slot = 16;
