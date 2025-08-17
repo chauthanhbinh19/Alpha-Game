@@ -93,7 +93,7 @@ public class AlchemyController : MonoBehaviour
             RawImage FrameImage = alchemyObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = alchemyObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = alchemyObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(alchemy, MainPanel);

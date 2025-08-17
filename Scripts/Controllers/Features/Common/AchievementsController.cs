@@ -57,7 +57,7 @@ public class AchievementsController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = achievementObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);

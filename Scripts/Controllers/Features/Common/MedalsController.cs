@@ -93,7 +93,7 @@ public class MedalsController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = medalObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = medalObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(medal, MainPanel);

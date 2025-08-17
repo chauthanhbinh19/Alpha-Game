@@ -89,7 +89,7 @@ public class CardCaptainsController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = captainsObject.transform.Find("Frame").GetComponent<RawImage>();
             
-            Button button = captainsObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(captain, MainPanel);

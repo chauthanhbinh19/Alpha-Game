@@ -74,6 +74,7 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_24", () => GetType(AppConstants.Forge));
         AssignButtonEvent("Button_25", () => GetType(AppConstants.CardLife));
         AssignButtonEvent("Button_26", () => GetType(AppConstants.Artwork));
+        AssignButtonEvent("Button_27", () => GetType(AppConstants.SpiritBeast));
 
         // GetCardsType();
     }
@@ -217,6 +218,14 @@ public class CollectionManager : MonoBehaviour
                 BordersGalleryController.Instance.CreateBordersGallery(borders, DictionaryContentPanel);
 
                 totalRecord = bordersGalleryService.GetBordersCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                var spiritBeastGalleryService = SpiritBeastGalleryService.Create();
+                List<SpiritBeast> spiritBeasts = spiritBeastGalleryService.GetSpiritBeastCollection(pageSize, offset, rare);
+                SpiritBeastGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
+
+                totalRecord = spiritBeastGalleryService.GetSpiritBeastCount(rare);
             }
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -493,6 +502,14 @@ public class CollectionManager : MonoBehaviour
             ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
 
             totalRecord = artworkGalleryService.GetArtworkCount(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.SpiritBeast))
+        {
+            var spiritBeastGalleryService = SpiritBeastGalleryService.Create();
+            List<SpiritBeast> spiritBeasts = spiritBeastGalleryService.GetSpiritBeastCollection(pageSize, offset, rare);
+            SpiritBeastGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
+
+            totalRecord = spiritBeastGalleryService.GetSpiritBeastCount(rare);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -784,6 +801,16 @@ public class CollectionManager : MonoBehaviour
                 List<Artwork> artworks = artworkGalleryService.GetArtworkCollection(subType, pageSize, offset, rare);
                 ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
             }
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                var spiritBeastGalleryService = SpiritBeastGalleryService.Create();
+                totalRecord = spiritBeastGalleryService.GetSpiritBeastCount(rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<SpiritBeast> spiritBeasts = spiritBeastGalleryService.GetSpiritBeastCollection(pageSize, offset, rare);
+                SpiritBeastGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
+            }
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }
@@ -1055,7 +1082,16 @@ public class CollectionManager : MonoBehaviour
                 List<Artwork> artworks = artworkGalleryService.GetArtworkCollection(subType, pageSize, offset, rare);
                 ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
             }
-
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                var spiritBeastGalleryService = SpiritBeastGalleryService.Create();
+                totalRecord = spiritBeastGalleryService.GetSpiritBeastCount(rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<SpiritBeast> spiritBeasts = spiritBeastGalleryService.GetSpiritBeastCollection(pageSize, offset, rare);
+                SpiritBeastGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
+            }
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }

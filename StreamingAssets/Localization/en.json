@@ -75,6 +75,8 @@
   { "key": "card_lives", "value": "Card Lives" },
   { "key": "artwork", "value": "Artwork" },
   { "key": "artworks", "value": "Artworks" },
+  { "key": "spirit_beast", "value": "Spirit Beast" },
+  { "key": "spirit_beasts", "value": "Spirit Beasts" },
   { "key": "master_board", "value": "Master board" },
   { "key": "enhancement", "value": "Enhancement" },
   { "key": "daily_checkin", "value": "Daily Checkin" },
@@ -121,6 +123,7 @@
   { "key": "forge_gallery", "value": "Forge Gallery" },
   { "key": "life_gallery", "value": "Life Gallery" },
   { "key": "artwork_gallery", "value": "Artwork Gallery" },
+  { "key": "spirit_beast_gallery", "value": "Spirit Beast Gallery" },
 
   { "key": "card_heroes_collection", "value": "Card Heroes Collection" },
   { "key": "books_collection", "value": "Books Collection" },
@@ -147,7 +150,8 @@
   { "key": "alchemy_collection", "value": "Alchemy Collection" },
   { "key": "forge_collection", "value": "Forge Collection" },
   { "key": "life_collection", "value": "Life Collection" },
-  { "key": "artwork_collection", "value": "Artowkr Collection" },
+  { "key": "artwork_collection", "value": "Artwork Collection" },
+  { "key": "spirit_beast_collection", "value": "Spirit Beast Collection" },
 
   { "key": "CardHeroes", "value": "Card Heroes" },
   { "key": "Books", "value": "Books" },

@@ -101,6 +101,9 @@ public static class AppConstants
     public const string Artwork = "artwork";
     public const string Artworks = "artworks";
 
+    public const string SpiritBeast = "spirit_beast";
+    public const string SpiritBeasts = "spirit_beasts";
+
     public const string SummonCardHeroes = "summon_card_heroes";
     public const string SummonBooks = "summon_books";
     public const string SummonCardCaptains = "summon_card_captains";
@@ -153,6 +156,7 @@ public static class AppConstants
     public const string ForgeGallery = "forge_gallery";
     public const string LifeGallery = "life_gallery";
     public const string ArtworkGallery = "artwork_gallery";
+    public const string SpiritBeastGallery = "spirit_beast_gallery";
 
     public const string CardHeroesCollection = "card_heroes_collection";
     public const string BooksCollection = "books_collection";
@@ -180,6 +184,7 @@ public static class AppConstants
     public const string ForgeCollection = "forge_collection";
     public const string LifeCollection = "life_collection";
     public const string ArtworkCollection = "artwork_collection";
+    public const string SpiritBeastCollection = "spirit_beast_collection";
 
     public const string OnePiece = "one_piece";
     public const string Naruto = "naruto";

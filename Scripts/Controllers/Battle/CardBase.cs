@@ -4,92 +4,123 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 
-public class CardBase : MonoBehaviour, IAttack
+public class CardBase : MonoBehaviour
 {
-    private string cardName;
-    private string type;
-    private double power;
-    private double health;
-    private double physical_attack;
-    private double physical_defense;
-    private double magical_attack;
-    private double magical_defense;
-    private double chemical_attack;
-    private double chemical_defense;
-    private double atomic_attack;
-    private double atomic_defense;
-    private double mental_attack;
-    private double mental_defense;
-    private double speed;
-    private double critical_damage_rate;
-    private double critical_rate;
-    private double penetration_rate;
-    private double evasion_rate;
-    private double damage_absorption_rate;
-    private double vitality_regeneration_rate;
-    private double accuracy_rate;
-    private double lifesteal_rate;
-    private float mana;
-    private double mana_regeneration_rate;
-    private double shield_strength;
-    private double tenacity;
-    private double resistance_rate;
-    private double combo_rate;
-    private double reflection_rate;
-    private double damage_to_different_faction_rate;
-    private double resistance_to_different_faction_rate;
-    private double damage_to_same_faction_rate;
-    private double resistance_to_same_faction_rate;
-    private double currentHealth;
-    private string position;
-    public GameObject damagePopupPrefab; // Gán prefab này trong Inspector
+    public string CardName { get; set; }
+    public string Type { get; set; }
+    public string Rare { get; set; }
+    public double Power { get; set; } = 0;
+    //Base
+    public double Health { get; set; } = 0;
+    public double PhysicalAttack { get; set; } = 0;
+    public double PhysicalDefense { get; set; } = 0;
+    public double MagicalAttack { get; set; } = 0;
+    public double MagicalDefense { get; set; } = 0;
+    public double ChemicalAttack { get; set; } = 0;
+    public double ChemicalDefense { get; set; } = 0;
+    public double AtomicAttack { get; set; } = 0;
+    public double AtomicDefense { get; set; } = 0;
+    public double MentalAttack { get; set; } = 0;
+    public double MentalDefense { get; set; } = 0;
+    public double Speed { get; set; } = 0;
+    public double CriticalDamageRate { get; set; } = 0;
+    public double CriticalRate { get; set; } = 0;
+    public double CriticalResistanceRate { get; set; } = 0;
+    public double IgnoreCriticalRate { get; set; } = 0;
+    public double PenetrationRate { get; set; } = 0;
+    public double PenetrationResistanceRate { get; set; } = 0;
+    public double EvasionRate { get; set; } = 0;
+    public double DamageAbsorptionRate { get; set; } = 0;
+    public double IgnoreDamageAbsorptionRate { get; set; } = 0;
+    public double AbsorbedDamageRate { get; set; } = 0;
+    public double VitalityRegenerationRate { get; set; } = 0;
+    public double VitalityRegenerationResistanceRate { get; set; } = 0;
+    public double AccuracyRate { get; set; } = 0;
+    public double LifestealRate { get; set; } = 0;
+    public float Mana { get; set; } = 0;
+    public double ManaRegenerationRate { get; set; } = 0;
+    public double ShieldStrength { get; set; } = 0;
+    public double Tenacity { get; set; } = 0;
+    public double ResistanceRate { get; set; } = 0;
+    public double ComboRate { get; set; } = 0;
+    public double IgnoreComboRate { get; set; } = 0;
+    public double ComboDamageRate { get; set; } = 0;
+    public double ComboResistanceRate { get; set; } = 0;
+    public double StunRate { get; set; } = 0;
+    public double IgnoreStunRate { get; set; } = 0;
+    public double ReflectionRate { get; set; } = 0;
+    public double IgnoreReflectionRate { get; set; } = 0;
+    public double ReflectionDamageRate { get; set; } = 0;
+    public double ReflectionResistanceRate { get; set; } = 0;
+    public double DamageToDifferentFactionRate { get; set; } = 0;
+    public double ResistanceToDifferentFactionRate { get; set; } = 0;
+    public double DamageToSameFactionRate { get; set; } = 0;
+    public double ResistanceToSameFactionRate { get; set; } = 0;
+    public double NormalDamageRate { get; set; } = 0;
+    public double NormalResistanceRate { get; set; } = 0;
+    public double SkillDamageRate { get; set; } = 0;
+    public double SkillResistanceRate { get; set; } = 0;
+    //Current
+    public double CurrentHealth { get; set; } = 0;
+    public double CurrentPhysicalAttack { get; set; } = 0;
+    public double CurrentPhysicalDefense { get; set; } = 0;
+    public double CurrentMagicalAttack { get; set; } = 0;
+    public double CurrentMagicalDefense { get; set; } = 0;
+    public double CurrentChemicalAttack { get; set; } = 0;
+    public double CurrentChemicalDefense { get; set; } = 0;
+    public double CurrentAtomicAttack { get; set; } = 0;
+    public double CurrentAtomicDefense { get; set; } = 0;
+    public double CurrentMentalAttack { get; set; } = 0;
+    public double CurrentMentalDefense { get; set; } = 0;
+    public double CurrentSpeed { get; set; } = 0;
+    public double CurrentCriticalDamageRate { get; set; } = 0;
+    public double CurrentCriticalRate { get; set; } = 0;
+    public double CurrentCriticalResistanceRate { get; set; } = 0;
+    public double CurrentIgnoreCriticalRate { get; set; } = 0;
+    public double CurrentPenetrationRate { get; set; } = 0;
+    public double CurrentPenetrationResistanceRate { get; set; } = 0;
+    public double CurrentEvasionRate { get; set; } = 0;
+    public double CurrentDamageAbsorptionRate { get; set; } = 0;
+    public double CurrentIgnoreDamageAbsorptionRate { get; set; } = 0;
+    public double CurrentAbsorbedDamageRate { get; set; } = 0;
+    public double CurrentVitalityRegenerationRate { get; set; } = 0;
+    public double CurrentVitalityRegenerationResistanceRate { get; set; } = 0;
+    public double CurrentAccuracyRate { get; set; } = 0;
+    public double CurrentLifestealRate { get; set; } = 0;
+    public float CurrentMana { get; set; } = 0;
+    public double CurrentManaRegenerationRate { get; set; } = 0;
+    public double CurrentShieldStrength { get; set; } = 0;
+    public double CurrentTenacity { get; set; } = 0;
+    public double CurrentResistanceRate { get; set; } = 0;
+    public double CurrentComboRate { get; set; } = 0;
+    public double CurrentIgnoreComboRate { get; set; } = 0;
+    public double CurrentComboDamageRate { get; set; } = 0;
+    public double CurrentComboResistanceRate { get; set; } = 0;
+    public double CurrentStunRate { get; set; } = 0;
+    public double CurrentIgnoreStunRate { get; set; } = 0;
+    public double CurrentReflectionRate { get; set; } = 0;
+    public double CurrentIgnoreReflectionRate { get; set; } = 0;
+    public double CurrentReflectionDamageRate { get; set; } = 0;
+    public double CurrentReflectionResistanceRate { get; set; } = 0;
+    public double CurrentDamageToDifferentFactionRate { get; set; } = 0;
+    public double CurrentResistanceToDifferentFactionRate { get; set; } = 0;
+    public double CurrentDamageToSameFactionRate { get; set; } = 0;
+    public double CurrentResistanceToSameFactionRate { get; set; } = 0;
+    public double CurrentNormalDamageRate { get; set; } = 0;
+    public double CurrentNormalResistanceRate { get; set; } = 0;
+    public double CurrentSkillDamageRate { get; set; } = 0;
+    public double CurrentSkillResistanceRate { get; set; } = 0;
+    public string Position { get; set; }
+    public GameObject damagePopupPrefab;
     public HealthBar healthBar;
-
-    public string CardName { get => cardName; set => cardName = value; }
-    public string Type { get => type; set => type = value; }
-    public double Power { get => power; set => power = value; }
-    public double Health { get => health; set => health = value; }
-    public double Physical_attack { get => physical_attack; set => physical_attack = value; }
-    public double Physical_defense { get => physical_defense; set => physical_defense = value; }
-    public double Magical_attack { get => magical_attack; set => magical_attack = value; }
-    public double Magical_defense { get => magical_defense; set => magical_defense = value; }
-    public double Chemical_attack { get => chemical_attack; set => chemical_attack = value; }
-    public double Chemical_defense { get => chemical_defense; set => chemical_defense = value; }
-    public double Atomic_attack { get => atomic_attack; set => atomic_attack = value; }
-    public double Atomic_defense { get => atomic_defense; set => atomic_defense = value; }
-    public double Mental_attack { get => mental_attack; set => mental_attack = value; }
-    public double Mental_defense { get => mental_defense; set => mental_defense = value; }
-    public double Speed { get => speed; set => speed = value; }
-    public double Critical_damage_rate { get => critical_damage_rate; set => critical_damage_rate = value; }
-    public double Critical_rate { get => critical_rate; set => critical_rate = value; }
-    public double Penetration_rate { get => penetration_rate; set => penetration_rate = value; }
-    public double Evasion_rate { get => evasion_rate; set => evasion_rate = value; }
-    public double Damage_absorption_rate { get => damage_absorption_rate; set => damage_absorption_rate = value; }
-    public double Vitality_regeneration_rate { get => vitality_regeneration_rate; set => vitality_regeneration_rate = value; }
-    public double Accuracy_rate { get => accuracy_rate; set => accuracy_rate = value; }
-    public double Lifesteal_rate { get => lifesteal_rate; set => lifesteal_rate = value; }
-    public float Mana { get => mana; set => mana = value; }
-    public double Mana_regeneration_rate { get => mana_regeneration_rate; set => mana_regeneration_rate = value; }
-    public double Shield_strength { get => shield_strength; set => shield_strength = value; }
-    public double Tenacity { get => tenacity; set => tenacity = value; }
-    public double Resistance_rate { get => resistance_rate; set => resistance_rate = value; }
-    public double Combo_rate { get => combo_rate; set => combo_rate = value; }
-    public double Reflection_rate { get => reflection_rate; set => reflection_rate = value; }
-    public double Damage_to_different_faction_rate { get => damage_to_different_faction_rate; set => damage_to_different_faction_rate = value; }
-    public double Resistance_to_different_faction_rate { get => resistance_to_different_faction_rate; set => resistance_to_different_faction_rate = value; }
-    public double Damage_to_same_faction_rate { get => damage_to_same_faction_rate; set => damage_to_same_faction_rate = value; }
-    public double Resistance_to_same_faction_rate { get => resistance_to_same_faction_rate; set => resistance_to_same_faction_rate = value; }
-    public double CurrentHealth { get => currentHealth; set => currentHealth = value; }
-    public string Position { get => position; set => position = value; }
 
     public virtual void TakeDamage(double amount)
     {
-        // Debug.Log("TakeDamage called: " + amount);
         CurrentHealth -= amount;
         if (CurrentHealth < 0) CurrentHealth = 0;
         if (CurrentHealth > 0)
         {
-            healthBar.SetHealth(CurrentHealth); // Cập nhật thanh máu
+            healthBar.SetHealth(CurrentHealth);
         }
         // Có thể thêm hiệu ứng hoặc sự kiện khi bị tấn công ở đây
         // ShowDamagePopup(amount); // Hiển thị popup sát thương
@@ -134,7 +165,7 @@ public class CardBase : MonoBehaviour, IAttack
 
     public virtual bool IsAlive()
     {
-        return Health > 0;
+        return CurrentHealth > 0;
     }
     public IEnumerator DamagePopupEffect(GameObject popup)
     {
@@ -172,37 +203,77 @@ public class CardBase : MonoBehaviour, IAttack
 
     public void Attack(CardBase enemyCard)
     {
-        PhysicalAttack(enemyCard);
-        MagicalAttack(enemyCard);
-        ChemicalAttack(enemyCard);
-        AtomicAttack(enemyCard);
-        MentalAttack(enemyCard);
+        CausePhysicalAttack(enemyCard);
+        CauseMagicalAttack(enemyCard);
+        CauseChemicalAttack(enemyCard);
+        CauseAtomicAttack(enemyCard);
+        CauseMentalAttack(enemyCard);
         Debug.Log(enemyCard.CurrentHealth);
+    }
+
+    public void CausePhysicalAttack(CardBase enemyCard)
+    {
+        double damage = CalculateDamage(PhysicalAttack, enemyCard.PhysicalAttack, enemyCard);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.PhysicalGradient, 1f);
+        Debug.Log("Physical damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public void CauseMagicalAttack(CardBase enemyCard)
+    {
+        double damage = CalculateDamage(MagicalAttack, enemyCard.MagicalAttack, enemyCard);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.MagicGradient, 2f);
+        Debug.Log("Magical damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public void CauseChemicalAttack(CardBase enemyCard)
+    {
+        double damage = CalculateDamage(ChemicalAttack, enemyCard.ChemicalAttack, enemyCard);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.ChemicalGradient, 3f);
+        Debug.Log("Chemical damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public void CauseAtomicAttack(CardBase enemyCard)
+    {
+        double damage = CalculateDamage(AtomicAttack, enemyCard.AtomicAttack, enemyCard);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.AtomicGradient, 4f);
+        Debug.Log("Atomic damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public void CauseMentalAttack(CardBase enemyCard)
+    {
+        double damage = CalculateDamage(MentalAttack, enemyCard.MentalAttack, enemyCard);
+        enemyCard.ShowDamagePopup(damage, ColorConstants.MentalGradient, 5f);
+        Debug.Log("Mental damage " + damage);
+        enemyCard.TakeDamage(damage);
     }
 
     public double CalculateDamage(double attack, double enemyDefense, CardBase enemyCard)
     {
         // Kiểm tra có đánh trúng không
-        if (!IsAttackHit(enemyCard))
-        {
-            return 0; // bị né => không gây sát thương
-        }
+        // if (!IsAttackHit(enemyCard))
+        // {
+        //     return 0; // bị né => không gây sát thương
+        // }
         // Áp dụng xuyên giáp nếu có
         double effectiveDefense = enemyDefense;
-        effectiveDefense = CalculateDefenseWithPenetration(effectiveDefense); // bỏ qua % giáp
+        effectiveDefense = ApplyDefenseWithPenetration(effectiveDefense, enemyCard); // bỏ qua % giáp
 
         // Công thức tính damage theo tỉ lệ attack / (attack + defense)
         double ratio = attack / (attack + effectiveDefense);
-        double baseDamage = attack * ratio * (1 + (QualityEvaluator.CheckQuality(type)/100));
+        double baseDamage = attack * ratio * (1 + (QualityEvaluator.CheckQuality(Rare) / 100));
         // Debug.Log("Attack " + attack);
         // Debug.Log("ratio " + ratio);
         // Debug.Log(baseDamage);
 
         // Áp dụng hiệu ứng khác phe
-        baseDamage = CalculateDamageToDifferentFaction(enemyCard, baseDamage);
+        baseDamage = ApplyDamageToDifferentFaction(enemyCard, baseDamage);
 
         // Áp dụng hiệu ứng cùng phe
-        baseDamage = CalculateDamageToSameFaction(enemyCard, baseDamage);
+        baseDamage = ApplyDamageToSameFaction(enemyCard, baseDamage);
 
         // Áp dụng hiệu ứng khác phe
         baseDamage = ApplyResistanceToDifferentFaction(enemyCard, baseDamage);
@@ -211,183 +282,236 @@ public class CardBase : MonoBehaviour, IAttack
         baseDamage = ApplyResistanceToSameFaction(enemyCard, baseDamage);
 
         // Nếu chí mạng
-        if (IsCriticalHit())
+        if (IsCriticalHit(enemyCard))
         {
-            baseDamage = CalculateCriticalDamage(baseDamage);
+            baseDamage = ApplyCriticalDamage(baseDamage, enemyCard);
         }
 
         // Áp dụng kháng sát thương
-        baseDamage = enemyCard.ApplyDamageResistance(baseDamage);
+        baseDamage = ApplyDamageResistance(baseDamage, enemyCard);
         // Áp dụng hấp thụ sát thương
-        baseDamage = enemyCard.ApplyDamageAbsorption(baseDamage);
+        baseDamage = ApplyDamageAbsorption(baseDamage, enemyCard);
 
         return Math.Max(1, Math.Floor(baseDamage)); // không để damage = 0
     }
 
-    public void PhysicalAttack(CardBase enemyCard)
-    {
-        double damage = CalculateDamage(Physical_attack, enemyCard.Physical_defense, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.PhysicalGradient, 1f);
-        Debug.Log("Physical damage " + damage);
-        enemyCard.TakeDamage(damage);
-    }
 
-    public void MagicalAttack(CardBase enemyCard)
-    {
-        double damage = CalculateDamage(Magical_attack, enemyCard.Magical_attack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.MagicGradient, 2f);
-        Debug.Log("Magical damage " + damage);
-        enemyCard.TakeDamage(damage);
-    }
 
-    public void ChemicalAttack(CardBase enemyCard)
+    public bool IsAttackHit(CardBase enemyCard)
     {
-        double damage = CalculateDamage(Chemical_attack, enemyCard.Chemical_attack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.ChemicalGradient, 3f);
-        Debug.Log("Chemical damage " + damage);
-        enemyCard.TakeDamage(damage);
-    }
+        double chance = CurrentAccuracyRate - enemyCard.CurrentEvasionRate;
 
-    public void AtomicAttack(CardBase enemyCard)
-    {
-        double damage = CalculateDamage(Atomic_attack, enemyCard.Atomic_attack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.AtomicGradient, 4f);
-        Debug.Log("Atomic damage " + damage);
-        enemyCard.TakeDamage(damage);
-    }
+        if (chance <= 0)
+            return false;
 
-    public void MentalAttack(CardBase enemyCard)
-    {
-        double damage = CalculateDamage(Mental_attack, enemyCard.Mental_attack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.MentalGradient, 5f);
-        Debug.Log("Mental damage " + damage);
-        enemyCard.TakeDamage(damage);
-    }
-
-    public bool IsAttackHit(CardBase enemy)
-    {
-        if(Accuracy_rate >= enemy.Evasion_rate){
+        if (chance >= 100)
             return true;
-        }else{
-            double hitChance = enemy.Evasion_rate - Accuracy_rate;
-            double roll = UnityEngine.Random.Range(0f, 100f);
-            return roll < hitChance;
-        }
-    }
 
-    public bool IsCriticalHit()
-    {
         double roll = UnityEngine.Random.Range(0f, 100f);
-        return roll <= Critical_rate;
+        return roll < chance;
     }
 
-    public double CalculateCriticalDamage(double baseDamage)
+    public bool IsCriticalHit(CardBase enemyCard)
     {
-        double multiplier = 1.0 + (Critical_damage_rate / 100.0);
+        double chance = CurrentCriticalRate - enemyCard.CurrentIgnoreCriticalRate;
+
+        if (chance <= 0)
+            return false;
+
+        if (chance >= 100)
+            return true;
+
+        double roll = UnityEngine.Random.Range(0f, 100f);
+        return roll < chance;
+    }
+
+    public double ApplyCriticalDamage(double baseDamage, CardBase enemyCard)
+    {
+        // Tính multiplier (hệ số nhân sát thương chí mạng)
+        double multiplier = 1.0 + (CriticalDamageRate / 100.0) - (enemyCard.CriticalResistanceRate / 100.0);
+
+        // Đảm bảo không giảm dưới sát thương cơ bản
+        if (multiplier < 1.0)
+            multiplier = 1.0;
+
         return baseDamage * multiplier;
     }
 
-    public double CalculateDefenseWithPenetration(double enemyDefense)
+    public double ApplyDefenseWithPenetration(double enemyDefense, CardBase enemyCard)
     {
-        double effectiveDefense = enemyDefense / (Penetration_rate * 100);
-        return Math.Max(0, effectiveDefense); // Không âm damage
+        // Phần trăm xuyên giáp sau khi bị kháng
+        double actualPenetration = CurrentPenetrationRate - enemyCard.CurrentPenetrationResistanceRate;
+        if (actualPenetration < 0)
+            actualPenetration = 0;
+
+        // Tính defense sau khi xuyên
+        double effectiveDefense = enemyDefense * (1 - actualPenetration / 100.0);
+
+        // Không để defense âm
+        return Math.Max(0, effectiveDefense);
     }
 
-    public double ApplyDamageAbsorption(double incomingDamage)
+    public double ApplyDamageAbsorption(double incomingDamage, CardBase enemyCard)
     {
-        // Áp dụng công thức bão hòa cho kháng cao
-        double damageAbsorptionFactor = 1.0 / (1.0 + Damage_absorption_rate / 100.0);
-        double reducedDamage = incomingDamage - incomingDamage * damageAbsorptionFactor;
-        return Math.Max(0, reducedDamage);
+        // Giảm khả năng hấp thụ của enemy do bị xuyên
+        double effectiveAbsorptionRate = CurrentDamageAbsorptionRate * (1 - enemyCard.CurrentIgnoreDamageAbsorptionRate / 100.0);
+
+        // Đảm bảo không âm
+        if (effectiveAbsorptionRate < 0)
+            effectiveAbsorptionRate = 0;
+
+        // Áp dụng công thức bão hòa
+        double absorptionFactor = 1.0 / (1.0 + effectiveAbsorptionRate / 100.0);
+
+        // Damage bị hấp thụ
+        double absorbedDamage = incomingDamage * (1 - absorptionFactor);
+
+        // Không để âm
+        return Math.Max(0, incomingDamage - absorbedDamage);
     }
 
     public void RegenerateVitality()
     {
-        double regenAmount = health * (Vitality_regeneration_rate / 100.0);
+        double regenAmount = Health * (CurrentVitalityRegenerationRate / 100.0);
 
-        currentHealth += regenAmount;
+        CurrentHealth += regenAmount;
 
         // Giới hạn không vượt quá máu tối đa
-        if (currentHealth > health)
+        if (CurrentHealth > Health)
         {
-            currentHealth = health;
+            CurrentHealth = Health;
         }
     }
 
-    public void ApplyLifesteal(double damageDealt)
+    public double ApplyLifesteal(double damageDealt)
     {
-        double healAmount = damageDealt * Lifesteal_rate / 100.0;
-        currentHealth += healAmount;
+        double effectiveLifestealRate = Math.Min(CurrentLifestealRate, 100.0); // Giới hạn 100%
+        double healAmount = damageDealt * effectiveLifestealRate;
+        return healAmount;
     }
 
     public void RegenerateMana()
     {
-        float regenAmount = (float)(mana * (Mana_regeneration_rate / 100.0));
+        float regenAmount = (float)(CurrentMana * (CurrentManaRegenerationRate / 100.0));
 
-        mana += regenAmount;
+        CurrentMana += regenAmount;
 
         // Giới hạn mana không vượt quá tối đa
         // Giả sử bạn có biến manaMax để lưu mana tối đa, nếu chưa có thì có thể thêm hoặc lấy từ đâu đó
         float manaMax = 100f; // ví dụ tạm, bạn thay bằng giá trị thực tế
 
-        if (mana > manaMax)
+        if (CurrentMana > manaMax)
         {
-            mana = manaMax;
+            CurrentMana = manaMax;
         }
     }
 
     public bool IsEffectResisted()
     {
         double roll = UnityEngine.Random.Range(0f, 100f);
-        return roll < Tenacity;
+        return roll < CurrentTenacity;
     }
 
-    public double ApplyDamageResistance(double incomingDamage)
+    public double ApplyDamageResistance(double incomingDamage, CardBase enemyCard)
     {
         // Áp dụng công thức bão hòa cho kháng cao
-        double resistanceFactor = 1.0 / (1.0 + Resistance_rate / 100.0);
+        double resistanceFactor = 1.0 / (1.0 + enemyCard.ResistanceRate / 100.0);
         double reducedDamage = incomingDamage * resistanceFactor;
         return Math.Max(0, reducedDamage);
     }
 
-    public bool ApplyPerformCombo()
+    public bool IsComboHit(CardBase enemyCard)
     {
+        double chance = CurrentComboRate - enemyCard.CurrentIgnoreComboRate;
+
+        if (chance <= 0)
+            return false;
+
+        if (chance >= 100)
+            return true;
+
         double roll = UnityEngine.Random.Range(0f, 100f);
-        return roll < Combo_rate;
+        return roll < chance;
     }
 
-    public bool ApplyReflectAttack()
+    public double ApplyComboDamage(double baseDamage, CardBase enemyCard)
     {
-        double roll = UnityEngine.Random.Range(0f, 100f);
-        return roll < Reflection_rate;
+        // Tính multiplier (hệ số nhân sát thương chí mạng)
+        double multiplier = 1.0 + (CurrentComboDamageRate / 100.0) - (enemyCard.CurrentComboResistanceRate / 100.0);
+
+        // Đảm bảo không giảm dưới sát thương cơ bản
+        if (multiplier < 1.0)
+            multiplier = 1.0;
+
+        return baseDamage * multiplier;
     }
 
-    public double CalculateDamageToDifferentFaction(CardBase enemy, double baseDamage)
+    public bool IsStunHit(CardBase enemyCard)
+    {
+        double chance = CurrentStunRate - enemyCard.CurrentIgnoreStunRate;
+
+        if (chance <= 0)
+            return false;
+
+        if (chance >= 100)
+            return true;
+
+        double roll = UnityEngine.Random.Range(0f, 100f);
+        return roll < chance;
+    }
+    
+    public bool IsReflectionHit(CardBase enemyCard)
+    {
+        double chance = CurrentReflectionRate - enemyCard.CurrentIgnoreReflectionRate;
+
+        if (chance <= 0)
+            return false;
+
+        if (chance >= 100)
+            return true;
+
+        double roll = UnityEngine.Random.Range(0f, 100f);
+        return roll < chance;
+    }
+
+    public double ApplyReflectionDamage(double baseDamage, CardBase enemyCard)
+    {
+        // Tính multiplier (hệ số nhân sát thương chí mạng)
+        double multiplier = 1.0 + (CurrentReflectionDamageRate / 100.0) - (enemyCard.CurrentReflectionResistanceRate / 100.0);
+
+        // Đảm bảo không giảm dưới sát thương cơ bản
+        if (multiplier < 1.0)
+            multiplier = 1.0;
+
+        return baseDamage * multiplier;
+    }
+
+    public double ApplyDamageToDifferentFaction(CardBase enemyCard, double baseDamage)
     {
         double damage = baseDamage;
 
-        if (!this.type.Equals(enemy.type))
+        if (!this.Type.Equals(enemyCard.Type))
         {
             // Tăng sát thương theo tỉ lệ phần trăm
-            damage += baseDamage * (Damage_to_different_faction_rate / 100.0);
+            damage += baseDamage * (CurrentDamageToDifferentFactionRate / 100.0);
         }
 
         return damage;
     }
 
-    public double ApplyResistanceToDifferentFaction(CardBase enemy, double incomingDamage)
+    public double ApplyResistanceToDifferentFaction(CardBase enemyCard, double incomingDamage)
     {
-        if (!this.type.Equals(enemy.type))
+        if (!this.Type.Equals(enemyCard.Type))
         {
             // Kháng theo tỉ lệ phần trăm
-            if (Resistance_to_different_faction_rate < 100)
+            if (CurrentResistanceToDifferentFactionRate < 100)
             {
-                double reducedDamage = incomingDamage * (1 - Resistance_to_different_faction_rate / 100.0);
+                double reducedDamage = incomingDamage * (1 - CurrentResistanceToDifferentFactionRate / 100.0);
                 return reducedDamage;
             }
             else
             {
-                double reducedDamage = incomingDamage / (Resistance_to_different_faction_rate / 100.0);
+                double reducedDamage = incomingDamage / (CurrentResistanceToDifferentFactionRate / 100.0);
                 return reducedDamage;
             }
 
@@ -397,14 +521,14 @@ public class CardBase : MonoBehaviour, IAttack
         return incomingDamage;
     }
 
-    public double CalculateDamageToSameFaction(CardBase enemy, double baseDamage)
+    public double ApplyDamageToSameFaction(CardBase enemyCard, double baseDamage)
     {
         double damage = baseDamage;
 
-        if (this.type.Equals(enemy.type))
+        if (this.Type.Equals(enemyCard.Type))
         {
             // Tăng sát thương theo tỉ lệ phần trăm
-            damage += baseDamage * (Damage_to_different_faction_rate / 100.0);
+            damage += baseDamage * (CurrentDamageToSameFactionRate / 100.0);
         }
 
         return damage;
@@ -412,17 +536,17 @@ public class CardBase : MonoBehaviour, IAttack
 
     public double ApplyResistanceToSameFaction(CardBase enemy, double incomingDamage)
     {
-        if (this.type.Equals(enemy.type))
+        if (this.Type.Equals(enemy.Type))
         {
             // Kháng theo tỉ lệ phần trăm
-            if (Resistance_to_different_faction_rate < 100)
+            if (CurrentResistanceToSameFactionRate < 100)
             {
-                double reducedDamage = incomingDamage * (1 - Resistance_to_different_faction_rate / 100.0);
+                double reducedDamage = incomingDamage * (1 - CurrentResistanceToSameFactionRate / 100.0);
                 return reducedDamage;
             }
             else
             {
-                double reducedDamage = incomingDamage / (Resistance_to_different_faction_rate / 100.0);
+                double reducedDamage = incomingDamage / (CurrentResistanceToSameFactionRate / 100.0);
                 return reducedDamage;
             }
 

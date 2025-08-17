@@ -95,7 +95,7 @@ public class SymbolsController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = symbolObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = symbolObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(symbol, MainPanel);

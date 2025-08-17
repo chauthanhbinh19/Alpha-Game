@@ -117,6 +117,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(13, AppConstants.CardLives, backgroundImage, Resources.Load<Texture2D>($"UI/UI/Life"), moreMenuPanel);
         CreateButton(14, AppConstants.MasterBoard, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Master_Board"), moreMenuPanel);
         CreateButton(15, AppConstants.Artwork, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Artwork"), moreMenuPanel);
+        CreateButton(16, AppConstants.SpiritBeast, backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpiritBeast"), moreMenuPanel);
     }
     private void CreateButton(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
@@ -269,6 +270,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(24, AppConstants.ForgeGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/ForgeGallery"), galleryMenuPanel);
         CreateButton(25, AppConstants.LifeGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/LifeGallery"), galleryMenuPanel);
         CreateButton(26, AppConstants.ArtworkGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/ArtworkGallery"), galleryMenuPanel);
+        CreateButton(27, AppConstants.SpiritBeastGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/SpiritBeastGallery"), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
     }
@@ -301,6 +303,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(24, AppConstants.ForgeCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/ForgeCollection"), collectionMenuPanel);
         CreateButton(25, AppConstants.LifeCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/LifeCollection"), collectionMenuPanel);
         CreateButton(26, AppConstants.ArtworkCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/ArtworkCollection"), collectionMenuPanel);
+        CreateButton(27, AppConstants.SpiritBeastCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/SpiritBeastCollection"), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
     }

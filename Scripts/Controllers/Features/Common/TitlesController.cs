@@ -97,7 +97,7 @@ public class TitlesController : MonoBehaviour
             Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
             RawImage FrameImage = titleObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = titleObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(title, MainPanel);

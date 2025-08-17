@@ -93,7 +93,7 @@ public class PuppetController : MonoBehaviour
             RawImage FrameImage = puppetObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = puppetObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(puppet, MainPanel);

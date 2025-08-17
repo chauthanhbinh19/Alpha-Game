@@ -89,7 +89,7 @@ public class CollaborationEquipmentController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = collaborationEquipmentObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = collaborationEquipmentObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(collaborationEquipment, MainPanel);

@@ -93,7 +93,7 @@ public class ArtworkController : MonoBehaviour
             RawImage FrameImage = ArtworkObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = ArtworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = ArtworkObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(Artwork, MainPanel);

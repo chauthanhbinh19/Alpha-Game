@@ -93,7 +93,7 @@ public class RelicsController : MonoBehaviour
             RawImage FrameImage = relicObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = relicObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(relic, MainPanel);

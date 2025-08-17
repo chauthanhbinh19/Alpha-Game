@@ -111,6 +111,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(24, AppConstants.Alchemies, Resources.Load<Texture2D>($"UI/Button/Gallery/AlchemyGallery"), tempContent);
         CreateButton(25, AppConstants.Forges, Resources.Load<Texture2D>($"UI/Button/Gallery/ForgeGallery"), tempContent);
         CreateButton(26, AppConstants.CardLives, Resources.Load<Texture2D>($"UI/Button/Gallery/LifeGallery"), tempContent);
+        CreateButton(27, AppConstants.SpiritBeast, Resources.Load<Texture2D>($"UI/Button/Gallery/SpiritBeastGallery"), tempContent);
         // CreateButton(27, AppConstants.Artwork, Resources.Load<Texture2D>($"UI/Button/ArtworkGallery"), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.CardHero));
@@ -139,6 +140,7 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_24", tempContent, () => GetType(AppConstants.Alchemy));
         AssignButtonEvent("Button_25", tempContent, () => GetType(AppConstants.Forge));
         AssignButtonEvent("Button_26", tempContent, () => GetType(AppConstants.CardLife));
+        AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.SpiritBeast));
         // AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.Artwork));
     }
     private void CreateButton(int index, string itemName, Texture2D itemImage, Transform panel)
@@ -256,6 +258,13 @@ public class ShopManager : MonoBehaviour
                 AchievementsController.Instance.CreateAchievementsTrade(achievements, subType, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
+            }
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                List<SpiritBeast> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
+                SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, subType, currentContent, currencyPanel, popupPanel);
+
+                totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
             }
 
             totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -440,6 +449,13 @@ public class ShopManager : MonoBehaviour
             ArtworkController.Instance.CreateArtworkTrade(artworks, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(type);
+        }
+        else if (mainType.Equals(AppConstants.SpiritBeast))
+        {
+            List<SpiritBeast> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
+            SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -768,7 +784,15 @@ public class ShopManager : MonoBehaviour
                 List<Artwork> artworks = ArtworkService.Create().GetArtworkWithPrice(subType, pageSize, offset);
                 ArtworkController.Instance.CreateArtworkTrade(artworks, subType, currentContent, currencyPanel, popupPanel);
             }
-
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<SpiritBeast> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
+                SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, subType, currentContent, currencyPanel, popupPanel);
+            }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -1024,6 +1048,15 @@ public class ShopManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<Artwork> artworks = ArtworkService.Create().GetArtworkWithPrice(subType, pageSize, offset);
                 ArtworkController.Instance.CreateArtworkTrade(artworks, subType, currentContent, currencyPanel, popupPanel);
+            }
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<SpiritBeast> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
+                SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, subType, currentContent, currencyPanel, popupPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

@@ -93,7 +93,7 @@ public class TalismanController : MonoBehaviour
             RawImage FrameImage = talismanObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = talismanObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = talismanObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(talisman, MainPanel);

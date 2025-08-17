@@ -137,7 +137,7 @@ public class PetsController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = petsObject.transform.Find("Frame").GetComponent<RawImage>();
             
-            Button button = petsObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);

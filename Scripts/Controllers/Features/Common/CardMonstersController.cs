@@ -89,7 +89,7 @@ public class CardMonstersController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = monstersObject.transform.Find("Frame").GetComponent<RawImage>();
             
-            Button button = monstersObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(monster, MainPanel);

@@ -203,6 +203,11 @@ public class PopupDetailsManager : MonoBehaviour
             // Xử lý đối tượng achievements
             ShowArtworkDetails(artwork);
         }
+        else if (data is SpiritBeast spiritBeast)
+        {
+            // Xử lý đối tượng achievements
+            ShowSpiritBeastDetails(spiritBeast);
+        }
         else
         {
             Debug.LogError("Không hỗ trợ loại dữ liệu này!");
@@ -1316,6 +1321,38 @@ public class PopupDetailsManager : MonoBehaviour
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(artwork, null);
+            CreatePropertyUI(1, property, value);
+        }
+    }
+    private void ShowSpiritBeastDetails(SpiritBeast spiritBeast)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = spiritBeast.name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = NumberFormatter.FormatNumber(spiritBeast.power, false);
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = spiritBeast.level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = spiritBeast.GetType().GetProperties();
+        foreach (var property in properties)
+        {
+            // Lấy giá trị của thuộc tính
+            object value = property.GetValue(spiritBeast, null);
             CreatePropertyUI(1, property, value);
         }
     }

@@ -133,6 +133,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_13", moreMenuPanel, () => GetType(AppConstants.CardLife));
         ButtonEvent.Instance.AssignButtonEvent("Button_14", moreMenuPanel, () => GetType(AppConstants.MasterBoard));
         ButtonEvent.Instance.AssignButtonEvent("Button_15", moreMenuPanel, () => GetType(AppConstants.Artwork));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", moreMenuPanel, () => GetType(AppConstants.SpiritBeast));
     }
     public void GetType(string type)
     {
@@ -362,6 +363,7 @@ public class MainMenuManager : MonoBehaviour
             currencies = UserCurrencyService.Create().GetUserCurrency();
             FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
         }
+        
         List<string> uniqueRaries = QualityEvaluator.rarities;
         List<string> uniqueTypes = TypeManager.GetUniqueTypes(mainType);
 
@@ -476,6 +478,14 @@ public class MainMenuManager : MonoBehaviour
 
                 totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
             }
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
+                UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
+                listCount = spiritBeasts.Count;
+
+                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
+            }
 
             if (listCount > 0)
             {
@@ -563,10 +573,12 @@ public class MainMenuManager : MonoBehaviour
     {
         int totalRecord = 0;
         int listCount = 0;
+        // offset = 0;
 
         if (mainType.Equals(AppConstants.CardHero))
         {
             List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardHeroesController.Instance.CreateUserCardHeroes(cardHeroes, DictionaryContentPanel);
             listCount = cardHeroes.Count;
 
@@ -575,6 +587,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Book))
         {
             List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserBooksController.Instance.CreateUserBooks(books, DictionaryContentPanel);
             listCount = books.Count;
 
@@ -583,6 +596,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CardCaptain))
         {
             List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardCaptainsController.Instance.CreateUserCardCaptains(cardCaptains, DictionaryContentPanel);
             listCount = cardCaptains.Count;
 
@@ -591,6 +605,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CollaborationEquipment))
         {
             List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCollaborationEquipmentController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
             listCount = collaborationEquipments.Count;
 
@@ -598,7 +613,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Item))
         {
-            List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId,type, pageSize, offset);
+            List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, type, pageSize, offset);
+            Close(DictionaryContentPanel);
             UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
             listCount = items.Count;
 
@@ -607,6 +623,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Pet))
         {
             List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserPetsController.Instance.CreateUserPets(pets, DictionaryContentPanel);
             listCount = pets.Count;
 
@@ -615,6 +632,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Skill))
         {
             List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserSkillsController.Instance.CreateUserSkills(skills, DictionaryContentPanel);
             listCount = skills.Count;
 
@@ -623,6 +641,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Symbol))
         {
             List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserSymbolsController.Instance.CreateUserSymbols(symbols, DictionaryContentPanel);
             listCount = symbols.Count;
 
@@ -631,6 +650,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CardMilitary))
         {
             List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardMilitaryController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
             listCount = cardMilitaries.Count;
 
@@ -639,6 +659,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CardSpell))
         {
             List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardSpellController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
             listCount = cardSpells.Count;
 
@@ -647,6 +668,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Collaboration))
         {
             List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
             listCount = collaborations.Count;
 
@@ -655,6 +677,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Medal))
         {
             List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
             listCount = medals.Count;
 
@@ -663,6 +686,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Title))
         {
             List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
             listCount = titles.Count;
 
@@ -671,6 +695,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MagicFormationCircle))
         {
             List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserMagicFormationCircleController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
             listCount = magicFormationCircles.Count;
 
@@ -679,6 +704,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Relic))
         {
             List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserRelicsController.Instance.CreateUserRelics(relics, DictionaryContentPanel);
             listCount = relics.Count;
 
@@ -687,6 +713,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CardMonster))
         {
             List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardMonstersController.Instance.CreateUserCardMonsters(cardMonsters, DictionaryContentPanel);
             listCount = cardMonsters.Count;
 
@@ -695,6 +722,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CardColonel))
         {
             List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardColonelsController.Instance.CreateUserCardColonels(cardColonels, DictionaryContentPanel);
             listCount = cardColonels.Count;
 
@@ -703,6 +731,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CardGeneral))
         {
             List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardGeneralsController.Instance.CreateUserCardGenerals(cardGenerals, DictionaryContentPanel);
             listCount = cardGenerals.Count;
 
@@ -711,6 +740,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CardAdmiral))
         {
             List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardAdmiralsController.Instance.CreateUserCardAdmirals(cardAdmirals, DictionaryContentPanel);
             listCount = cardAdmirals.Count;
 
@@ -1163,6 +1193,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Talisman))
         {
             List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserTalismanController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
             listCount = talismans.Count;
 
@@ -1171,6 +1202,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Puppet))
         {
             List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserPuppetController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
             listCount = puppets.Count;
 
@@ -1179,6 +1211,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Alchemy))
         {
             List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserAlchemyController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
             listCount = alchemies.Count;
 
@@ -1187,6 +1220,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Forge))
         {
             List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserForgeController.Instance.CreateUserForge(forges, DictionaryContentPanel);
             listCount = forges.Count;
 
@@ -1195,6 +1229,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.CardLife))
         {
             List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             listCount = cardLives.Count;
 
@@ -1203,10 +1238,20 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.Artwork))
         {
             List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
             UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             listCount = artworks.Count;
 
             totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, type, rare);
+        }
+        else if (mainType.Equals(AppConstants.SpiritBeast))
+        {
+            List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
+            UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
+            listCount = spiritBeasts.Count;
+
+            totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
         }
 
         if (listCount > 0)
@@ -1526,7 +1571,15 @@ public class MainMenuManager : MonoBehaviour
                 List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, subType, pageSize, offset);
                 UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
             }
-
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
+                UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
+            }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -1763,6 +1816,15 @@ public class MainMenuManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, subType, pageSize, offset);
                 UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.SpiritBeast))
+            {
+                totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
+                UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

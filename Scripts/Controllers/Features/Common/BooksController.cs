@@ -118,7 +118,7 @@ public class BooksController : MonoBehaviour
 
             RawImage FrameImage = bookObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = bookObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(book, MainPanel);

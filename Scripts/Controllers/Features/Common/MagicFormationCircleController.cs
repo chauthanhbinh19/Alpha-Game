@@ -93,7 +93,7 @@ public class MagicFormationCircleController : MonoBehaviour
             RawImage FrameImage = magicFormationCircleObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = magicFormationCircleObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(magicFormationCircle, MainPanel);

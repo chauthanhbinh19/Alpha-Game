@@ -1280,6 +1280,45 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
+    public Currency GetUserSpiritBeastPrice(string Id)
+    {
+        Currency currency = new Currency();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                FROM spirit_beast ch
+                left JOIN spirit_beast_trade et ON ch.id = et.spirit_beast_id
+                left JOIN currency c ON c.id = et.currency_id
+                left JOIN user_currency uc ON uc.currency_id = c.id
+                where ch.id=@id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    currency = new Currency
+                    {
+                        id = reader.GetString("currency_id"),
+                        name = reader.GetString("currency_name"),
+                        image = reader.GetString("currency_image"),
+                        quantity = reader.GetInt32("trade_price"),
+                    };
+                }
+                ;
+                return currency;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+
+        }
+        return currency;
+    }
     public List<Currency> GetAchievementsCurrency()
     {
         List<Currency> currencies = new List<Currency>();
@@ -2224,6 +2263,41 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 where a.id=at.artwork_id and at.currency_id = c.id and c.id =uc.currency_id and a.type=@type;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Currency currency = new Currency
+                    {
+                        id = reader.GetString("id"),
+                        name = reader.GetString("name"),
+                        image = reader.GetString("image"),
+                        quantity = reader.GetInt32("quantity"),
+                    };
+                    currencies.Add(currency);
+                }
+                ;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return currencies;
+    }
+    public List<Currency> GetSpiritBeastCurrency(string type)
+    {
+        List<Currency> currencies = new List<Currency>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select distinct c.id, c.image , c.name, uc.quantity 
+                from spirit_beast a, spirit_beast_trade at, currency c, user_currency uc
+                where a.id=at.spirit_beast_id and at.currency_id = c.id and c.id =uc.currency_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())

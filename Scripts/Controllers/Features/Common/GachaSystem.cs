@@ -95,28 +95,28 @@ public class GachaSystem : MonoBehaviour
             case AppConstants.SummonCardHeroes:
                 cards = CardHeroesService.Create().GetAllCardHeroes(type);
                 break;
-            case AppConstants.Book:
+            case AppConstants.SummonBooks:
                 cards = BooksService.Create().GetAllBooks(type);
                 break;
-            case AppConstants.CardCaptain:
+            case AppConstants.SummonCardCaptains:
                 cards = CardCaptainsService.Create().GetAllCardCaptains(type);
                 break;
-            case AppConstants.CardMonster:
+            case AppConstants.SummonCardMonsters:
                 cards = CardMonstersService.Create().GetAllCardMonsters(type);
                 break;
-            case AppConstants.CardMilitary:
+            case AppConstants.SummonCardMilitaries:
                 cards = CardMilitaryService.Create().GetAllCardMilitary(type);
                 break;
-            case AppConstants.CardSpell:
+            case AppConstants.SummonCardSpells:
                 cards = CardSpellService.Create().GetAllCardSpell(type);
                 break;
-            case AppConstants.CardColonel:
+            case AppConstants.SummonCardColonels:
                 cards = CardColonelsService.Create().GetAllCardColonels(type);
                 break;
-            case AppConstants.CardGeneral:
+            case AppConstants.SummonCardGenerals:
                 cards = CardGeneralsService.Create().GetAllCardGenerals(type);
                 break;
-            case AppConstants.CardAdmiral:
+            case AppConstants.SummonCardAdmirals:
                 cards = CardAdmiralsService.Create().GetAllCardAdmirals(type);
                 break;
             default:

@@ -95,7 +95,7 @@ public class BordersController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = borderObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = borderObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(border, MainPanel);

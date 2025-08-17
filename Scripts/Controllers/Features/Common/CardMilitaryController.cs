@@ -89,7 +89,7 @@ public class CardMilitaryController : MonoBehaviour
             Image.texture = texture;
             RawImage FrameImage = militaryObject.transform.Find("Frame").GetComponent<RawImage>();
             
-            Button button = militaryObject.GetComponent<Button>();
+            Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 PopupDetailsManager.Instance.PopupDetails(military, MainPanel);

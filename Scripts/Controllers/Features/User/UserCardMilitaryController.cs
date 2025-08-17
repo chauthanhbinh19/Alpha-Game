@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -17,6 +18,15 @@ public class UserCardMilitaryController : MonoBehaviour
     private double increasePerUpgrade = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
+    private GameObject PopupSpiritBeastPanelPrefab;
+    private GameObject EquipmentsWearingPrefab;
+    private GameObject popupSpiritBeastObject;
+    private GameObject tempCurrentObject;
+    private int pageSize;
+    private int offset;
+    private int currentPage;
+    private int totalPage;
+    private string statusToggle;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -37,6 +47,8 @@ public class UserCardMilitaryController : MonoBehaviour
         cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
         PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        PopupSpiritBeastPanelPrefab = UIManager.Instance.GetGameObject("PopupSpiritBeastPanelPrefab");
+        EquipmentsWearingPrefab = UIManager.Instance.GetGameObject("EquipmentsWearingPrefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
@@ -104,11 +116,13 @@ public class UserCardMilitaryController : MonoBehaviour
     }
     public void ShowCardMilitaryDetails(CardMilitary cardMilitary, GameObject currentObject)
     {
+        tempCurrentObject = currentObject;
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
         ButtonLoader.Instance.CreateButton(2, "Level", RightButtonContent);
         ButtonLoader.Instance.CreateButton(3, "Skills", RightButtonContent);
         ButtonLoader.Instance.CreateButton(4, "Upgrade", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(5, "Spirit Beast", RightButtonContent);
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
@@ -129,6 +143,11 @@ public class UserCardMilitaryController : MonoBehaviour
         {
             GetUpgrade(cardMilitary, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", RightButtonContent, () =>
+        {
+            GetSpiritBeast(cardMilitary, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
         });
 
         GetDetails(cardMilitary, currentObject);
@@ -361,6 +380,161 @@ public class UserCardMilitaryController : MonoBehaviour
                     Debug.Log("❌ Không đủ tài nguyên để nâng cấp thẻ bài!");
                 }
             });
+        }
+    }
+    public void GetSpiritBeast(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonSpiritBeastPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Background1").GetComponent<RawImage>();
+        Button addButton = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/AddButton").GetComponent<Button>();
+        Button removeButton = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/RemoveButton").GetComponent<Button>();
+
+        pageSize = 100;
+        offset = 0;
+        currentPage = 1;
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        addButton.onClick.AddListener(() => CreatePopupEquipments(obj));
+
+        if (obj is CardMilitary cardMilitary)
+        {
+            var userCardSpiritBeast = UserSpiritBeastService.Create().GetUserCardMilitarySpiritBeast(User.CurrentUserId, cardMilitary);
+            RawImage spiritBeastImage = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = userCardSpiritBeast.image != null
+                ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.image)
+                : "UI/Background4/Background_V4_352";
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            spiritBeastImage.texture = texture;
+
+            removeButton.onClick.AddListener(() =>
+            {
+                UserSpiritBeastService.Create().DeleteUserCardMilitarySpiritBeast(User.CurrentUserId, cardMilitary, userCardSpiritBeast);
+                string fileNameWithoutExtension = "UI/Background4/Background_V4_352";
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                spiritBeastImage.texture = texture;
+            });
+        }
+    }
+    public void CreatePopupEquipments(object data, string statusToggle = "NOT EQUIP")
+    {
+        popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
+        Transform contentPanel = popupSpiritBeastObject.transform.Find("Scroll View/Viewport/Content");
+        Text PageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        Toggle toggle = popupSpiritBeastObject.transform.Find("Toggle").GetComponent<Toggle>();
+        toggle.isOn = (statusToggle == "ALL");
+        toggle.onValueChanged.AddListener((bool isOn) =>
+        {
+            string newStatusToggle = isOn ? "ALL" : "NOT EQUIP";
+            Destroy(popupSpiritBeastObject);
+            CreatePopupEquipments(data, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
+        });
+        Button NextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
+        Button PreviousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+        Button CloseButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() => Destroy(popupSpiritBeastObject));
+        Equipments equipments = new Equipments();
+        List<SpiritBeast> spiritBeasts = new List<SpiritBeast>();
+        spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardMilitarySpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+
+        int totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.All);
+        totalPage = CalculateTotalPages(totalRecord, pageSize);
+
+        PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+        CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel);
+        NextButton.onClick.AddListener(() => { ChangeNextPage(data, PageText, contentPanel); });
+        PreviousButton.onClick.AddListener(() => { ChangePreviousPage(data, PageText, contentPanel); });
+    }
+    public int CalculateTotalPages(int totalRecords, int pageSize)
+    {
+        if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
+        return (int)Math.Ceiling((double)totalRecords / pageSize);
+    }
+    public void CreatePopupEquipmentsUI(object data, List<SpiritBeast> spiritBeasts, Transform content)
+    {
+        foreach (var spiritBeast in spiritBeasts)
+        {
+            GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, content);
+
+            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = spiritBeast.name.Replace("_", " ");
+
+            TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
+            Power.text = spiritBeast.power.ToString();
+
+            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = spiritBeast.image.Replace(".png", "");
+            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            // cardImage.SetNativeSize();
+            // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+
+            RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.rare}");
+            rareImage.texture = rareTexture;
+
+            Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
+            EquipButton.onClick.AddListener(() =>
+            {
+                Destroy(popupSpiritBeastObject);
+                if (data is CardMilitary cardMilitary)
+                {
+                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    UserSpiritBeastService.Create().InsertOrUpdateUserCardMilitarySpiritBeast(User.CurrentUserId, cardMilitary, spiritBeast);
+
+                    RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
+                    var userCardSpiritBeast = UserSpiritBeastService.Create().GetUserCardMilitarySpiritBeast(User.CurrentUserId, cardMilitary);
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.image);
+                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    spiritBeastImage.texture = texture;
+
+                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                }
+
+                Destroy(popupSpiritBeastObject);
+            });
+        }
+        GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(340, 130);
+        }
+    }
+    public void ChangeNextPage(object data, Text PageText, Transform content)
+    {
+        if (currentPage < totalPage)
+        {
+            ButtonEvent.Instance.Close(content);
+            int totalRecord = 0;
+
+            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.All);
+            totalPage = CalculateTotalPages(totalRecord, pageSize);
+            currentPage = currentPage + 1;
+            offset = offset + pageSize;
+            List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardMilitarySpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+            CreatePopupEquipmentsUI(data, spiritBeasts, content);
+
+            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+
+        }
+    }
+    public void ChangePreviousPage(object data, Text PageText, Transform content)
+    {
+        if (currentPage > 1)
+        {
+            ButtonEvent.Instance.Close(content);
+            int totalRecord = 0;
+
+            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.All);
+            totalPage = CalculateTotalPages(totalRecord, pageSize);
+            currentPage = currentPage - 1;
+            offset = offset - pageSize;
+            List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardMilitarySpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+            CreatePopupEquipmentsUI(data, spiritBeasts, content);
+
+            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+
         }
     }
 }
