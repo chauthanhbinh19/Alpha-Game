@@ -76,12 +76,12 @@ public class UserCollaborationEquipmentController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowCollaborationEquipmentsDetails(CollaborationEquipment collaborationEquipment, GameObject currentObject)
+    public void ShowCollaborationEquipmentsDetails(CollaborationEquipment collaborationEquipment, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
         ButtonLoader.Instance.CreateButton(2, "Level", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(3, "Upgrade", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(4, "Upgrade", RightButtonContent);
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
@@ -93,14 +93,35 @@ public class UserCollaborationEquipmentController : MonoBehaviour
             GetLevel(collaborationEquipment, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
             GetUpgrade(collaborationEquipment, currentObject);
-            ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
+            ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
-        GetDetails(collaborationEquipment, currentObject);
-        ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        switch (buttonType)
+        {
+            case 1:
+                GetDetails(collaborationEquipment, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+            case 2:
+                GetLevel(collaborationEquipment, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
+                break;
+            case 3:
+                GetSkills(collaborationEquipment, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
+                break;
+            case 4:
+                GetUpgrade(collaborationEquipment, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+                break;
+            default:
+                GetDetails(collaborationEquipment, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+        }
         RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)

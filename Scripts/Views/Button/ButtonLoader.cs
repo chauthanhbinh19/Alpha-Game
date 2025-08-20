@@ -9,6 +9,7 @@ public class ButtonLoader : MonoBehaviour
     private GameObject buttonPrefab; // Prefab của button
     private Transform mainMenuButtonPanel; // Nơi chứa các button trong scene
     private Transform mainMenuCampaignPanel;
+    private Transform mainMenuSubButtonGroupPanel;
     private Transform summonPanel;
     private GameObject TabButton4;
     private GameObject TabButton3;
@@ -40,13 +41,14 @@ public class ButtonLoader : MonoBehaviour
         buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
         mainMenuButtonPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
         mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
+        mainMenuSubButtonGroupPanel = UIManager.Instance.GetTransform("mainMenuSubButtonGroupPanel");
         summonPanel = UIManager.Instance.GetTransform("summonPanel");
         TabButton4 = UIManager.Instance.GetGameObject("TabButton4");
         TabButton3 = UIManager.Instance.GetGameObject("TabButton3");
         ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
         AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
 
-        backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Background_V4_58");
+        backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Background_V4_422");
         backgroundImage2 = Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder");
 
         CreateButton(1, AppConstants.Campaigns, Resources.Load<Texture2D>($"UI/Background4/Background_V4_110"), Resources.Load<Texture2D>($"UI/UI/Campaign"), mainMenuCampaignPanel);
@@ -93,6 +95,12 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(35, AppConstants.LegendaryMarket, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Legendary_Market"), summonPanel);
         CreateButton(36, AppConstants.MysticMarket, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mystic_Market"), summonPanel);
 
+        CreateButton(1, AppConstants.Email, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mail"), mainMenuSubButtonGroupPanel);
+        CreateButton(1, AppConstants.Email, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mail"), mainMenuSubButtonGroupPanel);
+        CreateButton(1, AppConstants.Email, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mail"), mainMenuSubButtonGroupPanel);
+        CreateButton(1, AppConstants.Email, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mail"), mainMenuSubButtonGroupPanel);
+        CreateButton(1, AppConstants.Email, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mail"), mainMenuSubButtonGroupPanel);
+
     }
 
     // Update is called once per frame
@@ -118,6 +126,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(14, AppConstants.MasterBoard, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Master_Board"), moreMenuPanel);
         CreateButton(15, AppConstants.Artwork, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Artwork"), moreMenuPanel);
         CreateButton(16, AppConstants.SpiritBeast, backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpiritBeast"), moreMenuPanel);
+        moreMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void CreateButton(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
@@ -273,6 +282,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(27, AppConstants.SpiritBeastGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/SpiritBeastGallery"), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
+        galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCollectionButton(Transform collectionMenuPanel)
     {
@@ -306,6 +316,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(27, AppConstants.SpiritBeastCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/SpiritBeastCollection"), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
+        collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateEquipmentsButton(Transform equipmentMenuPanel)
     {
@@ -320,6 +331,7 @@ public class ButtonLoader : MonoBehaviour
             }
         }
         FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel);
+        equipmentMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateAnimeButton(Transform animeMenuPanel)
     {
@@ -336,6 +348,7 @@ public class ButtonLoader : MonoBehaviour
         CreateAnimeButtonUI(AppConstants.OnePunchMan, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Anime/One Punch Man"), animeMenuPanel);
 
         FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButton(animeMenuPanel);
+        animeMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateArenaButton(Transform arenaMenuPanel)
     {
@@ -346,6 +359,7 @@ public class ButtonLoader : MonoBehaviour
             CreateArenaButtonUI(type, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Arena/{type}"), arenaMenuPanel);
         }
         FindAnyObjectByType<ArenaManager>().CreateArenaButton(arenaMenuPanel);
+        arenaMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateTowerButton(Transform towerMenuPanel)
     {

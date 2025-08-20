@@ -76,12 +76,12 @@ public class UserCardLifeController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowCardLifeDetails(CardLife cardLife, GameObject currentObject)
+    public void ShowCardLifeDetails(CardLife cardLife, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
         ButtonLoader.Instance.CreateButton(2, "Level", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(3, "Upgrade", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(4, "Upgrade", RightButtonContent);
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
@@ -99,8 +99,29 @@ public class UserCardLifeController : MonoBehaviour
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
-        GetDetails(cardLife, currentObject);
-        ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        switch (buttonType)
+        {
+            case 1:
+                GetDetails(cardLife, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+            case 2:
+                GetLevel(cardLife, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
+                break;
+            case 3:
+                GetSkills(cardLife, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
+                break;
+            case 4:
+                GetUpgrade(cardLife, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+                break;
+            default:
+                GetDetails(cardLife, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+        }
         RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)

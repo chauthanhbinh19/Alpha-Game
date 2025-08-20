@@ -39,12 +39,12 @@ public class UserAchievementsController : MonoBehaviour
     {
 
     }
-    public void ShowAchievementsDetails(Achievements achievements, GameObject currentObject)
+    public void ShowAchievementsDetails(Achievements achievements, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
         ButtonLoader.Instance.CreateButton(2, "Level", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(3, "Upgrade", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(4, "Upgrade", RightButtonContent);
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
@@ -62,8 +62,29 @@ public class UserAchievementsController : MonoBehaviour
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
-        GetDetails(achievements, currentObject);
-        ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        switch (buttonType)
+        {
+            case 1:
+                GetDetails(achievements, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+            case 2:
+                GetLevel(achievements, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
+                break;
+            case 3:
+                GetSkills(achievements, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
+                break;
+            case 4:
+                GetUpgrade(achievements, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+                break;
+            default:
+                GetDetails(achievements, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+        }
         RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)

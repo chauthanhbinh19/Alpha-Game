@@ -79,12 +79,12 @@ public class UserRelicsController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowRelicsDetails(Relics relics, GameObject currentObject)
+    public void ShowRelicsDetails(Relics relics, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
         ButtonLoader.Instance.CreateButton(2, "Level", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(3, "Upgrade", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(4, "Upgrade", RightButtonContent);
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
@@ -96,14 +96,35 @@ public class UserRelicsController : MonoBehaviour
             GetLevel(relics, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
             GetUpgrade(relics, currentObject);
-            ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
+            ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
-        GetDetails(relics, currentObject);
-        ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        switch (buttonType)
+        {
+            case 1:
+                GetDetails(relics, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+            case 2:
+                GetLevel(relics, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
+                break;
+            case 3:
+                GetSkills(relics, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
+                break;
+            case 4:
+                GetUpgrade(relics, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+                break;
+            default:
+                GetDetails(relics, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+        }
         RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)

@@ -109,7 +109,7 @@ public class UserCardColonelsController : MonoBehaviour
             rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
         }
     }
-    public void ShowCardColonelsDetails(CardColonels cardColonels, GameObject currentObject)
+    public void ShowCardColonelsDetails(CardColonels cardColonels, GameObject currentObject, int buttonType = 1)
     {
         tempCurrentObject = currentObject;
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
@@ -145,33 +145,61 @@ public class UserCardColonelsController : MonoBehaviour
             ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
         });
 
-        GetDetails(cardColonels, currentObject);
-        ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        switch (buttonType)
+        {
+            case 1:
+                GetDetails(cardColonels, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+            case 2:
+                GetLevel(cardColonels, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
+                break;
+            case 3:
+                GetSkills(cardColonels, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
+                break;
+            case 4:
+                GetUpgrade(cardColonels, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+                break;
+            case 5:
+                GetSpiritBeast(cardColonels, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
+                break;
+            default:
+                GetDetails(cardColonels, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+                break;
+        }
         RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
+    }
+    public void CreateDetailsUI(CardColonels cardColonels, GameObject currentObject)
+    {
+        RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonels.image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = cardColonels.name;
+
+        TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = NumberFormatter.FormatNumber(cardColonels.all_power, false);
+
+        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = cardHeroes.level.ToString();
+
+        RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardColonels.rare}");
+        rareImage.texture = rareTexture;
     }
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
         if (obj is CardColonels cardColonels)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonels.image); // Lấy giá trị của image từ đối tượng Card
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = cardColonels.name;
-
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(cardColonels.all_power, false);
-
-            // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-            // level.text = cardHeroes.level.ToString();
-
-            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardColonels.rare}");
-            rareImage.texture = rareTexture;
-
+            CreateDetailsUI(cardColonels, currentObject);
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
@@ -390,7 +418,6 @@ public class UserCardColonelsController : MonoBehaviour
         currentPage = 1;
 
         background1Image.gameObject.AddComponent<RotateAnimation>();
-        addButton.onClick.AddListener(() => CreatePopupEquipments(obj));
 
         if (obj is CardColonels cardColonels)
         {
@@ -402,16 +429,25 @@ public class UserCardColonelsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             spiritBeastImage.texture = texture;
 
+            CreateDetailsUI(cardColonels, currentObject);
+            addButton.onClick.AddListener(() =>
+            {
+                CreatePopupEquipments(obj, currentObject);
+            });
+
             removeButton.onClick.AddListener(() =>
             {
                 UserSpiritBeastService.Create().DeleteUserCardColonelsSpiritBeast(User.CurrentUserId, cardColonels, userCardSpiritBeast);
                 string fileNameWithoutExtension = "UI/Background4/Background_V4_352";
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 spiritBeastImage.texture = texture;
+
+                var card = UserCardColonelsService.Create().GetUserCardColonelsById(User.CurrentUserId, cardColonels.id);
+                ShowCardColonelsDetails(card, currentObject, 5);
             });
         }
     }
-    public void CreatePopupEquipments(object data, string statusToggle = "NOT EQUIP")
+    public void CreatePopupEquipments(object data, GameObject currentObject, string statusToggle = "NOT EQUIP")
     {
         popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
         Transform contentPanel = popupSpiritBeastObject.transform.Find("Scroll View/Viewport/Content");
@@ -422,11 +458,12 @@ public class UserCardColonelsController : MonoBehaviour
         {
             string newStatusToggle = isOn ? "ALL" : "NOT EQUIP";
             Destroy(popupSpiritBeastObject);
-            CreatePopupEquipments(data, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
+            CreatePopupEquipments(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
         Button NextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
         Button PreviousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         Button CloseButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
+        CloseButton.onClick.RemoveAllListeners();
         CloseButton.onClick.AddListener(() => Destroy(popupSpiritBeastObject));
         Equipments equipments = new Equipments();
         List<SpiritBeast> spiritBeasts = new List<SpiritBeast>();
@@ -436,16 +473,18 @@ public class UserCardColonelsController : MonoBehaviour
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-        CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel);
-        NextButton.onClick.AddListener(() => { ChangeNextPage(data, PageText, contentPanel); });
-        PreviousButton.onClick.AddListener(() => { ChangePreviousPage(data, PageText, contentPanel); });
+        CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
+        NextButton.onClick.RemoveAllListeners();
+        PreviousButton.onClick.RemoveAllListeners();
+        NextButton.onClick.AddListener(() => { ChangeNextPage(data, PageText, contentPanel, currentObject); });
+        PreviousButton.onClick.AddListener(() => { ChangePreviousPage(data, PageText, contentPanel, currentObject); });
     }
     public int CalculateTotalPages(int totalRecords, int pageSize)
     {
         if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
         return (int)Math.Ceiling((double)totalRecords / pageSize);
     }
-    public void CreatePopupEquipmentsUI(object data, List<SpiritBeast> spiritBeasts, Transform content)
+    public void CreatePopupEquipmentsUI(object data, List<SpiritBeast> spiritBeasts, Transform content, GameObject currentObject)
     {
         foreach (var spiritBeast in spiritBeasts)
         {
@@ -486,6 +525,9 @@ public class UserCardColonelsController : MonoBehaviour
 
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    var card = UserCardColonelsService.Create().GetUserCardColonelsById(User.CurrentUserId, cardColonels.id);
+                    ShowCardColonelsDetails(card, currentObject, 5);
                 }
 
                 Destroy(popupSpiritBeastObject);
@@ -497,7 +539,7 @@ public class UserCardColonelsController : MonoBehaviour
             gridLayout.cellSize = new Vector2(340, 130);
         }
     }
-    public void ChangeNextPage(object data, Text PageText, Transform content)
+    public void ChangeNextPage(object data, Text PageText, Transform content, GameObject currentObject)
     {
         if (currentPage < totalPage)
         {
@@ -509,13 +551,13 @@ public class UserCardColonelsController : MonoBehaviour
             currentPage = currentPage + 1;
             offset = offset + pageSize;
             List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardColonelsSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
-            CreatePopupEquipmentsUI(data, spiritBeasts, content);
+            CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }
     }
-    public void ChangePreviousPage(object data, Text PageText, Transform content)
+    public void ChangePreviousPage(object data, Text PageText, Transform content, GameObject currentObject)
     {
         if (currentPage > 1)
         {
@@ -527,7 +569,7 @@ public class UserCardColonelsController : MonoBehaviour
             currentPage = currentPage - 1;
             offset = offset - pageSize;
             List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardColonelsSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
-            CreatePopupEquipmentsUI(data, spiritBeasts, content);
+            CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 

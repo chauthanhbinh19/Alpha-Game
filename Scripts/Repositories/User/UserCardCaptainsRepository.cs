@@ -1008,8 +1008,12 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from user_card_captains where user_card_captains.card_captain_id=@id 
-                and user_card_captains.user_id=@user_id";
+                string query = @"Select uc.*, fc.*, c.image
+                from user_card_captains uc, fact_card_captains fc, card_captains c
+                where uc.card_captain_id=@id 
+                and fc.user_card_captain_id = uc.card_captain_id
+                and uc.card_captain_id = c.id
+                and uc.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
                 command.Parameters.AddWithValue("@user_id", user_id);
@@ -1019,6 +1023,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     card = new CardCaptains
                     {
                         id = reader.GetString("card_captain_id"),
+                        image = reader.GetString("image"),
                         level = reader.GetInt32("level"),
                         quality = reader.GetInt32("quality"),
                         experiment = reader.GetInt32("experiment"),
@@ -1073,6 +1078,57 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                         normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
                         skill_damage_rate = reader.GetDouble("skill_damage_rate"),
                         skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+
+                        all_power = reader.GetDouble("all_power"),
+                        all_health = reader.GetDouble("all_health"),
+                        all_physical_attack = reader.GetDouble("all_physical_attack"),
+                        all_physical_defense = reader.GetDouble("all_physical_defense"),
+                        all_magical_attack = reader.GetDouble("all_magical_attack"),
+                        all_magical_defense = reader.GetDouble("all_magical_defense"),
+                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
+                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
+                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
+                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
+                        all_mental_attack = reader.GetDouble("all_mental_attack"),
+                        all_mental_defense = reader.GetDouble("all_mental_defense"),
+                        all_speed = reader.GetDouble("all_speed"),
+                        all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
+                        all_critical_rate = reader.GetDouble("all_critical_rate"),
+                        all_critical_resistance_rate = reader.GetDouble("all_critical_resistance_rate"),
+                        all_ignore_critical_rate = reader.GetDouble("all_ignore_critical_rate"),
+                        all_penetration_rate = reader.GetDouble("all_penetration_rate"),
+                        all_penetration_resistance_rate = reader.GetDouble("all_penetration_resistance_rate"),
+                        all_evasion_rate = reader.GetDouble("all_evasion_rate"),
+                        all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
+                        all_ignore_damage_absorption_rate = reader.GetDouble("all_ignore_damage_absorption_rate"),
+                        all_absorbed_damage_rate = reader.GetDouble("all_absorbed_damage_rate"),
+                        all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
+                        all_vitality_regeneration_resistance_rate = reader.GetDouble("all_vitality_regeneration_resistance_rate"),
+                        all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
+                        all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
+                        all_shield_strength = reader.GetDouble("all_shield_strength"),
+                        all_tenacity = reader.GetDouble("all_tenacity"),
+                        all_resistance_rate = reader.GetDouble("all_resistance_rate"),
+                        all_combo_rate = reader.GetDouble("all_combo_rate"),
+                        all_ignore_combo_rate = reader.GetDouble("all_ignore_combo_rate"),
+                        all_combo_damage_rate = reader.GetDouble("all_combo_damage_rate"),
+                        all_combo_resistance_rate = reader.GetDouble("all_combo_resistance_rate"),
+                        all_stun_rate = reader.GetDouble("all_stun_rate"),
+                        all_ignore_stun_rate = reader.GetDouble("all_ignore_stun_rate"),
+                        all_reflection_rate = reader.GetDouble("all_reflection_rate"),
+                        all_ignore_reflection_rate = reader.GetDouble("all_ignore_reflection_rate"),
+                        all_reflection_damage_rate = reader.GetDouble("all_reflection_damage_rate"),
+                        all_reflection_resistance_rate = reader.GetDouble("all_reflection_resistance_rate"),
+                        all_mana = reader.GetFloat("all_mana"),
+                        all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
+                        all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
+                        all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
+                        all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
+                        all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
+                        all_normal_damage_rate = reader.GetDouble("all_normal_damage_rate"),
+                        all_normal_resistance_rate = reader.GetDouble("all_normal_resistance_rate"),
+                        all_skill_damage_rate = reader.GetDouble("all_skill_damage_rate"),
+                        all_skill_resistance_rate = reader.GetDouble("all_skill_resistance_rate"),
                     };
                 }
             }

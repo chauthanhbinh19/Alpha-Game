@@ -85,6 +85,7 @@
   { "key": "ultra_rare_market", "value": "Ultra Rare Market" },
   { "key": "legendary_market", "value": "Legendary Market" },
   { "key": "mystic_market", "value": "Mystic Market" },
+  { "key": "email", "value": "Email" },
   
   { "key": "All", "value": "All" },
   { "key": "SR", "value": "SR" },

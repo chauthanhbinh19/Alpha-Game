@@ -129,6 +129,7 @@ public static class AppConstants
     public const string Event = "event";
     public const string MasterBoard = "master_board";
     public const string DailyCheckin = "daily_checkin";
+    public const string Email = "email";
 
     public const string CardHeroesGallery = "card_heroes_gallery";
     public const string BooksGallery = "books_gallery";
