@@ -56,7 +56,7 @@ public class CardCaptainsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            
+
             Button button = captainsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -72,6 +72,7 @@ public class CardCaptainsController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCardCaptainsTrade(List<CardCaptains> captainsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -88,7 +89,7 @@ public class CardCaptainsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = captainsObject.transform.Find("Frame").GetComponent<RawImage>();
-            
+
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -118,6 +119,7 @@ public class CardCaptainsController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetCardCaptainsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

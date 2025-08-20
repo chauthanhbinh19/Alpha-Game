@@ -87,6 +87,7 @@ public class UserCardMonstersController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateUserCardMonstersForSummon(List<CardMonsters> monsters, Transform PositionPanel)
     {
@@ -151,6 +152,7 @@ public class UserCardMonstersController : MonoBehaviour
 
         GetDetails(cardMonsters, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

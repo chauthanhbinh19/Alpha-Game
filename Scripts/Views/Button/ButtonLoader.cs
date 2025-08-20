@@ -1127,5 +1127,8 @@ public class ButtonLoader : MonoBehaviour
                 FindAnyObjectByType<MainMenuDemonManager>().CreateMainMenuDemonManager(data);
             });
         }
+        buttonGroupPanel1.gameObject.AddComponent<SlideBottomToTopAnimation>();
+        buttonGroupPanel2.gameObject.AddComponent<SlideRightToLeftAnimation>();
+        buttonGroupPanel3.gameObject.AddComponent<SlideLeftToRightAnimation>();
     }
 }

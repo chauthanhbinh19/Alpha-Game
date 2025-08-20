@@ -101,5 +101,6 @@ public class ArtworkGalleryController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(270, 220);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

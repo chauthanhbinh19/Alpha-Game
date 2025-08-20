@@ -82,6 +82,7 @@ public class ItemsController : MonoBehaviour
                 GetQuantity(item.price, item, popupPanel, currency, currencyPanel);
             });
         }
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, Transform popupPanel, Currency currency, Transform currencyPanel)
     {

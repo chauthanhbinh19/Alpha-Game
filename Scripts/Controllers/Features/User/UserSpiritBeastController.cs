@@ -80,6 +80,7 @@ public class UserSpiritBeastController : MonoBehaviour
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowSpiritBeastDetails(SpiritBeast SpiritBeast, GameObject currentObject)
     {
@@ -106,6 +107,7 @@ public class UserSpiritBeastController : MonoBehaviour
 
         GetDetails(SpiritBeast, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

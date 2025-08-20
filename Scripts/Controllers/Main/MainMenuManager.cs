@@ -48,6 +48,7 @@ public class MainMenuManager : MonoBehaviour
     private string buttonType;
     private string type;
     private string rare;
+    private bool canUseRareButton;
     void Start()
     {
         offset = 0;
@@ -152,6 +153,7 @@ public class MainMenuManager : MonoBehaviour
         mainType.Equals(AppConstants.SummonCardMilitaries) || mainType.Equals(AppConstants.SummonCardMonsters) || mainType.Equals(AppConstants.SummonCardSpells))
         {
             buttonType = "button2";
+            canUseRareButton = false;
             summonObject = Instantiate(SummonPanel, MainPanel);
             DictionaryContentPanel = summonObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             LeftScrollViewContentPanel = summonObject.transform.Find("Scroll View/Viewport/ButtonContent");
@@ -224,6 +226,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Gallery))
         {
+            canUseRareButton = false;
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.Gallery);
@@ -233,6 +236,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Collection))
         {
+            canUseRareButton = false;
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.Collection);
@@ -242,6 +246,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Equipment))
         {
+            canUseRareButton = false;
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.Equipments);
@@ -251,6 +256,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Anime))
         {
+            canUseRareButton = false;
             GameObject popupObject = Instantiate(AnimePanelPrefab, MainPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -261,6 +267,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Arena))
         {
+            canUseRareButton = false;
             GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -271,6 +278,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Guild))
         {
+            canUseRareButton = false;
             // GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
             // titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
             // CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -281,6 +289,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Tower))
         {
+            canUseRareButton = false;
             GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -291,10 +300,11 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Event))
         {
-
+            canUseRareButton = false;
         }
         else if (mainType.Equals(AppConstants.MasterBoard))
         {
+            canUseRareButton = false;
             GameObject popupObject = Instantiate(MasterBoardPanelPrefab, MainPanel);
             TextMeshProUGUI titleTMPText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -307,10 +317,12 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.Teams))
         {
+            canUseRareButton = false;
             TeamsManager.Instance.CreateTeams();
         }
         else if (mainType.Equals(AppConstants.More))
         {
+            canUseRareButton = false;
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.More);
@@ -321,27 +333,33 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.DailyCheckin))
         {
+            canUseRareButton = false;
             DailyCheckinManager.Instance.CreateDailyCheckinGroup();
         }
         else if (mainType.Equals(AppConstants.RareMarket))
         {
+            canUseRareButton = false;
             RareMarketManager.Instance.CreateRareMarket();
         }
         else if (mainType.Equals(AppConstants.UltraRareMarket))
         {
+            canUseRareButton = false;
             UltraRareMarketManager.Instance.CreateUltraRareMarket();
         }
         else if (mainType.Equals(AppConstants.LegendaryMarket))
         {
+            canUseRareButton = false;
             LegendaryMarketManager.Instance.CreateLegendaryMarket();
         }
         else if (mainType.Equals(AppConstants.MysticMarket))
         {
+            canUseRareButton = false;
             MysticMarketManager.Instance.CreateMysticMarket();
         }
         else
         {
             buttonType = "button1";
+            canUseRareButton = true;
             GameObject mainMenuObject = Instantiate(DictionaryPanel, MainPanel);
             DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
@@ -363,11 +381,11 @@ public class MainMenuManager : MonoBehaviour
             currencies = UserCurrencyService.Create().GetUserCurrency();
             FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
         }
-        
+
         List<string> uniqueRaries = QualityEvaluator.rarities;
         List<string> uniqueTypes = TypeManager.GetUniqueTypes(mainType);
 
-        if (uniqueRaries.Count > 0 && uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.Item))
+        if (uniqueRaries.Count > 0 && uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.Item) && canUseRareButton)
         {
             for (int i = 0; i < uniqueRaries.Count; i++)
             {
@@ -493,7 +511,7 @@ public class MainMenuManager : MonoBehaviour
                 PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             }
         }
-
+        LoadAnimation();
     }
     void OnButtonClick(GameObject clickedButton, string subType)
     {
@@ -1876,6 +1894,18 @@ public class MainMenuManager : MonoBehaviour
         };
         entry.callback.AddListener((data) => { callback(); });
         trigger.triggers.Add(entry);
+    }
+    public void LoadAnimation()
+    {
+        if (LeftScrollViewContentPanel != null)
+        {
+            LeftScrollViewContentPanel.gameObject.AddComponent<SlideLeftToRightAnimation>();
+        }
+
+        if (RightScrollViewContentPanel != null)
+        {
+            RightScrollViewContentPanel.gameObject.AddComponent<SlideRightToLeftAnimation>();
+        }
     }
     public void loadScence()
     {

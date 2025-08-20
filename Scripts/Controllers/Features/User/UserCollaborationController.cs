@@ -77,6 +77,7 @@ public class UserCollaborationController : MonoBehaviour
                 gridLayout.cellSize = new Vector2(280, 230);
             }
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowCollaborationsDetails(Collaboration collaboration, GameObject currentObject)
     {
@@ -108,6 +109,7 @@ public class UserCollaborationController : MonoBehaviour
 
         GetDetails(collaboration, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

@@ -67,5 +67,6 @@ public class UserItemsController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(130, 145);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

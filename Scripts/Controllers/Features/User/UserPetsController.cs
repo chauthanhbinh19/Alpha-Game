@@ -99,6 +99,7 @@ public class UserPetsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowPetsDetails(Pets pets, GameObject currentObject)
     {
@@ -131,6 +132,7 @@ public class UserPetsController : MonoBehaviour
 
         GetDetails(pets, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

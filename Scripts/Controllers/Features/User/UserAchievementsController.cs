@@ -64,6 +64,7 @@ public class UserAchievementsController : MonoBehaviour
 
         GetDetails(achievements, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

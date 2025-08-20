@@ -100,6 +100,7 @@ public class BooksController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(280, 300);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateBooksTrade(List<Books> books, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -147,6 +148,7 @@ public class BooksController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

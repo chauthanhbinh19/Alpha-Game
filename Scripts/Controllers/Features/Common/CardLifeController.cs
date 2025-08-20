@@ -56,7 +56,7 @@ public class CardLifeController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            
+
             Button button = cardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -72,6 +72,7 @@ public class CardLifeController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCardLifeTrade(List<CardLife> cards, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -118,6 +119,7 @@ public class CardLifeController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetCardLifeCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

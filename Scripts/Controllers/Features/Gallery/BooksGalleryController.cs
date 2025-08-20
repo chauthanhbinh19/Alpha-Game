@@ -125,5 +125,6 @@ public class BooksGalleryController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(280, 300);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

@@ -105,6 +105,7 @@ public class UserBooksController : MonoBehaviour
                 gridLayout.cellSize = new Vector2(280, 300);
             }
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateUserBooksForSummon(List<Books> books, Transform PositionPanel)
     {
@@ -187,6 +188,7 @@ public class UserBooksController : MonoBehaviour
 
         GetDetails(books, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

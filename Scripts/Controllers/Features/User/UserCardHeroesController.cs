@@ -88,6 +88,7 @@ public class UserCardHeroesController : MonoBehaviour
                 gridLayout.cellSize = new Vector2(200, 250);
             }
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateUserCardHeroesForSummon(List<CardHeroes> cards, Transform PositionPanel)
     {
@@ -152,6 +153,7 @@ public class UserCardHeroesController : MonoBehaviour
 
         GetDetails(cardHeroes, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

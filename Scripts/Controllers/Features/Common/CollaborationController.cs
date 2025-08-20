@@ -75,6 +75,7 @@ public class CollaborationController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(280, 230);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCollaborationTrade(List<Collaboration> collaborationList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -122,6 +123,7 @@ public class CollaborationController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetCollaborationsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

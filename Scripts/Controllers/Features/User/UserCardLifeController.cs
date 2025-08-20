@@ -74,6 +74,7 @@ public class UserCardLifeController : MonoBehaviour
                 gridLayout.cellSize = new Vector2(200, 250);
             }
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowCardLifeDetails(CardLife cardLife, GameObject currentObject)
     {
@@ -100,6 +101,7 @@ public class UserCardLifeController : MonoBehaviour
 
         GetDetails(cardLife, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

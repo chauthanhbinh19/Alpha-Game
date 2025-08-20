@@ -15,6 +15,7 @@ public interface IUserSpiritBeastRepository
     SpiritBeast GetUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals);
     SpiritBeast GetUserCardMilitarySpiritBeast(string userId, CardMilitary cardMilitary);
     SpiritBeast GetUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters);
+    SpiritBeast GetUserCardSpellSpiritBeast(string userId, CardSpell cardSpell);
     bool InsertOrUpdateUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes, SpiritBeast spiritBeast);
     bool InsertOrUpdateUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains, SpiritBeast spiritBeast);
     bool InsertOrUpdateUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels, SpiritBeast spiritBeast);
@@ -22,6 +23,7 @@ public interface IUserSpiritBeastRepository
     bool InsertOrUpdateUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals, SpiritBeast spiritBeast);
     bool InsertOrUpdateUserCardMilitarySpiritBeast(string userId, CardMilitary cardMilitary, SpiritBeast spiritBeast);
     bool InsertOrUpdateUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters, SpiritBeast spiritBeast);
+    bool InsertOrUpdateUserCardSpellSpiritBeast(string userId, CardSpell cardSpell, SpiritBeast spiritBeast);
     List<SpiritBeast> GetAllUserCardHeroesSpiritBeast(string user_id, int pageSize, int offset, string status);
     List<SpiritBeast> GetAllUserCardCaptainsSpiritBeast(string user_id, int pageSize, int offset, string status);
     List<SpiritBeast> GetAllUserCardColonelsSpiritBeast(string user_id, int pageSize, int offset, string status);
@@ -29,6 +31,7 @@ public interface IUserSpiritBeastRepository
     List<SpiritBeast> GetAllUserCardAdmiralsSpiritBeast(string user_id, int pageSize, int offset, string status);
     List<SpiritBeast> GetAllUserCardMilitarySpiritBeast(string user_id, int pageSize, int offset, string status);
     List<SpiritBeast> GetAllUserCardMonstersSpiritBeast(string user_id, int pageSize, int offset, string status);
+    List<SpiritBeast> GetAllUserCardSpellSpiritBeast(string user_id, int pageSize, int offset, string status);
     bool DeleteUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes, SpiritBeast spiritBeast);
     bool DeleteUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains, SpiritBeast spiritBeast);
     bool DeleteUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels, SpiritBeast spiritBeast);
@@ -36,6 +39,7 @@ public interface IUserSpiritBeastRepository
     bool DeleteUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals, SpiritBeast spiritBeast);
     bool DeleteUserCardMilitarySpiritBeast(string userId, CardMilitary cardMilitary, SpiritBeast spiritBeast);
     bool DeleteUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters, SpiritBeast spiritBeast);
+    bool DeleteUserCardSpellSpiritBeast(string userId, CardSpell cardSpell, SpiritBeast spiritBeast);
     SpiritBeast GetUserSpiritBeastById(string user_id, string Id);
     SpiritBeast SumPowerUserSpiritBeast();
 }

@@ -78,6 +78,7 @@ public class BordersController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateBordersTrade(List<Borders> borders, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -125,6 +126,7 @@ public class BordersController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetBordersCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

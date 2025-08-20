@@ -77,6 +77,7 @@ public class UserForgeController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowForgeDetails(Forge forge, GameObject currentObject)
     {
@@ -95,14 +96,15 @@ public class UserForgeController : MonoBehaviour
             GetLevel(forge, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
         {
             GetUpgrade(forge, currentObject);
-            ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+            ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
         });
 
         GetDetails(forge, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

@@ -351,6 +351,90 @@ public class UserCardHeroesService : IUserCardHeroesService
         }
         return CardHeroesList;
     }
+    public List<CardHeroes> GetAllSpiritBeastPower(string user_id, List<CardHeroes> cardHeroes)
+    {
+        IUserSpiritBeastRepository userSpiritBeastRepository = new UserSpiritBeastRepository();
+        UserSpiritBeastService userSpiritBeastService = new UserSpiritBeastService(userSpiritBeastRepository);
+        foreach (var c in cardHeroes)
+        {
+            CardHeroes card = _userCardHeroesRepository.GetUserCardHeroesById(user_id, c.id);
+            SpiritBeast spiritBeast = userSpiritBeastService.GetUserCardHeroesSpiritBeast(user_id, c);
+            c.all_health = c.all_health + spiritBeast.health + card.health * spiritBeast.percent_all_health / 100;
+            c.all_physical_attack = c.all_physical_attack + spiritBeast.physical_attack + card.physical_attack * spiritBeast.percent_all_physical_attack / 100;
+            c.all_physical_defense = c.all_physical_defense + spiritBeast.physical_defense + card.physical_defense * spiritBeast.percent_all_physical_defense / 100;
+            c.all_magical_attack = c.all_magical_attack + spiritBeast.magical_attack + card.magical_attack * spiritBeast.percent_all_magical_attack / 100;
+            c.all_magical_defense = c.all_magical_defense + spiritBeast.magical_defense + card.magical_defense * spiritBeast.percent_all_magical_defense / 100;
+            c.all_chemical_attack = c.all_chemical_attack + spiritBeast.chemical_attack + card.chemical_attack * spiritBeast.percent_all_chemical_attack / 100;
+            c.all_chemical_defense = c.all_chemical_defense + spiritBeast.chemical_defense + card.chemical_defense * spiritBeast.percent_all_chemical_defense / 100;
+            c.all_atomic_attack = c.all_atomic_attack + spiritBeast.atomic_attack + card.atomic_attack * spiritBeast.percent_all_atomic_attack / 100;
+            c.all_atomic_defense = c.all_atomic_defense + spiritBeast.atomic_defense + card.atomic_defense * spiritBeast.percent_all_atomic_defense / 100;
+            c.all_mental_attack = c.all_mental_attack + spiritBeast.mental_attack + card.mental_attack * spiritBeast.percent_all_mental_attack / 100;
+            c.all_mental_defense = c.all_mental_defense + spiritBeast.mental_defense + card.mental_defense * spiritBeast.percent_all_mental_defense / 100;
+            c.all_speed = c.all_speed + spiritBeast.speed;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + spiritBeast.critical_damage_rate;
+            c.all_critical_rate = c.all_critical_rate + spiritBeast.critical_rate;
+            c.all_critical_resistance_rate = c.all_critical_resistance_rate + spiritBeast.critical_resistance_rate;
+            c.all_ignore_critical_rate = c.all_ignore_critical_rate + spiritBeast.ignore_critical_rate;
+            c.all_penetration_rate = c.all_penetration_rate + spiritBeast.penetration_rate;
+            c.all_penetration_resistance_rate = c.all_penetration_resistance_rate + spiritBeast.penetration_resistance_rate;
+            c.all_evasion_rate = c.all_evasion_rate + spiritBeast.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + spiritBeast.damage_absorption_rate;
+            c.all_ignore_damage_absorption_rate = c.all_ignore_damage_absorption_rate + spiritBeast.ignore_damage_absorption_rate;
+            c.all_absorbed_damage_rate = c.all_absorbed_damage_rate + spiritBeast.absorbed_damage_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + spiritBeast.vitality_regeneration_rate;
+            c.all_vitality_regeneration_resistance_rate = c.all_vitality_regeneration_resistance_rate + spiritBeast.vitality_regeneration_resistance_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + spiritBeast.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + spiritBeast.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + spiritBeast.shield_strength;
+            c.all_tenacity = c.all_tenacity + spiritBeast.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + spiritBeast.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + spiritBeast.combo_rate;
+            c.all_ignore_combo_rate = c.all_ignore_combo_rate + spiritBeast.ignore_combo_rate;
+            c.all_combo_damage_rate = c.all_combo_damage_rate + spiritBeast.combo_damage_rate;
+            c.all_combo_resistance_rate = c.all_combo_resistance_rate + spiritBeast.combo_resistance_rate;
+            c.all_stun_rate = c.all_stun_rate + spiritBeast.stun_rate;
+            c.all_ignore_stun_rate = c.all_ignore_stun_rate + spiritBeast.ignore_stun_rate;
+            c.all_reflection_rate = c.all_reflection_rate + spiritBeast.reflection_rate;
+            c.all_ignore_reflection_rate  = c.all_ignore_reflection_rate + spiritBeast.ignore_reflection_rate;
+            c.all_reflection_damage_rate = c.all_reflection_damage_rate + spiritBeast.reflection_damage_rate;
+            c.all_reflection_resistance_rate = c.all_reflection_resistance_rate + spiritBeast.reflection_resistance_rate;
+            c.all_mana = c.all_mana + spiritBeast.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + spiritBeast.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + spiritBeast.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + spiritBeast.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + spiritBeast.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + spiritBeast.resistance_to_same_faction_rate;
+            c.all_normal_damage_rate = c.all_normal_damage_rate + spiritBeast.normal_damage_rate;
+            c.all_normal_resistance_rate = c.all_normal_resistance_rate + spiritBeast.normal_resistance_rate;
+            c.all_skill_damage_rate = c.all_skill_damage_rate + spiritBeast.skill_damage_rate;
+            c.all_skill_resistance_rate = c.all_skill_resistance_rate + spiritBeast.skill_resistance_rate;
+
+            c.power = EvaluatePower.CalculatePower(
+            c.health,
+            c.physical_attack, c.physical_defense,
+            c.magical_attack, c.magical_defense,
+            c.chemical_attack, c.chemical_defense,
+            c.atomic_attack, c.atomic_defense,
+            c.mental_attack, c.mental_defense,
+            c.speed,
+            c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate,
+            c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate,
+            c.damage_absorption_rate, c.ignore_damage_absorption_rate, c.absorbed_damage_rate,
+            c.vitality_regeneration_rate, c.vitality_regeneration_resistance_rate,
+            c.accuracy_rate, c.lifesteal_rate,
+            c.shield_strength, c.tenacity, c.resistance_rate,
+            c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, c.combo_resistance_rate,
+            c.stun_rate, c.ignore_stun_rate,
+            c.reflection_rate, c.ignore_reflection_rate, c.reflection_damage_rate, c.reflection_resistance_rate,
+            c.mana, c.mana_regeneration_rate,
+            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
+            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate,
+            c.normal_damage_rate, c.normal_resistance_rate,
+            c.skill_damage_rate, c.skill_resistance_rate
+        );
+        }
+        return cardHeroes;
+    }
     public CardHeroes GetNewLevelPower(CardHeroes c, double coefficient)
     {
         ICardHeroesRepository _repository = new CardHeroesRepository();
@@ -395,7 +479,7 @@ public class UserCardHeroesService : IUserCardHeroesService
             stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
             ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
             reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
+            ignore_reflection_rate = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
             reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
             reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
             mana = c.mana + orginCard.mana * (float)coefficient,
@@ -521,6 +605,7 @@ public class UserCardHeroesService : IUserCardHeroesService
     public List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardHeroes> list = _userCardHeroesRepository.GetUserCardHeroes(user_id, type, pageSize, offset, rare);
+        list = GetAllSpiritBeastPower(user_id, list);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
@@ -532,6 +617,7 @@ public class UserCardHeroesService : IUserCardHeroesService
     public List<CardHeroes> GetUserCardHeroesTeam(string user_id, string teamId, string position)
     {
         List<CardHeroes> list = _userCardHeroesRepository.GetUserCardHeroesTeam(user_id, teamId, position);
+        list = GetAllSpiritBeastPower(user_id, list);
         list = QualityEvaluator.GetQualityPower(list);
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);

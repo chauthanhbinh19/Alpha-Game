@@ -221,6 +221,7 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 ButtonEvent.Instance.CheckLockedButton(data, value, button);
                 index = index + 1;
             }
+            LoadAnimation();
         }
     }
     void OnButtonClick(GameObject clickedButton, object data, string type, int value)
@@ -388,5 +389,9 @@ public class MainMenuAntimatterManager : MonoBehaviour
         LevelCondition.gameObject.SetActive(true);
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
         warningText.text = MessageHelper.WaringLevel(value);
+    }
+    public void LoadAnimation()
+    {
+        TabButtonPanel.gameObject.AddComponent<SlideLeftToRightAnimation>();
     }
 }

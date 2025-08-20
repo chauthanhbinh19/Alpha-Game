@@ -80,7 +80,7 @@ public class PetsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            
+
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -98,6 +98,7 @@ public class PetsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreatePetsTrade(List<Pets> petsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -136,7 +137,7 @@ public class PetsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = petsObject.transform.Find("Frame").GetComponent<RawImage>();
-            
+
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -172,6 +173,7 @@ public class PetsController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

@@ -75,6 +75,7 @@ public class MagicFormationCircleController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateMagicFormationCircleTrade(List<MagicFormationCircle> magicFormationCircles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -123,6 +124,7 @@ public class MagicFormationCircleController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetMagicFormationCircleCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

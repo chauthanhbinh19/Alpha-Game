@@ -100,5 +100,6 @@ public class CollaborationGalleryController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(280, 230);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

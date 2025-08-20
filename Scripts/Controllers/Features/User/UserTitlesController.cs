@@ -80,6 +80,7 @@ public class UserTitlesController : MonoBehaviour
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowTitlesDetails(Titles titles, GameObject currentObject)
     {
@@ -98,14 +99,15 @@ public class UserTitlesController : MonoBehaviour
             GetLevel(titles, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
         {
             GetUpgrade(titles, currentObject);
-            ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+            ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
         });
 
         GetDetails(titles, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

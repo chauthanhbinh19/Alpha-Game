@@ -92,6 +92,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         buttonGroupPanel3 = currentObject.transform.Find("DictionaryCards/ButtonGroup3");
         setButtonGroupPanel = currentObject.transform.Find("DictionaryCards/SetButtonGroup");
         CardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
+        RawImage backgroundCircle1Image = currentObject.transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
 
         ButtonLoader.Instance.buttonGroupPanel1 = buttonGroupPanel1;
@@ -99,6 +100,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonLoader.Instance.buttonGroupPanel3 = buttonGroupPanel3;
         ButtonLoader.Instance.CreateSetButtonGroup(data, TabButton5, setButtonGroupPanel);
 
+        backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
         // Kiểm tra kiểu của data và ép kiểu phù hợp
         if (data is CardHeroes cardHeroes)
         {

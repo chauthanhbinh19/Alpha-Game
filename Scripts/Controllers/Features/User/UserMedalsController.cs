@@ -72,6 +72,7 @@ public class UserMedalsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowMedalsDetails(Medals medals, GameObject currentObject)
     {
@@ -98,6 +99,7 @@ public class UserMedalsController : MonoBehaviour
 
         GetDetails(medals, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

@@ -56,7 +56,7 @@ public class SkillsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            
+
             Button button = skillObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -74,6 +74,7 @@ public class SkillsController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateSkillsTrade(List<Skills> skillsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -90,7 +91,7 @@ public class SkillsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = skillObject.transform.Find("Frame").GetComponent<RawImage>();
-            
+
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -122,6 +123,7 @@ public class SkillsController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

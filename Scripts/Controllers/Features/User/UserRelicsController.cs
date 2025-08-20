@@ -77,6 +77,7 @@ public class UserRelicsController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowRelicsDetails(Relics relics, GameObject currentObject)
     {
@@ -95,14 +96,15 @@ public class UserRelicsController : MonoBehaviour
             GetLevel(relics, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
         {
             GetUpgrade(relics, currentObject);
-            ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+            ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
         });
 
         GetDetails(relics, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

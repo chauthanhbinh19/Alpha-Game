@@ -72,6 +72,7 @@ public class CardHeroesController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        // DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCardHeroesTrade(List<CardHeroes> cards, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -117,6 +118,7 @@ public class CardHeroesController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetCardHeroesCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

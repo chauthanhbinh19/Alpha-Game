@@ -87,6 +87,7 @@ public class UserCardColonelsController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateUserCardColonelsForSummon(List<CardColonels> colonels, Transform PositionPanel)
     {
@@ -146,6 +147,7 @@ public class UserCardColonelsController : MonoBehaviour
 
         GetDetails(cardColonels, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

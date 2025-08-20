@@ -77,6 +77,7 @@ public class UserArtworkController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(270, 220);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowArtworkDetails(Artwork Artwork, GameObject currentObject)
     {
@@ -103,6 +104,7 @@ public class UserArtworkController : MonoBehaviour
 
         GetDetails(Artwork, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

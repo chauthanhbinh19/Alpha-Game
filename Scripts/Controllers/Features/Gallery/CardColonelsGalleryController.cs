@@ -47,7 +47,7 @@ public class CardColonelsGalleryController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(colonel.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            
+
             Button button = spellObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -98,5 +98,6 @@ public class CardColonelsGalleryController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

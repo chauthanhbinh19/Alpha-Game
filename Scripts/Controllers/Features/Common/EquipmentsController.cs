@@ -47,7 +47,7 @@ public class EquipmentsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            
+
             Button button = equipmentObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -65,5 +65,6 @@ public class EquipmentsController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

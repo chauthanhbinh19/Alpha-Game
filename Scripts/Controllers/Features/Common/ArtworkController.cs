@@ -75,6 +75,7 @@ public class ArtworkController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(270, 200);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateArtworkTrade(List<Artwork> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -123,6 +124,7 @@ public class ArtworkController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetArtworkCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

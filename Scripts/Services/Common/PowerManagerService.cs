@@ -139,6 +139,14 @@ public class PowerManagerService : IPowerManagerService
         PowerManager cardLifePower = GetCardLifePower();
         AddPower(totalPower, cardLifePower);
 
+        // Lấy sức mạnh từ Artwork
+        PowerManager ArtworkPower = GetArtworkPower();
+        AddPower(totalPower, ArtworkPower);
+
+        // Lấy sức mạnh từ Spirit Beast
+        PowerManager SpiritBeastPower = GetSpiritBeastPower();
+        AddPower(totalPower, SpiritBeastPower);
+
         return totalPower;
     }
     private void AddPower(PowerManager target, PowerManager source)
@@ -2441,6 +2449,222 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
+    public PowerManager GetArtworkPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
+        // Artwork Artwork = new Artwork();
+        IArtworkGalleryRepository ArtworkGalleryRepository = new ArtworkGalleryRepository();
+        ArtworkGalleryService ArtworkGalleryService = new ArtworkGalleryService(ArtworkGalleryRepository);
+        // Gallery
+        Artwork artwork = ArtworkGalleryService.SumPowerArtworkGallery();
+        powerManager.power += artwork.power;
+        powerManager.health += artwork.health;
+        powerManager.physical_attack += artwork.physical_attack;
+        powerManager.physical_defense += artwork.physical_defense;
+        powerManager.magical_attack += artwork.magical_attack;
+        powerManager.magical_defense += artwork.magical_defense;
+        powerManager.chemical_attack += artwork.chemical_attack;
+        powerManager.chemical_defense += artwork.chemical_defense;
+        powerManager.atomic_attack += artwork.atomic_attack;
+        powerManager.atomic_defense += artwork.atomic_defense;
+        powerManager.mental_attack += artwork.mental_attack;
+        powerManager.mental_defense += artwork.mental_defense;
+        powerManager.speed += artwork.speed;
+        powerManager.critical_damage_rate += artwork.critical_damage_rate;
+        powerManager.critical_rate += artwork.critical_rate;
+        powerManager.penetration_rate += artwork.penetration_rate;
+        powerManager.evasion_rate += artwork.evasion_rate;
+        powerManager.damage_absorption_rate += artwork.damage_absorption_rate;
+        powerManager.vitality_regeneration_rate += artwork.vitality_regeneration_rate;
+        powerManager.accuracy_rate += artwork.accuracy_rate;
+        powerManager.lifesteal_rate += artwork.lifesteal_rate;
+        powerManager.shield_strength += artwork.shield_strength;
+        powerManager.tenacity += artwork.tenacity;
+        powerManager.resistance_rate += artwork.resistance_rate;
+        powerManager.combo_rate += artwork.combo_rate;
+        powerManager.reflection_rate += artwork.reflection_rate;
+        powerManager.mana += artwork.mana;
+        powerManager.mana_regeneration_rate += artwork.mana_regeneration_rate;
+        powerManager.damage_to_different_faction_rate += artwork.damage_to_different_faction_rate;
+        powerManager.resistance_to_different_faction_rate += artwork.resistance_to_different_faction_rate;
+        powerManager.damage_to_same_faction_rate += artwork.damage_to_same_faction_rate;
+        powerManager.resistance_to_same_faction_rate += artwork.resistance_to_same_faction_rate;
+
+        powerManager.percent_all_health += artwork.percent_all_health;
+        powerManager.percent_all_physical_attack += artwork.percent_all_physical_attack;
+        powerManager.percent_all_physical_defense += artwork.percent_all_physical_defense;
+        powerManager.percent_all_magical_attack += artwork.percent_all_magical_attack;
+        powerManager.percent_all_magical_defense += artwork.percent_all_magical_defense;
+        powerManager.percent_all_chemical_attack += artwork.percent_all_chemical_attack;
+        powerManager.percent_all_chemical_defense += artwork.percent_all_chemical_defense;
+        powerManager.percent_all_atomic_attack += artwork.percent_all_atomic_attack;
+        powerManager.percent_all_atomic_defense += artwork.percent_all_atomic_defense;
+        powerManager.percent_all_mental_attack += artwork.percent_all_mental_attack;
+        powerManager.percent_all_mental_defense += artwork.percent_all_mental_defense;
+
+        IUserArtworkRepository userArtworkRepository = new UserArtworkRepository();
+        UserArtworkService userArtworkService = new UserArtworkService(userArtworkRepository);
+        // User
+        artwork = userArtworkService.SumPowerUserArtwork(); // Giả định SumPowerUserartwork cũng trả về một đối tượng artwork mới hoặc đã được reset
+        powerManager.power += artwork.power;
+        powerManager.health += artwork.health;
+        powerManager.physical_attack += artwork.physical_attack;
+        powerManager.physical_defense += artwork.physical_defense;
+        powerManager.magical_attack += artwork.magical_attack;
+        powerManager.magical_defense += artwork.magical_defense;
+        powerManager.chemical_attack += artwork.chemical_attack;
+        powerManager.chemical_defense += artwork.chemical_defense;
+        powerManager.atomic_attack += artwork.atomic_attack;
+        powerManager.atomic_defense += artwork.atomic_defense;
+        powerManager.mental_attack += artwork.mental_attack;
+        powerManager.mental_defense += artwork.mental_defense;
+        powerManager.speed += artwork.speed;
+        powerManager.critical_damage_rate += artwork.critical_damage_rate;
+        powerManager.critical_rate += artwork.critical_rate;
+        powerManager.penetration_rate += artwork.penetration_rate;
+        powerManager.evasion_rate += artwork.evasion_rate;
+        powerManager.damage_absorption_rate += artwork.damage_absorption_rate;
+        powerManager.vitality_regeneration_rate += artwork.vitality_regeneration_rate;
+        powerManager.accuracy_rate += artwork.accuracy_rate;
+        powerManager.lifesteal_rate += artwork.lifesteal_rate;
+        powerManager.shield_strength += artwork.shield_strength;
+        powerManager.tenacity += artwork.tenacity;
+        powerManager.resistance_rate += artwork.resistance_rate;
+        powerManager.combo_rate += artwork.combo_rate;
+        powerManager.reflection_rate += artwork.reflection_rate;
+        powerManager.mana += artwork.mana;
+        powerManager.mana_regeneration_rate += artwork.mana_regeneration_rate;
+        powerManager.damage_to_different_faction_rate += artwork.damage_to_different_faction_rate;
+        powerManager.resistance_to_different_faction_rate += artwork.resistance_to_different_faction_rate;
+        powerManager.damage_to_same_faction_rate += artwork.damage_to_same_faction_rate;
+        powerManager.resistance_to_same_faction_rate += artwork.resistance_to_same_faction_rate;
+
+        IArtworkRepository artworkRepository = new ArtworkRepository();
+        ArtworkService artworkService = new ArtworkService(artworkRepository);
+        // Percent
+        artwork = artworkService.SumPowerArtworkPercent(); // Giả định SumPowerartworkPercent cũng trả về một đối tượng artwork mới hoặc đã được reset
+        powerManager.percent_all_health += artwork.percent_all_health;
+        powerManager.percent_all_physical_attack += artwork.percent_all_physical_attack;
+        powerManager.percent_all_physical_defense += artwork.percent_all_physical_defense;
+        powerManager.percent_all_magical_attack += artwork.percent_all_magical_attack;
+        powerManager.percent_all_magical_defense += artwork.percent_all_magical_defense;
+        powerManager.percent_all_chemical_attack += artwork.percent_all_chemical_attack;
+        powerManager.percent_all_chemical_defense += artwork.percent_all_chemical_defense;
+        powerManager.percent_all_atomic_attack += artwork.percent_all_atomic_attack;
+        powerManager.percent_all_atomic_defense += artwork.percent_all_atomic_defense;
+        powerManager.percent_all_mental_attack += artwork.percent_all_mental_attack;
+        powerManager.percent_all_mental_defense += artwork.percent_all_mental_defense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetSpiritBeastPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        ISpiritBeastGalleryRepository spiritBeastGalleryRepository = new SpiritBeastGalleryRepository();
+        SpiritBeastGalleryService SpiritBeastGalleryService = new SpiritBeastGalleryService(spiritBeastGalleryRepository);
+        // Gallery
+        SpiritBeast spiritBeast = SpiritBeastGalleryService.SumPowerSpiritBeastGallery();
+        powerManager.power += spiritBeast.power;
+        powerManager.health += spiritBeast.health;
+        powerManager.physical_attack += spiritBeast.physical_attack;
+        powerManager.physical_defense += spiritBeast.physical_defense;
+        powerManager.magical_attack += spiritBeast.magical_attack;
+        powerManager.magical_defense += spiritBeast.magical_defense;
+        powerManager.chemical_attack += spiritBeast.chemical_attack;
+        powerManager.chemical_defense += spiritBeast.chemical_defense;
+        powerManager.atomic_attack += spiritBeast.atomic_attack;
+        powerManager.atomic_defense += spiritBeast.atomic_defense;
+        powerManager.mental_attack += spiritBeast.mental_attack;
+        powerManager.mental_defense += spiritBeast.mental_defense;
+        powerManager.speed += spiritBeast.speed;
+        powerManager.critical_damage_rate += spiritBeast.critical_damage_rate;
+        powerManager.critical_rate += spiritBeast.critical_rate;
+        powerManager.penetration_rate += spiritBeast.penetration_rate;
+        powerManager.evasion_rate += spiritBeast.evasion_rate;
+        powerManager.damage_absorption_rate += spiritBeast.damage_absorption_rate;
+        powerManager.vitality_regeneration_rate += spiritBeast.vitality_regeneration_rate;
+        powerManager.accuracy_rate += spiritBeast.accuracy_rate;
+        powerManager.lifesteal_rate += spiritBeast.lifesteal_rate;
+        powerManager.shield_strength += spiritBeast.shield_strength;
+        powerManager.tenacity += spiritBeast.tenacity;
+        powerManager.resistance_rate += spiritBeast.resistance_rate;
+        powerManager.combo_rate += spiritBeast.combo_rate;
+        powerManager.reflection_rate += spiritBeast.reflection_rate;
+        powerManager.mana += spiritBeast.mana;
+        powerManager.mana_regeneration_rate += spiritBeast.mana_regeneration_rate;
+        powerManager.damage_to_different_faction_rate += spiritBeast.damage_to_different_faction_rate;
+        powerManager.resistance_to_different_faction_rate += spiritBeast.resistance_to_different_faction_rate;
+        powerManager.damage_to_same_faction_rate += spiritBeast.damage_to_same_faction_rate;
+        powerManager.resistance_to_same_faction_rate += spiritBeast.resistance_to_same_faction_rate;
+
+        powerManager.percent_all_health += spiritBeast.percent_all_health;
+        powerManager.percent_all_physical_attack += spiritBeast.percent_all_physical_attack;
+        powerManager.percent_all_physical_defense += spiritBeast.percent_all_physical_defense;
+        powerManager.percent_all_magical_attack += spiritBeast.percent_all_magical_attack;
+        powerManager.percent_all_magical_defense += spiritBeast.percent_all_magical_defense;
+        powerManager.percent_all_chemical_attack += spiritBeast.percent_all_chemical_attack;
+        powerManager.percent_all_chemical_defense += spiritBeast.percent_all_chemical_defense;
+        powerManager.percent_all_atomic_attack += spiritBeast.percent_all_atomic_attack;
+        powerManager.percent_all_atomic_defense += spiritBeast.percent_all_atomic_defense;
+        powerManager.percent_all_mental_attack += spiritBeast.percent_all_mental_attack;
+        powerManager.percent_all_mental_defense += spiritBeast.percent_all_mental_defense;
+
+        IUserSpiritBeastRepository userSpiritBeastRepository = new UserSpiritBeastRepository();
+        UserSpiritBeastService userSpiritBeastService = new UserSpiritBeastService(userSpiritBeastRepository);
+        // User SpiritBeast (Gallery)
+        spiritBeast = userSpiritBeastService.SumPowerUserSpiritBeast(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
+        powerManager.power += spiritBeast.power;
+        powerManager.health += spiritBeast.health;
+        powerManager.physical_attack += spiritBeast.physical_attack;
+        powerManager.physical_defense += spiritBeast.physical_defense;
+        powerManager.magical_attack += spiritBeast.magical_attack;
+        powerManager.magical_defense += spiritBeast.magical_defense;
+        powerManager.chemical_attack += spiritBeast.chemical_attack;
+        powerManager.chemical_defense += spiritBeast.chemical_defense;
+        powerManager.atomic_attack += spiritBeast.atomic_attack;
+        powerManager.atomic_defense += spiritBeast.atomic_defense;
+        powerManager.mental_attack += spiritBeast.mental_attack;
+        powerManager.mental_defense += spiritBeast.mental_defense;
+        powerManager.speed += spiritBeast.speed;
+        powerManager.critical_damage_rate += spiritBeast.critical_damage_rate;
+        powerManager.critical_rate += spiritBeast.critical_rate;
+        powerManager.penetration_rate += spiritBeast.penetration_rate;
+        powerManager.evasion_rate += spiritBeast.evasion_rate;
+        powerManager.damage_absorption_rate += spiritBeast.damage_absorption_rate;
+        powerManager.vitality_regeneration_rate += spiritBeast.vitality_regeneration_rate;
+        powerManager.accuracy_rate += spiritBeast.accuracy_rate;
+        powerManager.lifesteal_rate += spiritBeast.lifesteal_rate;
+        powerManager.shield_strength += spiritBeast.shield_strength;
+        powerManager.tenacity += spiritBeast.tenacity;
+        powerManager.resistance_rate += spiritBeast.resistance_rate;
+        powerManager.combo_rate += spiritBeast.combo_rate;
+        powerManager.reflection_rate += spiritBeast.reflection_rate;
+        powerManager.mana += spiritBeast.mana;
+        powerManager.mana_regeneration_rate += spiritBeast.mana_regeneration_rate;
+        powerManager.damage_to_different_faction_rate += spiritBeast.damage_to_different_faction_rate;
+        powerManager.resistance_to_different_faction_rate += spiritBeast.resistance_to_different_faction_rate;
+        powerManager.damage_to_same_faction_rate += spiritBeast.damage_to_same_faction_rate;
+        powerManager.resistance_to_same_faction_rate += spiritBeast.resistance_to_same_faction_rate;
+
+        ISpiritBeastRepository spiritBeastRepository = new SpiritBeastRepository();
+        SpiritBeastService spiritBeastService = new SpiritBeastService(spiritBeastRepository);
+        // Percent
+        spiritBeast = spiritBeastService.SumPowerSpiritBeastPercent(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
+        powerManager.percent_all_health += spiritBeast.percent_all_health;
+        powerManager.percent_all_physical_attack += spiritBeast.percent_all_physical_attack;
+        powerManager.percent_all_physical_defense += spiritBeast.percent_all_physical_defense;
+        powerManager.percent_all_magical_attack += spiritBeast.percent_all_magical_attack;
+        powerManager.percent_all_magical_defense += spiritBeast.percent_all_magical_defense;
+        powerManager.percent_all_chemical_attack += spiritBeast.percent_all_chemical_attack;
+        powerManager.percent_all_chemical_defense += spiritBeast.percent_all_chemical_defense;
+        powerManager.percent_all_atomic_attack += spiritBeast.percent_all_atomic_attack;
+        powerManager.percent_all_atomic_defense += spiritBeast.percent_all_atomic_defense;
+        powerManager.percent_all_mental_attack += spiritBeast.percent_all_mental_attack;
+        powerManager.percent_all_mental_defense += spiritBeast.percent_all_mental_defense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
 
 }

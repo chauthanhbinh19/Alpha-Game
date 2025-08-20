@@ -58,7 +58,7 @@ public class UserSpiritBeastService : IUserSpiritBeastService
             stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
             ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
             reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
+            ignore_reflection_rate = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
             reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
             reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
             mana = c.mana + orginCard.mana * (float)coefficient,
@@ -141,7 +141,7 @@ public class UserSpiritBeastService : IUserSpiritBeastService
             stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
             ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
             reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
+            ignore_reflection_rate = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
             reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
             reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
             mana = c.mana + orginCard.mana * (float)coefficient,
@@ -260,6 +260,11 @@ public class UserSpiritBeastService : IUserSpiritBeastService
         return _userSpiritBeastRepository.InsertOrUpdateUserCardMonstersSpiritBeast(userId, cardMonsters, spiritBeast);
     }
 
+    public bool InsertOrUpdateUserCardSpellSpiritBeast(string userId, CardSpell cardSpell, SpiritBeast spiritBeast)
+    {
+        return _userSpiritBeastRepository.InsertOrUpdateUserCardSpellSpiritBeast(userId, cardSpell, spiritBeast);
+    }
+
     public List<SpiritBeast> GetAllUserCardHeroesSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
         return _userSpiritBeastRepository.GetAllUserCardHeroesSpiritBeast(user_id, pageSize, offset, status);
@@ -293,6 +298,11 @@ public class UserSpiritBeastService : IUserSpiritBeastService
     public List<SpiritBeast> GetAllUserCardMonstersSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
         return _userSpiritBeastRepository.GetAllUserCardMonstersSpiritBeast(user_id, pageSize, offset, status);
+    }
+
+    public List<SpiritBeast> GetAllUserCardSpellSpiritBeast(string user_id, int pageSize, int offset, string status)
+    {
+        return _userSpiritBeastRepository.GetAllUserCardSpellSpiritBeast(user_id, pageSize, offset, status);
     }
 
     public SpiritBeast GetUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes)
@@ -330,6 +340,11 @@ public class UserSpiritBeastService : IUserSpiritBeastService
         return _userSpiritBeastRepository.GetUserCardMonstersSpiritBeast(userId, cardMonsters);
     }
 
+    public SpiritBeast GetUserCardSpellSpiritBeast(string userId, CardSpell cardSpell)
+    {
+        return _userSpiritBeastRepository.GetUserCardSpellSpiritBeast(userId, cardSpell);
+    }
+
     public bool DeleteUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes, SpiritBeast spiritBeast)
     {
         return _userSpiritBeastRepository.DeleteUserCardHeroesSpiritBeast(userId, cardHeroes, spiritBeast);
@@ -363,5 +378,10 @@ public class UserSpiritBeastService : IUserSpiritBeastService
     public bool DeleteUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters, SpiritBeast spiritBeast)
     {
         return _userSpiritBeastRepository.DeleteUserCardMonstersSpiritBeast(userId, cardMonsters, spiritBeast);
+    }
+    
+    public bool DeleteUserCardSpellSpiritBeast(string userId, CardSpell cardSpell, SpiritBeast spiritBeast)
+    {
+        return _userSpiritBeastRepository.DeleteUserCardSpellSpiritBeast(userId, cardSpell, spiritBeast);
     }
 }

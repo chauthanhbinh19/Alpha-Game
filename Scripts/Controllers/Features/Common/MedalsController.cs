@@ -76,6 +76,7 @@ public class MedalsController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateMedalsTrade(List<Medals> medalsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
@@ -123,6 +124,7 @@ public class MedalsController : MonoBehaviour
         List<Currency> currencies = new List<Currency>();
         currencies = UserCurrencyService.Create().GetMedalsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {

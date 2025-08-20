@@ -87,6 +87,7 @@ public class UserCardAdmiralsController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateUserCardAdmiralsForSummon(List<CardAdmirals> admirals, Transform PositionPanel)
     {
@@ -146,6 +147,7 @@ public class UserCardAdmiralsController : MonoBehaviour
 
         GetDetails(cardAdmirals, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

@@ -101,5 +101,6 @@ public class MedalsGalleryController : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

@@ -142,6 +142,8 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_26", tempContent, () => GetType(AppConstants.CardLife));
         AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.SpiritBeast));
         // AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.Artwork));
+
+        tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void CreateButton(int index, string itemName, Texture2D itemImage, Transform panel)
     {

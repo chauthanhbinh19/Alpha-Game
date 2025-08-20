@@ -145,6 +145,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     ChangeButtonBackground(button, "Background_V4_167");
                 }
             }
+            LoadAnimation();
         }
         CreateSetButton(data);
     }
@@ -2004,5 +2005,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 starImage.texture = starTexture;
                 break;
         }
+    }
+    public void LoadAnimation()
+    {
+        TabButtonPanel.gameObject.AddComponent<SlideLeftToRightAnimation>();
     }
 }

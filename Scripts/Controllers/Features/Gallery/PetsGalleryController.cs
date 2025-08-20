@@ -123,5 +123,6 @@ public class PetsGalleryController : MonoBehaviour
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

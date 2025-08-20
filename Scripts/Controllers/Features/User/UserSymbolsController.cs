@@ -80,6 +80,7 @@ public class UserSymbolsController : MonoBehaviour
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowSymbolsDetails(Symbols symbols, GameObject currentObject)
     {
@@ -100,17 +101,13 @@ public class UserSymbolsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
         {
-            GetSkills(symbols, currentObject);
-            ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
-        {
             GetUpgrade(symbols, currentObject);
-            ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
+            ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
         });
 
         GetDetails(symbols, currentObject);
         ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
     public void GetDetails(object obj, GameObject currentObject)
     {

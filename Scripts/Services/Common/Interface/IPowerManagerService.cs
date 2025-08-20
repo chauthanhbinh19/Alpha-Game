@@ -32,4 +32,6 @@ public interface IPowerManagerService
     PowerManager GetAlchemyPower();
     PowerManager GetForgePower();
     PowerManager GetCardLifePower();
+    PowerManager GetArtworkPower();
+    PowerManager GetSpiritBeastPower();
 }

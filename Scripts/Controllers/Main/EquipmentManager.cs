@@ -108,9 +108,11 @@ public class EquipmentManager : MonoBehaviour
             shopBtn.onClick.AddListener(() => GetShop(type));
             Button enhancementBtn = gridLayout.transform.Find("Enhancement").GetComponent<Button>();
             enhancementBtn.onClick.AddListener(() => GetEnhancement(type));
+            Button missionBtn = gridLayout.transform.Find("Mission").GetComponent<Button>();
             Button campaignBtn = gridLayout.transform.Find("Campaign").GetComponent<Button>();
             campaignBtn.onClick.AddListener(() => GetCampaign(type));
         }
+        gridLayout.gameObject.AddComponent<SlideTopToBottomAnimation>();
     }
     public int CalculateTotalPages(int totalRecords, int pageSize)
     {
@@ -190,6 +192,7 @@ public class EquipmentManager : MonoBehaviour
         {
             gridLayout.cellSize = new Vector2(110, 130);
         }
+        tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void createEquipmentsShop(List<Equipments> equipmentList, string type)
     {
@@ -230,6 +233,7 @@ public class EquipmentManager : MonoBehaviour
         // {
         //     gridLayout.cellSize = new Vector2(110, 130);
         // }
+        tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void createEquipmentsEnhancement(List<Equipments> equipmentList)
     {
