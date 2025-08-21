@@ -61,7 +61,8 @@ public class UserRepository : IUserRepository
             else
             {
                 string userId = DateTime.Now.Ticks.ToString();
-                string query = "INSERT INTO users VALUES (@id, @username, @password, @name, @level, @experiment, @vip, @power)";
+                string query = @"INSERT INTO users (id, username, password, name, level, experiment, vip, power) 
+                VALUES (@id, @username, @password, @name, @level, @experiment, @vip, @power)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", userId);
                 command.Parameters.AddWithValue("@username", username);

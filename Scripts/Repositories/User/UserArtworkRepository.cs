@@ -165,7 +165,7 @@ public class UserArtworkRepository : IUserArtworkRepository
                 {
                     string query = @"
                     INSERT INTO user_Artwork (
-                    user_id, Artwork_id, level, experiment, star, quality, block, quantity,
+                    user_id, artwork_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -182,7 +182,7 @@ public class UserArtworkRepository : IUserArtworkRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @Artwork_id, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @artwork_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -202,7 +202,8 @@ public class UserArtworkRepository : IUserArtworkRepository
                 ";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Artwork_id", Artwork.id);
+                    command.Parameters.AddWithValue("@artwork_id", Artwork.id);
+                    command.Parameters.AddWithValue("@rare", Artwork.rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
@@ -317,7 +318,7 @@ public class UserArtworkRepository : IUserArtworkRepository
             {
                 connection.Open();
                 string query = @"
-                UPDATE user_Artwork
+                UPDATE user_artwork
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -344,10 +345,10 @@ public class UserArtworkRepository : IUserArtworkRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Artwork_id = @Artwork_id;";
+                WHERE user_id = @user_id AND artwork_id = @artwork_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Artwork_id", Artwork.id);
+                command.Parameters.AddWithValue("@artwork_id", Artwork.id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", Artwork.power);
                 command.Parameters.AddWithValue("@health", Artwork.health);
@@ -418,7 +419,7 @@ public class UserArtworkRepository : IUserArtworkRepository
             {
                 connection.Open();
                 string query = @"
-                UPDATE user_Artwork
+                UPDATE user_artwork
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -445,10 +446,10 @@ public class UserArtworkRepository : IUserArtworkRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Artwork_id = @Artwork_id;";
+                WHERE user_id = @user_id AND artwork_id = @artwork_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Artwork_id", Artwork.id);
+                command.Parameters.AddWithValue("@artwork_id", Artwork.id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", Artwork.power);

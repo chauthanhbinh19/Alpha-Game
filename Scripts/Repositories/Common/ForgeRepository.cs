@@ -191,6 +191,7 @@ public class ForgeRepository : IForgeRepository
                     {
                         id = reader.GetString("id"),
                         name = reader.GetString("name"),
+                        rare = reader.GetString("rare"),
                         image = reader.GetString("image"),
                         quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),

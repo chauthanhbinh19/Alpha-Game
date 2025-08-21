@@ -34,7 +34,7 @@ public class TeamsRepository : ITeamsRepository
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string userQuery = "INSERT INTO TEAMS VALUES (@user_id, @team_id)";
+            string userQuery = "INSERT INTO TEAMS (user_id, team_id) VALUES (@user_id, @team_id)";
             MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
             userCommand.Parameters.AddWithValue("@user_id", user_id);
             userCommand.Parameters.AddWithValue("@team_id", GetMaxTeamId(connection) + 1);

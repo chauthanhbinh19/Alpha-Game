@@ -191,6 +191,7 @@ public class PuppetRepository : IPuppetRepository
                     {
                         id = reader.GetString("id"),
                         name = reader.GetString("name"),
+                        rare = reader.GetString("rare"),
                         image = reader.GetString("image"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),

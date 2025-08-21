@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
+using Unity.VisualScripting;
 
 public class UserForgeRepository : IUserForgeRepository
 {
@@ -164,7 +165,7 @@ public class UserForgeRepository : IUserForgeRepository
                 {
                     string query = @"
                     INSERT INTO user_forge (
-                    user_id, forge_id, level, experiment, star, quality, block, quantity,
+                    user_id, forge_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -181,7 +182,7 @@ public class UserForgeRepository : IUserForgeRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @forge_id, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @forge_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -201,6 +202,7 @@ public class UserForgeRepository : IUserForgeRepository
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@forge_id", Forge.id);
+                    command.Parameters.AddWithValue("@rare", Forge.rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);

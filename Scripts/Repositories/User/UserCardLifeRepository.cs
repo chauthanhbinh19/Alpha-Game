@@ -165,7 +165,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
                 {
                     string query = @"
                     INSERT INTO user_card_life (
-                    user_id, card_life_id, level, experiment, star, quality, block, quantity,
+                    user_id, card_life_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -182,7 +182,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @card_life_id, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @card_life_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -202,6 +202,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@card_life_id", CardLife.id);
+                    command.Parameters.AddWithValue("@rare", CardLife.rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);

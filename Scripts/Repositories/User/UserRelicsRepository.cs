@@ -165,7 +165,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 {
                     string query = @"
                 INSERT INTO user_relics (
-                    user_id, relic_id, level, experiment, star, quality, block, quantity,
+                    user_id, relic_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -182,7 +182,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @relic_id, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @relic_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -202,6 +202,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@relic_id", relics.id);
+                    command.Parameters.AddWithValue("@rare", relics.rare);
                     // command.Parameters.AddWithValue("@sequence", GetMaxSequence(connection, relics.id) + 1);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);

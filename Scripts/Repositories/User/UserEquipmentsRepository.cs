@@ -244,7 +244,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 connection.Open();
                 string query = @"
                 INSERT INTO user_equipments (
-                    user_id, equipment_id, sequence, level, experiment, star, quality, block,
+                    user_id, equipment_id, rare, sequence, level, experiment, star, quality, block,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -264,7 +264,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     special_magical_defense, special_chemical_attack, special_chemical_defense, special_atomic_attack,
                     special_atomic_defense, special_mental_attack, special_mental_defense, special_speed
                 ) VALUES (
-                    @user_id, @equipment_id, @sequence, @level, @experiment, @star, @quality, @block, 
+                    @user_id, @equipment_id, @rare, @sequence, @level, @experiment, @star, @quality, @block, 
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -287,6 +287,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@equipment_id", Id);
+                command.Parameters.AddWithValue("@rare", EquipmentFromDB.rare);
                 command.Parameters.AddWithValue("@sequence", GetMaxSequence(connection, Id) + 1);
                 command.Parameters.AddWithValue("@level", 0);
                 command.Parameters.AddWithValue("@experiment", 0);

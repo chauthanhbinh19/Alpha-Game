@@ -159,7 +159,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 {
                     string query = @"
                 INSERT INTO user_avatars (
-                    user_id, avatar_id, level, experiment, star, quality, block, quantity,
+                    user_id, avatar_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -176,7 +176,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @avatar_id, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @avatar_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -197,6 +197,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@avatar_id", avatars.id);
+                    command.Parameters.AddWithValue("@rare", avatars.rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
@@ -307,7 +308,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 {
                     string query = @"
                 INSERT INTO user_avatars (
-                    user_id, avatar_id, level, experiment, star, quality, block, quantity, is_used,
+                    user_id, avatar_id, rare, level, experiment, star, quality, block, quantity, is_used,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -324,7 +325,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @avatar_id, @level, @experiment, @star, @quality, @block, @quantity, @is_used, 
+                    @user_id, @avatar_id, @rare, @level, @experiment, @star, @quality, @block, @quantity, @is_used, 
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -345,6 +346,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@avatar_id", Avatars.id);
+                    command.Parameters.AddWithValue("@rare", Avatars.id);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);

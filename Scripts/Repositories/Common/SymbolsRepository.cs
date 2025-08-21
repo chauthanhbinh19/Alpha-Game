@@ -192,6 +192,7 @@ public class SymbolsRepository : ISymbolsRepository
                     {
                         id = reader.GetString("id"),
                         name = reader.GetString("name"),
+                        rare = reader.GetString("rare"),
                         image = reader.GetString("image"),
                         type = reader.GetString("type"),
                         quality = reader.GetInt32("quality"),

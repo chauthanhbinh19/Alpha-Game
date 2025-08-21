@@ -165,7 +165,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 {
                     string query = @"
                     INSERT INTO user_alchemy (
-                    user_id, alchemy_id, level, experiment, star, quality, block, quantity,
+                    user_id, alchemy_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -182,7 +182,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @alchemy_id, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @alchemy_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -203,6 +203,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@alchemy_id", Alchemy.id);
+                    command.Parameters.AddWithValue("@rare", Alchemy.rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
