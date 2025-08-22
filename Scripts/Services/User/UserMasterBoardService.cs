@@ -4,9 +4,9 @@ public class UserMasterBoardService : IUserMasterBoardService
 {
     private IUserMasterBoardRepository _userMesterBoardRepository;
 
-    public UserMasterBoardService(IUserMasterBoardRepository userMedalsRepository)
+    public UserMasterBoardService(IUserMasterBoardRepository userMesterBoardRepository)
     {
-        _userMesterBoardRepository = userMedalsRepository;
+        _userMesterBoardRepository = userMesterBoardRepository;
     }
 
     public static UserMasterBoardService Create()

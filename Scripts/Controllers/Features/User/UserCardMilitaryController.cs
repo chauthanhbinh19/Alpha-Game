@@ -124,6 +124,14 @@ public class UserCardMilitaryController : MonoBehaviour
         ButtonLoader.Instance.CreateButton(3, "Skills", RightButtonContent);
         ButtonLoader.Instance.CreateButton(4, "Upgrade", RightButtonContent);
         ButtonLoader.Instance.CreateButton(5, "Spirit Beast", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(6, "Rank", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(7, "Matser of Beast", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(8, "Master of Dragon", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(9, "Master of Magic", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(10, "Master of Music", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(11, "Master of Science", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(12, "Master of Spirit", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(13, "Master of Weapon", RightButtonContent);
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {

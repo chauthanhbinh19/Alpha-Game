@@ -266,6 +266,90 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         }
         return CardAdmiralsList;
     }
+    public List<CardAdmirals> GetAllMasterPower(string user_id, List<CardAdmirals> CardAdmiralsList)
+    {
+        IUserCardAdmiralsMasterRepository userCardAdmiralsMasterRepository = new UserCardAdmiralsMasterRepository();
+        UserCardAdmiralsMasterService userCardAdmiralsMasterService = new UserCardAdmiralsMasterService(userCardAdmiralsMasterRepository);
+        foreach (var c in CardAdmiralsList)
+        {
+            CardAdmirals card = _userCardAdmiralsRepository.GetUserCardAdmiralsById(user_id, c.id);
+            Master master = userCardAdmiralsMasterService.GetSumCardAdmiralsMaster(user_id, c.id);
+            c.all_health = c.all_health + master.health + card.health * master.percent_all_health / 100;
+            c.all_physical_attack = c.all_physical_attack + master.physical_attack + card.physical_attack * master.percent_all_physical_attack / 100;
+            c.all_physical_defense = c.all_physical_defense + master.physical_defense + card.physical_defense * master.percent_all_physical_defense / 100;
+            c.all_magical_attack = c.all_magical_attack + master.magical_attack + card.magical_attack * master.percent_all_magical_attack / 100;
+            c.all_magical_defense = c.all_magical_defense + master.magical_defense + card.magical_defense * master.percent_all_magical_defense / 100;
+            c.all_chemical_attack = c.all_chemical_attack + master.chemical_attack + card.chemical_attack * master.percent_all_chemical_attack / 100;
+            c.all_chemical_defense = c.all_chemical_defense + master.chemical_defense + card.chemical_defense * master.percent_all_chemical_defense / 100;
+            c.all_atomic_attack = c.all_atomic_attack + master.atomic_attack + card.atomic_attack * master.percent_all_atomic_attack / 100;
+            c.all_atomic_defense = c.all_atomic_defense + master.atomic_defense + card.atomic_defense * master.percent_all_atomic_defense / 100;
+            c.all_mental_attack = c.all_mental_attack + master.mental_attack + card.mental_attack * master.percent_all_mental_attack / 100;
+            c.all_mental_defense = c.all_mental_defense + master.mental_defense + card.mental_defense * master.percent_all_mental_defense / 100;
+            c.all_speed = c.all_speed + master.speed;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + master.critical_damage_rate;
+            c.all_critical_rate = c.all_critical_rate + master.critical_rate;
+            c.all_critical_resistance_rate = c.all_critical_resistance_rate + master.critical_resistance_rate;
+            c.all_ignore_critical_rate = c.all_ignore_critical_rate + master.ignore_critical_rate;
+            c.all_penetration_rate = c.all_penetration_rate + master.penetration_rate;
+            c.all_penetration_resistance_rate = c.all_penetration_resistance_rate + master.penetration_resistance_rate;
+            c.all_evasion_rate = c.all_evasion_rate + master.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + master.damage_absorption_rate;
+            c.all_ignore_damage_absorption_rate = c.all_ignore_damage_absorption_rate + master.ignore_damage_absorption_rate;
+            c.all_absorbed_damage_rate = c.all_absorbed_damage_rate + master.absorbed_damage_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + master.vitality_regeneration_rate;
+            c.all_vitality_regeneration_resistance_rate = c.all_vitality_regeneration_resistance_rate + master.vitality_regeneration_resistance_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + master.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + master.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + master.shield_strength;
+            c.all_tenacity = c.all_tenacity + master.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + master.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + master.combo_rate;
+            c.all_ignore_combo_rate = c.all_ignore_combo_rate + master.ignore_combo_rate;
+            c.all_combo_damage_rate = c.all_combo_damage_rate + master.combo_damage_rate;
+            c.all_combo_resistance_rate = c.all_combo_resistance_rate + master.combo_resistance_rate;
+            c.all_stun_rate = c.all_stun_rate + master.stun_rate;
+            c.all_ignore_stun_rate = c.all_ignore_stun_rate + master.ignore_stun_rate;
+            c.all_reflection_rate = c.all_reflection_rate + master.reflection_rate;
+            c.all_ignore_reflection_rate = c.all_ignore_reflection_rate + master.ignore_reflection_rate;
+            c.all_reflection_damage_rate = c.all_reflection_damage_rate + master.reflection_damage_rate;
+            c.all_reflection_resistance_rate = c.all_reflection_resistance_rate + master.reflection_resistance_rate;
+            c.all_mana = c.all_mana + master.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + master.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + master.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + master.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + master.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + master.resistance_to_same_faction_rate;
+            c.all_normal_damage_rate = c.all_normal_damage_rate + master.normal_damage_rate;
+            c.all_normal_resistance_rate = c.all_normal_resistance_rate + master.normal_resistance_rate;
+            c.all_skill_damage_rate = c.all_skill_damage_rate + master.skill_damage_rate;
+            c.all_skill_resistance_rate = c.all_skill_resistance_rate + master.skill_resistance_rate;
+
+            c.all_power = EvaluatePower.CalculatePower(
+            c.all_health,
+            c.all_physical_attack, c.all_physical_defense,
+            c.all_magical_attack, c.all_magical_defense,
+            c.all_chemical_attack, c.all_chemical_defense,
+            c.all_atomic_attack, c.all_atomic_defense,
+            c.all_mental_attack, c.all_mental_defense,
+            c.all_speed,
+            c.all_critical_damage_rate, c.all_critical_rate, c.all_critical_resistance_rate, c.all_ignore_critical_rate,
+            c.all_penetration_rate, c.all_penetration_resistance_rate, c.all_evasion_rate,
+            c.all_damage_absorption_rate, c.all_ignore_damage_absorption_rate, c.all_absorbed_damage_rate,
+            c.all_vitality_regeneration_rate, c.all_vitality_regeneration_resistance_rate,
+            c.all_accuracy_rate, c.all_lifesteal_rate,
+            c.all_shield_strength, c.all_tenacity, c.all_resistance_rate,
+            c.all_combo_rate, c.all_ignore_combo_rate, c.all_combo_damage_rate, c.all_combo_resistance_rate,
+            c.all_stun_rate, c.all_ignore_stun_rate,
+            c.all_reflection_rate, c.all_ignore_reflection_rate, c.all_reflection_damage_rate, c.all_reflection_resistance_rate,
+            c.all_mana, c.all_mana_regeneration_rate,
+            c.all_damage_to_different_faction_rate, c.all_resistance_to_different_faction_rate,
+            c.all_damage_to_same_faction_rate, c.all_resistance_to_same_faction_rate,
+            c.all_normal_damage_rate, c.all_normal_resistance_rate,
+            c.all_skill_damage_rate, c.all_skill_resistance_rate
+        );
+        }
+        return CardAdmiralsList;
+    }
     public List<CardAdmirals> GetAllAnimeStatsPower(string user_id, List<CardAdmirals> cardAdmirals)
     {
         IAnimeStatsRepository animeStatsRepository = new AnimeStatsRepository();
@@ -437,6 +521,90 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         }
         return cardAdmirals;
     }
+    // public List<CardAdmirals> GetMasterBoardPower(string user_id, List<CardAdmirals> CardAdmiralsList)
+    // {
+    //     IUserMasterBoardRepository userMasterBoardRepository = new UserMasterBoardRepository();
+    //     UserMasterBoardService userMasterBoardService = new UserMasterBoardService(userMasterBoardRepository);
+    //     MasterBoard masterBoard = userMasterBoardService.GetUserMasterBoard(user_id);
+    //     foreach (var c in CardAdmiralsList)
+    //     {
+    //         CardAdmirals card = _userCardAdmiralsRepository.GetUserCardAdmiralsById(user_id, c.id);
+    //         c.all_health = c.all_health + masterBoard.health + card.health * masterBoard.percent_all_health / 100;
+    //         c.all_physical_attack = c.all_physical_attack + masterBoard.physical_attack + card.physical_attack * masterBoard.percent_all_physical_attack / 100;
+    //         c.all_physical_defense = c.all_physical_defense + masterBoard.physical_defense + card.physical_defense * masterBoard.percent_all_physical_defense / 100;
+    //         c.all_magical_attack = c.all_magical_attack + masterBoard.magical_attack + card.magical_attack * masterBoard.percent_all_magical_attack / 100;
+    //         c.all_magical_defense = c.all_magical_defense + masterBoard.magical_defense + card.magical_defense * masterBoard.percent_all_magical_defense / 100;
+    //         c.all_chemical_attack = c.all_chemical_attack + masterBoard.chemical_attack + card.chemical_attack * masterBoard.percent_all_chemical_attack / 100;
+    //         c.all_chemical_defense = c.all_chemical_defense + masterBoard.chemical_defense + card.chemical_defense * masterBoard.percent_all_chemical_defense / 100;
+    //         c.all_atomic_attack = c.all_atomic_attack + masterBoard.atomic_attack + card.atomic_attack * masterBoard.percent_all_atomic_attack / 100;
+    //         c.all_atomic_defense = c.all_atomic_defense + masterBoard.atomic_defense + card.atomic_defense * masterBoard.percent_all_atomic_defense / 100;
+    //         c.all_mental_attack = c.all_mental_attack + masterBoard.mental_attack + card.mental_attack * masterBoard.percent_all_mental_attack / 100;
+    //         c.all_mental_defense = c.all_mental_defense + masterBoard.mental_defense + card.mental_defense * masterBoard.percent_all_mental_defense / 100;
+    //         c.all_speed = c.all_speed + masterBoard.speed;
+    //         c.all_critical_damage_rate = c.all_critical_damage_rate + masterBoard.critical_damage_rate;
+    //         c.all_critical_rate = c.all_critical_rate + masterBoard.critical_rate;
+    //         c.all_critical_resistance_rate = c.all_critical_resistance_rate + masterBoard.critical_resistance_rate;
+    //         c.all_ignore_critical_rate = c.all_ignore_critical_rate + masterBoard.ignore_critical_rate;
+    //         c.all_penetration_rate = c.all_penetration_rate + masterBoard.penetration_rate;
+    //         c.all_penetration_resistance_rate = c.all_penetration_resistance_rate + masterBoard.penetration_resistance_rate;
+    //         c.all_evasion_rate = c.all_evasion_rate + masterBoard.evasion_rate;
+    //         c.all_damage_absorption_rate = c.all_damage_absorption_rate + masterBoard.damage_absorption_rate;
+    //         c.all_ignore_damage_absorption_rate = c.all_ignore_damage_absorption_rate + masterBoard.ignore_damage_absorption_rate;
+    //         c.all_absorbed_damage_rate = c.all_absorbed_damage_rate + masterBoard.absorbed_damage_rate;
+    //         c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + masterBoard.vitality_regeneration_rate;
+    //         c.all_vitality_regeneration_resistance_rate = c.all_vitality_regeneration_resistance_rate + masterBoard.vitality_regeneration_resistance_rate;
+    //         c.all_accuracy_rate = c.all_accuracy_rate + masterBoard.accuracy_rate;
+    //         c.all_lifesteal_rate = c.all_lifesteal_rate + masterBoard.lifesteal_rate;
+    //         c.all_shield_strength = c.all_shield_strength + masterBoard.shield_strength;
+    //         c.all_tenacity = c.all_tenacity + masterBoard.tenacity;
+    //         c.all_resistance_rate = c.all_resistance_rate + masterBoard.resistance_rate;
+    //         c.all_combo_rate = c.all_combo_rate + masterBoard.combo_rate;
+    //         c.all_ignore_combo_rate = c.all_ignore_combo_rate + masterBoard.ignore_combo_rate;
+    //         c.all_combo_damage_rate = c.all_combo_damage_rate + masterBoard.combo_damage_rate;
+    //         c.all_combo_resistance_rate = c.all_combo_resistance_rate + masterBoard.combo_resistance_rate;
+    //         c.all_stun_rate = c.all_stun_rate + masterBoard.stun_rate;
+    //         c.all_ignore_stun_rate = c.all_ignore_stun_rate + masterBoard.ignore_stun_rate;
+    //         c.all_reflection_rate = c.all_reflection_rate + masterBoard.reflection_rate;
+    //         c.all_ignore_reflection_rate = c.all_ignore_reflection_rate + masterBoard.ignore_reflection_rate;
+    //         c.all_reflection_damage_rate = c.all_reflection_damage_rate + masterBoard.reflection_damage_rate;
+    //         c.all_reflection_resistance_rate = c.all_reflection_resistance_rate + masterBoard.reflection_resistance_rate;
+    //         c.all_mana = c.all_mana + masterBoard.mana;
+    //         c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + masterBoard.mana_regeneration_rate;
+    //         c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + masterBoard.damage_to_different_faction_rate;
+    //         c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + masterBoard.resistance_to_different_faction_rate;
+    //         c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + masterBoard.damage_to_same_faction_rate;
+    //         c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + masterBoard.resistance_to_same_faction_rate;
+    //         c.all_normal_damage_rate = c.all_normal_damage_rate + masterBoard.normal_damage_rate;
+    //         c.all_normal_resistance_rate = c.all_normal_resistance_rate + masterBoard.normal_resistance_rate;
+    //         c.all_skill_damage_rate = c.all_skill_damage_rate + masterBoard.skill_damage_rate;
+    //         c.all_skill_resistance_rate = c.all_skill_resistance_rate + masterBoard.skill_resistance_rate;
+
+    //         c.all_power = EvaluatePower.CalculatePower(
+    //         c.all_health,
+    //         c.all_physical_attack, c.all_physical_defense,
+    //         c.all_magical_attack, c.all_magical_defense,
+    //         c.all_chemical_attack, c.all_chemical_defense,
+    //         c.all_atomic_attack, c.all_atomic_defense,
+    //         c.all_mental_attack, c.all_mental_defense,
+    //         c.all_speed,
+    //         c.all_critical_damage_rate, c.all_critical_rate, c.all_critical_resistance_rate, c.all_ignore_critical_rate,
+    //         c.all_penetration_rate, c.all_penetration_resistance_rate, c.all_evasion_rate,
+    //         c.all_damage_absorption_rate, c.all_ignore_damage_absorption_rate, c.all_absorbed_damage_rate,
+    //         c.all_vitality_regeneration_rate, c.all_vitality_regeneration_resistance_rate,
+    //         c.all_accuracy_rate, c.all_lifesteal_rate,
+    //         c.all_shield_strength, c.all_tenacity, c.all_resistance_rate,
+    //         c.all_combo_rate, c.all_ignore_combo_rate, c.all_combo_damage_rate, c.all_combo_resistance_rate,
+    //         c.all_stun_rate, c.all_ignore_stun_rate,
+    //         c.all_reflection_rate, c.all_ignore_reflection_rate, c.all_reflection_damage_rate, c.all_reflection_resistance_rate,
+    //         c.all_mana, c.all_mana_regeneration_rate,
+    //         c.all_damage_to_different_faction_rate, c.all_resistance_to_different_faction_rate,
+    //         c.all_damage_to_same_faction_rate, c.all_resistance_to_same_faction_rate,
+    //         c.all_normal_damage_rate, c.all_normal_resistance_rate,
+    //         c.all_skill_damage_rate, c.all_skill_resistance_rate
+    //     );
+    //     }
+    //     return CardAdmiralsList;
+    // }
     public CardAdmirals GetNewLevelPower(CardAdmirals c, double coefficient)
     {
         ICardAdmiralsRepository _repository = new CardAdmiralsRepository();
@@ -612,6 +780,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         return list;
     }
@@ -624,6 +793,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         return list;
     }
@@ -686,6 +856,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
 
         return list.FirstOrDefault();
@@ -698,6 +869,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         return list;
     }
