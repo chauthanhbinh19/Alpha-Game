@@ -33,8 +33,8 @@ public class MainMenuMyrrManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppConstants.Myrr.ToLower());
-        parentType = AppConstants.Myrr;
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet4.Myrr);
+        parentType = AppConstants.MainMenuSet4.Myrr;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -46,7 +46,7 @@ public class MainMenuMyrrManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Myrr);
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.MainMenuSet4.Myrr);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

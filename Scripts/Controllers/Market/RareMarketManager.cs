@@ -66,7 +66,7 @@ public class RareMarketManager : MonoBehaviour
         HomeButton = RareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
 
-        titleText.text = LocalizationManager.Get(AppConstants.RareMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RareMarket);
 
         var currencies = CurrencyService.Create().GetCurrencyList();
         foreach (var currency in currencies)
@@ -105,10 +105,10 @@ public class RareMarketManager : MonoBehaviour
         NextButton.onClick.AddListener(ChangeNextPage);
         PreviousButton.onClick.AddListener(ChangePreviousPage);
 
-        titleText.text = LocalizationManager.Get(AppConstants.RareMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RareMarket);
 
         items = ItemsService.Create().GetItems()
-            .Where(item => item.type.Equals(AppConstants.RareMaterialItem, StringComparison.OrdinalIgnoreCase))
+            .Where(item => item.type.Equals(AppConstants.Market.RareMaterialItem, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         totalPage = Mathf.CeilToInt((float)items.Count / pageSize);

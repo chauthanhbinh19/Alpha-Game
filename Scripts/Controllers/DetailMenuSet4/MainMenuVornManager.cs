@@ -33,8 +33,8 @@ public class MainMenuVornManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppConstants.Vorn.ToLower());
-        parentType = AppConstants.Vorn;
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet4.Vorn);
+        parentType = AppConstants.MainMenuSet4.Vorn;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -46,7 +46,7 @@ public class MainMenuVornManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Vorn);
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.MainMenuSet4.Vorn);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

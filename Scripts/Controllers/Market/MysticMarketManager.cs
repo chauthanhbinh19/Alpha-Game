@@ -43,31 +43,6 @@ public class MysticMarketManager : MonoBehaviour
             Destroy(gameObject); // Destroy duplicate instances
         }
     }
-    private static readonly List<string> FeatureList = new List<string>{
-        AppConstants.Equipments, AppConstants.Realm, AppConstants.Upgrade, AppConstants.Aptitude,
-        AppConstants.Affinity, AppConstants.Blessing, AppConstants.Core, AppConstants.Physique,
-        AppConstants.Bloodline, AppConstants.Omnivision, AppConstants.Omnipotence, AppConstants.Omnipresence,
-        AppConstants.Omniscience, AppConstants.Omnivory, AppConstants.Angel, AppConstants.Demon,
-        AppConstants.Sword, AppConstants.Spear, AppConstants.Shield, AppConstants.Bow,
-        AppConstants.Gun, AppConstants.Cyber, AppConstants.Fairy, AppConstants.Dark,
-        AppConstants.Light, AppConstants.Fire, AppConstants.Ice, AppConstants.Earth,
-        AppConstants.Thunder, AppConstants.Life, AppConstants.Space, AppConstants.Time,
-        AppConstants.Nanotech, AppConstants.Quantum, AppConstants.Holography, AppConstants.Plasma,
-        AppConstants.Biomech, AppConstants.Cryotech, AppConstants.Psionics, AppConstants.Neurotech,
-        AppConstants.Antimatter, AppConstants.Phantomware, AppConstants.Gravitech, AppConstants.Aethernet,
-        AppConstants.Starforge, AppConstants.Orbitalis, AppConstants.Azathoth, AppConstants.YogSothoth,
-        AppConstants.Nyarlathotep, AppConstants.ShubNiggurath, AppConstants.Nihorath, AppConstants.Aeonax,
-        AppConstants.Seraphiros, AppConstants.Thorindar, AppConstants.Zilthros, AppConstants.Khorazal,
-        AppConstants.Ixithra, AppConstants.Omnitheus, AppConstants.Phyrixa, AppConstants.Atherion,
-        AppConstants.Vorathos, AppConstants.Tenebris, AppConstants.Xylkor, AppConstants.Veltharion,
-        AppConstants.Arcanos, AppConstants.Dolomath, AppConstants.Arathor, AppConstants.Xyphos,
-        AppConstants.Vaelith, AppConstants.Zarx, AppConstants.Raik, AppConstants.Drax,
-        AppConstants.Kron, AppConstants.Zolt, AppConstants.Gorr, AppConstants.Ryze,
-        AppConstants.Jaxx, AppConstants.Thar, AppConstants.Vorn, AppConstants.Nyx,
-        AppConstants.Aros, AppConstants.Hex, AppConstants.Lorn, AppConstants.Baxx,
-        AppConstants.Zeph, AppConstants.Kael, AppConstants.Drav, AppConstants.Torn,
-        AppConstants.Myrr, AppConstants.Vask, AppConstants.Jorr, AppConstants.Quen
-    };
     void Start()
     {
         offset = 0;
@@ -90,7 +65,7 @@ public class MysticMarketManager : MonoBehaviour
         HomeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
 
-        titleText.text = LocalizationManager.Get(AppConstants.MysticMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MysticMarket);
 
         var currencies = CurrencyService.Create().GetCurrencyList();
         foreach (var currency in currencies)
@@ -129,10 +104,10 @@ public class MysticMarketManager : MonoBehaviour
         NextButton.onClick.AddListener(ChangeNextPage);
         PreviousButton.onClick.AddListener(ChangePreviousPage);
 
-        titleText.text = LocalizationManager.Get(AppConstants.MysticMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MysticMarket);
 
         items = ItemsService.Create().GetItems()
-            .Where(item => item.type.Equals(AppConstants.PackageItem, StringComparison.OrdinalIgnoreCase))
+            .Where(item => item.type.Equals(AppConstants.Market.MysticMaterialItem, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         totalPage = Mathf.CeilToInt((float)items.Count / pageSize);

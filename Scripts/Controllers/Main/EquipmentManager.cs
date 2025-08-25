@@ -44,7 +44,7 @@ public class EquipmentManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        rare = AppConstants.All;
+        rare = AppConstants.Rare.All;
         equipmentMenuPanel = EquipmentMenuPanel.gameObject;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ItemsPrefab = UIManager.Instance.GetGameObject("ItemPrefab");
@@ -221,7 +221,7 @@ public class EquipmentManager : MonoBehaviour
 
             Button buy = equipmentObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
+            buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Buy);
             Equipments equipments = new Equipments();
             buy.onClick.AddListener(() =>
             {

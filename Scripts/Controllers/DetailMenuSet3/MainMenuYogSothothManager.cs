@@ -33,8 +33,8 @@ public class MainMenuYogSothothManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppConstants.YogSothoth.ToLower());
-        parentType = AppConstants.YogSothoth;
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet3.YogSothoth);
+        parentType = AppConstants.MainMenuSet3.YogSothoth;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -46,7 +46,7 @@ public class MainMenuYogSothothManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType(LocalizationManager.Get(AppConstants.YogSothoth.ToLower()));
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.MainMenuSet3.YogSothoth.ToLower());
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

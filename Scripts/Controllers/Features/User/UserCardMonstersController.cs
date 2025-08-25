@@ -124,13 +124,18 @@ public class UserCardMonstersController : MonoBehaviour
         ButtonLoader.Instance.CreateButton(4, "Upgrade", RightButtonContent);
         ButtonLoader.Instance.CreateButton(5, "Spirit Beast", RightButtonContent);
         ButtonLoader.Instance.CreateButton(6, "Rank", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(7, "Matser of Beast", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(8, "Master of Dragon", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(9, "Master of Magic", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(10, "Master of Music", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(11, "Master of Science", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(12, "Master of Spirit", RightButtonContent);
-        ButtonLoader.Instance.CreateButton(13, "Master of Weapon", RightButtonContent);
+        ButtonLoader.Instance.CreateButton(7, AppConstants.Master.MasterOfBeast, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(8, AppConstants.Master.MasterOfDragon, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(9, AppConstants.Master.MasterOfMagic, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(10, AppConstants.Master.MasterOfMusic, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(11, AppConstants.Master.MasterOfScience, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(12, AppConstants.Master.MasterOfSpirit, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(13, AppConstants.Master.MasterOfWeapon, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(14, AppConstants.Master.MasterOfChemical, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(15, AppConstants.Master.MasterOfPhysical, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(16, AppConstants.Master.MasterOfAtomic, RightButtonContent);
+        ButtonLoader.Instance.CreateButton(17, AppConstants.Master.MasterOfMental, RightButtonContent);
+
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
             GetDetails(cardMonsters, currentObject);
@@ -156,6 +161,66 @@ public class UserCardMonstersController : MonoBehaviour
             GetSpiritBeast(cardMonsters, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
         });
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", RightButtonContent, () =>
+        {
+            GetRank(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_6", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", RightButtonContent, () =>
+        {
+            GetMasterOfBeast(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_7", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", RightButtonContent, () =>
+        {
+            GetMasterOfDragon(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_8", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", RightButtonContent, () =>
+        {
+            GetMasterOfMagic(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_9", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", RightButtonContent, () =>
+        {
+            GetMasterOfMusic(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_10", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", RightButtonContent, () =>
+        {
+            GetMasterOfScience(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_11", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", RightButtonContent, () =>
+        {
+            GetMasterOfSpirit(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_12", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", RightButtonContent, () =>
+        {
+            GetMasterOfWeapon(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_13", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", RightButtonContent, () =>
+        {
+            GetMasterOfChemical(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_14", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", RightButtonContent, () =>
+        {
+            GetMasterOfPhysical(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_15", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", RightButtonContent, () =>
+        {
+            GetMasterOfAtomic(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_16", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", RightButtonContent, () =>
+        {
+            GetMasterOfMental(cardMonsters, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_17", RightButtonContent);
+        });
 
         switch (buttonType)
         {
@@ -179,6 +244,54 @@ public class UserCardMonstersController : MonoBehaviour
                 GetSpiritBeast(cardMonsters, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
                 break;
+            case 6:
+                GetRank(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_6", RightButtonContent);
+                break;
+            case 7:
+                GetMasterOfBeast(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_7", RightButtonContent);
+                break;
+            case 8:
+                GetMasterOfDragon(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_8", RightButtonContent);
+                break;
+            case 9:
+                GetMasterOfMagic(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_9", RightButtonContent);
+                break;
+            case 10:
+                GetMasterOfMusic(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_10", RightButtonContent);
+                break;
+            case 11:
+                GetMasterOfScience(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_11", RightButtonContent);
+                break;
+            case 12:
+                GetMasterOfSpirit(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_12", RightButtonContent);
+                break;
+            case 13:
+                GetMasterOfWeapon(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_13", RightButtonContent);
+                break;
+            case 14:
+                GetMasterOfChemical(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_14", RightButtonContent);
+                break;
+            case 15:
+                GetMasterOfPhysical(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_15", RightButtonContent);
+                break;
+            case 16:
+                GetMasterOfAtomic(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_16", RightButtonContent);
+                break;
+            case 17:
+                GetMasterOfMental(cardMonsters, currentObject);
+                ButtonLoader.Instance.OnButtonClicked("Button_17", RightButtonContent);
+                break;
             default:
                 GetDetails(cardMonsters, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
@@ -200,7 +313,7 @@ public class UserCardMonstersController : MonoBehaviour
         power.text = NumberFormatter.FormatNumber(cardMonsters.all_power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = cardHeroes.level.ToString();
+        // level.text = cardMonsters.level.ToString();
 
         RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonsters.rare}");
@@ -481,7 +594,7 @@ public class UserCardMonstersController : MonoBehaviour
         List<SpiritBeast> spiritBeasts = new List<SpiritBeast>();
         spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardMonstersSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
 
-        int totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.All);
+        int totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.All);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -558,7 +671,7 @@ public class UserCardMonstersController : MonoBehaviour
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.All);
+            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.All);
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage + 1;
             offset = offset + pageSize;
@@ -576,7 +689,7 @@ public class UserCardMonstersController : MonoBehaviour
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.All);
+            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.All);
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage - 1;
             offset = offset - pageSize;
@@ -586,5 +699,185 @@ public class UserCardMonstersController : MonoBehaviour
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }
+    }
+    public void GetRank(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonRankPanels();
+    }
+    public void GetMasterOfBeast(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfBeastPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfBeastPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfBeastPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfBeastPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Beast");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfBeastManager.Instance.CreateMasterOfBeastManager(obj);
+        });
+    }
+    public void GetMasterOfDragon(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfDragonPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfDragonPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfDragonPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfDragonPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Dragon");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfDragonManager.Instance.CreateMasterOfDragonManager(obj);
+        });
+    }
+    public void GetMasterOfMagic(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfMagicPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfMagicPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfMagicPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfMagicPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Magic");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfMagicManager.Instance.CreateMasterOfMagicManager(obj);
+        });
+    }
+    public void GetMasterOfMusic(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfMusicPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfMusicPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfMusicPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfMusicPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Music");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfMusicManager.Instance.CreateMasterOfMusicManager(obj);
+        });
+    }
+    public void GetMasterOfScience(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfSciencePanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfSciencePanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfSciencePanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfSciencePanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Science");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfScienceManager.Instance.CreateMasterOfScienceManager(obj);
+        });
+    }
+    public void GetMasterOfSpirit(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfSpiritPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfSpiritPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfSpiritPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfSpiritPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Spirit");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfSpiritManager.Instance.CreateMasterOfSpiritManager(obj);
+        });
+    }
+    public void GetMasterOfWeapon(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfWeaponPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfWeaponPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfWeaponPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfWeaponPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Weapon");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfWeaponManager.Instance.CreateMasterOfWeaponManager(obj);
+        });
+    }
+    public void GetMasterOfChemical(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfChemicalPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfChemicalPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfChemicalPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfChemicalPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Chemical");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfChemicalManager.Instance.CreateMasterOfChemicalManager(obj);
+        });
+    }
+    public void GetMasterOfPhysical(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfPhysicalPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfPhysicalPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfPhysicalPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfPhysicalPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Physical");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfPhysicalManager.Instance.CreateMasterOfPhysicalManager(obj);
+        });
+    }
+    public void GetMasterOfAtomic(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfAtomicPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfAtomicPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfAtomicPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfAtomicPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Atomic");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfAtomicManager.Instance.CreateMasterOfAtomicManager(obj);
+        });
+    }
+    public void GetMasterOfMental(object obj, GameObject currentObject)
+    {
+        MainMenuDetailsManager.Instance.HideNonMasterOfMentalPanels();
+        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/MasterOfMentalPanel/Background1").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/Content/MasterOfMentalPanel/Image").GetComponent<RawImage>();
+        Button upgradeButton = currentObject.transform.Find("DictionaryCards/Content/MasterOfMentalPanel/UpgradeButton").GetComponent<Button>();
+
+        background1Image.gameObject.AddComponent<RotateAnimation>();
+        Texture texture = Resources.Load<Texture>("UI/Card/Master Of Mental");
+        image.texture = texture;
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            MasterOfMentalManager.Instance.CreateMasterOfMentalManager(obj);
+        });
     }
 }

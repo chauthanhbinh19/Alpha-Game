@@ -33,8 +33,8 @@ public class MainMenuStarforgeManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppConstants.Starforge.ToLower());
-        parentType = AppConstants.Starforge;
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet2.Starforge);
+        parentType = AppConstants.MainMenuSet2.Starforge;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -46,7 +46,7 @@ public class MainMenuStarforgeManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Starforge);
+        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.MainMenuSet2.Starforge);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;

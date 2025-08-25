@@ -34,7 +34,7 @@ public static class NumberFormatter
         //     return number.ToString("N2");
 
         if (!shorten)
-            return number.ToString();
+            return Math.Round(number).ToString("F0");
 
         if (number < 1000)
             return number.ToString("0.##");

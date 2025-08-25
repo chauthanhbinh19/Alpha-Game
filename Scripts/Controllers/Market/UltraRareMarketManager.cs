@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class UltraRareMarketManager : MonoBehaviour
@@ -66,7 +67,7 @@ public class UltraRareMarketManager : MonoBehaviour
         HomeButton = ultraRareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
 
-        titleText.text = LocalizationManager.Get(AppConstants.UltraRareMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.UltraRareMarket);
 
         var currencies = CurrencyService.Create().GetCurrencyList();
         foreach (var currency in currencies)
@@ -105,10 +106,10 @@ public class UltraRareMarketManager : MonoBehaviour
         NextButton.onClick.AddListener(ChangeNextPage);
         PreviousButton.onClick.AddListener(ChangePreviousPage);
 
-        titleText.text = LocalizationManager.Get(AppConstants.UltraRareMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.UltraRareMarket);
 
         items = ItemsService.Create().GetItems()
-            .Where(item => item.type.Equals(AppConstants.UltraRareMaterialItem, StringComparison.OrdinalIgnoreCase))
+            .Where(item => item.type.Equals(AppConstants.Market.UltraRareMaterialItem, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         totalPage = Mathf.CeilToInt((float)items.Count / pageSize);

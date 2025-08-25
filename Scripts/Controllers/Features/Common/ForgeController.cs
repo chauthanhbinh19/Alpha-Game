@@ -113,7 +113,7 @@ public class ForgeController : MonoBehaviour
 
             Button buy = forgeObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = LocalizationManager.Get(AppConstants.Buy);
+            buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Buy);
             buy.onClick.AddListener(() =>
             {
                 GetQuantity(forge.currency.quantity, forge, subType, popupPanel, currencyPanel);
@@ -144,7 +144,7 @@ public class ForgeController : MonoBehaviour
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
         TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = LocalizationManager.Get(AppConstants.Buy);
+        buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Buy);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty("id");
         var imageProperty = obj.GetType().GetProperty("image");

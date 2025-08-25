@@ -86,6 +86,7 @@
   { "key": "legendary_market", "value": "Legendary Market" },
   { "key": "mystic_market", "value": "Mystic Market" },
   { "key": "email", "value": "Email" },
+  { "key": "chat", "value": "Chat" },
   
   { "key": "All", "value": "All" },
   { "key": "SR", "value": "SR" },
@@ -348,6 +349,17 @@
   { "key": "myrr", "value": "Myrr" },
   { "key": "vask", "value": "Vask" },
   { "key": "jorr", "value": "Jorr" },
-  { "key": "quen", "value": "Quen" }
+  { "key": "quen", "value": "Quen" },
 
+  { "key": "Master Of Beast", "value": "Master Of Beast" },
+  { "key": "Master Of Dragon", "value": "Master Of Dragon" },
+  { "key": "Master Of Magic", "value": "Master Of Magic" },
+  { "key": "Master Of Music", "value": "Master Of Music" },
+  { "key": "Master Of Science", "value": "Master Of Science" },
+  { "key": "Master Of Spirit", "value": "Master Of Spirit" },
+  { "key": "Master Of Weapon", "value": "Master Of Weapon" },
+  { "key": "Master Of Chemical", "value": "Master Of Chemical" },
+  { "key": "Master Of Physical", "value": "Master Of Physical" },
+  { "key": "Master Of Atomic", "value": "Master Of Atomic" },
+  { "key": "Master Of Mental", "value": "Master Of Mental" }
 ]

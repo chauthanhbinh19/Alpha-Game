@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 public class RankService : IRankService
 {
-    public Rank EnhanceRank(Rank rank, int level)
+    public Rank EnhanceRank(Rank rank, int level, int multiplier = 1)
     {
         int startLevel = rank.level;
         int endLevel = startLevel + level;
 
         for (int lvl = startLevel; lvl < endLevel; lvl++)
         {
-            int statMultiplier = 1;  // Hệ số nhân dựa trên cấp độ hiện tại
+            int statMultiplier = multiplier;  // Hệ số nhân dựa trên cấp độ hiện tại
 
             if (lvl >= 0 && lvl <= 500)
             {

@@ -119,7 +119,7 @@ public class AuthenticationManager : MonoBehaviour
         }
         else
         {
-            if (authResult.ErrorField.Equals(AppConstants.Username))
+            if (authResult.ErrorField.Equals(AppConstants.MainType.Username))
             {
                 SI_ErrorUsername.text = authResult.ErrorMessage;
                 SI_ErrorPassword.text = "";

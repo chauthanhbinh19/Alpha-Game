@@ -6,157 +6,157 @@ public static class EvaluateSlotForEquipment
         int slot = 0;
         switch (type)
         {
-            case AppConstants.Amnitus:
+            case AppConstants.Equipment.Amnitus:
                 slot = 4;
                 break;
-            case AppConstants.Angelis:
+            case AppConstants.Equipment.Angelis:
                 slot = 1;
                 break;
-            case AppConstants.Bellion:
+            case AppConstants.Equipment.Bellion:
                 slot = 16;
                 break;
-            case AppConstants.Benzamin:
+            case AppConstants.Equipment.Benzamin:
                 slot = 4;
                 break;
-            case AppConstants.Celestial:
+            case AppConstants.Equipment.Celestial:
                 slot = 4;
                 break;
-            case AppConstants.Ceverus:
+            case AppConstants.Equipment.Ceverus:
                 slot = 10;
                 break;
-            case AppConstants.Delius:
+            case AppConstants.Equipment.Delius:
                 slot = 10;
                 break;
-            case AppConstants.Domitius:
+            case AppConstants.Equipment.Domitius:
                 slot = 8;
                 break;
-            case AppConstants.Everlyn:
+            case AppConstants.Equipment.Everlyn:
                 slot = 6;
                 break;
-            case AppConstants.Extra:
+            case AppConstants.Equipment.Extra:
                 slot = 4;
                 break;
-            case AppConstants.Faltus:
+            case AppConstants.Equipment.Faltus:
                 slot = 16;
                 break;
-            case AppConstants.Fealan:
+            case AppConstants.Equipment.Fealan:
                 slot = 16;
                 break;
-            case AppConstants.Gamma:
+            case AppConstants.Equipment.Gamma:
                 slot = 8;
                 break;
-            case AppConstants.Gem:
+            case AppConstants.Equipment.Gem:
                 slot = 8;
                 break;
-            case AppConstants.Hagoro:
+            case AppConstants.Equipment.Hagoro:
                 slot = 6;
                 break;
-            case AppConstants.Hakalite:
+            case AppConstants.Equipment.Hakalite:
                 slot = 4;
                 break;
-            case AppConstants.Ignis:
+            case AppConstants.Equipment.Ignis:
                 slot = 16;
                 break;
-            case AppConstants.Ivitus:
+            case AppConstants.Equipment.Ivitus:
                 slot = 14;
                 break;
-            case AppConstants.Jorvan:
+            case AppConstants.Equipment.Jorvan:
                 slot = 10;
                 break;
-            case AppConstants.Jullian:
+            case AppConstants.Equipment.Jullian:
                 slot = 10;
                 break;
-            case AppConstants.Karis:
+            case AppConstants.Equipment.Karis:
                 slot = 8;
                 break;
-            case AppConstants.Karmus:
+            case AppConstants.Equipment.Karmus:
                 slot = 8;
                 break;
-            case AppConstants.Lotus:
+            case AppConstants.Equipment.Lotus:
                 slot = 16;
                 break;
-            case AppConstants.Luminius:
+            case AppConstants.Equipment.Luminius:
                 slot = 1;
                 break;
-            case AppConstants.Macus:
+            case AppConstants.Equipment.Macus:
                 slot = 14;
                 break;
-            case AppConstants.Morganis:
+            case AppConstants.Equipment.Morganis:
                 slot = 12;
                 break;
-            case AppConstants.Nimigazin:
+            case AppConstants.Equipment.Nimigazin:
                 slot = 14;
                 break;
-            case AppConstants.Nova:
+            case AppConstants.Equipment.Nova:
                 slot = 4;
                 break;
-            case AppConstants.Omonitus:
+            case AppConstants.Equipment.Omonitus:
                 slot = 4;
                 break;
-            case AppConstants.Omega:
+            case AppConstants.Equipment.Omega:
                 slot = 8;
                 break;
-            case AppConstants.Pet:
+            case AppConstants.Equipment.Pet:
                 slot = 6;
                 break;
-            case AppConstants.Pyros:
+            case AppConstants.Equipment.Pyros:
                 slot = 16;
                 break;
-            case AppConstants.Qiyantus:
+            case AppConstants.Equipment.Qiyantus:
                 slot = 1;
                 break;
-            case AppConstants.Quasar:
+            case AppConstants.Equipment.Quasar:
                 slot = 1;
                 break;
-            case AppConstants.Rainbow:
+            case AppConstants.Equipment.Rainbow:
                 slot = 4;
                 break;
-            case AppConstants.Redvenger:
+            case AppConstants.Equipment.Redvenger:
                 slot = 6;
                 break;
-            case AppConstants.Souls:
+            case AppConstants.Equipment.Souls:
                 slot = 10;
                 break;
-            case AppConstants.Syncroharon:
+            case AppConstants.Equipment.Syncroharon:
                 slot = 16;
                 break;
-            case AppConstants.Tarian:
+            case AppConstants.Equipment.Tarian:
                 slot = 1;
                 break;
-            case AppConstants.Uni:
+            case AppConstants.Equipment.Uni:
                 slot = 16;
                 break;
-            case AppConstants.Ultrion:
+            case AppConstants.Equipment.Ultrion:
                 slot = 4;
                 break;
-            case AppConstants.Varethion:
+            case AppConstants.Equipment.Varethion:
                 slot = 16;
                 break;
-            case AppConstants.Velmira:
+            case AppConstants.Equipment.Velmira:
                 slot = 12;
                 break;
-            case AppConstants.Wenlithar:
+            case AppConstants.Equipment.Wenlithar:
                 slot = 8;
                 break;
-            case AppConstants.Wyrmora:
+            case AppConstants.Equipment.Wyrmora:
                 slot = 16;
                 break;
-            case AppConstants.Xaltheon:
+            case AppConstants.Equipment.Xaltheon:
                 slot = 16;
                 break;
-            case AppConstants.Xyralis:
+            case AppConstants.Equipment.Xyralis:
                 slot = 10;
                 break;
-            case AppConstants.Yloran:
+            case AppConstants.Equipment.Yloran:
                 slot = 16;
                 break;
-            case AppConstants.Yvarion:
+            case AppConstants.Equipment.Yvarion:
                 slot = 10;
                 break;
-            case AppConstants.Zodiac:
+            case AppConstants.Equipment.Zodiac:
                 slot = 12;
                 break;
-            case AppConstants.Zerox:
+            case AppConstants.Equipment.Zerox:
                 slot = 16;
                 break;
             default:
@@ -169,107 +169,107 @@ public static class EvaluateSlotForEquipment
     {
         switch (type)
         {
-            case AppConstants.Amnitus:
+            case AppConstants.Equipment.Amnitus:
                 return true;
-            case AppConstants.Angelis:
+            case AppConstants.Equipment.Angelis:
                 return false;
-            case AppConstants.Bellion:
+            case AppConstants.Equipment.Bellion:
                 return true;
-            case AppConstants.Benzamin:
+            case AppConstants.Equipment.Benzamin:
                 return false;
-            case AppConstants.Celestial:
+            case AppConstants.Equipment.Celestial:
                 return true;
-            case AppConstants.Ceverus:
+            case AppConstants.Equipment.Ceverus:
                 return true;
-            case AppConstants.Delius:
+            case AppConstants.Equipment.Delius:
                 return true;
-            case AppConstants.Domitius:
+            case AppConstants.Equipment.Domitius:
                 return true;
-            case AppConstants.Everlyn:
+            case AppConstants.Equipment.Everlyn:
                 return true;
-            case AppConstants.Extra:
+            case AppConstants.Equipment.Extra:
                 return true;
-            case AppConstants.Faltus:
+            case AppConstants.Equipment.Faltus:
                 return true;
-            case AppConstants.Fealan:
+            case AppConstants.Equipment.Fealan:
                 return true;
-            case AppConstants.Gamma:
+            case AppConstants.Equipment.Gamma:
                 return true;
-            case AppConstants.Gem:
+            case AppConstants.Equipment.Gem:
                 return true;
-            case AppConstants.Hagoro:
+            case AppConstants.Equipment.Hagoro:
                 return true;
-            case AppConstants.Hakalite:
+            case AppConstants.Equipment.Hakalite:
                 return true;
-            case AppConstants.Ignis:
+            case AppConstants.Equipment.Ignis:
                 return false;
-            case AppConstants.Ivitus:
+            case AppConstants.Equipment.Ivitus:
                 return true;
-            case AppConstants.Jorvan:
+            case AppConstants.Equipment.Jorvan:
                 return false;
-            case AppConstants.Jullian:
+            case AppConstants.Equipment.Jullian:
                 return true;
-            case AppConstants.Karis:
+            case AppConstants.Equipment.Karis:
                 return true;
-            case AppConstants.Karmus:
+            case AppConstants.Equipment.Karmus:
                 return false;
-            case AppConstants.Lotus:
+            case AppConstants.Equipment.Lotus:
                 return false;
-            case AppConstants.Luminius:
+            case AppConstants.Equipment.Luminius:
                 return false;
-            case AppConstants.Macus:
+            case AppConstants.Equipment.Macus:
                 return false;
-            case AppConstants.Morganis:
+            case AppConstants.Equipment.Morganis:
                 return true;
-            case AppConstants.Nimigazin:
+            case AppConstants.Equipment.Nimigazin:
                 return true;
-            case AppConstants.Nova:
+            case AppConstants.Equipment.Nova:
                 return true;
-            case AppConstants.Omonitus:
+            case AppConstants.Equipment.Omonitus:
                 return true;
-            case AppConstants.Omega:
+            case AppConstants.Equipment.Omega:
                 return false;
-            case AppConstants.Pet:
+            case AppConstants.Equipment.Pet:
                 return true;
-            case AppConstants.Pyros:
+            case AppConstants.Equipment.Pyros:
                 return true;
-            case AppConstants.Qiyantus:
+            case AppConstants.Equipment.Qiyantus:
                 return false;
-            case AppConstants.Quasar:
+            case AppConstants.Equipment.Quasar:
                 return false;
-            case AppConstants.Rainbow:
+            case AppConstants.Equipment.Rainbow:
                 return true;
-            case AppConstants.Redvenger:
+            case AppConstants.Equipment.Redvenger:
                 return true;
-            case AppConstants.Souls:
+            case AppConstants.Equipment.Souls:
                 return false;
-            case AppConstants.Syncroharon:
+            case AppConstants.Equipment.Syncroharon:
                 return true;
-            case AppConstants.Tarian:
+            case AppConstants.Equipment.Tarian:
                 return false;
-            case AppConstants.Uni:
+            case AppConstants.Equipment.Uni:
                 return true;
-            case AppConstants.Ultrion:
+            case AppConstants.Equipment.Ultrion:
                 return false;
-            case AppConstants.Varethion:
+            case AppConstants.Equipment.Varethion:
                 return true;
-            case AppConstants.Velmira:
+            case AppConstants.Equipment.Velmira:
                 return true;
-            case AppConstants.Wenlithar:
+            case AppConstants.Equipment.Wenlithar:
                 return true;
-            case AppConstants.Wyrmora:
+            case AppConstants.Equipment.Wyrmora:
                 return true;
-            case AppConstants.Xaltheon:
+            case AppConstants.Equipment.Xaltheon:
                 return true;
-            case AppConstants.Xyralis:
+            case AppConstants.Equipment.Xyralis:
                 return false;
-            case AppConstants.Yloran:
+            case AppConstants.Equipment.Yloran:
                 return true;
-            case AppConstants.Yvarion:
+            case AppConstants.Equipment.Yvarion:
                 return false;
-            case AppConstants.Zodiac:
+            case AppConstants.Equipment.Zodiac:
                 return false;
-            case AppConstants.Zerox:
+            case AppConstants.Equipment.Zerox:
                 return false;
             default:
                 return false;

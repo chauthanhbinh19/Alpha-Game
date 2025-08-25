@@ -141,7 +141,7 @@ public class MasterBoardController : MonoBehaviour
         CloseButton.onClick.AddListener(() => Destroy(popup));
         Button buyButton = popup.transform.Find("Buy").GetComponent<Button>();
         TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = LocalizationManager.Get(AppConstants.Buy);
+        buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Buy);
 
         RawImage mainImage = popup.transform.Find("MainImage").GetComponent<RawImage>();
         Texture mainTexture = Resources.Load<Texture>($"UI/Master_Board/{masterBoard.type}");

@@ -66,7 +66,7 @@ public class LegendaryMarketManager : MonoBehaviour
         HomeButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() => Close(MainPanel));
 
-        titleText.text = LocalizationManager.Get(AppConstants.LegendaryMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LegendaryMarket);
 
         var currencies = CurrencyService.Create().GetCurrencyList();
         foreach (var currency in currencies)
@@ -105,10 +105,10 @@ public class LegendaryMarketManager : MonoBehaviour
         NextButton.onClick.AddListener(ChangeNextPage);
         PreviousButton.onClick.AddListener(ChangePreviousPage);
 
-        titleText.text = LocalizationManager.Get(AppConstants.LegendaryMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LegendaryMarket);
 
         items = ItemsService.Create().GetItems()
-            .Where(item => item.type.Equals(AppConstants.LegendaryMaterialItem, StringComparison.OrdinalIgnoreCase))
+            .Where(item => item.type.Equals(AppConstants.Market.LegendaryMaterialItem, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         totalPage = Mathf.CeilToInt((float)items.Count / pageSize);
