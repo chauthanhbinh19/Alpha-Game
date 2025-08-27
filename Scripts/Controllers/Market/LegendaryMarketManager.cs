@@ -68,7 +68,10 @@ public class LegendaryMarketManager : MonoBehaviour
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LegendaryMarket);
 
-        var currencies = CurrencyService.Create().GetCurrencyList();
+        var currencies = CurrencyService.Create()
+            .GetCurrencyList()
+            .Where(c => c.name != "Diamond" && c.name != "Gold" && c.name != "Silver")
+            .ToList();
         foreach (var currency in currencies)
         {
             GameObject currencyObject = Instantiate(LegendaryMarketButtonPrefab, LegendaryMarketTransform);

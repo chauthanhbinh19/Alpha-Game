@@ -67,7 +67,10 @@ public class MysticMarketManager : MonoBehaviour
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MysticMarket);
 
-        var currencies = CurrencyService.Create().GetCurrencyList();
+        var currencies = CurrencyService.Create()
+            .GetCurrencyList()
+            .Where(c => c.name != "Diamond" && c.name != "Gold" && c.name != "Silver")
+            .ToList();
         foreach (var currency in currencies)
         {
             GameObject currencyObject = Instantiate(MysticMarketButtonPrefab, mysticMarketTransform);

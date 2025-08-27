@@ -69,7 +69,10 @@ public class UltraRareMarketManager : MonoBehaviour
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.UltraRareMarket);
 
-        var currencies = CurrencyService.Create().GetCurrencyList();
+        var currencies = CurrencyService.Create()
+            .GetCurrencyList()
+            .Where(c => c.name != "Diamond" && c.name != "Gold" && c.name != "Silver")
+            .ToList();
         foreach (var currency in currencies)
         {
             GameObject currencyObject = Instantiate(UltraRareMarketButtonPrefab, ultraRareMarketTransform);
