@@ -3,16 +3,16 @@ public static class AppDisplayConstants
 {
     public static class Rare
     {
-        public const string All = "All";
-        public const string SR = "SR";
-        public const string SSR = "SSR";
-        public const string UR = "UR";
-        public const string LG = "LG";
-        public const string LGPlus = "LG+";
-        public const string MR = "MR";
-        public const string SLG = "SLG";
-        public const string SLGPlus = "SLG+";
-        public const string SP = "SP";
+        public const string All = "Rare.All";
+        public const string SR = "Rare.SR";
+        public const string SSR = "Rare.SSR";
+        public const string UR = "Rare.UR";
+        public const string LG = "Rare.LG";
+        public const string LGPlus = "Rare.LGPlus";
+        public const string MR = "Rare.MR";
+        public const string SLG = "Rare.SLG";
+        public const string SLGPlus = "Rare.SLGPlus";
+        public const string SP = "Rare.SP";
     }
     public static class MainType
     {
@@ -136,84 +136,84 @@ public static class AppDisplayConstants
         public const string DailyCheckin = "daily_checkin";
         public const string Email = "email";
         public const string Chat = "chat";
-        
+
 
         public const string Buy = "buy";
         public const string PackageItem = "Package";
     }
     public static class Gallery
     {
-        public const string CardHeroesGallery = "card_heroes_gallery";
-        public const string BooksGallery = "books_gallery";
-        public const string PetsGallery = "pets_gallery";
-        public const string CardCaptainsGallery = "card_captains_gallery";
-        public const string CollaborationEquipmentsGallery = "collaboration_equipments_gallery";
-        public const string CardMilitaryGallery = "card_military_gallery";
-        public const string CardSpellGallery = "card_spell_gallery";
-        public const string CollaborationsGallery = "collaborations_gallery";
-        public const string CardMonstersGallery = "card_monsters_gallery";
-        public const string EquipmentsGallery = "equipments_gallery";
-        public const string MedalsGallery = "medals_gallery";
-        public const string SkillsGallery = "skills_gallery";
-        public const string SymbolsGallery = "symbols_gallery";
-        public const string TitlesGallery = "titles_gallery";
-        public const string MagicFormationCircleGallery = "magic_formation_circle_gallery";
-        public const string RelicsGallery = "relics_gallery";
-        public const string CardColonelsGallery = "card_colonels_gallery";
-        public const string CardGeneralsGallery = "card_generals_gallery";
-        public const string CardAdmiralsGallery = "card_admirals_gallery";
-        public const string BordersGallery = "borders_gallery";
-        public const string TalismanGallery = "talisman_gallery";
-        public const string PuppetGallery = "puppet_gallery";
-        public const string AlchemyGallery = "alchemy_gallery";
-        public const string ForgeGallery = "forge_gallery";
-        public const string LifeGallery = "life_gallery";
-        public const string ArtworkGallery = "artwork_gallery";
-        public const string SpiritBeastGallery = "spirit_beast_gallery";
+        public const string CardHeroes = "Gallery.CardHeroes";
+        public const string Books = "Gallery.Books";
+        public const string Pets = "Gallery.Pets";
+        public const string CardCaptains = "Gallery.CardCaptains";
+        public const string CollaborationEquipments = "Gallery.CollaborationEquipments";
+        public const string CardMilitary = "Gallery.CardMilitary";
+        public const string CardSpell = "Gallery.CardSpell";
+        public const string Collaborations = "Gallery.Collaborations";
+        public const string CardMonsters = "Gallery.CardMonsters";
+        public const string Equipments = "Gallery.Equipments";
+        public const string Medals = "Gallery.Medals";
+        public const string Skills = "Gallery.Skills";
+        public const string Symbols = "Gallery.Symbols";
+        public const string Titles = "Gallery.Titles";
+        public const string MagicFormationCircle = "Gallery.MagicFormationCircle";
+        public const string Relics = "Gallery.Relics";
+        public const string CardColonels = "Gallery.CardColonels";
+        public const string CardGenerals = "Gallery.CardGenerals";
+        public const string CardAdmirals = "Gallery.CardAdmirals";
+        public const string Borders = "Gallery.Borders";
+        public const string Talisman = "Gallery.Talisman";
+        public const string Puppet = "Gallery.Puppet";
+        public const string Alchemy = "Gallery.Alchemy";
+        public const string Forge = "Gallery.Forge";
+        public const string Life = "Gallery.Life";
+        public const string Artwork = "Gallery.Artwork";
+        public const string SpiritBeast = "Gallery.SpiritBeast";
     }
     public static class Collection
     {
-        public const string CardHeroesCollection = "card_heroes_collection";
-        public const string BooksCollection = "books_collection";
-        public const string PetsCollection = "pets_collection";
-        public const string CardCaptainsCollection = "card_captains_collection";
-        public const string CollaborationEquipmentsCollection = "collaboration_equipments_collection";
-        public const string CardMilitaryCollection = "card_military_collection";
-        public const string CardSpellCollection = "card_spell_collection";
-        public const string CollaborationsCollection = "collaborations_collection";
-        public const string CardMonstersCollection = "card_monsters_collection";
-        public const string EquipmentsCollection = "equipments_collection";
-        public const string MedalsCollection = "medals_collection";
-        public const string SkillsCollection = "skills_collection";
-        public const string SymbolsCollection = "symbols_collection";
-        public const string TitlesCollection = "titles_collection";
-        public const string MagicFormationCircleCollection = "magic_formation_circle_collection";
-        public const string RelicsCollection = "relics_collection";
-        public const string CardColonelsCollection = "card_colonels_collection";
-        public const string CardGeneralsCollection = "card_generals_collection";
-        public const string CardAdmiralsCollection = "card_admirals_collection";
-        public const string BordersCollection = "borders_collection";
-        public const string TalismanCollection = "talisman_collection";
-        public const string PuppetCollection = "puppet_collection";
-        public const string AlchemyCollection = "alchemy_collection";
-        public const string ForgeCollection = "forge_collection";
-        public const string LifeCollection = "life_collection";
-        public const string ArtworkCollection = "artwork_collection";
-        public const string SpiritBeastCollection = "spirit_beast_collection";
+        public const string CardHeroesCollection = "Collection.CardHeroesCollection";
+        public const string BooksCollection = "Collection.BooksCollection";
+        public const string PetsCollection = "Collection.PetsCollection";
+        public const string CardCaptainsCollection = "Collection.CardCaptainsCollection";
+        public const string CollaborationEquipmentsCollection = "Collection.CollaborationEquipmentsCollection";
+        public const string CardMilitaryCollection = "Collection.CardMilitaryCollection";
+        public const string CardSpellCollection = "Collection.CardSpellCollection";
+        public const string CollaborationsCollection = "Collection.CollaborationsCollection";
+        public const string CardMonstersCollection = "Collection.CardMonstersCollection";
+        public const string EquipmentsCollection = "Collection.EquipmentsCollection";
+        public const string MedalsCollection = "Collection.MedalsCollection";
+        public const string SkillsCollection = "Collection.SkillsCollection";
+        public const string SymbolsCollection = "Collection.SymbolsCollection";
+        public const string TitlesCollection = "Collection.TitlesCollection";
+        public const string MagicFormationCircleCollection = "Collection.MagicFormationCircleCollection";
+        public const string RelicsCollection = "Collection.RelicsCollection";
+        public const string CardColonelsCollection = "Collection.CardColonelsCollection";
+        public const string CardGeneralsCollection = "Collection.CardGeneralsCollection";
+        public const string CardAdmiralsCollection = "Collection.CardAdmiralsCollection";
+        public const string BordersCollection = "Collection.BordersCollection";
+        public const string TalismanCollection = "Collection.TalismanCollection";
+        public const string PuppetCollection = "Collection.PuppetCollection";
+        public const string AlchemyCollection = "Collection.AlchemyCollection";
+        public const string ForgeCollection = "Collection.ForgeCollection";
+        public const string LifeCollection = "Collection.LifeCollection";
+        public const string ArtworkCollection = "Collection.ArtworkCollection";
+        public const string SpiritBeastCollection = "Collection.SpiritBeastCollection";
     }
     public static class Anime
     {
-        public const string OnePiece = "one_piece";
-        public const string Naruto = "naruto";
-        public const string DragonBall = "dragon_ball";
-        public const string FairyTail = "fairy_tail";
-        public const string SwordArtOnline = "sword_art_online";
-        public const string DemonSlayer = "demon_slayer";
-        public const string Bleach = "bleach";
-        public const string JujutsuKaisen = "jujutsu_kaisen";
-        public const string BlackClover = "black_clover";
-        public const string HunterXHunter = "hunter_x_hunter";
-        public const string OnePunchMan = "one_punch_man";
+        public const string OnePiece = "Anime.OnePiece";
+        public const string Naruto = "Anime.Naruto";
+        public const string DragonBall = "Anime.DragonBall";
+        public const string FairyTail = "Anime.FairyTail";
+        public const string SwordArtOnline = "Anime.SwordArtOnline";
+        public const string DemonSlayer = "Anime.DemonSlayer";
+        public const string Bleach = "Anime.Bleach";
+        public const string JujutsuKaisen = "Anime.JujutsuKaisen";
+        public const string BlackClover = "Anime.BlackClover";
+        public const string HunterXHunter = "Anime.HunterXHunter";
+        public const string OnePunchMan = "Anime.OnePunchMan";
     }
     public static class Market
     {
@@ -229,186 +229,187 @@ public static class AppDisplayConstants
     public static class MainMenuSet1
     {
         //Set 1
-        public const string Equipments = "Equipments";
-        public const string Realm = "Realm";
-        public const string Upgrade = "Upgrade";
-        public const string Aptitude = "Aptitude";
-        public const string Affinity = "Affinity";
-        public const string Blessing = "Blessing";
-        public const string Core = "Core";
-        public const string Physique = "Physique";
-        public const string Bloodline = "Bloodline";
+        public const string Equipments = "MainMenuSet1.Equipments";
+        public const string Realm = "MainMenuSet1.Realm";
+        public const string Upgrade = "MainMenuSet1.Upgrade";
+        public const string Aptitude = "MainMenuSet1.Aptitude";
+        public const string Affinity = "MainMenuSet1.Affinity";
+        public const string Blessing = "MainMenuSet1.Blessing";
+        public const string Core = "MainMenuSet1.Core";
+        public const string Physique = "MainMenuSet1.Physique";
+        public const string Bloodline = "MainMenuSet1.Bloodline";
 
-        public const string Omnivision = "Omnivision";
-        public const string Omnipotence = "Omnipotence";
-        public const string Omnipresence = "Omnipresence";
-        public const string Omniscience = "Omniscience";
-        public const string Omnivory = "Omnivory";
-        public const string Angel = "Angel";
-        public const string Demon = "Demon";
+        public const string Omnivision = "MainMenuSet1.Omnivision";
+        public const string Omnipotence = "MainMenuSet1.Omnipotence";
+        public const string Omnipresence = "MainMenuSet1.Omnipresence";
+        public const string Omniscience = "MainMenuSet1.Omniscience";
+        public const string Omnivory = "MainMenuSet1.Omnivory";
+        public const string Angel = "MainMenuSet1.Angel";
+        public const string Demon = "MainMenuSet1.Demon";
 
-        public const string Sword = "Sword";
-        public const string Spear = "Spear";
-        public const string Shield = "Shield";
-        public const string Bow = "Bow";
-        public const string Gun = "Gun";
-        public const string Cyber = "Cyber";
-        public const string Fairy = "Fairy";
+        public const string Sword = "MainMenuSet1.Sword";
+        public const string Spear = "MainMenuSet1.Spear";
+        public const string Shield = "MainMenuSet1.Shield";
+        public const string Bow = "MainMenuSet1.Bow";
+        public const string Gun = "MainMenuSet1.Gun";
+        public const string Cyber = "MainMenuSet1.Cyber";
+        public const string Fairy = "MainMenuSet1.Fairy";
     }
     public static class MainMenuSet2
     {
         //Set 2
-        public const string Dark = "Dark";
-        public const string Light = "Light";
-        public const string Fire = "Fire";
-        public const string Ice = "Ice";
-        public const string Earth = "Earth";
-        public const string Thunder = "Thunder";
-        public const string Life = "Life";
-        public const string Space = "Space";
-        public const string Time = "Time";
+        public const string Dark = "MainMenuSet2.Dark";
+        public const string Light = "MainMenuSet2.Light";
+        public const string Fire = "MainMenuSet2.Fire";
+        public const string Ice = "MainMenuSet2.Ice";
+        public const string Earth = "MainMenuSet2.Earth";
+        public const string Thunder = "MainMenuSet2.Thunder";
+        public const string Life = "MainMenuSet2.Life";
+        public const string Space = "MainMenuSet2.Space";
+        public const string Time = "MainMenuSet2.Time";
 
-        public const string Nanotech = "Nanotech";
-        public const string Quantum = "Quantum";
-        public const string Holography = "Holography";
-        public const string Plasma = "Plasma";
-        public const string Biomech = "Biomech";
-        public const string Cryotech = "Cryotech";
-        public const string Psionics = "Psionics";
+        public const string Nanotech = "MainMenuSet2.Nanotech";
+        public const string Quantum = "MainMenuSet2.Quantum";
+        public const string Holography = "MainMenuSet2.Holography";
+        public const string Plasma = "MainMenuSet2.Plasma";
+        public const string Biomech = "MainMenuSet2.Biomech";
+        public const string Cryotech = "MainMenuSet2.Cryotech";
+        public const string Psionics = "MainMenuSet2.Psionics";
 
-        public const string Neurotech = "Neurotech";
-        public const string Antimatter = "Antimatter";
-        public const string Phantomware = "Phantomware";
-        public const string Gravitech = "Gravitech";
-        public const string Aethernet = "Aethernet";
-        public const string Starforge = "Starforge";
-        public const string Orbitalis = "Orbitalis";
+        public const string Neurotech = "MainMenuSet2.Neurotech";
+        public const string Antimatter = "MainMenuSet2.Antimatter";
+        public const string Phantomware = "MainMenuSet2.Phantomware";
+        public const string Gravitech = "MainMenuSet2.Gravitech";
+        public const string Aethernet = "MainMenuSet2.Aethernet";
+        public const string Starforge = "MainMenuSet2.Starforge";
+        public const string Orbitalis = "MainMenuSet2.Orbitalis";
     }
     public static class MainMenuSet3
     {
         //Set 3
-        public const string Azathoth = "Azathoth";
-        public const string YogSothoth = "Yog-Sothoth";
-        public const string Nyarlathotep = "Nyarlathotep";
-        public const string ShubNiggurath = "Shub-Niggurath";
-        public const string Nihorath = "Nihorath";
-        public const string Aeonax = "Aeonax";
-        public const string Seraphiros = "Seraphiros";
-        public const string Thorindar = "Thorindar";
-        public const string Zilthros = "Zilthros";
+        public const string Azathoth = "MainMenuSet3.Azathoth";
+        public const string YogSothoth = "MainMenuSet3.YogSothoth";
+        public const string Nyarlathotep = "MainMenuSet3.Nyarlathotep";
+        public const string ShubNiggurath = "MainMenuSet3.ShubNiggurath";
+        public const string Nihorath = "MainMenuSet3.Nihorath";
+        public const string Aeonax = "MainMenuSet3.Aeonax";
+        public const string Seraphiros = "MainMenuSet3.Seraphiros";
+        public const string Thorindar = "MainMenuSet3.Thorindar";
+        public const string Zilthros = "MainMenuSet3.Zilthros";
 
-        public const string Khorazal = "Khorazal";
-        public const string Ixithra = "Ixithra";
-        public const string Omnitheus = "Omnitheus";
-        public const string Phyrixa = "Phyrixa";
-        public const string Atherion = "Atherion";
-        public const string Vorathos = "Vorathos";
-        public const string Tenebris = "Tenebris";
+        public const string Khorazal = "MainMenuSet3.Khorazal";
+        public const string Ixithra = "MainMenuSet3.Ixithra";
+        public const string Omnitheus = "MainMenuSet3.Omnitheus";
+        public const string Phyrixa = "MainMenuSet3.Phyrixa";
+        public const string Atherion = "MainMenuSet3.Atherion";
+        public const string Vorathos = "MainMenuSet3.Vorathos";
+        public const string Tenebris = "MainMenuSet3.Tenebris";
 
-        public const string Xylkor = "Xylkor";
-        public const string Veltharion = "Veltharion";
-        public const string Arcanos = "Arcanos";
-        public const string Dolomath = "Dolomath";
-        public const string Arathor = "Arathor";
-        public const string Xyphos = "Xyphos";
-        public const string Vaelith = "Vaelith";
+        public const string Xylkor = "MainMenuSet3.Xylkor";
+        public const string Veltharion = "MainMenuSet3.Veltharion";
+        public const string Arcanos = "MainMenuSet3.Arcanos";
+        public const string Dolomath = "MainMenuSet3.Dolomath";
+        public const string Arathor = "MainMenuSet3.Arathor";
+        public const string Xyphos = "MainMenuSet3.Xyphos";
+        public const string Vaelith = "MainMenuSet3.Vaelith";
     }
     public static class MainMenuSet4
     {
         //Set 4
-        public const string Zarx = "Zarx";
-        public const string Raik = "Raik";
-        public const string Drax = "Drax";
-        public const string Kron = "Kron";
-        public const string Zolt = "Zolt";
-        public const string Gorr = "Gorr";
-        public const string Ryze = "Ryze";
-        public const string Jaxx = "Jaxx";
-        public const string Thar = "Thar";
+        public const string Zarx = "MainMenuSet4.Zarx";
+        public const string Raik = "MainMenuSet4.Raik";
+        public const string Drax = "MainMenuSet4.Drax";
+        public const string Kron = "MainMenuSet4.Kron";
+        public const string Zolt = "MainMenuSet4.Zolt";
+        public const string Gorr = "MainMenuSet4.Gorr";
+        public const string Ryze = "MainMenuSet4.Ryze";
+        public const string Jaxx = "MainMenuSet4.Jaxx";
+        public const string Thar = "MainMenuSet4.Thar";
 
-        public const string Vorn = "Vorn";
-        public const string Nyx = "Nyx";
-        public const string Aros = "Aros";
-        public const string Hex = "Hex";
-        public const string Lorn = "Lorn";
-        public const string Baxx = "Baxx";
-        public const string Zeph = "Zeph";
+        public const string Vorn = "MainMenuSet4.Vorn";
+        public const string Nyx = "MainMenuSet4.Nyx";
+        public const string Aros = "MainMenuSet4.Aros";
+        public const string Hex = "MainMenuSet4.Hex";
+        public const string Lorn = "MainMenuSet4.Lorn";
+        public const string Baxx = "MainMenuSet4.Baxx";
+        public const string Zeph = "MainMenuSet4.Zeph";
 
-        public const string Kael = "Kael";
-        public const string Drav = "Drav";
-        public const string Torn = "Torn";
-        public const string Myrr = "Myrr";
-        public const string Vask = "Vask";
-        public const string Jorr = "Jorr";
-        public const string Quen = "Quen";
+        public const string Kael = "MainMenuSet4.Kael";
+        public const string Drav = "MainMenuSet4.Drav";
+        public const string Torn = "MainMenuSet4.Torn";
+        public const string Myrr = "MainMenuSet4.Myrr";
+        public const string Vask = "MainMenuSet4.Vask";
+        public const string Jorr = "MainMenuSet4.Jorr";
+        public const string Quen = "MainMenuSet4.Quen";
     }
     public static class Master
     {
-        public const string MasterOfBeast = "Master Of Beast";
-        public const string MasterOfDragon = "Master Of Dragon";
-        public const string MasterOfMagic = "Master Of Magic";
-        public const string MasterOfMusic = "Master Of Music";
-        public const string MasterOfScience = "Master Of Science";
-        public const string MasterOfSpirit = "Master Of Spirit";
-        public const string MasterOfWeapon = "Master Of Weapon";
-        public const string MasterOfChemical = "Master Of Chemical";
-        public const string MasterOfPhysical = "Master Of Physical";
-        public const string MasterOfAtomic = "Master Of Atomic";
-        public const string MasterOfMental = "Master Of Mental";
+        public const string MasterOfBeast = "Master.MasterOfBeast";
+        public const string MasterOfDragon = "Master.MasterOfDragon";
+        public const string MasterOfMagic = "Master.MasterOfMagic";
+        public const string MasterOfMusic = "Master.MasterOfMusic";
+        public const string MasterOfScience = "Master.MasterOfScience";
+        public const string MasterOfSpirit = "Master.MasterOfSpirit";
+        public const string MasterOfWeapon = "Master.MasterOfWeapon";
+        public const string MasterOfChemical = "Master.MasterOfChemical";
+        public const string MasterOfPhysical = "Master.MasterOfPhysical";
+        public const string MasterOfAtomic = "Master.MasterOfAtomic";
+        public const string MasterOfMental = "Master.MasterOfMental";
     }
     public static class Equipment
     {
-        public const string Amnitus = "Amnitus_Equipment";
-        public const string Angelis = "Angelis_Equipment";
-        public const string Bellion = "Bellion_Equipment";
-        public const string Benzamin = "Benzamin_Equipment";
-        public const string Celestial = "Celestial_Equipment";
-        public const string Ceverus = "Ceverus_Equipment";
-        public const string Delius = "Delius_Equipment";
-        public const string Domitius = "Domitius_Equipment";
-        public const string Everlyn = "Everlyn_Equipment";
-        public const string Extra = "Extra_Equipment";
-        public const string Faltus = "Faltus_Equipment";
-        public const string Fealan = "Fealan_Equipment";
-        public const string Gamma = "Gamma_Equipment";
-        public const string Gem = "Gem_Equipment";
-        public const string Hagoro = "Hagoro_Equipment";
-        public const string Hakalite = "Hakalite_Equipment";
-        public const string Ignis = "Ignis_Equipment";
-        public const string Ivitus = "Ivitus_Equipment";
-        public const string Jorvan = "Jorvan_Equipment";
-        public const string Jullian = "Jullian_Equipment";
-        public const string Karis = "Karis_Equipment";
-        public const string Karmus = "Karmus_Equipment";
-        public const string Lotus = "Lotus_Equipment";
-        public const string Luminius = "Luminius_Equipment";
-        public const string Macus = "Macus_Equipment";
-        public const string Morganis = "Morganis_Equipment";
-        public const string Nimigazin = "Nimigazin_Equipment";
-        public const string Nova = "Nova_Equipment";
-        public const string Omonitus = "Omonitus_Equipment";
-        public const string Omega = "Omega_Equipment";
-        public const string Pet = "Pet_Equipment";
-        public const string Pyros = "Pyros_Equipment";
-        public const string Qiyantus = "Qiyantus_Equipment";
-        public const string Quasar = "Quasar_Equipment";
-        public const string Rainbow = "Rainbow_Equipment";
-        public const string Redvenger = "Redvenger_Equipment";
-        public const string Souls = "Souls_Equipment";
-        public const string Syncroharon = "Syncroharon_Equipment";
-        public const string Tarian = "Tarian_Equipment";
-        public const string Teyric = "Teyric_Equipment";
-        public const string Uni = "Uni_Equipment";
-        public const string Ultrion = "Ultrion_Equipment";
-        public const string Varethion = "Varethion_Equipment";
-        public const string Velmira = "Velmira_Equipment";
-        public const string Wenlithar = "Wenlithar_Equipment";
-        public const string Wyrmora = "Wyrmora_Equipment";
-        public const string Xaltheon = "Xaltheon_Equipment";
-        public const string Xyralis = "Xyralis_Equipment";
-        public const string Yloran = "Yloran_Equipment";
-        public const string Yvarion = "Yvarion_Equipment";
-        public const string Zodiac = "Zodiac_Equipment";
-        public const string Zerox = "Zerox_Equipment";
+        public const string Amnitus = "Equipment.AmnitusEquipment";
+        public const string Angelis = "Equipment.AngelisEquipment";
+        public const string Bellion = "Equipment.BellionEquipment";
+        public const string Benzamin = "Equipment.BenzaminEquipment";
+        public const string Celestial = "Equipment.CelestialEquipment";
+        public const string Ceverus = "Equipment.CeverusEquipment";
+        public const string Delius = "Equipment.DeliusEquipment";
+        public const string Domitius = "Equipment.DomitiusEquipment";
+        public const string Everlyn = "Equipment.EverlynEquipment";
+        public const string Extra = "Equipment.ExtraEquipment";
+        public const string Faltus = "Equipment.FaltusEquipment";
+        public const string Fealan = "Equipment.FealanEquipment";
+        public const string Gamma = "Equipment.GammaEquipment";
+        public const string Gem = "Equipment.GemEquipment";
+        public const string Hagoro = "Equipment.HagoroEquipment";
+        public const string Hakalite = "Equipment.HakaliteEquipment";
+        public const string Ignis = "Equipment.IgnisEquipment";
+        public const string Ivitus = "Equipment.IvitusEquipment";
+        public const string Jorvan = "Equipment.JorvanEquipment";
+        public const string Jullian = "Equipment.JullianEquipment";
+        public const string Karis = "Equipment.KarisEquipment";
+        public const string Karmus = "Equipment.KarmusEquipment";
+        public const string Lotus = "Equipment.LotusEquipment";
+        public const string Luminius = "Equipment.LuminiusEquipment";
+        public const string Macus = "Equipment.MacusEquipment";
+        public const string Morganis = "Equipment.MorganisEquipment";
+        public const string Nimigazin = "Equipment.NimigazinEquipment";
+        public const string Nova = "Equipment.NovaEquipment";
+        public const string Omonitus = "Equipment.OmonitusEquipment";
+        public const string Omega = "Equipment.OmegaEquipment";
+        public const string Pet = "Equipment.PetEquipment";
+        public const string Pyros = "Equipment.PyrosEquipment";
+        public const string Qiyantus = "Equipment.QiyantusEquipment";
+        public const string Quasar = "Equipment.QuasarEquipment";
+        public const string Rainbow = "Equipment.RainbowEquipment";
+        public const string Redvenger = "Equipment.RedvengerEquipment";
+        public const string Souls = "Equipment.SoulsEquipment";
+        public const string Syncroharon = "Equipment.SyncroharonEquipment";
+        public const string Tarian = "Equipment.TarianEquipment";
+        public const string Teyric = "Equipment.TeyricEquipment";
+        public const string Uni = "Equipment.UniEquipment";
+        public const string Ultrion = "Equipment.UltrionEquipment";
+        public const string Varethion = "Equipment.VarethionEquipment";
+        public const string Velmira = "Equipment.VelmiraEquipment";
+        public const string Wenlithar = "Equipment.WenlitharEquipment";
+        public const string Wyrmora = "Equipment.WyrmoraEquipment";
+        public const string Xaltheon = "Equipment.XaltheonEquipment";
+        public const string Xyralis = "Equipment.XyralisEquipment";
+        public const string Yloran = "Equipment.YloranEquipment";
+        public const string Yvarion = "Equipment.YvarionEquipment";
+        public const string Zodiac = "Equipment.ZodiacEquipment";
+        public const string Zerox = "Equipment.ZeroxEquipment";
     }
+
 }
