@@ -6,5 +6,7 @@ public interface ISymbolsGalleryService
     int GetSymbolsCount(string type, string rare);
     void InsertSymbolsGallery(string Id);
     void UpdateStatusSymbolsGallery(string Id);
+    void UpdateStarSymbolsGallery(string Id, double star);
+    void UpdateSymbolsGalleryPower(string Id);
     Symbols SumPowerSymbolsGallery();
 }

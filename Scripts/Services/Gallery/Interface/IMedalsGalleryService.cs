@@ -6,5 +6,7 @@ public interface IMedalsGalleryService
     int GetMedalsCount(string rare);
     void InsertMedalsGallery(string Id);
     void UpdateStatusMedalsGallery(string Id);
+    void UpdateStarMedalsGallery(string Id, double star);
+    void UpdateMedalsGalleryPower(string Id);
     Medals SumPowerMedalsGallery();
 }

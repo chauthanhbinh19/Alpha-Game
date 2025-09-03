@@ -42,4 +42,16 @@ public class CollaborationGalleryService : ICollaborationGalleryService
     {
         return _collaborationGalleryRepository.SumPowerCollaborationsGallery();
     }
+
+    public void UpdateStarCollaborationsGallery(string Id, double star)
+    {
+        _collaborationGalleryRepository.UpdateStarCollaborationsGallery(Id, star);
+    }
+
+    public void UpdateCollaborationsGalleryPower(string Id)
+    {
+        ICollaborationRepository _repository = new CollaborationRepository();
+        CollaborationService _service = new CollaborationService(_repository);
+        _collaborationGalleryRepository.UpdateCollaborationsGalleryPower(Id, _service.GetCollaborationsById(Id));
+    }
 }

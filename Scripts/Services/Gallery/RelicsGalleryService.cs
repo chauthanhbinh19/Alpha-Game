@@ -42,4 +42,16 @@ public class RelicsGalleryService : IRelicsGalleryService
     {
         return _relicsGalleryRepository.SumPowerRelicsGallery();
     }
+
+    public void UpdateStarRelicsGallery(string Id, double star)
+    {
+        _relicsGalleryRepository.UpdateStarRelicsGallery(Id, star);
+    }
+
+    public void UpdateRelicsGalleryPower(string Id)
+    {
+        IRelicsRepository _repository = new RelicsRepository();
+        RelicsService _service = new RelicsService(_repository);
+        _relicsGalleryRepository.UpdateRelicsGalleryPower(Id, _service.GetRelicsById(Id));
+    }
 }

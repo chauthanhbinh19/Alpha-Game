@@ -305,6 +305,208 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
             }
         }
     }
+    public void UpdateStarTalismanGallery(string Id, double star)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                // Kiểm tra bản ghi đã tồn tại
+                string checkQuery = @"
+                SELECT COUNT(*) 
+                FROM talisman_gallery 
+                WHERE user_id = @user_id AND talisman_id = @talisman_id;
+                ";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@talisman_id", Id);
+
+                MySqlDataReader reader = checkCommand.ExecuteReader();
+                if (reader != null)
+                {
+                    var currentStar = reader.GetDouble("current_star");
+                    var tempStar = reader.GetDouble("temp_star");
+                    if (tempStar < star)
+                    {
+                        string updateQuery = @"update talisman_gallery 
+                        set temp_star=@temp_star 
+                        where user_id=@user_id and talisman_id=@talisman_id";
+
+                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        updateCommand.Parameters.AddWithValue("@talisman_id", Id);
+                        updateCommand.Parameters.AddWithValue("@temp_star", star);
+                        updateCommand.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void UpdateTalismanGalleryPower(string Id, Talisman TalismanFromDB)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"UPDATE talisman_gallery
+                SET 
+                    status = @status,
+                    current_star = @current_star,
+                    power = @power,
+                    health = health + @health,
+                    physical_attack = physical_attack + @physical_attack,
+                    physical_defense = physical_defense + @physical_defense,
+                    magical_attack = magical_attack + @magical_attack,
+                    magical_defense = magical_defense + @magical_defense,
+                    chemical_attack = chemical_attack + @chemical_attack,
+                    chemical_defense = chemical_defense + @chemical_defense,
+                    atomic_attack = atomic_attack + @atomic_attack,
+                    atomic_defense = atomic_defense + @atomic_defense,
+                    mental_attack = mental_attack + @mental_attack,
+                    mental_defense = mental_defense + @mental_defense,
+                    speed = speed + @speed,
+                    critical_damage_rate = critical_damage_rate + @critical_damage_rate,
+                    critical_rate = critical_rate + @critical_rate,
+                    critical_resistance_rate = critical_resistance_rate + @critical_resistance_rate,
+                    ignore_critical_rate = ignore_critical_rate + @ignore_critical_rate,
+                    penetration_rate = penetration_rate + @penetration_rate,
+                    penetration_resistance_rate = penetration_resistance_rate + @penetration_resistance_rate,
+                    evasion_rate = evasion_rate + @evasion_rate,
+                    damage_absorption_rate = damage_absorption_rate + @damage_absorption_rate,
+                    ignore_damage_absorption_rate = ignore_damage_absorption_rate + @ignore_damage_absorption_rate,
+                    absorbed_damage_rate = absorbed_damage_rate + @absorbed_damage_rate,
+                    vitality_regeneration_rate = vitality_regeneration_rate + @vitality_regeneration_rate,
+                    vitality_regeneration_resistance_rate = vitality_regeneration_resistance_rate + @vitality_regeneration_resistance_rate,
+                    accuracy_rate = accuracy_rate + @accuracy_rate,
+                    lifesteal_rate = lifesteal_rate + @lifesteal_rate,
+                    shield_strength = shield_strength + @shield_strength,
+                    tenacity = tenacity + @tenacity,
+                    resistance_rate = resistance_rate + @resistance_rate,
+                    combo_rate = combo_rate + @combo_rate,
+                    ignore_combo_rate = ignore_combo_rate + @ignore_combo_rate,
+                    combo_damage_rate = combo_damage_rate + @combo_damage_rate,
+                    combo_resistance_rate = combo_resistance_rate + @combo_resistance_rate,
+                    stun_rate = stun_rate + @stun_rate,
+                    ignore_stun_rate = ignore_stun_rate + @ignore_stun_rate,
+                    reflection_rate = reflection_rate + @reflection_rate,
+                    ignore_reflection_rate = ignore_reflection_rate + @ignore_reflection_rate,
+                    reflection_damage_rate = reflection_damage_rate + @reflection_damage_rate,
+                    reflection_resistance_rate = reflection_resistance_rate + @reflection_resistance_rate,
+                    mana = mana + @mana,
+                    mana_regeneration_rate = mana_regeneration_rate + @mana_regeneration_rate,
+                    damage_to_different_faction_rate = damage_to_different_faction_rate + @damage_to_different_faction_rate,
+                    resistance_to_different_faction_rate = resistance_to_different_faction_rate + @resistance_to_different_faction_rate,
+                    damage_to_same_faction_rate = damage_to_same_faction_rate + @damage_to_same_faction_rate,
+                    resistance_to_same_faction_rate = resistance_to_same_faction_rate + @resistance_to_same_faction_rate,
+                    normal_damage_rate = normal_damage_rate + @normal_damage_rate,
+                    normal_resistance_rate = normal_resistance_rate + @normal_resistance_rate,
+                    skill_damage_rate = skill_damage_rate + @skill_damage_rate,
+                    skill_resistance_rate = skill_resistance_rate + @skill_resistance_rate,
+                    percent_all_health = percent_all_health +  @percent_all_health,
+                    percent_all_physical_attack = percent_all_physical_attack + @percent_all_physical_attack,
+                    percent_all_physical_defense = percent_all_physical_defense + @percent_all_physical_defense,
+                    percent_all_magical_attack = percent_all_magical_attack + @percent_all_magical_attack,
+                    percent_all_magical_defense = percent_all_magical_defense + @percent_all_magical_defense,
+                    percent_all_chemical_attack = percent_all_chemical_attack + @percent_all_chemical_attack,
+                    percent_all_chemical_defense = percent_all_chemical_defense + @percent_all_chemical_defense,
+                    percent_all_atomic_attack = percent_all_atomic_attack + @percent_all_atomic_attack,
+                    percent_all_atomic_defense = percent_all_atomic_defense + @percent_all_atomic_defense,
+                    percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
+                    percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
+                WHERE user_id = @user_id
+                AND talisman_id = @talisman_id;
+                ";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@talisman_id", Id);
+                command.Parameters.AddWithValue("@status", "pending");
+                command.Parameters.AddWithValue("@current_star", 0);
+                command.Parameters.AddWithValue("@power", TalismanFromDB.power);
+                command.Parameters.AddWithValue("@health", TalismanFromDB.health);
+                command.Parameters.AddWithValue("@physical_attack", TalismanFromDB.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", TalismanFromDB.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", TalismanFromDB.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", TalismanFromDB.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", TalismanFromDB.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", TalismanFromDB.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", TalismanFromDB.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", TalismanFromDB.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", TalismanFromDB.magical_attack);
+                command.Parameters.AddWithValue("@mental_defense", TalismanFromDB.magical_defense);
+                command.Parameters.AddWithValue("@speed", TalismanFromDB.speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", TalismanFromDB.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", TalismanFromDB.critical_rate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", TalismanFromDB.critical_resistance_rate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", TalismanFromDB.ignore_critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", TalismanFromDB.penetration_rate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", TalismanFromDB.penetration_resistance_rate);
+                command.Parameters.AddWithValue("@evasion_rate", TalismanFromDB.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", TalismanFromDB.damage_absorption_rate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", TalismanFromDB.ignore_damage_absorption_rate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", TalismanFromDB.absorbed_damage_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", TalismanFromDB.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", TalismanFromDB.vitality_regeneration_resistance_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", TalismanFromDB.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", TalismanFromDB.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", TalismanFromDB.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", TalismanFromDB.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", TalismanFromDB.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", TalismanFromDB.combo_rate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", TalismanFromDB.ignore_combo_rate);
+                command.Parameters.AddWithValue("@combo_damage_rate", TalismanFromDB.combo_damage_rate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", TalismanFromDB.combo_resistance_rate);
+                command.Parameters.AddWithValue("@stun_rate", TalismanFromDB.stun_rate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", TalismanFromDB.ignore_stun_rate);
+                command.Parameters.AddWithValue("@reflection_rate", TalismanFromDB.reflection_rate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", TalismanFromDB.ignore_reflection_rate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", TalismanFromDB.reflection_damage_rate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", TalismanFromDB.reflection_resistance_rate);
+                command.Parameters.AddWithValue("@mana", TalismanFromDB.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", TalismanFromDB.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", TalismanFromDB.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", TalismanFromDB.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", TalismanFromDB.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", TalismanFromDB.resistance_to_same_faction_rate);
+                command.Parameters.AddWithValue("@normal_damage_rate", TalismanFromDB.normal_damage_rate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", TalismanFromDB.normal_resistance_rate);
+                command.Parameters.AddWithValue("@skill_damage_rate", TalismanFromDB.skill_damage_rate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", TalismanFromDB.skill_resistance_rate);
+                command.Parameters.AddWithValue("@percent_all_health", 5);
+                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
     public Talisman SumPowerTalismanGallery()
     {
         Talisman sumTalisman = new Talisman();

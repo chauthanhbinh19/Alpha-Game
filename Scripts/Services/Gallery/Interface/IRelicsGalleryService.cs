@@ -6,5 +6,7 @@ public interface IRelicsGalleryService
     int GetRelicsCount(string type, string rare);
     void InsertRelicsGallery(string Id);
     void UpdateStatusRelicsGallery(string Id);
+    void UpdateStarRelicsGallery(string Id, double star);
+    void UpdateRelicsGalleryPower(string Id);
     Relics SumPowerRelicsGallery();
 }

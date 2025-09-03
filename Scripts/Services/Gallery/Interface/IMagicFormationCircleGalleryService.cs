@@ -6,5 +6,7 @@ public interface IMagicFormationCircleGalleryService
     int GetMagicFormationCircleCount(string type, string rare);
     void InsertMagicFormationCircleGallery(string Id);
     void UpdateStatusMagicFormationCircleGallery(string Id);
+    void UpdateStarMagicFormationCircleGallery(string Id, double star);
+    void UpdateMagicFormationCircleGalleryPower(string Id);
     MagicFormationCircle SumPowerMagicFormationCircleGallery();
 }

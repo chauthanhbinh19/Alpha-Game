@@ -42,4 +42,16 @@ public class SkillsGalleryService : ISkillsGalleryService
     {
         return _skillsGalleryRepository.SumPowerSkillsGallery();
     }
+
+    public void UpdateStarSkillsGallery(string Id, double star)
+    {
+        _skillsGalleryRepository.UpdateStarSkillsGallery(Id, star);
+    }
+
+    public void UpdateSkillsGalleryPower(string Id)
+    {
+        ISkillsRepository _repository = new SkillsRepository();
+        SkillsService _service = new SkillsService(_repository);
+        _skillsGalleryRepository.UpdateSkillsGalleryPower(Id, _service.GetSkillsById(Id));
+    }
 }

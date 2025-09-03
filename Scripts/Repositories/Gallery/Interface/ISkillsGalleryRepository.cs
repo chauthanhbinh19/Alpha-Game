@@ -6,5 +6,7 @@ public interface ISkillsGalleryRepository
     int GetSkillsCount(string type, string rare);
     void InsertSkillsGallery(string Id, Skills skillFromDB);
     void UpdateStatusSkillsGallery(string Id);
+    void UpdateStarSkillsGallery(string Id, double star);
+    void UpdateSkillsGalleryPower(string Id, Skills SkillFromDB);
     Skills SumPowerSkillsGallery();
 }

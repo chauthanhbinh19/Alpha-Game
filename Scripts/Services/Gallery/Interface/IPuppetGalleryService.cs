@@ -6,5 +6,7 @@ public interface IPuppetGalleryService
     int GetPuppetCount(string type, string rare);
     void InsertPuppetGallery(string Id);
     void UpdateStatusPuppetGallery(string Id);
+    void UpdateStarPuppetGallery(string Id, double star);
+    void UpdatePuppetGalleryPower(string Id);
     Puppet SumPowerPuppetGallery();
 }

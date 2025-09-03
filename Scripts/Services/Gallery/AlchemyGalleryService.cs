@@ -42,4 +42,16 @@ public class AlchemyGalleryService : IAlchemyGalleryService
     {
         return _alchemyGalleryRepository.SumPowerAlchemyGallery();
     }
+
+    public void UpdateStarAlchemyGallery(string Id, double star)
+    {
+        _alchemyGalleryRepository.UpdateStarAlchemyGallery(Id, star);
+    }
+
+    public void UpdateAlchemyGalleryPower(string Id)
+    {
+        IAlchemyRepository _repository = new AlchemyRepository();
+        AlchemyService _service = new AlchemyService(_repository);
+        _alchemyGalleryRepository.UpdateAlchemyGalleryPower(Id, _service.GetAlchemyById(Id));
+    }
 }

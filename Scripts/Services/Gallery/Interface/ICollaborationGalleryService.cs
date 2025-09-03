@@ -6,5 +6,7 @@ public interface ICollaborationGalleryService
     int GetCollaborationCount(string rare);
     void InsertCollaborationsGallery(string Id);
     void UpdateStatusCollaborationsGallery(string Id);
+    void UpdateStarCollaborationsGallery(string Id, double star);
+    void UpdateCollaborationsGalleryPower(string Id);
     Collaboration SumPowerCollaborationsGallery();
 }

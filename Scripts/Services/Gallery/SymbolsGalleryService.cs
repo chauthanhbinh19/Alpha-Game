@@ -42,4 +42,16 @@ public class SymbolsGalleryService : ISymbolsGalleryService
     {
         return _symbolsGalleryRepository.SumPowerSymbolsGallery();
     }
+
+    public void UpdateStarSymbolsGallery(string Id, double star)
+    {
+        _symbolsGalleryRepository.UpdateStarSymbolsGallery(Id, star);
+    }
+
+    public void UpdateSymbolsGalleryPower(string Id)
+    {
+        ISymbolsRepository _repository = new SymbolsRepository();
+        SymbolsService _service = new SymbolsService(_repository);
+        _symbolsGalleryRepository.UpdateSymbolsGalleryPower(Id, _service.GetSymbolsById(Id));
+    }
 }

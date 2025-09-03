@@ -42,4 +42,16 @@ public class ArtworkGalleryService : IArtworkGalleryService
     {
         return _ArtworkGalleryRepository.SumPowerArtworkGallery();
     }
+
+    public void UpdateStarArtworkGallery(string Id, double star)
+    {
+        _ArtworkGalleryRepository.UpdateStarArtworkGallery(Id, star);
+    }
+
+    public void UpdateArtworkGalleryPower(string Id)
+    {
+        IArtworkRepository _repository = new ArtworkRepository();
+        ArtworkService _service = new ArtworkService(_repository);
+        _ArtworkGalleryRepository.UpdateArtworkGalleryPower(Id, _service.GetArtworkById(Id));
+    }
 }

@@ -11,5 +11,7 @@ public interface IAlchemyGalleryRepository
     int GetAlchemyCount(string type, string rare);
     void InsertAlchemyGallery(string Id, Alchemy AlchemyFromDB);
     void UpdateStatusAlchemyGallery(string Id);
+    void UpdateStarAlchemyGallery(string Id, double star);
+    void UpdateAlchemyGalleryPower(string Id, Alchemy AlchemyFromDB);
     Alchemy SumPowerAlchemyGallery();
 }

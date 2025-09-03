@@ -6,5 +6,7 @@ public interface IAvatarsGalleryService
     int GetAvatarsCount(string rare);
     void InsertAvatarsGallery(string Id);
     void UpdateStatusAvatarsGallery(string Id);
+    void UpdateStarAvatarsGallery(string Id, double star);
+    void UpdateAvatarsGalleryPower(string Id);
     Avatars SumPowerAvatarsGallery();
 }

@@ -6,5 +6,7 @@ public interface ICardSpellGalleryRepository
     int GetCardSpellCount(string type, string rare);
     void InsertCardSpellGallery(string Id, CardSpell CardSpellFromDB);
     void UpdateStatusCardSpellGallery(string Id);
+    void UpdateStarCardSpellGallery(string Id, double star);
+    void UpdateCardSpellGalleryPower(string Id, CardSpell CardSpellFromDB);
     CardSpell SumPowerCardSpellGallery();
 }

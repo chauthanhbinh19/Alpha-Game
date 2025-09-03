@@ -6,5 +6,7 @@ public interface IBooksGalleryService
     int GetBooksCount(string type, string rare);
     void InsertBooksGallery(string Id);
     void UpdateStatusBooksGallery(string Id);
+    void UpdateStarBooksGallery(string Id, double star);
+    void UpdateBooksGalleryPower(string Id);
     Books SumPowerBooksGallery();
 }

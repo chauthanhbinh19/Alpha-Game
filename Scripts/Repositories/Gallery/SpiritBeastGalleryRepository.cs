@@ -304,6 +304,208 @@ public class SpiritBeastGalleryRepository : ISpiritBeastGalleryRepository
             }
         }
     }
+    public void UpdateStarSpiritBeastGallery(string Id, double star)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                // Kiểm tra bản ghi đã tồn tại
+                string checkQuery = @"
+                SELECT COUNT(*) 
+                FROM spirit_beast_gallery 
+                WHERE user_id = @user_id AND spirit_beast_id = @spirit_beast_id;
+                ";
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@spirit_beast_id", Id);
+
+                MySqlDataReader reader = checkCommand.ExecuteReader();
+                if (reader != null)
+                {
+                    var currentStar = reader.GetDouble("current_star");
+                    var tempStar = reader.GetDouble("temp_star");
+                    if (tempStar < star)
+                    {
+                        string updateQuery = @"update spirit_beast_gallery 
+                        set temp_star=@temp_star 
+                        where user_id=@user_id and spirit_beast_id=@spirit_beast_id";
+
+                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        updateCommand.Parameters.AddWithValue("@spirit_beast_id", Id);
+                        updateCommand.Parameters.AddWithValue("@temp_star", star);
+                        updateCommand.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public void UpdateSpiritBeastGalleryPower(string Id, SpiritBeast SpiritBeastFromDB)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"UPDATE spirit_beast_gallery
+                SET 
+                    status = @status,
+                    current_star = @current_star,
+                    power = @power,
+                    health = health + @health,
+                    physical_attack = physical_attack + @physical_attack,
+                    physical_defense = physical_defense + @physical_defense,
+                    magical_attack = magical_attack + @magical_attack,
+                    magical_defense = magical_defense + @magical_defense,
+                    chemical_attack = chemical_attack + @chemical_attack,
+                    chemical_defense = chemical_defense + @chemical_defense,
+                    atomic_attack = atomic_attack + @atomic_attack,
+                    atomic_defense = atomic_defense + @atomic_defense,
+                    mental_attack = mental_attack + @mental_attack,
+                    mental_defense = mental_defense + @mental_defense,
+                    speed = speed + @speed,
+                    critical_damage_rate = critical_damage_rate + @critical_damage_rate,
+                    critical_rate = critical_rate + @critical_rate,
+                    critical_resistance_rate = critical_resistance_rate + @critical_resistance_rate,
+                    ignore_critical_rate = ignore_critical_rate + @ignore_critical_rate,
+                    penetration_rate = penetration_rate + @penetration_rate,
+                    penetration_resistance_rate = penetration_resistance_rate + @penetration_resistance_rate,
+                    evasion_rate = evasion_rate + @evasion_rate,
+                    damage_absorption_rate = damage_absorption_rate + @damage_absorption_rate,
+                    ignore_damage_absorption_rate = ignore_damage_absorption_rate + @ignore_damage_absorption_rate,
+                    absorbed_damage_rate = absorbed_damage_rate + @absorbed_damage_rate,
+                    vitality_regeneration_rate = vitality_regeneration_rate + @vitality_regeneration_rate,
+                    vitality_regeneration_resistance_rate = vitality_regeneration_resistance_rate + @vitality_regeneration_resistance_rate,
+                    accuracy_rate = accuracy_rate + @accuracy_rate,
+                    lifesteal_rate = lifesteal_rate + @lifesteal_rate,
+                    shield_strength = shield_strength + @shield_strength,
+                    tenacity = tenacity + @tenacity,
+                    resistance_rate = resistance_rate + @resistance_rate,
+                    combo_rate = combo_rate + @combo_rate,
+                    ignore_combo_rate = ignore_combo_rate + @ignore_combo_rate,
+                    combo_damage_rate = combo_damage_rate + @combo_damage_rate,
+                    combo_resistance_rate = combo_resistance_rate + @combo_resistance_rate,
+                    stun_rate = stun_rate + @stun_rate,
+                    ignore_stun_rate = ignore_stun_rate + @ignore_stun_rate,
+                    reflection_rate = reflection_rate + @reflection_rate,
+                    ignore_reflection_rate = ignore_reflection_rate + @ignore_reflection_rate,
+                    reflection_damage_rate = reflection_damage_rate + @reflection_damage_rate,
+                    reflection_resistance_rate = reflection_resistance_rate + @reflection_resistance_rate,
+                    mana = mana + @mana,
+                    mana_regeneration_rate = mana_regeneration_rate + @mana_regeneration_rate,
+                    damage_to_different_faction_rate = damage_to_different_faction_rate + @damage_to_different_faction_rate,
+                    resistance_to_different_faction_rate = resistance_to_different_faction_rate + @resistance_to_different_faction_rate,
+                    damage_to_same_faction_rate = damage_to_same_faction_rate + @damage_to_same_faction_rate,
+                    resistance_to_same_faction_rate = resistance_to_same_faction_rate + @resistance_to_same_faction_rate,
+                    normal_damage_rate = normal_damage_rate + @normal_damage_rate,
+                    normal_resistance_rate = normal_resistance_rate + @normal_resistance_rate,
+                    skill_damage_rate = skill_damage_rate + @skill_damage_rate,
+                    skill_resistance_rate = skill_resistance_rate + @skill_resistance_rate,
+                    percent_all_health = percent_all_health +  @percent_all_health,
+                    percent_all_physical_attack = percent_all_physical_attack + @percent_all_physical_attack,
+                    percent_all_physical_defense = percent_all_physical_defense + @percent_all_physical_defense,
+                    percent_all_magical_attack = percent_all_magical_attack + @percent_all_magical_attack,
+                    percent_all_magical_defense = percent_all_magical_defense + @percent_all_magical_defense,
+                    percent_all_chemical_attack = percent_all_chemical_attack + @percent_all_chemical_attack,
+                    percent_all_chemical_defense = percent_all_chemical_defense + @percent_all_chemical_defense,
+                    percent_all_atomic_attack = percent_all_atomic_attack + @percent_all_atomic_attack,
+                    percent_all_atomic_defense = percent_all_atomic_defense + @percent_all_atomic_defense,
+                    percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
+                    percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
+                WHERE user_id = @user_id
+                AND spirit_beast_id = @spirit_beast_id;
+                ";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@spirit_beast_id", Id);
+                command.Parameters.AddWithValue("@status", "pending");
+                command.Parameters.AddWithValue("@current_star", 0);
+                command.Parameters.AddWithValue("@power", SpiritBeastFromDB.power);
+                command.Parameters.AddWithValue("@health", SpiritBeastFromDB.health);
+                command.Parameters.AddWithValue("@physical_attack", SpiritBeastFromDB.physical_attack);
+                command.Parameters.AddWithValue("@physical_defense", SpiritBeastFromDB.physical_defense);
+                command.Parameters.AddWithValue("@magical_attack", SpiritBeastFromDB.magical_attack);
+                command.Parameters.AddWithValue("@magical_defense", SpiritBeastFromDB.magical_defense);
+                command.Parameters.AddWithValue("@chemical_attack", SpiritBeastFromDB.chemical_attack);
+                command.Parameters.AddWithValue("@chemical_defense", SpiritBeastFromDB.chemical_defense);
+                command.Parameters.AddWithValue("@atomic_attack", SpiritBeastFromDB.atomic_attack);
+                command.Parameters.AddWithValue("@atomic_defense", SpiritBeastFromDB.atomic_defense);
+                command.Parameters.AddWithValue("@mental_attack", SpiritBeastFromDB.magical_attack);
+                command.Parameters.AddWithValue("@mental_defense", SpiritBeastFromDB.magical_defense);
+                command.Parameters.AddWithValue("@speed", SpiritBeastFromDB.speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeastFromDB.critical_damage_rate);
+                command.Parameters.AddWithValue("@critical_rate", SpiritBeastFromDB.critical_rate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeastFromDB.critical_resistance_rate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeastFromDB.ignore_critical_rate);
+                command.Parameters.AddWithValue("@penetration_rate", SpiritBeastFromDB.penetration_rate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeastFromDB.penetration_resistance_rate);
+                command.Parameters.AddWithValue("@evasion_rate", SpiritBeastFromDB.evasion_rate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeastFromDB.damage_absorption_rate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeastFromDB.ignore_damage_absorption_rate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeastFromDB.absorbed_damage_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeastFromDB.vitality_regeneration_rate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeastFromDB.vitality_regeneration_resistance_rate);
+                command.Parameters.AddWithValue("@accuracy_rate", SpiritBeastFromDB.accuracy_rate);
+                command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeastFromDB.lifesteal_rate);
+                command.Parameters.AddWithValue("@shield_strength", SpiritBeastFromDB.shield_strength);
+                command.Parameters.AddWithValue("@tenacity", SpiritBeastFromDB.tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", SpiritBeastFromDB.resistance_rate);
+                command.Parameters.AddWithValue("@combo_rate", SpiritBeastFromDB.combo_rate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeastFromDB.ignore_combo_rate);
+                command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeastFromDB.combo_damage_rate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeastFromDB.combo_resistance_rate);
+                command.Parameters.AddWithValue("@stun_rate", SpiritBeastFromDB.stun_rate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeastFromDB.ignore_stun_rate);
+                command.Parameters.AddWithValue("@reflection_rate", SpiritBeastFromDB.reflection_rate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeastFromDB.ignore_reflection_rate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeastFromDB.reflection_damage_rate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeastFromDB.reflection_resistance_rate);
+                command.Parameters.AddWithValue("@mana", SpiritBeastFromDB.mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeastFromDB.mana_regeneration_rate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeastFromDB.damage_to_different_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeastFromDB.resistance_to_different_faction_rate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeastFromDB.damage_to_same_faction_rate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeastFromDB.resistance_to_same_faction_rate);
+                command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeastFromDB.normal_damage_rate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeastFromDB.normal_resistance_rate);
+                command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeastFromDB.skill_damage_rate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeastFromDB.skill_resistance_rate);
+                command.Parameters.AddWithValue("@percent_all_health", 5);
+                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
     public SpiritBeast SumPowerSpiritBeastGallery()
     {
         SpiritBeast sumSpiritBeast = new SpiritBeast();

@@ -40,4 +40,16 @@ public class AvatarsGalleryService : IAvatarsGalleryService
     {
         return _avatarsGalleryRepository.SumPowerAvatarsGallery();
     }
+
+    public void UpdateStarAvatarsGallery(string Id, double star)
+    {
+        _avatarsGalleryRepository.UpdateStarAvatarsGallery(Id, star);
+    }
+
+    public void UpdateAvatarsGalleryPower(string Id)
+    {
+        IAvatarsRepository _repository = new AvatarsRepository();
+        AvatarsService _service = new AvatarsService(_repository);
+        _avatarsGalleryRepository.UpdateAvatarsGalleryPower(Id, _service.GetAvatarsById(Id));
+    }
 }

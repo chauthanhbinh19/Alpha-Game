@@ -42,4 +42,16 @@ public class MagicFormationCircleGalleryService : IMagicFormationCircleGallerySe
     {
         return _magicFormationCircleRepository.SumPowerMagicFormationCircleGallery();
     }
+
+    public void UpdateStarMagicFormationCircleGallery(string Id, double star)
+    {
+        _magicFormationCircleRepository.UpdateStarMagicFormationCircleGallery(Id, star);
+    }
+
+    public void UpdateMagicFormationCircleGalleryPower(string Id)
+    {
+        IMagicFormationCircleRepository _repository = new MagicFormationCircleRepository();
+        MagicFormationCircleService _service = new MagicFormationCircleService(_repository);
+        _magicFormationCircleRepository.UpdateMagicFormationCircleGalleryPower(Id, _service.GetMagicFormationCircleById(Id));
+    }
 }

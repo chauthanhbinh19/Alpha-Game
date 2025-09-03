@@ -42,4 +42,16 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
     {
         return _cardAdmiralsGalleryRepository.SumPowerCardCaptainsGallery();
     }
+
+    public void UpdateStarCardAdmiralsGallery(string Id, double star)
+    {
+        _cardAdmiralsGalleryRepository.UpdateStarCardAdmiralsGallery(Id, star);
+    }
+
+    public void UpdateCardAdmiralsGalleryPower(string Id)
+    {
+        ICardAdmiralsRepository _repository = new CardAdmiralsRepository();
+        CardAdmiralsService _service = new CardAdmiralsService(_repository);
+        _cardAdmiralsGalleryRepository.UpdateCardAdmiralsGalleryPower(Id, _service.GetCardAdmiralsById(Id));
+    }
 }

@@ -6,5 +6,7 @@ public interface IBordersGalleryRepository
     int GetBordersCount(string rare);
     void InsertBordersGallery(string Id, Borders BorderFromDB);
     void UpdateStatusBordersGallery(string Id);
+    void UpdateStarBordersGallery(string Id, double star);
+    void UpdateBordersGalleryPower(string Id, Borders BorderFromDB);
     Borders SumPowerBordersGallery();
 }

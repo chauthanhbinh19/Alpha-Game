@@ -42,4 +42,16 @@ public class BooksGalleryService : IBooksGalleryService
     {
         return _booksGalleryRepository.SumPowerBooksGallery();
     }
+
+    public void UpdateStarBooksGallery(string Id, double star)
+    {
+        _booksGalleryRepository.UpdateStarBooksGallery(Id, star);
+    }
+
+    public void UpdateBooksGalleryPower(string Id)
+    {
+        IBooksRepository _repository = new BooksRepository();
+        BooksService _service = new BooksService(_repository);
+        _booksGalleryRepository.UpdateBooksGalleryPower(Id, _service.GetBooksById(Id));
+    }
 }

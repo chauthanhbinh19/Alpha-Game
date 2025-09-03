@@ -42,4 +42,16 @@ public class MedalsGalleryService : IMedalsGalleryService
     {
         return _medalsGalleryRepository.SumPowerMedalsGallery();
     }
+
+    public void UpdateStarMedalsGallery(string Id, double star)
+    {
+        _medalsGalleryRepository.UpdateStarMedalsGallery(Id, star);
+    }
+
+    public void UpdateMedalsGalleryPower(string Id)
+    {
+        IMedalsRepository _repository = new MedalsRepository();
+        MedalsService _service = new MedalsService(_repository);
+        _medalsGalleryRepository.UpdateMedalsGalleryPower(Id, _service.GetMedalsById(Id));
+    }
 }

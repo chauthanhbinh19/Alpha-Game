@@ -42,4 +42,16 @@ public class CollaborationEquipmentGalleryService : ICollaborationEquipmentGalle
     {
         return _collabEquipmentGalleryRepo.SumPowerCollaborationEquipmentsGallery();
     }
+
+    public void UpdateStarCollaborationEquipmentsGallery(string Id, double star)
+    {
+        _collabEquipmentGalleryRepo.UpdateStarCollaborationEquipmentsGallery(Id, star);
+    }
+
+    public void UpdateCollaborationEquipmentsGalleryPower(string Id)
+    {
+        ICollaborationEquipmentRepository _repository = new CollaborationEquipmentRepository();
+        CollaborationEquipmentService _service = new CollaborationEquipmentService(_repository);
+        _collabEquipmentGalleryRepo.UpdateCollaborationEquipmentsGalleryPower(Id, _service.GetCollaborationEquipmentsById(Id));
+    }
 }

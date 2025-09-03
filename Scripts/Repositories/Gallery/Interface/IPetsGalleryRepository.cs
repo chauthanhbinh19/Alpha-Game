@@ -6,5 +6,7 @@ public interface IPetsGalleryRepository
     int GetPetsCount(string type, string rare);
     void InsertPetsGallery(string Id, Pets petFromDB);
     void UpdateStatusPetsGallery(string Id);
+    void UpdateStarPetsGallery(string Id, double star);
+    void UpdatePetsGalleryPower(string Id, Pets PetFromDB);
     Pets SumPowerPetsGallery();
 }

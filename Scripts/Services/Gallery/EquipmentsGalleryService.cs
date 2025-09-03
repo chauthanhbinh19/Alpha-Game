@@ -42,4 +42,16 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
     {
         return _equipmentsGalleryRepository.SumPowerEquipmentsGallery();
     }
+
+    public void UpdateStarEquipmentsGallery(string Id, double star)
+    {
+        _equipmentsGalleryRepository.UpdateStarEquipmentsGallery(Id, star);
+    }
+
+    public void UpdateEquipmentsGalleryPower(string Id)
+    {
+        IEquipmentsRepository _repository = new EquipmentsRepository();
+        EquipmentsService _service = new EquipmentsService(_repository);
+        _equipmentsGalleryRepository.UpdateEquipmentsGalleryPower(Id, _service.GetEquipmentById(Id));
+    }
 }

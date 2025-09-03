@@ -42,4 +42,16 @@ public class PuppetGalleryService : IPuppetGalleryService
     {
         return _puppetGalleryRepository.SumPowerPuppetGallery();
     }
+
+    public void UpdateStarPuppetGallery(string Id, double star)
+    {
+        _puppetGalleryRepository.UpdateStarPuppetGallery(Id, star);
+    }
+
+    public void UpdatePuppetGalleryPower(string Id)
+    {
+        IPuppetRepository _repository = new PuppetRepository();
+        PuppetService _service = new PuppetService(_repository);
+        _puppetGalleryRepository.UpdatePuppetGalleryPower(Id, _service.GetPuppetById(Id));
+    }
 }

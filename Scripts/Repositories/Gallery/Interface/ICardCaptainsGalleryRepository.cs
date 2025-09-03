@@ -6,5 +6,7 @@ public interface ICardCaptainsGalleryRepository
     int GetCardCaptainsCount(string type, string rare);
     void InsertCardCaptainsGallery(string Id, CardCaptains CaptainFromDB);
     void UpdateStatusCardCaptainsGallery(string Id);
+    void UpdateStarCardCaptainsGallery(string Id, double star);
+    void UpdateCardCaptainsGalleryPower(string Id, CardCaptains CardCaptainFromDB);
     CardCaptains SumPowerCardCaptainsGallery();
 }

@@ -42,4 +42,16 @@ public class CardSpellGalleryService : ICardSpellGalleryService
     {
         return _cardSpellGalleryRepository.SumPowerCardSpellGallery();
     }
+
+    public void UpdateStarCardSpellGallery(string Id, double star)
+    {
+        _cardSpellGalleryRepository.UpdateStarCardSpellGallery(Id, star);
+    }
+
+    public void UpdateCardSpellGalleryPower(string Id)
+    {
+        ICardSpellRepository _repository = new CardSpellRepository();
+        CardSpellService _service = new CardSpellService(_repository);
+        _cardSpellGalleryRepository.UpdateCardSpellGalleryPower(Id, _service.GetCardSpellById(Id));
+    }
 }

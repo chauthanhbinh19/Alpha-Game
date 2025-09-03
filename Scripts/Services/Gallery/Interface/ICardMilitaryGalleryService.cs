@@ -6,5 +6,7 @@ public interface ICardMilitaryGallerService
     int GetCardMilitaryCount(string type, string rare);
     void InsertCardMilitaryGallery(string Id);
     void UpdateStatusCardMilitaryGallery(string Id);
+    void UpdateStarCardMilitaryGallery(string Id, double star);
+    void UpdateCardMilitaryGalleryPower(string Id);
     CardMilitary SumPowerCardMilitaryGallery();
 }

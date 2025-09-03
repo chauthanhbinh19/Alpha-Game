@@ -42,4 +42,16 @@ public class TalismanGalleryService : ITalismanGalleryService
     {
         return _talismanGalleryRepository.SumPowerTalismanGallery();
     }
+
+    public void UpdateStarTalismanGallery(string Id, double star)
+    {
+        _talismanGalleryRepository.UpdateStarTalismanGallery(Id, star);
+    }
+
+    public void UpdateTalismanGalleryPower(string Id)
+    {
+        ITalismanRepository _repository = new TalismanRepository();
+        TalismanService _service = new TalismanService(_repository);
+        _talismanGalleryRepository.UpdateTalismanGalleryPower(Id, _service.GetTalismanById(Id));
+    }
 }

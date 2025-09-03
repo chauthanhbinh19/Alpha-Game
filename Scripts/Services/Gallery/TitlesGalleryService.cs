@@ -42,4 +42,16 @@ public class TitlesGalleryService : ITitlesGalleryService
     {
         return _titlesGalleryRepository.SumPowerTitlesGallery();
     }
+
+    public void UpdateStarTitlesGallery(string Id, double star)
+    {
+        _titlesGalleryRepository.UpdateStarTitlesGallery(Id, star);
+    }
+
+    public void UpdateTitlesGalleryPower(string Id)
+    {
+        ITitlesRepository _repository = new TitlesRepository();
+        TitlesService _service = new TitlesService(_repository);
+        _titlesGalleryRepository.UpdateTitlesGalleryPower(Id, _service.GetTitlesById(Id));
+    }
 }

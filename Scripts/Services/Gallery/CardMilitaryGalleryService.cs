@@ -42,4 +42,16 @@ public class CardMilitaryGalleryService : ICardMilitaryGallerService
     {
         return _cardMilitaryGalleryRepository.SumPowerCardMilitaryGallery();
     }
+
+    public void UpdateStarCardMilitaryGallery(string Id, double star)
+    {
+        _cardMilitaryGalleryRepository.UpdateStarCardMilitaryGallery(Id, star);
+    }
+
+    public void UpdateCardMilitaryGalleryPower(string Id)
+    {
+        ICardMilitaryRepository _repository = new CardMilitaryRepository();
+        CardMilitaryService _service = new CardMilitaryService(_repository);
+        _cardMilitaryGalleryRepository.UpdateCardMilitaryGalleryPower(Id, _service.GetCardMilitaryById(Id));
+    }
 }

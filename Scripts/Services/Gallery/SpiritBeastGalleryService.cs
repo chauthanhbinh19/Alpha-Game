@@ -42,4 +42,16 @@ public class SpiritBeastGalleryService : ISpiritBeastGalleryService
     {
         return _SpiritBeastGalleryRepository.SumPowerSpiritBeastGallery();
     }
+
+    public void UpdateStarSpiritBeastGallery(string Id, double star)
+    {
+        _SpiritBeastGalleryRepository.UpdateStarSpiritBeastGallery(Id, star);
+    }
+
+    public void UpdateSpiritBeastGalleryPower(string Id)
+    {
+        ISpiritBeastRepository _repository = new SpiritBeastRepository();
+        SpiritBeastService _service = new SpiritBeastService(_repository);
+        _SpiritBeastGalleryRepository.UpdateSpiritBeastGalleryPower(Id, _service.GetSpiritBeastById(Id));
+    }
 }

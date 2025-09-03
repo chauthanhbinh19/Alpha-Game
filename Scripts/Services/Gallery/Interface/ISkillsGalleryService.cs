@@ -6,5 +6,7 @@ public interface ISkillsGalleryService
     int GetSkillsCount(string type, string rare);
     void InsertSkillsGallery(string Id);
     void UpdateStatusSkillsGallery(string Id);
+    void UpdateStarSkillsGallery(string Id, double star);
+    void UpdateSkillsGalleryPower(string Id);
     Skills SumPowerSkillsGallery();
 }

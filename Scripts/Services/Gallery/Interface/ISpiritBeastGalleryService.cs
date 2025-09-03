@@ -6,5 +6,7 @@ public interface ISpiritBeastGalleryService
     int GetSpiritBeastCount(string rare);
     void InsertSpiritBeastGallery(string Id);
     void UpdateStatusSpiritBeastGallery(string Id);
+    void UpdateStarSpiritBeastGallery(string Id, double star);
+    void UpdateSpiritBeastGalleryPower(string Id);
     SpiritBeast SumPowerSpiritBeastGallery();
 }

@@ -6,5 +6,7 @@ public interface ICardMonstersGalleryRepository
     int GetCardMonstersCount(string type, string rare);
     void InsertCardMonstersGallery(string Id, CardMonsters MonsterFromDB);
     void UpdateStatusCardMonstersGallery(string Id);
+    void UpdateStarCardMonstersGallery(string Id, double star);
+    void UpdateCardMonstersGalleryPower(string Id, CardMonsters CardMonsterFromDB);
     CardMonsters SumPowerCardMonstersGallery();
 }

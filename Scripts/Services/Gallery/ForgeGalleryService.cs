@@ -43,4 +43,16 @@ public class ForgeGalleryService : IForgeGalleryService
     {
         return _forgeGalleryRepository.SumPowerForgeGallery();
     }
+
+    public void UpdateStarForgeGallery(string Id, double star)
+    {
+        _forgeGalleryRepository.UpdateStarForgeGallery(Id, star);
+    }
+
+    public void UpdateForgeGalleryPower(string Id)
+    {
+        IForgeRepository _repository = new ForgeRepository();
+        ForgeService _service = new ForgeService(_repository);
+        _forgeGalleryRepository.UpdateForgeGalleryPower(Id, _service.GetForgeById(Id));
+    }
 }

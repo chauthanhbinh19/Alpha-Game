@@ -6,5 +6,7 @@ public interface ICardLifeGalleryService
     int GetCardLifeCount(string type, string rare);
     void InsertCardLifeGallery(string Id);
     void UpdateStatusCardLifeGallery(string Id);
+    void UpdateStarCardLifeGallery(string Id, double star);
+    void UpdateCardLifeGalleryPower(string Id);
     CardLife SumPowerCardLifeGallery();
 }

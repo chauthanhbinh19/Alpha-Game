@@ -11,5 +11,7 @@ public interface IArtworkGalleryService
     int GetArtworkCount(string type, string rare);
     void InsertArtworkGallery(string Id);
     void UpdateStatusArtworkGallery(string Id);
+    void UpdateStarArtworkGallery(string Id, double star);
+    void UpdateArtworkGalleryPower(string Id);
     Artwork SumPowerArtworkGallery();
 }

@@ -6,5 +6,7 @@ public interface ICardAdmiralsGalleryService
     int GetCardAdmiralsCount(string type, string rare); 
     void InsertCardAdmiralsGallery(string Id);
     void UpdateStatusCardAdmiralsGallery(string Id);
+    void UpdateStarCardAdmiralsGallery(string Id, double star);
+    void UpdateCardAdmiralsGalleryPower(string Id);
     CardAdmirals SumPowerCardCaptainsGallery();
 }

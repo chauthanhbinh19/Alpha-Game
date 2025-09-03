@@ -6,5 +6,7 @@ public interface ICardColonelsGalleryService
     int GetCardColonelsCount(string type, string rare);
     void InsertCardColonelsGallery(string Id);
     void UpdateStatusCardColonelsGallery(string Id);
+    void UpdateStarCardColonelsGallery(string Id, double star);
+    void UpdateCardColonelsGalleryPower(string Id);
     CardColonels SumPowerCardColonelsGallery();
 }

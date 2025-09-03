@@ -6,5 +6,7 @@ public interface ITitlesGalleryService
     int GetTitlesCount(string rare);
     void InsertTitlesGallery(string Id);
     void UpdateStatusTitlesGallery(string Id);
+    void UpdateStarTitlesGallery(string Id, double star);
+    void UpdateTitlesGalleryPower(string Id);
     Titles SumPowerTitlesGallery();
 }

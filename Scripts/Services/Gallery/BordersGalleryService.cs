@@ -42,4 +42,16 @@ public class BordersGalleryService : IBordersGalleryService
     {
         return _bordersGalleryRepository.SumPowerBordersGallery();
     }
+
+    public void UpdateStarBordersGallery(string Id, double star)
+    {
+        _bordersGalleryRepository.UpdateStarBordersGallery(Id, star);
+    }
+
+    public void UpdateBordersGalleryPower(string Id)
+    {
+        IBordersRepository _repository = new BordersRepository();
+        BordersService _service = new BordersService(_repository);
+        _bordersGalleryRepository.UpdateBordersGalleryPower(Id, _service.GetBordersById(Id));
+    }
 }

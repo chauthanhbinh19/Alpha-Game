@@ -11,5 +11,7 @@ public interface IArtworkGalleryRepository
     int GetArtworkCount(string type, string rare);
     void InsertArtworkGallery(string Id, Artwork ArtworkFromDB);
     void UpdateStatusArtworkGallery(string Id);
+    void UpdateStarArtworkGallery(string Id, double star);
+    void UpdateArtworkGalleryPower(string Id, Artwork ArtworkFromDB);
     Artwork SumPowerArtworkGallery();
 }

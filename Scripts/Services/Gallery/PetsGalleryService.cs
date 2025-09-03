@@ -42,4 +42,16 @@ public class PetsGalleryService : IPetsGalleryService
     {
         return _petsGalleryRepository.SumPowerPetsGallery();
     }
+
+    public void UpdateStarPetsGallery(string Id, double star)
+    {
+        _petsGalleryRepository.UpdateStarPetsGallery(Id, star);
+    }
+
+    public void UpdatePetsGalleryPower(string Id)
+    {
+        IPetsRepository _repository = new PetsRepository();
+        PetsService _service = new PetsService(_repository);
+        _petsGalleryRepository.UpdatePetsGalleryPower(Id, _service.GetPetsById(Id));
+    }
 }
