@@ -5,6 +5,11 @@ ModelImporter:
   internalIDToNameTable: []
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tripo_mat_957afdb5
+    second: {fileID: 2100000, guid: 0ad73375c1b59144dad2de95dc701e33, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: tripo_image_957afdb5-72ea-473f-ae83-3b95d613810f_Metallic
