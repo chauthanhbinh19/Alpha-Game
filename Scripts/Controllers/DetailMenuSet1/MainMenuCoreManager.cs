@@ -18,6 +18,7 @@ public class MainMenuCoreManager : MonoBehaviour
     private Transform LevelCondition;
     private string mainType;
     private string parentType;
+    private TMP_FontAsset EuroStyleNormalFont;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class MainMenuCoreManager : MonoBehaviour
         MainMenuCorePanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuCorePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("CoreSlotPrefab");
-
+        EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
 
     public void CreateMainMenuCoreManager(object data)
@@ -386,6 +387,9 @@ public class MainMenuCoreManager : MonoBehaviour
     {
         LevelCondition.gameObject.SetActive(true);
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+        warningText.font = EuroStyleNormalFont;
+        warningText.fontSize = 50;
+        warningText.fontStyle = FontStyles.Bold; 
         warningText.text = MessageHelper.WaringLevel(value);
     }
     public void LoadAnimation()

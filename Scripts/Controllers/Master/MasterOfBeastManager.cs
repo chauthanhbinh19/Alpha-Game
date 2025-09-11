@@ -19,6 +19,7 @@ public class MasterOfBeastManager : MonoBehaviour
     private Transform LevelCondition;
     private string mainType;
     private string parentType;
+    private TMP_FontAsset EuroStyleNormalFont;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -39,6 +40,7 @@ public class MasterOfBeastManager : MonoBehaviour
         MasterOfBeastPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfBeastPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfBeastSlotPrefab");
+        EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
 
     public void CreateMasterOfBeastManager(object data)
@@ -399,6 +401,9 @@ public class MasterOfBeastManager : MonoBehaviour
     {
         LevelCondition.gameObject.SetActive(true);
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+        warningText.font = EuroStyleNormalFont;
+        warningText.fontSize = 50;
+        warningText.fontStyle = FontStyles.Bold; 
         warningText.text = MessageHelper.WaringLevel(value);
     }
     public void LoadAnimation()

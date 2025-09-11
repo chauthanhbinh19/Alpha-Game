@@ -18,6 +18,7 @@ public class MainMenuGunManager : MonoBehaviour
     private Transform LevelCondition;
     private string mainType;
     private string parentType;
+    private TMP_FontAsset EuroStyleNormalFont;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class MainMenuGunManager : MonoBehaviour
         MainMenuGunPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuGunPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("GunSlotPrefab");
-
+        EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
 
     public void CreateMainMenuGunManager(object data)
@@ -386,6 +387,9 @@ public class MainMenuGunManager : MonoBehaviour
     {
         LevelCondition.gameObject.SetActive(true);
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+        warningText.font = EuroStyleNormalFont;
+        warningText.fontSize = 50;
+        warningText.fontStyle = FontStyles.Bold; 
         warningText.text = MessageHelper.WaringLevel(value);
     }
     public void LoadAnimation()

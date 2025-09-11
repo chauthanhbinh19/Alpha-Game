@@ -18,6 +18,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
     private Transform LevelCondition;
     private string mainType;
     private string parentType;
+    private TMP_FontAsset EuroStyleNormalFont;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         MainMenuShubNiggurathPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuShubNiggurathPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("ShubNiggurathSlotPrefab");
+        EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
 
     public void CreateMainMenuShubNiggurathManager(object data)
@@ -385,6 +387,9 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
     {
         LevelCondition.gameObject.SetActive(true);
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+        warningText.font = EuroStyleNormalFont;
+        warningText.fontSize = 50;
+        warningText.fontStyle = FontStyles.Bold; 
         warningText.text = MessageHelper.WaringLevel(value);
     }
     public void LoadAnimation()

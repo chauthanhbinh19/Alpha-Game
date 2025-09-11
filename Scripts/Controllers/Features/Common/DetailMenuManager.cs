@@ -32,22 +32,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserCardHeroesRankService.Create().GetCardHeroesRank(mainType, cardHeroes.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
 
@@ -61,12 +61,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
 
@@ -85,22 +85,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserBooksRankService.Create().GetBooksRank(mainType, books.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -114,12 +114,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -138,22 +138,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserCardCaptainsRankService.Create().GetCardCaptainsRank(mainType, cardCaptains.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -167,12 +167,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -191,22 +191,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserPetsRankService.Create().GetPetsRank(mainType, pets.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -220,12 +220,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -244,22 +244,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserCardMilitaryRankService.Create().GetCardMilitaryRank(mainType, cardMilitary.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -273,12 +273,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -297,22 +297,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserCardSpellRankService.Create().GetCardSpellRank(mainType, cardSpell.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -326,12 +326,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -350,22 +350,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserCardMonstersRankService.Create().GetCardMonstersRank(mainType, cardMonsters.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -379,12 +379,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -403,22 +403,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserCardColonelsRankService.Create().GetCardColonelsRank(mainType, cardColonels.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -432,12 +432,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -456,22 +456,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserCardGeneralsRankService.Create().GetCardGeneralsRank(mainType, cardGenerals.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -485,12 +485,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -509,22 +509,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserCardAdmiralsRankService.Create().GetCardAdmiralsRank(mainType, cardAdmirals.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -538,12 +538,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 
@@ -562,22 +562,22 @@ public class DetailMenuManager : MonoBehaviour
         Rank rank = UserEquipmentsRankService.Create().GetEquipmentsRank(mainType, equipments.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         RankService rankService = new RankService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, rank.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, rank.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, rank.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
                 
@@ -591,12 +591,12 @@ public class DetailMenuManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, rank.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, rank.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
                 

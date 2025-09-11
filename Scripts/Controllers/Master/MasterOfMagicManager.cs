@@ -19,6 +19,7 @@ public class MasterOfMagicManager : MonoBehaviour
     private Transform LevelCondition;
     private string mainType;
     private string parentType;
+    private TMP_FontAsset EuroStyleNormalFont;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -39,6 +40,7 @@ public class MasterOfMagicManager : MonoBehaviour
         MasterOfMagicPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfMagicPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfMagicSlotPrefab");
+        EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
 
     public void CreateMasterOfMagicManager(object data)
@@ -399,6 +401,9 @@ public class MasterOfMagicManager : MonoBehaviour
     {
         LevelCondition.gameObject.SetActive(true);
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
+        warningText.font = EuroStyleNormalFont;
+        warningText.fontSize = 50;
+        warningText.fontStyle = FontStyles.Bold; 
         warningText.text = MessageHelper.WaringLevel(value);
     }
     public void LoadAnimation()

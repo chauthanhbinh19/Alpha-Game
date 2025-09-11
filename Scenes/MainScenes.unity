@@ -1512,6 +1512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 100
+  direction: -1
 --- !u!224 &119853875
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7325,6 +7326,9 @@ GameObject:
   - component: {fileID: 1505964022}
   - component: {fileID: 1505964021}
   - component: {fileID: 1505964020}
+  - component: {fileID: 1505964030}
+  - component: {fileID: 1505964029}
+  - component: {fileID: 1505964028}
   m_Layer: 5
   m_Name: MasterManager
   m_TagString: Untagged
@@ -7446,6 +7450,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fe18117600eedf4cbee6d9ad97411b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1505964028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505964018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d97abd671967b14294b8eb0245e3d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1505964029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505964018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9632e3e6e608ca74aad8f53f2aec7e94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1505964030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505964018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9fddee8c70c9f429602b4cb8275cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1551168421
@@ -9039,6 +9079,7 @@ MonoBehaviour:
   MasterBoardNodePrefab: {fileID: 1661859481911484232, guid: 78debbd643b61644ba3ba17d30fd2e1b, type: 3}
   MasterBoardPopupPrefab: {fileID: 3471210453278062185, guid: d6b1f176ee9187846901dba9ec37f6df, type: 3}
   ArenaSlotPrefab: {fileID: 8708252175272485654, guid: 5fd89461f56b95548a2fe3fb0cf014ae, type: 3}
+  EuroStyleNormalFont: {fileID: 11400000, guid: e39704b8d3c77a34aa782b512972d780, type: 2}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0

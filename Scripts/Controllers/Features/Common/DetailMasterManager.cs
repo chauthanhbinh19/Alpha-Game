@@ -32,22 +32,22 @@ public class DetailMasterManager : MonoBehaviour
         Master master = UserCardHeroesMasterService.Create().GetCardHeroesMaster(mainType, cardHeroes.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (master.level == 0) ? 1 : (master.level % levelsPerSkill == 0 ? levelsPerSkill : master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, 1);
 
@@ -61,12 +61,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, level);
 
@@ -85,22 +85,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserBooksMasterService.Create().GetBooksMaster(mainType, books.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -114,12 +114,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -138,22 +138,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserCardCaptainsMasterService.Create().GetCardCaptainsMaster(mainType, cardCaptains.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -167,12 +167,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -191,22 +191,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserPetsMasterService.Create().GetPetsMaster(mainType, pets.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -220,12 +220,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -244,22 +244,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserCardMilitaryMasterService.Create().GetCardMilitaryMaster(mainType, cardMilitary.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -273,12 +273,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -297,22 +297,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserCardSpellMasterService.Create().GetCardSpellMaster(mainType, cardSpell.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -326,12 +326,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -350,22 +350,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserCardMonstersMasterService.Create().GetCardMonstersMaster(mainType, cardMonsters.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -379,12 +379,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -403,22 +403,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserCardColonelsMasterService.Create().GetCardColonelsMaster(mainType, cardColonels.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -432,12 +432,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -456,22 +456,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserCardGeneralsMasterService.Create().GetCardGeneralsMaster(mainType, cardGenerals.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -485,12 +485,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -509,22 +509,22 @@ public class DetailMasterManager : MonoBehaviour
         Master Master = UserCardAdmiralsMasterService.Create().GetCardAdmiralsMaster(mainType, cardAdmirals.id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Items items = new Items();
+        Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        items = userItemsService.GetUserItemByName(mainType);
+        item = userItemsService.GetUserItemByName(mainType);
         UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+        UIManager.Instance.SetMaterialUI(currentObject, item.image, Master.level, item.quantity);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-            if (items.quantity >= materialQuantity)
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -538,12 +538,12 @@ public class DetailMasterManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-            if (items.quantity >= materialQuantity)
+            int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+            int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+            if (item.quantity >= materialQuantity)
             {
-                items.quantity = items.quantity - materialQuantity;
-                userItemsService.UpdateUserItemsQuantity(items);
+                item.quantity = item.quantity - materialQuantity;
+                userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(Master, level);
                 
@@ -562,22 +562,22 @@ public class DetailMasterManager : MonoBehaviour
     //     Master Master = UserEquipmentsMasterService.Create().GetEquipmentsMaster(mainType, equipments.id);
     //     GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-    //     Items items = new Items();
+    //     Items item = new Items();
     //     MasterService MasterService = new MasterService();
 
-    //     items = userItemsService.GetUserItemByName(mainType);
+    //     item = userItemsService.GetUserItemByName(mainType);
     //     UIManager.Instance.SetUI(slotObject, mainType, Master.level, type);
-    //     UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, items.quantity);
+    //     UIManager.Instance.SetMaterialUI(currentObject, mainType, Master.level, item.quantity);
     //     UpLevelButton.onClick.RemoveAllListeners();
     //     UpMaxLevelButton.onClick.RemoveAllListeners();
     //     UpLevelButton.onClick.AddListener(() =>
     //     {
     //         int levelsPerSkill = 1000;
     //         int materialQuantity = (Master.level == 0) ? 1 : (Master.level % levelsPerSkill == 0 ? levelsPerSkill : Master.level % levelsPerSkill);
-    //         if (items.quantity >= materialQuantity)
+    //         if (item.quantity >= materialQuantity)
     //         {
-    //             items.quantity = items.quantity - materialQuantity;
-    //             userItemsService.UpdateUserItemsQuantity(items);
+    //             item.quantity = item.quantity - materialQuantity;
+    //             userItemsService.UpdateUserItemsQuantity(item);
     //             Master newMaster = new Master();
     //             newMaster = MasterService.EnhanceMaster(Master, 1);
                 
@@ -591,12 +591,12 @@ public class DetailMasterManager : MonoBehaviour
     //     });
     //     UpMaxLevelButton.onClick.AddListener(() =>
     //     {
-    //         int level = EvaluateItem.CalculateMaxMaterialLevel(items.quantity, Master.level);
-    //         int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(items.quantity, Master.level);
-    //         if (items.quantity >= materialQuantity)
+    //         int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, Master.level);
+    //         int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, Master.level);
+    //         if (item.quantity >= materialQuantity)
     //         {
-    //             items.quantity = items.quantity - materialQuantity;
-    //             userItemsService.UpdateUserItemsQuantity(items);
+    //             item.quantity = item.quantity - materialQuantity;
+    //             userItemsService.UpdateUserItemsQuantity(item);
     //             Master newMaster = new Master();
     //             newMaster = MasterService.EnhanceMaster(Master, level);
                 

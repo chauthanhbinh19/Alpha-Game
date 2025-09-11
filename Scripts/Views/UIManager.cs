@@ -350,6 +350,8 @@ public class UIManager : MonoBehaviour
     public GameObject MasterBoardNodePrefab;
     public GameObject MasterBoardPopupPrefab;
     public GameObject ArenaSlotPrefab;
+    [Header("Font")]
+    public TMP_FontAsset EuroStyleNormalFont;
 
     private void Awake()
     {
@@ -1107,6 +1109,16 @@ public class UIManager : MonoBehaviour
                 return null;
         }
     }
+    public TMP_FontAsset GetTMPFontAsset(string fontName)
+    {
+        switch (fontName)
+        {
+            case "EuroStyleNormalFont":
+                return EuroStyleNormalFont;
+            default:
+                return EuroStyleNormalFont;
+        }
+    }
     // public Button GetButton(string prefabName)
     // {
     //     switch (prefabName)
@@ -1128,9 +1140,14 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-        RawImage BackgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
-        Texture backgroundTexture = Resources.Load<Texture>($"UI/Background3/{mainType}");
-        BackgroundImage.texture = backgroundTexture;
+        Transform BackgroundImageTransform = gameObject.transform.Find("Background");
+        if (BackgroundImageTransform != null)
+        {
+            RawImage BackgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
+            Texture backgroundTexture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            BackgroundImage.texture = backgroundTexture;
+            BackgroundImage.rectTransform.sizeDelta = new Vector2(350, 350);
+        }
 
         Transform backgroundTransform = gameObject.transform.Find("BackgroundCircle");
         if (backgroundTransform != null)
@@ -1184,7 +1201,7 @@ public class UIManager : MonoBehaviour
         TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         LevelText.text = level.ToString();
     }
-    public void SetMaterialUI(GameObject gameobject, string type, int level = 0, int userMaterialQuantity = 0)
+    public void SetMaterialUI(GameObject gameobject, string itemImage, int level = 0, int userMaterialQuantity = 0)
     {
         int levelsPerSkill = 1000;
         int materialQuantity = (level == 0) ? 1 : (level % levelsPerSkill == 0 ? levelsPerSkill : level % levelsPerSkill);
@@ -1196,7 +1213,7 @@ public class UIManager : MonoBehaviour
         GameObject maxLevelMaterialObject = Instantiate(ElementDetails2Prefab, MaxLevelMaterial);
 
         RawImage oneLevelImage = oneLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-        Texture oneLevelTexture = Resources.Load<Texture>($"Item/Material/{type}");
+        Texture oneLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         oneLevelImage.texture = oneLevelTexture;
 
         RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
@@ -1206,7 +1223,7 @@ public class UIManager : MonoBehaviour
         oneLevelQuantity.text = userMaterialQuantity + "/" + materialQuantity;
 
         RawImage maxLevelImage = maxLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-        Texture maxLevelTexture = Resources.Load<Texture>($"Item/Material/{type}");
+        Texture maxLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         maxLevelImage.texture = maxLevelTexture;
 
         TextMeshProUGUI maxLevelQuantity = maxLevelMaterialObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
