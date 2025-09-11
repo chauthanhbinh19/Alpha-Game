@@ -37,6 +37,8 @@ public class Relics : BaseEntity
     public string rare { get => rare1; set => rare1 = value; }
     public int quality { get => quality1; set => quality1 = value; }
     public string type { get => type1; set => type1 = value; }
+    public int current_star { get; set; }
+    public int temp_star { get; set; }
     public int star { get => star1; set => star1 = value; }
     public int level { get => level1; set => level1 = value; }
     public int experiment { get => experiment1; set => experiment1 = value; }

@@ -32,6 +32,8 @@ public class Avatars : BaseEntity
     public string rare { get => rare1; set => rare1 = value; }
     public int quality { get => quality1; set => quality1 = value; }
     public int quantity { get; set; }
+    public int current_star { get; set; }
+    public int temp_star { get; set; }
     public string description { get => description1; set => description1 = value; }
     public string status { get => status1; set => status1 = value; }
     public double percent_all_health { get => percent_all_health1; set => percent_all_health1 = value; }

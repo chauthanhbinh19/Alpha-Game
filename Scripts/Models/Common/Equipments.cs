@@ -55,6 +55,8 @@ public class Equipments : BaseEntity
     public string rare { get => rare1; set => rare1 = value; }
     public int quality { get => quality1; set => quality1 = value; }
     public string type { get => type1; set => type1 = value; }
+    public int current_star { get; set; }
+    public int temp_star { get; set; }
     public string set { get => set1; set => set1 = value; }
     public int star { get => star1; set => star1 = value; }
     public int sequence { get => sequence1; set => sequence1 = value; }

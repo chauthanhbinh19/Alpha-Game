@@ -17,7 +17,7 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT m.*, CASE WHEN mg.card_military_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
+                string query = @"SELECT m.*, mg.current_star, mg.temp_star, CASE WHEN mg.card_military_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
                 FROM card_military m LEFT JOIN card_military_gallery mg ON m.id = mg.card_military_id and mg.user_id = @userId 
                 where m.type=@type Where (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
@@ -38,6 +38,8 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),

@@ -92,6 +92,21 @@ public class CardMilitaryGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
+
+            Button Upgrade = militaryObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((military.current_star < military.temp_star) && military.status.Equals("available"))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(() =>
+            {
+                CardMilitaryGalleryService.Create().UpdateCardMilitaryGalleryPower(military.id);
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

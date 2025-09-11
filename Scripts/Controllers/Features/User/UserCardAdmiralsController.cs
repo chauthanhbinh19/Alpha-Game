@@ -514,6 +514,8 @@ public class UserCardAdmiralsController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
+                    CardAdmiralsGalleryService.Create().UpdateStarCardAdmiralsGallery(cardAdmirals.id, cardAdmirals.star + 1);
+
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);

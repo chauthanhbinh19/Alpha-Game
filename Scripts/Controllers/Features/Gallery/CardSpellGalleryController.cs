@@ -92,6 +92,21 @@ public class CardSpellGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
+
+            Button Upgrade = spellObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((spell.current_star < spell.temp_star) && spell.status.Equals("available"))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(() =>
+            {
+                CardSpellGalleryService.Create().UpdateCardSpellGalleryPower(spell.id);
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

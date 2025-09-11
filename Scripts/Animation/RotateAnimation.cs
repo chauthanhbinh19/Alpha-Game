@@ -5,6 +5,7 @@ using UnityEngine;
 public class RotateAnimation : MonoBehaviour
 {
     public float rotationSpeed = 50f;
+    public int direction = -1;
 
     private RectTransform rectTransform;
     // Start is called before the first frame update
@@ -16,6 +17,6 @@ public class RotateAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rectTransform.Rotate(0f, 0f, -rotationSpeed * Time.deltaTime);
+        rectTransform.Rotate(0f, 0f, direction * rotationSpeed * Time.deltaTime);
     }
 }

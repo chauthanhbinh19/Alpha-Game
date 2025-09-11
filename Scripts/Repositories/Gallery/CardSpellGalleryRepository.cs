@@ -17,7 +17,7 @@ public class CardSpellGalleryRepository : ICardSpellGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT s.*, CASE WHEN sg.card_spell_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status 
+                string query = @"SELECT s.*, sg.current_star, sg.temp_star, CASE WHEN sg.card_spell_id IS NULL THEN 'block' WHEN sg.status = 'pending' THEN 'pending' WHEN sg.status = 'available' THEN 'available' END AS status 
                 FROM card_spell s LEFT JOIN card_spell_gallery sg ON s.id = sg.card_spell_id and sg.user_id = @userId 
                 where s.type=@type AND (@rare = 'All' or s.rare = @rare)
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
@@ -38,6 +38,8 @@ public class CardSpellGalleryRepository : ICardSpellGalleryRepository
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),

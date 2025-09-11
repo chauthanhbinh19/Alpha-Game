@@ -227,6 +227,14 @@ public class CollectionManager : MonoBehaviour
 
                 totalRecord = spiritBeastGalleryService.GetSpiritBeastCount(rare);
             }
+            else if (mainType.Equals(AppConstants.MainType.Avatar))
+            {
+                var avatarsGalleryService = AvatarsGalleryService.Create();
+                List<Avatars> avatars = avatarsGalleryService.GetAvatarsCollection(pageSize, offset, rare);
+                AvatarsGalleryController.Instance.CreateAvatarsGallery(avatars, DictionaryContentPanel);
+
+                totalRecord = avatarsGalleryService.GetAvatarsCount(rare);
+            }
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         }
@@ -510,6 +518,14 @@ public class CollectionManager : MonoBehaviour
             SpiritBeastGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
 
             totalRecord = spiritBeastGalleryService.GetSpiritBeastCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.Avatar))
+        {
+            var avatarsGalleryService = AvatarsGalleryService.Create();
+            List<Avatars> avatars = avatarsGalleryService.GetAvatarsCollection(pageSize, offset, rare);
+            AvatarsGalleryController.Instance.CreateAvatarsGallery(avatars, DictionaryContentPanel);
+
+            totalRecord = avatarsGalleryService.GetAvatarsCount(rare);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

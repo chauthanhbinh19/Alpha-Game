@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -201,6 +202,11 @@ public class AuthenticationManager : MonoBehaviour
         {
             Destroy(currentObject);
         });
+
+        TextMeshProUGUI signInButtonText = SI_signInButton.GetComponentInChildren<TextMeshProUGUI>();
+        signInButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SignIn);
+        TextMeshProUGUI signUpButtonText = SI_signUpButton.GetComponentInChildren<TextMeshProUGUI>();
+        signUpButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SignUp);
     }
     public void createSignUpPanel()
     {
@@ -220,6 +226,11 @@ public class AuthenticationManager : MonoBehaviour
         {
             Destroy(currentObject);
         });
+
+        TextMeshProUGUI signInButtonText = SI_signInButton.GetComponentInChildren<TextMeshProUGUI>();
+        signInButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Back);
+        TextMeshProUGUI signUpButtonText = SI_signUpButton.GetComponentInChildren<TextMeshProUGUI>();
+        signUpButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SignUp);
     }
     public void createCreateNamePanel(string username, string password)
     {

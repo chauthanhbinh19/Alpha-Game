@@ -347,6 +347,8 @@ public class UserCollaborationController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
+                    CollaborationGalleryService.Create().UpdateStarCollaborationsGallery(collaboration.id, collaboration.star + 1);
+
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);

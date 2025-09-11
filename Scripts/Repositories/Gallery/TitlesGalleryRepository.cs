@@ -17,7 +17,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT t.*, CASE WHEN tg.title_id IS NULL THEN 'block' WHEN tg.status = 'pending' THEN 'pending' WHEN tg.status = 'available' THEN 'available' END AS status 
+                string query = @"SELECT t.*, tg.current_star, tg.temp_star, CASE WHEN tg.title_id IS NULL THEN 'block' WHEN tg.status = 'pending' THEN 'pending' WHEN tg.status = 'available' THEN 'available' END AS status 
                 FROM titles t LEFT JOIN titles_gallery tg ON t.id = tg.title_id and tg.user_id = @userId 
                 Where (@rare = 'All' or t.rare = @rare)
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset";
@@ -37,6 +37,8 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
                         physical_defense = reader.GetDouble("physical_defense"),

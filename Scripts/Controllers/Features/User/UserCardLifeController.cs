@@ -338,6 +338,8 @@ public class UserCardLifeController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
+                    CardLifeGalleryService.Create().UpdateStarCardLifeGallery(cardLife.id, cardLife.star + 1);
+
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);

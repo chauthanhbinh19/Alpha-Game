@@ -17,7 +17,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT c.*, CASE WHEN cg.card_colonel_id IS NULL THEN 'block' WHEN cg.status = 'pending' THEN 'pending' WHEN cg.status = 'available' THEN 'available' END AS status
+                string query = @"SELECT c.*, cg.current_star, cg.temp_star, CASE WHEN cg.card_colonel_id IS NULL THEN 'block' WHEN cg.status = 'pending' THEN 'pending' WHEN cg.status = 'available' THEN 'available' END AS status
                 FROM card_colonels c LEFT JOIN card_colonels_gallery cg ON c.id = cg.card_colonel_id and cg.user_id = @userId 
                 where c.type=@type AND (@rare = 'All' or c.rare = @rare)
                 ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset";
@@ -38,6 +38,8 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),

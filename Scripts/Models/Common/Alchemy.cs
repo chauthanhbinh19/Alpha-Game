@@ -13,6 +13,8 @@ public class Alchemy : BaseEntity
     public string rare { get; set; }
     public int quality { get; set; }
     public string type { get; set; }
+    public int current_star { get; set; }
+    public int temp_star { get; set; }
     public int star { get; set; }
     public int level { get; set; }
     public int experiment { get; set; }

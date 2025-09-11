@@ -337,6 +337,8 @@ public class UserMedalsController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
+                    MedalsGalleryService.Create().UpdateStarMedalsGallery(medal.id, medal.star + 1);
+
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);

@@ -17,7 +17,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT p.*, CASE WHEN pg.pet_id IS NULL THEN 'block' WHEN pg.status = 'pending' THEN 'pending' WHEN pg.status = 'available' THEN 'available' END AS status 
+                string query = @"SELECT p.*, pg.current_star, pg.temp_star, CASE WHEN pg.pet_id IS NULL THEN 'block' WHEN pg.status = 'pending' THEN 'pending' WHEN pg.status = 'available' THEN 'available' END AS status 
                 FROM pets p LEFT JOIN pets_gallery pg ON p.id = pg.pet_id and pg.user_id = @userId 
                 where p.type=@type AND (@rare = 'All' or p.rare = @rare)
                 ORDER BY p.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name limit @limit offset @offset";
@@ -38,6 +38,8 @@ public class PetsGalleryRepository : IPetsGalleryRepository
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),

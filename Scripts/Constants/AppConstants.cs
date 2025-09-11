@@ -175,6 +175,7 @@ public static class AppConstants
         public const string LifeGallery = "Life Gallery";
         public const string ArtworkGallery = "Artwork Gallery";
         public const string SpiritBeastGallery = "Spirit Beast Gallery";
+        public const string AvatarsGallery = "Avatars Gallery";
 
     }
     public static class Collection
@@ -206,6 +207,7 @@ public static class AppConstants
         public const string LifeCollection = "Life Collection";
         public const string ArtworkCollection = "Artwork Collection";
         public const string SpiritBeastCollection = "Spirit Beast Collection";
+        public const string AvatarsCollection = "Avatars Collection";
 
     }
     public static class Anime

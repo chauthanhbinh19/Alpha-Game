@@ -94,6 +94,21 @@ public class CollaborationGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
+
+            Button Upgrade = collaborationObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((collaboration.current_star < collaboration.temp_star) && collaboration.status.Equals("available"))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(() =>
+            {
+                CollaborationGalleryService.Create().UpdateCollaborationsGalleryPower(collaboration.id);
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

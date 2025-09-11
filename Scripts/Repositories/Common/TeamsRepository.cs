@@ -22,22 +22,30 @@ public class TeamsRepository : ITeamsRepository
                 teams.Add(new Teams
                 {
                     user_id = reader.GetString("user_id"),
-                    team_id = reader.GetString("team_id")
+                    team_id = reader.GetString("team_id"),
+                    team_number = reader.GetInt32("team_number"),
+                    team_avatar = reader.GetString("team_avatar"),
+                    team_border = reader.GetString("team_border"),
                 });
             }
         }
         return teams;
     }
-    public bool InsertUserTeams(string user_id)
+    public bool InsertUserTeams(string user_id, int team_number = 1)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string userQuery = "INSERT INTO TEAMS (user_id, team_id) VALUES (@user_id, @team_id)";
+            // int id = GetMaxTeamId(connection) + 1;
+            string userQuery = @"INSERT INTO TEAMS (user_id, team_id, team_number, team_avatar, team_border) 
+            VALUES (@user_id, @team_id, @team_number, @team_avatar, @team_border)";
             MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
             userCommand.Parameters.AddWithValue("@user_id", user_id);
-            userCommand.Parameters.AddWithValue("@team_id", GetMaxTeamId(connection) + 1);
+            userCommand.Parameters.AddWithValue("@team_id", Guid.NewGuid().ToString());
+            userCommand.Parameters.AddWithValue("@team_number", team_number);
+            userCommand.Parameters.AddWithValue("@team_avatar", "Team/Avatar/Team_Avatar_1");
+            userCommand.Parameters.AddWithValue("@team_border", "Team/Border/Team_Border_1");
             userCommand.ExecuteNonQuery();
         }
         return true;

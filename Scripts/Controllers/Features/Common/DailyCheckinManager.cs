@@ -154,13 +154,13 @@ public class DailyCheckinManager : MonoBehaviour
     public void CreateDailyCheckinGroup()
     {
         GameObject popupObject = Instantiate(DailyCheckinPanelPrefab, MainPanel);
-        TextMeshProUGUI titleTMPText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         TabButtonPanel = popupObject.transform.Find("Scroll View/Viewport/Content");
         Button CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
         Button HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
-        titleTMPText.text = LocalizationManager.Get("daily_checkin");
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.DailyCheckin);
         DailyCheckinPanel = popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         // Features features = new Features();

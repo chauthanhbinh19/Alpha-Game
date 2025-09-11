@@ -70,6 +70,7 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_25", () => GetType(AppConstants.MainType.CardLife));
         AssignButtonEvent("Button_26", () => GetType(AppConstants.MainType.Artwork));
         AssignButtonEvent("Button_27", () => GetType(AppConstants.MainType.SpiritBeast));
+        AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.Avatar));
         // GetCardsType();
     }
 
@@ -214,6 +215,13 @@ public class GalleryManager : MonoBehaviour
                 SpiritBeastController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
 
                 totalRecord = SpiritBeastService.Create().GetSpiritBeastCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.Avatar))
+            {
+                List<Avatars> avatars = AvatarsService.Create().GetAvatars(pageSize, offset, rare);
+                AvatarsController.Instance.CreateAvatarsGallery(avatars, DictionaryContentPanel);
+
+                totalRecord = AvatarsService.Create().GetAvatarsCount(rare);
             }
 
             totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -490,6 +498,13 @@ public class GalleryManager : MonoBehaviour
             SpiritBeastController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
 
             totalRecord = SpiritBeastService.Create().GetSpiritBeastCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.Avatar))
+        {
+            List<Avatars> avatars = AvatarsService.Create().GetAvatars(pageSize, offset, rare);
+            AvatarsController.Instance.CreateAvatarsGallery(avatars, DictionaryContentPanel);
+
+            totalRecord = AvatarsService.Create().GetAvatarsCount(rare);
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);

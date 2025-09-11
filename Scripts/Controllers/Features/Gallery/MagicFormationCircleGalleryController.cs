@@ -95,6 +95,21 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
+
+            Button Upgrade = magicFormationCircleObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((magicFormationCircle.current_star < magicFormationCircle.temp_star) && magicFormationCircle.status.Equals("available"))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(() =>
+            {
+                MagicFormationCircleGalleryService.Create().UpdateMagicFormationCircleGalleryPower(magicFormationCircle.id);
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

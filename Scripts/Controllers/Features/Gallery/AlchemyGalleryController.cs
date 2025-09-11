@@ -95,6 +95,21 @@ public class AlchemyGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
+
+            Button Upgrade = alchemyObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((alchemy.current_star < alchemy.temp_star) && alchemy.status.Equals("available"))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(() =>
+            {
+                AlchemyGalleryService.Create().UpdateAlchemyGalleryPower(alchemy.id);
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

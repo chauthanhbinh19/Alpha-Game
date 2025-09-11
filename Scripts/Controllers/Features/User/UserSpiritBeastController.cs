@@ -250,13 +250,13 @@ public class UserSpiritBeastController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is SpiritBeast title)
+        if (obj is SpiritBeast spiritBeast)
         {
-            PropertyInfo[] properties = title.GetType().GetProperties();
+            PropertyInfo[] properties = spiritBeast.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(title, null);
+                object value = property.GetValue(spiritBeast, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
             Items item = new Items();
@@ -273,47 +273,47 @@ public class UserSpiritBeastController : MonoBehaviour
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (title.star + 1).ToString();
+                eQuantity.text = items1.quantity.ToString() + "/" + (spiritBeast.star + 1).ToString();
             }
             GameObject titleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage titleImage = titleObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.image);
             Texture titleTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             titleImage.texture = titleTexture;
 
             TextMeshProUGUI titleQuantity = titleObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            titleQuantity.text = title.quantity.ToString() + "/" + (title.star + 1).ToString();
+            titleQuantity.text = spiritBeast.quantity.ToString() + "/" + (spiritBeast.star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(title.star, currentObject);
+            UIManager.Instance.CreateStarUI(spiritBeast.star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                int requiredQuantity = title.star + 1;
+                int requiredQuantity = spiritBeast.star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
-                bool hasEnoughSpiritBeast = title.quantity >= requiredQuantity;
+                bool hasEnoughSpiritBeast = spiritBeast.quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
                     totalItemQuantity += items1.quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + title.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + spiritBeast.quantity >= requiredQuantity;
 
                 if (hasEnoughSpiritBeast || hasEnoughItems)
                 {
                     // Giảm số lượng danh hiệu trước
-                    if (title.quantity >= requiredQuantity)
+                    if (spiritBeast.quantity >= requiredQuantity)
                     {
-                        title.quantity -= requiredQuantity;
+                        spiritBeast.quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu danh hiệu không đủ, dùng cả danh hiệu + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - title.quantity;
-                        title.quantity = 0; // Dùng hết danh hiệu
+                        int remainingRequired = requiredQuantity - spiritBeast.quantity;
+                        spiritBeast.quantity = 0; // Dùng hết danh hiệu
 
                         foreach (Items items1 in items)
                         {
@@ -340,16 +340,18 @@ public class UserSpiritBeastController : MonoBehaviour
                     SpiritBeast newTitle = new SpiritBeast();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    newTitle = UserSpiritBeastService.Create().GetNewBreakthroughPower(title, increasePerUpgrade);
-                    UserSpiritBeastService.Create().UpdateSpiritBeastBreakthrough(newTitle, title.star + 1, title.quantity);
+                    newTitle = UserSpiritBeastService.Create().GetNewBreakthroughPower(spiritBeast, increasePerUpgrade);
+                    UserSpiritBeastService.Create().UpdateSpiritBeastBreakthrough(newTitle, spiritBeast.star + 1, spiritBeast.quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
+                    SpiritBeastGalleryService.Create().UpdateStarSpiritBeastGallery(spiritBeast.id, spiritBeast.star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(title.star, currentObject);
+                    UIManager.Instance.CreateStarUI(spiritBeast.star, currentObject);
                 }
                 else
                 {

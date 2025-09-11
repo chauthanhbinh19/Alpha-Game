@@ -121,55 +121,59 @@ public static class AppDisplayConstants
 
         public const string Campaign = "campaign";
         public const string Campaigns = "campaigns";
-        public const string Bag = "bag";
-        public const string Teams = "teams";
-        public const string More = "more";
-        public const string Shop = "shop";
-        public const string Gallery = "gallery";
-        public const string Collection = "collection";
-        public const string Anime = "anime";
-        public const string Arena = "arena";
-        public const string Guild = "guild";
-        public const string Tower = "tower";
-        public const string Event = "event";
-        public const string MasterBoard = "master_board";
-        public const string DailyCheckin = "daily_checkin";
-        public const string Email = "email";
-        public const string Chat = "chat";
+        public const string Bag = "MainType.Bag";
+        public const string Teams = "MainType.Teams";
+        public const string More = "MainType.More";
+        public const string Shop = "MainType.Shop";
+        public const string Gallery = "MainType.Gallery";
+        public const string Collection = "MainType.Collection";
+        public const string Anime = "MainType.Anime";
+        public const string Arena = "MainType.Arena";
+        public const string Guild = "MainType.Guild";
+        public const string Tower = "MainType.Tower";
+        public const string Event = "MainType.Event";
+        public const string MasterBoard = "MainType.MasterBoard";
+        public const string DailyCheckin = "MainType.DailyCheckin";
+        public const string Email = "MainType.Email";
+        public const string Chat = "MainType.Chat";
 
 
-        public const string Buy = "buy";
-        public const string PackageItem = "Package";
+        public const string Buy = "MainType.Buy";
+        public const string PackageItem = "MainType.Package";
+        public const string SignIn = "MainType.SignIn";
+        public const string SignUp = "MainType.SignUp";
+        public const string Back = "MainType.Back";
     }
     public static class Gallery
     {
-        public const string CardHeroes = "Gallery.CardHeroes";
-        public const string Books = "Gallery.Books";
-        public const string Pets = "Gallery.Pets";
-        public const string CardCaptains = "Gallery.CardCaptains";
-        public const string CollaborationEquipments = "Gallery.CollaborationEquipments";
-        public const string CardMilitary = "Gallery.CardMilitary";
-        public const string CardSpell = "Gallery.CardSpell";
-        public const string Collaborations = "Gallery.Collaborations";
-        public const string CardMonsters = "Gallery.CardMonsters";
-        public const string Equipments = "Gallery.Equipments";
-        public const string Medals = "Gallery.Medals";
-        public const string Skills = "Gallery.Skills";
-        public const string Symbols = "Gallery.Symbols";
-        public const string Titles = "Gallery.Titles";
-        public const string MagicFormationCircle = "Gallery.MagicFormationCircle";
-        public const string Relics = "Gallery.Relics";
-        public const string CardColonels = "Gallery.CardColonels";
-        public const string CardGenerals = "Gallery.CardGenerals";
-        public const string CardAdmirals = "Gallery.CardAdmirals";
-        public const string Borders = "Gallery.Borders";
-        public const string Talisman = "Gallery.Talisman";
-        public const string Puppet = "Gallery.Puppet";
-        public const string Alchemy = "Gallery.Alchemy";
-        public const string Forge = "Gallery.Forge";
-        public const string Life = "Gallery.Life";
-        public const string Artwork = "Gallery.Artwork";
-        public const string SpiritBeast = "Gallery.SpiritBeast";
+        public const string CardHeroesGallery = "Gallery.CardHeroes";
+        public const string BooksGallery = "Gallery.Books";
+        public const string PetsGallery = "Gallery.Pets";
+        public const string CardCaptainsGallery = "Gallery.CardCaptains";
+        public const string CollaborationEquipmentsGallery = "Gallery.CollaborationEquipments";
+        public const string CardMilitaryGallery = "Gallery.CardMilitary";
+        public const string CardSpellGallery = "Gallery.CardSpell";
+        public const string CollaborationsGallery = "Gallery.Collaborations";
+        public const string CardMonstersGallery = "Gallery.CardMonsters";
+        public const string EquipmentsGallery = "Gallery.Equipments";
+        public const string MedalsGallery = "Gallery.Medals";
+        public const string SkillsGallery = "Gallery.Skills";
+        public const string SymbolsGallery = "Gallery.Symbols";
+        public const string TitlesGallery = "Gallery.Titles";
+        public const string MagicFormationCircleGallery = "Gallery.MagicFormationCircle";
+        public const string RelicsGallery = "Gallery.Relics";
+        public const string CardColonelsGallery = "Gallery.CardColonels";
+        public const string CardGeneralsGallery = "Gallery.CardGenerals";
+        public const string CardAdmiralsGallery = "Gallery.CardAdmirals";
+        public const string BordersGallery = "Gallery.Borders";
+        public const string TalismanGallery = "Gallery.Talisman";
+        public const string PuppetGallery = "Gallery.Puppet";
+        public const string AlchemyGallery = "Gallery.Alchemy";
+        public const string ForgeGallery = "Gallery.Forge";
+        public const string LifeGallery = "Gallery.Life";
+        public const string ArtworkGallery = "Gallery.Artwork";
+        public const string SpiritBeastGallery = "Gallery.SpiritBeast";
+        public const string AvatarsGallery = "Gallery.Avatars";
     }
     public static class Collection
     {
@@ -200,6 +204,7 @@ public static class AppDisplayConstants
         public const string LifeCollection = "Collection.LifeCollection";
         public const string ArtworkCollection = "Collection.ArtworkCollection";
         public const string SpiritBeastCollection = "Collection.SpiritBeastCollection";
+        public const string AvatarsCollection = "Collection.Avatars";
     }
     public static class Anime
     {
@@ -217,14 +222,14 @@ public static class AppDisplayConstants
     }
     public static class Market
     {
-        public const string RareMarket = "rare_market";
-        public const string UltraRareMarket = "ultra_rare_market";
-        public const string LegendaryMarket = "legendary_market";
-        public const string MysticMarket = "mystic_market";
-        public const string RareMaterialItem = "Material – Rare Tier";
-        public const string UltraRareMaterialItem = "Material – Ultra Rare Tier";
-        public const string LegendaryMaterialItem = "Material – Legendary Tier";
-        public const string MysticMaterialItem = "Material – Mystic Tier";
+        public const string RareMarket = "Market.RareMarket";
+        public const string UltraRareMarket = "Market.UltraRareMarket";
+        public const string LegendaryMarket = "Market.LegendaryMarket";
+        public const string MysticMarket = "Market.MysticMarket";
+        public const string RareMaterialItem = "Market.RareMaterialItem";
+        public const string UltraRareMaterialItem = "Market.UltraRareMaterialItem";
+        public const string LegendaryMaterialItem = "Market.LegendaryMaterialItem";
+        public const string MysticMaterialItem = "Market.MysticMaterialItem";
     }
     public static class MainMenuSet1
     {

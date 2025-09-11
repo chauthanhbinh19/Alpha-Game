@@ -79,6 +79,17 @@ public class UIManager : MonoBehaviour
     public GameObject StarPrefab;
     public GameObject PowerPrefab;
     public GameObject LoadingPanelPrefab;
+    [Header("Science Fiction")]
+    public GameObject ReactorPanelNumber1Prefab;
+    public GameObject ReactorPanelNumber2Prefab;
+    public GameObject ReactorPanelNumber3Prefab;
+    public GameObject ReactorPanelNumber4Prefab;
+    public GameObject ReactorPanelNumber5Prefab;
+    public GameObject ReactorPanelNumber6Prefab;
+    public GameObject ReactorPanelNumber7Prefab;
+    public GameObject ReactorPanelNumber8Prefab;
+    public GameObject ReactorPanelNumber9Prefab;
+    public GameObject ReactorPanelNumber10Prefab;
     [Header("Market")]
     public GameObject RareMarketManagerPrefab;
     public GameObject RareMarketPrefab;
@@ -1001,65 +1012,99 @@ public class UIManager : MonoBehaviour
     public GameObject GetGameObjectMaster(string prefabName)
     {
         switch (prefabName)
-        { 
+        {
             case "MasterOfBeastPanelPrefab":
-            return MasterOfBeastPanelPrefab;
-        case "MasterOfBeastSlotPrefab":
-            return MasterOfBeastSlotPrefab;
+                return MasterOfBeastPanelPrefab;
+            case "MasterOfBeastSlotPrefab":
+                return MasterOfBeastSlotPrefab;
 
-        case "MasterOfDragonPanelPrefab":
-            return MasterOfDragonPanelPrefab;
-        case "MasterOfDragonSlotPrefab":
-            return MasterOfDragonSlotPrefab;
+            case "MasterOfDragonPanelPrefab":
+                return MasterOfDragonPanelPrefab;
+            case "MasterOfDragonSlotPrefab":
+                return MasterOfDragonSlotPrefab;
 
-        case "MasterOfMagicPanelPrefab":
-            return MasterOfMagicPanelPrefab;
-        case "MasterOfMagicSlotPrefab":
-            return MasterOfMagicSlotPrefab;
+            case "MasterOfMagicPanelPrefab":
+                return MasterOfMagicPanelPrefab;
+            case "MasterOfMagicSlotPrefab":
+                return MasterOfMagicSlotPrefab;
 
-        case "MasterOfMusicPanelPrefab":
-            return MasterOfMusicPanelPrefab;
-        case "MasterOfMusicSlotPrefab":
-            return MasterOfMusicSlotPrefab;
+            case "MasterOfMusicPanelPrefab":
+                return MasterOfMusicPanelPrefab;
+            case "MasterOfMusicSlotPrefab":
+                return MasterOfMusicSlotPrefab;
 
-        case "MasterOfSciencePanelPrefab":
-            return MasterOfSciencePanelPrefab;
-        case "MasterOfScienceSlotPrefab":
-            return MasterOfScienceSlotPrefab;
+            case "MasterOfSciencePanelPrefab":
+                return MasterOfSciencePanelPrefab;
+            case "MasterOfScienceSlotPrefab":
+                return MasterOfScienceSlotPrefab;
 
-        case "MasterOfSpiritPanelPrefab":
-            return MasterOfSpiritPanelPrefab;
-        case "MasterOfSpiritSlotPrefab":
-            return MasterOfSpiritSlotPrefab;
+            case "MasterOfSpiritPanelPrefab":
+                return MasterOfSpiritPanelPrefab;
+            case "MasterOfSpiritSlotPrefab":
+                return MasterOfSpiritSlotPrefab;
 
-        case "MasterOfWeaponPanelPrefab":
-            return MasterOfWeaponPanelPrefab;
-        case "MasterOfWeaponSlotPrefab":
-            return MasterOfWeaponSlotPrefab;
+            case "MasterOfWeaponPanelPrefab":
+                return MasterOfWeaponPanelPrefab;
+            case "MasterOfWeaponSlotPrefab":
+                return MasterOfWeaponSlotPrefab;
 
-        case "MasterOfChemicalPanelPrefab":
-            return MasterOfChemicalPanelPrefab;
-        case "MasterOfChemicalSlotPrefab":
-            return MasterOfChemicalSlotPrefab;
+            case "MasterOfChemicalPanelPrefab":
+                return MasterOfChemicalPanelPrefab;
+            case "MasterOfChemicalSlotPrefab":
+                return MasterOfChemicalSlotPrefab;
 
-        case "MasterOfPhysicalPanelPrefab":
-            return MasterOfPhysicalPanelPrefab;
-        case "MasterOfPhysicalSlotPrefab":
-            return MasterOfPhysicalSlotPrefab;
+            case "MasterOfPhysicalPanelPrefab":
+                return MasterOfPhysicalPanelPrefab;
+            case "MasterOfPhysicalSlotPrefab":
+                return MasterOfPhysicalSlotPrefab;
 
-        case "MasterOfAtomicPanelPrefab":
-            return MasterOfAtomicPanelPrefab;
-        case "MasterOfAtomicSlotPrefab":
-            return MasterOfAtomicSlotPrefab;
+            case "MasterOfAtomicPanelPrefab":
+                return MasterOfAtomicPanelPrefab;
+            case "MasterOfAtomicSlotPrefab":
+                return MasterOfAtomicSlotPrefab;
 
-        case "MasterOfMentalPanelPrefab":
-            return MasterOfMentalPanelPrefab;
-        case "MasterOfMentalSlotPrefab":
-            return MasterOfMentalSlotPrefab;
+            case "MasterOfMentalPanelPrefab":
+                return MasterOfMentalPanelPrefab;
+            case "MasterOfMentalSlotPrefab":
+                return MasterOfMentalSlotPrefab;
 
-        default:
-            Debug.LogWarning($"Prefab name '{prefabName}' not found!");
-            return null;
+            default:
+                Debug.LogWarning($"Prefab name '{prefabName}' not found!");
+                return null;
+        }
+    }
+    public GameObject GetGameObjectScienceFiction(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "ReactorPanelNumber1Prefab":
+                return ReactorPanelNumber1Prefab;
+            case "ReactorPanelNumber2Prefab":
+                return ReactorPanelNumber2Prefab;
+
+            case "ReactorPanelNumber3Prefab":
+                return ReactorPanelNumber3Prefab;
+            case "ReactorPanelNumber4Prefab":
+                return ReactorPanelNumber4Prefab;
+
+            case "ReactorPanelNumber5Prefab":
+                return ReactorPanelNumber5Prefab;
+            case "ReactorPanelNumber6Prefab":
+                return ReactorPanelNumber6Prefab;
+
+            case "ReactorPanelNumber7Prefab":
+                return ReactorPanelNumber7Prefab;
+            case "ReactorPanelNumber8Prefab":
+                return ReactorPanelNumber8Prefab;
+
+            case "ReactorPanelNumber9Prefab":
+                return ReactorPanelNumber9Prefab;
+            case "ReactorPanelNumber10Prefab":
+                return ReactorPanelNumber10Prefab;
+
+            default:
+                Debug.LogWarning($"Prefab name '{prefabName}' not found!");
+                return null;
         }
     }
     // public Button GetButton(string prefabName)
@@ -1884,4 +1929,3 @@ public class UIManager : MonoBehaviour
         }
     }
 }
-    

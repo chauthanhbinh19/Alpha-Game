@@ -107,139 +107,63 @@ public class TeamsManager : MonoBehaviour
         team_id = "1";
         teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
         CreateTeamsPosition(positionTeamsPanel);
-        CreateButton(1, AppConstants.MainType.CardHero, tempLeftContent);
-        CreateButton(2, AppConstants.MainType.CardCaptain, tempLeftContent);
-        CreateButton(3, AppConstants.MainType.CardColonel, tempLeftContent);
-        CreateButton(4, AppConstants.MainType.CardGeneral, tempLeftContent);
-        CreateButton(5, AppConstants.MainType.CardAdmiral, tempLeftContent);
-        CreateButton(6, AppConstants.MainType.CardMonster, tempLeftContent);
-        CreateButton(7, AppConstants.MainType.CardMilitary, tempLeftContent);
-        CreateButton(8, AppConstants.MainType.CardSpell, tempLeftContent);
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", tempLeftContent, () =>
-        {
-            mainType = AppConstants.MainType.CardHero;
-            CreateTeamsPosition(positionTeamsPanel);
-            teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", tempLeftContent, () =>
-        {
-            mainType = AppConstants.MainType.CardCaptain;
-            CreateTeamsPosition(positionTeamsPanel);
-            teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", tempLeftContent, () =>
-        {
-            mainType = AppConstants.MainType.CardColonel;
-            CreateTeamsPosition(positionTeamsPanel);
-            teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", tempLeftContent, () =>
-        {
-            mainType = AppConstants.MainType.CardGeneral;
-            CreateTeamsPosition(positionTeamsPanel);
-            teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", tempLeftContent, () =>
-        {
-            mainType = AppConstants.MainType.CardAdmiral;
-            CreateTeamsPosition(positionTeamsPanel);
-            teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", tempLeftContent, () =>
-        {
-            mainType = AppConstants.MainType.CardMonster;
-            CreateTeamsPosition(positionTeamsPanel);
-            teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", tempLeftContent, () =>
-        {
-            mainType = AppConstants.MainType.CardMilitary;
-            CreateTeamsPosition(positionTeamsPanel);
-            teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", tempLeftContent, () =>
-        {
-            mainType = AppConstants.MainType.CardSpell;
-            CreateTeamsPosition(positionTeamsPanel);
-            teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-        });
-        for (int i = 0; i <= 20; i++)
-        {
-            GameObject button = Instantiate(buttonPrefab, tempRightContent);
-            Text buttonText = button.GetComponentInChildren<Text>();
-            buttonText.text = "Team " + (i + 1);
-            ChangeButtonBackground(button, "Background_V4_167");
-            if (i == 0)
-            {
-                ChangeButtonBackground(button, "Background_V4_166");
-            }
-            int teamIndex = i + 1;
-            Button btn = button.GetComponent<Button>();
-            btn.onClick.AddListener(() =>
-            {
-                team_id = teamIndex.ToString();
-                teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
-                GetTeamsButton(button, tempRightContent);
-                CreateTeamsPosition(positionTeamsPanel);
-            });
-        }
     }
     public void CreateTeamsPosition(Transform positionTeamsPanel)
     {
         Close(positionTeamsPanel);
-        for (int i = 1; i <= 10; i++)
+        var userTeams = TeamsService.Create().GetUserTeams(User.CurrentUserId);
+        foreach (var team in userTeams)
         {
             GameObject cardTeam = Instantiate(TeamsPositionPrefab, positionTeamsPanel);
             RawImage cardImage = cardTeam.transform.Find("CardImage").GetComponent<RawImage>();
             TextMeshProUGUI teamsPositionText = cardTeam.transform.Find("PositionText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI teamsContentText = cardTeam.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-            teamsPositionText.text = i.ToString();
+            RawImage teamAvatarImage = cardTeam.transform.Find("AvatarImage").GetComponent<RawImage>();
+            RawImage teamBorderImage = cardTeam.transform.Find("BorderImage").GetComponent<RawImage>();
+            teamsPositionText.text = "Team " + team.team_number;
+            Texture teamAvatarTexture = Resources.Load<Texture>(team.team_avatar);
+            Texture teamBorderTexture = Resources.Load<Texture>(team.team_border);
+            teamAvatarImage.texture = teamAvatarTexture;
+            teamBorderImage.texture = teamBorderTexture;
             int positionNumber = 0;
             if (mainType.Equals(AppConstants.MainType.CardHero))
             {
-                positionNumber = userCardHeroesService.GetUserCardHeroesTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
+                positionNumber = userCardHeroesService.GetUserCardHeroesTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
             }
             else if (mainType.Equals(AppConstants.MainType.CardCaptain))
             {
-                positionNumber = userCardCaptainsService.GetUserCardCaptainsTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
+                positionNumber = userCardCaptainsService.GetUserCardCaptainsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
             }
             else if (mainType.Equals(AppConstants.MainType.CardColonel))
             {
-                positionNumber = userCardColonelsService.GetUserCardColonelsTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
+                positionNumber = userCardColonelsService.GetUserCardColonelsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
             }
             else if (mainType.Equals(AppConstants.MainType.CardGeneral))
             {
-                positionNumber = userCardGeneralsService.GetUserCardGeneralsTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
+                positionNumber = userCardGeneralsService.GetUserCardGeneralsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
             }
             else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
             {
-                positionNumber = userCardAdmiralsService.GetUserCardAdmiralsTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
+                positionNumber = userCardAdmiralsService.GetUserCardAdmiralsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
             }
             else if (mainType.Equals(AppConstants.MainType.CardMonster))
             {
-                positionNumber = userCardMonstersService.GetUserCardMonstersTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
+                positionNumber = userCardMonstersService.GetUserCardMonstersTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
             }
             else if (mainType.Equals(AppConstants.MainType.CardMilitary))
             {
-                positionNumber = userCardMilitaryService.GetUserCardMilitaryTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
+                positionNumber = userCardMilitaryService.GetUserCardMilitaryTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
             }
             else if (mainType.Equals(AppConstants.MainType.CardSpell))
             {
-                positionNumber = userCardSpellService.GetUserCardSpellTeamsPositionCount(User.CurrentUserId, team_id, i.ToString());
+                positionNumber = userCardSpellService.GetUserCardSpellTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
             }
             teamsContentText.text = positionNumber.ToString() + "/10";
 
-            // Lấy EventTrigger của RawImage
-            EventTrigger eventTrigger = cardImage.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = cardImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
+            Button positionPopupButton = cardTeam.GetComponent<Button>();
 
-            // Gán sự kiện click
-            int index = i;
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () =>
-            {
+            int index = int.Parse(team.team_id);
+            positionPopupButton.onClick.AddListener(()=>{
                 position = index.ToString();
                 CreatePopupTeams();
             });
@@ -251,6 +175,8 @@ public class TeamsManager : MonoBehaviour
         titleText = teamsObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         ScrollRect scrollRect = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition").GetComponent<ScrollRect>();
         positionPanel = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
+        Transform tempLeftContent = teamsObject.transform.Find("ScrollViewLeft/Viewport/Content");
+        Transform tempRightContent = teamsObject.transform.Find("ScrollViewRight/Viewport/Content");
         CloseButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
@@ -286,6 +212,112 @@ public class TeamsManager : MonoBehaviour
         // {
         //     scrollManager.UpdateArrows(); // Cập nhật mũi tên khi cuộn
         // });
+
+        CreateButton(1, AppConstants.MainType.CardHero, tempLeftContent);
+        CreateButton(2, AppConstants.MainType.CardCaptain, tempLeftContent);
+        CreateButton(3, AppConstants.MainType.CardColonel, tempLeftContent);
+        CreateButton(4, AppConstants.MainType.CardGeneral, tempLeftContent);
+        CreateButton(5, AppConstants.MainType.CardAdmiral, tempLeftContent);
+        CreateButton(6, AppConstants.MainType.CardMonster, tempLeftContent);
+        CreateButton(7, AppConstants.MainType.CardMilitary, tempLeftContent);
+        CreateButton(8, AppConstants.MainType.CardSpell, tempLeftContent);
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", tempLeftContent, () =>
+        {
+            mainType = AppConstants.MainType.CardHero;
+            CreatePosition(positionPanel, user.level, teamsObject);
+            typeText.text = AppDisplayConstants.MainType.CardHero;
+
+            List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
+            List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
+            CreateCardTeams(cardObjects, choseTeam);
+            int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName, rare);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", tempLeftContent, () =>
+        {
+            mainType = AppConstants.MainType.CardCaptain;
+            CreatePosition(positionPanel, user.level, teamsObject);
+            typeText.text = AppDisplayConstants.MainType.CardCaptain;
+
+            List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
+            List<object> cardObjects = cardCaptainsList.Cast<object>().ToList();
+            CreateCardTeams(cardObjects, choseTeam);
+            int totalRecord = userCardCaptainsService.GetUserCardCaptainsCount(User.CurrentUserId, selectedOptionName, rare);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", tempLeftContent, () =>
+        {
+            mainType = AppConstants.MainType.CardColonel;
+            CreatePosition(positionPanel, user.level, teamsObject);
+            typeText.text = AppDisplayConstants.MainType.CardColonel;
+
+            List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
+            List<object> cardObjects = cardColonelsList.Cast<object>().ToList();
+            CreateCardTeams(cardObjects, choseTeam);
+            int totalRecord = userCardColonelsService.GetUserCardColonelsCount(User.CurrentUserId, selectedOptionName, rare);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", tempLeftContent, () =>
+        {
+            mainType = AppConstants.MainType.CardGeneral;
+            CreatePosition(positionPanel, user.level, teamsObject);
+            typeText.text = AppDisplayConstants.MainType.CardGeneral;
+
+            List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
+            List<object> cardObjects = cardGeneralsList.Cast<object>().ToList();
+            CreateCardTeams(cardObjects, choseTeam);
+            int totalRecord = userCardGeneralsService.GetUserCardGeneralsCount(User.CurrentUserId, selectedOptionName, rare);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", tempLeftContent, () =>
+        {
+            mainType = AppConstants.MainType.CardAdmiral;
+            CreatePosition(positionPanel, user.level, teamsObject);
+            typeText.text = AppDisplayConstants.MainType.CardAdmiral;
+
+            List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
+            List<object> cardObjects = cardAdmiralsList.Cast<object>().ToList();
+            CreateCardTeams(cardObjects, choseTeam);
+            int totalRecord = userCardAdmiralsService.GetUserCardAdmiralsCount(User.CurrentUserId, selectedOptionName, rare);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", tempLeftContent, () =>
+        {
+            mainType = AppConstants.MainType.CardMonster;
+            CreatePosition(positionPanel, user.level, teamsObject);
+            typeText.text = AppDisplayConstants.MainType.CardMonster;
+
+            List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
+            List<object> cardObjects = cardMonstersList.Cast<object>().ToList();
+            CreateCardTeams(cardObjects, choseTeam);
+            int totalRecord = userCardMonstersService.GetUserCardMonstersCount(User.CurrentUserId, selectedOptionName, rare);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", tempLeftContent, () =>
+        {
+            mainType = AppConstants.MainType.CardMilitary;
+            CreatePosition(positionPanel, user.level, teamsObject);
+            typeText.text = AppDisplayConstants.MainType.CardMilitary;
+
+            List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
+            List<object> cardObjects = cardMilitaryList.Cast<object>().ToList();
+            CreateCardTeams(cardObjects, choseTeam);
+            int totalRecord = userCardMilitaryService.GetUserCardMilitaryCount(User.CurrentUserId, selectedOptionName, rare);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", tempLeftContent, () =>
+        {
+            mainType = AppConstants.MainType.CardSpell;
+            CreatePosition(positionPanel, user.level, teamsObject);
+            typeText.text = AppDisplayConstants.MainType.CardSpell;
+
+            List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
+            List<object> cardObjects = cardSpellList.Cast<object>().ToList();
+            CreateCardTeams(cardObjects, choseTeam);
+            int totalRecord = userCardSpellService.GetUserCardSpellCount(User.CurrentUserId, selectedOptionName, rare);
+            totalPage = CalculateTotalPages(totalRecord, team_limit);
+        });
+
         GetTeamsType(mainType, dropdownType, choseTeam, pageText, team_limit, newOffset =>
         {
             team_offset = newOffset;
@@ -296,7 +328,7 @@ public class TeamsManager : MonoBehaviour
         typeText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
         List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
         CreatePosition(positionPanel, user.level, teamsObject);
-        createCardTeams(cardObjects, choseTeam);
+        CreateCardTeams(cardObjects, choseTeam);
         selectedOptionName = dropdownType.options[dropdownType.value].text;
         int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName, rare);
         totalPage = CalculateTotalPages(totalRecord, team_limit);
@@ -351,7 +383,7 @@ public class TeamsManager : MonoBehaviour
         {
             List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroes(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
-            createCardTeams(cardObjects, panel);
+            CreateCardTeams(cardObjects, panel);
             int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
@@ -359,7 +391,7 @@ public class TeamsManager : MonoBehaviour
         {
             List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardCaptainsList.Cast<object>().ToList();
-            createCardTeams(cardObjects, panel);
+            CreateCardTeams(cardObjects, panel);
             int totalRecord = userCardCaptainsService.GetUserCardCaptainsCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
@@ -367,7 +399,7 @@ public class TeamsManager : MonoBehaviour
         {
             List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardColonelsList.Cast<object>().ToList();
-            createCardTeams(cardObjects, panel);
+            CreateCardTeams(cardObjects, panel);
             int totalRecord = userCardColonelsService.GetUserCardColonelsCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
@@ -375,7 +407,7 @@ public class TeamsManager : MonoBehaviour
         {
             List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardGeneralsList.Cast<object>().ToList();
-            createCardTeams(cardObjects, panel);
+            CreateCardTeams(cardObjects, panel);
             int totalRecord = userCardGeneralsService.GetUserCardGeneralsCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
@@ -383,7 +415,7 @@ public class TeamsManager : MonoBehaviour
         {
             List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardAdmiralsList.Cast<object>().ToList();
-            createCardTeams(cardObjects, panel);
+            CreateCardTeams(cardObjects, panel);
             int totalRecord = userCardAdmiralsService.GetUserCardAdmiralsCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
@@ -391,7 +423,7 @@ public class TeamsManager : MonoBehaviour
         {
             List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardMonstersList.Cast<object>().ToList();
-            createCardTeams(cardObjects, panel);
+            CreateCardTeams(cardObjects, panel);
             int totalRecord = userCardMonstersService.GetUserCardMonstersCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
@@ -399,7 +431,7 @@ public class TeamsManager : MonoBehaviour
         {
             List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardMilitaryList.Cast<object>().ToList();
-            createCardTeams(cardObjects, panel);
+            CreateCardTeams(cardObjects, panel);
             int totalRecord = userCardMilitaryService.GetUserCardMilitaryCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
@@ -407,7 +439,7 @@ public class TeamsManager : MonoBehaviour
         {
             List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
             List<object> cardObjects = cardSpellList.Cast<object>().ToList();
-            createCardTeams(cardObjects, panel);
+            CreateCardTeams(cardObjects, panel);
             int totalRecord = userCardSpellService.GetUserCardSpellCount(User.CurrentUserId, selectedOptionName, rare);
             totalPage = CalculateTotalPages(totalRecord, team_limit);
         }
@@ -483,7 +515,7 @@ public class TeamsManager : MonoBehaviour
 
         if (cardObjects != null)
         {
-            createCardTeams(cardObjects, choseTeam);
+            CreateCardTeams(cardObjects, choseTeam);
         }
     }
     public void CreatePosition(Transform positionPanel, int level, GameObject teamsObject)
@@ -492,6 +524,7 @@ public class TeamsManager : MonoBehaviour
         {
             Destroy(child.gameObject); // Hoặc DestroyImmediate(child.gameObject) nếu cần xóa ngay lập tức
         }
+        var backgroundTexture = "Background_V4_408";
         if (mainType.Equals(AppConstants.MainType.CardHero))
         {
             double totalPower = 0;
@@ -538,8 +571,8 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
-                    image.texture = null; // Hoặc đặt texture mặc định
+                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
+                    image.texture = texture;
                     buttonText.text = "Front";
                 }
 
@@ -619,8 +652,8 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
-                    image.texture = null; // Hoặc đặt texture mặc định
+                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
+                    image.texture = texture;
                     buttonText.text = "Front";
                 }
 
@@ -700,8 +733,8 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
-                    image.texture = null; // Hoặc đặt texture mặc định
+                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
+                    image.texture = texture;
                     buttonText.text = "Front";
                 }
 
@@ -781,8 +814,8 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
-                    image.texture = null; // Hoặc đặt texture mặc định
+                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
+                    image.texture = texture;
                     buttonText.text = "Front";
                 }
 
@@ -862,8 +895,8 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
-                    image.texture = null; // Hoặc đặt texture mặc định
+                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
+                    image.texture = texture;
                     buttonText.text = "Front";
                 }
 
@@ -943,8 +976,8 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
-                    image.texture = null; // Hoặc đặt texture mặc định
+                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
+                    image.texture = texture;
                     buttonText.text = "Front";
                 }
 
@@ -1024,8 +1057,8 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
-                    image.texture = null; // Hoặc đặt texture mặc định
+                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
+                    image.texture = texture;
                     buttonText.text = "Front";
                 }
 
@@ -1105,8 +1138,8 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    // Nếu không có card tại vị trí, để hình ảnh trống hoặc mặc định
-                    image.texture = null; // Hoặc đặt texture mặc định
+                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
+                    image.texture = texture;
                     buttonText.text = "Front";
                 }
 
@@ -1141,7 +1174,7 @@ public class TeamsManager : MonoBehaviour
             powerText.text = NumberFormatter.FormatNumber(totalPower);
         }
     }
-    private void createCardTeams(List<object> obj, Transform panel)
+    private void CreateCardTeams(List<object> obj, Transform panel)
     {
         foreach (Transform child in panel)
         {

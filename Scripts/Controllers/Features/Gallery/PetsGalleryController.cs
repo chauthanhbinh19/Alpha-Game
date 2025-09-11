@@ -122,6 +122,21 @@ public class PetsGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
+
+            Button Upgrade = petsObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((pet.current_star < pet.temp_star) && pet.status.Equals("available"))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(() =>
+            {
+                PetsGalleryService.Create().UpdatePetsGalleryPower(pet.id);
+            });
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

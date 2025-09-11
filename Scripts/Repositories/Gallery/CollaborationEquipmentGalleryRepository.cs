@@ -17,7 +17,7 @@ public class CollaborationEquipmentGalleryRepository : ICollaborationEquipmentGa
             try
             {
                 connection.Open();
-                string query = @"SELECT ce.*, CASE WHEN ceg.collaboration_equipment_id IS NULL THEN 'block' WHEN ceg.status = 'pending' THEN 'pending' WHEN ceg.status = 'available' THEN 'available' END AS status 
+                string query = @"SELECT ce.*, ceg.current_star, ceg.temp_star, CASE WHEN ceg.collaboration_equipment_id IS NULL THEN 'block' WHEN ceg.status = 'pending' THEN 'pending' WHEN ceg.status = 'available' THEN 'available' END AS status 
                 FROM collaboration_equipments ce LEFT JOIN collaboration_equipments_gallery ceg ON ce.id = ceg.collaboration_equipment_id and ceg.user_id = @userId 
                 where ce.type=@type AND (@rare = 'All' or ce.rare = @rare)
                 ORDER BY ce.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(ce.name, '[0-9]+$') AS UNSIGNED), ce.name limit @limit offset @offset";
@@ -38,6 +38,8 @@ public class CollaborationEquipmentGalleryRepository : ICollaborationEquipmentGa
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),

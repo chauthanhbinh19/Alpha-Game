@@ -17,7 +17,7 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT m.*, CASE WHEN mg.talisman_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
+                string query = @"SELECT m.*, mg.current_star, mg.temp_star, CASE WHEN mg.talisman_id IS NULL THEN 'block' WHEN mg.status = 'pending' THEN 'pending' WHEN mg.status = 'available' THEN 'available' END AS status 
                 FROM talisman m LEFT JOIN talisman_gallery mg ON m.id = mg.talisman_id and mg.user_id = @userId 
                 where m.type=@type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
@@ -38,6 +38,8 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         power = reader.GetDouble("power"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         health = reader.GetDouble("health"),
                         physical_attack = reader.GetDouble("physical_attack"),
                         physical_defense = reader.GetDouble("physical_defense"),

@@ -519,6 +519,8 @@ public class UserCardCaptainsController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
+                    CardCaptainsGalleryService.Create().UpdateStarCardCaptainsGallery(cardCaptains.id, cardCaptains.star + 1);
+
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);

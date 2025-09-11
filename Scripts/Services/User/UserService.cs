@@ -32,8 +32,6 @@ public class UserService : IUserService
 
         PowerManagerService.Create().InsertUserStats(userId);
 
-        TeamsService.Create().InsertUserTeams(userId);
-
         Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket);
         UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
         Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket);
@@ -50,6 +48,11 @@ public class UserService : IUserService
         UserItemsService.Create().InsertUserItems(cardGeneralsTicket, 1000000);
         Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket);
         UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
+
+        for (int i = 0; i < 50; i++)
+        {
+            TeamsService.Create().InsertUserTeams(userId, i+1);
+        }
         return userId;
     }
 

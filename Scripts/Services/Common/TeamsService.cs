@@ -18,8 +18,8 @@ public class TeamsService : ITeamsService
     public List<Teams> GetUserTeams(string user_id)
         => _teamsRepository.GetUserTeams(user_id);
 
-    public bool InsertUserTeams(string user_id)
-        => _teamsRepository.InsertUserTeams(user_id);
+    public bool InsertUserTeams(string user_id, int team_number)
+        => _teamsRepository.InsertUserTeams(user_id, team_number);
 
     public int GetMaxTeamId(MySqlConnection connection)
         => _teamsRepository.GetMaxTeamId(connection);

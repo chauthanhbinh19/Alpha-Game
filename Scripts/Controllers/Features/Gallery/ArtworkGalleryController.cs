@@ -95,6 +95,21 @@ public class ArtworkGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
+
+            Button Upgrade = ArtworkObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((Artwork.current_star < Artwork.temp_star) && Artwork.status.Equals("available"))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(() =>
+            {
+                ArtworkGalleryService.Create().UpdateArtworkGalleryPower(Artwork.id);
+            });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

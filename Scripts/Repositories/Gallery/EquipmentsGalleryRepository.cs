@@ -17,7 +17,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT e.*, CASE WHEN eg.equipment_id IS NULL THEN 'block' WHEN eg.status = 'pending' THEN 'pending' WHEN eg.status = 'available' THEN 'available' END AS status 
+                string query = @"SELECT e.*, eg.current_star, eg.temp_star, CASE WHEN eg.equipment_id IS NULL THEN 'block' WHEN eg.status = 'pending' THEN 'pending' WHEN eg.status = 'available' THEN 'available' END AS status 
                 FROM equipments e LEFT JOIN equipments_gallery eg ON e.id = eg.equipment_id and eg.user_id = @userId 
                 where e.type=@type AND (@rare = 'All' or e.rare = @rare)
                 limit @limit offset @offset";
@@ -38,6 +38,8 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),

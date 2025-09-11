@@ -339,55 +339,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 40636463}
   m_CullTransparentMesh: 1
---- !u!1 &55184454
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 55184455}
-  - component: {fileID: 55184456}
-  m_Layer: 5
-  m_Name: UltraRareMarketManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &55184455
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55184454}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1739612077}
-  m_RootOrder: 24
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &55184456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55184454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ede6e0ab24a240448b2e272ea7939d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &56861848
 GameObject:
   m_ObjectHideFlags: 0
@@ -2649,6 +2600,7 @@ GameObject:
   - component: {fileID: 383175822}
   - component: {fileID: 383175848}
   - component: {fileID: 383175849}
+  - component: {fileID: 383175850}
   m_Layer: 5
   m_Name: Gallery
   m_TagString: Untagged
@@ -3010,6 +2962,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be6dc0a6de6f2e74c858066d7271d6af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &383175850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383175820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a3109304edf6642b9e777073d38ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &385821651
@@ -4042,6 +4006,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30cb2f7f58c97145bfcd13d718710d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &524355706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 524355707}
+  m_Layer: 5
+  m_Name: ScienceFictionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &524355707
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524355706}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1739612077}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &560472407
 GameObject:
   m_ObjectHideFlags: 0
@@ -4548,55 +4548,6 @@ MonoBehaviour:
   buttonGroupPanel1: {fileID: 0}
   buttonGroupPanel2: {fileID: 0}
   buttonGroupPanel3: {fileID: 0}
---- !u!1 &747131194
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 747131195}
-  - component: {fileID: 747131196}
-  m_Layer: 5
-  m_Name: RareMarketManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &747131195
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747131194}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1739612077}
-  m_RootOrder: 23
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &747131196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747131194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10f8ac063d8784d4a8f044c0e325c7fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &764314789
 GameObject:
   m_ObjectHideFlags: 0
@@ -6338,9 +6289,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1304666530}
+  - component: {fileID: 1304666534}
+  - component: {fileID: 1304666533}
+  - component: {fileID: 1304666532}
   - component: {fileID: 1304666531}
   m_Layer: 5
-  m_Name: MysticMarketManager
+  m_Name: MarketManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6375,7 +6329,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 1304666529}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ede6e0ab24a240448b2e272ea7939d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1304666532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304666529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f8ac063d8784d4a8f044c0e325c7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1304666533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304666529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac2d837e59c8d440b86e7aeb2a2496d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1304666534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304666529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5e4a3c0d10c8647ad6b831ce953eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1334053573
@@ -7458,55 +7448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe18117600eedf4cbee6d9ad97411b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1509557735
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1509557736}
-  - component: {fileID: 1509557737}
-  m_Layer: 5
-  m_Name: LegendaryMarketManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1509557736
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509557735}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1739612077}
-  m_RootOrder: 22
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1509557737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509557735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f5e4a3c0d10c8647ad6b831ce953eb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1551168421
 GameObject:
   m_ObjectHideFlags: 0
@@ -8196,9 +8137,7 @@ RectTransform:
   - {fileID: 383175821}
   - {fileID: 496410558}
   - {fileID: 1304666530}
-  - {fileID: 1509557736}
-  - {fileID: 747131195}
-  - {fileID: 55184455}
+  - {fileID: 524355707}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8848,6 +8787,16 @@ MonoBehaviour:
   StarPrefab: {fileID: 1661859481911484232, guid: 11f1658caea6e42488ac72d1ed68d131, type: 3}
   PowerPrefab: {fileID: 1661859481911484232, guid: 3e6f4cc94b6b4c4488a5edc36f3050b6, type: 3}
   LoadingPanelPrefab: {fileID: 5490652922311943017, guid: 6838c378af7e73b46bfa50ce6176ac4b, type: 3}
+  ReactorPanelNumber1Prefab: {fileID: 5745659240395072349, guid: feecd0567b8aa2043944271f8b5486b2, type: 3}
+  ReactorPanelNumber2Prefab: {fileID: 0}
+  ReactorPanelNumber3Prefab: {fileID: 0}
+  ReactorPanelNumber4Prefab: {fileID: 0}
+  ReactorPanelNumber5Prefab: {fileID: 0}
+  ReactorPanelNumber6Prefab: {fileID: 0}
+  ReactorPanelNumber7Prefab: {fileID: 0}
+  ReactorPanelNumber8Prefab: {fileID: 0}
+  ReactorPanelNumber9Prefab: {fileID: 0}
+  ReactorPanelNumber10Prefab: {fileID: 0}
   RareMarketManagerPrefab: {fileID: 5745659240395072349, guid: 091bb971dfee69d488dbe7ca4c9b77a8, type: 3}
   RareMarketPrefab: {fileID: 5745659240395072349, guid: c77cc0a5208bcc4458de308c52d4c143, type: 3}
   RareMarketButtonPrefab: {fileID: 1661859481911484232, guid: 2af2329e54edcf546ae11ca7edc03e16, type: 3}

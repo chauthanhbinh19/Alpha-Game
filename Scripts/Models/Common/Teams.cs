@@ -6,11 +6,11 @@ using System;
 
 public class Teams
 {
-    private string user_id1;
-    private string team_id1;
-
-    public string user_id { get => user_id1; set => user_id1 = value; }
-    public string team_id { get => team_id1; set => team_id1 = value; }
+    public string user_id { get; set; }
+    public string team_id { get; set; }
+    public int team_number { get; set; }
+    public string team_avatar { get; set; }
+    public string team_border { get; set; }
     public Teams()
     {
 

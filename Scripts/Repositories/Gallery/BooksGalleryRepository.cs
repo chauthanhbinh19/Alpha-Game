@@ -16,7 +16,7 @@ public class BooksGalleryRepository : IBooksGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT b.*, CASE WHEN bg.book_id IS NULL THEN 'block' WHEN bg.status = 'pending' THEN 'pending' WHEN bg.status = 'available' THEN 'available' END AS status
+                string query = @"SELECT b.*, bg.current_star, bg.temp_star, CASE WHEN bg.book_id IS NULL THEN 'block' WHEN bg.status = 'pending' THEN 'pending' WHEN bg.status = 'available' THEN 'available' END AS status
                 FROM books b LEFT JOIN books_gallery bg ON b.id = bg.book_id and bg.user_id = @userId 
                 where b.type=@type AND (@rare = 'All' or b.rare = @rare)
                 ORDER BY b.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(b.name, '[0-9]+$') AS UNSIGNED), b.name limit @limit offset @offset";
@@ -37,6 +37,8 @@ public class BooksGalleryRepository : IBooksGalleryRepository
                         rare = reader.GetString("rare"),
                         quality = reader.GetInt32("quality"),
                         type = reader.GetString("type"),
+                        current_star = reader.GetInt32("current_star"),
+                        temp_star = reader.GetInt32("temp_star"),
                         star = reader.GetInt32("star"),
                         power = reader.GetDouble("power"),
                         health = reader.GetDouble("health"),
