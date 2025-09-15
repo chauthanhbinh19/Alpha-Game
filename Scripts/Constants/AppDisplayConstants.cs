@@ -143,6 +143,10 @@ public static class AppDisplayConstants
         public const string SignIn = "MainType.SignIn";
         public const string SignUp = "MainType.SignUp";
         public const string Back = "MainType.Back";
+        public const string SummonOne = "MainType.SummonOne";
+        public const string SummonTen = "MainType.SummonTen";
+        public const string UpOneLevel = "MainType.UpOneLevel";
+        public const string UpMaxLevel = "MainType.UpMaxLevel";
     }
     public static class Gallery
     {
@@ -219,6 +223,29 @@ public static class AppDisplayConstants
         public const string BlackClover = "Anime.BlackClover";
         public const string HunterXHunter = "Anime.HunterXHunter";
         public const string OnePunchMan = "Anime.OnePunchMan";
+    }
+    public static class ScienceFiction
+    {
+        public const string ReactorNumber1 = "ScienceFiction.ReactorNumber1";
+        public const string ReactorNumber2 = "ScienceFiction.ReactorNumber2";
+        public const string ReactorNumber3 = "ScienceFiction.ReactorNumber3";
+        public const string ReactorNumber4 = "ScienceFiction.ReactorNumber4";
+        public const string ReactorNumber5 = "ScienceFiction.ReactorNumber5";
+        public const string ReactorNumber6 = "ScienceFiction.ReactorNumber6";
+        public const string ReactorNumber7 = "ScienceFiction.ReactorNumber7";
+        public const string ReactorNumber8 = "ScienceFiction.ReactorNumber8";
+        public const string ReactorNumber9 = "ScienceFiction.ReactorNumber9";
+        public const string ReactorNumber10 = "ScienceFiction.ReactorNumber10";
+        public const string ReactorNumber11 = "ScienceFiction.ReactorNumber11";
+        public const string ReactorNumber12 = "ScienceFiction.ReactorNumber12";
+        public const string ReactorNumber13 = "ScienceFiction.ReactorNumber13";
+        public const string ReactorNumber14 = "ScienceFiction.ReactorNumber14";
+        public const string ReactorNumber15 = "ScienceFiction.ReactorNumber15";
+        public const string ReactorNumber16 = "ScienceFiction.ReactorNumber16";
+        public const string ReactorNumber17 = "ScienceFiction.ReactorNumber17";
+        public const string ReactorNumber18 = "ScienceFiction.ReactorNumber18";
+        public const string ReactorNumber19 = "ScienceFiction.ReactorNumber19";
+        public const string ReactorNumber20 = "ScienceFiction.ReactorNumber20";
     }
     public static class Market
     {

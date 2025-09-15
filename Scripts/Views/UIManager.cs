@@ -80,6 +80,8 @@ public class UIManager : MonoBehaviour
     public GameObject PowerPrefab;
     public GameObject LoadingPanelPrefab;
     [Header("Science Fiction")]
+    public GameObject ReactorPanelPrefab;
+    public GameObject ReactorButtonPrefab;
     public GameObject ReactorPanelNumber1Prefab;
     public GameObject ReactorPanelNumber2Prefab;
     public GameObject ReactorPanelNumber3Prefab;
@@ -1079,6 +1081,11 @@ public class UIManager : MonoBehaviour
     {
         switch (prefabName)
         {
+            case "ReactorPanelPrefab":
+                return ReactorPanelPrefab;
+            case "ReactorButtonPrefab":
+                return ReactorButtonPrefab;
+
             case "ReactorPanelNumber1Prefab":
                 return ReactorPanelNumber1Prefab;
             case "ReactorPanelNumber2Prefab":

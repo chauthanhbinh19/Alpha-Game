@@ -90,6 +90,10 @@
   { "key": "Market.MysticMarket", "value": "Mystic Market" },
   { "key": "MainType.Email", "value": "Email" },
   { "key": "MainType.Chat", "value": "Chat" },
+  { "key": "MainType.SummonOne", "value": "Summon x 1" },
+  { "key": "MainType.SummonTen", "value": "Summon x 10" },
+  { "key": "MainType.UpOneLevel", "value": "Up One Level" },
+  { "key": "MainType.UpMaxLevel", "value": "Up Max Level" },
   
   { "key": "Rare.All", "value": "All" },
   { "key": "Rare.SR", "value": "SR" },

@@ -15,6 +15,7 @@ public class ButtonLoader : MonoBehaviour
     private GameObject TabButton3;
     private GameObject ArenaButtonPrefab;
     private GameObject AnimeButtonPrefab;
+    private GameObject ReactorButtonPrefab;
     public Transform buttonGroupPanel1;
     public Transform buttonGroupPanel2;
     public Transform buttonGroupPanel3;
@@ -47,6 +48,7 @@ public class ButtonLoader : MonoBehaviour
         TabButton3 = UIManager.Instance.GetGameObject("TabButton3");
         ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
         AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
+        ReactorButtonPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorButtonPrefab");
 
         backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Background_V4_422");
         backgroundImage2 = Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder");
@@ -126,6 +128,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(14, AppConstants.MainType.MasterBoard, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Master_Board"), moreMenuPanel);
         CreateButton(15, AppConstants.MainType.Artwork, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Artwork"), moreMenuPanel);
         CreateButton(16, AppConstants.MainType.SpiritBeast, backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpiritBeast"), moreMenuPanel);
+        CreateButton(17, AppConstants.MainType.ScienceFiction, backgroundImage, Resources.Load<Texture2D>($"UI/Button/ScienceFiction"), moreMenuPanel);
         moreMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void CreateButton(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
@@ -250,6 +253,39 @@ public class ButtonLoader : MonoBehaviour
         // Gán script RotateUI
         borderImage.gameObject.AddComponent<RotateAnimation>();
     }
+    private void CreateScienceFictionButtonUI(string itemName, int number, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(ReactorButtonPrefab, panel);
+        newButton.name = itemName;
+
+        // Gán màu cho itemBackground
+        // RawImage  background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        // if (background != null && itemBackground != null)
+        // {
+        //     background.texture = itemBackground;
+        // }
+
+        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = LocalizationManager.Get(itemName);
+        }
+
+        TextMeshProUGUI numberText = newButton.transform.Find("NumberText").GetComponent<TextMeshProUGUI>();
+        if (numberText != null)
+        {
+            numberText.text = number.ToString("D2");
+        }
+
+        // RawImage borderImage = newButton.transform.Find("BorderImage").GetComponent<RawImage>();
+    }
     public void CreateGalleryButton(Transform galleryMenuPanel)
     {
         //Gallery menu
@@ -351,6 +387,32 @@ public class ButtonLoader : MonoBehaviour
 
         FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButton(animeMenuPanel);
         animeMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    public void CreateScienceFictionButton(Transform reactorMenuPanel)
+    {
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber1, 1, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber1"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber2, 2, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber2"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber3, 3, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber3"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber4, 4, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber4"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber5, 5, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber5"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber6, 6, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber6"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber7, 7, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber7"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber8, 8, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber8"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber9, 9, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber9"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber10, 10, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber10"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber11, 11, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber11"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber12, 12, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber12"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber13, 13, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber13"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber14, 14, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber14"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber15, 15, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber15"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber16, 16, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber16"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber17, 17, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber17"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber18, 18, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber18"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber19, 19, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber19"), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.ReactorNumber20, 20, backgroundImage, Resources.Load<Texture2D>($"UI/Background3/ReactorNumber20"), reactorMenuPanel);
+
+        FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButton(reactorMenuPanel);
+        reactorMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateArenaButton(Transform arenaMenuPanel)
     {

@@ -8827,6 +8827,8 @@ MonoBehaviour:
   StarPrefab: {fileID: 1661859481911484232, guid: 11f1658caea6e42488ac72d1ed68d131, type: 3}
   PowerPrefab: {fileID: 1661859481911484232, guid: 3e6f4cc94b6b4c4488a5edc36f3050b6, type: 3}
   LoadingPanelPrefab: {fileID: 5490652922311943017, guid: 6838c378af7e73b46bfa50ce6176ac4b, type: 3}
+  ReactorPanelPrefab: {fileID: 5745659240395072349, guid: 4631e5596c21e6a41877541d96a4241d, type: 3}
+  ReactorButtonPrefab: {fileID: 8708252175272485654, guid: 00e6aff5ada6a2946901257d89389044, type: 3}
   ReactorPanelNumber1Prefab: {fileID: 5745659240395072349, guid: feecd0567b8aa2043944271f8b5486b2, type: 3}
   ReactorPanelNumber2Prefab: {fileID: 0}
   ReactorPanelNumber3Prefab: {fileID: 0}

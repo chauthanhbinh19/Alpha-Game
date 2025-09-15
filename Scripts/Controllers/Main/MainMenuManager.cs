@@ -16,6 +16,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject PopupMenuPanelPrefab;
     private GameObject ArenaPanelPrefab;
     private GameObject AnimePanelPrefab;
+    private GameObject ReactorPanelPrefab;
     private GameObject MasterBoardPanelPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
@@ -49,6 +50,8 @@ public class MainMenuManager : MonoBehaviour
     private string type;
     private string rare;
     private bool canUseRareButton;
+    private TMP_FontAsset EuroStyleNormalFont;
+    private int fontSize;
     void Start()
     {
         offset = 0;
@@ -68,7 +71,10 @@ public class MainMenuManager : MonoBehaviour
         PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
         ArenaPanelPrefab = UIManager.Instance.GetGameObject("ArenaPanelPrefab");
         AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
+        ReactorPanelPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
+        EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
+        fontSize = 24;
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuCampaignPanel, () => loadScence());
 
@@ -135,6 +141,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_14", moreMenuPanel, () => GetType(AppConstants.MainType.MasterBoard));
         ButtonEvent.Instance.AssignButtonEvent("Button_15", moreMenuPanel, () => GetType(AppConstants.MainType.Artwork));
         ButtonEvent.Instance.AssignButtonEvent("Button_16", moreMenuPanel, () => GetType(AppConstants.MainType.SpiritBeast));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", moreMenuPanel, () => GetType(AppConstants.MainType.ScienceFiction));
     }
     public void GetType(string type)
     {
@@ -170,19 +177,35 @@ public class MainMenuManager : MonoBehaviour
             // SummonAreaPanel = summonObject.transform.Find("SummonArea");
             CurrencyPanel = summonObject.transform.Find("DictionaryCards/Currency");
 
+            TextMeshProUGUI SummonOneButtonText = SummonButton.GetComponentInChildren<TextMeshProUGUI>();
+            SummonOneButtonText.font = EuroStyleNormalFont;
+            SummonOneButtonText.fontSize = fontSize;
+            SummonOneButtonText.fontStyle = FontStyles.Bold;
+            SummonOneButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SummonOne);
+            TextMeshProUGUI SummonTenButtonText = Summon10Button.GetComponentInChildren<TextMeshProUGUI>();
+            SummonTenButtonText.font = EuroStyleNormalFont;
+            SummonTenButtonText.fontSize = fontSize;
+            SummonTenButtonText.fontStyle = FontStyles.Bold;
+            SummonTenButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SummonTen);
+
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
             RawImage rawImage1 = summonObject.transform.Find("DictionaryCards/RawImage1").GetComponent<RawImage>();
             RawImage rawImage2 = summonObject.transform.Find("DictionaryCards/RawImage2").GetComponent<RawImage>();
             RawImage background2 = summonObject.transform.Find("DictionaryCards/Background2").GetComponent<RawImage>();
             if (mainType.Equals(AppConstants.MainType.SummonCardHeroes))
             {
-
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_52");
+                // dictionaryBackground.texture = texture;
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_5");
+                rawImage1.texture = rawTexture;
+                rawImage2.texture = rawTexture;
+                background2.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SummonBooks) || mainType.Equals(AppConstants.MainType.SummonCardColonels))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_51");
                 // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_48");
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_6");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
@@ -191,7 +214,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_50");
                 // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_63");
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_7");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
@@ -200,7 +223,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_49");
                 // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_69");
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_8");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
@@ -209,7 +232,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_48");
                 // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_85");
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_9");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
@@ -218,7 +241,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_47");
                 // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_94");
+                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_10");
                 rawImage1.texture = rawTexture;
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
@@ -264,6 +287,17 @@ public class MainMenuManager : MonoBehaviour
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+        }
+        else if (mainType.Equals(AppConstants.MainType.ScienceFiction))
+        {
+            canUseRareButton = false;
+            GameObject popupObject = Instantiate(ReactorPanelPrefab, MainPanel);
+            titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+            CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(() => Close(MainPanel));
+            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() => Close(MainPanel));
+            ButtonLoader.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
         else if (mainType.Equals(AppConstants.MainType.Arena))
         {
