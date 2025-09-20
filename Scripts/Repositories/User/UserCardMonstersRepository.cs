@@ -400,6 +400,32 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         }
         return count;
     }
+    public int GetUserCardMonstersTeamsCount(string user_id, string team_id)
+    {
+        int count = 0;
+        // string user_id=User.CurrentUserId;
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select count(*) from fact_card_monsters
+                where team_id = @team_id and user_id=@userId";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@team_id", team_id);
+                count = Convert.ToInt32(command.ExecuteScalar());
+
+                return count;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return count;
+    }
     public bool InsertUserCardMonsters(CardMonsters CardMonsters)
     {
         string connectionString = DatabaseConfig.ConnectionString;

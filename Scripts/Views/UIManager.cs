@@ -74,6 +74,7 @@ public class UIManager : MonoBehaviour
     public GameObject PopupTeamsPrefab;
     public GameObject TeamsPanelPrefab;
     public GameObject TeamsPositionPrefab;
+    public GameObject TeamsTypePrefab;
     public GameObject CardsThirdPrefab;
     public GameObject TypePrefab;
     public GameObject StarPrefab;
@@ -82,16 +83,7 @@ public class UIManager : MonoBehaviour
     [Header("Science Fiction")]
     public GameObject ReactorPanelPrefab;
     public GameObject ReactorButtonPrefab;
-    public GameObject ReactorPanelNumber1Prefab;
-    public GameObject ReactorPanelNumber2Prefab;
-    public GameObject ReactorPanelNumber3Prefab;
-    public GameObject ReactorPanelNumber4Prefab;
-    public GameObject ReactorPanelNumber5Prefab;
-    public GameObject ReactorPanelNumber6Prefab;
-    public GameObject ReactorPanelNumber7Prefab;
-    public GameObject ReactorPanelNumber8Prefab;
-    public GameObject ReactorPanelNumber9Prefab;
-    public GameObject ReactorPanelNumber10Prefab;
+    public GameObject ReactorPanelNumberPrefab;
     [Header("Market")]
     public GameObject RareMarketManagerPrefab;
     public GameObject RareMarketPrefab;
@@ -500,6 +492,8 @@ public class UIManager : MonoBehaviour
                 return TeamsPanelPrefab;
             case "TeamsPositionPrefab":
                 return TeamsPositionPrefab;
+            case "TeamsTypePrefab":
+                return TeamsTypePrefab;
             case "TypePrefab":
                 return TypePrefab;
             case "StarPrefab":
@@ -1086,30 +1080,8 @@ public class UIManager : MonoBehaviour
             case "ReactorButtonPrefab":
                 return ReactorButtonPrefab;
 
-            case "ReactorPanelNumber1Prefab":
-                return ReactorPanelNumber1Prefab;
-            case "ReactorPanelNumber2Prefab":
-                return ReactorPanelNumber2Prefab;
-
-            case "ReactorPanelNumber3Prefab":
-                return ReactorPanelNumber3Prefab;
-            case "ReactorPanelNumber4Prefab":
-                return ReactorPanelNumber4Prefab;
-
-            case "ReactorPanelNumber5Prefab":
-                return ReactorPanelNumber5Prefab;
-            case "ReactorPanelNumber6Prefab":
-                return ReactorPanelNumber6Prefab;
-
-            case "ReactorPanelNumber7Prefab":
-                return ReactorPanelNumber7Prefab;
-            case "ReactorPanelNumber8Prefab":
-                return ReactorPanelNumber8Prefab;
-
-            case "ReactorPanelNumber9Prefab":
-                return ReactorPanelNumber9Prefab;
-            case "ReactorPanelNumber10Prefab":
-                return ReactorPanelNumber10Prefab;
+            case "ReactorPanelNumberPrefab":
+                return ReactorPanelNumberPrefab;
 
             default:
                 Debug.LogWarning($"Prefab name '{prefabName}' not found!");

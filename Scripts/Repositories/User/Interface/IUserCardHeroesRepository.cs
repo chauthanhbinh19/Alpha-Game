@@ -7,6 +7,7 @@ public interface IUserCardHeroesRepository
     Dictionary<string, int> GetUniqueCardHeroTypesTeam(string teamId);
     int GetUserCardHeroesCount(string user_id, string type, string rare);
     int GetUserCardHeroesTeamsPositionCount(string user_id, string team_id, string position);
+    int GetUserCardHeroesTeamsCount(string user_id, string team_id);
     bool InsertUserCardHeroes(CardHeroes CardHeroes);
     bool UpdateCardHeroesLevel(CardHeroes cardHeroes, int cardLevel);
     bool UpdateCardHeroesBreakthrough(CardHeroes cardHeroes, int star, int quantity);

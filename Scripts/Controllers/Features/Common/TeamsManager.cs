@@ -16,6 +16,7 @@ public class TeamsManager : MonoBehaviour
     private GameObject PopupTeamsPrefab;
     private GameObject TeamsPanelPrefab;
     private GameObject TeamsPositionPrefab;
+    private GameObject TeamsTypePrefab;
     private GameObject TypePrefab;
     private GameObject buttonPrefab3;
     private GameObject PositionPrefab;
@@ -69,6 +70,7 @@ public class TeamsManager : MonoBehaviour
         PopupTeamsPrefab = UIManager.Instance.GetGameObject("PopupTeamsPrefab");
         TeamsPanelPrefab = UIManager.Instance.GetGameObject("TeamsPanelPrefab");
         TeamsPositionPrefab = UIManager.Instance.GetGameObject("TeamsPositionPrefab");
+        TeamsTypePrefab = UIManager.Instance.GetGameObject("TeamsTypePrefab");
         TypePrefab = UIManager.Instance.GetGameObject("TypePrefab");
         buttonPrefab3 = UIManager.Instance.GetGameObject("TabButton3");
         PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
@@ -104,8 +106,7 @@ public class TeamsManager : MonoBehaviour
         HomeButton.onClick.AddListener(() => Close(MainPanel));
 
         mainType = AppConstants.MainType.CardHero;
-        team_id = "1";
-        teamsTitleText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " - Team " + team_id.ToString();
+        teamsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Team);
         CreateTeamsPosition(positionTeamsPanel);
     }
     public void CreateTeamsPosition(Transform positionTeamsPanel)
@@ -115,56 +116,139 @@ public class TeamsManager : MonoBehaviour
         foreach (var team in userTeams)
         {
             GameObject cardTeam = Instantiate(TeamsPositionPrefab, positionTeamsPanel);
+            Transform cardContent = cardTeam.transform.Find("Content"); 
             RawImage cardImage = cardTeam.transform.Find("CardImage").GetComponent<RawImage>();
-            TextMeshProUGUI teamsPositionText = cardTeam.transform.Find("PositionText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI teamsPositionText = cardTeam.transform.Find("TeamNumberText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI teamsContentText = cardTeam.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
             RawImage teamAvatarImage = cardTeam.transform.Find("AvatarImage").GetComponent<RawImage>();
             RawImage teamBorderImage = cardTeam.transform.Find("BorderImage").GetComponent<RawImage>();
-            teamsPositionText.text = "Team " + team.team_number;
+            teamsPositionText.text = team.team_number.ToString();
             Texture teamAvatarTexture = Resources.Load<Texture>(team.team_avatar);
             Texture teamBorderTexture = Resources.Load<Texture>(team.team_border);
             teamAvatarImage.texture = teamAvatarTexture;
             teamBorderImage.texture = teamBorderTexture;
-            int positionNumber = 0;
-            if (mainType.Equals(AppConstants.MainType.CardHero))
-            {
-                positionNumber = userCardHeroesService.GetUserCardHeroesTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            }
-            else if (mainType.Equals(AppConstants.MainType.CardCaptain))
-            {
-                positionNumber = userCardCaptainsService.GetUserCardCaptainsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            }
-            else if (mainType.Equals(AppConstants.MainType.CardColonel))
-            {
-                positionNumber = userCardColonelsService.GetUserCardColonelsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            }
-            else if (mainType.Equals(AppConstants.MainType.CardGeneral))
-            {
-                positionNumber = userCardGeneralsService.GetUserCardGeneralsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            }
-            else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
-            {
-                positionNumber = userCardAdmiralsService.GetUserCardAdmiralsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            }
-            else if (mainType.Equals(AppConstants.MainType.CardMonster))
-            {
-                positionNumber = userCardMonstersService.GetUserCardMonstersTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            }
-            else if (mainType.Equals(AppConstants.MainType.CardMilitary))
-            {
-                positionNumber = userCardMilitaryService.GetUserCardMilitaryTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            }
-            else if (mainType.Equals(AppConstants.MainType.CardSpell))
-            {
-                positionNumber = userCardSpellService.GetUserCardSpellTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            }
-            teamsContentText.text = positionNumber.ToString() + "/10";
 
-            Button positionPopupButton = cardTeam.GetComponent<Button>();
+            GameObject cardHeroesObject = Instantiate(TeamsTypePrefab, cardContent);
+            TextMeshProUGUI cardHeroesQuantityText = cardHeroesObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardHeroesTitleText = cardHeroesObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            RawImage cardHeroesBackground1Image = cardHeroesObject.transform.Find("Background1").GetComponent<RawImage>();
+            Texture cardHeroesBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_438");
+            cardHeroesBackground1Image.texture = cardHeroesBackground1Texture;
+            int cardHeroesQuantity = UserCardHeroesService.Create().GetUserCardHeroesTeamsCount(User.CurrentUserId, team.team_id);
+            cardHeroesQuantityText.text = cardHeroesQuantity.ToString();
+            cardHeroesTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardHeroes);
 
-            int index = int.Parse(team.team_id);
-            positionPopupButton.onClick.AddListener(()=>{
+            GameObject cardCaptainsObject = Instantiate(TeamsTypePrefab, cardContent);
+            TextMeshProUGUI cardCaptainsQuantityText = cardCaptainsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardCaptainsTitleText = cardCaptainsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            RawImage cardCaptainsBackground1Image = cardCaptainsObject.transform.Find("Background1").GetComponent<RawImage>();
+            Texture cardCaptainsBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_439");
+            cardCaptainsBackground1Image.texture = cardCaptainsBackground1Texture;
+            int cardCaptainsQuantity = UserCardCaptainsService.Create().GetUserCardCaptainsTeamsCount(User.CurrentUserId, team.team_id);
+            cardCaptainsQuantityText.text = cardCaptainsQuantity.ToString();
+            cardCaptainsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardCaptains);
+
+            GameObject cardColonelsObject = Instantiate(TeamsTypePrefab, cardContent);
+            TextMeshProUGUI cardColonelsQuantityText = cardColonelsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardColonelsTitleText = cardColonelsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            RawImage cardColonelsBackground1Image = cardColonelsObject.transform.Find("Background1").GetComponent<RawImage>();
+            Texture cardColonelsBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_438");
+            cardColonelsBackground1Image.texture = cardColonelsBackground1Texture;
+            int cardColonelsQuantity = UserCardColonelsService.Create().GetUserCardColonelsTeamsCount(User.CurrentUserId, team.team_id);
+            cardColonelsQuantityText.text = cardColonelsQuantity.ToString();
+            cardColonelsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardColonels);
+
+            GameObject cardGeneralsObject = Instantiate(TeamsTypePrefab, cardContent);
+            TextMeshProUGUI cardGeneralsQuantityText = cardGeneralsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardGeneralsTitleText = cardGeneralsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            RawImage cardGeneralsBackground1Image = cardGeneralsObject.transform.Find("Background1").GetComponent<RawImage>();
+            Texture cardGeneralsBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_439");
+            cardGeneralsBackground1Image.texture = cardGeneralsBackground1Texture;
+            int cardGeneralsQuantity = UserCardGeneralsService.Create().GetUserCardGeneralsTeamsCount(User.CurrentUserId, team.team_id);
+            cardGeneralsQuantityText.text = cardGeneralsQuantity.ToString();
+            cardGeneralsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardGenerals);
+
+            GameObject cardAdmiralsObject = Instantiate(TeamsTypePrefab, cardContent);
+            TextMeshProUGUI cardAdmiralsQuantityText = cardAdmiralsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardAdmiralsTitleText = cardAdmiralsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            RawImage cardAdmiralsBackground1Image = cardAdmiralsObject.transform.Find("Background1").GetComponent<RawImage>();
+            Texture cardAdmiralsBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_438");
+            cardAdmiralsBackground1Image.texture = cardAdmiralsBackground1Texture;
+            int cardAdmiralsQuantity = UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamsCount(User.CurrentUserId, team.team_id);
+            cardAdmiralsQuantityText.text = cardAdmiralsQuantity.ToString();
+            cardAdmiralsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardAdmirals);
+
+            GameObject cardMonstersObject = Instantiate(TeamsTypePrefab, cardContent);
+            TextMeshProUGUI cardMonstersQuantityText = cardMonstersObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardMonstersTitleText = cardMonstersObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            RawImage cardMonstersBackground1Image = cardMonstersObject.transform.Find("Background1").GetComponent<RawImage>();
+            Texture cardMonstersBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_439");
+            cardMonstersBackground1Image.texture = cardMonstersBackground1Texture;
+            int cardMonstersQuantity = UserCardMonstersService.Create().GetUserCardMonstersTeamsCount(User.CurrentUserId, team.team_id);
+            cardMonstersQuantityText.text = cardMonstersQuantity.ToString();
+            cardMonstersTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardMonsters);
+
+            GameObject cardMilitaryObject = Instantiate(TeamsTypePrefab, cardContent);
+            TextMeshProUGUI cardMilitaryQuantityText = cardMilitaryObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardMilitaryTitleText = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            RawImage cardMilitaryBackground1Image = cardMilitaryObject.transform.Find("Background1").GetComponent<RawImage>();
+            Texture cardMilitaryBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_438");
+            cardMilitaryBackground1Image.texture = cardMilitaryBackground1Texture;
+            int cardMilitaryQuantity = UserCardMilitaryService.Create().GetUserCardMilitaryTeamsCount(User.CurrentUserId, team.team_id);
+            cardMilitaryQuantityText.text = cardMilitaryQuantity.ToString();
+            cardMilitaryTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardMilitary);
+
+            GameObject cardSpellObject = Instantiate(TeamsTypePrefab, cardContent);
+            TextMeshProUGUI cardSpellQuantityText = cardSpellObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardSpellTitleText = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            RawImage cardSpellBackground1Image = cardSpellObject.transform.Find("Background1").GetComponent<RawImage>();
+            Texture cardSpellBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_439");
+            cardSpellBackground1Image.texture = cardSpellBackground1Texture;
+            int cardSpellQuantity = UserCardSpellService.Create().GetUserCardSpellTeamsCount(User.CurrentUserId, team.team_id);
+            cardSpellQuantityText.text = cardSpellQuantity.ToString();
+            cardSpellTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardSpell);
+
+            // if (mainType.Equals(AppConstants.MainType.CardHero))
+            // {
+            //     positionNumber = userCardHeroesService.GetUserCardHeroesTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
+            // }
+            // else if (mainType.Equals(AppConstants.MainType.CardCaptain))
+            // {
+            //     positionNumber = userCardCaptainsService.GetUserCardCaptainsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
+            // }
+            // else if (mainType.Equals(AppConstants.MainType.CardColonel))
+            // {
+            //     positionNumber = userCardColonelsService.GetUserCardColonelsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
+            // }
+            // else if (mainType.Equals(AppConstants.MainType.CardGeneral))
+            // {
+            //     positionNumber = userCardGeneralsService.GetUserCardGeneralsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
+            // }
+            // else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
+            // {
+            //     positionNumber = userCardAdmiralsService.GetUserCardAdmiralsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
+            // }
+            // else if (mainType.Equals(AppConstants.MainType.CardMonster))
+            // {
+            //     positionNumber = userCardMonstersService.GetUserCardMonstersTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
+            // }
+            // else if (mainType.Equals(AppConstants.MainType.CardMilitary))
+            // {
+            //     positionNumber = userCardMilitaryService.GetUserCardMilitaryTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
+            // }
+            // else if (mainType.Equals(AppConstants.MainType.CardSpell))
+            // {
+            //     positionNumber = userCardSpellService.GetUserCardSpellTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
+            // }
+            // teamsContentText.text = positionNumber.ToString() + "/10";
+
+            Button changeCardButton = cardTeam.transform.Find("ChangeCardButton").GetComponent<Button>();
+
+            int index = team.team_number;
+            string tempTeamId = team.team_id;
+            changeCardButton.onClick.AddListener(()=>{
                 position = index.ToString();
+                team_id = tempTeamId;
                 CreatePopupTeams();
             });
         }
@@ -199,7 +283,6 @@ public class TeamsManager : MonoBehaviour
         team_limit = 10;
         team_offset = 0;
         int page = 1;
-        team_id = "1";
         User user = new User();
         user = UserService.Create().GetUserById(User.CurrentUserId);
         CardHeroes cardHeroes = new CardHeroes();

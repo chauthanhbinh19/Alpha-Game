@@ -99,6 +99,88 @@ public class UserCardSpellService : IUserCardSpellService
         }
         return CardSpellList;
     }
+    public List<CardSpell> GetScienceFictionPower(string user_id, List<CardSpell> CardSpellList)
+    {
+        ScienceFiction scienceFiction = ScienceFictionService.Create().GetSumScienceFiction(user_id);
+        foreach (var c in CardSpellList)
+        {
+            CardSpell card = _userCardSpellRepository.GetUserCardSpellById(user_id, c.id);
+            c.all_health = c.all_health + scienceFiction.health + card.health * scienceFiction.percent_all_health / 100;
+            c.all_physical_attack = c.all_physical_attack + scienceFiction.physical_attack + card.physical_attack * scienceFiction.percent_all_physical_attack / 100;
+            c.all_physical_defense = c.all_physical_defense + scienceFiction.physical_defense + card.physical_defense * scienceFiction.percent_all_physical_defense / 100;
+            c.all_magical_attack = c.all_magical_attack + scienceFiction.magical_attack + card.magical_attack * scienceFiction.percent_all_magical_attack / 100;
+            c.all_magical_defense = c.all_magical_defense + scienceFiction.magical_defense + card.magical_defense * scienceFiction.percent_all_magical_defense / 100;
+            c.all_chemical_attack = c.all_chemical_attack + scienceFiction.chemical_attack + card.chemical_attack * scienceFiction.percent_all_chemical_attack / 100;
+            c.all_chemical_defense = c.all_chemical_defense + scienceFiction.chemical_defense + card.chemical_defense * scienceFiction.percent_all_chemical_defense / 100;
+            c.all_atomic_attack = c.all_atomic_attack + scienceFiction.atomic_attack + card.atomic_attack * scienceFiction.percent_all_atomic_attack / 100;
+            c.all_atomic_defense = c.all_atomic_defense + scienceFiction.atomic_defense + card.atomic_defense * scienceFiction.percent_all_atomic_defense / 100;
+            c.all_mental_attack = c.all_mental_attack + scienceFiction.mental_attack + card.mental_attack * scienceFiction.percent_all_mental_attack / 100;
+            c.all_mental_defense = c.all_mental_defense + scienceFiction.mental_defense + card.mental_defense * scienceFiction.percent_all_mental_defense / 100;
+            c.all_speed = c.all_speed + scienceFiction.speed;
+            c.all_critical_damage_rate = c.all_critical_damage_rate + scienceFiction.critical_damage_rate;
+            c.all_critical_rate = c.all_critical_rate + scienceFiction.critical_rate;
+            c.all_critical_resistance_rate = c.all_critical_resistance_rate + scienceFiction.critical_resistance_rate;
+            c.all_ignore_critical_rate = c.all_ignore_critical_rate + scienceFiction.ignore_critical_rate;
+            c.all_penetration_rate = c.all_penetration_rate + scienceFiction.penetration_rate;
+            c.all_penetration_resistance_rate = c.all_penetration_resistance_rate + scienceFiction.penetration_resistance_rate;
+            c.all_evasion_rate = c.all_evasion_rate + scienceFiction.evasion_rate;
+            c.all_damage_absorption_rate = c.all_damage_absorption_rate + scienceFiction.damage_absorption_rate;
+            c.all_ignore_damage_absorption_rate = c.all_ignore_damage_absorption_rate + scienceFiction.ignore_damage_absorption_rate;
+            c.all_absorbed_damage_rate = c.all_absorbed_damage_rate + scienceFiction.absorbed_damage_rate;
+            c.all_vitality_regeneration_rate = c.all_vitality_regeneration_rate + scienceFiction.vitality_regeneration_rate;
+            c.all_vitality_regeneration_resistance_rate = c.all_vitality_regeneration_resistance_rate + scienceFiction.vitality_regeneration_resistance_rate;
+            c.all_accuracy_rate = c.all_accuracy_rate + scienceFiction.accuracy_rate;
+            c.all_lifesteal_rate = c.all_lifesteal_rate + scienceFiction.lifesteal_rate;
+            c.all_shield_strength = c.all_shield_strength + scienceFiction.shield_strength;
+            c.all_tenacity = c.all_tenacity + scienceFiction.tenacity;
+            c.all_resistance_rate = c.all_resistance_rate + scienceFiction.resistance_rate;
+            c.all_combo_rate = c.all_combo_rate + scienceFiction.combo_rate;
+            c.all_ignore_combo_rate = c.all_ignore_combo_rate + scienceFiction.ignore_combo_rate;
+            c.all_combo_damage_rate = c.all_combo_damage_rate + scienceFiction.combo_damage_rate;
+            c.all_combo_resistance_rate = c.all_combo_resistance_rate + scienceFiction.combo_resistance_rate;
+            c.all_stun_rate = c.all_stun_rate + scienceFiction.stun_rate;
+            c.all_ignore_stun_rate = c.all_ignore_stun_rate + scienceFiction.ignore_stun_rate;
+            c.all_reflection_rate = c.all_reflection_rate + scienceFiction.reflection_rate;
+            c.all_ignore_reflection_rate  = c.all_ignore_reflection_rate + scienceFiction.ignore_reflection_rate;
+            c.all_reflection_damage_rate = c.all_reflection_damage_rate + scienceFiction.reflection_damage_rate;
+            c.all_reflection_resistance_rate = c.all_reflection_resistance_rate + scienceFiction.reflection_resistance_rate;
+            c.all_mana = c.all_mana + scienceFiction.mana;
+            c.all_mana_regeneration_rate = c.all_mana_regeneration_rate + scienceFiction.mana_regeneration_rate;
+            c.all_damage_to_different_faction_rate = c.all_damage_to_different_faction_rate + scienceFiction.damage_to_different_faction_rate;
+            c.all_resistance_to_different_faction_rate = c.all_resistance_to_different_faction_rate + scienceFiction.resistance_to_different_faction_rate;
+            c.all_damage_to_same_faction_rate = c.all_damage_to_same_faction_rate + scienceFiction.damage_to_same_faction_rate;
+            c.all_resistance_to_same_faction_rate = c.all_resistance_to_same_faction_rate + scienceFiction.resistance_to_same_faction_rate;
+            c.all_normal_damage_rate = c.all_normal_damage_rate + scienceFiction.normal_damage_rate;
+            c.all_normal_resistance_rate = c.all_normal_resistance_rate + scienceFiction.normal_resistance_rate;
+            c.all_skill_damage_rate = c.all_skill_damage_rate + scienceFiction.skill_damage_rate;
+            c.all_skill_resistance_rate = c.all_skill_resistance_rate + scienceFiction.skill_resistance_rate;
+
+            c.all_power = EvaluatePower.CalculatePower(
+            c.all_health,
+            c.all_physical_attack, c.all_physical_defense,
+            c.all_magical_attack, c.all_magical_defense,
+            c.all_chemical_attack, c.all_chemical_defense,
+            c.all_atomic_attack, c.all_atomic_defense,
+            c.all_mental_attack, c.all_mental_defense,
+            c.all_speed,
+            c.all_critical_damage_rate, c.all_critical_rate, c.all_critical_resistance_rate, c.all_ignore_critical_rate,
+            c.all_penetration_rate, c.all_penetration_resistance_rate, c.all_evasion_rate,
+            c.all_damage_absorption_rate, c.all_ignore_damage_absorption_rate, c.all_absorbed_damage_rate,
+            c.all_vitality_regeneration_rate, c.all_vitality_regeneration_resistance_rate,
+            c.all_accuracy_rate, c.all_lifesteal_rate,
+            c.all_shield_strength, c.all_tenacity, c.all_resistance_rate,
+            c.all_combo_rate, c.all_ignore_combo_rate, c.all_combo_damage_rate, c.all_combo_resistance_rate,
+            c.all_stun_rate, c.all_ignore_stun_rate,
+            c.all_reflection_rate, c.all_ignore_reflection_rate, c.all_reflection_damage_rate, c.all_reflection_resistance_rate,
+            c.all_mana, c.all_mana_regeneration_rate,
+            c.all_damage_to_different_faction_rate, c.all_resistance_to_different_faction_rate,
+            c.all_damage_to_same_faction_rate, c.all_resistance_to_same_faction_rate,
+            c.all_normal_damage_rate, c.all_normal_resistance_rate,
+            c.all_skill_damage_rate, c.all_skill_resistance_rate
+        );
+        }
+        return CardSpellList;
+    }
     public List<CardSpell> GetAllEquipmentPower(string user_id, List<CardSpell> CardSpellList)
     {
         Equipments equipments = new Equipments();
@@ -143,7 +225,7 @@ public class UserCardSpellService : IUserCardSpellService
             c.all_stun_rate = c.all_stun_rate + equipments.stun_rate;
             c.all_ignore_stun_rate = c.all_ignore_stun_rate + equipments.ignore_stun_rate;
             c.all_reflection_rate = c.all_reflection_rate + equipments.reflection_rate;
-            c.all_ignore_reflection_rate  = c.all_ignore_reflection_rate + equipments.ignore_reflection_rate;
+            c.all_ignore_reflection_rate = c.all_ignore_reflection_rate + equipments.ignore_reflection_rate;
             c.all_reflection_damage_rate = c.all_reflection_damage_rate + equipments.reflection_damage_rate;
             c.all_reflection_resistance_rate = c.all_reflection_resistance_rate + equipments.reflection_resistance_rate;
             c.all_mana = c.all_mana + equipments.mana;
@@ -699,6 +781,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllRankPower(user_id, list);
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
         return list;
     }
 
@@ -712,6 +795,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllRankPower(user_id, list);
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
         return list;
     }
 
@@ -733,6 +817,11 @@ public class UserCardSpellService : IUserCardSpellService
     public int GetUserCardSpellTeamsPositionCount(string user_id, string team_id, string position)
     {
         return _userCardSpellRepository.GetUserCardSpellTeamsPositionCount(user_id, team_id, position);
+    }
+
+    public int GetUserCardSpellTeamsCount(string user_id, string team_id)
+    {
+        return _userCardSpellRepository.GetUserCardSpellTeamsCount(user_id, team_id);
     }
 
     public bool InsertUserCardSpell(CardSpell CardSpell)
@@ -775,7 +864,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllRankPower(user_id, list);
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
-
+        list = GetScienceFictionPower(user_id, list);
         return list.FirstOrDefault();
     }
 
@@ -788,6 +877,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllRankPower(user_id, list);
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
         return list;
     }
 }

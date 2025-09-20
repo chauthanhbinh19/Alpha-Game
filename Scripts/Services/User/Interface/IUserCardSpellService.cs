@@ -14,6 +14,7 @@ public interface IUserCardSpellService
     bool UpdateTeamFactCardSpell(string team_id, string position, string card_id);
     int GetUserCardSpellCount(string user_id, string type, string rare);
     int GetUserCardSpellTeamsPositionCount(string user_id, string team_id, string position);
+    int GetUserCardSpellTeamsCount(string user_id, string team_id);
     bool InsertUserCardSpell(CardSpell CardSpell);
     bool UpdateCardSpellLevel(CardSpell cardSpell, int cardLevel);
     bool UpdateCardSpellBreakthrough(CardSpell cardSpell, int star, int quantity);

@@ -8,6 +8,7 @@ public interface IUserCardMilitaryRepository
     bool UpdateTeamFactCardMilitary(string team_id, string position, string card_id);
     int GetUserCardMilitaryCount(string user_id, string type, string rare);
     int GetUserCardMilitaryTeamsPositionCount(string user_id, string team_id, string position);
+    int GetUserCardMilitaryTeamsCount(string user_id, string team_id);
     bool InsertUserCardMilitary(CardMilitary CardMilitary);
     bool UpdateCardMilitaryLevel(CardMilitary cardMilitary, int cardLevel);
     bool UpdateCardMilitaryBreakthrough(CardMilitary cardMilitary, int star, int quantity);

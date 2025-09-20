@@ -7,6 +7,7 @@ public interface IUserCardColonelsRepository
     Dictionary<string, int> GetUniqueCardColonelTypesTeam(string teamId);
     int GetUserCardColonelsCount(string user_id, string type, string rare);
     int GetUserCardColonelsTeamsPositionCount(string user_id, string team_id, string position);
+    int GetUserCardColonelsTeamsCount(string user_id, string team_id);
     bool InsertUserCardColonels(CardColonels CardColonels);
     bool UpdateCardColonelsLevel(CardColonels cardColonels, int cardLevel);
     bool UpdateCardColonelsBreakthrough(CardColonels cardColonels, int star, int quantity);

@@ -298,6 +298,7 @@ public class MainMenuManager : MonoBehaviour
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            ScienceFictionManager.Instance.GetScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
         else if (mainType.Equals(AppConstants.MainType.Arena))
         {

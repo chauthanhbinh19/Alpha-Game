@@ -14,6 +14,7 @@ public interface IUserCardAdmiralsService
     bool UpdateTeamFactCardAdmirals(string team_id, string position, string card_id);
     int GetUserCardAdmiralsCount(string user_id, string type, string rare);
     int GetUserCardAdmiralsTeamsPositionCount(string user_id, string team_id, string position);
+    int GetUserCardAdmiralsTeamsCount(string user_id, string team_id);
     bool InsertUserCardAdmirals(CardAdmirals CardAdmirals);
     bool UpdateCardAdmiralsLevel(CardAdmirals cardAdmirals, int cardLevel);
     bool UpdateCardAdmiralsBreakthrough(CardAdmirals cardAdmirals, int star, int quantity);

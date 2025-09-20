@@ -147,6 +147,7 @@ public static class AppDisplayConstants
         public const string SummonTen = "MainType.SummonTen";
         public const string UpOneLevel = "MainType.UpOneLevel";
         public const string UpMaxLevel = "MainType.UpMaxLevel";
+        public const string Team = "MainType.Team";
     }
     public static class Gallery
     {

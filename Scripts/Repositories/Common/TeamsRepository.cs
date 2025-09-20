@@ -13,7 +13,7 @@ public class TeamsRepository : ITeamsRepository
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string userQuery = "SELECT * FROM Teams WHERE user_id=@user_id";
+            string userQuery = "SELECT * FROM Teams WHERE user_id=@user_id order by team_number asc";
             MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
             userCommand.Parameters.AddWithValue("@user_id", user_id);
             MySqlDataReader reader = userCommand.ExecuteReader();

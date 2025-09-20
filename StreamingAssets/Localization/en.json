@@ -94,6 +94,7 @@
   { "key": "MainType.SummonTen", "value": "Summon x 10" },
   { "key": "MainType.UpOneLevel", "value": "Up One Level" },
   { "key": "MainType.UpMaxLevel", "value": "Up Max Level" },
+  { "key": "MainType.Team", "value": "Team" },
   
   { "key": "Rare.All", "value": "All" },
   { "key": "Rare.SR", "value": "SR" },

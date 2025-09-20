@@ -7,6 +7,7 @@ public interface IUserCardMonstersRepository
     Dictionary<string, int> GetUniqueCardMonsterTypesTeam(string teamId);
     int GetUserCardMonstersCount(string user_id, string type, string rare);
     int GetUserCardMonstersTeamsPositionCount(string user_id, string team_id, string position);
+    int GetUserCardMonstersTeamsCount(string user_id, string team_id);
     bool InsertUserCardMonsters(CardMonsters CardMonsters);
     bool UpdateCardMonstersLevel(CardMonsters cardMonsters, int cardLevel);
     bool UpdateCardMonstersBreakthrough(CardMonsters cardMonsters, int star, int quantity);

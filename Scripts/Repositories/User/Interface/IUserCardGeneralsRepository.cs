@@ -8,6 +8,7 @@ public interface IUserCardGeneralsRepository
     Dictionary<string, int> GetUniqueCardGeneralTypesTeam(string teamId);
     bool UpdateTeamFactCardGenerals(string team_id, string position, string card_id);
     int GetUserCardGeneralsCount(string user_id, string type, string rare);
+    int GetUserCardGeneralsTeamsCount(string user_id, string team_id);
     bool InsertUserCardGenerals(CardGenerals CardGenerals);
     bool UpdateCardGeneralsLevel(CardGenerals cardGenerals, int cardLevel);
     bool UpdateCardGeneralsBreakthrough(CardGenerals cardGenerals, int star, int quantity);

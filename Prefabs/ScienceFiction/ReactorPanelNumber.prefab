@@ -489,6 +489,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1982326713660707425}
+  - {fileID: 3063138729751323236}
   - {fileID: 2200474145369516346}
   m_Father: {fileID: 5745659240564083285}
   m_RootOrder: 31
@@ -529,7 +530,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8406117046033628086}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1082,7 +1083,7 @@ GameObject:
   - component: {fileID: 2513689083881035443}
   - component: {fileID: 4999787987602572748}
   m_Layer: 5
-  m_Name: LeftSideConduiltImage
+  m_Name: RightSideConduiltImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2241,6 +2242,79 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!1 &5297631893154611955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3063138729751323236}
+  - component: {fileID: 7114005390156563915}
+  - component: {fileID: 5469584444759529352}
+  m_Layer: 5
+  m_Name: ReactorLevelImage2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3063138729751323236
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5297631893154611955}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8406117046033628086}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -450, y: 210}
+  m_SizeDelta: {x: 300, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7114005390156563915
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5297631893154611955}
+  m_CullTransparentMesh: 1
+--- !u!114 &5469584444759529352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5297631893154611955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: 63e5eb00980329149a2a014138321d5e, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &5453693362129544059
 GameObject:
   m_ObjectHideFlags: 0
@@ -2290,7 +2364,7 @@ GameObject:
   - component: {fileID: 8064764241930898859}
   - component: {fileID: 7486461673331827733}
   m_Layer: 5
-  m_Name: LeftSideConduiltImage
+  m_Name: RightSideConduiltImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2436,7 +2510,7 @@ GameObject:
   - component: {fileID: 1965547518254448133}
   - component: {fileID: 4658406419002128667}
   m_Layer: 5
-  m_Name: ReactorLevelImage
+  m_Name: ReactorLevelImage1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2459,7 +2533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 450, y: 156}
+  m_AnchoredPosition: {x: 450, y: 210}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1965547518254448133
@@ -2490,7 +2564,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 15d8ffe0367f37b4396fdc0260768c25, type: 3}
+  m_Texture: {fileID: 2800000, guid: aa3b93f579052544d823527ac8ab4b57, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -3062,7 +3136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5745659240395072350}
   m_Layer: 5
-  m_Name: ReactorPanelNumber1
+  m_Name: ReactorPanelNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5645,7 +5719,7 @@ GameObject:
   - component: {fileID: 8178210183563850054}
   - component: {fileID: 6609164689706191429}
   m_Layer: 5
-  m_Name: MainReactorImage
+  m_Name: MainReactorCoreImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
