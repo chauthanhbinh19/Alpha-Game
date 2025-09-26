@@ -8,6 +8,21 @@ public static class ColorConstants
     public const string EpicText = "#800080"; // Tím
     public const string LegendaryText = "#FF4500"; // Cam đỏ
     public const string DisabledText = "#AAAAAA";
+    public const string Red       = "#FF0000";
+    public const string Green     = "#00FF00";
+    public const string Blue      = "#0000FF";
+    public const string Yellow    = "#FFFF00";
+    public const string Cyan      = "#00FFFF";
+    public const string Magenta   = "#FF00FF";
+    public const string Orange    = "#FFA500";
+    public const string Purple    = "#800080";
+    public const string Pink      = "#FFC0CB";
+    public const string Brown     = "#A52A2A";
+    public const string Gray      = "#808080";
+    public const string LightGray = "#D3D3D3";
+    public const string DarkGray  = "#A9A9A9";
+    public const string Black     = "#000000";
+    public const string White     = "#FFFFFF";
     public static VertexGradient PhysicalGradient = new VertexGradient(
         new Color32(255, 99, 71, 255),   // Top Left - Tomato
         new Color32(255, 69, 0, 255),    // Top Right - OrangeRed

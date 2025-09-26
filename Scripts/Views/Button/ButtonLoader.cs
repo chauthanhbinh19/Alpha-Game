@@ -1123,22 +1123,31 @@ public class ButtonLoader : MonoBehaviour
         }
         else if (data is Equipments equipments)
         {
-            // CreateButtonWithBackground(1, "Equipments", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Equipments"), buttonGroupPanel1);
-            CreateButtonWithBackground(2, "Realm", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Realm"), buttonGroupPanel1);
-            CreateButtonWithBackground(3, "Upgrade", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Upgrade"), buttonGroupPanel1);
-            CreateButtonWithBackground(4, "Aptitude", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Aptitude"), buttonGroupPanel1);
-            // CreateButtonWithBackground(5, "Affinity", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Affinity"), buttonGroupPanel1);
-            CreateButtonWithBackground(6, "Blessing", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Blessing"), buttonGroupPanel1);
-            CreateButtonWithBackground(7, "Core", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Core"), buttonGroupPanel1);
-            CreateButtonWithBackground(8, "Physique", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Physique"), buttonGroupPanel1);
-            CreateButtonWithBackground(9, "Bloodline", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Bloodline"), buttonGroupPanel1);
-            CreateButtonWithBackground(10, "Omnivision", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Omnivision"), buttonGroupPanel2);
-            CreateButtonWithBackground(11, "Omnipotence", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Omnipotence"), buttonGroupPanel2);
-            CreateButtonWithBackground(12, "Omnipresence", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Omnipresence"), buttonGroupPanel2);
-            CreateButtonWithBackground(13, "Omniscience", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Omniscience"), buttonGroupPanel2);
-            CreateButtonWithBackground(14, "Omnivory", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Omnivory"), buttonGroupPanel2);
-            CreateButtonWithBackground(15, "Angel", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Angel"), buttonGroupPanel2);
-            CreateButtonWithBackground(16, "Demon", backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Demon"), buttonGroupPanel2);
+                // CreateButtonWithBackground(1, AppConstants.MainMenuSet1.Equipments, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Equipments"), buttonGroupPanel1);
+                CreateButtonWithBackground(2, AppConstants.MainMenuSet1.Realm, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Realm"), buttonGroupPanel1);
+                CreateButtonWithBackground(3, AppConstants.MainMenuSet1.Upgrade, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Upgrade"), buttonGroupPanel1);
+                CreateButtonWithBackground(4, AppConstants.MainMenuSet1.Aptitude, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aptitude"), buttonGroupPanel1);
+                // CreateButtonWithBackground(5, AppConstants.MainMenuSet1.Affinity, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Affinity"), buttonGroupPanel1);
+                CreateButtonWithBackground(6, AppConstants.MainMenuSet1.Blessing, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Blessing"), buttonGroupPanel1);
+                CreateButtonWithBackground(7, AppConstants.MainMenuSet1.Core, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Core"), buttonGroupPanel1);
+                CreateButtonWithBackground(8, AppConstants.MainMenuSet1.Physique, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Physique"), buttonGroupPanel1);
+                CreateButtonWithBackground(9, AppConstants.MainMenuSet1.Bloodline, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bloodline"), buttonGroupPanel1);
+
+                CreateButtonWithBackground(10, AppConstants.MainMenuSet1.Omnivision, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivision"), buttonGroupPanel2);
+                CreateButtonWithBackground(11, AppConstants.MainMenuSet1.Omnipotence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipotence"), buttonGroupPanel2);
+                CreateButtonWithBackground(12, AppConstants.MainMenuSet1.Omnipresence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipresence"), buttonGroupPanel2);
+                CreateButtonWithBackground(13, AppConstants.MainMenuSet1.Omniscience, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omniscience"), buttonGroupPanel2);
+                CreateButtonWithBackground(14, AppConstants.MainMenuSet1.Omnivory, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivory"), buttonGroupPanel2);
+                CreateButtonWithBackground(15, AppConstants.MainMenuSet1.Angel, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Angel"), buttonGroupPanel2);
+                CreateButtonWithBackground(16, AppConstants.MainMenuSet1.Demon, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Demon"), buttonGroupPanel2);
+
+                CreateButtonWithBackground(17, AppConstants.MainMenuSet1.Sword, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Sword"), buttonGroupPanel3);
+                CreateButtonWithBackground(18, AppConstants.MainMenuSet1.Spear, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Spear"), buttonGroupPanel3);
+                CreateButtonWithBackground(19, AppConstants.MainMenuSet1.Shield, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Shield"), buttonGroupPanel3);
+                CreateButtonWithBackground(20, AppConstants.MainMenuSet1.Bow, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bow"), buttonGroupPanel3);
+                CreateButtonWithBackground(21, AppConstants.MainMenuSet1.Gun, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gun"), buttonGroupPanel3);
+                CreateButtonWithBackground(22, AppConstants.MainMenuSet1.Cyber, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Cyber"), buttonGroupPanel3);
+                CreateButtonWithBackground(23, AppConstants.MainMenuSet1.Fairy, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Fairy"), buttonGroupPanel3);
 
             // ButtonEvent.Instance.AssignButtonEvent("Button_1", buttonGroupPanel1, () =>
             // {

@@ -7,8 +7,8 @@ public static class ImageConstants
     public const string ChemicalAttackUrl = "UI/Rune/Chemical_Attack";
     public const string ChemicalDefenseUrl = "UI/Rune/Chemical_Defense";
     public const string Magic1Url = "UI/Rune/Magic_1";
-    public const string MagicAttackUrl = "UI/Rune/Magic_Attack";
-    public const string MagicDefenseUrl = "UI/Rune/Magic_Defense";
+    public const string MagicalAttackUrl = "UI/Rune/Magic_Attack";
+    public const string MagicalDefenseUrl = "UI/Rune/Magic_Defense";
     public const string Mental1Url = "UI/Rune/Mental_1";
     public const string MentalAttackUrl = "UI/Rune/Mental_Attack";
     public const string MentalDefenseUrl = "UI/Rune/Mental_Defense";

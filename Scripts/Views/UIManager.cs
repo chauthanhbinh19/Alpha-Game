@@ -1115,7 +1115,7 @@ public class UIManager : MonoBehaviour
     // }
     public void SetUI(GameObject gameObject, string type, int level = 0, string mainType = "")
     {
-        if (mainType.Equals("Aptitude") || mainType.Equals("Blessing"))
+        if (mainType.Equals(AppConstants.MainMenuSet1.Affinity) || mainType.Equals(AppConstants.MainMenuSet1.Blessing))
         {
             return;
         }
@@ -1360,16 +1360,28 @@ public class UIManager : MonoBehaviour
                 }
 
             }
-            else if (property.Name.Equals("health") || property.Name.Equals("physical_attack") || property.Name.Equals("physical_defense") ||
-                property.Name.Equals("magical_attack") || property.Name.Equals("magical_defense") ||
-                property.Name.Equals("chemical_attack") || property.Name.Equals("chemical_defense") ||
-                property.Name.Equals("atomic_attack") || property.Name.Equals("atomic_defense") ||
-                property.Name.Equals("mental_attack") || property.Name.Equals("mental_defense") ||
-                property.Name.Equals("all_health") || property.Name.Equals("all_physical_attack") || property.Name.Equals("all_physical_defense") ||
-                property.Name.Equals("all_magical_attack") || property.Name.Equals("all_magical_defense") ||
-                property.Name.Equals("all_chemical_attack") || property.Name.Equals("all_chemical_defense") ||
-                property.Name.Equals("all_atomic_attack") || property.Name.Equals("all_atomic_defense") ||
-                property.Name.Equals("all_mental_attack") || property.Name.Equals("all_mental_defense"))
+            else if (property.Name.Equals(AppConstants.StatFields.Health)
+            || property.Name.Equals(AppConstants.StatFields.PhysicalAttack)
+            || property.Name.Equals(AppConstants.StatFields.PhysicalDefense)
+            || property.Name.Equals(AppConstants.StatFields.MagicalAttack)
+            || property.Name.Equals(AppConstants.StatFields.MagicalDefense)
+            || property.Name.Equals(AppConstants.StatFields.ChemicalAttack)
+            || property.Name.Equals(AppConstants.StatFields.ChemicalDefense)
+            || property.Name.Equals(AppConstants.StatFields.AtomicAttack)
+            || property.Name.Equals(AppConstants.StatFields.AtomicDefense)
+            || property.Name.Equals(AppConstants.StatFields.MentalAttack)
+            || property.Name.Equals(AppConstants.StatFields.MentalDefense)
+            || property.Name.Equals(AppConstants.StatFields.AllHealth)
+            || property.Name.Equals(AppConstants.StatFields.AllPhysicalAttack)
+            || property.Name.Equals(AppConstants.StatFields.AllPhysicalDefense)
+            || property.Name.Equals(AppConstants.StatFields.AllMagicalAttack)
+            || property.Name.Equals(AppConstants.StatFields.AllMagicalDefense)
+            || property.Name.Equals(AppConstants.StatFields.AllChemicalAttack)
+            || property.Name.Equals(AppConstants.StatFields.AllChemicalDefense)
+            || property.Name.Equals(AppConstants.StatFields.AllAtomicAttack)
+            || property.Name.Equals(AppConstants.StatFields.AllAtomicDefense)
+            || property.Name.Equals(AppConstants.StatFields.AllMentalAttack)
+            || property.Name.Equals(AppConstants.StatFields.AllMentalDefense))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1421,16 +1433,32 @@ public class UIManager : MonoBehaviour
                     }
                 }
             }
-            else if (property.Name.Equals("speed") || property.Name.Equals("critical_damage_rate") || property.Name.Equals("critical_rate")
-                || property.Name.Equals("critical_resistance_rate") || property.Name.Equals("ignore_critical_rate")
-                || property.Name.Equals("penetration_rate") || property.Name.Equals("penetration_resistance_rate") || property.Name.Equals("evasion_rate")
-                || property.Name.Equals("damage_absorption_rate") || property.Name.Equals("ignore_damage_absorption_rate") || property.Name.Equals("absorbed_damage_rate")
-                || property.Name.Equals("vitality_regeneration_rate") || property.Name.Equals("vitality_regeneration_resistance_rate")
-                || property.Name.Equals("all_speed") || property.Name.Equals("all_critical_damage_rate") || property.Name.Equals("all_critical_rate")
-                || property.Name.Equals("all_critical_resistance_rate") || property.Name.Equals("all_ignore_critical_rate")
-                || property.Name.Equals("all_penetration_rate") || property.Name.Equals("all_penetration_resistance_rate") || property.Name.Equals("all_evasion_rate")
-                || property.Name.Equals("all_damage_absorption_rate") || property.Name.Equals("all_ignore_damage_absorption_rate") || property.Name.Equals("all_absorbed_damage_rate")
-                || property.Name.Equals("all_vitality_regeneration_rate") || property.Name.Equals("all_vitality_regeneration_resistance_rate"))
+            else if (property.Name.Equals(AppConstants.StatFields.Speed)
+            || property.Name.Equals(AppConstants.StatFields.CriticalDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.CriticalRate)
+            || property.Name.Equals(AppConstants.StatFields.CriticalResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.IgnoreCriticalRate)
+            || property.Name.Equals(AppConstants.StatFields.PenetrationRate)
+            || property.Name.Equals(AppConstants.StatFields.PenetrationResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.EvasionRate)
+            || property.Name.Equals(AppConstants.StatFields.DamageAbsorptionRate)
+            || property.Name.Equals(AppConstants.StatFields.IgnoreDamageAbsorptionRate)
+            || property.Name.Equals(AppConstants.StatFields.AbsorbedDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.VitalityRegenerationRate)
+            || property.Name.Equals(AppConstants.StatFields.VitalityRegenerationResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.AllSpeed)
+            || property.Name.Equals(AppConstants.StatFields.AllCriticalDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.AllCriticalRate)
+            || property.Name.Equals(AppConstants.StatFields.AllCriticalResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.AllIgnoreCriticalRate)
+            || property.Name.Equals(AppConstants.StatFields.AllPenetrationRate)
+            || property.Name.Equals(AppConstants.StatFields.AllPenetrationResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.AllEvasionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllDamageAbsorptionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllIgnoreDamageAbsorptionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllAbsorbedDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.AllVitalityRegenerationRate)
+            || property.Name.Equals(AppConstants.StatFields.AllVitalityRegenerationResistanceRate))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1481,18 +1509,40 @@ public class UIManager : MonoBehaviour
                     }
                 }
             }
-            else if (property.Name.Equals("accuracy_rate") || property.Name.Equals("lifesteal_rate")
-                || property.Name.Equals("shield_strength") || property.Name.Equals("tenacity")
-                || property.Name.Equals("resistance_rate") || property.Name.Equals("combo_rate") || property.Name.Equals("ignore_combo_rate")
-                || property.Name.Equals("combo_damage_rate") || property.Name.Equals("combo_resistance_rate") || property.Name.Equals("stun_rate") || property.Name.Equals("ignore_stun_rate")
-                || property.Name.Equals("mana") || property.Name.Equals("mana_regeneration_rate")
-                || property.Name.Equals("reflection_rate") || property.Name.Equals("ignore_reflection_rate") || property.Name.Equals("reflection_damage_rate") || property.Name.Equals("reflection_resistance_rate")
-                || property.Name.Equals("all_accuracy_rate") || property.Name.Equals("all_lifesteal_rate")
-                || property.Name.Equals("all_shield_strength") || property.Name.Equals("all_tenacity")
-                || property.Name.Equals("all_resistance_rate") || property.Name.Equals("all_combo_rate") || property.Name.Equals("all_ignore_combo_rate")
-                || property.Name.Equals("all_combo_damage_rate") || property.Name.Equals("all_combo_resistance_rate") || property.Name.Equals("all_stun_rate") || property.Name.Equals("all_ignore_stun_rate")
-                || property.Name.Equals("all_mana") || property.Name.Equals("all_mana_regeneration_rate")
-                || property.Name.Equals("all_reflection_rate") || property.Name.Equals("all_ignore_reflection_rate") || property.Name.Equals("all_reflection_damage_rate") || property.Name.Equals("all_reflection_resistance_rate"))
+            else if (property.Name.Equals(AppConstants.StatFields.AccuracyRate)
+            || property.Name.Equals(AppConstants.StatFields.LifestealRate)
+            || property.Name.Equals(AppConstants.StatFields.ShieldStrength)
+            || property.Name.Equals(AppConstants.StatFields.Tenacity)
+            || property.Name.Equals(AppConstants.StatFields.ResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.ComboRate)
+            || property.Name.Equals(AppConstants.StatFields.IgnoreComboRate)
+            || property.Name.Equals(AppConstants.StatFields.ComboDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.ComboResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.StunRate)
+            || property.Name.Equals(AppConstants.StatFields.IgnoreStunRate)
+            || property.Name.Equals(AppConstants.StatFields.Mana)
+            || property.Name.Equals(AppConstants.StatFields.ManaRegenerationRate)
+            || property.Name.Equals(AppConstants.StatFields.ReflectionRate)
+            || property.Name.Equals(AppConstants.StatFields.IgnoreReflectionRate)
+            || property.Name.Equals(AppConstants.StatFields.ReflectionDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.ReflectionResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.AllAccuracyRate)
+            || property.Name.Equals(AppConstants.StatFields.AllLifestealRate)
+            || property.Name.Equals(AppConstants.StatFields.AllShieldStrength)
+            || property.Name.Equals(AppConstants.StatFields.AllTenacity)
+            || property.Name.Equals(AppConstants.StatFields.AllResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.AllComboRate)
+            || property.Name.Equals(AppConstants.StatFields.AllIgnoreComboRate)
+            || property.Name.Equals(AppConstants.StatFields.AllComboDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.AllComboResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.AllStunRate)
+            || property.Name.Equals(AppConstants.StatFields.AllIgnoreStunRate)
+            || property.Name.Equals(AppConstants.StatFields.AllMana)
+            || property.Name.Equals(AppConstants.StatFields.AllManaRegenerationRate)
+            || property.Name.Equals(AppConstants.StatFields.AllReflectionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllIgnoreReflectionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllReflectionDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.AllReflectionResistanceRate))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1543,14 +1593,22 @@ public class UIManager : MonoBehaviour
                     }
                 }
             }
-            else if (property.Name.Equals("damage_to_different_faction_rate") || property.Name.Equals("resistance_to_different_faction_rate")
-                || property.Name.Equals("damage_to_same_faction_rate") || property.Name.Equals("resistance_to_same_faction_rate")
-                || property.Name.Equals("normal_damage_rate") || property.Name.Equals("normal_resistance_rate")
-                || property.Name.Equals("skill_damage_rate") || property.Name.Equals("skill_resistance_rate")
-                || property.Name.Equals("all_damage_to_different_faction_rate") || property.Name.Equals("all_resistance_to_different_faction_rate")
-                || property.Name.Equals("all_damage_to_same_faction_rate") || property.Name.Equals("all_resistance_to_same_faction_rate")
-                || property.Name.Equals("all_normal_damage_rate") || property.Name.Equals("all_normal_resistance_rate")
-                || property.Name.Equals("all_skill_damage_rate") || property.Name.Equals("all_skill_resistance_rate"))
+            else if (property.Name.Equals(AppConstants.StatFields.DamageToDifferentFactionRate)
+            || property.Name.Equals(AppConstants.StatFields.ResistanceToDifferentFactionRate)
+            || property.Name.Equals(AppConstants.StatFields.DamageToSameFactionRate)
+            || property.Name.Equals(AppConstants.StatFields.ResistanceToSameFactionRate)
+            || property.Name.Equals(AppConstants.StatFields.NormalDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.NormalResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.SkillDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.SkillResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.AllDamageToDifferentFactionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllResistanceToDifferentFactionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllDamageToSameFactionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllResistanceToSameFactionRate)
+            || property.Name.Equals(AppConstants.StatFields.AllNormalDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.AllNormalResistanceRate)
+            || property.Name.Equals(AppConstants.StatFields.AllSkillDamageRate)
+            || property.Name.Equals(AppConstants.StatFields.AllSkillResistanceRate))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1606,99 +1664,139 @@ public class UIManager : MonoBehaviour
     public void CreatePropertyRuneUI(string title, RawImage runeImage)
     {
         Texture runeTexture;
-        if (title.Equals("physical_attack") || title.Equals("all_physical_attack"))
+        if (title.Equals(AppConstants.StatFields.PhysicalAttack) || title.Equals(AppConstants.StatFields.AllPhysicalAttack))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.PhysicalAttackUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.PhysicalAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("physical_defense") || title.Equals("all_physical_defense"))
+        else if (title.Equals(AppConstants.StatFields.PhysicalDefense) || title.Equals(AppConstants.StatFields.AllPhysicalDefense))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.PhysicalDefenseUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.PhysicalDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("magical_attack") || title.Equals("all_magical_attack"))
+        else if (title.Equals(AppConstants.StatFields.MagicalAttack) || title.Equals(AppConstants.StatFields.AllMagicalAttack))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalAttackUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.MagicalAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("magical_defense") || title.Equals("all_magical_defense"))
+        else if (title.Equals(AppConstants.StatFields.MagicalDefense) || title.Equals(AppConstants.StatFields.AllMagicalDefense))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.MagicDefenseUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.MagicalDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("chemical_attack") || title.Equals("all_chemical_attack"))
+        else if (title.Equals(AppConstants.StatFields.ChemicalAttack) || title.Equals(AppConstants.StatFields.AllChemicalAttack))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.ChemicalAttackUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.ChemicalAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("chemical_defense") || title.Equals("all_chemical_defense"))
+        else if (title.Equals(AppConstants.StatFields.ChemicalDefense) || title.Equals(AppConstants.StatFields.AllChemicalDefense))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.ChemicalDefenseUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.ChemicalDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("atomic_attack") || title.Equals("all_atomic_attack"))
+        else if (title.Equals(AppConstants.StatFields.AtomicAttack) || title.Equals(AppConstants.StatFields.AllAtomicAttack))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.AtomicAttackUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.AtomicAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("atomic_defense") || title.Equals("all_atomic_defense"))
+        else if (title.Equals(AppConstants.StatFields.AtomicDefense) || title.Equals(AppConstants.StatFields.AllAtomicDefense))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.AtomicDefenseUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.AtomicDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("mental_attack") || title.Equals("all_mental_attack"))
+        else if (title.Equals(AppConstants.StatFields.MentalAttack) || title.Equals(AppConstants.StatFields.AllMentalAttack))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalAttackUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.MentalAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("mental_defense") || title.Equals("all_mental_defense"))
+        else if (title.Equals(AppConstants.StatFields.MentalDefense) || title.Equals(AppConstants.StatFields.AllMentalDefense))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.MentalDefenseUrl}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.MentalDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("health") || title.Equals("all_health"))
+        else if (title.Equals(AppConstants.StatFields.Health) || title.Equals(AppConstants.StatFields.AllHealth))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Mental1Url}");
+            runeTexture = Resources.Load<Texture>(ImageConstants.Mental1Url);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("speed") || title.Equals("critical_damage_rate") || title.Equals("critical_rate") ||
-                title.Equals("critical_resistance_rate") || title.Equals("ignore_critical_rate") ||
-                title.Equals("penetration_rate") || title.Equals("penetration_resistance_rate") || title.Equals("evasion_rate") ||
-                title.Equals("damage_absorption_rate") || title.Equals("ignore_damage_absorption_rate") || title.Equals("absorbed_damage_rate") ||
-                title.Equals("vitality_regeneration_rate") || title.Equals("vitality_regeneration_resistance_rate") ||
-                title.Equals("all_speed") || title.Equals("all_critical_damage_rate") || title.Equals("all_critical_rate") ||
-                title.Equals("all_critical_resistance_rate") || title.Equals("all_ignore_critical_rate") ||
-                title.Equals("all_penetration_rate") || title.Equals("all_penetration_resistance_rate") || title.Equals("all_evasion_rate") ||
-                title.Equals("all_damage_absorption_rate") || title.Equals("all_ignore_damage_absorption_rate") || title.Equals("all_absorbed_damage_rate") ||
-                title.Equals("all_vitality_regeneration_rate") || title.Equals("all_vitality_regeneration_resistance_rate"))
+        else if (title.Equals(AppConstants.StatFields.Speed)
+        || title.Equals(AppConstants.StatFields.CriticalDamageRate)
+        || title.Equals(AppConstants.StatFields.CriticalRate)
+        || title.Equals(AppConstants.StatFields.CriticalResistanceRate)
+        || title.Equals(AppConstants.StatFields.IgnoreCriticalRate)
+        || title.Equals(AppConstants.StatFields.PenetrationRate)
+        || title.Equals(AppConstants.StatFields.PenetrationResistanceRate)
+        || title.Equals(AppConstants.StatFields.EvasionRate)
+        || title.Equals(AppConstants.StatFields.DamageAbsorptionRate)
+        || title.Equals(AppConstants.StatFields.IgnoreDamageAbsorptionRate)
+        || title.Equals(AppConstants.StatFields.AbsorbedDamageRate)
+        || title.Equals(AppConstants.StatFields.VitalityRegenerationRate)
+        || title.Equals(AppConstants.StatFields.VitalityRegenerationResistanceRate)
+
+        || title.Equals(AppConstants.StatFields.AllSpeed)
+        || title.Equals(AppConstants.StatFields.AllCriticalDamageRate)
+        || title.Equals(AppConstants.StatFields.AllCriticalRate)
+        || title.Equals(AppConstants.StatFields.AllCriticalResistanceRate)
+        || title.Equals(AppConstants.StatFields.AllIgnoreCriticalRate)
+        || title.Equals(AppConstants.StatFields.AllPenetrationRate)
+        || title.Equals(AppConstants.StatFields.AllPenetrationResistanceRate)
+        || title.Equals(AppConstants.StatFields.AllEvasionRate)
+        || title.Equals(AppConstants.StatFields.AllDamageAbsorptionRate)
+        || title.Equals(AppConstants.StatFields.AllIgnoreDamageAbsorptionRate)
+        || title.Equals(AppConstants.StatFields.AllAbsorbedDamageRate)
+        || title.Equals(AppConstants.StatFields.AllVitalityRegenerationRate)
+        || title.Equals(AppConstants.StatFields.AllVitalityRegenerationResistanceRate))
         {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Atomic1Url}");
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("accuracy_rate") || title.Equals("lifesteal_rate") ||
-                title.Equals("shield_strength") || title.Equals("tenacity") ||
-                title.Equals("resistance_rate") || title.Equals("combo_rate") || title.Equals("ignore_combo_rate") ||
-                title.Equals("combo_damage_rate") || title.Equals("combo_resistance_rate") || title.Equals("stun_rate") || title.Equals("ignore_stun_rate") ||
-                title.Equals("mana") || title.Equals("mana_regeneration_rate") ||
-                title.Equals("reflection_rate") || title.Equals("ignore_reflection_rate") || title.Equals("reflection_damage_rate") || title.Equals("reflection_resistance_rate") ||
-                title.Equals("all_accuracy_rate") || title.Equals("all_lifesteal_rate") ||
-                title.Equals("all_shield_strength") || title.Equals("all_tenacity") ||
-                title.Equals("all_resistance_rate") || title.Equals("all_combo_rate") || title.Equals("all_ignore_combo_rate") ||
-                title.Equals("all_combo_damage_rate") || title.Equals("all_combo_resistance_rate") || title.Equals("all_stun_rate") || title.Equals("all_ignore_stun_rate") ||
-                title.Equals("all_mana") || title.Equals("all_mana_regeneration_rate") ||
-                title.Equals("all_reflection_rate") || title.Equals("all_ignore_reflection_rate") || title.Equals("all_reflection_damage_rate") || title.Equals("all_reflection_resistance_rate"))
+        else if (title.Equals(AppConstants.StatFields.AccuracyRate)
+        || title.Equals(AppConstants.StatFields.LifestealRate)
+        || title.Equals(AppConstants.StatFields.ShieldStrength)
+        || title.Equals(AppConstants.StatFields.Tenacity)
+        || title.Equals(AppConstants.StatFields.ResistanceRate)
+        || title.Equals(AppConstants.StatFields.ComboRate)
+        || title.Equals(AppConstants.StatFields.IgnoreComboRate)
+        || title.Equals(AppConstants.StatFields.ComboDamageRate)
+        || title.Equals(AppConstants.StatFields.ComboResistanceRate)
+        || title.Equals(AppConstants.StatFields.StunRate)
+        || title.Equals(AppConstants.StatFields.IgnoreStunRate)
+        || title.Equals(AppConstants.StatFields.Mana)
+        || title.Equals(AppConstants.StatFields.ManaRegenerationRate)
+        || title.Equals(AppConstants.StatFields.ReflectionRate)
+        || title.Equals(AppConstants.StatFields.IgnoreReflectionRate)
+        || title.Equals(AppConstants.StatFields.ReflectionDamageRate)
+        || title.Equals(AppConstants.StatFields.ReflectionResistanceRate)
+
+        || title.Equals(AppConstants.StatFields.AllAccuracyRate)
+        || title.Equals(AppConstants.StatFields.AllLifestealRate)
+        || title.Equals(AppConstants.StatFields.AllShieldStrength)
+        || title.Equals(AppConstants.StatFields.AllTenacity)
+        || title.Equals(AppConstants.StatFields.AllResistanceRate)
+        || title.Equals(AppConstants.StatFields.AllComboRate)
+        || title.Equals(AppConstants.StatFields.AllIgnoreComboRate)
+        || title.Equals(AppConstants.StatFields.AllComboDamageRate)
+        || title.Equals(AppConstants.StatFields.AllComboResistanceRate)
+        || title.Equals(AppConstants.StatFields.AllStunRate)
+        || title.Equals(AppConstants.StatFields.AllIgnoreStunRate)
+        || title.Equals(AppConstants.StatFields.AllMana)
+        || title.Equals(AppConstants.StatFields.AllManaRegenerationRate)
+        || title.Equals(AppConstants.StatFields.AllReflectionRate)
+        || title.Equals(AppConstants.StatFields.AllIgnoreReflectionRate)
+        || title.Equals(AppConstants.StatFields.AllReflectionDamageRate)
+        || title.Equals(AppConstants.StatFields.AllReflectionResistanceRate))
         {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Chemical1Url}");
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals("damage_to_different_faction_rate") || title.Equals("resistance_to_different_faction_rate") ||
-                title.Equals("damage_to_same_faction_rate") || title.Equals("resistance_to_same_faction_rate") ||
-                title.Equals("normal_damage_rate") || title.Equals("normal_resistance_rate") ||
-                title.Equals("skill_damage_rate") || title.Equals("skill_resistance_rate") ||
-                title.Equals("all_damage_to_different_faction_rate") || title.Equals("all_resistance_to_different_faction_rate") ||
-                title.Equals("all_damage_to_same_faction_rate") || title.Equals("all_resistance_to_same_faction_rate") ||
-                title.Equals("all_normal_damage_rate") || title.Equals("all_normal_resistance_rate") ||
-                title.Equals("all_skill_damage_rate") || title.Equals("all_skill_resistance_rate"))
+        else if (title.Equals(AppConstants.StatFields.DamageToDifferentFactionRate) || title.Equals(AppConstants.StatFields.ResistanceToDifferentFactionRate) ||
+         title.Equals(AppConstants.StatFields.DamageToSameFactionRate) || title.Equals(AppConstants.StatFields.ResistanceToSameFactionRate) ||
+         title.Equals(AppConstants.StatFields.NormalDamageRate) || title.Equals(AppConstants.StatFields.NormalResistanceRate) ||
+         title.Equals(AppConstants.StatFields.SkillDamageRate) || title.Equals(AppConstants.StatFields.SkillResistanceRate) ||
+         title.Equals(AppConstants.StatFields.AllDamageToDifferentFactionRate) || title.Equals(AppConstants.StatFields.AllResistanceToDifferentFactionRate) ||
+         title.Equals(AppConstants.StatFields.AllDamageToSameFactionRate) || title.Equals(AppConstants.StatFields.AllResistanceToSameFactionRate) ||
+         title.Equals(AppConstants.StatFields.AllNormalDamageRate) || title.Equals(AppConstants.StatFields.AllNormalResistanceRate) ||
+         title.Equals(AppConstants.StatFields.AllSkillDamageRate) || title.Equals(AppConstants.StatFields.AllSkillResistanceRate))
         {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Magic1Url}");
             runeImage.texture = runeTexture;
@@ -1748,7 +1846,7 @@ public class UIManager : MonoBehaviour
                             double newintValue = increasePerLevel * intValue;
                             elementContentText.text = "+" + NumberFormatter.FormatNumber(newintValue, false);
                             Color greenColor;
-                            if (ColorUtility.TryParseHtmlString("#32CD32", out greenColor)) // Màu xanh lá LimeGreen
+                            if (ColorUtility.TryParseHtmlString(ColorConstants.Green, out greenColor)) // Màu xanh lá LimeGreen
                             {
                                 elementContentText.color = greenColor;
                                 elementContentText.fontMaterial.SetColor(ShaderUtilities.ID_GlowColor, Color.green); // Màu phát sáng
@@ -1796,7 +1894,7 @@ public class UIManager : MonoBehaviour
                             double newintValue = increasePerUpgrade * intValue;
                             elementContentText.text = "+" + NumberFormatter.FormatNumber(newintValue, false);
                             Color greenColor;
-                            if (ColorUtility.TryParseHtmlString("#32CD32", out greenColor)) // Màu xanh lá LimeGreen
+                            if (ColorUtility.TryParseHtmlString(ColorConstants.Green, out greenColor)) // Màu xanh lá LimeGreen
                             {
                                 elementContentText.color = greenColor;
                                 elementContentText.fontMaterial.SetColor(ShaderUtilities.ID_GlowColor, Color.green); // Màu phát sáng
@@ -1831,8 +1929,7 @@ public class UIManager : MonoBehaviour
             GameObject itemObject = Instantiate(ItemThird, LevelMaterialContent);
 
             RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = item.image.Replace(".png", "");
-            Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture equipmentTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.image)}");
             eImage.texture = equipmentTexture;
 
             TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();

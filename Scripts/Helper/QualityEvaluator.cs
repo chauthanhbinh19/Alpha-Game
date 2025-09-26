@@ -5,23 +5,23 @@ public static class QualityEvaluator
     {
         switch (rare)
         {
-            case "SR":
+            case AppConstants.Rare.SR:
                 return 2;
-            case "SSR":
+            case AppConstants.Rare.SSR:
                 return 5;
-            case "UR":
+            case AppConstants.Rare.UR:
                 return 10;
-            case "LG":
+            case AppConstants.Rare.LG:
                 return 15;
-            case "LG+":
+            case AppConstants.Rare.LGPlus:
                 return 20;
-            case "MR":
+            case AppConstants.Rare.MR:
                 return 25;
-            case "SLR":
+            case AppConstants.Rare.SLG:
                 return 30;
-            case "SLR+":
+            case AppConstants.Rare.SLGPlus:
                 return 35;
-            case "SP":
+            case AppConstants.Rare.SP:
                 return 40;
             default:
                 return 0;
@@ -29,15 +29,15 @@ public static class QualityEvaluator
     }
     private static readonly Dictionary<string, int> qualityMap = new Dictionary<string, int>
     {
-        { "SR", 2 },
-        { "SSR", 5 },
-        { "UR", 10 },
-        { "LG", 15 },
-        { "LG+", 20 },
-        { "MR", 25 },
-        { "SLR", 30 },
-        { "SLR+", 35 },
-        { "SP", 40 },
+        { AppConstants.Rare.SR, 2 },
+        { AppConstants.Rare.SSR, 5 },
+        { AppConstants.Rare.UR, 10 },
+        { AppConstants.Rare.LG, 15 },
+        { AppConstants.Rare.LGPlus, 20 },
+        { AppConstants.Rare.MR, 25 },
+        { AppConstants.Rare.SLG, 30 },
+        { AppConstants.Rare.SLGPlus, 35 },
+        { AppConstants.Rare.SP, 40 },
     };
 
     public static int GetQualityValue(string rare)
