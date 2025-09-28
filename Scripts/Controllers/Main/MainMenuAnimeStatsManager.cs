@@ -82,7 +82,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 if (index == 0)
                 {
                     mainType = subtype;
-                    UIManager.Instance.ChangeButtonBackground(button, "Background_V4_166");
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlAfterClick);
                     // mainId = cardHeroes.id;
                     CreateAnimeStats();
                     if (User.CurrentUserLevel >= value)
@@ -98,7 +98,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 }
                 else
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, "Background_V4_167");
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlBeforeClick);
                 }
                 ButtonEvent.Instance.CheckLockedButton("AnimeStats",value, button);
                 index = index + 1;
@@ -114,12 +114,12 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                UIManager.Instance.ChangeButtonBackground(button.gameObject, "Background_V4_167"); // Giả sử bạn có texture trắng
+                UIManager.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick); // Giả sử bạn có texture trắng
             }
         }
 
         mainType = type;
-        UIManager.Instance.ChangeButtonBackground(clickedButton, "Background_V4_166");
+        UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
 
         // mainId = cardHeroes.id;
         CreateAnimeStats();

@@ -523,4 +523,27 @@ public static class AppConstants
         public const string Zodiac = "Zodiac_Equipment";
         public const string Zerox = "Zerox_Equipment";
     }
+    public static class ScienceFiction
+    {
+        public const string ReactorNumber1 = "Reactor Number 1";
+        public const string ReactorNumber2 = "Reactor Number 2";
+        public const string ReactorNumber3 = "Reactor Number 3";
+        public const string ReactorNumber4 = "Reactor Number 4";
+        public const string ReactorNumber5 = "Reactor Number 5";
+        public const string ReactorNumber6 = "Reactor Number 6";
+        public const string ReactorNumber7 = "Reactor Number 7";
+        public const string ReactorNumber8 = "Reactor Number 8";
+        public const string ReactorNumber9 = "Reactor Number 9";
+        public const string ReactorNumber10 = "Reactor Number 10";
+        public const string ReactorNumber11 = "Reactor Number 11";
+        public const string ReactorNumber12 = "Reactor Number 12";
+        public const string ReactorNumber13 = "Reactor Number 13";
+        public const string ReactorNumber14 = "Reactor Number 14";
+        public const string ReactorNumber15 = "Reactor Number 15";
+        public const string ReactorNumber16 = "Reactor Number 16";
+        public const string ReactorNumber17 = "Reactor Number 17";
+        public const string ReactorNumber18 = "Reactor Number 18";
+        public const string ReactorNumber19 = "Reactor Number 19";
+        public const string ReactorNumber20 = "Reactor Number 20";
+    }
 }

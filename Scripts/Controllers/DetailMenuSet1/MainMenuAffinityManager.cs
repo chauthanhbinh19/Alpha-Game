@@ -107,8 +107,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     public void CreateCardHeroesEquipments(CardHeroes cardHeroes)
     {
         Rank rank = UserCardHeroesRankService.Create().GetCardHeroesRank(mainType, cardHeroes.id);
-        string fileNameWithoutExtension = cardHeroes.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardHeroes.image)}");
         mainImage.texture = texture;
         mainLevelText.text = rank.level.ToString();
         CreateMaterialUI();
@@ -261,8 +260,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreateBooksEquipments(Books books)
     {
-        string fileNameWithoutExtension = books.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(books.image)}");
         mainImage.texture = texture;
         Rank rank = UserBooksRankService.Create().GetBooksRank(mainType, books.id);
         mainLevelText.text = rank.level.ToString();
@@ -417,8 +415,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreateCardCaptainsEquipments(CardCaptains cardCaptains)
     {
-        string fileNameWithoutExtension = cardCaptains.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardCaptains.image)}");
         mainImage.texture = texture;
         Rank rank = UserCardCaptainsRankService.Create().GetCardCaptainsRank(mainType, cardCaptains.id);
         mainLevelText.text = rank.level.ToString();
@@ -573,8 +570,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreatePetsEquipments(Pets pets)
     {
-        string fileNameWithoutExtension = pets.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(pets.image)}");
         mainImage.texture = texture;
         Rank rank = UserPetsRankService.Create().GetPetsRank(mainType, pets.id);
         mainLevelText.text = rank.level.ToString();
@@ -729,8 +725,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreateCardMilitaryEquipments(CardMilitary cardMilitary)
     {
-        string fileNameWithoutExtension = cardMilitary.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardMilitary.image)}");
         mainImage.texture = texture;
         Rank rank = UserCardMilitaryRankService.Create().GetCardMilitaryRank(mainType, cardMilitary.id);
         mainLevelText.text = rank.level.ToString();
@@ -885,8 +880,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreateCardSpellEquipments(CardSpell cardSpell)
     {
-        string fileNameWithoutExtension = cardSpell.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardSpell.image)}");
         mainImage.texture = texture;
         Rank rank = UserCardSpellRankService.Create().GetCardSpellRank(mainType, cardSpell.id);
         mainLevelText.text = rank.level.ToString();
@@ -1041,8 +1035,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreateCardMonstersEquipments(CardMonsters cardMonsters)
     {
-        string fileNameWithoutExtension = cardMonsters.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardMonsters.image)}");
         mainImage.texture = texture;
         Rank rank = UserCardMonstersRankService.Create().GetCardMonstersRank(mainType, cardMonsters.id);
         mainLevelText.text = rank.level.ToString();
@@ -1197,8 +1190,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreateCardColonelsEquipments(CardColonels cardColonels)
     {
-        string fileNameWithoutExtension = cardColonels.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardColonels.image)}");
         mainImage.texture = texture;
         Rank rank = UserCardColonelsRankService.Create().GetCardColonelsRank(mainType, cardColonels.id);
         mainLevelText.text = rank.level.ToString();
@@ -1353,8 +1345,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreateCardGeneralsEquipments(CardGenerals cardGenerals)
     {
-        string fileNameWithoutExtension = cardGenerals.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardGenerals.image)}");
         mainImage.texture = texture;
         Rank rank = UserCardGeneralsRankService.Create().GetCardGeneralsRank(mainType, cardGenerals.id);
         mainLevelText.text = rank.level.ToString();
@@ -1509,8 +1500,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public void CreateCardAdmiralsEquipments(CardAdmirals cardAdmirals)
     {
-        string fileNameWithoutExtension = cardAdmirals.image.Replace(".png", "");
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardAdmirals.image)}");
         mainImage.texture = texture;
         Rank rank = UserCardAdmiralsRankService.Create().GetCardAdmiralsRank(mainType, cardAdmirals.id);
         mainLevelText.text = rank.level.ToString();
@@ -1674,8 +1664,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             GameObject itemObject = Instantiate(ItemThird, MateriralPanel);
 
             RawImage itemImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = item.image.Replace(".png", "");
-            Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture itemTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.image)}");
             itemImage.texture = itemTexture;
 
             TextMeshProUGUI itemText = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();

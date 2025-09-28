@@ -55,4 +55,20 @@ public static class EvaluateItem
 
         return levelsGained; // Tổng số material có thể sử dụng
     }
+    // Trả về tổng số lượng item cần để nâng từ rankLevel hiện tại lên thêm "targetLevel" level
+    public static int CalculateRequiredQuantityForLevel(int currentLevel, int targetLevel, int levelsPerSkill)
+    {
+        int total = 0;
+        for (int l = 1; l <= targetLevel; l++)
+        {
+            int materialQuantity = (currentLevel == 0) 
+                ? 1 
+                : ((currentLevel + l - 1) % levelsPerSkill == 0 
+                    ? levelsPerSkill 
+                    : (currentLevel + l - 1) % levelsPerSkill);
+
+            total += materialQuantity;
+        }
+        return total;
+    }
 }

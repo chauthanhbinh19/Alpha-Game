@@ -31,4 +31,10 @@ public static class ItemConstants
     public const string AffinityNumber12 = "Affinity 12";
     public const string AffinityNumber13 = "Affinity 13";
     public const string AffinityNumber14 = "Affinity 14";
+
+    public const string ReactorMaterialNumber1 = "Reactor Material Number 1";
+    public const string ReactorMaterialNumber2 = "Reactor Material Number 2";
+    public const string ReactorMaterialNumber3 = "Reactor Material Number 3";
+    public const string ReactorMaterialNumber4 = "Reactor Material Number 4";
+    public const string ReactorMaterialNumber5 = "Reactor Material Number 5";
 }

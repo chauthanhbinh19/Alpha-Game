@@ -61,6 +61,10 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
@@ -80,7 +84,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
@@ -126,13 +140,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(books, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -145,13 +163,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(books, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -191,13 +219,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardCaptains, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -210,13 +242,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardCaptains, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -256,13 +298,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(pets, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -275,13 +321,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(pets, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -321,13 +377,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardMilitary, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -340,13 +400,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardMilitary, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -386,13 +456,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardSpell, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -405,13 +479,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardSpell, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -451,13 +535,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardMonsters, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -470,13 +558,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardMonsters, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -516,13 +614,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardColonels, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -535,13 +637,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardColonels, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -581,13 +693,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardGenerals, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -600,13 +716,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardGenerals, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -646,13 +772,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardAdmirals, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -665,13 +795,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(cardAdmirals, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -711,13 +851,17 @@ public class DetailMenuManager : MonoBehaviour
         {
             int levelsPerSkill = 1000;
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
             if (item.quantity >= materialQuantity)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, 1);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(equipments, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -730,13 +874,23 @@ public class DetailMenuManager : MonoBehaviour
         {
             int level = EvaluateItem.CalculateMaxMaterialLevel(item.quantity, rank.level);
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
-            if (item.quantity >= materialQuantity)
+            
+            // Nếu đã max thì không cho nâng nữa
+            if (rank.level >= 1000) return;
+
+            // Giới hạn không vượt quá 1000
+            if (rank.level + level > 1000)
+            {
+                level = 1000 - rank.level;
+            }
+            
+            if (item.quantity >= materialQuantity && level > 0)
             {
                 item.quantity = item.quantity - materialQuantity;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, level);
-                
+
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 rankService.UpLevel(equipments, newRank, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);

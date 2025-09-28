@@ -465,13 +465,13 @@ public class ButtonLoader : MonoBehaviour
             Button button = child.GetComponent<Button>();
             if (button != null)
             {
-                ChangeButtonBackground(button.gameObject, "Background_V4_216");
+                ChangeButtonBackground(button.gameObject, ImageConstants.Button.DetailTabbuttonUrlBeforeClick);
             }
         }
         // Đổi background cho button được nhấn
         if (clickedButton != null)
         {
-            ChangeButtonBackground(clickedButton.gameObject, "Background_V4_241"); // Background clicked
+            ChangeButtonBackground(clickedButton.gameObject, ImageConstants.Button.DetailTabbuttonUrlAfterClick); // Background clicked
         }
     }
     public void ChangeButtonBackground(GameObject button, string image)
@@ -479,7 +479,7 @@ public class ButtonLoader : MonoBehaviour
         RawImage buttonImage = button.GetComponent<RawImage>();
         if (buttonImage != null)
         {
-            Texture texture = Resources.Load<Texture>($"UI/Background4/{image}");
+            Texture texture = Resources.Load<Texture>($"{image}");
             if (texture != null)
             {
                 buttonImage.texture = texture;
