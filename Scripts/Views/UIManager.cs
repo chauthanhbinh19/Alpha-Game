@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
     public GameObject CardsSecondPrefab;
     public GameObject EquipmentSecondPrefab;
     public GameObject EquipmentFirstPrefab;
+    public GameObject EquipmentFourthPrefab;
     public GameObject ArtworkFirstPrefab;
     public GameObject ArtworkSecondPrefab;
     public GameObject ElementDetailsPrefab;
@@ -446,6 +447,8 @@ public class UIManager : MonoBehaviour
                 return EquipmentSecondPrefab;
             case "EquipmentFirstPrefab":
                 return EquipmentFirstPrefab;
+            case "EquipmentFourthPrefab":
+                return EquipmentFourthPrefab;
             case "ArtworkSecondPrefab":
                 return ArtworkSecondPrefab;
             case "ArtworkFirstPrefab":

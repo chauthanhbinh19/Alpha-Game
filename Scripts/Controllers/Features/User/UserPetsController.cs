@@ -202,7 +202,7 @@ public class UserPetsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Pets");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Pet);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -289,7 +289,7 @@ public class UserPetsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Pets");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Pet);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

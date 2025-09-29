@@ -173,7 +173,7 @@ public class UserForgeController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Forge");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Forge);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -258,7 +258,7 @@ public class UserForgeController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Forge");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Forge);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

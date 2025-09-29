@@ -173,7 +173,7 @@ public class UserArtworkController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Artwork");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Artwork);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -258,7 +258,7 @@ public class UserArtworkController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Artwork");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Artwork);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

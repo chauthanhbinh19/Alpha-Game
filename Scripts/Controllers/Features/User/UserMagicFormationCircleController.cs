@@ -173,7 +173,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("MagicFormationCircle");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.MagicFormationCircle);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -258,7 +258,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("MagicFormationCircle");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.MagicFormationCircle);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

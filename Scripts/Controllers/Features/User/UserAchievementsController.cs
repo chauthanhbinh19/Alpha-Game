@@ -133,7 +133,7 @@ public class UserAchievementsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Achievements");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Alchievement);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -218,7 +218,7 @@ public class UserAchievementsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Achievements");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Alchievement);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

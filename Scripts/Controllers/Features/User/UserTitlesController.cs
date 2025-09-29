@@ -176,7 +176,7 @@ public class UserTitlesController : MonoBehaviour
             
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Titles");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Title);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -261,7 +261,7 @@ public class UserTitlesController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Titles");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Title);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

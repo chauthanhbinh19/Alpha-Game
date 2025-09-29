@@ -173,7 +173,7 @@ public class UserTalismanController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Talisman");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Talisman);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -258,7 +258,7 @@ public class UserTalismanController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Talisman");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Talisman);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

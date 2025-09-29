@@ -169,7 +169,7 @@ public class UserCardLifeController : MonoBehaviour
             UIManager.Instance.CreatePropertyLevelUI(properties, cardLife, increasePerLevel, currentObject);
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("CardLife");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.CardLife);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -254,7 +254,7 @@ public class UserCardLifeController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("CardLife");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.CardLife);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

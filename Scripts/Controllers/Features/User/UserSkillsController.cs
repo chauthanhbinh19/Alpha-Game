@@ -160,7 +160,7 @@ public class UserSkillsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Skills");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Skill);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -245,7 +245,7 @@ public class UserSkillsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Skills");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Skill);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

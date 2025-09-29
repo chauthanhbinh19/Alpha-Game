@@ -23,6 +23,7 @@ public class EquipmentManager : MonoBehaviour
     private GameObject MainMenuCampaignPanel;
     private GameObject equipmentsPrefab;
     private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentFourthPrefab;
     private Transform popupPanel;
     private GameObject quantityPopupPrefab;
     private Transform tempContent;
@@ -56,6 +57,7 @@ public class EquipmentManager : MonoBehaviour
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         equipmentsPrefab = UIManager.Instance.GetGameObject("equipmentsPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
+        EquipmentFourthPrefab = UIManager.Instance.GetGameObject("EquipmentFourthPrefab");
         // EquipmentMenuPanel = UIManager.Instance.GetTransform("equipmentMenuPanel");
         EquipmentsPanelPrefab = UIManager.Instance.GetGameObject("EquipmentsPanelPrefab");
         campaignPrefab = UIManager.Instance.GetGameObject("CampaignPrefab");
@@ -142,26 +144,32 @@ public class EquipmentManager : MonoBehaviour
         currentPage = 1;
         panel.SetActive(false);
     }
-    private void createEquipmentsBag(List<Equipments> equipmentList)
+    private void createEquipmentsBag(List<Equipments> equipmentList, string type)
     {
         foreach (var equipment in equipmentList)
         {
-            GameObject equipmentObject = Instantiate(equipmentsPrefab, tempContent);
+            GameObject equipmentObject = Instantiate(EquipmentFourthPrefab, tempContent);
 
-            Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = equipment.name.Replace("_", " ");
 
-            Text Power = equipmentObject.transform.Find("Power").GetComponent<Text>();
+            TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
             Power.text = equipment.power.ToString();
 
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage BackgroundImage = equipmentObject.transform.Find("Background").GetComponent<RawImage>();
+            Texture backgroundTexture = Resources.Load<Texture>($"{EvaluateSlotForEquipment.BackgroundImageForEquipment(type)}");
+            BackgroundImage.texture = backgroundTexture;
+
+            RawImage Image = equipmentObject.transform.Find("MainImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            RawImage BorderImage = equipmentObject.transform.Find("Border").GetComponent<RawImage>();
+            RawImage BorderImage = equipmentObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            Texture frameTexture = Resources.Load<Texture>($"{EvaluateSlotForEquipment.FrameImageForEquipment(type)}");
+            BorderImage.texture = frameTexture;
             // Lấy EventTrigger của RawImage
             EventTrigger eventTrigger = BorderImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
@@ -187,12 +195,7 @@ public class EquipmentManager : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = tempContent.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(110, 130);
-        }
-        tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
+        // tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void createEquipmentsShop(List<Equipments> equipmentList, string type)
     {
@@ -334,7 +337,7 @@ public class EquipmentManager : MonoBehaviour
         var userEquipmentsService = UserEquipmentsService.Create();
         List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, type, pageSize, offset, rare);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel");
-        createEquipmentsBag(equipments);
+        createEquipmentsBag(equipments, type);
 
         totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -346,12 +349,17 @@ public class EquipmentManager : MonoBehaviour
             Title.text = LocalizationManager.Get("bag");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() => Destroy(currentObject));
+            CloseButton.onClick.AddListener(() =>
+            {
+                offset = 0;
+                currentPage = 1;
+                Destroy(currentObject);
+            });
             Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
 
             GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
-            gridLayout.cellSize = new Vector2(350, 130);
+            gridLayout.cellSize = new Vector2(200, 300);
         }
 
         Transform button = currentObject.transform.Find("Pagination");
@@ -386,7 +394,12 @@ public class EquipmentManager : MonoBehaviour
             Title.text = LocalizationManager.Get("shop");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() => Destroy(currentObject));
+            CloseButton.onClick.AddListener(() =>
+            {
+                offset = 0;
+                currentPage = 1;
+                Destroy(currentObject);
+            });
             Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() => Close(MainPanel));
         }
@@ -499,7 +512,7 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
-                createEquipmentsBag(equipments);
+                createEquipmentsBag(equipments, subType);
             }
             else if (status == 2)
             {
@@ -541,7 +554,7 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
-                createEquipmentsBag(equipments);
+                createEquipmentsBag(equipments, subType);
             }
             else if (status == 2)
             {

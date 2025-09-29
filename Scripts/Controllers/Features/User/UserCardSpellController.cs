@@ -341,7 +341,7 @@ public class UserCardSpellController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("CardSpell");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.CardSpell);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -428,7 +428,7 @@ public class UserCardSpellController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("CardSpell");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.CardSpell);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

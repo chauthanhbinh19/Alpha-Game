@@ -102,7 +102,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(15, AppConstants.MainType.MagicFormationCircles, Resources.Load<Texture2D>($"UI/Button/Gallery/MagicFormationCircleGallery"), tempContent);
         CreateButton(16, AppConstants.MainType.Relics, Resources.Load<Texture2D>($"UI/Button/Gallery/RelicsGallery"), tempContent);
         CreateButton(17, AppConstants.MainType.Artworks, Resources.Load<Texture2D>($"UI/Button/Gallery/ArtworkGallery"), tempContent);
-        CreateButton(18, AppConstants.MainType.Alchievements, Resources.Load<Texture2D>($"UI/Button/Gallery/AchievementGallery"), tempContent);
+        CreateButton(18, AppConstants.MainType.Achievements, Resources.Load<Texture2D>($"UI/Button/Gallery/AchievementGallery"), tempContent);
         CreateButton(19, AppConstants.MainType.CardColonels, Resources.Load<Texture2D>($"UI/Button/Gallery/ColonelsGallery"), tempContent);
         CreateButton(20, AppConstants.MainType.CardGenerals, Resources.Load<Texture2D>($"UI/Button/Gallery/GeneralsGallery"), tempContent);
         CreateButton(21, AppConstants.MainType.CardAdmirals, Resources.Load<Texture2D>($"UI/Button/Gallery/AdmiralsGallery"), tempContent);

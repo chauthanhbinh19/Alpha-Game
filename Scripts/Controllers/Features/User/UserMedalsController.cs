@@ -168,7 +168,7 @@ public class UserMedalsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Medals");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Medal);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -253,7 +253,7 @@ public class UserMedalsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Medals");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Medal);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

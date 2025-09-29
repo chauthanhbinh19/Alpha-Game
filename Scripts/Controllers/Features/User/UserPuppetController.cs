@@ -173,7 +173,7 @@ public class UserPuppetController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Puppet");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Puppet);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -258,7 +258,7 @@ public class UserPuppetController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Puppet");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Puppet);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

@@ -127,7 +127,7 @@ public static class AppConstants
 
 
         public const string Alchievement = "Alchievement";
-        public const string Alchievements = "Alchievements";
+        public const string Achievements = "Alchievements";
 
         public const string CardHero = "Card Hero";
         public const string CardHeroes = "Card Heroes";

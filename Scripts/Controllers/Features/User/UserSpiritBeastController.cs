@@ -176,7 +176,7 @@ public class UserSpiritBeastController : MonoBehaviour
             
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("SpiritBeast");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.SpiritBeast);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -261,7 +261,7 @@ public class UserSpiritBeastController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("SpiritBeast");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.SpiritBeast);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

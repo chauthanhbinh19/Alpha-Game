@@ -8824,6 +8824,7 @@ MonoBehaviour:
   CardsSecondPrefab: {fileID: 8708252175272485654, guid: e105677ccba770b408b1cf1eadc58259, type: 3}
   EquipmentSecondPrefab: {fileID: 8708252175272485654, guid: 7baad8dfa4549664a90a3caec7494394, type: 3}
   EquipmentFirstPrefab: {fileID: 8708252175272485654, guid: bf10e02aad212674b92552951a9b7f34, type: 3}
+  EquipmentFourthPrefab: {fileID: 8708252175272485654, guid: 48851e939d3c3e24782ada1017c67ea6, type: 3}
   ArtworkFirstPrefab: {fileID: 8708252175272485654, guid: 6f08123ab57d8074bb5d39a84bb41dd6, type: 3}
   ArtworkSecondPrefab: {fileID: 8708252175272485654, guid: a9566dfea5275ad48b14a03b9c6ad030, type: 3}
   ElementDetailsPrefab: {fileID: 3336894875229122267, guid: a155ff5e34396694a98fbedccd46c40a, type: 3}

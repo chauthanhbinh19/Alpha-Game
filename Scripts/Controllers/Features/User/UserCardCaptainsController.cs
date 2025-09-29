@@ -347,7 +347,7 @@ public class UserCardCaptainsController : MonoBehaviour
             UIManager.Instance.CreatePropertyLevelUI(properties, cardCaptains, increasePerLevel, currentObject);
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("CardCaptains");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.CardCaptain);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -434,7 +434,7 @@ public class UserCardCaptainsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("CardCaptains");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.CardCaptain);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

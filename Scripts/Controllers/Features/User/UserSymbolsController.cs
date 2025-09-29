@@ -176,7 +176,7 @@ public class UserSymbolsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Symbols");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Symbol);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -261,7 +261,7 @@ public class UserSymbolsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Symbols");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Symbol);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

@@ -173,7 +173,7 @@ public class UserRelicsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("Relics");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.Relic);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -258,7 +258,7 @@ public class UserRelicsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("Relics");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Relic);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {

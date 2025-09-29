@@ -170,7 +170,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel("CollaborationEquipments");
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.CollaborationEquipment);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -255,7 +255,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh("CollaborationEquipments");
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.CollaborationEquipment);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
