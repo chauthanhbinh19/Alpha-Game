@@ -13,12 +13,13 @@ public class ButtonLoader : MonoBehaviour
     private Transform summonPanel;
     private GameObject TabButton4;
     private GameObject TabButton3;
+    private GameObject TabButton6;
+    private GameObject AdvancedButtonFirst;
     private GameObject ArenaButtonPrefab;
     private GameObject AnimeButtonPrefab;
     private GameObject ReactorButtonPrefab;
-    public Transform buttonGroupPanel1;
-    public Transform buttonGroupPanel2;
-    public Transform buttonGroupPanel3;
+    private GameObject PopupMenuPanelPrefab;
+    private Transform MainPanel;
     private int set;
     Texture2D backgroundImage;
     Texture2D backgroundImage2;
@@ -46,9 +47,13 @@ public class ButtonLoader : MonoBehaviour
         summonPanel = UIManager.Instance.GetTransform("summonPanel");
         TabButton4 = UIManager.Instance.GetGameObject("TabButton4");
         TabButton3 = UIManager.Instance.GetGameObject("TabButton3");
+        TabButton6 = UIManager.Instance.GetGameObject("TabButton6");
+        AdvancedButtonFirst = UIManager.Instance.GetGameObject("AdvancedButtonFirst");
         ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
         AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
         ReactorButtonPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorButtonPrefab");
+        PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
 
         backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Background_V4_422");
         backgroundImage2 = Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder");
@@ -507,85 +512,112 @@ public class ButtonLoader : MonoBehaviour
             for (int i = 0; i < setButtonNumber; i++)
             {
                 int index = i;
-                GameObject button = Instantiate(buttonPrefab, buttonPanel);
+                GameObject button = Instantiate(TabButton6, buttonPanel);
 
                 TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = (index + 1).ToString();
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() =>
-                {
-                    set = index + 1;
-                    foreach (Transform child in buttonPanel)
-                    {
-                        Button button = child.GetComponent<Button>();
-                        if (button != null)
-                        {
-                            UIManager.Instance.ChangeButtonBackground(button.gameObject, "Background_V4_259"); // Giả sử bạn có texture trắng
-                        }
-                    }
-                    UIManager.Instance.ChangeButtonBackground(btn.gameObject, "Background_V4_332");
-                    CreateButtonGroup(data);
-                });
 
                 if (index == 0)
                 {
-                    set = index + 1;
-                    UIManager.Instance.ChangeButtonBackground(button, "Background_V4_332");
-                    CreateButtonGroup(data);
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.AdvancedButtonSet1);
+                    btn.onClick.AddListener(() =>
+                    {
+                        set = index + 1;
+                        CreateButtonGroup(data);
+                    });
                 }
-                else
+                else if (index == 1)
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, "Background_V4_259");
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.AdvancedButtonSet2);
+                    btn.onClick.AddListener(() =>
+                    {
+                        set = index + 1;
+                        CreateButtonGroup(data);
+                    });
+                }
+                else if (index == 2)
+                {
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.AdvancedButtonSet3);
+                    btn.onClick.AddListener(() =>
+                    {
+                        set = index + 1;
+                        CreateButtonGroup(data);
+                    });
+                }
+                else if (index == 3)
+                {
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.AdvancedButtonSet4);
+                    btn.onClick.AddListener(() =>
+                    {
+                        set = index + 1;
+                        CreateButtonGroup(data);
+                    });
                 }
             }
         }
     }
     public void CreateButtonGroup(object data)
     {
+        GameObject popUpPanelGameObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+        Transform content = popUpPanelGameObject.transform.Find("Scroll View/Viewport/Content");
+        GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
+        gridLayout.cellSize = new Vector2(280, 450);
+        // content.position = new Vector3(transform.position.x, 200f, transform.position.z);
+
+        TextMeshProUGUI titleText = popUpPanelGameObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        titleText.text = "Set " + set.ToString();
+
+        Button CloseButton = popUpPanelGameObject.transform.Find("CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            Destroy(popUpPanelGameObject);
+        });
+
         if (data is CardHeroes cardHeroes)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is CardCaptains cardCaptains)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is CardColonels cardColonels)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is CardGenerals cardGenerals)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is CardAdmirals cardAdmirals)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is CardMonsters cardMonsters)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is CardMilitary cardMilitary)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is CardSpell cardSpell)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is Books books)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is Pets pets)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
         else if (data is Equipments equipments)
         {
-            CreateButtonGroupDetails(data);
+            CreateButtonGroupDetails(data, content);
         }
     }
     private void CreateButtonWithBackground(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
@@ -596,35 +628,32 @@ public class ButtonLoader : MonoBehaviour
             return;
         }
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(buttonPrefab, panel);
+        GameObject newButton = Instantiate(AdvancedButtonFirst, panel);
         newButton.name = "Button_" + index;
 
         // Gán màu cho itemBackground
-        RawImage background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
-        if (background != null && itemBackground != null)
-        {
-            background.texture = itemBackground;
-        }
+        // RawImage background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        // if (background != null && itemBackground != null)
+        // {
+        //     background.texture = itemBackground;
+        // }
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
+        RawImage image = newButton.transform.Find("MainImage").GetComponent<RawImage>();
         if (image != null && itemImage != null)
         {
             image.texture = itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
-            nameText.text = LocalizationManager.Get(itemName.ToLower());
+            nameText.text = LocalizationManager.Get(itemName);
         }
     }
-    public void CreateButtonGroupDetails(object data)
+    public void CreateButtonGroupDetails(object data, Transform content)
     {
-        ButtonEvent.Instance.Close(buttonGroupPanel1);
-        ButtonEvent.Instance.Close(buttonGroupPanel2);
-        ButtonEvent.Instance.Close(buttonGroupPanel3);
         if (data is CardHeroes cardHeroes || data is CardCaptains cardCaptains ||
         data is CardColonels cardColonels || data is CardGenerals cardGenerals ||
         data is CardAdmirals cardAdmirals || data is CardMonsters cardMonsters ||
@@ -634,486 +663,486 @@ public class ButtonLoader : MonoBehaviour
         {
             if (set == 1)
             {
-                CreateButtonWithBackground(1, AppConstants.MainMenuSet1.Equipments, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Equipments"), buttonGroupPanel1);
-                CreateButtonWithBackground(2, AppConstants.MainMenuSet1.Realm, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Realm"), buttonGroupPanel1);
-                CreateButtonWithBackground(3, AppConstants.MainMenuSet1.Upgrade, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Upgrade"), buttonGroupPanel1);
-                CreateButtonWithBackground(4, AppConstants.MainMenuSet1.Aptitude, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aptitude"), buttonGroupPanel1);
-                CreateButtonWithBackground(5, AppConstants.MainMenuSet1.Affinity, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Affinity"), buttonGroupPanel1);
-                CreateButtonWithBackground(6, AppConstants.MainMenuSet1.Blessing, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Blessing"), buttonGroupPanel1);
-                CreateButtonWithBackground(7, AppConstants.MainMenuSet1.Core, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Core"), buttonGroupPanel1);
-                CreateButtonWithBackground(8, AppConstants.MainMenuSet1.Physique, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Physique"), buttonGroupPanel1);
-                CreateButtonWithBackground(9, AppConstants.MainMenuSet1.Bloodline, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bloodline"), buttonGroupPanel1);
+                CreateButtonWithBackground(1, AppDisplayConstants.MainMenuSet1.Equipments, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Equipments"), content);
+                CreateButtonWithBackground(2, AppDisplayConstants.MainMenuSet1.Realm, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Realm"), content);
+                CreateButtonWithBackground(3, AppDisplayConstants.MainMenuSet1.Upgrade, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Upgrade"), content);
+                CreateButtonWithBackground(4, AppDisplayConstants.MainMenuSet1.Aptitude, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aptitude"), content);
+                CreateButtonWithBackground(5, AppDisplayConstants.MainMenuSet1.Affinity, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Affinity"), content);
+                CreateButtonWithBackground(6, AppDisplayConstants.MainMenuSet1.Blessing, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Blessing"), content);
+                CreateButtonWithBackground(7, AppDisplayConstants.MainMenuSet1.Core, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Core"), content);
+                CreateButtonWithBackground(8, AppDisplayConstants.MainMenuSet1.Physique, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Physique"), content);
+                CreateButtonWithBackground(9, AppDisplayConstants.MainMenuSet1.Bloodline, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bloodline"), content);
 
-                CreateButtonWithBackground(10, AppConstants.MainMenuSet1.Omnivision, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivision"), buttonGroupPanel2);
-                CreateButtonWithBackground(11, AppConstants.MainMenuSet1.Omnipotence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipotence"), buttonGroupPanel2);
-                CreateButtonWithBackground(12, AppConstants.MainMenuSet1.Omnipresence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipresence"), buttonGroupPanel2);
-                CreateButtonWithBackground(13, AppConstants.MainMenuSet1.Omniscience, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omniscience"), buttonGroupPanel2);
-                CreateButtonWithBackground(14, AppConstants.MainMenuSet1.Omnivory, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivory"), buttonGroupPanel2);
-                CreateButtonWithBackground(15, AppConstants.MainMenuSet1.Angel, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Angel"), buttonGroupPanel2);
-                CreateButtonWithBackground(16, AppConstants.MainMenuSet1.Demon, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Demon"), buttonGroupPanel2);
+                CreateButtonWithBackground(10, AppDisplayConstants.MainMenuSet1.Omnivision, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivision"), content);
+                CreateButtonWithBackground(11, AppDisplayConstants.MainMenuSet1.Omnipotence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipotence"), content);
+                CreateButtonWithBackground(12, AppDisplayConstants.MainMenuSet1.Omnipresence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipresence"), content);
+                CreateButtonWithBackground(13, AppDisplayConstants.MainMenuSet1.Omniscience, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omniscience"), content);
+                CreateButtonWithBackground(14, AppDisplayConstants.MainMenuSet1.Omnivory, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivory"), content);
+                CreateButtonWithBackground(15, AppDisplayConstants.MainMenuSet1.Angel, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Angel"), content);
+                CreateButtonWithBackground(16, AppDisplayConstants.MainMenuSet1.Demon, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Demon"), content);
 
-                CreateButtonWithBackground(17, AppConstants.MainMenuSet1.Sword, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Sword"), buttonGroupPanel3);
-                CreateButtonWithBackground(18, AppConstants.MainMenuSet1.Spear, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Spear"), buttonGroupPanel3);
-                CreateButtonWithBackground(19, AppConstants.MainMenuSet1.Shield, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Shield"), buttonGroupPanel3);
-                CreateButtonWithBackground(20, AppConstants.MainMenuSet1.Bow, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bow"), buttonGroupPanel3);
-                CreateButtonWithBackground(21, AppConstants.MainMenuSet1.Gun, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gun"), buttonGroupPanel3);
-                CreateButtonWithBackground(22, AppConstants.MainMenuSet1.Cyber, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Cyber"), buttonGroupPanel3);
-                CreateButtonWithBackground(23, AppConstants.MainMenuSet1.Fairy, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Fairy"), buttonGroupPanel3);
+                CreateButtonWithBackground(17, AppDisplayConstants.MainMenuSet1.Sword, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Sword"), content);
+                CreateButtonWithBackground(18, AppDisplayConstants.MainMenuSet1.Spear, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Spear"), content);
+                CreateButtonWithBackground(19, AppDisplayConstants.MainMenuSet1.Shield, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Shield"), content);
+                CreateButtonWithBackground(20, AppDisplayConstants.MainMenuSet1.Bow, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bow"), content);
+                CreateButtonWithBackground(21, AppDisplayConstants.MainMenuSet1.Gun, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gun"), content);
+                CreateButtonWithBackground(22, AppDisplayConstants.MainMenuSet1.Cyber, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Cyber"), content);
+                CreateButtonWithBackground(23, AppDisplayConstants.MainMenuSet1.Fairy, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Fairy"), content);
 
 
-                ButtonEvent.Instance.AssignButtonEvent("Button_1", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_1", content, () =>
                 {
                     FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_2", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_2", content, () =>
                 {
                     FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_3", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_3", content, () =>
                 {
                     FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_4", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_4", content, () =>
                 {
                     FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_5", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_5", content, () =>
                 {
                     FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_6", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_6", content, () =>
                 {
                     FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_7", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_7", content, () =>
                 {
                     FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_8", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_8", content, () =>
                 {
                     FindAnyObjectByType<MainMenuPhysiqueManager>().CreateMainMenuPhysiqueManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_9", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_9", content, () =>
                 {
                     FindAnyObjectByType<MainMenuBloodlineManager>().CreateMainMenuBloodlineManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_10", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_10", content, () =>
                 {
                     FindAnyObjectByType<MainMenuOmnivisionManager>().CreateMainMenuOmnivisionManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_11", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_11", content, () =>
                 {
                     FindAnyObjectByType<MainMenuOmnipotenceManager>().CreateMainMenuOmnipotenceManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_12", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_12", content, () =>
                 {
                     FindAnyObjectByType<MainMenuOmnipresenceManager>().CreateMainMenuOmnipresenceManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_13", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_13", content, () =>
                 {
                     FindAnyObjectByType<MainMenuOmniscienceManager>().CreateMainMenuOmniscienceManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_14", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_14", content, () =>
                 {
                     FindAnyObjectByType<MainMenuOmnivoryManager>().CreateMainMenuOmnivoryManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_15", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_15", content, () =>
                 {
                     FindAnyObjectByType<MainMenuAngelManager>().CreateMainMenuAngelManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_16", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_16", content, () =>
                 {
                     FindAnyObjectByType<MainMenuDemonManager>().CreateMainMenuDemonManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_17", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_17", content, () =>
                 {
                     FindAnyObjectByType<MainMenuSwordManager>().CreateMainMenuSwordManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_18", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_18", content, () =>
                 {
                     FindAnyObjectByType<MainMenuSpearManager>().CreateMainMenuSpearManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_19", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_19", content, () =>
                 {
                     FindAnyObjectByType<MainMenuShieldManager>().CreateMainMenuShieldManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_20", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_20", content, () =>
                 {
                     FindAnyObjectByType<MainMenuBowManager>().CreateMainMenuBowManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_21", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_21", content, () =>
                 {
                     FindAnyObjectByType<MainMenuGunManager>().CreateMainMenuGunManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_22", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_22", content, () =>
                 {
                     FindAnyObjectByType<MainMenuCyberManager>().CreateMainMenuCyberManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_23", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_23", content, () =>
                 {
                     FindAnyObjectByType<MainMenuFairyManager>().CreateMainMenuFairyManager(data);
                 });
             }
             else if (set == 2)
             {
-                CreateButtonWithBackground(24, AppConstants.MainMenuSet2.Dark, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Dark"), buttonGroupPanel1);
-                CreateButtonWithBackground(25, AppConstants.MainMenuSet2.Light, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Light"), buttonGroupPanel1);
-                CreateButtonWithBackground(26, AppConstants.MainMenuSet2.Fire, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Fire"), buttonGroupPanel1);
-                CreateButtonWithBackground(27, AppConstants.MainMenuSet2.Ice, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Ice"), buttonGroupPanel1);
-                CreateButtonWithBackground(28, AppConstants.MainMenuSet2.Earth, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Earth"), buttonGroupPanel1);
-                CreateButtonWithBackground(29, AppConstants.MainMenuSet2.Thunder, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Thunder"), buttonGroupPanel1);
-                CreateButtonWithBackground(30, AppConstants.MainMenuSet2.Life, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Life"), buttonGroupPanel1);
-                CreateButtonWithBackground(31, AppConstants.MainMenuSet2.Space, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Space"), buttonGroupPanel1);
-                CreateButtonWithBackground(32, AppConstants.MainMenuSet2.Time, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Time"), buttonGroupPanel1);
+                CreateButtonWithBackground(24, AppDisplayConstants.MainMenuSet2.Dark, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Dark"), content);
+                CreateButtonWithBackground(25, AppDisplayConstants.MainMenuSet2.Light, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Light"), content);
+                CreateButtonWithBackground(26, AppDisplayConstants.MainMenuSet2.Fire, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Fire"), content);
+                CreateButtonWithBackground(27, AppDisplayConstants.MainMenuSet2.Ice, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Ice"), content);
+                CreateButtonWithBackground(28, AppDisplayConstants.MainMenuSet2.Earth, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Earth"), content);
+                CreateButtonWithBackground(29, AppDisplayConstants.MainMenuSet2.Thunder, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Thunder"), content);
+                CreateButtonWithBackground(30, AppDisplayConstants.MainMenuSet2.Life, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Life"), content);
+                CreateButtonWithBackground(31, AppDisplayConstants.MainMenuSet2.Space, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Space"), content);
+                CreateButtonWithBackground(32, AppDisplayConstants.MainMenuSet2.Time, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Time"), content);
 
-                CreateButtonWithBackground(33, AppConstants.MainMenuSet2.Nanotech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Nanotech"), buttonGroupPanel2);
-                CreateButtonWithBackground(34, AppConstants.MainMenuSet2.Quantum, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Quantum"), buttonGroupPanel2);
-                CreateButtonWithBackground(35, AppConstants.MainMenuSet2.Holography, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Holography"), buttonGroupPanel2);
-                CreateButtonWithBackground(36, AppConstants.MainMenuSet2.Plasma, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Plasma"), buttonGroupPanel2);
-                CreateButtonWithBackground(37, AppConstants.MainMenuSet2.Biomech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Biomech"), buttonGroupPanel2);
-                CreateButtonWithBackground(38, AppConstants.MainMenuSet2.Cryotech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Cryotech"), buttonGroupPanel2);
-                CreateButtonWithBackground(39, AppConstants.MainMenuSet2.Psionics, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Psionics"), buttonGroupPanel2);
+                CreateButtonWithBackground(33, AppDisplayConstants.MainMenuSet2.Nanotech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Nanotech"), content);
+                CreateButtonWithBackground(34, AppDisplayConstants.MainMenuSet2.Quantum, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Quantum"), content);
+                CreateButtonWithBackground(35, AppDisplayConstants.MainMenuSet2.Holography, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Holography"), content);
+                CreateButtonWithBackground(36, AppDisplayConstants.MainMenuSet2.Plasma, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Plasma"), content);
+                CreateButtonWithBackground(37, AppDisplayConstants.MainMenuSet2.Biomech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Biomech"), content);
+                CreateButtonWithBackground(38, AppDisplayConstants.MainMenuSet2.Cryotech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Cryotech"), content);
+                CreateButtonWithBackground(39, AppDisplayConstants.MainMenuSet2.Psionics, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Psionics"), content);
 
-                CreateButtonWithBackground(40, AppConstants.MainMenuSet2.Neurotech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Neurotech"), buttonGroupPanel3);
-                CreateButtonWithBackground(41, AppConstants.MainMenuSet2.Antimatter, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Antimatter"), buttonGroupPanel3);
-                CreateButtonWithBackground(42, AppConstants.MainMenuSet2.Phantomware, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Phantomware"), buttonGroupPanel3);
-                CreateButtonWithBackground(43, AppConstants.MainMenuSet2.Gravitech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gravitech"), buttonGroupPanel3);
-                CreateButtonWithBackground(44, AppConstants.MainMenuSet2.Aethernet, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aethernet"), buttonGroupPanel3);
-                CreateButtonWithBackground(45, AppConstants.MainMenuSet2.Starforge, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Starforge"), buttonGroupPanel3);
-                CreateButtonWithBackground(46, AppConstants.MainMenuSet2.Orbitalis, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Orbitalis"), buttonGroupPanel3);
+                CreateButtonWithBackground(40, AppDisplayConstants.MainMenuSet2.Neurotech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Neurotech"), content);
+                CreateButtonWithBackground(41, AppDisplayConstants.MainMenuSet2.Antimatter, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Antimatter"), content);
+                CreateButtonWithBackground(42, AppDisplayConstants.MainMenuSet2.Phantomware, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Phantomware"), content);
+                CreateButtonWithBackground(43, AppDisplayConstants.MainMenuSet2.Gravitech, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gravitech"), content);
+                CreateButtonWithBackground(44, AppDisplayConstants.MainMenuSet2.Aethernet, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aethernet"), content);
+                CreateButtonWithBackground(45, AppDisplayConstants.MainMenuSet2.Starforge, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Starforge"), content);
+                CreateButtonWithBackground(46, AppDisplayConstants.MainMenuSet2.Orbitalis, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Orbitalis"), content);
 
-                ButtonEvent.Instance.AssignButtonEvent("Button_24", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_24", content, () =>
                 {
                     FindAnyObjectByType<MainMenuDarkManager>().CreateMainMenuDarkManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_25", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_25", content, () =>
                 {
                     FindAnyObjectByType<MainMenuLightManager>().CreateMainMenuLightManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_26", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_26", content, () =>
                 {
                     FindAnyObjectByType<MainMenuFireManager>().CreateMainMenuFireManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_27", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_27", content, () =>
                 {
                     FindAnyObjectByType<MainMenuIceManager>().CreateMainMenuIceManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_28", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_28", content, () =>
                 {
                     FindAnyObjectByType<MainMenuEarthManager>().CreateMainMenuEarthManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_29", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_29", content, () =>
                 {
                     FindAnyObjectByType<MainMenuThunderManager>().CreateMainMenuThunderManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_30", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_30", content, () =>
                 {
                     FindAnyObjectByType<MainMenuLifeManager>().CreateMainMenuLifeManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_31", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_31", content, () =>
                 {
                     FindAnyObjectByType<MainMenuSpaceManager>().CreateMainMenuSpaceManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_32", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_32", content, () =>
                 {
                     FindAnyObjectByType<MainMenuTimeManager>().CreateMainMenuTimeManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_33", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_33", content, () =>
                 {
                     FindAnyObjectByType<MainMenuNanotechManager>().CreateMainMenuNanotechManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_34", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_34", content, () =>
                 {
                     FindAnyObjectByType<MainMenuQuantumManager>().CreateMainMenuQuantumManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_35", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_35", content, () =>
                 {
                     FindAnyObjectByType<MainMenuHolographyManager>().CreateMainMenuHolographyManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_36", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_36", content, () =>
                 {
                     FindAnyObjectByType<MainMenuPlasmaManager>().CreateMainMenuPlasmaManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_37", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_37", content, () =>
                 {
                     FindAnyObjectByType<MainMenuBiomechManager>().CreateMainMenuBiomechManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_38", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_38", content, () =>
                 {
                     FindAnyObjectByType<MainMenuCryotechManager>().CreateMainMenuCryotechManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_39", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_39", content, () =>
                 {
                     FindAnyObjectByType<MainMenuPsionicsManager>().CreateMainMenuPsionicsManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_40", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_40", content, () =>
                 {
                     FindAnyObjectByType<MainMenuNeurotechManager>().CreateMainMenuNeurotechManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_41", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_41", content, () =>
                 {
                     FindAnyObjectByType<MainMenuAntimatterManager>().CreateMainMenuAntimatterManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_42", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_42", content, () =>
                 {
                     FindAnyObjectByType<MainMenuPhantomwareManager>().CreateMainMenuPhantomwareManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_43", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_43", content, () =>
                 {
                     FindAnyObjectByType<MainMenuGravitechManager>().CreateMainMenuGravitechManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_44", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_44", content, () =>
                 {
                     FindAnyObjectByType<MainMenuAethernetManager>().CreateMainMenuAethernetManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_45", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_45", content, () =>
                 {
                     FindAnyObjectByType<MainMenuStarforgeManager>().CreateMainMenuStarforgeManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_46", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_46", content, () =>
                 {
                     FindAnyObjectByType<MainMenuOrbitalisManager>().CreateMainMenuOrbitalisManager(data);
                 });
             }
             else if (set == 3)
             {
-                CreateButtonWithBackground(47, AppConstants.MainMenuSet3.Azathoth, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Azathoth"), buttonGroupPanel1);
-                CreateButtonWithBackground(48, AppConstants.MainMenuSet3.YogSothoth, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Yog-Sothoth"), buttonGroupPanel1);
-                CreateButtonWithBackground(49, AppConstants.MainMenuSet3.Nyarlathotep, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Nyarlathotep"), buttonGroupPanel1);
-                CreateButtonWithBackground(50, AppConstants.MainMenuSet3.ShubNiggurath, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Shub-Niggurath"), buttonGroupPanel1);
-                CreateButtonWithBackground(51, AppConstants.MainMenuSet3.Nihorath, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Nihorath"), buttonGroupPanel1);
-                CreateButtonWithBackground(52, AppConstants.MainMenuSet3.Aeonax, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aeonax"), buttonGroupPanel1);
-                CreateButtonWithBackground(53, AppConstants.MainMenuSet3.Seraphiros, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Seraphiros"), buttonGroupPanel1);
-                CreateButtonWithBackground(54, AppConstants.MainMenuSet3.Thorindar, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Thorindar"), buttonGroupPanel1);
-                CreateButtonWithBackground(55, AppConstants.MainMenuSet3.Zilthros, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Zilthros"), buttonGroupPanel1);
+                CreateButtonWithBackground(47, AppDisplayConstants.MainMenuSet3.Azathoth, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Azathoth"), content);
+                CreateButtonWithBackground(48, AppDisplayConstants.MainMenuSet3.YogSothoth, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Yog-Sothoth"), content);
+                CreateButtonWithBackground(49, AppDisplayConstants.MainMenuSet3.Nyarlathotep, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Nyarlathotep"), content);
+                CreateButtonWithBackground(50, AppDisplayConstants.MainMenuSet3.ShubNiggurath, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Shub-Niggurath"), content);
+                CreateButtonWithBackground(51, AppDisplayConstants.MainMenuSet3.Nihorath, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Nihorath"), content);
+                CreateButtonWithBackground(52, AppDisplayConstants.MainMenuSet3.Aeonax, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aeonax"), content);
+                CreateButtonWithBackground(53, AppDisplayConstants.MainMenuSet3.Seraphiros, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Seraphiros"), content);
+                CreateButtonWithBackground(54, AppDisplayConstants.MainMenuSet3.Thorindar, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Thorindar"), content);
+                CreateButtonWithBackground(55, AppDisplayConstants.MainMenuSet3.Zilthros, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Zilthros"), content);
 
-                CreateButtonWithBackground(56, AppConstants.MainMenuSet3.Khorazal, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Khorazal"), buttonGroupPanel2);
-                CreateButtonWithBackground(57, AppConstants.MainMenuSet3.Ixithra, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Ixithra"), buttonGroupPanel2);
-                CreateButtonWithBackground(58, AppConstants.MainMenuSet3.Omnitheus, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnitheus"), buttonGroupPanel2);
-                CreateButtonWithBackground(59, AppConstants.MainMenuSet3.Phyrixa, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Phyrixa"), buttonGroupPanel2);
-                CreateButtonWithBackground(60, AppConstants.MainMenuSet3.Atherion, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Atherion"), buttonGroupPanel2);
-                CreateButtonWithBackground(61, AppConstants.MainMenuSet3.Vorathos, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Vorathos"), buttonGroupPanel2);
-                CreateButtonWithBackground(62, AppConstants.MainMenuSet3.Tenebris, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Tenebris"), buttonGroupPanel2);
+                CreateButtonWithBackground(56, AppDisplayConstants.MainMenuSet3.Khorazal, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Khorazal"), content);
+                CreateButtonWithBackground(57, AppDisplayConstants.MainMenuSet3.Ixithra, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Ixithra"), content);
+                CreateButtonWithBackground(58, AppDisplayConstants.MainMenuSet3.Omnitheus, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnitheus"), content);
+                CreateButtonWithBackground(59, AppDisplayConstants.MainMenuSet3.Phyrixa, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Phyrixa"), content);
+                CreateButtonWithBackground(60, AppDisplayConstants.MainMenuSet3.Atherion, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Atherion"), content);
+                CreateButtonWithBackground(61, AppDisplayConstants.MainMenuSet3.Vorathos, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Vorathos"), content);
+                CreateButtonWithBackground(62, AppDisplayConstants.MainMenuSet3.Tenebris, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Tenebris"), content);
 
-                CreateButtonWithBackground(63, AppConstants.MainMenuSet3.Xylkor, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Xylkor"), buttonGroupPanel3);
-                CreateButtonWithBackground(64, AppConstants.MainMenuSet3.Veltharion, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Veltharion"), buttonGroupPanel3);
-                CreateButtonWithBackground(65, AppConstants.MainMenuSet3.Arcanos, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Arcanos"), buttonGroupPanel3);
-                CreateButtonWithBackground(66, AppConstants.MainMenuSet3.Dolomath, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Dolomath"), buttonGroupPanel3);
-                CreateButtonWithBackground(67, AppConstants.MainMenuSet3.Arathor, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Arathor"), buttonGroupPanel3);
-                CreateButtonWithBackground(68, AppConstants.MainMenuSet3.Xyphos, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Xyphos"), buttonGroupPanel3);
-                CreateButtonWithBackground(69, AppConstants.MainMenuSet3.Vaelith, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Vaelith"), buttonGroupPanel3);
+                CreateButtonWithBackground(63, AppDisplayConstants.MainMenuSet3.Xylkor, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Xylkor"), content);
+                CreateButtonWithBackground(64, AppDisplayConstants.MainMenuSet3.Veltharion, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Veltharion"), content);
+                CreateButtonWithBackground(65, AppDisplayConstants.MainMenuSet3.Arcanos, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Arcanos"), content);
+                CreateButtonWithBackground(66, AppDisplayConstants.MainMenuSet3.Dolomath, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Dolomath"), content);
+                CreateButtonWithBackground(67, AppDisplayConstants.MainMenuSet3.Arathor, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Arathor"), content);
+                CreateButtonWithBackground(68, AppDisplayConstants.MainMenuSet3.Xyphos, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Xyphos"), content);
+                CreateButtonWithBackground(69, AppDisplayConstants.MainMenuSet3.Vaelith, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Vaelith"), content);
 
 
-                ButtonEvent.Instance.AssignButtonEvent("Button_47", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_47", content, () =>
                 {
                     FindAnyObjectByType<MainMenuAzathothManager>().CreateMainMenuAzathothManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_48", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_48", content, () =>
                 {
                     FindAnyObjectByType<MainMenuYogSothothManager>().CreateMainMenuYogSothothManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_49", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_49", content, () =>
                 {
                     FindAnyObjectByType<MainMenuNyarlathotepManager>().CreateMainMenuNyarlathotepManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_50", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_50", content, () =>
                 {
                     FindAnyObjectByType<MainMenuShubNiggurathManager>().CreateMainMenuShubNiggurathManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_51", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_51", content, () =>
                 {
                     FindAnyObjectByType<MainMenuNihorathManager>().CreateMainMenuNihorathManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_52", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_52", content, () =>
                 {
                     FindAnyObjectByType<MainMenuAeonaxManager>().CreateMainMenuAeonaxManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_53", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_53", content, () =>
                 {
                     FindAnyObjectByType<MainMenuSeraphirosManager>().CreateMainMenuSeraphirosManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_54", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_54", content, () =>
                 {
                     FindAnyObjectByType<MainMenuThorindarManager>().CreateMainMenuThorindarManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_55", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_55", content, () =>
                 {
                     FindAnyObjectByType<MainMenuZilthrosManager>().CreateMainMenuZilthrosManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_56", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_56", content, () =>
                 {
                     FindAnyObjectByType<MainMenuKhorazalManager>().CreateMainMenuKhorazalManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_57", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_57", content, () =>
                 {
                     FindAnyObjectByType<MainMenuIxithraManager>().CreateMainMenuIxithraManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_58", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_58", content, () =>
                 {
                     FindAnyObjectByType<MainMenuOmnitheusManager>().CreateMainMenuOmnitheusManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_59", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_59", content, () =>
                 {
                     FindAnyObjectByType<MainMenuPhyrixaManager>().CreateMainMenuPhyrixaManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_60", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_60", content, () =>
                 {
                     FindAnyObjectByType<MainMenuAtherionManager>().CreateMainMenuAtherionManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_61", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_61", content, () =>
                 {
                     FindAnyObjectByType<MainMenuVorathosManager>().CreateMainMenuVorathosManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_62", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_62", content, () =>
                 {
                     FindAnyObjectByType<MainMenuTenebrisManager>().CreateMainMenuTenebrisManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_63", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_63", content, () =>
                 {
                     FindAnyObjectByType<MainMenuXylkorManager>().CreateMainMenuXylkorManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_64", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_64", content, () =>
                 {
                     FindAnyObjectByType<MainMenuVeltharionManager>().CreateMainMenuVeltharionManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_65", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_65", content, () =>
                 {
                     FindAnyObjectByType<MainMenuArcanosManager>().CreateMainMenuArcanosManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_66", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_66", content, () =>
                 {
                     FindAnyObjectByType<MainMenuDolomathManager>().CreateMainMenuDolomathManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_67", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_67", content, () =>
                 {
                     FindAnyObjectByType<MainMenuArathorManager>().CreateMainMenuArathorManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_68", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_68", content, () =>
                 {
                     FindAnyObjectByType<MainMenuXyphosManager>().CreateMainMenuXyphosManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_69", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_69", content, () =>
                 {
                     FindAnyObjectByType<MainMenuVaelithManager>().CreateMainMenuVaelithManager(data);
                 });
             }
             else if (set == 4)
             {
-                CreateButtonWithBackground(70, AppConstants.MainMenuSet4.Zarx, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Zarx"), buttonGroupPanel1);
-                CreateButtonWithBackground(71, AppConstants.MainMenuSet4.Raik, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Raik"), buttonGroupPanel1);
-                CreateButtonWithBackground(72, AppConstants.MainMenuSet4.Drax, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Drax"), buttonGroupPanel1);
-                CreateButtonWithBackground(73, AppConstants.MainMenuSet4.Kron, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Kron"), buttonGroupPanel1);
-                CreateButtonWithBackground(74, AppConstants.MainMenuSet4.Zolt, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Zolt"), buttonGroupPanel1);
-                CreateButtonWithBackground(75, AppConstants.MainMenuSet4.Gorr, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gorr"), buttonGroupPanel1);
-                CreateButtonWithBackground(76, AppConstants.MainMenuSet4.Ryze, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Ryze"), buttonGroupPanel1);
-                CreateButtonWithBackground(77, AppConstants.MainMenuSet4.Jaxx, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Jaxx"), buttonGroupPanel1);
-                CreateButtonWithBackground(78, AppConstants.MainMenuSet4.Thar, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Thar"), buttonGroupPanel1);
+                CreateButtonWithBackground(70, AppDisplayConstants.MainMenuSet4.Zarx, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Zarx"), content);
+                CreateButtonWithBackground(71, AppDisplayConstants.MainMenuSet4.Raik, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Raik"), content);
+                CreateButtonWithBackground(72, AppDisplayConstants.MainMenuSet4.Drax, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Drax"), content);
+                CreateButtonWithBackground(73, AppDisplayConstants.MainMenuSet4.Kron, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Kron"), content);
+                CreateButtonWithBackground(74, AppDisplayConstants.MainMenuSet4.Zolt, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Zolt"), content);
+                CreateButtonWithBackground(75, AppDisplayConstants.MainMenuSet4.Gorr, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gorr"), content);
+                CreateButtonWithBackground(76, AppDisplayConstants.MainMenuSet4.Ryze, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Ryze"), content);
+                CreateButtonWithBackground(77, AppDisplayConstants.MainMenuSet4.Jaxx, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Jaxx"), content);
+                CreateButtonWithBackground(78, AppDisplayConstants.MainMenuSet4.Thar, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Thar"), content);
 
-                CreateButtonWithBackground(79, AppConstants.MainMenuSet4.Vorn, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Vorn"), buttonGroupPanel2);
-                CreateButtonWithBackground(80, AppConstants.MainMenuSet4.Nyx, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Nyx"), buttonGroupPanel2);
-                CreateButtonWithBackground(81, AppConstants.MainMenuSet4.Aros, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aros"), buttonGroupPanel2);
-                CreateButtonWithBackground(82, AppConstants.MainMenuSet4.Hex, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Hex"), buttonGroupPanel2);
-                CreateButtonWithBackground(83, AppConstants.MainMenuSet4.Lorn, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Lorn"), buttonGroupPanel2);
-                CreateButtonWithBackground(84, AppConstants.MainMenuSet4.Baxx, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Baxx"), buttonGroupPanel2);
-                CreateButtonWithBackground(85, AppConstants.MainMenuSet4.Zeph, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Zeph"), buttonGroupPanel2);
+                CreateButtonWithBackground(79, AppDisplayConstants.MainMenuSet4.Vorn, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Vorn"), content);
+                CreateButtonWithBackground(80, AppDisplayConstants.MainMenuSet4.Nyx, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Nyx"), content);
+                CreateButtonWithBackground(81, AppDisplayConstants.MainMenuSet4.Aros, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aros"), content);
+                CreateButtonWithBackground(82, AppDisplayConstants.MainMenuSet4.Hex, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Hex"), content);
+                CreateButtonWithBackground(83, AppDisplayConstants.MainMenuSet4.Lorn, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Lorn"), content);
+                CreateButtonWithBackground(84, AppDisplayConstants.MainMenuSet4.Baxx, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Baxx"), content);
+                CreateButtonWithBackground(85, AppDisplayConstants.MainMenuSet4.Zeph, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Zeph"), content);
 
-                CreateButtonWithBackground(86, AppConstants.MainMenuSet4.Kael, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Kael"), buttonGroupPanel3);
-                CreateButtonWithBackground(87, AppConstants.MainMenuSet4.Drav, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Drav"), buttonGroupPanel3);
-                CreateButtonWithBackground(88, AppConstants.MainMenuSet4.Torn, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Torn"), buttonGroupPanel3);
-                CreateButtonWithBackground(89, AppConstants.MainMenuSet4.Myrr, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Myrr"), buttonGroupPanel3);
-                CreateButtonWithBackground(90, AppConstants.MainMenuSet4.Vask, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Vask"), buttonGroupPanel3);
-                CreateButtonWithBackground(91, AppConstants.MainMenuSet4.Jorr, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Jorr"), buttonGroupPanel3);
-                CreateButtonWithBackground(92, AppConstants.MainMenuSet4.Quen, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Quen"), buttonGroupPanel3);
+                CreateButtonWithBackground(86, AppDisplayConstants.MainMenuSet4.Kael, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Kael"), content);
+                CreateButtonWithBackground(87, AppDisplayConstants.MainMenuSet4.Drav, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Drav"), content);
+                CreateButtonWithBackground(88, AppDisplayConstants.MainMenuSet4.Torn, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Torn"), content);
+                CreateButtonWithBackground(89, AppDisplayConstants.MainMenuSet4.Myrr, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Myrr"), content);
+                CreateButtonWithBackground(90, AppDisplayConstants.MainMenuSet4.Vask, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Vask"), content);
+                CreateButtonWithBackground(91, AppDisplayConstants.MainMenuSet4.Jorr, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Jorr"), content);
+                CreateButtonWithBackground(92, AppDisplayConstants.MainMenuSet4.Quen, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Quen"), content);
 
-                ButtonEvent.Instance.AssignButtonEvent("Button_70", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_70", content, () =>
                 {
                     FindAnyObjectByType<MainMenuZarxManager>().CreateMainMenuZarxManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_71", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_71", content, () =>
                 {
                     FindAnyObjectByType<MainMenuRaikManager>().CreateMainMenuRaikManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_72", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_72", content, () =>
                 {
                     FindAnyObjectByType<MainMenuDraxManager>().CreateMainMenuDraxManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_73", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_73", content, () =>
                 {
                     FindAnyObjectByType<MainMenuKronManager>().CreateMainMenuKronManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_74", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_74", content, () =>
                 {
                     FindAnyObjectByType<MainMenuZoltManager>().CreateMainMenuZoltManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_75", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_75", content, () =>
                 {
                     FindAnyObjectByType<MainMenuGorrManager>().CreateMainMenuGorrManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_76", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_76", content, () =>
                 {
                     FindAnyObjectByType<MainMenuRyzeManager>().CreateMainMenuRyzeManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_77", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_77", content, () =>
                 {
                     FindAnyObjectByType<MainMenuJaxxManager>().CreateMainMenuJaxxManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_78", buttonGroupPanel1, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_78", content, () =>
                 {
                     FindAnyObjectByType<MainMenuTharManager>().CreateMainMenuTharManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_79", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_79", content, () =>
                 {
                     FindAnyObjectByType<MainMenuVornManager>().CreateMainMenuVornManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_80", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_80", content, () =>
                 {
                     FindAnyObjectByType<MainMenuNyxManager>().CreateMainMenuNyxManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_81", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_81", content, () =>
                 {
                     FindAnyObjectByType<MainMenuArosManager>().CreateMainMenuArosManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_82", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_82", content, () =>
                 {
                     FindAnyObjectByType<MainMenuHexManager>().CreateMainMenuHexManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_83", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_83", content, () =>
                 {
                     FindAnyObjectByType<MainMenuLornManager>().CreateMainMenuLornManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_84", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_84", content, () =>
                 {
                     FindAnyObjectByType<MainMenuBaxxManager>().CreateMainMenuBaxxManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_85", buttonGroupPanel2, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_85", content, () =>
                 {
                     FindAnyObjectByType<MainMenuZephManager>().CreateMainMenuZephManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_86", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_86", content, () =>
                 {
                     FindAnyObjectByType<MainMenuKaelManager>().CreateMainMenuKaelManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_87", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_87", content, () =>
                 {
                     FindAnyObjectByType<MainMenuDravManager>().CreateMainMenuDravManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_88", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_88", content, () =>
                 {
                     FindAnyObjectByType<MainMenuTornManager>().CreateMainMenuTornManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_89", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_89", content, () =>
                 {
                     FindAnyObjectByType<MainMenuMyrrManager>().CreateMainMenuMyrrManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_90", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_90", content, () =>
                 {
                     FindAnyObjectByType<MainMenuVaskManager>().CreateMainMenuVaskManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_91", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_91", content, () =>
                 {
                     FindAnyObjectByType<MainMenuJorrManager>().CreateMainMenuJorrManager(data);
                 });
-                ButtonEvent.Instance.AssignButtonEvent("Button_92", buttonGroupPanel3, () =>
+                ButtonEvent.Instance.AssignButtonEvent("Button_92", content, () =>
                 {
                     FindAnyObjectByType<MainMenuQuenManager>().CreateMainMenuQuenManager(data);
                 });
@@ -1123,99 +1152,99 @@ public class ButtonLoader : MonoBehaviour
         }
         else if (data is Equipments equipments)
         {
-                // CreateButtonWithBackground(1, AppConstants.MainMenuSet1.Equipments, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Equipments"), buttonGroupPanel1);
-                CreateButtonWithBackground(2, AppConstants.MainMenuSet1.Realm, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Realm"), buttonGroupPanel1);
-                CreateButtonWithBackground(3, AppConstants.MainMenuSet1.Upgrade, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Upgrade"), buttonGroupPanel1);
-                CreateButtonWithBackground(4, AppConstants.MainMenuSet1.Aptitude, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aptitude"), buttonGroupPanel1);
-                // CreateButtonWithBackground(5, AppConstants.MainMenuSet1.Affinity, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Affinity"), buttonGroupPanel1);
-                CreateButtonWithBackground(6, AppConstants.MainMenuSet1.Blessing, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Blessing"), buttonGroupPanel1);
-                CreateButtonWithBackground(7, AppConstants.MainMenuSet1.Core, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Core"), buttonGroupPanel1);
-                CreateButtonWithBackground(8, AppConstants.MainMenuSet1.Physique, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Physique"), buttonGroupPanel1);
-                CreateButtonWithBackground(9, AppConstants.MainMenuSet1.Bloodline, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bloodline"), buttonGroupPanel1);
+            // CreateButtonWithBackground(1, AppDisplayConstants.MainMenuSet1.Equipments, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Equipments"), content);
+            CreateButtonWithBackground(2, AppDisplayConstants.MainMenuSet1.Realm, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Realm"), content);
+            CreateButtonWithBackground(3, AppDisplayConstants.MainMenuSet1.Upgrade, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Upgrade"), content);
+            CreateButtonWithBackground(4, AppDisplayConstants.MainMenuSet1.Aptitude, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Aptitude"), content);
+            // CreateButtonWithBackground(5, AppDisplayConstants.MainMenuSet1.Affinity, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Affinity"), content);
+            CreateButtonWithBackground(6, AppDisplayConstants.MainMenuSet1.Blessing, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Blessing"), content);
+            CreateButtonWithBackground(7, AppDisplayConstants.MainMenuSet1.Core, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Core"), content);
+            CreateButtonWithBackground(8, AppDisplayConstants.MainMenuSet1.Physique, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Physique"), content);
+            CreateButtonWithBackground(9, AppDisplayConstants.MainMenuSet1.Bloodline, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bloodline"), content);
 
-                CreateButtonWithBackground(10, AppConstants.MainMenuSet1.Omnivision, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivision"), buttonGroupPanel2);
-                CreateButtonWithBackground(11, AppConstants.MainMenuSet1.Omnipotence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipotence"), buttonGroupPanel2);
-                CreateButtonWithBackground(12, AppConstants.MainMenuSet1.Omnipresence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipresence"), buttonGroupPanel2);
-                CreateButtonWithBackground(13, AppConstants.MainMenuSet1.Omniscience, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omniscience"), buttonGroupPanel2);
-                CreateButtonWithBackground(14, AppConstants.MainMenuSet1.Omnivory, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivory"), buttonGroupPanel2);
-                CreateButtonWithBackground(15, AppConstants.MainMenuSet1.Angel, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Angel"), buttonGroupPanel2);
-                CreateButtonWithBackground(16, AppConstants.MainMenuSet1.Demon, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Demon"), buttonGroupPanel2);
+            CreateButtonWithBackground(10, AppDisplayConstants.MainMenuSet1.Omnivision, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivision"), content);
+            CreateButtonWithBackground(11, AppDisplayConstants.MainMenuSet1.Omnipotence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipotence"), content);
+            CreateButtonWithBackground(12, AppDisplayConstants.MainMenuSet1.Omnipresence, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnipresence"), content);
+            CreateButtonWithBackground(13, AppDisplayConstants.MainMenuSet1.Omniscience, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omniscience"), content);
+            CreateButtonWithBackground(14, AppDisplayConstants.MainMenuSet1.Omnivory, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Omnivory"), content);
+            CreateButtonWithBackground(15, AppDisplayConstants.MainMenuSet1.Angel, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Angel"), content);
+            CreateButtonWithBackground(16, AppDisplayConstants.MainMenuSet1.Demon, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Demon"), content);
 
-                CreateButtonWithBackground(17, AppConstants.MainMenuSet1.Sword, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Sword"), buttonGroupPanel3);
-                CreateButtonWithBackground(18, AppConstants.MainMenuSet1.Spear, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Spear"), buttonGroupPanel3);
-                CreateButtonWithBackground(19, AppConstants.MainMenuSet1.Shield, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Shield"), buttonGroupPanel3);
-                CreateButtonWithBackground(20, AppConstants.MainMenuSet1.Bow, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bow"), buttonGroupPanel3);
-                CreateButtonWithBackground(21, AppConstants.MainMenuSet1.Gun, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gun"), buttonGroupPanel3);
-                CreateButtonWithBackground(22, AppConstants.MainMenuSet1.Cyber, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Cyber"), buttonGroupPanel3);
-                CreateButtonWithBackground(23, AppConstants.MainMenuSet1.Fairy, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Fairy"), buttonGroupPanel3);
+            CreateButtonWithBackground(17, AppDisplayConstants.MainMenuSet1.Sword, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Sword"), content);
+            CreateButtonWithBackground(18, AppDisplayConstants.MainMenuSet1.Spear, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Spear"), content);
+            CreateButtonWithBackground(19, AppDisplayConstants.MainMenuSet1.Shield, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Shield"), content);
+            CreateButtonWithBackground(20, AppDisplayConstants.MainMenuSet1.Bow, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Bow"), content);
+            CreateButtonWithBackground(21, AppDisplayConstants.MainMenuSet1.Gun, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Gun"), content);
+            CreateButtonWithBackground(22, AppDisplayConstants.MainMenuSet1.Cyber, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Cyber"), content);
+            CreateButtonWithBackground(23, AppDisplayConstants.MainMenuSet1.Fairy, backgroundImage2, Resources.Load<Texture2D>($"UI/Button/Main/Fairy"), content);
 
-            // ButtonEvent.Instance.AssignButtonEvent("Button_1", buttonGroupPanel1, () =>
+            // ButtonEvent.Instance.AssignButtonEvent("Button_1", content, () =>
             // {
             //     FindAnyObjectByType<MainMenuEquipmentManager>().CreateMainMenuEquipmentManager(data);
             // });
-            ButtonEvent.Instance.AssignButtonEvent("Button_2", buttonGroupPanel1, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_2", content, () =>
             {
                 FindAnyObjectByType<MainMenuRealmManager>().CreateMainMenuRealmManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_3", buttonGroupPanel1, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_3", content, () =>
             {
                 FindAnyObjectByType<MainMenuUpgradeManager>().CreateMainMenuUpgradeManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_4", buttonGroupPanel1, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_4", content, () =>
             {
                 FindAnyObjectByType<MainMenuAptitudeManager>().CreateMainMenuAptitudeManager(data);
             });
-            // ButtonEvent.Instance.AssignButtonEvent("Button_5", buttonGroupPanel1, () =>
+            // ButtonEvent.Instance.AssignButtonEvent("Button_5", content, () =>
             // {
             //     FindAnyObjectByType<MainMenuAffinityManager>().CreateMainMenuAffinityManager(data);
             // });
-            ButtonEvent.Instance.AssignButtonEvent("Button_6", buttonGroupPanel1, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_6", content, () =>
             {
                 FindAnyObjectByType<MainMenuBlessingManager>().CreateMainMenuBlessingManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_7", buttonGroupPanel1, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_7", content, () =>
             {
                 FindAnyObjectByType<MainMenuCoreManager>().CreateMainMenuCoreManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_8", buttonGroupPanel1, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_8", content, () =>
             {
                 FindAnyObjectByType<MainMenuPhysiqueManager>().CreateMainMenuPhysiqueManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_9", buttonGroupPanel1, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_9", content, () =>
             {
                 FindAnyObjectByType<MainMenuBloodlineManager>().CreateMainMenuBloodlineManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_10", buttonGroupPanel2, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_10", content, () =>
             {
                 FindAnyObjectByType<MainMenuOmnivisionManager>().CreateMainMenuOmnivisionManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_11", buttonGroupPanel2, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_11", content, () =>
             {
                 FindAnyObjectByType<MainMenuOmnipotenceManager>().CreateMainMenuOmnipotenceManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_12", buttonGroupPanel2, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_12", content, () =>
             {
                 FindAnyObjectByType<MainMenuOmnipresenceManager>().CreateMainMenuOmnipresenceManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_13", buttonGroupPanel2, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_13", content, () =>
             {
                 FindAnyObjectByType<MainMenuOmniscienceManager>().CreateMainMenuOmniscienceManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_14", buttonGroupPanel2, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_14", content, () =>
             {
                 FindAnyObjectByType<MainMenuOmnivoryManager>().CreateMainMenuOmnivoryManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_15", buttonGroupPanel2, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_15", content, () =>
             {
                 FindAnyObjectByType<MainMenuAngelManager>().CreateMainMenuAngelManager(data);
             });
-            ButtonEvent.Instance.AssignButtonEvent("Button_16", buttonGroupPanel2, () =>
+            ButtonEvent.Instance.AssignButtonEvent("Button_16", content, () =>
             {
                 FindAnyObjectByType<MainMenuDemonManager>().CreateMainMenuDemonManager(data);
             });
         }
-        buttonGroupPanel1.gameObject.AddComponent<SlideBottomToTopAnimation>();
-        buttonGroupPanel2.gameObject.AddComponent<SlideRightToLeftAnimation>();
-        buttonGroupPanel3.gameObject.AddComponent<SlideLeftToRightAnimation>();
+        content.gameObject.AddComponent<SlideBottomToTopAnimation>();
+        content.gameObject.AddComponent<SlideRightToLeftAnimation>();
+        content.gameObject.AddComponent<SlideLeftToRightAnimation>();
     }
 }

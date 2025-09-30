@@ -144,7 +144,7 @@ public class EquipmentManager : MonoBehaviour
         currentPage = 1;
         panel.SetActive(false);
     }
-    private void createEquipmentsBag(List<Equipments> equipmentList, string type)
+    private void CreateEquipmentsBag(List<Equipments> equipmentList, string type)
     {
         foreach (var equipment in equipmentList)
         {
@@ -161,8 +161,7 @@ public class EquipmentManager : MonoBehaviour
             BackgroundImage.texture = backgroundTexture;
 
             RawImage Image = equipmentObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.image)}");
             Image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
@@ -195,9 +194,9 @@ public class EquipmentManager : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
             rareImage.texture = rareTexture;
         }
-        // tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
+        tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    private void createEquipmentsShop(List<Equipments> equipmentList, string type)
+    private void CreateEquipmentsShop(List<Equipments> equipmentList, string type)
     {
         foreach (var equipment in equipmentList)
         {
@@ -207,16 +206,14 @@ public class EquipmentManager : MonoBehaviour
             Title.text = equipment.name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.image)}");
             Image.texture = texture;
             // RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = equipmentObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.currency_image);
-            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture currencyTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.currency_image)}");
             currencyImage.texture = currencyTexture;
 
             Text currencyTitle = equipmentObject.transform.Find("CurrencyText").GetComponent<Text>();
@@ -238,7 +235,7 @@ public class EquipmentManager : MonoBehaviour
         // }
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    private void createEquipmentsEnhancement(List<Equipments> equipmentList)
+    private void CreateEquipmentsEnhancement(List<Equipments> equipmentList)
     {
         foreach (var equipment in equipmentList)
         {
@@ -248,8 +245,7 @@ public class EquipmentManager : MonoBehaviour
             Title.text = equipment.name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.image)}");
             Image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
@@ -264,7 +260,7 @@ public class EquipmentManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(110, 130);
         }
     }
-    private void createEquipmentsCampaign(Campaigns campaigns)
+    private void CreateEquipmentsCampaign(Campaigns campaigns)
     {
         float xOffset = -650; // Khoảng cách cố định giữa các equipmentObject trên trục X
         float yAmplitude = 100; // Biên độ dao động trên trục Y
@@ -337,7 +333,7 @@ public class EquipmentManager : MonoBehaviour
         var userEquipmentsService = UserEquipmentsService.Create();
         List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, type, pageSize, offset, rare);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel");
-        createEquipmentsBag(equipments, type);
+        CreateEquipmentsBag(equipments, type);
 
         totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -382,7 +378,7 @@ public class EquipmentManager : MonoBehaviour
         var equipmentsService = EquipmentsService.Create();
         List<Equipments> equipments = equipmentsService.GetEquipmentsWithCurrency(type, pageSize, offset);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel");
-        createEquipmentsShop(equipments, type);
+        CreateEquipmentsShop(equipments, type);
 
         totalRecord = equipmentsService.GetEquipmentsCount(type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -425,7 +421,7 @@ public class EquipmentManager : MonoBehaviour
         var userEquipmentsService = UserEquipmentsService.Create();
         List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, type, pageSize, offset, rare);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel");
-        createEquipmentsEnhancement(equipments);
+        CreateEquipmentsEnhancement(equipments);
 
         totalRecord = userEquipmentsService.GetUserEquipmentsCount(User.CurrentUserId, type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -461,7 +457,7 @@ public class EquipmentManager : MonoBehaviour
         UserCampaign userCampaign = new UserCampaign();
         Campaigns userCampaigns = userCampaign.GetCampaignsForUser("Chapter 1", type);
         tempContent = currentObject.transform.Find("DictionaryCards/CampaignGroup");
-        createEquipmentsCampaign(userCampaigns);
+        CreateEquipmentsCampaign(userCampaigns);
 
         // totalRecord = equipmentsManager.GetUserEquipmentsCount(type);
         // totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -512,7 +508,7 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
-                createEquipmentsBag(equipments, subType);
+                CreateEquipmentsBag(equipments, subType);
             }
             else if (status == 2)
             {
@@ -522,7 +518,7 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Equipments> equipments = equipmentsService.GetEquipmentsWithCurrency(subType, pageSize, offset);
-                createEquipmentsShop(equipments, subType);
+                CreateEquipmentsShop(equipments, subType);
             }
             else if (status == 3)
             {
@@ -532,7 +528,7 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
-                createEquipmentsEnhancement(equipments);
+                CreateEquipmentsEnhancement(equipments);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -554,7 +550,7 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
-                createEquipmentsBag(equipments, subType);
+                CreateEquipmentsBag(equipments, subType);
             }
             else if (status == 2)
             {
@@ -564,7 +560,7 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Equipments> equipments = equipmentsService.GetEquipmentsWithCurrency(subType, pageSize, offset);
-                createEquipmentsShop(equipments, subType);
+                CreateEquipmentsShop(equipments, subType);
             }
             else if (status == 3)
             {
@@ -574,7 +570,7 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Equipments> equipments = userEquipmentsService.GetUserEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
-                createEquipmentsShop(equipments, subType);
+                CreateEquipmentsShop(equipments, subType);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -772,8 +768,7 @@ public class EquipmentManager : MonoBehaviour
             itemBackground.texture = backgroundTexture;
 
             RawImage itemImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(campaignReward.items.image);
-            Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture itemTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(campaignReward.items.image)}");
             itemImage.texture = itemTexture;
 
             // Chỉnh kích thước RectTransform thành 100x100
@@ -787,8 +782,7 @@ public class EquipmentManager : MonoBehaviour
         {
             GameObject cardObject = Instantiate(cardsPrefab, enemyGroup);
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(campaignDetailCardcard.cards.image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(campaignDetailCardcard.cards.image)}");
             Image.texture = texture;
         }
     }

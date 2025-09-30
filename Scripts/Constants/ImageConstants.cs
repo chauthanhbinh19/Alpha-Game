@@ -104,5 +104,11 @@ public static class ImageConstants
         public const string RareButtonUrlAfterClick = "UI/Background4/Background_V4_84_2";
         public const string DetailTabbuttonUrlBeforeClick = "UI/Background4/Background_V4_216";
         public const string DetailTabbuttonUrlAfterClick = "UI/Background4/Background_V4_241";
+        public const string SetButtonUrlBeforeClick = "UI/Background4/Background_V4_259";
+        public const string SetButtonUrlAfterClick = "UI/Background4/Background_V4_332";
+        public const string AdvancedButtonSet1 = "UI/Background4/Card/Geometric_1";
+        public const string AdvancedButtonSet2 = "UI/Background4/Card/Geometric_2";
+        public const string AdvancedButtonSet3 = "UI/Background4/Card/Geometric_3";
+        public const string AdvancedButtonSet4 = "UI/Background4/Card/Geometric_4";
     }
 }

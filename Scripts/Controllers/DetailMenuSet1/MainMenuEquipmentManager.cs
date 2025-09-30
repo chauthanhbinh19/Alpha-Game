@@ -211,7 +211,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         RawImage buttonImage = button.GetComponent<RawImage>();
         if (buttonImage != null)
         {
-            Texture texture = Resources.Load<Texture>($"UI/Background4/{image}");
+            Texture texture = Resources.Load<Texture>($"{image}");
             if (texture != null)
             {
                 buttonImage.texture = texture;
@@ -252,11 +252,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (i == 0)
                 {
                     set = subtype;
-                    ChangeButtonBackground(button, "Background_V4_332");
+                    ChangeButtonBackground(button, ImageConstants.Button.SetButtonUrlAfterClick);
                 }
                 else
                 {
-                    ChangeButtonBackground(button, "Background_V4_259");
+                    ChangeButtonBackground(button, ImageConstants.Button.SetButtonUrlBeforeClick);
                 }
             }
         }
@@ -270,12 +270,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, "Background_V4_259"); // Giả sử bạn có texture trắng
+                ChangeButtonBackground(button.gameObject, ImageConstants.Button.SetButtonUrlBeforeClick); // Giả sử bạn có texture trắng
             }
         }
 
         set = type;
-        ChangeButtonBackground(clickedButton, "Background_V4_332");
+        ChangeButtonBackground(clickedButton, ImageConstants.Button.SetButtonUrlAfterClick);
         // CreateSetButton();
         if (data is CardHeroes cardHeroes)
         {

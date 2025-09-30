@@ -736,9 +736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91bd40bf71e74f4468f908c7aaf681f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonGroupPanel1: {fileID: 0}
-  buttonGroupPanel2: {fileID: 0}
-  buttonGroupPanel3: {fileID: 0}
 --- !u!1 &63902067
 GameObject:
   m_ObjectHideFlags: 0
@@ -4573,9 +4570,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91bd40bf71e74f4468f908c7aaf681f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonGroupPanel1: {fileID: 0}
-  buttonGroupPanel2: {fileID: 0}
-  buttonGroupPanel3: {fileID: 0}
 --- !u!1 &764314789
 GameObject:
   m_ObjectHideFlags: 0
@@ -8847,6 +8841,8 @@ MonoBehaviour:
   ReceivedNotification: {fileID: 8708252175272485654, guid: 115686d87506464429e315c61210e148, type: 3}
   ItemThird: {fileID: 1661859481911484232, guid: 54415496c6d2d2545bbbbf1053e792f9, type: 3}
   TabButton5: {fileID: 5647053732788993068, guid: d599b2cbcd8a60d4bb091b0b21511a9f, type: 3}
+  TabButton6: {fileID: 5647053732788993068, guid: 19d3fcdb77ebadd4a8661651b96c9168, type: 3}
+  AdvancedButtonFirst: {fileID: 8708252175272485654, guid: b20d4084356f82b428b6e7eef4789d33, type: 3}
   PopupTeamsPrefab: {fileID: 5745659240395072349, guid: 401d4a58adbdf454fbce4a3f7b34f5de, type: 3}
   TeamsPanelPrefab: {fileID: 5745659240395072349, guid: f7254e99ace19834cba0968acafacb11, type: 3}
   TeamsPositionPrefab: {fileID: 8828003423608059818, guid: 93937cbd8a0febd49b8184a7306b2e83, type: 3}

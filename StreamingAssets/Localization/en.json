@@ -256,6 +256,7 @@
   { "key": "Anime.HunterXHunter", "value": "Hunter x Hunter" },
   { "key": "Anime.OnePunchMan", "value": "One Punch Man" },
   
+  { "key": "MainMenuSet1.Equipments", "value": "Equipments" },
   { "key": "MainMenuSet1.Realm", "value": "Realm" },
   { "key": "MainMenuSet1.Upgrade", "value": "Upgrade" },
   { "key": "MainMenuSet1.Aptitude", "value": "Aptitude" },

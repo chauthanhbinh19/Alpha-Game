@@ -119,9 +119,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         RawImage backgroundCircle1Image = currentObject.transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
 
-        ButtonLoader.Instance.buttonGroupPanel1 = buttonGroupPanel1;
-        ButtonLoader.Instance.buttonGroupPanel2 = buttonGroupPanel2;
-        ButtonLoader.Instance.buttonGroupPanel3 = buttonGroupPanel3;
+        // ButtonLoader.Instance.buttonGroupPanel1 = buttonGroupPanel1;
+        // ButtonLoader.Instance.buttonGroupPanel2 = buttonGroupPanel2;
+        // ButtonLoader.Instance.buttonGroupPanel3 = buttonGroupPanel3;
         ButtonLoader.Instance.CreateSetButtonGroup(data, TabButton5, setButtonGroupPanel);
 
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();

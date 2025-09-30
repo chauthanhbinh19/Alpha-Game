@@ -72,6 +72,8 @@ public class UIManager : MonoBehaviour
     public GameObject ReceivedNotification;
     public GameObject ItemThird;
     public GameObject TabButton5;
+    public GameObject TabButton6;
+    public GameObject AdvancedButtonFirst;
     public GameObject PopupTeamsPrefab;
     public GameObject TeamsPanelPrefab;
     public GameObject TeamsPositionPrefab;
@@ -587,6 +589,10 @@ public class UIManager : MonoBehaviour
                 return ArenaSlotPrefab;
             case "TabButton5":
                 return TabButton5;
+            case "TabButton6":
+                return TabButton6;
+            case "AdvancedButtonFirst":
+                return AdvancedButtonFirst;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;
