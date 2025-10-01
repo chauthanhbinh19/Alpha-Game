@@ -256,6 +256,8 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
+            Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
+            scrollViewPanel.gameObject.SetActive(false);
         }
         else if (mainType.Equals(AppConstants.MainType.Collection))
         {
@@ -266,6 +268,8 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
+            Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
+            scrollViewPanel.gameObject.SetActive(false);
         }
         else if (mainType.Equals(AppConstants.MainType.Equipment))
         {
@@ -276,6 +280,8 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Close(MainPanel));
             ButtonLoader.Instance.CreateEquipmentsButton(popupObject.transform.Find("Content"));
+            Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
+            scrollViewPanel.gameObject.SetActive(false);
         }
         else if (mainType.Equals(AppConstants.MainType.Anime))
         {

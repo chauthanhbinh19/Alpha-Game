@@ -11,6 +11,7 @@ public class DetailMenuManager : MonoBehaviour
     UserItemsService userItemsService;
     private TMP_FontAsset EuroStyleNormalFont;
     private int fontSize;
+    private int maxLevel;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -30,6 +31,7 @@ public class DetailMenuManager : MonoBehaviour
         userItemsService = UserItemsService.Create();
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
         fontSize = 20;
+        maxLevel = 10000;
     }
     public void CreateCardHeroesEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardHeroes cardHeroes)
@@ -63,7 +65,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
 
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -86,12 +88,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
 
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -142,7 +144,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -165,12 +167,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -221,7 +223,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -244,12 +246,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -300,7 +302,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -323,12 +325,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -379,7 +381,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -402,12 +404,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -458,7 +460,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -481,12 +483,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -537,7 +539,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -560,12 +562,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -616,7 +618,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -639,12 +641,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -695,7 +697,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -718,12 +720,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -774,7 +776,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -797,12 +799,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
 
             if (item.quantity >= materialQuantity && level > 0)
@@ -853,7 +855,7 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = (rank.level == 0) ? 1 : (rank.level % levelsPerSkill == 0 ? levelsPerSkill : rank.level % levelsPerSkill);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
             if (item.quantity >= materialQuantity)
             {
@@ -876,12 +878,12 @@ public class DetailMenuManager : MonoBehaviour
             int materialQuantity = EvaluateItem.CalculateMaxMaterialQuantity(item.quantity, rank.level);
             
             // Nếu đã max thì không cho nâng nữa
-            if (rank.level >= 1000) return;
+            if (rank.level >= maxLevel) return;
 
-            // Giới hạn không vượt quá 1000
-            if (rank.level + level > 1000)
+            // Giới hạn không vượt quá 10000
+            if (rank.level + level > maxLevel)
             {
-                level = 1000 - rank.level;
+                level = maxLevel - rank.level;
             }
             
             if (item.quantity >= materialQuantity && level > 0)

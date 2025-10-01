@@ -15,6 +15,7 @@ public class ReactorNumber1Manager : MonoBehaviour
     private int fontSize;
     TeamsService teamsService;
     UserItemsService userItemsService;
+    private int maxLevel;
     public static ReactorNumber1Manager Instance { get; private set; }
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class ReactorNumber1Manager : MonoBehaviour
         fontSize = 26;
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
+        maxLevel = 10000;
     }
 
     // Update is called once per frame
@@ -137,7 +139,7 @@ public class ReactorNumber1Manager : MonoBehaviour
                 : (scienceFiction.level % levelsPerSkill == 0 ? levelsPerSkill : scienceFiction.level % levelsPerSkill);
 
             // Check nếu đã max level thì dừng
-            if (scienceFiction.level >= 1000) return;
+            if (scienceFiction.level >= maxLevel) return;
 
             // Kiểm tra xem tất cả items đều đủ số lượng
             bool hasAllMaterials = items.All(i => i.quantity >= materialQuantity);
@@ -179,10 +181,10 @@ public class ReactorNumber1Manager : MonoBehaviour
             // Nếu không đủ nguyên liệu để nâng thì dừng
             if (finalLevel <= 0) return;
 
-            // Giới hạn không vượt quá 1000
-            if (scienceFiction.level + finalLevel > 1000)
+            // Giới hạn không vượt quá 10000
+            if (scienceFiction.level + finalLevel > maxLevel)
             {
-                finalLevel = 1000 - scienceFiction.level;
+                finalLevel = maxLevel - scienceFiction.level;
             }
 
             // Kiểm tra & trừ nguyên liệu cho finalLevel

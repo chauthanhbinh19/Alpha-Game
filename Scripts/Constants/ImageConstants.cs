@@ -93,6 +93,30 @@ public static class ImageConstants
         public const string CardBackground50 = "UI/Background4/Card/Card_Background_50";
         public const string CardBackground51 = "UI/Background4/Card/Card_Background_51";
         public const string CardBackground52 = "UI/Background4/Card/Card_Background_52";
+
+        public const string AdvancedBackground1 = "UI/Background4/Card/Advanced_Background_1";
+        public const string AdvancedBackground2 = "UI/Background4/Card/Advanced_Background_2";
+        public const string AdvancedBackground3 = "UI/Background4/Card/Advanced_Background_3";
+        public const string AdvancedBackground4 = "UI/Background4/Card/Advanced_Background_4";
+        public const string AdvancedBackground5 = "UI/Background4/Card/Advanced_Background_5";
+        public const string AdvancedBackground6 = "UI/Background4/Card/Advanced_Background_6";
+        public const string AdvancedBackground7 = "UI/Background4/Card/Advanced_Background_7";
+        public const string AdvancedBackground8 = "UI/Background4/Card/Advanced_Background_8";
+        public const string AdvancedBackground9 = "UI/Background4/Card/Advanced_Background_9";
+        public const string AdvancedBackground10 = "UI/Background4/Card/Advanced_Background_10";
+        public const string AdvancedBackground11 = "UI/Background4/Card/Advanced_Background_11";
+        public const string AdvancedBackground12 = "UI/Background4/Card/Advanced_Background_12";
+        public const string AdvancedBackground13 = "UI/Background4/Card/Advanced_Background_13";
+        public const string AdvancedBackground14 = "UI/Background4/Card/Advanced_Background_14";
+        public const string AdvancedBackground15 = "UI/Background4/Card/Advanced_Background_15";
+        public const string AdvancedBackground16 = "UI/Background4/Card/Advanced_Background_16";
+        public const string AdvancedBackground17 = "UI/Background4/Card/Advanced_Background_17";
+        public const string AdvancedBackground18 = "UI/Background4/Card/Advanced_Background_18";
+        public const string AdvancedBackground19 = "UI/Background4/Card/Advanced_Background_19";
+        public const string AdvancedBackground20 = "UI/Background4/Card/Advanced_Background_20";
+        public const string AdvancedBackground21 = "UI/Background4/Card/Advanced_Background_21";
+        public const string AdvancedBackground22 = "UI/Background4/Card/Advanced_Background_22";
+        public const string AdvancedBackground23 = "UI/Background4/Card/Advanced_Background_23";
     }
     public static class Button
     {
