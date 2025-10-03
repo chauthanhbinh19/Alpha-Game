@@ -1189,10 +1189,27 @@ public class UIManager : MonoBehaviour
         TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         LevelText.text = level.ToString();
     }
-    public void SetMaterialUI(GameObject gameobject, string itemImage, int level = 0, int userMaterialQuantity = 0)
+    public void SetMaterialUI(GameObject gameobject, string itemImage, int itemQuantity, int currencyQuantity, int rankLevel, int maxLevel)
     {
-        int levelsPerSkill = 1000;
-        int materialQuantity = (level == 0) ? 1 : (level % levelsPerSkill == 0 ? levelsPerSkill : level % levelsPerSkill);
+        Transform currencyPanel = gameobject.transform.Find("DictionaryCards/Currency");
+        List<Currency> currencies = UserCurrencyService.Create().GetUserCurrency();
+        ButtonEvent.Instance.Close(currencyPanel);
+        CurrencyManager.Instance.GetMainCurrency(currencies, currencyPanel);
+
+        var oneResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
+        var maxResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
+        RawImage OneLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
+        RawImage MaxLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
+        Texture OneLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.Silver}");
+        Texture MaxLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.Silver}");
+        OneLevelCurrencyImage.texture = OneLevelCurrencyTexture;
+        MaxLevelCurrencyImage.texture = MaxLevelCurrencyTexture;
+
+        TextMeshProUGUI OneLevelCurrencyText = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI MaxLevelCurrencyText = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
+        OneLevelCurrencyText.text = oneResult.totalCurrencyUsed.ToString();
+        MaxLevelCurrencyText.text = maxResult.totalCurrencyUsed.ToString();
+
         Transform OneLevelMaterial = gameobject.transform.Find("DictionaryCards/OneLevelMaterial");
         Transform MaxLevelMaterial = gameobject.transform.Find("DictionaryCards/MaxLevelMaterial");
         ButtonEvent.Instance.Close(OneLevelMaterial);
@@ -1204,21 +1221,21 @@ public class UIManager : MonoBehaviour
         Texture oneLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         oneLevelImage.texture = oneLevelTexture;
 
-        RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
-        oneLevelRectTransform.sizeDelta = new Vector2(50, 50);
+        // RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
+        // oneLevelRectTransform.sizeDelta = new Vector2(40, 40);
 
         TextMeshProUGUI oneLevelQuantity = oneLevelMaterialObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        oneLevelQuantity.text = userMaterialQuantity + "/" + materialQuantity;
+        oneLevelQuantity.text = itemQuantity + "/" + oneResult.totalMaterialUsed;
 
         RawImage maxLevelImage = maxLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
         Texture maxLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         maxLevelImage.texture = maxLevelTexture;
 
         TextMeshProUGUI maxLevelQuantity = maxLevelMaterialObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        maxLevelQuantity.text = userMaterialQuantity + "/" + EvaluateItem.CalculateMaxMaterialQuantity(userMaterialQuantity, level);
+        maxLevelQuantity.text = itemQuantity + "/" + maxResult.totalMaterialUsed;
 
-        RectTransform maxLevelRectTransform = maxLevelImage.GetComponent<RectTransform>();
-        maxLevelRectTransform.sizeDelta = new Vector2(50, 50);
+        // RectTransform maxLevelRectTransform = maxLevelImage.GetComponent<RectTransform>();
+        // maxLevelRectTransform.sizeDelta = new Vector2(40, 40);
     }
     public void ChangeButtonBackground(GameObject button, string image)
     {

@@ -118,6 +118,12 @@ public static class ImageConstants
         public const string AdvancedBackground22 = "UI/Background4/Card/Advanced_Background_22";
         public const string AdvancedBackground23 = "UI/Background4/Card/Advanced_Background_23";
     }
+    public static class Currency
+    {
+        public const string Silver = "Currency/Silver";
+        public const string Gold = "Currency/Gold";
+        public const string Diamond = "Currency/Diamond";
+    }
     public static class Button
     {
         public const string TabbuttonUrlBeforeClick = "UI/Background4/Background_V4_167";

@@ -249,6 +249,18 @@ public static class AppConstants
         public const string PackageItem = "Package";
 
     }
+    public static class Status
+    {
+        public const string Success = "SUCCESS";
+        public const string MaxLevel = "MAX_LEVEL";
+        public const string NotEnoughResource = "NOT_ENOUGH_RESOURCE";
+    }
+    public static class Currency
+    {
+        public const string Silver = "Silver";
+        public const string Gold = "Gold";
+        public const string Diamond = "Diamond";
+    }
     public static class Gallery
     {
         public const string CardHeroesGallery = "Card Heroes Gallery";

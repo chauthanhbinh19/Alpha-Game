@@ -81,6 +81,44 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
+    public Currency GetUserCurrencyByName(string currencyName)
+    {
+        Currency currencies = new Currency();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string currencyQuery = @"SELECT c.image, c.name, uc.currency_id, uc.quantity 
+                FROM user_currency uc, currency c 
+                WHERE user_id = @userId and uc.currency_id=c.id and c.name=@name;";
+                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                currencyCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                currencyCommand.Parameters.AddWithValue("@name", currencyName);
+                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
+                while (currencyReader.Read())
+                {
+                    string image = currencyReader.GetString("image");
+                    string name = currencyReader.GetString("name");
+                    string currencyId = currencyReader.GetString("currency_id");
+                    int quantity = currencyReader.GetInt32("quantity");
+                    currencies = new Currency
+                    {
+                        id = currencyId,
+                        name = name,
+                        image = image,
+                        quantity = quantity
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+        return currencies;
+    }
     public void UpdateUserCurrency(string currency_id, double price)
     {
         string connectionString = DatabaseConfig.ConnectionString;

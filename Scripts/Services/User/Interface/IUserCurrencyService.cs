@@ -4,6 +4,7 @@ public interface IUserCurrencyService
 {
     List<Currency> GetUserCurrency();
     Currency GetUserCurrencyById(string Id);
+    Currency GetUserCurrencyByName(string currencyName);
     void UpdateUserCurrency(string currency_id, double price);
     List<Currency> GetEquipmentsCurrency(string type);
     Currency GetEquipmentsPrice(string type, string equipment_id);

@@ -24,6 +24,11 @@ public class UserCurrencyService : IUserCurrencyService
         return _userCurrencyRepository.GetUserCurrencyById(Id);
     }
 
+    public Currency GetUserCurrencyByName(string currencyName)
+    {
+        return _userCurrencyRepository.GetUserCurrencyByName(currencyName);
+    }
+
     public void UpdateUserCurrency(string currency_id, double price)
     {
         _userCurrencyRepository.UpdateUserCurrency(currency_id, price);
