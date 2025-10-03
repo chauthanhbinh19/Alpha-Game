@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 383418bf1cd2b474483d2dab0e2d3155
+guid: 348f02fa4e1a13d4fab4ef7105cf554e
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,13 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Light
-    second: {fileID: 2100000, guid: f28971f20b64b61408fda33e110a5893, type: 2}
+      name: tripo_mat_9baeb8c8
+    second: {fileID: 2100000, guid: cbd54fd1fc0e3f443be3d09a644b0567, type: 2}
   - first:
-      type: UnityEngine:Material
+      type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Thrust
-    second: {fileID: 2100000, guid: 738c12f251a22a548b107cdb3e173720, type: 2}
+      name: tripo_image_9baeb8c8-f939-43c6-915b-788ac94b0809_Metallic
+    second: {fileID: 2800000, guid: f17022d2ce134da45aa46058fdc745ee, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: tripo_image_9baeb8c8-f939-43c6-915b-788ac94b0809_Roughness
+    second: {fileID: 2800000, guid: d81102811889f4644938a82df4c1ba21, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: tripo_image_9baeb8c8_0
+    second: {fileID: 2800000, guid: b665e70aa2eeff040a637d50a5a38693, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: tripo_image_9baeb8c8_2
+    second: {fileID: 2800000, guid: 5d4f8fed2aed39040a7c8b8d693126df, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,15 +60,15 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 100
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
@@ -98,7 +113,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 100
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
