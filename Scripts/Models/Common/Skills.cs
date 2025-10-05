@@ -40,6 +40,7 @@ public class Skills : BaseEntity
     public int current_star { get; set; }
     public int temp_star { get; set; }
     public int position { get; set; }
+    public string skill_type { get; set; }
     public int star { get => star1; set => star1 = value; }
     public int level { get => level1; set => level1 = value; }
     public int experiment { get => experiment1; set => experiment1 = value; }

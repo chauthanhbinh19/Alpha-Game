@@ -24,7 +24,8 @@ public class UserCardColonelsController : MonoBehaviour
     private GameObject tempCurrentObject;
     private GameObject SkillPanelPrefab;
     private GameObject SkillGroupPrefab;
-    private GameObject SkillPrefab;
+    private GameObject Skill1Prefab;
+    private GameObject Skill2Prefab;
     private int pageSize;
     private int offset;
     private int currentPage;
@@ -54,7 +55,8 @@ public class UserCardColonelsController : MonoBehaviour
         EquipmentsWearingPrefab = UIManager.Instance.GetGameObject("EquipmentsWearingPrefab");
         SkillPanelPrefab = UIManager.Instance.GetGameObject("SkillPanelPrefab");
         SkillGroupPrefab = UIManager.Instance.GetGameObject("SkillGroupPrefab");
-        SkillPrefab = UIManager.Instance.GetGameObject("SkillPrefab");
+        Skill1Prefab = UIManager.Instance.GetGameObject("Skill1Prefab");
+        Skill2Prefab = UIManager.Instance.GetGameObject("Skill2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
@@ -423,7 +425,7 @@ public class UserCardColonelsController : MonoBehaviour
             var skills = UserSkillsService.Create().GetUserCardColonelsSkills(User.CurrentUserId, cardColonels.id);
             foreach (var skill in skills)
             {
-                GameObject skillObject = Instantiate(SkillPrefab, skillContent);
+                GameObject skillObject = Instantiate(Skill1Prefab, skillContent);
                 RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
                 Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
                 skillImage.texture = skillImageTexure;

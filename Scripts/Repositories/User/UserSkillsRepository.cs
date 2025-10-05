@@ -17,7 +17,8 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description from Skills s,user_skills us 
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description 
+                from Skills s, user_skills us
                 where s.id=us.skill_id and us.user_id=@userId and s.type= @type AND (@rare = 'All' or s.rare = @rare)
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -39,6 +40,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         type = reader.GetString("type"),
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
@@ -574,12 +576,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description, chs.position
-                from Skills s, user_skills us, card_heroes_skills chs
-                where s.id=us.skill_id 
-                    AND us.user_id=@userId 
-                    AND chs.card_hero_id = @card_hero_id
-                    AND chs.skill_id = us.skill_id";
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
+                from Skills s, user_skills us left join card_heroes_skills chs
+                on chs.card_hero_id = @card_hero_id AND chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_hero_id", cardId);
@@ -597,6 +597,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         position = reader.GetInt32("position"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
@@ -672,12 +673,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description, chs.position
-                from Skills s, user_skills us, card_captains_skills chs
-                where s.id=us.skill_id 
-                    AND us.user_id=@userId 
-                    AND chs.card_captain_id = @card_captain_id
-                    AND chs.skill_id = us.skill_id";
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
+                from Skills s, user_skills us left join card_captains_skills chs
+                on chs.card_captain_id = @card_captain_id AND chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_captain_id", cardId);
@@ -695,6 +694,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         position = reader.GetInt32("position"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
@@ -770,12 +770,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description, chs.position
-                from Skills s, user_skills us, card_colonels_skills chs
-                where s.id=us.skill_id 
-                    AND us.user_id=@userId 
-                    AND chs.card_colonel_id = @card_colonel_id
-                    AND chs.skill_id = us.skill_id";
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
+                from Skills s, user_skills us left join card_colonels_skills chs
+                on chs.card_colonel_id = @card_colonel_id AND chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_colonel_id", cardId);
@@ -793,6 +791,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         position = reader.GetInt32("position"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
@@ -868,12 +867,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description, chs.position
-                from Skills s, user_skills us, card_generals_skills chs
-                where s.id=us.skill_id 
-                    AND us.user_id=@userId 
-                    AND chs.card_general_id = @card_general_id
-                    AND chs.skill_id = us.skill_id";
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
+                from Skills s, user_skills us left join card_generals_skills chs
+                on chs.card_general_id = @card_general_id AND chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_general_id", cardId);
@@ -891,6 +888,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         position = reader.GetInt32("position"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
@@ -966,12 +964,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description, chs.position
-                from Skills s, user_skills us, card_admirals_skills chs
-                where s.id=us.skill_id 
-                    AND us.user_id=@userId 
-                    AND chs.card_admiral_id = @card_admiral_id
-                    AND chs.skill_id = us.skill_id";
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
+                from Skills s, user_skills us left join card_admirals_skills chs
+                on chs.card_admiral_id = @card_admiral_id AND chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_admiral_id", cardId);
@@ -989,6 +985,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         position = reader.GetInt32("position"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
@@ -1064,12 +1061,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description, chs.position
-                from Skills s, user_skills us, card_military_skills chs
-                where s.id=us.skill_id 
-                    AND us.user_id=@userId 
-                    AND chs.card_military_id = @card_military_id
-                    AND chs.skill_id = us.skill_id";
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
+                from Skills s, user_skills us left join card_military_skills chs
+                on chs.card_military_id = @card_military_id AND chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_military_id", cardId);
@@ -1087,6 +1082,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         position = reader.GetInt32("position"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
@@ -1162,12 +1158,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description, chs.position
-                from Skills s, user_skills us, card_monsters_skills chs
-                where s.id=us.skill_id 
-                    AND us.user_id=@userId 
-                    AND chs.card_monster_id = @card_monster_id
-                    AND chs.skill_id = us.skill_id";
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
+                from Skills s, user_skills us left join card_monsters_skills chs
+                on chs.card_monster_id = @card_monster_id AND chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_monster_id", cardId);
@@ -1185,6 +1179,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         position = reader.GetInt32("position"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),
@@ -1260,12 +1255,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.description, chs.position
-                from Skills s, user_skills us, card_spell_skills chs
-                where s.id=us.skill_id 
-                    AND us.user_id=@userId 
-                    AND chs.card_spell_id = @card_spell_id
-                    AND chs.skill_id = us.skill_id";
+                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
+                from Skills s, user_skills us left join card_spell_skills chs 
+                on chs.card_spell_id = @card_spell_id AND chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId ";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_spell_id", cardId);
@@ -1283,6 +1276,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         star = reader.GetInt32("star"),
                         level = reader.GetInt32("level"),
                         position = reader.GetInt32("position"),
+                        skill_type = reader.GetString("skill_type"),
                         experiment = reader.GetInt32("experiment"),
                         quantity = reader.GetInt32("quantity"),
                         power = reader.GetDouble("power"),

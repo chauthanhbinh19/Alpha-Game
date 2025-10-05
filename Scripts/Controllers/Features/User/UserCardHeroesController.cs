@@ -25,7 +25,8 @@ public class UserCardHeroesController : MonoBehaviour
     private GameObject tempCurrentObject;
     private GameObject SkillPanelPrefab;
     private GameObject SkillGroupPrefab;
-    private GameObject SkillPrefab;
+    private GameObject Skill1Prefab;
+    private GameObject Skill2Prefab;
     private GameObject PopupSkillsPanelPrefab;
     private int pageSize;
     private int offset;
@@ -56,7 +57,8 @@ public class UserCardHeroesController : MonoBehaviour
         EquipmentsWearingPrefab = UIManager.Instance.GetGameObject("EquipmentsWearingPrefab");
         SkillPanelPrefab = UIManager.Instance.GetGameObject("SkillPanelPrefab");
         SkillGroupPrefab = UIManager.Instance.GetGameObject("SkillGroupPrefab");
-        SkillPrefab = UIManager.Instance.GetGameObject("SkillPrefab");
+        Skill1Prefab = UIManager.Instance.GetGameObject("Skill1Prefab");
+        Skill2Prefab = UIManager.Instance.GetGameObject("Skill2Prefab");
         PopupSkillsPanelPrefab = UIManager.Instance.GetGameObject("PopupSkillsPanelPrefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
@@ -432,9 +434,10 @@ public class UserCardHeroesController : MonoBehaviour
         if (obj is CardHeroes cardHeroes)
         {
             var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardHeroes.id);
+            skills = skills.Where(x => x.position != 0).ToList();
             foreach (var skill in skills)
             {
-                GameObject skillObject = Instantiate(SkillPrefab, skillContent);
+                GameObject skillObject = Instantiate(Skill1Prefab, skillContent);
                 RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
                 Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
                 skillImage.texture = skillImageTexure;
@@ -501,7 +504,7 @@ public class UserCardHeroesController : MonoBehaviour
             {
                 activeSkillButton.onClick.AddListener(() =>
                 {
-                    CreateSkillPopup(1);
+                    CreateSkillPopup(1, cardId, currentType, AppConstants.Status.Active);
                 });
             }
 
@@ -516,10 +519,10 @@ public class UserCardHeroesController : MonoBehaviour
             {
                 passiveSkillButton1.onClick.AddListener(() =>
                 {
-                    CreateSkillPopup(2);
+                    CreateSkillPopup(2, cardId, currentType, AppConstants.Status.Passive);
                 });
             }
-            
+
             if (passiveSkill2 != null)
             {
                 passiveSkillButton2.onClick.AddListener(() =>
@@ -531,16 +534,35 @@ public class UserCardHeroesController : MonoBehaviour
             {
                 passiveSkillButton2.onClick.AddListener(() =>
                 {
-                    CreateSkillPopup(3);
+                    CreateSkillPopup(3, cardId, currentType, AppConstants.Status.Passive);
                 });
             }
         }
     }
-    public void CreateSkillPopup(int position)
+    public void CreateSkillPopup(int position, string cardId, string type, string skillType)
     {
         GameObject skillPopupObject = Instantiate(PopupSkillsPanelPrefab, MainPanel);
+        Transform skillContent = skillPopupObject.transform.Find("Scroll View/Viewport/Content");
         Button closeButton = skillPopupObject.transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() => { Destroy(skillPopupObject); });
+
+        var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
+        skills = skills.Where(x => x.type.Equals(type) && x.position != position && x.skill_type.Equals(skillType)).ToList();
+        foreach (var skill in skills)
+        {
+            GameObject skillObject = Instantiate(Skill2Prefab, skillContent);
+            RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
+            Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+            skillImage.texture = skillImageTexure;
+
+            TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            skillTitleText.text = skill.name;
+
+            RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
+            string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.type);
+            Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
+            skillBackgroundImage.texture = skillBackgroundImageTexture;
+        }
     }
     public void GetUpgrade(object obj, GameObject currentObject)
     {

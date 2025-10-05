@@ -8849,7 +8849,8 @@ MonoBehaviour:
   LoadingPanelPrefab: {fileID: 5490652922311943017, guid: 6838c378af7e73b46bfa50ce6176ac4b, type: 3}
   SkillPanelPrefab: {fileID: 5745659240395072349, guid: b0063cba4521b7b48a4ff2dcac6bc68d, type: 3}
   SkillGroupPrefab: {fileID: 1877001084983138669, guid: c3c7636ee9ef2774fbde5e4a4e11b32b, type: 3}
-  SkillPrefab: {fileID: 8708252175272485654, guid: f2a7a0f5ff32afa48acda33085c7f966, type: 3}
+  Skill1Prefab: {fileID: 8708252175272485654, guid: f2a7a0f5ff32afa48acda33085c7f966, type: 3}
+  Skill2Prefab: {fileID: 8708252175272485654, guid: c4b9bc5c069c4314bb79b8986a261d16, type: 3}
   ReactorPanelPrefab: {fileID: 5745659240395072349, guid: 4631e5596c21e6a41877541d96a4241d, type: 3}
   ReactorButtonPrefab: {fileID: 8708252175272485654, guid: 00e6aff5ada6a2946901257d89389044, type: 3}
   ReactorPanelNumberPrefab: {fileID: 5745659240395072349, guid: feecd0567b8aa2043944271f8b5486b2, type: 3}

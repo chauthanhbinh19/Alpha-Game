@@ -265,6 +265,8 @@ public static class AppConstants
         public const string Success = "SUCCESS";
         public const string MaxLevel = "MAX_LEVEL";
         public const string NotEnoughResource = "NOT_ENOUGH_RESOURCE";
+        public const string Active = "Active";
+        public const string Passive = "Passive";
     }
     public static class Currency
     {
