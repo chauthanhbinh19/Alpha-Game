@@ -83,6 +83,9 @@ public class UIManager : MonoBehaviour
     public GameObject StarPrefab;
     public GameObject PowerPrefab;
     public GameObject LoadingPanelPrefab;
+    public GameObject SkillPanelPrefab;
+    public GameObject SkillGroupPrefab;
+    public GameObject SkillPrefab;
     [Header("Science Fiction")]
     public GameObject ReactorPanelPrefab;
     public GameObject ReactorButtonPrefab;
@@ -232,6 +235,7 @@ public class UIManager : MonoBehaviour
     public GameObject TowerDetailsPanelPrefab;
     public GameObject PopupEquipmentsPanelPrefab;
     public GameObject PopupSpiritBeastPanelPrefab;
+    public GameObject PopupSkillsPanelPrefab;
     public GameObject PopupMenuPanelPrefab;
     public GameObject EquipmentsWearingPrefab;
     public GameObject Slot1Prefab;
@@ -509,6 +513,12 @@ public class UIManager : MonoBehaviour
                 return PowerPrefab;
             case "LoadingPanelPrefab":
                 return LoadingPanelPrefab;
+            case "SkillGroupPrefab":
+                return SkillGroupPrefab;
+            case "SkillPanelPrefab":
+                return SkillPanelPrefab;
+            case "SkillPrefab":
+                return SkillPrefab;
             //Market
             case "RareMarketManagerPrefab":
                 return RareMarketManagerPrefab;
@@ -555,6 +565,8 @@ public class UIManager : MonoBehaviour
                 return PopupSpiritBeastPanelPrefab;
             case "PopupMenuPanelPrefab":
                 return PopupMenuPanelPrefab;
+            case "PopupSkillsPanelPrefab":
+                return PopupSkillsPanelPrefab;
             case "EquipmentsWearingPrefab":
                 return EquipmentsWearingPrefab;
             case "Slot1Prefab":

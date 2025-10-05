@@ -22,6 +22,9 @@ public class UserCardAdmiralsController : MonoBehaviour
     private GameObject EquipmentsWearingPrefab;
     private GameObject popupSpiritBeastObject;
     private GameObject tempCurrentObject;
+    private GameObject SkillPanelPrefab;
+    private GameObject SkillGroupPrefab;
+    private GameObject SkillPrefab;
     private int pageSize;
     private int offset;
     private int currentPage;
@@ -49,6 +52,9 @@ public class UserCardAdmiralsController : MonoBehaviour
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         PopupSpiritBeastPanelPrefab = UIManager.Instance.GetGameObject("PopupSpiritBeastPanelPrefab");
         EquipmentsWearingPrefab = UIManager.Instance.GetGameObject("EquipmentsWearingPrefab");
+        SkillPanelPrefab = UIManager.Instance.GetGameObject("SkillPanelPrefab");
+        SkillGroupPrefab = UIManager.Instance.GetGameObject("SkillGroupPrefab");
+        SkillPrefab = UIManager.Instance.GetGameObject("SkillPrefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
@@ -411,6 +417,39 @@ public class UserCardAdmiralsController : MonoBehaviour
     public void GetSkills(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
+        Transform skillContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
+        Button setUpButton = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
+        if (obj is CardAdmirals cardAdmirals)
+        {
+            var skills = UserSkillsService.Create().GetUserCardAdmiralsSkills(User.CurrentUserId, cardAdmirals.id);
+            foreach (var skill in skills)
+            {
+                GameObject skillObject = Instantiate(SkillPrefab, skillContent);
+                RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
+                Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+                skillImage.texture = skillImageTexure;
+
+                TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                skillTitleText.text = skill.name;
+
+                RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
+                string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.type);
+                Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
+                skillBackgroundImage.texture = skillBackgroundImageTexture;
+            }
+            setUpButton.onClick.AddListener(() =>
+            {
+                CreateSkillPanel();
+            });
+        }
+    }
+    public void CreateSkillPanel()
+    {
+        GameObject skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
+        Button CloseButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button HomeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() => Destroy(skillPanelObject));
+        HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
     }
     public void GetUpgrade(object obj, GameObject currentObject)
     {

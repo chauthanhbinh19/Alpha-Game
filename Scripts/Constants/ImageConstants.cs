@@ -117,6 +117,15 @@ public static class ImageConstants
         public const string AdvancedBackground21 = "UI/Background4/Card/Advanced_Background_21";
         public const string AdvancedBackground22 = "UI/Background4/Card/Advanced_Background_22";
         public const string AdvancedBackground23 = "UI/Background4/Card/Advanced_Background_23";
+
+        public const string SkillAlternativeBackground = "UI/Background4/Skill/Skill_Alternative_Background";
+        public const string SkillNormalBackground = "UI/Background4/Skill/Skill_Normal_Background";
+        public const string SkillCelestialBackground = "UI/Background4/Skill/Skill_Celestial_Background";
+        public const string SkillDivineBackground = "UI/Background4/Skill/Skill_Divine_Background";
+        public const string SkillTeamworkBackground = "UI/Background4/Skill/Skill_Teamwork_Background";
+        public const string SkillMainBackground = "UI/Background4/Skill/Skill_Main_Background";
+        public const string SkillForcesBackground = "UI/Background4/Skill/Skill_Forces_Background";
+        public const string SkillTranscendenceBackground = "UI/Background4/Skill/Skill_Transcendence_Background";
     }
     public static class Currency
     {

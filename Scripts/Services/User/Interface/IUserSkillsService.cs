@@ -10,4 +10,12 @@ public interface IUserSkillsService
     bool UpdateSkillsLevel(Skills skills, int cardLevel);
     bool UpdateSkillsBreakthrough(Skills skills, int star, int quantity);
     Skills GetUserSkillsById(string user_id, string Id);
+    List<Skills> GetUserCardHeroesSkills(string user_id, string cardId);
+    List<Skills> GetUserCardCaptainsSkills(string user_id, string cardId);
+    List<Skills> GetUserCardColonelsSkills(string user_id, string cardId);
+    List<Skills> GetUserCardGeneralsSkills(string user_id, string cardId);
+    List<Skills> GetUserCardAdmiralsSkills(string user_id, string cardId);
+    List<Skills> GetUserCardMilitarySkills(string user_id, string cardId);
+    List<Skills> GetUserCardMonstersSkills(string user_id, string cardId);
+    List<Skills> GetUserCardSpellSkills(string user_id, string cardId);
 }

@@ -249,6 +249,17 @@ public static class AppConstants
         public const string PackageItem = "Package";
 
     }
+    public static class Skill
+    {
+        public const string Alternative = "Alternative";
+        public const string Celestial = "Celestial";
+        public const string Divine = "Divine";
+        public const string Forces = "Forces";
+        public const string Main = "Main";
+        public const string Normal = "Normal";
+        public const string Teamwork = "Teamwork";
+        public const string Transcendence = "Transcendence";
+    }
     public static class Status
     {
         public const string Success = "SUCCESS";

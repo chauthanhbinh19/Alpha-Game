@@ -105,7 +105,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         DetailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
         // LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         // LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        SkillsContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel");
+        SkillsContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
         UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
@@ -649,7 +649,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         MasterOfMentalPanel.gameObject.SetActive(false);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -674,7 +674,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         MasterOfAtomicPanel.gameObject.SetActive(false);
         MasterOfMentalPanel.gameObject.SetActive(false);
         ButtonEvent.Instance.Close(DetailsContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         ButtonEvent.Instance.Close(LevelElementContent);
@@ -729,7 +729,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -756,7 +756,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -783,7 +783,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -810,7 +810,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -837,7 +837,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -864,7 +864,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -891,7 +891,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -918,7 +918,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -945,7 +945,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -972,7 +972,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -999,7 +999,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -1026,7 +1026,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -1053,7 +1053,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);
@@ -1080,7 +1080,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         ButtonEvent.Instance.Close(DetailsContent);
         ButtonEvent.Instance.Close(LevelElementContent);
         ButtonEvent.Instance.Close(LevelMaterialContent);
-        ButtonEvent.Instance.Close(SkillsPanel);
+        ButtonEvent.Instance.Close(SkillsContent);
         ButtonEvent.Instance.Close(UpgradeElementContent);
         ButtonEvent.Instance.Close(UpgradeMaterialContent);
         // ButtonEvent.Instance.Close(SpiritBeastPanel);

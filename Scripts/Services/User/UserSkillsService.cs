@@ -212,4 +212,44 @@ public class UserSkillsService : IUserSkillsService
     {
         return _userSkillsRepository.GetUserSkillsById(user_id, Id);
     }
+
+    public List<Skills> GetUserCardHeroesSkills(string user_id, string cardId)
+    {
+        return _userSkillsRepository.GetUserCardHeroesSkills(user_id, cardId);
+    }
+
+    public List<Skills> GetUserCardCaptainsSkills(string user_id, string cardId)
+    {
+        return _userSkillsRepository.GetUserCardCaptainsSkills(user_id, cardId);
+    }
+
+    public List<Skills> GetUserCardColonelsSkills(string user_id, string cardId)
+    {
+        return _userSkillsRepository.GetUserCardColonelsSkills(user_id, cardId);
+    }
+
+    public List<Skills> GetUserCardGeneralsSkills(string user_id, string cardId)
+    {
+        return _userSkillsRepository.GetUserCardGeneralsSkills(user_id, cardId);
+    }
+
+    public List<Skills> GetUserCardAdmiralsSkills(string user_id, string cardId)
+    {
+        return _userSkillsRepository.GetUserCardAdmiralsSkills(user_id, cardId);
+    }
+
+    public List<Skills> GetUserCardMilitarySkills(string user_id, string cardId)
+    {
+        return _userSkillsRepository.GetUserCardMilitarySkills(user_id, cardId);
+    }
+
+    public List<Skills> GetUserCardMonstersSkills(string user_id, string cardId)
+    {
+        return _userSkillsRepository.GetUserCardMonstersSkills(user_id, cardId);
+    }
+
+    public List<Skills> GetUserCardSpellSkills(string user_id, string cardId)
+    {
+        return _userSkillsRepository.GetUserCardSpellSkills(user_id, cardId);
+    }
 }
