@@ -87,6 +87,7 @@ public class UIManager : MonoBehaviour
     public GameObject SkillGroupPrefab;
     public GameObject Skill1Prefab;
     public GameObject Skill2Prefab;
+    public GameObject PopupSkillDetailPrefab;
     [Header("Science Fiction")]
     public GameObject ReactorPanelPrefab;
     public GameObject ReactorButtonPrefab;
@@ -522,6 +523,8 @@ public class UIManager : MonoBehaviour
                 return Skill1Prefab;
             case "Skill2Prefab":
                 return Skill2Prefab;
+            case "PopupSkillDetailPrefab":
+                return PopupSkillDetailPrefab;
             //Market
             case "RareMarketManagerPrefab":
                 return RareMarketManagerPrefab;

@@ -579,7 +579,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_heroes_skills chs
                 on chs.card_hero_id = @card_hero_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId";
+                where s.id=us.skill_id AND us.user_id=@userId
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_hero_id", cardId);
@@ -676,7 +677,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_captains_skills chs
                 on chs.card_captain_id = @card_captain_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId";
+                where s.id=us.skill_id AND us.user_id=@userId
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_captain_id", cardId);
@@ -773,7 +775,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_colonels_skills chs
                 on chs.card_colonel_id = @card_colonel_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId";
+                where s.id=us.skill_id AND us.user_id=@userId
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_colonel_id", cardId);
@@ -870,7 +873,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_generals_skills chs
                 on chs.card_general_id = @card_general_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId";
+                where s.id=us.skill_id AND us.user_id=@userId
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_general_id", cardId);
@@ -967,7 +971,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_admirals_skills chs
                 on chs.card_admiral_id = @card_admiral_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId ";
+                where s.id=us.skill_id AND us.user_id=@userId
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_admiral_id", cardId);
@@ -1064,7 +1069,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_military_skills chs
                 on chs.card_military_id = @card_military_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId ";
+                where s.id=us.skill_id AND us.user_id=@userId
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_military_id", cardId);
@@ -1161,7 +1167,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_monsters_skills chs
                 on chs.card_monster_id = @card_monster_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId ";
+                where s.id=us.skill_id AND us.user_id=@userId
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_monster_id", cardId);
@@ -1258,7 +1265,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_spell_skills chs 
                 on chs.card_spell_id = @card_spell_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId ";
+                where s.id=us.skill_id AND us.user_id=@userId
+                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_spell_id", cardId);
@@ -1342,5 +1350,613 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         }
         return skillsList;
+    }
+    public bool InsertUserCardHeroesSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM card_heroes_skills 
+                WHERE user_id = @user_id AND card_hero_id = @card_hero_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
+                checkCommand.Parameters.AddWithValue("@card_hero_id", cardId);
+                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+                checkCommand.Parameters.AddWithValue("@position", position);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO card_heroes_skills (
+                    user_id, card_hero_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_hero_id, @skill_id, @level, @position
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@card_hero_id", cardId);
+                    command.Parameters.AddWithValue("@skill_id", skillId);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@position", position);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool InsertUserCardCaptainsSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM card_captains_skills 
+                WHERE user_id = @user_id AND card_captain_id = @card_captain_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
+                checkCommand.Parameters.AddWithValue("@card_captain_id", cardId);
+                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+                checkCommand.Parameters.AddWithValue("@position", position);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO card_captains_skills (
+                    user_id, card_captain_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_captain_id, @skill_id, @level, @position
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@card_captain_id", cardId);
+                    command.Parameters.AddWithValue("@skill_id", skillId);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@position", position);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool InsertUserCardColonelsSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM card_colonels_skills 
+                WHERE user_id = @user_id AND card_colonel_id = @card_colonel_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
+                checkCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
+                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+                checkCommand.Parameters.AddWithValue("@position", position);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO card_colonels_skills (
+                    user_id, card_colonel_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_colonel_id, @skill_id, @level, @position
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@card_colonel_id", cardId);
+                    command.Parameters.AddWithValue("@skill_id", skillId);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@position", position);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool InsertUserCardGeneralsSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM card_generals_skills 
+                WHERE user_id = @user_id AND card_general_id = @card_general_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
+                checkCommand.Parameters.AddWithValue("@card_general_id", cardId);
+                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+                checkCommand.Parameters.AddWithValue("@position", position);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO card_generals_skills (
+                    user_id, card_general_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_general_id, @skill_id, @level, @position
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@card_general_id", cardId);
+                    command.Parameters.AddWithValue("@skill_id", skillId);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@position", position);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool InsertUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM card_admirals_skills 
+                WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
+                checkCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
+                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+                checkCommand.Parameters.AddWithValue("@position", position);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO card_admirals_skills (
+                    user_id, card_admiral_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_admiral_id, @skill_id, @level, @position
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@card_admiral_id", cardId);
+                    command.Parameters.AddWithValue("@skill_id", skillId);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@position", position);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool InsertUserCardMilitarySkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM card_military_skills 
+                WHERE user_id = @user_id AND card_military_id = @card_military_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
+                checkCommand.Parameters.AddWithValue("@card_military_id", cardId);
+                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+                checkCommand.Parameters.AddWithValue("@position", position);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO card_military_skills (
+                    user_id, card_military_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_military_id, @skill_id, @level, @position
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@card_military_id", cardId);
+                    command.Parameters.AddWithValue("@skill_id", skillId);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@position", position);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool InsertUserCardMonstersSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM card_monsters_skills 
+                WHERE user_id = @user_id AND card_monster_id = @card_monster_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
+                checkCommand.Parameters.AddWithValue("@card_monster_id", cardId);
+                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+                checkCommand.Parameters.AddWithValue("@position", position);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO card_monsters_skills (
+                    user_id, card_monster_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_monster_id, @skill_id, @level, @position
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@card_monster_id", cardId);
+                    command.Parameters.AddWithValue("@skill_id", skillId);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@position", position);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool InsertUserCardSpellSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkQuery = @"
+                SELECT COUNT(*) FROM card_spell_skills 
+                WHERE user_id = @user_id AND card_spell_id = @card_spell_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
+                checkCommand.Parameters.AddWithValue("@card_spell_id", cardId);
+                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+                checkCommand.Parameters.AddWithValue("@position", position);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                if (count == 0)
+                {
+                    string query = @"
+                INSERT INTO card_spell_skills (
+                    user_id, card_spell_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_spell_id, @skill_id, @level, @position
+                );";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@user_id", userId);
+                    command.Parameters.AddWithValue("@card_spell_id", cardId);
+                    command.Parameters.AddWithValue("@skill_id", skillId);
+                    command.Parameters.AddWithValue("@level", 0);
+                    command.Parameters.AddWithValue("@position", position);
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool DeleteUserCardHeroesSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string deleteQuery = @"
+                DELETE FROM card_heroes_skills 
+                WHERE user_id = @user_id AND card_hero_id = @card_hero_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@card_hero_id", cardId);
+                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool DeleteUserCardCaptainsSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string deleteQuery = @"
+                DELETE FROM card_captains_skills 
+                WHERE user_id = @user_id AND card_captain_id = @card_captain_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@card_captain_id", cardId);
+                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool DeleteUserCardColonelsSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string deleteQuery = @"
+                DELETE FROM card_colonels_skills 
+                WHERE user_id = @user_id AND card_colonel_id = @card_colonel_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
+                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool DeleteUserCardGeneralsSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string deleteQuery = @"
+                DELETE FROM card_generals_skills 
+                WHERE user_id = @user_id AND card_general_id = @card_general_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@card_general_id", cardId);
+                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool DeleteUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string deleteQuery = @"
+                DELETE FROM card_admirals_skills 
+                WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
+                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool DeleteUserCardMonstersSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string deleteQuery = @"
+                DELETE FROM card_monsters_skills 
+                WHERE user_id = @user_id AND card_monster_id = @card_monster_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@card_monster_id", cardId);
+                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool DeleteUserCardMilitarySkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string deleteQuery = @"
+                DELETE FROM card_military_skills 
+                WHERE user_id = @user_id AND card_military_id = @card_military_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@card_military_id", cardId);
+                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
+    }
+    public bool DeleteUserCardSpellSkills(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string deleteQuery = @"
+                DELETE FROM card_spell_skills 
+                WHERE user_id = @user_id AND card_spell_id = @card_spell_id AND skill_id=@skill_id AND position=@position;";
+
+                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@card_spell_id", cardId);
+                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+
+        }
+        return true;
     }
 }

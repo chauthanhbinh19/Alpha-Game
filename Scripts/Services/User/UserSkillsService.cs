@@ -252,4 +252,84 @@ public class UserSkillsService : IUserSkillsService
     {
         return _userSkillsRepository.GetUserCardSpellSkills(user_id, cardId);
     }
+
+    public bool InsertUserCardHeroesSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.InsertUserCardHeroesSkills(userId, cardId, skillId, position);
+    }
+
+    public bool InsertUserCardCaptainsSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.InsertUserCardCaptainsSkills(userId, cardId, skillId, position);
+    }
+
+    public bool InsertUserCardColonelsSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.InsertUserCardColonelsSkills(userId, cardId, skillId, position);
+    }
+
+    public bool InsertUserCardGeneralsSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.InsertUserCardGeneralsSkills(userId, cardId, skillId, position);
+    }
+
+    public bool InsertUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.InsertUserCardAdmiralsSkills(userId, cardId, skillId, position);
+    }
+
+    public bool InsertUserCardMilitarySkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.InsertUserCardMilitarySkills(userId, cardId, skillId, position);
+    }
+
+    public bool InsertUserCardMonstersSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.InsertUserCardMonstersSkills(userId, cardId, skillId, position);
+    }
+
+    public bool InsertUserCardSpellSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.InsertUserCardSpellSkills(userId, cardId, skillId, position);
+    }
+
+    public bool DeleteUserCardHeroesSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.DeleteUserCardHeroesSkills(userId, cardId, skillId, position);
+    }
+
+    public bool DeleteUserCardCaptainsSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.DeleteUserCardCaptainsSkills(userId, cardId, skillId, position);
+    }
+
+    public bool DeleteUserCardColonelsSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.DeleteUserCardColonelsSkills(userId, cardId, skillId, position);
+    }
+
+    public bool DeleteUserCardGeneralsSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.DeleteUserCardGeneralsSkills(userId, cardId, skillId, position);
+    }
+
+    public bool DeleteUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.DeleteUserCardAdmiralsSkills(userId, cardId, skillId, position);
+    }
+
+    public bool DeleteUserCardMonstersSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.DeleteUserCardMonstersSkills(userId, cardId, skillId, position);
+    }
+
+    public bool DeleteUserCardMilitarySkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.DeleteUserCardMilitarySkills(userId, cardId, skillId, position);
+    }
+
+    public bool DeleteUserCardSpellSkills(string userId, string cardId, string skillId, int position)
+    {
+        return _userSkillsRepository.DeleteUserCardSpellSkills(userId, cardId, skillId, position);
+    }
 }

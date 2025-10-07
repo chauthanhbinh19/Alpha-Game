@@ -8793,7 +8793,7 @@ MonoBehaviour:
   LoadingPanel: {fileID: 806078345}
   SignInPanel: {fileID: 8077603324956915409, guid: ffba330ce17dad94f8e50c5acf8aa0fd, type: 3}
   SignUpPanel: {fileID: 9111842742865002696, guid: e2dcc82f04bde2143a10aa3f21a8f143, type: 3}
-  CreateNamePanel: {fileID: 3409556556158698642, guid: 122a04808d070f147bcdc638676117f4, type: 3}
+  CreateNamePanel: {fileID: 3409556556158698642, guid: 5d3625d0bb95b67469c547c6eadc579b, type: 3}
   buttonPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
   itemSecondPrefab: {fileID: 1661859481911484232, guid: 049c4c347ebb9e946984782d8bfa770a, type: 3}
   notificationPrefab: {fileID: 4396780963310463639, guid: 374ea8fa5bec11a42aa4f2b6abdb31a7, type: 3}
@@ -8851,6 +8851,7 @@ MonoBehaviour:
   SkillGroupPrefab: {fileID: 1877001084983138669, guid: c3c7636ee9ef2774fbde5e4a4e11b32b, type: 3}
   Skill1Prefab: {fileID: 8708252175272485654, guid: f2a7a0f5ff32afa48acda33085c7f966, type: 3}
   Skill2Prefab: {fileID: 8708252175272485654, guid: c4b9bc5c069c4314bb79b8986a261d16, type: 3}
+  PopupSkillDetailPrefab: {fileID: 3471210453278062185, guid: d966586c80a6df74592c783cb04e1bcc, type: 3}
   ReactorPanelPrefab: {fileID: 5745659240395072349, guid: 4631e5596c21e6a41877541d96a4241d, type: 3}
   ReactorButtonPrefab: {fileID: 8708252175272485654, guid: 00e6aff5ada6a2946901257d89389044, type: 3}
   ReactorPanelNumberPrefab: {fileID: 5745659240395072349, guid: feecd0567b8aa2043944271f8b5486b2, type: 3}

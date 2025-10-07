@@ -18,4 +18,20 @@ public interface IUserSkillsService
     List<Skills> GetUserCardMilitarySkills(string user_id, string cardId);
     List<Skills> GetUserCardMonstersSkills(string user_id, string cardId);
     List<Skills> GetUserCardSpellSkills(string user_id, string cardId);
+    bool InsertUserCardHeroesSkills(string userId, string cardId, string skillId, int position);
+    bool InsertUserCardCaptainsSkills(string userId, string cardId, string skillId, int position);
+    bool InsertUserCardColonelsSkills(string userId, string cardId, string skillId, int position);
+    bool InsertUserCardGeneralsSkills(string userId, string cardId, string skillId, int position);
+    bool InsertUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position);
+    bool InsertUserCardMilitarySkills(string userId, string cardId, string skillId, int position);
+    bool InsertUserCardMonstersSkills(string userId, string cardId, string skillId, int position);
+    bool InsertUserCardSpellSkills(string userId, string cardId, string skillId, int position);
+    bool DeleteUserCardHeroesSkills(string userId, string cardId, string skillId, int position);
+    bool DeleteUserCardCaptainsSkills(string userId, string cardId, string skillId, int position);
+    bool DeleteUserCardColonelsSkills(string userId, string cardId, string skillId, int position);
+    bool DeleteUserCardGeneralsSkills(string userId, string cardId, string skillId, int position);
+    bool DeleteUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position);
+    bool DeleteUserCardMonstersSkills(string userId, string cardId, string skillId, int position);
+    bool DeleteUserCardMilitarySkills(string userId, string cardId, string skillId, int position);
+    bool DeleteUserCardSpellSkills(string userId, string cardId, string skillId, int position);
 }

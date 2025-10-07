@@ -28,6 +28,8 @@ public class UserCardHeroesController : MonoBehaviour
     private GameObject Skill1Prefab;
     private GameObject Skill2Prefab;
     private GameObject PopupSkillsPanelPrefab;
+    private GameObject PopupSkillDetailPrefab;
+    private GameObject skillPanelObject;
     private int pageSize;
     private int offset;
     private int currentPage;
@@ -60,6 +62,7 @@ public class UserCardHeroesController : MonoBehaviour
         Skill1Prefab = UIManager.Instance.GetGameObject("Skill1Prefab");
         Skill2Prefab = UIManager.Instance.GetGameObject("Skill2Prefab");
         PopupSkillsPanelPrefab = UIManager.Instance.GetGameObject("PopupSkillsPanelPrefab");
+        PopupSkillDetailPrefab = UIManager.Instance.GetGameObject("PopupSkillDetailPrefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
@@ -458,12 +461,16 @@ public class UserCardHeroesController : MonoBehaviour
     }
     public void CreateSkillPanel(string cardId)
     {
-        GameObject skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
+        skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
         Transform skillGroupContent = skillPanelObject.transform.Find("DictionaryCards/SkillGroup");
         Button CloseButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() => Destroy(skillPanelObject));
         HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
+
+        int activeSkillPosition = 1;
+        int passiveSkill1Position = 2;
+        int passiveSkill2Position = 3;
 
         List<string> uniqueTypes = TypeManager.GetUniqueTypes(AppConstants.MainType.Skill);
         for (int i = 0; i < uniqueTypes.Count; i++)
@@ -485,9 +492,9 @@ public class UserCardHeroesController : MonoBehaviour
 
             var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
             skills = skills.Where(x => x.type.Equals(currentType)).ToList();
-            var activeSkill = skills.FirstOrDefault(x => x.position == 1);
-            var passiveSkill1 = skills.FirstOrDefault(x => x.position == 2);
-            var passiveSkill2 = skills.FirstOrDefault(x => x.position == 3);
+            var activeSkill = skills.FirstOrDefault(x => x.position == activeSkillPosition);
+            var passiveSkill1 = skills.FirstOrDefault(x => x.position == passiveSkill1Position);
+            var passiveSkill2 = skills.FirstOrDefault(x => x.position == passiveSkill2Position);
 
             activeSkillButton.onClick.RemoveAllListeners();
             passiveSkillButton1.onClick.RemoveAllListeners();
@@ -495,51 +502,63 @@ public class UserCardHeroesController : MonoBehaviour
 
             if (activeSkill != null)
             {
+                RawImage activeSkillImage = activeSkillButton.GetComponent<RawImage>();
+                Texture activeSkillImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(activeSkill.image)}");
+                activeSkillImage.texture = activeSkillImageTexture;
                 activeSkillButton.onClick.AddListener(() =>
                 {
-                    MainMenuDetailsManager.Instance.PopupDetails(activeSkill, MainPanel);
+                    // MainMenuDetailsManager.Instance.PopupDetails(activeSkill, MainPanel);
+                    CreatePopupSkillDetail(activeSkillPosition, cardId, currentType, AppConstants.Status.Active, activeSkill);
                 });
             }
             else
             {
                 activeSkillButton.onClick.AddListener(() =>
                 {
-                    CreateSkillPopup(1, cardId, currentType, AppConstants.Status.Active);
+                    CreateSkillPopup(activeSkillPosition, cardId, currentType, AppConstants.Status.Active);
                 });
             }
 
             if (passiveSkill1 != null)
             {
+                RawImage passiveSkill1Image = passiveSkillButton1.GetComponent<RawImage>();
+                Texture passiveSkill1ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill1.image)}");
+                passiveSkill1Image.texture = passiveSkill1ImageTexture;
                 passiveSkillButton1.onClick.AddListener(() =>
                 {
-                    MainMenuDetailsManager.Instance.PopupDetails(passiveSkill1, MainPanel);
+                    // MainMenuDetailsManager.Instance.PopupDetails(passiveSkill1, MainPanel);
+                    CreatePopupSkillDetail(passiveSkill1Position, cardId, currentType, AppConstants.Status.Passive, passiveSkill1);
                 });
             }
             else
             {
                 passiveSkillButton1.onClick.AddListener(() =>
                 {
-                    CreateSkillPopup(2, cardId, currentType, AppConstants.Status.Passive);
+                    CreateSkillPopup(passiveSkill1Position, cardId, currentType, AppConstants.Status.Passive);
                 });
             }
 
             if (passiveSkill2 != null)
             {
+                RawImage passiveSkill2Image = passiveSkillButton2.GetComponent<RawImage>();
+                Texture passiveSkill2ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill2.image)}");
+                passiveSkill2Image.texture = passiveSkill2ImageTexture;
                 passiveSkillButton2.onClick.AddListener(() =>
                 {
-                    MainMenuDetailsManager.Instance.PopupDetails(passiveSkill2, MainPanel);
+                    // MainMenuDetailsManager.Instance.PopupDetails(passiveSkill2, MainPanel);
+                    CreatePopupSkillDetail(passiveSkill2Position, cardId, currentType, AppConstants.Status.Passive, passiveSkill2);
                 });
             }
             else
             {
                 passiveSkillButton2.onClick.AddListener(() =>
                 {
-                    CreateSkillPopup(3, cardId, currentType, AppConstants.Status.Passive);
+                    CreateSkillPopup(passiveSkill2Position, cardId, currentType, AppConstants.Status.Passive);
                 });
             }
         }
     }
-    public void CreateSkillPopup(int position, string cardId, string type, string skillType)
+    public void CreateSkillPopup(int position, string cardId, string type, string skillType, Skills oldSkill = null)
     {
         GameObject skillPopupObject = Instantiate(PopupSkillsPanelPrefab, MainPanel);
         Transform skillContent = skillPopupObject.transform.Find("Scroll View/Viewport/Content");
@@ -547,7 +566,12 @@ public class UserCardHeroesController : MonoBehaviour
         closeButton.onClick.AddListener(() => { Destroy(skillPopupObject); });
 
         var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
-        skills = skills.Where(x => x.type.Equals(type) && x.position != position && x.skill_type.Equals(skillType)).ToList();
+        skills = skills.Where(x => x.type.Equals(type)
+                                && x.position != 1
+                                && x.position != 2
+                                && x.position != 3
+                                && x.skill_type.Equals(skillType)).ToList();
+
         foreach (var skill in skills)
         {
             GameObject skillObject = Instantiate(Skill2Prefab, skillContent);
@@ -562,7 +586,46 @@ public class UserCardHeroesController : MonoBehaviour
             string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.type);
             Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
+
+            Button equipButton = skillObject.transform.Find("EquipButton").GetComponent<Button>();
+            equipButton.onClick.AddListener(() =>
+            {
+                Destroy(skillPopupObject);
+                Destroy(skillPanelObject);
+                // UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, skill.id, position);
+                UserSkillsService.Create().InsertUserCardHeroesSkills(User.CurrentUserId, cardId, skill.id, position);
+                CreateSkillPanel(cardId);
+            });
         }
+    }
+    public void CreatePopupSkillDetail(int position, string cardId, string type, string skillType, Skills skill)
+    {
+        GameObject popupSkillDetailObject = Instantiate(PopupSkillDetailPrefab, MainPanel);
+        Button closeButton = popupSkillDetailObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => { Destroy(popupSkillDetailObject); });
+
+        RawImage skillImage = popupSkillDetailObject.transform.Find("SkillImage").GetComponent<RawImage>();
+        Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+        skillImage.texture = skillImageTexure;
+
+        TextMeshProUGUI skillTitleText = popupSkillDetailObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        skillTitleText.text = skill.name;
+
+        Button removeButton = popupSkillDetailObject.transform.Find("RemoveButton").GetComponent<Button>();
+        removeButton.onClick.AddListener(() =>
+        {
+            Destroy(popupSkillDetailObject);
+            Destroy(skillPanelObject);
+            UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, skill.id, position);
+            CreateSkillPanel(cardId);
+        });
+
+        Button swapButton = popupSkillDetailObject.transform.Find("SwapButton").GetComponent<Button>();
+        swapButton.onClick.AddListener(() =>
+        {
+            Destroy(popupSkillDetailObject);       
+            CreateSkillPopup(position, cardId, type, skillType, skill);
+        });
     }
     public void GetUpgrade(object obj, GameObject currentObject)
     {
