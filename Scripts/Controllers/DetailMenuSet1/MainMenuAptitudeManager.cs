@@ -72,7 +72,11 @@ public class MainMenuAptitudeManager : MonoBehaviour
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, data, subtype, value));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnButtonClick(button, data, subtype, value);
+                });
 
                 if (index == 0)
                 {

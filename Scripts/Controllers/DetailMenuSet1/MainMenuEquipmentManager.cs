@@ -77,8 +77,16 @@ public class MainMenuEquipmentManager : MonoBehaviour
         mainImage = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
-        CloseButton.onClick.AddListener(() => Destroy(currentObject));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(currentObject);
+        });
 
         List<string> uniqueTypes = EquipmentsService.Create().GetUniqueEquipmentsTypes();
         if (uniqueTypes.Count > 0)
@@ -93,7 +101,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, data, subtype));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnButtonClick(button, data, subtype);
+                });
 
                 if (i == 0)
                 {
@@ -248,7 +260,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 buttonText.text = subtype.Replace("set", "");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnSetButtonClick(button, data, subtype));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnSetButtonClick(button, data, subtype);
+                });
                 if (i == 0)
                 {
                     set = subtype;
