@@ -173,7 +173,7 @@ public class CollectionManager : MonoBehaviour
                 {
                     rare = selectedRare;
                     ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RareButtonUrlAfterClick);
-                    LoadCurrentPage();
+                    // LoadCurrentPage();
                 }
                 else
                 {

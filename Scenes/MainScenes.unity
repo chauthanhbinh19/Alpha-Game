@@ -4113,7 +4113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f3451f0ae47b743a6c183f8836e6ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSounds: []
+  musicSounds:
+  - name: FantasyAmbient
+    clip: {fileID: 8300000, guid: 2123c5b73e814de4bb1399cf1e9542c5, type: 3}
   sfxSounds:
   - name: ButtonClick1
     clip: {fileID: 8300000, guid: 697dfbddee478474e8737d5a218bd37b, type: 3}

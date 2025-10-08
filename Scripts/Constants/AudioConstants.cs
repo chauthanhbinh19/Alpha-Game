@@ -2,7 +2,7 @@ public static class AudioConstants
 {
     public static class Music
     {
-
+        public const string FantasyAmbient = "FantasyAmbient";
     }
     public static class SFX
     {

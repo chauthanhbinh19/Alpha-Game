@@ -166,7 +166,7 @@ public class GalleryManager : MonoBehaviour
                 {
                     rare = selectedRare;
                     ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RareButtonUrlAfterClick);
-                    LoadCurrentPage();
+                    // LoadCurrentPage();
                 }
                 else
                 {
@@ -307,7 +307,7 @@ public class GalleryManager : MonoBehaviour
             Button button = child.GetComponent<Button>();
             if (button != null)
             {
-                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.RareButtonUrlBeforeClick);
             }
         }
 
@@ -315,7 +315,7 @@ public class GalleryManager : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
+        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.RareButtonUrlAfterClick);
         LoadCurrentPage();
     }
     public void LoadCurrentPage()
