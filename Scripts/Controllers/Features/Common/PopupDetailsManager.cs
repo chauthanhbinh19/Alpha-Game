@@ -239,7 +239,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = card.GetType().GetProperties();
@@ -286,7 +290,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = book.GetType().GetProperties();
@@ -318,7 +326,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = captains.GetType().GetProperties();
@@ -370,7 +382,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = pet.GetType().GetProperties();
@@ -418,7 +434,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = collaborationEquipment.GetType().GetProperties();
@@ -450,7 +470,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = military.GetType().GetProperties();
@@ -482,7 +506,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = spell.GetType().GetProperties();
@@ -514,7 +542,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = collaboration.GetType().GetProperties();
@@ -546,7 +578,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = monsters.GetType().GetProperties();
@@ -594,7 +630,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = equipments.GetType().GetProperties();
         foreach (var property in properties)
@@ -641,7 +681,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = medals.GetType().GetProperties();
@@ -682,7 +726,11 @@ public class PopupDetailsManager : MonoBehaviour
         power.text = NumberFormatter.FormatNumber(skills.power, false);
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = skills.level.ToString();
@@ -721,7 +769,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = symbols.GetType().GetProperties();
@@ -769,7 +821,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = titles.GetType().GetProperties();
@@ -817,7 +873,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = borders.GetType().GetProperties();
@@ -865,7 +925,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = achievements.GetType().GetProperties();
@@ -913,7 +977,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = magicFormationCircle.GetType().GetProperties();
@@ -961,7 +1029,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = relics.GetType().GetProperties();
@@ -993,7 +1065,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = colonels.GetType().GetProperties();
@@ -1025,7 +1101,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = generals.GetType().GetProperties();
@@ -1057,7 +1137,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = admirals.GetType().GetProperties();
@@ -1105,7 +1189,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = talisman.GetType().GetProperties();
@@ -1153,7 +1241,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = puppet.GetType().GetProperties();
@@ -1201,7 +1293,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = alchemy.GetType().GetProperties();
@@ -1249,7 +1345,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = forge.GetType().GetProperties();
@@ -1281,7 +1381,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = card.GetType().GetProperties();
@@ -1313,7 +1417,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = artwork.GetType().GetProperties();
@@ -1345,7 +1453,11 @@ public class PopupDetailsManager : MonoBehaviour
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePopup(popupObject);
+        });
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
         PropertyInfo[] properties = spiritBeast.GetType().GetProperties();

@@ -53,6 +53,7 @@ public class RelicsGalleryController : MonoBehaviour
             Button button = relicObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PopupDetailsManager.Instance.PopupDetails(relic, MainPanel);
             });
 
@@ -81,6 +82,7 @@ public class RelicsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 var relicGalleryService = RelicsGalleryService.Create();
                 relicGalleryService.UpdateStatusRelicsGallery(relic.id);
                 blockImage.gameObject.SetActive(false);
@@ -108,6 +110,7 @@ public class RelicsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 RelicsGalleryService.Create().UpdateRelicsGalleryPower(relic.id);
             });
         }

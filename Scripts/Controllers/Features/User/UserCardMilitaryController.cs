@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
@@ -26,6 +27,9 @@ public class UserCardMilitaryController : MonoBehaviour
     private GameObject SkillGroupPrefab;
     private GameObject Skill1Prefab;
     private GameObject Skill2Prefab;
+    private GameObject PopupSkillsPanelPrefab;
+    private GameObject PopupSkillDetailPrefab;
+    private GameObject skillPanelObject;
     private int pageSize;
     private int offset;
     private int currentPage;
@@ -57,6 +61,8 @@ public class UserCardMilitaryController : MonoBehaviour
         SkillGroupPrefab = UIManager.Instance.GetGameObject("SkillGroupPrefab");
         Skill1Prefab = UIManager.Instance.GetGameObject("Skill1Prefab");
         Skill2Prefab = UIManager.Instance.GetGameObject("Skill2Prefab");
+        PopupSkillsPanelPrefab = UIManager.Instance.GetGameObject("PopupSkillsPanelPrefab");
+        PopupSkillDetailPrefab = UIManager.Instance.GetGameObject("PopupSkillDetailPrefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
@@ -83,6 +89,7 @@ public class UserCardMilitaryController : MonoBehaviour
             Button button = militaryObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
                 MainMenuDetailsManager.Instance.PopupDetails(military, MainPanel);
             });
 
@@ -362,6 +369,7 @@ public class UserCardMilitaryController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
                 CardMilitary currentCard = new CardMilitary();
                 currentCard = UserCardMilitaryService.Create().GetUserCardMilitaryById(User.CurrentUserId, cardMilitary.id);
                 int totalExperiment = currentCard.experiment;
@@ -389,6 +397,7 @@ public class UserCardMilitaryController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
                 CardMilitary currentCard = UserCardMilitaryService.Create().GetUserCardMilitaryById(User.CurrentUserId, cardMilitary.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -429,6 +438,7 @@ public class UserCardMilitaryController : MonoBehaviour
         if (obj is CardMilitary cardMilitary)
         {
             var skills = UserSkillsService.Create().GetUserCardMilitarySkills(User.CurrentUserId, cardMilitary.id);
+            skills = skills.Where(x => x.position != 0).ToList();
             foreach (var skill in skills)
             {
                 GameObject skillObject = Instantiate(Skill1Prefab, skillContent);
@@ -446,17 +456,210 @@ public class UserCardMilitaryController : MonoBehaviour
             }
             setUpButton.onClick.AddListener(() =>
             {
-                CreateSkillPanel();
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+                CreateSkillPanel(cardMilitary.id);
             });
         }
     }
-    public void CreateSkillPanel()
+    public void CreateSkillPanel(string cardId)
     {
-        GameObject skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
+        skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
+        Transform skillGroupContent = skillPanelObject.transform.Find("DictionaryCards/SkillGroup");
         Button CloseButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => Destroy(skillPanelObject));
-        HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(skillPanelObject);
+        });
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+
+        int activeSkillPosition = 1;
+        int passiveSkill1Position = 2;
+        int passiveSkill2Position = 3;
+
+        List<string> uniqueTypes = TypeManager.GetUniqueTypes(AppConstants.MainType.Skill);
+        for (int i = 0; i < uniqueTypes.Count; i++)
+        {
+            string currentType = uniqueTypes[i];
+            GameObject skillGroupObject = Instantiate(SkillGroupPrefab, skillGroupContent);
+
+            TextMeshProUGUI skillTitleText = skillGroupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            skillTitleText.text = currentType;
+
+            RawImage skillBackgroundImage = skillGroupObject.transform.Find("Background4").GetComponent<RawImage>();
+            string skillBackground = EvaluateSkill.GetBackgroundForSkill(currentType);
+            Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
+            skillBackgroundImage.texture = skillBackgroundImageTexture;
+
+            Button activeSkillButton = skillGroupObject.transform.Find("ActiveSkillButton").GetComponent<Button>();
+            Button passiveSkillButton1 = skillGroupObject.transform.Find("PassiveSkillButton1").GetComponent<Button>();
+            Button passiveSkillButton2 = skillGroupObject.transform.Find("PassiveSkillButton2").GetComponent<Button>();
+
+            var skills = UserSkillsService.Create().GetUserCardMilitarySkills(User.CurrentUserId, cardId);
+            skills = skills.Where(x => x.type.Equals(currentType)).ToList();
+            var activeSkill = skills.FirstOrDefault(x => x.position == activeSkillPosition);
+            var passiveSkill1 = skills.FirstOrDefault(x => x.position == passiveSkill1Position);
+            var passiveSkill2 = skills.FirstOrDefault(x => x.position == passiveSkill2Position);
+
+            activeSkillButton.onClick.RemoveAllListeners();
+            passiveSkillButton1.onClick.RemoveAllListeners();
+            passiveSkillButton2.onClick.RemoveAllListeners();
+
+            if (activeSkill != null)
+            {
+                RawImage activeSkillImage = activeSkillButton.GetComponent<RawImage>();
+                Texture activeSkillImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(activeSkill.image)}");
+                activeSkillImage.texture = activeSkillImageTexture;
+                activeSkillButton.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    // MainMenuDetailsManager.Instance.PopupDetails(activeSkill, MainPanel);
+                    CreatePopupSkillDetail(activeSkillPosition, cardId, currentType, AppConstants.Status.Active, activeSkill);
+                });
+            }
+            else
+            {
+                activeSkillButton.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    CreateSkillPopup(activeSkillPosition, cardId, currentType, AppConstants.Status.Active);
+                });
+            }
+
+            if (passiveSkill1 != null)
+            {
+                RawImage passiveSkill1Image = passiveSkillButton1.GetComponent<RawImage>();
+                Texture passiveSkill1ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill1.image)}");
+                passiveSkill1Image.texture = passiveSkill1ImageTexture;
+                passiveSkillButton1.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    // MainMenuDetailsManager.Instance.PopupDetails(passiveSkill1, MainPanel);
+                    CreatePopupSkillDetail(passiveSkill1Position, cardId, currentType, AppConstants.Status.Passive, passiveSkill1);
+                });
+            }
+            else
+            {
+                passiveSkillButton1.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    CreateSkillPopup(passiveSkill1Position, cardId, currentType, AppConstants.Status.Passive);
+                });
+            }
+
+            if (passiveSkill2 != null)
+            {
+                RawImage passiveSkill2Image = passiveSkillButton2.GetComponent<RawImage>();
+                Texture passiveSkill2ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill2.image)}");
+                passiveSkill2Image.texture = passiveSkill2ImageTexture;
+                passiveSkillButton2.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    // MainMenuDetailsManager.Instance.PopupDetails(passiveSkill2, MainPanel);
+                    CreatePopupSkillDetail(passiveSkill2Position, cardId, currentType, AppConstants.Status.Passive, passiveSkill2);
+                });
+            }
+            else
+            {
+                passiveSkillButton2.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    CreateSkillPopup(passiveSkill2Position, cardId, currentType, AppConstants.Status.Passive);
+                });
+            }
+        }
+    }
+    public void CreateSkillPopup(int position, string cardId, string type, string skillType, Skills oldSkill = null)
+    {
+        GameObject skillPopupObject = Instantiate(PopupSkillsPanelPrefab, MainPanel);
+        Transform skillContent = skillPopupObject.transform.Find("Scroll View/Viewport/Content");
+        Button closeButton = skillPopupObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(skillPopupObject);
+        });
+
+        var skills = UserSkillsService.Create().GetUserCardMilitarySkills(User.CurrentUserId, cardId);
+        skills = skills.Where(x => x.type.Equals(type)
+                                && x.position != 1
+                                && x.position != 2
+                                && x.position != 3
+                                && x.skill_type.Equals(skillType)).ToList();
+
+        foreach (var skill in skills)
+        {
+            GameObject skillObject = Instantiate(Skill2Prefab, skillContent);
+            RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
+            Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+            skillImage.texture = skillImageTexure;
+
+            TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            skillTitleText.text = skill.name;
+
+            RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
+            string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.type);
+            Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
+            skillBackgroundImage.texture = skillBackgroundImageTexture;
+
+            Button equipButton = skillObject.transform.Find("EquipButton").GetComponent<Button>();
+            equipButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                Destroy(skillPopupObject);
+                Destroy(skillPanelObject);
+                if (oldSkill != null)
+                {
+                    UserSkillsService.Create().DeleteUserCardMilitarySkills(User.CurrentUserId, cardId, oldSkill.id, position);
+                    UserSkillsService.Create().InsertUserCardMilitarySkills(User.CurrentUserId, cardId, skill.id, position);
+                }
+                else
+                {
+                    UserSkillsService.Create().InsertUserCardMilitarySkills(User.CurrentUserId, cardId, skill.id, position);
+                }
+                CreateSkillPanel(cardId);
+            });
+        }
+    }
+    public void CreatePopupSkillDetail(int position, string cardId, string type, string skillType, Skills skill)
+    {
+        GameObject popupSkillDetailObject = Instantiate(PopupSkillDetailPrefab, MainPanel);
+        Button closeButton = popupSkillDetailObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(popupSkillDetailObject);
+        });
+
+        RawImage skillImage = popupSkillDetailObject.transform.Find("SkillImage").GetComponent<RawImage>();
+        Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+        skillImage.texture = skillImageTexure;
+
+        TextMeshProUGUI skillTitleText = popupSkillDetailObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        skillTitleText.text = skill.name;
+
+        Button removeButton = popupSkillDetailObject.transform.Find("RemoveButton").GetComponent<Button>();
+        removeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(popupSkillDetailObject);
+            Destroy(skillPanelObject);
+            UserSkillsService.Create().DeleteUserCardMilitarySkills(User.CurrentUserId, cardId, skill.id, position);
+            CreateSkillPanel(cardId);
+        });
+
+        Button swapButton = popupSkillDetailObject.transform.Find("SwapButton").GetComponent<Button>();
+        swapButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(popupSkillDetailObject);       
+            CreateSkillPopup(position, cardId, type, skillType, skill);
+        });
     }
     public void GetUpgrade(object obj, GameObject currentObject)
     {
@@ -503,6 +706,7 @@ public class UserCardMilitaryController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = cardMilitary.star + 1;
                 int totalItemQuantity = 0;
 
@@ -601,10 +805,12 @@ public class UserCardMilitaryController : MonoBehaviour
             CreateDetailsUI(cardMilitary, currentObject);
             addButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 CreatePopupEquipments(obj, currentObject);
             });
             removeButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 UserSpiritBeastService.Create().DeleteUserCardMilitarySpiritBeast(User.CurrentUserId, cardMilitary, userCardSpiritBeast);
                 string fileNameWithoutExtension = "UI/Background4/Background_V4_352";
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -632,7 +838,11 @@ public class UserCardMilitaryController : MonoBehaviour
         Button PreviousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         Button CloseButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
         CloseButton.onClick.RemoveAllListeners();
-        CloseButton.onClick.AddListener(() => Destroy(popupSpiritBeastObject));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(popupSpiritBeastObject);
+        });
         Equipments equipments = new Equipments();
         List<SpiritBeast> spiritBeasts = new List<SpiritBeast>();
         spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardMilitarySpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
@@ -644,8 +854,16 @@ public class UserCardMilitaryController : MonoBehaviour
         CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
         NextButton.onClick.RemoveAllListeners();
         PreviousButton.onClick.RemoveAllListeners();
-        NextButton.onClick.AddListener(() => { ChangeNextPage(data, PageText, contentPanel, currentObject); });
-        PreviousButton.onClick.AddListener(() => { ChangePreviousPage(data, PageText, contentPanel, currentObject); });
+        NextButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangeNextPage(data, PageText, contentPanel, currentObject);
+        });
+        PreviousButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangePreviousPage(data, PageText, contentPanel, currentObject);
+        });
     }
     public int CalculateTotalPages(int totalRecords, int pageSize)
     {
@@ -679,6 +897,7 @@ public class UserCardMilitaryController : MonoBehaviour
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
             EquipButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
                 Destroy(popupSpiritBeastObject);
                 if (data is CardMilitary cardMilitary)
                 {
@@ -760,6 +979,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfBeastManager.Instance.CreateMasterOfBeastManager(obj);
         });
     }
@@ -776,6 +996,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfDragonManager.Instance.CreateMasterOfDragonManager(obj);
         });
     }
@@ -792,6 +1013,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfMagicManager.Instance.CreateMasterOfMagicManager(obj);
         });
     }
@@ -808,6 +1030,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfMusicManager.Instance.CreateMasterOfMusicManager(obj);
         });
     }
@@ -824,6 +1047,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfScienceManager.Instance.CreateMasterOfScienceManager(obj);
         });
     }
@@ -840,6 +1064,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfSpiritManager.Instance.CreateMasterOfSpiritManager(obj);
         });
     }
@@ -856,6 +1081,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfWeaponManager.Instance.CreateMasterOfWeaponManager(obj);
         });
     }
@@ -872,6 +1098,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfChemicalManager.Instance.CreateMasterOfChemicalManager(obj);
         });
     }
@@ -888,6 +1115,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfPhysicalManager.Instance.CreateMasterOfPhysicalManager(obj);
         });
     }
@@ -904,6 +1132,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfAtomicManager.Instance.CreateMasterOfAtomicManager(obj);
         });
     }
@@ -920,6 +1149,7 @@ public class UserCardMilitaryController : MonoBehaviour
 
         upgradeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
             MasterOfMentalManager.Instance.CreateMasterOfMentalManager(obj);
         });
     }

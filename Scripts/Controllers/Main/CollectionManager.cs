@@ -91,7 +91,11 @@ public class CollectionManager : MonoBehaviour
             Button button = buttonTransform.GetComponent<Button>();
             if (button != null)
             {
-                button.onClick.AddListener(action);
+                button.onClick.AddListener(()=>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    action();
+                });
             }
         }
         else
@@ -117,11 +121,27 @@ public class CollectionManager : MonoBehaviour
         PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(ClosePanel);
+        CloseButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ClosePanel();
+        });
         HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
-        NextButton.onClick.AddListener(ChangeNextPage);
-        PreviousButton.onClick.AddListener(ChangePreviousPage);
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
+        NextButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangeNextPage();
+        });
+        PreviousButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangePreviousPage();
+        });
 
         Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
         IUserCurrencyRepository userCurrencyRepository = new UserCurrencyRepository();
@@ -143,7 +163,11 @@ public class CollectionManager : MonoBehaviour
                 buttonText.text = LocalizationManager.Get(selectedRare);
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnRareTabButtonClick(button, rareTemp));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnRareTabButtonClick(button, rareTemp);
+                });
 
                 if (i == 0)
                 {
@@ -170,7 +194,11 @@ public class CollectionManager : MonoBehaviour
                 buttonText.text = subType.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, subType));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnButtonClick(button, subType);
+                });
 
                 if (i == 0)
                 {

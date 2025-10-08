@@ -61,7 +61,11 @@ public class ShopManager : MonoBehaviour
             Button button = buttonTransform.GetComponent<Button>();
             if (button != null)
             {
-                button.onClick.AddListener(action);
+                button.onClick.AddListener(()=>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    action();
+                });
             }
         }
         else
@@ -75,9 +79,17 @@ public class ShopManager : MonoBehaviour
         titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         titleText.text = LocalizationManager.Get("shop");
         CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => Destroy(currentObject));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(currentObject);
+        });
         HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Destroy(currentObject));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(currentObject);
+        });
         Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
 
         List<Currency> currencies = new List<Currency>();
@@ -183,11 +195,27 @@ public class ShopManager : MonoBehaviour
         PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => Destroy(equipmentObject));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(equipmentObject);
+        });
         HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
-        NextButton.onClick.AddListener(ChangeNextPage);
-        PreviousButton.onClick.AddListener(ChangePreviousPage);
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
+        NextButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangeNextPage();
+        });
+        PreviousButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangePreviousPage();
+        });
 
         // Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
         // 
@@ -208,7 +236,11 @@ public class ShopManager : MonoBehaviour
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, subtype));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnButtonClick(button, subtype);
+                });
 
                 if (i == 0)
                 {

@@ -61,6 +61,7 @@ public class UserSkillsController : MonoBehaviour
             Button button = skillObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(skill, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -167,6 +168,7 @@ public class UserSkillsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Skills currentCard = new Skills();
                 currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.id);
                 int totalExperiment = currentCard.experiment;
@@ -193,6 +195,7 @@ public class UserSkillsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Skills currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -273,6 +276,7 @@ public class UserSkillsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = skill.star + 1;
                 int totalItemQuantity = 0;
 

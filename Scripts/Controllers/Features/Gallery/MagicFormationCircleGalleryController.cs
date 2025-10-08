@@ -54,6 +54,7 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
             Button button = magicFormationCircleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PopupDetailsManager.Instance.PopupDetails(magicFormationCircle, MainPanel);
             });
 
@@ -82,6 +83,7 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 var magicFormationCircleGallery = MagicFormationCircleGalleryService.Create();
                 magicFormationCircleGallery.UpdateStatusMagicFormationCircleGallery(magicFormationCircle.id);
                 blockImage.gameObject.SetActive(false);
@@ -108,6 +110,7 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MagicFormationCircleGalleryService.Create().UpdateMagicFormationCircleGalleryPower(magicFormationCircle.id);
             });
         }

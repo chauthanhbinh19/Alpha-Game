@@ -40,8 +40,16 @@ public class ArenaManager : MonoBehaviour
         borderImage.texture = borderTexture;
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
-        CloseButton.onClick.AddListener(() => Destroy(currentObject));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(currentObject);
+        });
 
         // Arena arena = new Arena();
         IArenaRepository arenaRepository = new ArenaRepository();

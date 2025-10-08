@@ -61,6 +61,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             Button button = magicFormationCircleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(magicFormationCircle, MainPanel);
             });
 
@@ -180,6 +181,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MagicFormationCircle currentCard = new MagicFormationCircle();
                 currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.id);
                 int totalExperiment = currentCard.experiment;
@@ -206,6 +208,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MagicFormationCircle currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -286,6 +289,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = magicFormationCircle.star + 1;
                 int totalItemQuantity = 0;
 

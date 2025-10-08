@@ -53,6 +53,7 @@ public class SpiritBeastGalleryController : MonoBehaviour
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
             });
 
@@ -85,6 +86,7 @@ public class SpiritBeastGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 var titleGalleryService = SpiritBeastGalleryService.Create();
                 titleGalleryService.UpdateStatusSpiritBeastGallery(title.id);
                 blockImage.gameObject.SetActive(false);
@@ -111,6 +113,7 @@ public class SpiritBeastGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 TitlesGalleryService.Create().UpdateTitlesGalleryPower(title.id);
             });
         }

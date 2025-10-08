@@ -61,6 +61,7 @@ public class UserTalismanController : MonoBehaviour
             Button button = talismanObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(talisman, MainPanel);
             });
 
@@ -180,6 +181,7 @@ public class UserTalismanController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Talisman currentCard = new Talisman();
                 currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.id);
                 int totalExperiment = currentCard.experiment;
@@ -206,6 +208,7 @@ public class UserTalismanController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Talisman currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -286,6 +289,7 @@ public class UserTalismanController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = talisman.star + 1;
                 int totalItemQuantity = 0;
 

@@ -140,6 +140,7 @@ public class UserAchievementsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Achievements currentCard = new Achievements();
                 currentCard = UserAchievementsService.Create().GetUserAchievementsById(User.CurrentUserId, achievements.id);
                 int totalExperiment = currentCard.experiment;
@@ -166,6 +167,7 @@ public class UserAchievementsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Achievements currentCard = UserAchievementsService.Create().GetUserAchievementsById(User.CurrentUserId, achievements.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -246,6 +248,7 @@ public class UserAchievementsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = achievements.star + 1;
                 int totalItemQuantity = 0;
 

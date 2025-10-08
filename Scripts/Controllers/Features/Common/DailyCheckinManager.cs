@@ -157,9 +157,17 @@ public class DailyCheckinManager : MonoBehaviour
         TextMeshProUGUI titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         TabButtonPanel = popupObject.transform.Find("Scroll View/Viewport/Content");
         Button CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
         Button HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.DailyCheckin);
         DailyCheckinPanel = popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
@@ -177,7 +185,11 @@ public class DailyCheckinManager : MonoBehaviour
                 buttonText.text = uniqueType.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, subType));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnButtonClick(button, subType);
+                });
 
                 if (index == 0)
                 {

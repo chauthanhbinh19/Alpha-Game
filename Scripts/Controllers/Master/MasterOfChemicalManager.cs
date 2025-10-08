@@ -55,8 +55,16 @@ public class MasterOfChemicalManager : MonoBehaviour
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
-        CloseButton.onClick.AddListener(() => Destroy(currentObject));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(currentObject);
+        });
 
         LevelCondition = currentObject.transform.Find("DictionaryCards/LevelCondition");
 
@@ -77,7 +85,11 @@ public class MasterOfChemicalManager : MonoBehaviour
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, data, subtype, value));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnButtonClick(button, data, subtype, value);
+                });
 
                 if (index == 0)
                 {

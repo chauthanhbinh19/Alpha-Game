@@ -62,9 +62,17 @@ public class LegendaryMarketManager : MonoBehaviour
         Transform LegendaryMarketTransform = LegendaryMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         titleText = LegendaryMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => Destroy(LegendaryMarketManagerObject));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(LegendaryMarketManagerObject);
+        });
         HomeButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LegendaryMarket);
 
@@ -86,6 +94,7 @@ public class LegendaryMarketManager : MonoBehaviour
             Button currencyButton = currencyObject.GetComponent<Button>();
             currencyButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 CreateLegendaryMarketItemUI(currency);
             });
         }
@@ -102,11 +111,27 @@ public class LegendaryMarketManager : MonoBehaviour
         PreviousButton = LegendaryMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = LegendaryMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = LegendaryMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => Destroy(LegendaryMarketObject));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(LegendaryMarketObject);
+        });
         HomeButton = LegendaryMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
-        NextButton.onClick.AddListener(ChangeNextPage);
-        PreviousButton.onClick.AddListener(ChangePreviousPage);
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
+        NextButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangeNextPage();
+        });
+        PreviousButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangePreviousPage();
+        });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LegendaryMarket);
 

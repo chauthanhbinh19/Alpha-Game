@@ -54,6 +54,7 @@ public class PuppetGalleryController : MonoBehaviour
             Button button = puppetObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PopupDetailsManager.Instance.PopupDetails(puppet, MainPanel);
             });
 
@@ -82,6 +83,7 @@ public class PuppetGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 var puppetGalleryService = PuppetGalleryService.Create();
                 puppetGalleryService.UpdateStatusPuppetGallery(puppet.id);
                 blockImage.gameObject.SetActive(false);
@@ -108,6 +110,7 @@ public class PuppetGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PuppetGalleryService.Create().UpdatePuppetGalleryPower(puppet.id);
             });
         }

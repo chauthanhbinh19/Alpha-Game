@@ -180,6 +180,7 @@ public class UserArtworkController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Artwork currentCard = new Artwork();
                 currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.id);
                 int totalExperiment = currentCard.experiment;
@@ -206,6 +207,7 @@ public class UserArtworkController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Artwork currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -286,6 +288,7 @@ public class UserArtworkController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = Artwork.star + 1;
                 int totalItemQuantity = 0;
 

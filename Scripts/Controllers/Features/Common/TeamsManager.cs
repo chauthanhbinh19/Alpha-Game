@@ -97,13 +97,18 @@ public class TeamsManager : MonoBehaviour
         CloseButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
             foreach (Transform child in MainPanel)
             {
                 Destroy(child.gameObject);
             }
         });
         HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
 
         mainType = AppConstants.MainType.CardHero;
         teamsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Team);
@@ -247,6 +252,7 @@ public class TeamsManager : MonoBehaviour
             int index = team.team_number;
             string tempTeamId = team.team_id;
             changeCardButton.onClick.AddListener(()=>{
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 position = index.ToString();
                 team_id = tempTeamId;
                 CreatePopupTeams();
@@ -264,11 +270,16 @@ public class TeamsManager : MonoBehaviour
         CloseButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
             Close(MainPanel);
             CreateTeams();
         });
         HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
         // RawImage arrowUp = teamsObject.transform.Find("DictionaryCards/ScrollViewArrowUp").GetComponent<RawImage>();
         // RawImage arrowDown = teamsObject.transform.Find("DictionaryCards/ScrollViewArrowDown").GetComponent<RawImage>();
         TMP_Dropdown dropdownType = teamsObject.transform.Find("DictionaryCards/DropdownType").GetComponent<TMP_Dropdown>();
@@ -419,6 +430,7 @@ public class TeamsManager : MonoBehaviour
 
         nextButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
             if (page < totalPage)
             {
                 team_offset = team_offset + team_limit;
@@ -429,6 +441,7 @@ public class TeamsManager : MonoBehaviour
         });
         previousButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
             if (page > 1)
             {
                 team_offset = team_offset - team_limit;
@@ -661,6 +674,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardHeroesService.UpdateTeamFactCardHeroes(null, null, matchingCardHero.id);
@@ -742,6 +756,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardCaptainsService.UpdateTeamFactCardCaptains(null, null, matchingCardCaptain.id);
@@ -823,6 +838,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardColonelsService.UpdateTeamFactCardColonels(null, null, matchingCardColonel.id);
@@ -904,6 +920,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardGeneralsService.UpdateTeamFactCardGenerals(null, null, matchingCardGeneral.id);
@@ -985,6 +1002,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardAdmiralsService.UpdateTeamFactCardAdmirals(null, null, matchingCardAdmiral.id);
@@ -1066,6 +1084,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardMonstersService.UpdateTeamFactCardMonsters(null, null, matchingCardMonster.id);
@@ -1147,6 +1166,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardMilitaryService.UpdateTeamFactCardMilitary(null, null, matchingCardMilitary.id);
@@ -1228,6 +1248,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardSpellService.UpdateTeamFactCardSpell(null, null, matchingCardSpell.id);

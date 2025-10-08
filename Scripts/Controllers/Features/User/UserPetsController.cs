@@ -85,6 +85,7 @@ public class UserPetsController : MonoBehaviour
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
@@ -209,6 +210,7 @@ public class UserPetsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Pets currentCard = new Pets();
                 currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.id);
                 int totalExperiment = currentCard.experiment;
@@ -236,6 +238,7 @@ public class UserPetsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Pets currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -317,6 +320,7 @@ public class UserPetsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = pet.star + 1;
                 int totalItemQuantity = 0;
 

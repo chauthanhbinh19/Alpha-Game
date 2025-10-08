@@ -52,8 +52,16 @@ public class ReactorNumber1Manager : MonoBehaviour
         GameObject currentObject = Instantiate(ReactorPanelNumberPrefab, MainPanel);
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
-        CloseButton.onClick.AddListener(() => Destroy(currentObject));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(currentObject);
+        });
 
         RawImage leftSideCounduit1Image = currentObject.transform.Find("DictionaryCards/LeftSideConduit1/LeftSideConduiltImage").GetComponent<RawImage>();
         RawImage leftSideCounduit2Image = currentObject.transform.Find("DictionaryCards/LeftSideConduit2/LeftSideConduiltImage").GetComponent<RawImage>();

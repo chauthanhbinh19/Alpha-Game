@@ -61,6 +61,7 @@ public class UserForgeController : MonoBehaviour
             Button button = forgeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(forge, MainPanel);
             });
 
@@ -180,6 +181,7 @@ public class UserForgeController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Forge currentCard = new Forge();
                 currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.id);
                 int totalExperiment = currentCard.experiment;
@@ -206,6 +208,7 @@ public class UserForgeController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Forge currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -286,6 +289,7 @@ public class UserForgeController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = forge.star + 1;
                 int totalItemQuantity = 0;
 

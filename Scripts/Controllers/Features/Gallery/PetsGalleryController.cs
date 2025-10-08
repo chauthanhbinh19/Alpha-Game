@@ -75,6 +75,7 @@ public class PetsGalleryController : MonoBehaviour
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
@@ -109,6 +110,7 @@ public class PetsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 var petGalleryService = PetsGalleryService.Create();
                 petGalleryService.UpdateStatusPetsGallery(pet.id);
                 blockImage.gameObject.SetActive(false);
@@ -135,6 +137,7 @@ public class PetsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PetsGalleryService.Create().UpdatePetsGalleryPower(pet.id);
             });
         }

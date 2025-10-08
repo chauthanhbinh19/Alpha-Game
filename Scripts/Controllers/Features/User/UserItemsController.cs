@@ -53,6 +53,7 @@ public class UserItemsController : MonoBehaviour
             Button button = itemObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(item, MainPanel);
             });
 

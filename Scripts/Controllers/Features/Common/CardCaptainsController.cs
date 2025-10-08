@@ -60,6 +60,7 @@ public class CardCaptainsController : MonoBehaviour
             Button button = captainsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PopupDetailsManager.Instance.PopupDetails(captain, MainPanel);
             });
 
@@ -93,6 +94,7 @@ public class CardCaptainsController : MonoBehaviour
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 PopupDetailsManager.Instance.PopupDetails(captain, MainPanel);
             });
 
@@ -197,6 +199,7 @@ public class CardCaptainsController : MonoBehaviour
             price = originPrice * quantity;
             quantityText.text = quantity.ToString();
             priceText.text = price.ToString();
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
         });
         decreaseButton.onClick.AddListener(() =>
         {
@@ -207,6 +210,7 @@ public class CardCaptainsController : MonoBehaviour
                 quantityText.text = quantity.ToString();
                 priceText.text = price.ToString();
             }
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
         });
         increase10Button.onClick.AddListener(() =>
         {
@@ -214,6 +218,7 @@ public class CardCaptainsController : MonoBehaviour
             price = originPrice * quantity;
             quantityText.text = quantity.ToString();
             priceText.text = price.ToString();
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
         });
         decrease10Button.onClick.AddListener(() =>
         {
@@ -224,6 +229,7 @@ public class CardCaptainsController : MonoBehaviour
                 quantityText.text = quantity.ToString();
                 priceText.text = price.ToString();
             }
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
         });
         maxButton.onClick.AddListener(() =>
         {
@@ -238,16 +244,23 @@ public class CardCaptainsController : MonoBehaviour
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
         });
         minButton.onClick.AddListener(() =>
         {
             quantityText.text = "1";
             price = originPrice * 1;
             priceText.text = price.ToString();
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
         });
-        closeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(popupPanel));
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(popupPanel);
+        });
         confirmButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 

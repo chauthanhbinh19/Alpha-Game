@@ -42,7 +42,11 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         foreach (Button button in buttons)
         {
             string buttonName = button.name; // Lưu lại giá trị cục bộ để tránh lỗi closure
-            button.onClick.AddListener(() => { CreateMainMenuAnimeStatsManager(buttonName); });
+            button.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                CreateMainMenuAnimeStatsManager(buttonName);
+            });
         }
     }
     public void CreateMainMenuAnimeStatsManager(string nameType)
@@ -57,8 +61,16 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
-        CloseButton.onClick.AddListener(() => Destroy(currentObject));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(currentObject);
+        });
 
         LevelCondition = currentObject.transform.Find("DictionaryCards/LevelCondition");
 
@@ -79,7 +91,11 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, subtype, value));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnButtonClick(button, subtype, value);
+                });
 
                 if (index == 0)
                 {
@@ -152,6 +168,8 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+
             var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, animeStats.level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.Success))
             {
@@ -171,6 +189,8 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            
             var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, animeStats.level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.Success))
             {

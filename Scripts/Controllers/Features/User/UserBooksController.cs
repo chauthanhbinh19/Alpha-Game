@@ -265,6 +265,7 @@ public class UserBooksController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Books currentCard = new Books();
                 currentCard = UserBooksService.Create().GetUserBooksById(User.CurrentUserId, book.id);
                 int totalExperiment = currentCard.experiment;
@@ -292,6 +293,7 @@ public class UserBooksController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Books currentCard = UserBooksService.Create().GetUserBooksById(User.CurrentUserId, book.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -373,6 +375,7 @@ public class UserBooksController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = book.star + 1;
                 int totalItemQuantity = 0;
 

@@ -63,6 +63,7 @@ public class UserSpiritBeastController : MonoBehaviour
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(title, MainPanel);
             });
 
@@ -183,6 +184,7 @@ public class UserSpiritBeastController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 SpiritBeast currentCard = new SpiritBeast();
                 currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.id);
                 int totalExperiment = currentCard.experiment;
@@ -209,6 +211,7 @@ public class UserSpiritBeastController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 SpiritBeast currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -289,6 +292,7 @@ public class UserSpiritBeastController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = spiritBeast.star + 1;
                 int totalItemQuantity = 0;
 

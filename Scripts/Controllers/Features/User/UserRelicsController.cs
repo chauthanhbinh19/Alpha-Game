@@ -61,6 +61,7 @@ public class UserRelicsController : MonoBehaviour
             Button button = relicObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(relic, MainPanel);
             });
 
@@ -180,6 +181,7 @@ public class UserRelicsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Relics currentCard = new Relics();
                 currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.id);
                 int totalExperiment = currentCard.experiment;
@@ -206,6 +208,7 @@ public class UserRelicsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Relics currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -286,6 +289,7 @@ public class UserRelicsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = relics.star + 1;
                 int totalItemQuantity = 0;
 

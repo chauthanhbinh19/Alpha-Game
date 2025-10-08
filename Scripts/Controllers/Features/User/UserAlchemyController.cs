@@ -61,6 +61,7 @@ public class UserAlchemyController : MonoBehaviour
             Button button = alchemyObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(alchemy, MainPanel);
             });
 
@@ -180,6 +181,7 @@ public class UserAlchemyController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Alchemy currentCard = new Alchemy();
                 currentCard = UserAlchemyService.Create().GetUserAlchemyById(User.CurrentUserId, alchemy.id);
                 int totalExperiment = currentCard.experiment;
@@ -206,6 +208,7 @@ public class UserAlchemyController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Alchemy currentCard = UserAlchemyService.Create().GetUserAlchemyById(User.CurrentUserId, alchemy.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -286,6 +289,7 @@ public class UserAlchemyController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = alchemy.star + 1;
                 int totalItemQuantity = 0;
 

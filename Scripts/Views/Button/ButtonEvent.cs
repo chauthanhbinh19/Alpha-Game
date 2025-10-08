@@ -40,7 +40,11 @@ public class ButtonEvent : MonoBehaviour
             if (button != null)
             {
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(action);
+                button.onClick.AddListener(()=>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    action();
+                });
             }
         }
         else

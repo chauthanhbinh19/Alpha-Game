@@ -61,9 +61,17 @@ public class MysticMarketManager : MonoBehaviour
         Transform mysticMarketTransform = mysticMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         titleText = mysticMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = mysticMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => Destroy(mysticMarketManagerObject));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(mysticMarketManagerObject);
+        });
         HomeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MysticMarket);
 
@@ -85,6 +93,7 @@ public class MysticMarketManager : MonoBehaviour
             Button currencyButton = currencyObject.GetComponent<Button>();
             currencyButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 CreateMysticMarketItemUI(currency);
             });
         }
@@ -101,11 +110,27 @@ public class MysticMarketManager : MonoBehaviour
         PreviousButton = mysticMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = mysticMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = mysticMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => Destroy(mysticMarketObject));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(mysticMarketObject);
+        });
         HomeButton = mysticMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() => Close(MainPanel));
-        NextButton.onClick.AddListener(ChangeNextPage);
-        PreviousButton.onClick.AddListener(ChangePreviousPage);
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Close(MainPanel);
+        });
+        NextButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangeNextPage();
+        });
+        PreviousButton.onClick.AddListener(()=>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            ChangePreviousPage();
+        });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MysticMarket);
 
@@ -130,7 +155,6 @@ public class MysticMarketManager : MonoBehaviour
 
         PageText.text = $"{currentPage}/{totalPage}";
     }
-
     public void ChangeNextPage()
     {
         if (currentPage < totalPage)

@@ -65,6 +65,7 @@ public class UserCollaborationController : MonoBehaviour
             Button button = collaborationObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(collaboration, MainPanel);
             });
 
@@ -185,6 +186,7 @@ public class UserCollaborationController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Collaboration currentCard = new Collaboration();
                 currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.id);
                 int totalExperiment = currentCard.experiment;
@@ -211,6 +213,7 @@ public class UserCollaborationController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Collaboration currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -291,6 +294,7 @@ public class UserCollaborationController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = collaboration.star + 1;
                 int totalItemQuantity = 0;
 

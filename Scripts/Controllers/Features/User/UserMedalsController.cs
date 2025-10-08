@@ -61,6 +61,7 @@ public class UserMedalsController : MonoBehaviour
             Button button = medalObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(medal, MainPanel);
             });
 
@@ -175,6 +176,7 @@ public class UserMedalsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Medals currentCard = new Medals();
                 currentCard = UserMedalsService.Create().GetUserMedalsById(User.CurrentUserId, medal.id);
                 int totalExperiment = currentCard.experiment;
@@ -201,6 +203,7 @@ public class UserMedalsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Medals currentCard = UserMedalsService.Create().GetUserMedalsById(User.CurrentUserId, medal.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -281,6 +284,7 @@ public class UserMedalsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = medal.star + 1;
                 int totalItemQuantity = 0;
 

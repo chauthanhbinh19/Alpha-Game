@@ -62,7 +62,11 @@ public class MasterBoardController : MonoBehaviour
                 buttonText.text = name.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() => OnButtonClick(button, name));
+                btn.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    OnButtonClick(button, name);
+                });
 
                 if (index == 0)
                 {
@@ -138,7 +142,11 @@ public class MasterBoardController : MonoBehaviour
     {
         GameObject popup = Instantiate(MasterBoardPopupPrefab, MainPanel);
         Button CloseButton = popup.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() => Destroy(popup));
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            Destroy(popup);
+        });
         Button buyButton = popup.transform.Find("Buy").GetComponent<Button>();
         TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
         buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Buy);
@@ -164,6 +172,7 @@ public class MasterBoardController : MonoBehaviour
 
         buyButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
             if (masterBoard.status.Equals("block"))
             {
 

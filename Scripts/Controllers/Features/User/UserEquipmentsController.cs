@@ -141,6 +141,7 @@ public class UserEquipmentsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Equipments currentCard = new Equipments();
                 currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.id);
                 int totalExperiment = currentCard.experiment;
@@ -167,6 +168,7 @@ public class UserEquipmentsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Equipments currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -247,6 +249,7 @@ public class UserEquipmentsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = equipments.star + 1;
                 int totalItemQuantity = 0;
 

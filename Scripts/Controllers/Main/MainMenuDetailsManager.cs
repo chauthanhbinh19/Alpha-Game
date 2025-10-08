@@ -117,7 +117,11 @@ public class MainMenuDetailsManager : MonoBehaviour
         setButtonGroupPanel = currentObject.transform.Find("DictionaryCards/SetButtonGroup");
         CardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         RawImage backgroundCircle1Image = currentObject.transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
-        HomeButton.onClick.AddListener(() => ButtonEvent.Instance.Close(MainPanel));
+        HomeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
 
         // ButtonLoader.Instance.buttonGroupPanel1 = buttonGroupPanel1;
         // ButtonLoader.Instance.buttonGroupPanel2 = buttonGroupPanel2;
@@ -137,6 +141,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardHero);
             });
@@ -151,6 +156,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Book);
             });
@@ -166,6 +172,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardCaptain);
             });
@@ -180,6 +187,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Pet);
             });
@@ -194,6 +202,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CollaborationEquipment);
             });
@@ -209,6 +218,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardMilitary);
             });
@@ -223,6 +233,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardSpell);
             });
@@ -237,6 +248,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Collaboration);
             });
@@ -251,6 +263,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardMonster);
             });
@@ -265,6 +278,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Equipment);
             });
@@ -279,6 +293,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Medal);
             });
@@ -293,6 +308,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Skill);
             });
@@ -307,6 +323,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Symbol);
             });
@@ -321,6 +338,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Title);
             });
@@ -335,6 +353,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MagicFormationCircle);
             });
@@ -349,6 +368,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Relic);
             });
@@ -364,6 +384,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardColonel);
             });
@@ -379,6 +400,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardGeneral);
             });
@@ -394,6 +416,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardAdmiral);
             });
@@ -413,6 +436,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Alchievement);
             });
@@ -427,6 +451,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Talisman);
             });
@@ -441,6 +466,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Puppet);
             });
@@ -455,6 +481,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Alchemy);
             });
@@ -469,6 +496,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Forge);
             });
@@ -483,6 +511,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardLife);
             });
@@ -497,6 +526,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Artwork);
             });
@@ -511,6 +541,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SpiritBeast);
             });

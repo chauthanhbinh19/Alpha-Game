@@ -61,6 +61,7 @@ public class UserSymbolsController : MonoBehaviour
             Button button = symbolObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 MainMenuDetailsManager.Instance.PopupDetails(symbol, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -183,6 +184,7 @@ public class UserSymbolsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Symbols currentCard = new Symbols();
                 currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.id);
                 int totalExperiment = currentCard.experiment;
@@ -209,6 +211,7 @@ public class UserSymbolsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Symbols currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -289,6 +292,7 @@ public class UserSymbolsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 int requiredQuantity = symbol.star + 1;
                 int totalItemQuantity = 0;
 
