@@ -17,6 +17,23 @@ public static class ImageConstants
         // public const string Atomic1Url = "UI/Rune/Atomic_1";
         public const string PhysicalAttackUrl = "UI/Rune/Physical_Attack";
         public const string PhysicalDefenseUrl = "UI/Rune/Physical_Defense";
+        public const string HealthRuneUrl = "UI/Rune/Health_Rune";
+        public const string PhysicalAttackRuneUrl = "UI/Rune/Physical_Attack_Rune";
+        public const string PhysicalDefenseRuneUrl = "UI/Rune/Physical_Defense_Rune";
+        public const string MagicalAttackRuneUrl = "UI/Rune/Magical_Attack_Rune";
+        public const string MagicalDefenseRuneUrl = "UI/Rune/Magical_Defense_Rune";
+        public const string ChemicalAttackRuneUrl = "UI/Rune/Chemical_Attack_Rune";
+        public const string ChemicalDefenseRuneUrl = "UI/Rune/Chemical_Defense_Rune";
+        public const string AtomicAttackRuneUrl = "UI/Rune/Atomic_Attack_Rune";
+        public const string AtomicDefenseRuneUrl = "UI/Rune/Atomic_Defense_Rune";
+        public const string MentalAttackRuneUrl = "UI/Rune/Mental_Attack_Rune";
+        public const string MentalDefenseRuneUrl = "UI/Rune/Mental_Defense_Rune";
+        public const string SpeedRuneUrl = "UI/Rune/Speed_Rune";
+        public const string DamageRuneUrl = "UI/Rune/Damage_Rune";
+        public const string ResistanceRuneUrl = "UI/Rune/Resistance_Rune";
+        public const string AccuracyRuneUrl = "UI/Rune/Accuracy_Rune";
+        public const string ProtectionRuneUrl = "UI/Rune/Protection_Rune";
+        public const string SkillRuneUrl = "UI/Rune/Skill_Rune";
     }
     public static class Star
     {
