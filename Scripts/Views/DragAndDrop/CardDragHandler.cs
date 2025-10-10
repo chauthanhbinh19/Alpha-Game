@@ -118,23 +118,23 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {
-                userCardHeroesService.UpdateTeamFactCardHeroes(null, null, dropHandler.card_id);
-                userCardHeroesService.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
-                if (cardHeroes.all_power >= dropHandler.card_all_power)
+                userCardHeroesService.UpdateTeamCardHeroes(null, null, dropHandler.card_id);
+                userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHeroes.id);
+                if (cardHeroes.power >= dropHandler.card_power)
                 {
-                    double newPower = cardHeroes.all_power - dropHandler.card_all_power;
+                    double newPower = cardHeroes.power - dropHandler.card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = dropHandler.card_all_power - cardHeroes.all_power;
+                    double newPower = dropHandler.card_power - cardHeroes.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardHeroesService.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.all_power, 1);
+                userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHeroes.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.power, 1);
             }
         }
         else if (obj is CardCaptains cardCaptains)
@@ -142,23 +142,23 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {
-                userCardCaptainsService.UpdateTeamFactCardCaptains(null, null, dropHandler.card_id);
-                userCardCaptainsService.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
-                if (cardCaptains.all_power >= dropHandler.card_all_power)
+                userCardCaptainsService.UpdateTeamCardCaptains(null, null, dropHandler.card_id);
+                userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptains.id);
+                if (cardCaptains.power >= dropHandler.card_power)
                 {
-                    double newPower = cardCaptains.all_power - dropHandler.card_all_power;
+                    double newPower = cardCaptains.power - dropHandler.card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = dropHandler.card_all_power - cardCaptains.all_power;
+                    double newPower = dropHandler.card_power - cardCaptains.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardCaptainsService.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.all_power, 1);
+                userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptains.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.power, 1);
             }
         }
         else if (obj is CardColonels cardColonels)
@@ -166,23 +166,23 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {
-                userCardColonelsService.UpdateTeamFactCardColonels(null, null, dropHandler.card_id);
-                userCardColonelsService.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
-                if (cardColonels.all_power >= dropHandler.card_all_power)
+                userCardColonelsService.UpdateTeamCardColonels(null, null, dropHandler.card_id);
+                userCardColonelsService.UpdateTeamCardColonels(team_id, position, cardColonels.id);
+                if (cardColonels.power >= dropHandler.card_power)
                 {
-                    double newPower = cardColonels.all_power - dropHandler.card_all_power;
+                    double newPower = cardColonels.power - dropHandler.card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = dropHandler.card_all_power - cardColonels.all_power;
+                    double newPower = dropHandler.card_power - cardColonels.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardColonelsService.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.all_power, 1);
+                userCardColonelsService.UpdateTeamCardColonels(team_id, position, cardColonels.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.power, 1);
             }
         }
         else if (obj is CardGenerals cardGenerals)
@@ -190,23 +190,23 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {
-                userCardGeneralsService.UpdateTeamFactCardGenerals(null, null, dropHandler.card_id);
-                userCardGeneralsService.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
-                if (cardGenerals.all_power >= dropHandler.card_all_power)
+                userCardGeneralsService.UpdateTeamCardGenerals(null, null, dropHandler.card_id);
+                userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGenerals.id);
+                if (cardGenerals.power >= dropHandler.card_power)
                 {
-                    double newPower = cardGenerals.all_power - dropHandler.card_all_power;
+                    double newPower = cardGenerals.power - dropHandler.card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = dropHandler.card_all_power - cardGenerals.all_power;
+                    double newPower = dropHandler.card_power - cardGenerals.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardGeneralsService.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.all_power, 1);
+                userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGenerals.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.power, 1);
             }
         }
         else if (obj is CardAdmirals cardAdmirals)
@@ -214,23 +214,23 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {
-                userCardAdmiralsService.UpdateTeamFactCardAdmirals(null, null, dropHandler.card_id);
-                userCardAdmiralsService.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
-                if (cardAdmirals.all_power >= dropHandler.card_all_power)
+                userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, dropHandler.card_id);
+                userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmirals.id);
+                if (cardAdmirals.power >= dropHandler.card_power)
                 {
-                    double newPower = cardAdmirals.all_power - dropHandler.card_all_power;
+                    double newPower = cardAdmirals.power - dropHandler.card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = dropHandler.card_all_power - cardAdmirals.all_power;
+                    double newPower = dropHandler.card_power - cardAdmirals.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardAdmiralsService.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.all_power, 1);
+                userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmirals.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.power, 1);
             }
         }
         else if (obj is CardMonsters cardMonsters)
@@ -238,23 +238,23 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {
-                userCardMonstersService.UpdateTeamFactCardMonsters(null, null, dropHandler.card_id);
-                userCardMonstersService.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
-                if (cardMonsters.all_power >= dropHandler.card_all_power)
+                userCardMonstersService.UpdateTeamCardMonsters(null, null, dropHandler.card_id);
+                userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonsters.id);
+                if (cardMonsters.power >= dropHandler.card_power)
                 {
-                    double newPower = cardMonsters.all_power - dropHandler.card_all_power;
+                    double newPower = cardMonsters.power - dropHandler.card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = dropHandler.card_all_power - cardMonsters.all_power;
+                    double newPower = dropHandler.card_power - cardMonsters.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardMonstersService.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.all_power, 1);
+                userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonsters.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.power, 1);
             }
         }
         else if (obj is CardMilitary cardMilitary)
@@ -262,23 +262,23 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {
-                userCardMilitaryService.UpdateTeamFactCardMilitary(null, null, dropHandler.card_id);
-                userCardMilitaryService.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
-                if (cardMilitary.all_power >= dropHandler.card_all_power)
+                userCardMilitaryService.UpdateTeamCardMilitary(null, null, dropHandler.card_id);
+                userCardMilitaryService.UpdateTeamCardMilitary(team_id, position, cardMilitary.id);
+                if (cardMilitary.power >= dropHandler.card_power)
                 {
-                    double newPower = cardMilitary.all_power - dropHandler.card_all_power;
+                    double newPower = cardMilitary.power - dropHandler.card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = dropHandler.card_all_power - cardMilitary.all_power;
+                    double newPower = dropHandler.card_power - cardMilitary.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardMilitaryService.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.all_power, 1);
+                userCardMilitaryService.UpdateTeamCardMilitary(team_id, position, cardMilitary.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.power, 1);
             }
         }
         else if (obj is CardSpell cardSpell)
@@ -286,23 +286,23 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {
-                userCardSpellService.UpdateTeamFactCardSpell(null, null, dropHandler.card_id);
-                userCardSpellService.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
-                if (cardSpell.all_power >= dropHandler.card_all_power)
+                userCardSpellService.UpdateTeamCardSpell(null, null, dropHandler.card_id);
+                userCardSpellService.UpdateTeamCardSpell(team_id, position, cardSpell.id);
+                if (cardSpell.power >= dropHandler.card_power)
                 {
-                    double newPower = cardSpell.all_power - dropHandler.card_all_power;
+                    double newPower = cardSpell.power - dropHandler.card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = dropHandler.card_all_power - cardSpell.all_power;
+                    double newPower = dropHandler.card_power - cardSpell.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardSpellService.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.all_power, 1);
+                userCardSpellService.UpdateTeamCardSpell(team_id, position, cardSpell.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.power, 1);
             }
         }
     }

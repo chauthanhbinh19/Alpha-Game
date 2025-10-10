@@ -663,7 +663,7 @@ public class TeamsManager : MonoBehaviour
                     leaveButton.gameObject.SetActive(true);
 
                     count = count + 1;
-                    totalPower = totalPower + matchingCardHero.all_power;
+                    totalPower = totalPower + matchingCardHero.power;
                 }
                 else
                 {
@@ -677,8 +677,8 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    userCardHeroesService.UpdateTeamFactCardHeroes(null, null, matchingCardHero.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardHero.all_power, 0);
+                    userCardHeroesService.UpdateTeamCardHeroes(null, null, matchingCardHero.id);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardHero.power, 0);
                     CreatePosition(positionPanel, level, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -693,7 +693,7 @@ public class TeamsManager : MonoBehaviour
                     if (matchingCardHero != null)
                     {
                         dropHandler.card_id = matchingCardHero.id;
-                        dropHandler.card_all_power = matchingCardHero.all_power;
+                        dropHandler.card_power = matchingCardHero.power;
                     }
                     dropHandler.OnDropEnd = () =>
                     {
@@ -745,7 +745,7 @@ public class TeamsManager : MonoBehaviour
                     leaveButton.gameObject.SetActive(true);
 
                     count = count + 1;
-                    totalPower = totalPower + matchingCardCaptain.all_power;
+                    totalPower = totalPower + matchingCardCaptain.power;
                 }
                 else
                 {
@@ -759,8 +759,8 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    userCardCaptainsService.UpdateTeamFactCardCaptains(null, null, matchingCardCaptain.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardCaptain.all_power, 0);
+                    userCardCaptainsService.UpdateTeamCardCaptains(null, null, matchingCardCaptain.id);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardCaptain.power, 0);
                     CreatePosition(positionPanel, level, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -775,7 +775,7 @@ public class TeamsManager : MonoBehaviour
                     if (matchingCardCaptain != null)
                     {
                         dropHandler.card_id = matchingCardCaptain.id;
-                        dropHandler.card_all_power = matchingCardCaptain.all_power;
+                        dropHandler.card_power = matchingCardCaptain.power;
                     }
                     dropHandler.OnDropEnd = () =>
                     {
@@ -827,7 +827,7 @@ public class TeamsManager : MonoBehaviour
                     leaveButton.gameObject.SetActive(true);
 
                     count = count + 1;
-                    totalPower = totalPower + matchingCardColonel.all_power;
+                    totalPower = totalPower + matchingCardColonel.power;
                 }
                 else
                 {
@@ -841,8 +841,8 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    userCardColonelsService.UpdateTeamFactCardColonels(null, null, matchingCardColonel.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardColonel.all_power, 0);
+                    userCardColonelsService.UpdateTeamCardColonels(null, null, matchingCardColonel.id);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardColonel.power, 0);
                     CreatePosition(positionPanel, level, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -857,7 +857,7 @@ public class TeamsManager : MonoBehaviour
                     if (matchingCardColonel != null)
                     {
                         dropHandler.card_id = matchingCardColonel.id;
-                        dropHandler.card_all_power = matchingCardColonel.all_power;
+                        dropHandler.card_power = matchingCardColonel.power;
                     }
                     dropHandler.OnDropEnd = () =>
                     {
@@ -909,7 +909,7 @@ public class TeamsManager : MonoBehaviour
                     leaveButton.gameObject.SetActive(true);
 
                     count = count + 1;
-                    totalPower = totalPower + matchingCardGeneral.all_power;
+                    totalPower = totalPower + matchingCardGeneral.power;
                 }
                 else
                 {
@@ -923,8 +923,8 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    userCardGeneralsService.UpdateTeamFactCardGenerals(null, null, matchingCardGeneral.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardGeneral.all_power, 0);
+                    userCardGeneralsService.UpdateTeamCardGenerals(null, null, matchingCardGeneral.id);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardGeneral.power, 0);
                     CreatePosition(positionPanel, level, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -939,7 +939,7 @@ public class TeamsManager : MonoBehaviour
                     if (matchingCardGeneral != null)
                     {
                         dropHandler.card_id = matchingCardGeneral.id;
-                        dropHandler.card_all_power = matchingCardGeneral.all_power;
+                        dropHandler.card_power = matchingCardGeneral.power;
                     }
                     dropHandler.OnDropEnd = () =>
                     {
@@ -991,7 +991,7 @@ public class TeamsManager : MonoBehaviour
                     leaveButton.gameObject.SetActive(true);
 
                     count = count + 1;
-                    totalPower = totalPower + matchingCardAdmiral.all_power;
+                    totalPower = totalPower + matchingCardAdmiral.power;
                 }
                 else
                 {
@@ -1005,8 +1005,8 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    userCardAdmiralsService.UpdateTeamFactCardAdmirals(null, null, matchingCardAdmiral.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardAdmiral.all_power, 0);
+                    userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, matchingCardAdmiral.id);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardAdmiral.power, 0);
                     CreatePosition(positionPanel, level, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -1021,7 +1021,7 @@ public class TeamsManager : MonoBehaviour
                     if (matchingCardAdmiral != null)
                     {
                         dropHandler.card_id = matchingCardAdmiral.id;
-                        dropHandler.card_all_power = matchingCardAdmiral.all_power;
+                        dropHandler.card_power = matchingCardAdmiral.power;
                     }
                     dropHandler.OnDropEnd = () =>
                     {
@@ -1073,7 +1073,7 @@ public class TeamsManager : MonoBehaviour
                     leaveButton.gameObject.SetActive(true);
 
                     count = count + 1;
-                    totalPower = totalPower + matchingCardMonster.all_power;
+                    totalPower = totalPower + matchingCardMonster.power;
                 }
                 else
                 {
@@ -1087,8 +1087,8 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    userCardMonstersService.UpdateTeamFactCardMonsters(null, null, matchingCardMonster.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMonster.all_power, 0);
+                    userCardMonstersService.UpdateTeamCardMonsters(null, null, matchingCardMonster.id);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMonster.power, 0);
                     CreatePosition(positionPanel, level, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -1103,7 +1103,7 @@ public class TeamsManager : MonoBehaviour
                     if (matchingCardMonster != null)
                     {
                         dropHandler.card_id = matchingCardMonster.id;
-                        dropHandler.card_all_power = matchingCardMonster.all_power;
+                        dropHandler.card_power = matchingCardMonster.power;
                     }
                     dropHandler.OnDropEnd = () =>
                     {
@@ -1155,7 +1155,7 @@ public class TeamsManager : MonoBehaviour
                     leaveButton.gameObject.SetActive(true);
 
                     count = count + 1;
-                    totalPower = totalPower + matchingCardMilitary.all_power;
+                    totalPower = totalPower + matchingCardMilitary.power;
                 }
                 else
                 {
@@ -1169,8 +1169,8 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    userCardMilitaryService.UpdateTeamFactCardMilitary(null, null, matchingCardMilitary.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMilitary.all_power, 0);
+                    userCardMilitaryService.UpdateTeamCardMilitary(null, null, matchingCardMilitary.id);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMilitary.power, 0);
                     CreatePosition(positionPanel, level, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -1185,7 +1185,7 @@ public class TeamsManager : MonoBehaviour
                     if (matchingCardMilitary != null)
                     {
                         dropHandler.card_id = matchingCardMilitary.id;
-                        dropHandler.card_all_power = matchingCardMilitary.all_power;
+                        dropHandler.card_power = matchingCardMilitary.power;
                     }
                     dropHandler.OnDropEnd = () =>
                     {
@@ -1237,7 +1237,7 @@ public class TeamsManager : MonoBehaviour
                     leaveButton.gameObject.SetActive(true);
 
                     count = count + 1;
-                    totalPower = totalPower + matchingCardSpell.all_power;
+                    totalPower = totalPower + matchingCardSpell.power;
                 }
                 else
                 {
@@ -1251,8 +1251,8 @@ public class TeamsManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                     image.texture = null;
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    userCardSpellService.UpdateTeamFactCardSpell(null, null, matchingCardSpell.id);
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardSpell.all_power, 0);
+                    userCardSpellService.UpdateTeamCardSpell(null, null, matchingCardSpell.id);
+                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardSpell.power, 0);
                     CreatePosition(positionPanel, level, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, team_limit, team_offset, choseTeam);
                 });
@@ -1267,7 +1267,7 @@ public class TeamsManager : MonoBehaviour
                     if (matchingCardSpell != null)
                     {
                         dropHandler.card_id = matchingCardSpell.id;
-                        dropHandler.card_all_power = matchingCardSpell.all_power;
+                        dropHandler.card_power = matchingCardSpell.power;
                     }
                     dropHandler.OnDropEnd = () =>
                     {
@@ -1293,7 +1293,7 @@ public class TeamsManager : MonoBehaviour
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardHeroes.name.Replace("_", " ");
                 TextMeshProUGUI Power = cardObject.transform.Find("Power/PowerText").GetComponent<TextMeshProUGUI>();
-                Power.text = NumberFormatter.FormatNumber(cardHeroes.all_power);
+                Power.text = NumberFormatter.FormatNumber(cardHeroes.power);
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHeroes.image);
@@ -1346,7 +1346,7 @@ public class TeamsManager : MonoBehaviour
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardCaptains.name.Replace("_", " ");
                 TextMeshProUGUI Power = cardObject.transform.Find("Power/PowerText").GetComponent<TextMeshProUGUI>();
-                Power.text = NumberFormatter.FormatNumber(cardCaptains.all_power);
+                Power.text = NumberFormatter.FormatNumber(cardCaptains.power);
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptains.image);
@@ -1398,7 +1398,7 @@ public class TeamsManager : MonoBehaviour
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardColonels.name.Replace("_", " ");
                 TextMeshProUGUI Power = cardObject.transform.Find("Power/PowerText").GetComponent<TextMeshProUGUI>();
-                Power.text = NumberFormatter.FormatNumber(cardColonels.all_power);
+                Power.text = NumberFormatter.FormatNumber(cardColonels.power);
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonels.image);
@@ -1450,7 +1450,7 @@ public class TeamsManager : MonoBehaviour
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardGenerals.name.Replace("_", " ");
                 TextMeshProUGUI Power = cardObject.transform.Find("Power/PowerText").GetComponent<TextMeshProUGUI>();
-                Power.text = NumberFormatter.FormatNumber(cardGenerals.all_power);
+                Power.text = NumberFormatter.FormatNumber(cardGenerals.power);
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGenerals.image);
@@ -1502,7 +1502,7 @@ public class TeamsManager : MonoBehaviour
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardAdmirals.name.Replace("_", " ");
                 TextMeshProUGUI Power = cardObject.transform.Find("Power/PowerText").GetComponent<TextMeshProUGUI>();
-                Power.text = NumberFormatter.FormatNumber(cardAdmirals.all_power);
+                Power.text = NumberFormatter.FormatNumber(cardAdmirals.power);
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.image);
@@ -1554,7 +1554,7 @@ public class TeamsManager : MonoBehaviour
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardMonsters.name.Replace("_", " ");
                 TextMeshProUGUI Power = cardObject.transform.Find("Power/PowerText").GetComponent<TextMeshProUGUI>();
-                Power.text = NumberFormatter.FormatNumber(cardMonsters.all_power);
+                Power.text = NumberFormatter.FormatNumber(cardMonsters.power);
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonsters.image);
@@ -1606,7 +1606,7 @@ public class TeamsManager : MonoBehaviour
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardMilitary.name.Replace("_", " ");
                 TextMeshProUGUI Power = cardObject.transform.Find("Power/PowerText").GetComponent<TextMeshProUGUI>();
-                Power.text = NumberFormatter.FormatNumber(cardMilitary.all_power);
+                Power.text = NumberFormatter.FormatNumber(cardMilitary.power);
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.image);
@@ -1658,7 +1658,7 @@ public class TeamsManager : MonoBehaviour
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardSpell.name.Replace("_", " ");
                 TextMeshProUGUI Power = cardObject.transform.Find("Power/PowerText").GetComponent<TextMeshProUGUI>();
-                Power.text = NumberFormatter.FormatNumber(cardSpell.all_power);
+                Power.text = NumberFormatter.FormatNumber(cardSpell.power);
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.image);
@@ -1712,7 +1712,7 @@ public class TeamsManager : MonoBehaviour
             dragHandler.team_id = newTeamId;
         }
     }
-    public void InsertCardToTeam(object obj, string position_id, string card_id, string team_id, double card_all_power)
+    public void InsertCardToTeam(object obj, string position_id, string card_id, string team_id, double card_power)
     {
         string position = "F" + position_id;
         if (obj is CardHeroes cardHeroes)
@@ -1720,23 +1720,23 @@ public class TeamsManager : MonoBehaviour
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(card_id))
             {
-                userCardHeroesService.UpdateTeamFactCardHeroes(null, null, card_id);
-                userCardHeroesService.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
-                if (cardHeroes.all_power >= card_all_power)
+                userCardHeroesService.UpdateTeamCardHeroes(null, null, card_id);
+                userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHeroes.id);
+                if (cardHeroes.power >= card_power)
                 {
-                    double newPower = cardHeroes.all_power - card_all_power;
+                    double newPower = cardHeroes.power - card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = card_all_power - cardHeroes.all_power;
+                    double newPower = card_power - cardHeroes.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardHeroesService.UpdateTeamFactCardHeroes(team_id, position, cardHeroes.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.all_power, 1);
+                userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHeroes.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.power, 1);
             }
         }
         else if (obj is CardCaptains cardCaptains)
@@ -1744,23 +1744,23 @@ public class TeamsManager : MonoBehaviour
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(card_id))
             {
-                userCardCaptainsService.UpdateTeamFactCardCaptains(null, null, card_id);
-                userCardCaptainsService.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
-                if (cardCaptains.all_power >= card_all_power)
+                userCardCaptainsService.UpdateTeamCardCaptains(null, null, card_id);
+                userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptains.id);
+                if (cardCaptains.power >= card_power)
                 {
-                    double newPower = cardCaptains.all_power - card_all_power;
+                    double newPower = cardCaptains.power - card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = card_all_power - cardCaptains.all_power;
+                    double newPower = card_power - cardCaptains.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardCaptainsService.UpdateTeamFactCardCaptains(team_id, position, cardCaptains.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.all_power, 1);
+                userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptains.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.power, 1);
             }
         }
         else if (obj is CardColonels cardColonels)
@@ -1768,23 +1768,23 @@ public class TeamsManager : MonoBehaviour
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(card_id))
             {
-                userCardColonelsService.UpdateTeamFactCardColonels(null, null, card_id);
-                userCardColonelsService.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
-                if (cardColonels.all_power >= card_all_power)
+                userCardColonelsService.UpdateTeamCardColonels(null, null, card_id);
+                userCardColonelsService.UpdateTeamCardColonels(team_id, position, cardColonels.id);
+                if (cardColonels.power >= card_power)
                 {
-                    double newPower = cardColonels.all_power - card_all_power;
+                    double newPower = cardColonels.power - card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = card_all_power - cardColonels.all_power;
+                    double newPower = card_power - cardColonels.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardColonelsService.UpdateTeamFactCardColonels(team_id, position, cardColonels.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.all_power, 1);
+                userCardColonelsService.UpdateTeamCardColonels(team_id, position, cardColonels.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.power, 1);
             }
         }
         else if (obj is CardGenerals cardGenerals)
@@ -1792,23 +1792,23 @@ public class TeamsManager : MonoBehaviour
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(card_id))
             {
-                userCardGeneralsService.UpdateTeamFactCardGenerals(null, null, card_id);
-                userCardGeneralsService.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
-                if (cardGenerals.all_power >= card_all_power)
+                userCardGeneralsService.UpdateTeamCardGenerals(null, null, card_id);
+                userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGenerals.id);
+                if (cardGenerals.power >= card_power)
                 {
-                    double newPower = cardGenerals.all_power - card_all_power;
+                    double newPower = cardGenerals.power - card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = card_all_power - cardGenerals.all_power;
+                    double newPower = card_power - cardGenerals.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardGeneralsService.UpdateTeamFactCardGenerals(team_id, position, cardGenerals.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.all_power, 1);
+                userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGenerals.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.power, 1);
             }
         }
         else if (obj is CardAdmirals cardAdmirals)
@@ -1816,23 +1816,23 @@ public class TeamsManager : MonoBehaviour
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(card_id))
             {
-                userCardAdmiralsService.UpdateTeamFactCardAdmirals(null, null, card_id);
-                userCardAdmiralsService.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
-                if (cardAdmirals.all_power >= card_all_power)
+                userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, card_id);
+                userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmirals.id);
+                if (cardAdmirals.power >= card_power)
                 {
-                    double newPower = cardAdmirals.all_power - card_all_power;
+                    double newPower = cardAdmirals.power - card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = card_all_power - cardAdmirals.all_power;
+                    double newPower = card_power - cardAdmirals.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardAdmiralsService.UpdateTeamFactCardAdmirals(team_id, position, cardAdmirals.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.all_power, 1);
+                userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmirals.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.power, 1);
             }
         }
         else if (obj is CardMonsters cardMonsters)
@@ -1840,23 +1840,23 @@ public class TeamsManager : MonoBehaviour
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(card_id))
             {
-                userCardMonstersService.UpdateTeamFactCardMonsters(null, null, card_id);
-                userCardMonstersService.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
-                if (cardMonsters.all_power >= card_all_power)
+                userCardMonstersService.UpdateTeamCardMonsters(null, null, card_id);
+                userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonsters.id);
+                if (cardMonsters.power >= card_power)
                 {
-                    double newPower = cardMonsters.all_power - card_all_power;
+                    double newPower = cardMonsters.power - card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = card_all_power - cardMonsters.all_power;
+                    double newPower = card_power - cardMonsters.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardMonstersService.UpdateTeamFactCardMonsters(team_id, position, cardMonsters.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.all_power, 1);
+                userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonsters.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.power, 1);
             }
         }
         else if (obj is CardMilitary cardMilitary)
@@ -1864,23 +1864,23 @@ public class TeamsManager : MonoBehaviour
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(card_id))
             {
-                userCardMilitaryService.UpdateTeamFactCardMilitary(null, null, card_id);
-                userCardMilitaryService.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
-                if (cardMilitary.all_power >= card_all_power)
+                userCardMilitaryService.UpdateTeamCardMilitary(null, null, card_id);
+                userCardMilitaryService.UpdateTeamCardMilitary(team_id, position, cardMilitary.id);
+                if (cardMilitary.power >= card_power)
                 {
-                    double newPower = cardMilitary.all_power - card_all_power;
+                    double newPower = cardMilitary.power - card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = card_all_power - cardMilitary.all_power;
+                    double newPower = card_power - cardMilitary.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardMilitaryService.UpdateTeamFactCardMilitary(team_id, position, cardMilitary.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.all_power, 1);
+                userCardMilitaryService.UpdateTeamCardMilitary(team_id, position, cardMilitary.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.power, 1);
             }
         }
         else if (obj is CardSpell cardSpell)
@@ -1888,23 +1888,23 @@ public class TeamsManager : MonoBehaviour
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             if (!string.IsNullOrEmpty(card_id))
             {
-                userCardSpellService.UpdateTeamFactCardSpell(null, null, card_id);
-                userCardSpellService.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
-                if (cardSpell.all_power >= card_all_power)
+                userCardSpellService.UpdateTeamCardSpell(null, null, card_id);
+                userCardSpellService.UpdateTeamCardSpell(team_id, position, cardSpell.id);
+                if (cardSpell.power >= card_power)
                 {
-                    double newPower = cardSpell.all_power - card_all_power;
+                    double newPower = cardSpell.power - card_power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
                 }
                 else
                 {
-                    double newPower = card_all_power - cardSpell.all_power;
+                    double newPower = card_power - cardSpell.power;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
                 }
             }
             else
             {
-                userCardSpellService.UpdateTeamFactCardSpell(team_id, position, cardSpell.id);
-                FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.all_power, 1);
+                userCardSpellService.UpdateTeamCardSpell(team_id, position, cardSpell.id);
+                FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.power, 1);
             }
         }
     }

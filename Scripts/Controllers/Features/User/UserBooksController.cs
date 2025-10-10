@@ -227,7 +227,7 @@ public class UserBooksController : MonoBehaviour
             name.text = book.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(book.all_power, false);
+            power.text = NumberFormatter.FormatNumber(book.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -281,7 +281,6 @@ public class UserBooksController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserBooksService.Create().GetNewLevelPower(book, increasePerLevel);
                     UserBooksService.Create().UpdateBooksLevel(newCard, currentLevel + 1);
-                    UserBooksService.Create().UpdateFactBooks(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -313,7 +312,6 @@ public class UserBooksController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Books newCard = UserBooksService.Create().GetNewLevelPower(book, levelsGained * increasePerLevel);
                     UserBooksService.Create().UpdateBooksLevel(newCard, currentLevel);
-                    UserBooksService.Create().UpdateFactBooks(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -429,7 +427,6 @@ public class UserBooksController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserBooksService.Create().GetNewBreakthroughPower(book, increasePerUpgrade);
                     UserBooksService.Create().UpdateBooksBreakthrough(newCard, book.star + 1, book.quantity);
-                    UserBooksService.Create().UpdateFactBooks(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 

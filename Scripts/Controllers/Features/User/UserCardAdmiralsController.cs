@@ -319,7 +319,7 @@ public class UserCardAdmiralsController : MonoBehaviour
         name.text = cardAdmirals.name;
 
         TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardAdmirals.all_power, false);
+        power.text = NumberFormatter.FormatNumber(cardAdmirals.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardAdmirals.level.ToString();
@@ -379,7 +379,6 @@ public class UserCardAdmiralsController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardAdmiralsService.Create().GetNewLevelPower(cardAdmirals, increasePerLevel);
                     UserCardAdmiralsService.Create().UpdateCardAdmiralsLevel(newCard, currentLevel + 1);
-                    UserCardAdmiralsService.Create().UpdateFactCardAdmirals(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -411,7 +410,6 @@ public class UserCardAdmiralsController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardAdmirals newCard = UserCardAdmiralsService.Create().GetNewLevelPower(cardAdmirals, levelsGained * increasePerLevel);
                     UserCardAdmiralsService.Create().UpdateCardAdmiralsLevel(newCard, currentLevel);
-                    UserCardAdmiralsService.Create().UpdateFactCardAdmirals(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -754,7 +752,6 @@ public class UserCardAdmiralsController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardAdmiralsService.Create().GetNewBreakthroughPower(cardAdmirals, increasePerUpgrade);
                     UserCardAdmiralsService.Create().UpdateCardAdmiralsBreakthrough(newCard, cardAdmirals.star + 1, cardAdmirals.quantity);
-                    UserCardAdmiralsService.Create().UpdateFactCardAdmirals(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 

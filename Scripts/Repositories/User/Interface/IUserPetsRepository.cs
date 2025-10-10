@@ -9,9 +9,7 @@ public interface IUserPetsRepository
     bool InsertUserPets(Pets pets);
     bool UpdatePetsLevel(Pets pets, int cardLevel);
     bool UpdatePetsBreakthrough(Pets pets, int star, int quantity);
-    bool InsertFactPets(Pets pets);
-    bool UpdateFactPets(Pets pets);
-    bool UpdateTeamFactCardPets(string team_id, string card_id);
+    bool UpdateTeamCardPets(string team_id, string card_id);
     Pets GetUserPetsById(string user_id, string Id);
     List<Pets> GetAllUserPetsInTeam(string user_id);
 }

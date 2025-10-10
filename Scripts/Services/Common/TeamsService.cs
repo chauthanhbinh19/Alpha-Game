@@ -40,43 +40,43 @@ public class TeamsService : ITeamsService
 
         foreach (CardHeroes c in cardHeroes)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (CardCaptains c in cardCaptains)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (CardColonels c in cardColonels)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (CardGenerals c in cardGenerals)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (CardAdmirals c in cardAdmirals)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (CardMonsters c in cardMonsters)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (CardMilitary c in cardMilitaries)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (CardSpell c in cardSpells)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (Books c in books)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         foreach (Pets c in pets)
         {
-            totalPower = totalPower + c.all_power;
+            totalPower = totalPower + c.power;
         }
         return totalPower;
     }

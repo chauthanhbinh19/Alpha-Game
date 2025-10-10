@@ -17,9 +17,7 @@ public interface IUserCardHeroesService
     bool InsertUserCardHeroes(CardHeroes CardHeroes);
     bool UpdateCardHeroesLevel(CardHeroes cardHeroes, int cardLevel);
     bool UpdateCardHeroesBreakthrough(CardHeroes cardHeroes, int star, int quantity);
-    bool InsertFactCardHeroes(CardHeroes cardHeroes);
-    bool UpdateFactCardHeroes(CardHeroes cardHeroes);
-    bool UpdateTeamFactCardHeroes(string team_id, string position, string card_id);
+    bool UpdateTeamCardHeroes(string team_id, string position, string card_id);
     CardHeroes GetUserCardHeroesById(string user_id, string Id);
     List<CardHeroes> GetAllUserCardHeroesInTeam(string user_id);
 }

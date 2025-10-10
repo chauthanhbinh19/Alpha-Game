@@ -326,7 +326,7 @@ public class UserCardMilitaryController : MonoBehaviour
         name.text = cardMilitary.name;
 
         TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardMilitary.all_power, false);
+        power.text = NumberFormatter.FormatNumber(cardMilitary.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardMilitary.level.ToString();
@@ -385,7 +385,6 @@ public class UserCardMilitaryController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardMilitaryService.Create().GetNewLevelPower(cardMilitary, increasePerLevel);
                     UserCardMilitaryService.Create().UpdateCardMilitaryLevel(newCard, currentLevel + 1);
-                    UserCardMilitaryService.Create().UpdateFactCardMilitary(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -417,7 +416,6 @@ public class UserCardMilitaryController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardMilitary newCard = UserCardMilitaryService.Create().GetNewLevelPower(cardMilitary, levelsGained * increasePerLevel);
                     UserCardMilitaryService.Create().UpdateCardMilitaryLevel(newCard, currentLevel);
-                    UserCardMilitaryService.Create().UpdateFactCardMilitary(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -760,7 +758,6 @@ public class UserCardMilitaryController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardMilitaryService.Create().GetNewBreakthroughPower(cardMilitary, increasePerUpgrade);
                     UserCardMilitaryService.Create().UpdateCardMilitaryBreakthrough(newCard, cardMilitary.star + 1, cardMilitary.quantity);
-                    UserCardMilitaryService.Create().UpdateFactCardMilitary(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 

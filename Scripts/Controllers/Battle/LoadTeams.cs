@@ -196,7 +196,7 @@ public class LoadTeams : MonoBehaviour
             {
                 healthBar = hb.GetComponentInChildren<HealthBar>(); 
             }
-            healthBar.SetMaxHealth(card.all_health);
+            healthBar.SetMaxHealth(card.health);
 
             // Gắn dữ liệu vào script CardHeroesBattle
             CardHeroesBattle battleScript = cardInstance.GetComponent<CardHeroesBattle>();
@@ -563,7 +563,7 @@ public class LoadTeams : MonoBehaviour
             {
                 healthBar = hb.GetComponentInChildren<HealthBar>(); 
             }
-            healthBar.SetMaxHealth(card.all_health);
+            healthBar.SetMaxHealth(card.health);
 
             // Gắn dữ liệu vào script CardHeroesBattle
             CardHeroesBattle battleScript = cardInstance.GetComponent<CardHeroesBattle>();

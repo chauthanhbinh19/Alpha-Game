@@ -1414,18 +1414,7 @@ public class UIManager : MonoBehaviour
             || property.Name.Equals(AppConstants.StatFields.AtomicAttack)
             || property.Name.Equals(AppConstants.StatFields.AtomicDefense)
             || property.Name.Equals(AppConstants.StatFields.MentalAttack)
-            || property.Name.Equals(AppConstants.StatFields.MentalDefense)
-            || property.Name.Equals(AppConstants.StatFields.AllHealth)
-            || property.Name.Equals(AppConstants.StatFields.AllPhysicalAttack)
-            || property.Name.Equals(AppConstants.StatFields.AllPhysicalDefense)
-            || property.Name.Equals(AppConstants.StatFields.AllMagicalAttack)
-            || property.Name.Equals(AppConstants.StatFields.AllMagicalDefense)
-            || property.Name.Equals(AppConstants.StatFields.AllChemicalAttack)
-            || property.Name.Equals(AppConstants.StatFields.AllChemicalDefense)
-            || property.Name.Equals(AppConstants.StatFields.AllAtomicAttack)
-            || property.Name.Equals(AppConstants.StatFields.AllAtomicDefense)
-            || property.Name.Equals(AppConstants.StatFields.AllMentalAttack)
-            || property.Name.Equals(AppConstants.StatFields.AllMentalDefense))
+            || property.Name.Equals(AppConstants.StatFields.MentalDefense))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1489,20 +1478,7 @@ public class UIManager : MonoBehaviour
             || property.Name.Equals(AppConstants.StatFields.IgnoreDamageAbsorptionRate)
             || property.Name.Equals(AppConstants.StatFields.AbsorbedDamageRate)
             || property.Name.Equals(AppConstants.StatFields.VitalityRegenerationRate)
-            || property.Name.Equals(AppConstants.StatFields.VitalityRegenerationResistanceRate)
-            || property.Name.Equals(AppConstants.StatFields.AllSpeed)
-            || property.Name.Equals(AppConstants.StatFields.AllCriticalDamageRate)
-            || property.Name.Equals(AppConstants.StatFields.AllCriticalRate)
-            || property.Name.Equals(AppConstants.StatFields.AllCriticalResistanceRate)
-            || property.Name.Equals(AppConstants.StatFields.AllIgnoreCriticalRate)
-            || property.Name.Equals(AppConstants.StatFields.AllPenetrationRate)
-            || property.Name.Equals(AppConstants.StatFields.AllPenetrationResistanceRate)
-            || property.Name.Equals(AppConstants.StatFields.AllEvasionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllDamageAbsorptionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllIgnoreDamageAbsorptionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllAbsorbedDamageRate)
-            || property.Name.Equals(AppConstants.StatFields.AllVitalityRegenerationRate)
-            || property.Name.Equals(AppConstants.StatFields.AllVitalityRegenerationResistanceRate))
+            || property.Name.Equals(AppConstants.StatFields.VitalityRegenerationResistanceRate))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1569,24 +1545,7 @@ public class UIManager : MonoBehaviour
             || property.Name.Equals(AppConstants.StatFields.ReflectionRate)
             || property.Name.Equals(AppConstants.StatFields.IgnoreReflectionRate)
             || property.Name.Equals(AppConstants.StatFields.ReflectionDamageRate)
-            || property.Name.Equals(AppConstants.StatFields.ReflectionResistanceRate)
-            || property.Name.Equals(AppConstants.StatFields.AllAccuracyRate)
-            || property.Name.Equals(AppConstants.StatFields.AllLifestealRate)
-            || property.Name.Equals(AppConstants.StatFields.AllShieldStrength)
-            || property.Name.Equals(AppConstants.StatFields.AllTenacity)
-            || property.Name.Equals(AppConstants.StatFields.AllResistanceRate)
-            || property.Name.Equals(AppConstants.StatFields.AllComboRate)
-            || property.Name.Equals(AppConstants.StatFields.AllIgnoreComboRate)
-            || property.Name.Equals(AppConstants.StatFields.AllComboDamageRate)
-            || property.Name.Equals(AppConstants.StatFields.AllComboResistanceRate)
-            || property.Name.Equals(AppConstants.StatFields.AllStunRate)
-            || property.Name.Equals(AppConstants.StatFields.AllIgnoreStunRate)
-            || property.Name.Equals(AppConstants.StatFields.AllMana)
-            || property.Name.Equals(AppConstants.StatFields.AllManaRegenerationRate)
-            || property.Name.Equals(AppConstants.StatFields.AllReflectionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllIgnoreReflectionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllReflectionDamageRate)
-            || property.Name.Equals(AppConstants.StatFields.AllReflectionResistanceRate))
+            || property.Name.Equals(AppConstants.StatFields.ReflectionResistanceRate))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1644,15 +1603,7 @@ public class UIManager : MonoBehaviour
             || property.Name.Equals(AppConstants.StatFields.NormalDamageRate)
             || property.Name.Equals(AppConstants.StatFields.NormalResistanceRate)
             || property.Name.Equals(AppConstants.StatFields.SkillDamageRate)
-            || property.Name.Equals(AppConstants.StatFields.SkillResistanceRate)
-            || property.Name.Equals(AppConstants.StatFields.AllDamageToDifferentFactionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllResistanceToDifferentFactionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllDamageToSameFactionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllResistanceToSameFactionRate)
-            || property.Name.Equals(AppConstants.StatFields.AllNormalDamageRate)
-            || property.Name.Equals(AppConstants.StatFields.AllNormalResistanceRate)
-            || property.Name.Equals(AppConstants.StatFields.AllSkillDamageRate)
-            || property.Name.Equals(AppConstants.StatFields.AllSkillResistanceRate))
+            || property.Name.Equals(AppConstants.StatFields.SkillResistanceRate))
             {
                 // Kiểm tra nếu value không phải null
                 if (value != null)
@@ -1708,57 +1659,57 @@ public class UIManager : MonoBehaviour
     public void CreatePropertyRuneUI(string title, RawImage runeImage)
     {
         Texture runeTexture;
-        if (title.Equals(AppConstants.StatFields.PhysicalAttack) || title.Equals(AppConstants.StatFields.AllPhysicalAttack))
+        if (title.Equals(AppConstants.StatFields.PhysicalAttack))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.PhysicalAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.PhysicalDefense) || title.Equals(AppConstants.StatFields.AllPhysicalDefense))
+        else if (title.Equals(AppConstants.StatFields.PhysicalDefense))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.PhysicalDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.MagicalAttack) || title.Equals(AppConstants.StatFields.AllMagicalAttack))
+        else if (title.Equals(AppConstants.StatFields.MagicalAttack))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MagicalAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.MagicalDefense) || title.Equals(AppConstants.StatFields.AllMagicalDefense))
+        else if (title.Equals(AppConstants.StatFields.MagicalDefense))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MagicalDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.ChemicalAttack) || title.Equals(AppConstants.StatFields.AllChemicalAttack))
+        else if (title.Equals(AppConstants.StatFields.ChemicalAttack))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.ChemicalAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.ChemicalDefense) || title.Equals(AppConstants.StatFields.AllChemicalDefense))
+        else if (title.Equals(AppConstants.StatFields.ChemicalDefense))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.ChemicalDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.AtomicAttack) || title.Equals(AppConstants.StatFields.AllAtomicAttack))
+        else if (title.Equals(AppConstants.StatFields.AtomicAttack))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.AtomicAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.AtomicDefense) || title.Equals(AppConstants.StatFields.AllAtomicDefense))
+        else if (title.Equals(AppConstants.StatFields.AtomicDefense))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.AtomicDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.MentalAttack) || title.Equals(AppConstants.StatFields.AllMentalAttack))
+        else if (title.Equals(AppConstants.StatFields.MentalAttack))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MentalAttackUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.MentalDefense) || title.Equals(AppConstants.StatFields.AllMentalDefense))
+        else if (title.Equals(AppConstants.StatFields.MentalDefense))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MentalDefenseUrl);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.Health) || title.Equals(AppConstants.StatFields.AllHealth))
+        else if (title.Equals(AppConstants.StatFields.Health))
         {
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.Mental1Url);
             runeImage.texture = runeTexture;
@@ -1775,21 +1726,7 @@ public class UIManager : MonoBehaviour
         || title.Equals(AppConstants.StatFields.IgnoreDamageAbsorptionRate)
         || title.Equals(AppConstants.StatFields.AbsorbedDamageRate)
         || title.Equals(AppConstants.StatFields.VitalityRegenerationRate)
-        || title.Equals(AppConstants.StatFields.VitalityRegenerationResistanceRate)
-
-        || title.Equals(AppConstants.StatFields.AllSpeed)
-        || title.Equals(AppConstants.StatFields.AllCriticalDamageRate)
-        || title.Equals(AppConstants.StatFields.AllCriticalRate)
-        || title.Equals(AppConstants.StatFields.AllCriticalResistanceRate)
-        || title.Equals(AppConstants.StatFields.AllIgnoreCriticalRate)
-        || title.Equals(AppConstants.StatFields.AllPenetrationRate)
-        || title.Equals(AppConstants.StatFields.AllPenetrationResistanceRate)
-        || title.Equals(AppConstants.StatFields.AllEvasionRate)
-        || title.Equals(AppConstants.StatFields.AllDamageAbsorptionRate)
-        || title.Equals(AppConstants.StatFields.AllIgnoreDamageAbsorptionRate)
-        || title.Equals(AppConstants.StatFields.AllAbsorbedDamageRate)
-        || title.Equals(AppConstants.StatFields.AllVitalityRegenerationRate)
-        || title.Equals(AppConstants.StatFields.AllVitalityRegenerationResistanceRate))
+        || title.Equals(AppConstants.StatFields.VitalityRegenerationResistanceRate))
         {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.Atomic1Url}");
             runeImage.texture = runeTexture;
@@ -1810,25 +1747,7 @@ public class UIManager : MonoBehaviour
         || title.Equals(AppConstants.StatFields.ReflectionRate)
         || title.Equals(AppConstants.StatFields.IgnoreReflectionRate)
         || title.Equals(AppConstants.StatFields.ReflectionDamageRate)
-        || title.Equals(AppConstants.StatFields.ReflectionResistanceRate)
-
-        || title.Equals(AppConstants.StatFields.AllAccuracyRate)
-        || title.Equals(AppConstants.StatFields.AllLifestealRate)
-        || title.Equals(AppConstants.StatFields.AllShieldStrength)
-        || title.Equals(AppConstants.StatFields.AllTenacity)
-        || title.Equals(AppConstants.StatFields.AllResistanceRate)
-        || title.Equals(AppConstants.StatFields.AllComboRate)
-        || title.Equals(AppConstants.StatFields.AllIgnoreComboRate)
-        || title.Equals(AppConstants.StatFields.AllComboDamageRate)
-        || title.Equals(AppConstants.StatFields.AllComboResistanceRate)
-        || title.Equals(AppConstants.StatFields.AllStunRate)
-        || title.Equals(AppConstants.StatFields.AllIgnoreStunRate)
-        || title.Equals(AppConstants.StatFields.AllMana)
-        || title.Equals(AppConstants.StatFields.AllManaRegenerationRate)
-        || title.Equals(AppConstants.StatFields.AllReflectionRate)
-        || title.Equals(AppConstants.StatFields.AllIgnoreReflectionRate)
-        || title.Equals(AppConstants.StatFields.AllReflectionDamageRate)
-        || title.Equals(AppConstants.StatFields.AllReflectionResistanceRate))
+        || title.Equals(AppConstants.StatFields.ReflectionResistanceRate))
         {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.Chemical1Url}");
             runeImage.texture = runeTexture;
@@ -1836,11 +1755,7 @@ public class UIManager : MonoBehaviour
         else if (title.Equals(AppConstants.StatFields.DamageToDifferentFactionRate) || title.Equals(AppConstants.StatFields.ResistanceToDifferentFactionRate) ||
          title.Equals(AppConstants.StatFields.DamageToSameFactionRate) || title.Equals(AppConstants.StatFields.ResistanceToSameFactionRate) ||
          title.Equals(AppConstants.StatFields.NormalDamageRate) || title.Equals(AppConstants.StatFields.NormalResistanceRate) ||
-         title.Equals(AppConstants.StatFields.SkillDamageRate) || title.Equals(AppConstants.StatFields.SkillResistanceRate) ||
-         title.Equals(AppConstants.StatFields.AllDamageToDifferentFactionRate) || title.Equals(AppConstants.StatFields.AllResistanceToDifferentFactionRate) ||
-         title.Equals(AppConstants.StatFields.AllDamageToSameFactionRate) || title.Equals(AppConstants.StatFields.AllResistanceToSameFactionRate) ||
-         title.Equals(AppConstants.StatFields.AllNormalDamageRate) || title.Equals(AppConstants.StatFields.AllNormalResistanceRate) ||
-         title.Equals(AppConstants.StatFields.AllSkillDamageRate) || title.Equals(AppConstants.StatFields.AllSkillResistanceRate))
+         title.Equals(AppConstants.StatFields.SkillDamageRate) || title.Equals(AppConstants.StatFields.SkillResistanceRate))
         {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.Magic1Url}");
             runeImage.texture = runeTexture;

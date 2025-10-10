@@ -319,7 +319,7 @@ public class UserCardSpellController : MonoBehaviour
         name.text = cardSpell.name;
 
         TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardSpell.all_power, false);
+        power.text = NumberFormatter.FormatNumber(cardSpell.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardSpell.level.ToString();
@@ -379,7 +379,6 @@ public class UserCardSpellController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, increasePerLevel);
                     UserCardSpellService.Create().UpdateCardSpellLevel(newCard, currentLevel + 1);
-                    UserCardSpellService.Create().UpdateFactCardSpell(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -411,7 +410,6 @@ public class UserCardSpellController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardSpell newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, levelsGained * increasePerLevel);
                     UserCardSpellService.Create().UpdateCardSpellLevel(newCard, currentLevel);
-                    UserCardSpellService.Create().UpdateFactCardSpell(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -754,7 +752,6 @@ public class UserCardSpellController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardSpellService.Create().GetNewBreakthroughPower(cardSpell, increasePerUpgrade);
                     UserCardSpellService.Create().UpdateCardSpellBreakthrough(newCard, cardSpell.star + 1, cardSpell.quantity);
-                    UserCardSpellService.Create().UpdateFactCardSpell(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 

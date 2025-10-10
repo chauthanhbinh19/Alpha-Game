@@ -471,7 +471,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -553,7 +553,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -635,7 +635,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -717,7 +717,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -799,7 +799,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -881,7 +881,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -1045,7 +1045,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -1127,7 +1127,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -1209,7 +1209,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,
@@ -1783,7 +1783,7 @@ public static class QualityEvaluator
             c.skill_damage_rate *= multiplier;
             c.skill_resistance_rate *= multiplier;
 
-            c.all_power = EvaluatePower.CalculatePower(
+            c.power = EvaluatePower.CalculatePower(
             c.health,
             c.physical_attack, c.physical_defense,
             c.magical_attack, c.magical_defense,

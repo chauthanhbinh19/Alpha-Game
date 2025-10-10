@@ -172,7 +172,7 @@ public class UserPetsController : MonoBehaviour
             name.text = pet.name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(pet.all_power, false);
+            power.text = NumberFormatter.FormatNumber(pet.power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -226,7 +226,6 @@ public class UserPetsController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserPetsService.Create().GetNewLevelPower(pet, increasePerLevel);
                     UserPetsService.Create().UpdatePetsLevel(newCard, currentLevel + 1);
-                    UserPetsService.Create().UpdateFactPets(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -258,7 +257,6 @@ public class UserPetsController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Pets newCard = UserPetsService.Create().GetNewLevelPower(pet, levelsGained * increasePerLevel);
                     UserPetsService.Create().UpdatePetsLevel(newCard, currentLevel);
-                    UserPetsService.Create().UpdateFactPets(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -374,7 +372,6 @@ public class UserPetsController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserPetsService.Create().GetNewBreakthroughPower(pet, increasePerUpgrade);
                     UserPetsService.Create().UpdatePetsBreakthrough(newCard, pet.star + 1, pet.quantity);
-                    UserPetsService.Create().UpdateFactPets(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 

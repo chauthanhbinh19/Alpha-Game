@@ -17,10 +17,9 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT um.*, m.*, fcm.*
+                string query = @"SELECT um.*, m.*
                 FROM user_card_military um
                 LEFT JOIN card_military m ON um.card_military_id = m.id 
-                LEFT JOIN fact_card_military fcm ON fcm.user_id = um.user_id AND fcm.user_card_military_id = um.card_military_id
                 WHERE um.user_id = @userId AND m.type = @type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
                 LIMIT @limit OFFSET @offset;
@@ -101,57 +100,6 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                         skill_damage_rate = reader.GetDouble("skill_damage_rate"),
                         skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
                         description = reader.GetString("description"),
-
-                        all_power = reader.GetDouble("all_power"),
-                        all_health = reader.GetDouble("all_health"),
-                        all_physical_attack = reader.GetDouble("all_physical_attack"),
-                        all_physical_defense = reader.GetDouble("all_physical_defense"),
-                        all_magical_attack = reader.GetDouble("all_magical_attack"),
-                        all_magical_defense = reader.GetDouble("all_magical_defense"),
-                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
-                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
-                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
-                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
-                        all_mental_attack = reader.GetDouble("all_mental_attack"),
-                        all_mental_defense = reader.GetDouble("all_mental_defense"),
-                        all_speed = reader.GetDouble("all_speed"),
-                        all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
-                        all_critical_rate = reader.GetDouble("all_critical_rate"),
-                        all_critical_resistance_rate = reader.GetDouble("all_critical_resistance_rate"),
-                        all_ignore_critical_rate = reader.GetDouble("all_ignore_critical_rate"),
-                        all_penetration_rate = reader.GetDouble("all_penetration_rate"),
-                        all_penetration_resistance_rate = reader.GetDouble("all_penetration_resistance_rate"),
-                        all_evasion_rate = reader.GetDouble("all_evasion_rate"),
-                        all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
-                        all_ignore_damage_absorption_rate = reader.GetDouble("all_ignore_damage_absorption_rate"),
-                        all_absorbed_damage_rate = reader.GetDouble("all_absorbed_damage_rate"),
-                        all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
-                        all_vitality_regeneration_resistance_rate = reader.GetDouble("all_vitality_regeneration_resistance_rate"),
-                        all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
-                        all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
-                        all_shield_strength = reader.GetDouble("all_shield_strength"),
-                        all_tenacity = reader.GetDouble("all_tenacity"),
-                        all_resistance_rate = reader.GetDouble("all_resistance_rate"),
-                        all_combo_rate = reader.GetDouble("all_combo_rate"),
-                        all_ignore_combo_rate = reader.GetDouble("all_ignore_combo_rate"),
-                        all_combo_damage_rate = reader.GetDouble("all_combo_damage_rate"),
-                        all_combo_resistance_rate = reader.GetDouble("all_combo_resistance_rate"),
-                        all_stun_rate = reader.GetDouble("all_stun_rate"),
-                        all_ignore_stun_rate = reader.GetDouble("all_ignore_stun_rate"),
-                        all_reflection_rate = reader.GetDouble("all_reflection_rate"),
-                        all_ignore_reflection_rate = reader.GetDouble("all_ignore_reflection_rate"),
-                        all_reflection_damage_rate = reader.GetDouble("all_reflection_damage_rate"),
-                        all_reflection_resistance_rate = reader.GetDouble("all_reflection_resistance_rate"),
-                        all_mana = reader.GetFloat("all_mana"),
-                        all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
-                        all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
-                        all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
-                        all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
-                        all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
-                        all_normal_damage_rate = reader.GetDouble("all_normal_damage_rate"),
-                        all_normal_resistance_rate = reader.GetDouble("all_normal_resistance_rate"),
-                        all_skill_damage_rate = reader.GetDouble("all_skill_damage_rate"),
-                        all_skill_resistance_rate = reader.GetDouble("all_skill_resistance_rate"),
                     };
 
                     CardMilitaryList.Add(CardMilitary);
@@ -174,11 +122,10 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT um.*, m.*, fcm.*
+                string query = @"SELECT um.*, m.*
                 FROM user_card_military um
                 LEFT JOIN card_military m ON um.card_military_id = m.id 
-                LEFT JOIN fact_card_military fcm ON fcm.user_id = um.user_id AND fcm.user_card_military_id = um.card_military_id
-                WHERE um.user_id = @userId AND fcm.team_id = @team_id and SUBSTRING_INDEX(fcm.position, '-', 1) = @position
+                WHERE um.user_id = @userId AND um.team_id = @team_id and SUBSTRING_INDEX(um.position, '-', 1) = @position
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name;
                 ";
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -254,57 +201,6 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                         skill_damage_rate = reader.GetDouble("skill_damage_rate"),
                         skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
                         description = reader.GetString("description"),
-
-                        all_power = reader.GetDouble("all_power"),
-                        all_health = reader.GetDouble("all_health"),
-                        all_physical_attack = reader.GetDouble("all_physical_attack"),
-                        all_physical_defense = reader.GetDouble("all_physical_defense"),
-                        all_magical_attack = reader.GetDouble("all_magical_attack"),
-                        all_magical_defense = reader.GetDouble("all_magical_defense"),
-                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
-                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
-                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
-                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
-                        all_mental_attack = reader.GetDouble("all_mental_attack"),
-                        all_mental_defense = reader.GetDouble("all_mental_defense"),
-                        all_speed = reader.GetDouble("all_speed"),
-                        all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
-                        all_critical_rate = reader.GetDouble("all_critical_rate"),
-                        all_critical_resistance_rate = reader.GetDouble("all_critical_resistance_rate"),
-                        all_ignore_critical_rate = reader.GetDouble("all_ignore_critical_rate"),
-                        all_penetration_rate = reader.GetDouble("all_penetration_rate"),
-                        all_penetration_resistance_rate = reader.GetDouble("all_penetration_resistance_rate"),
-                        all_evasion_rate = reader.GetDouble("all_evasion_rate"),
-                        all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
-                        all_ignore_damage_absorption_rate = reader.GetDouble("all_ignore_damage_absorption_rate"),
-                        all_absorbed_damage_rate = reader.GetDouble("all_absorbed_damage_rate"),
-                        all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
-                        all_vitality_regeneration_resistance_rate = reader.GetDouble("all_vitality_regeneration_resistance_rate"),
-                        all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
-                        all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
-                        all_shield_strength = reader.GetDouble("all_shield_strength"),
-                        all_tenacity = reader.GetDouble("all_tenacity"),
-                        all_resistance_rate = reader.GetDouble("all_resistance_rate"),
-                        all_combo_rate = reader.GetDouble("all_combo_rate"),
-                        all_ignore_combo_rate = reader.GetDouble("all_ignore_combo_rate"),
-                        all_combo_damage_rate = reader.GetDouble("all_combo_damage_rate"),
-                        all_combo_resistance_rate = reader.GetDouble("all_combo_resistance_rate"),
-                        all_stun_rate = reader.GetDouble("all_stun_rate"),
-                        all_ignore_stun_rate = reader.GetDouble("all_ignore_stun_rate"),
-                        all_reflection_rate = reader.GetDouble("all_reflection_rate"),
-                        all_ignore_reflection_rate = reader.GetDouble("all_ignore_reflection_rate"),
-                        all_reflection_damage_rate = reader.GetDouble("all_reflection_damage_rate"),
-                        all_reflection_resistance_rate = reader.GetDouble("all_reflection_resistance_rate"),
-                        all_mana = reader.GetFloat("all_mana"),
-                        all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
-                        all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
-                        all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
-                        all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
-                        all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
-                        all_normal_damage_rate = reader.GetDouble("all_normal_damage_rate"),
-                        all_normal_resistance_rate = reader.GetDouble("all_normal_resistance_rate"),
-                        all_skill_damage_rate = reader.GetDouble("all_skill_damage_rate"),
-                        all_skill_resistance_rate = reader.GetDouble("all_skill_resistance_rate"),
                     };
 
                     CardMilitaryList.Add(CardMilitary);
@@ -329,8 +225,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             string query = @"SELECT distinct c.type, count(c.type) as number
             FROM user_card_military uc
             LEFT JOIN card_military c ON uc.card_military_id = c.id 
-            LEFT JOIN fact_card_military fch ON fch.user_id = uc.user_id AND fch.user_card_military_id = uc.card_military_id
-            WHERE uc.user_id =@userId and fch.team_id=@team_id
+            WHERE uc.user_id =@userId and uc.team_id=@team_id
             group by c.type, c.type";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", User.CurrentUserId);
@@ -346,7 +241,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
         }
         return result;
     }
-    public bool UpdateTeamFactCardMilitary(string team_id, string position, string card_id)
+    public bool UpdateTeamCardMilitary(string team_id, string position, string card_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -355,13 +250,13 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             {
                 connection.Open();
                 string query = @"
-                Update fact_card_military set team_id=@team_id, position=@position where user_id=@user_id 
-                and user_card_military_id=@user_card_military_id;";
+                Update user_card_military set team_id=@team_id, position=@position where user_id=@user_id 
+                and card_military_id=@card_military_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@team_id", team_id);
                 command.Parameters.AddWithValue("@position", position);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@user_card_military_id", card_id);
+                command.Parameters.AddWithValue("@card_military_id", card_id);
                 command.ExecuteNonQuery();
 
             }
@@ -410,7 +305,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = @"select count(*) from fact_card_military
+                string query = @"select count(*) from user_card_military
                 where team_id = @team_id and SUBSTRING_INDEX(position, '-', 1) = @position and user_id=@userId";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -437,7 +332,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = @"select count(*) from fact_card_military
+                string query = @"select count(*) from user_card_military
                 where team_id = @team_id and user_id=@userId";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -571,7 +466,6 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                     command.Parameters.AddWithValue("@skill_damage_rate", CardMilitary.skill_damage_rate);
                     command.Parameters.AddWithValue("@skill_resistance_rate", CardMilitary.skill_resistance_rate);
                     MySqlDataReader reader = command.ExecuteReader();
-                    InsertFactCardMilitary(CardMilitary);
                 }
                 else
                 {
@@ -802,230 +696,6 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
         }
         return true;
     }
-    public bool InsertFactCardMilitary(CardMilitary cardMilitary)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                string query = @"
-                INSERT INTO fact_card_military(
-                user_id, user_card_military_id, team_id, position, role, 
-                all_power, all_health, 
-                all_physical_attack, all_physical_defense, 
-                all_magical_attack, all_magical_defense, 
-                all_chemical_attack, all_chemical_defense, 
-                all_atomic_attack, all_atomic_defense, 
-                all_mental_attack, all_mental_defense, 
-                all_speed, 
-                all_critical_damage_rate, all_critical_rate, all_critical_resistance_rate, all_ignore_critical_rate,
-                all_penetration_rate, all_penetration_resistance_rate, 
-                all_evasion_rate, 
-                all_damage_absorption_rate, all_ignore_damage_absorption_rate, all_absorbed_damage_rate,
-                all_vitality_regeneration_rate, all_vitality_regeneration_resistance_rate, 
-                all_accuracy_rate, all_lifesteal_rate, 
-                all_shield_strength, all_tenacity, all_resistance_rate, 
-                all_combo_rate, all_ignore_combo_rate, all_combo_damage_rate, all_combo_resistance_rate,
-                all_stun_rate, all_ignore_stun_rate,
-                all_reflection_rate, all_ignore_reflection_rate, all_reflection_damage_rate, all_reflection_resistance_rate,
-                all_mana, all_mana_regeneration_rate, 
-                all_damage_to_different_faction_rate, all_resistance_to_different_faction_rate, 
-                all_damage_to_same_faction_rate, all_resistance_to_same_faction_rate,
-                all_normal_damage_rate, all_normal_resistance_rate,
-                all_skill_damage_rate, all_skill_resistance_rate
-            ) VALUES (
-                @user_id, @user_card_military_id, @team_id, @position, @role, 
-                @all_power, @all_health, 
-                @all_physical_attack, @all_physical_defense, 
-                @all_magical_attack, @all_magical_defense, 
-                @all_chemical_attack, @all_chemical_defense, 
-                @all_atomic_attack, @all_atomic_defense, 
-                @all_mental_attack, @all_mental_defense, 
-                @all_speed, 
-                @all_critical_damage_rate, @all_critical_rate, @all_critical_resistance_rate, @all_ignore_critical_rate,
-                @all_penetration_rate, @all_penetration_resistance_rate, 
-                @all_evasion_rate, 
-                @all_damage_absorption_rate, @all_ignore_damage_absorption_rate, @all_absorbed_damage_rate,
-                @all_vitality_regeneration_rate, @all_vitality_regeneration_resistance_rate, 
-                @all_accuracy_rate, @all_lifesteal_rate, 
-                @all_shield_strength, @all_tenacity, @all_resistance_rate, 
-                @all_combo_rate, @all_ignore_combo_rate, @all_combo_damage_rate, @all_combo_resistance_rate,
-                @all_stun_rate, @all_ignore_stun_rate,
-                @all_reflection_rate, @all_ignore_reflection_rate, @all_reflection_damage_rate, @all_reflection_resistance_rate,
-                @all_mana, @all_mana_regeneration_rate, 
-                @all_damage_to_different_faction_rate, @all_resistance_to_different_faction_rate, 
-                @all_damage_to_same_faction_rate, @all_resistance_to_same_faction_rate,
-                @all_normal_damage_rate, @all_normal_resistance_rate,
-                @all_skill_damage_rate, @all_skill_resistance_rate
-            );";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.id);
-                command.Parameters.AddWithValue("@team_id", null);
-                command.Parameters.AddWithValue("@position", null);
-                command.Parameters.AddWithValue("@role", null);
-                command.Parameters.AddWithValue("@all_power", cardMilitary.power);
-                command.Parameters.AddWithValue("@all_health", cardMilitary.health);
-                command.Parameters.AddWithValue("@all_physical_attack", cardMilitary.physical_attack);
-                command.Parameters.AddWithValue("@all_physical_defense", cardMilitary.physical_defense);
-                command.Parameters.AddWithValue("@all_magical_attack", cardMilitary.magical_attack);
-                command.Parameters.AddWithValue("@all_magical_defense", cardMilitary.magical_defense);
-                command.Parameters.AddWithValue("@all_chemical_attack", cardMilitary.chemical_attack);
-                command.Parameters.AddWithValue("@all_chemical_defense", cardMilitary.chemical_defense);
-                command.Parameters.AddWithValue("@all_atomic_attack", cardMilitary.atomic_attack);
-                command.Parameters.AddWithValue("@all_atomic_defense", cardMilitary.atomic_defense);
-                command.Parameters.AddWithValue("@all_mental_attack", cardMilitary.mental_attack);
-                command.Parameters.AddWithValue("@all_mental_defense", cardMilitary.mental_defense);
-                command.Parameters.AddWithValue("@all_speed", cardMilitary.speed);
-                command.Parameters.AddWithValue("@all_critical_damage_rate", cardMilitary.critical_damage_rate);
-                command.Parameters.AddWithValue("@all_critical_rate", cardMilitary.critical_rate);
-                command.Parameters.AddWithValue("@all_critical_resistance_rate", cardMilitary.critical_resistance_rate);
-                command.Parameters.AddWithValue("@all_ignore_critical_rate", cardMilitary.ignore_critical_rate);
-                command.Parameters.AddWithValue("@all_penetration_rate", cardMilitary.penetration_rate);
-                command.Parameters.AddWithValue("@all_penetration_resistance_rate", cardMilitary.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@all_evasion_rate", cardMilitary.evasion_rate);
-                command.Parameters.AddWithValue("@all_damage_absorption_rate", cardMilitary.damage_absorption_rate);
-                command.Parameters.AddWithValue("@all_ignore_damage_absorption_rate", cardMilitary.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@all_absorbed_damage_rate", cardMilitary.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@all_vitality_regeneration_rate", cardMilitary.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@all_vitality_regeneration_resistance_rate", cardMilitary.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@all_accuracy_rate", cardMilitary.accuracy_rate);
-                command.Parameters.AddWithValue("@all_lifesteal_rate", cardMilitary.lifesteal_rate);
-                command.Parameters.AddWithValue("@all_shield_strength", cardMilitary.shield_strength);
-                command.Parameters.AddWithValue("@all_tenacity", cardMilitary.tenacity);
-                command.Parameters.AddWithValue("@all_resistance_rate", cardMilitary.resistance_rate);
-                command.Parameters.AddWithValue("@all_combo_rate", cardMilitary.combo_rate);
-                command.Parameters.AddWithValue("@all_ignore_combo_rate", cardMilitary.ignore_combo_rate);
-                command.Parameters.AddWithValue("@all_combo_damage_rate", cardMilitary.combo_damage_rate);
-                command.Parameters.AddWithValue("@all_combo_resistance_rate", cardMilitary.combo_resistance_rate);
-                command.Parameters.AddWithValue("@all_stun_rate", cardMilitary.stun_rate);
-                command.Parameters.AddWithValue("@all_ignore_stun_rate", cardMilitary.ignore_stun_rate);
-                command.Parameters.AddWithValue("@all_reflection_rate", cardMilitary.reflection_rate);
-                command.Parameters.AddWithValue("@all_ignore_reflection_rate", cardMilitary.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@all_reflection_damage_rate", cardMilitary.reflection_damage_rate);
-                command.Parameters.AddWithValue("@all_reflection_resistance_rate", cardMilitary.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@all_mana", cardMilitary.mana);
-                command.Parameters.AddWithValue("@all_mana_regeneration_rate", cardMilitary.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", cardMilitary.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", cardMilitary.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", cardMilitary.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", cardMilitary.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@all_normal_damage_rate", cardMilitary.normal_damage_rate);
-                command.Parameters.AddWithValue("@all_normal_resistance_rate", cardMilitary.normal_resistance_rate);
-                command.Parameters.AddWithValue("@all_skill_damage_rate", cardMilitary.skill_damage_rate);
-                command.Parameters.AddWithValue("@all_skill_resistance_rate", cardMilitary.skill_resistance_rate);
-                command.ExecuteNonQuery();
-
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-        }
-        return true;
-    }
-    public bool UpdateFactCardMilitary(CardMilitary cardMilitary)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                string query = @"
-                UPDATE fact_card_military
-                SET 
-                    all_physical_attack = @all_physical_attack, all_physical_defense = @all_physical_defense, 
-                    all_magical_attack = @all_magical_attack, all_magical_defense = @all_magical_defense, 
-                    all_chemical_attack = @all_chemical_attack, all_chemical_defense = @all_chemical_defense, 
-                    all_atomic_attack = @all_atomic_attack, all_atomic_defense = @all_atomic_defense, 
-                    all_mental_attack = @all_mental_attack, all_mental_defense = @all_mental_defense, 
-                    all_speed = @all_speed, all_critical_damage_rate = @all_critical_damage_rate, 
-                    all_critical_rate = @all_critical_rate, all_critical_resistance_rate = @all_critical_resistance_rate, all_ignore_critical_rate = @all_ignore_critical_rate,
-                    all_penetration_rate = @all_penetration_rate, all_penetration_resistance_rate = @all_penetration_resistance_rate,
-                    all_evasion_rate = @all_evasion_rate, all_damage_absorption_rate = @all_damage_absorption_rate, 
-                    all_ignore_damage_absorption_rate = @all_ignore_damage_absorption_rate, all_absorbed_damage_rate = @all_absorbed_damage_rate,
-                    all_vitality_regeneration_rate = @all_vitality_regeneration_rate, all_vitality_regeneration_resistance_rate = @all_vitality_regeneration_resistance_rate, 
-                    all_accuracy_rate = @all_accuracy_rate, all_lifesteal_rate = @all_lifesteal_rate, all_shield_strength = @all_shield_strength, 
-                    all_tenacity = @all_tenacity, all_resistance_rate = @all_resistance_rate, 
-                    all_combo_rate = @all_combo_rate, all_ignore_combo_rate = @all_ignore_combo_rate, all_combo_damage_rate = @all_combo_damage_rate, all_combo_resistance_rate = @all_combo_resistance_rate,
-                    all_stun_rate = @all_stun_rate, all_ignore_stun_rate = @all_ignore_stun_rate,
-                    all_reflection_rate = @all_reflection_rate, all_ignore_reflection_rate = @all_ignore_reflection_rate, 
-                    all_reflection_damage_rate = @all_reflection_damage_rate, all_reflection_resistance_rate = @all_reflection_resistance_rate,
-                    all_mana = @all_mana, all_mana_regeneration_rate = @all_mana_regeneration_rate, 
-                    all_damage_to_different_faction_rate = @all_damage_to_different_faction_rate, 
-                    all_resistance_to_different_faction_rate = @all_resistance_to_different_faction_rate, 
-                    all_damage_to_same_faction_rate = @all_damage_to_same_faction_rate, 
-                    all_resistance_to_same_faction_rate = @all_resistance_to_same_faction_rate,
-                    all_normal_damage_rate = @all_normal_damage_rate, all_normal_resistance_rate = @all_normal_resistance_rate,
-                    all_skill_damage_rate = @all_skill_damage_rate, all_skill_resistance_rate = @all_skill_resistance_rate
-                WHERE user_id = @user_id AND user_card_military_id = @user_card_military_id;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.id);
-                command.Parameters.AddWithValue("@all_power", cardMilitary.power);
-                command.Parameters.AddWithValue("@all_health", cardMilitary.health);
-                command.Parameters.AddWithValue("@all_physical_attack", cardMilitary.physical_attack);
-                command.Parameters.AddWithValue("@all_physical_defense", cardMilitary.physical_defense);
-                command.Parameters.AddWithValue("@all_magical_attack", cardMilitary.magical_attack);
-                command.Parameters.AddWithValue("@all_magical_defense", cardMilitary.magical_defense);
-                command.Parameters.AddWithValue("@all_chemical_attack", cardMilitary.chemical_attack);
-                command.Parameters.AddWithValue("@all_chemical_defense", cardMilitary.chemical_defense);
-                command.Parameters.AddWithValue("@all_atomic_attack", cardMilitary.atomic_attack);
-                command.Parameters.AddWithValue("@all_atomic_defense", cardMilitary.atomic_defense);
-                command.Parameters.AddWithValue("@all_mental_attack", cardMilitary.mental_attack);
-                command.Parameters.AddWithValue("@all_mental_defense", cardMilitary.mental_defense);
-                command.Parameters.AddWithValue("@all_speed", cardMilitary.speed);
-                command.Parameters.AddWithValue("@all_critical_damage_rate", cardMilitary.critical_damage_rate);
-                command.Parameters.AddWithValue("@all_critical_rate", cardMilitary.critical_rate);
-                command.Parameters.AddWithValue("@all_critical_resistance_rate", cardMilitary.critical_resistance_rate);
-                command.Parameters.AddWithValue("@all_ignore_critical_rate", cardMilitary.ignore_critical_rate);
-                command.Parameters.AddWithValue("@all_penetration_rate", cardMilitary.penetration_rate);
-                command.Parameters.AddWithValue("@all_penetration_resistance_rate", cardMilitary.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@all_evasion_rate", cardMilitary.evasion_rate);
-                command.Parameters.AddWithValue("@all_damage_absorption_rate", cardMilitary.damage_absorption_rate);
-                command.Parameters.AddWithValue("@all_ignore_damage_absorption_rate", cardMilitary.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@all_absorbed_damage_rate", cardMilitary.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@all_vitality_regeneration_rate", cardMilitary.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@all_vitality_regeneration_resistance_rate", cardMilitary.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@all_accuracy_rate", cardMilitary.accuracy_rate);
-                command.Parameters.AddWithValue("@all_lifesteal_rate", cardMilitary.lifesteal_rate);
-                command.Parameters.AddWithValue("@all_shield_strength", cardMilitary.shield_strength);
-                command.Parameters.AddWithValue("@all_tenacity", cardMilitary.tenacity);
-                command.Parameters.AddWithValue("@all_resistance_rate", cardMilitary.resistance_rate);
-                command.Parameters.AddWithValue("@all_combo_rate", cardMilitary.combo_rate);
-                command.Parameters.AddWithValue("@all_ignore_combo_rate", cardMilitary.ignore_combo_rate);
-                command.Parameters.AddWithValue("@all_combo_damage_rate", cardMilitary.combo_damage_rate);
-                command.Parameters.AddWithValue("@all_combo_resistance_rate", cardMilitary.combo_resistance_rate);
-                command.Parameters.AddWithValue("@all_stun_rate", cardMilitary.stun_rate);
-                command.Parameters.AddWithValue("@all_ignore_stun_rate", cardMilitary.ignore_stun_rate);
-                command.Parameters.AddWithValue("@all_reflection_rate", cardMilitary.reflection_rate);
-                command.Parameters.AddWithValue("@all_ignore_reflection_rate", cardMilitary.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@all_reflection_damage_rate", cardMilitary.reflection_damage_rate);
-                command.Parameters.AddWithValue("@all_reflection_resistance_rate", cardMilitary.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@all_mana", cardMilitary.mana);
-                command.Parameters.AddWithValue("@all_mana_regeneration_rate", cardMilitary.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", cardMilitary.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", cardMilitary.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", cardMilitary.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", cardMilitary.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@all_normal_damage_rate", cardMilitary.normal_damage_rate);
-                command.Parameters.AddWithValue("@all_normal_resistance_rate", cardMilitary.normal_resistance_rate);
-                command.Parameters.AddWithValue("@all_skill_damage_rate", cardMilitary.skill_damage_rate);
-                command.Parameters.AddWithValue("@all_skill_resistance_rate", cardMilitary.skill_resistance_rate);
-                command.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-        }
-        return true;
-    }
     public CardMilitary GetUserCardMilitaryById(string user_id, string Id)
     {
         CardMilitary card = new CardMilitary();
@@ -1035,10 +705,9 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = @"Select uc.*, fc.*, c.image
-                from user_card_military uc, fact_card_military fc, card_military c
+                string query = @"Select uc.*, c.image
+                from user_card_military uc, card_military c
                 where uc.card_military_id=@id 
-                and fc.user_card_military_id = uc.card_military_id
                 and uc.card_military_id = c.id
                 and uc.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -1105,57 +774,6 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                         normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
                         skill_damage_rate = reader.GetDouble("skill_damage_rate"),
                         skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
-
-                        all_power = reader.GetDouble("all_power"),
-                        all_health = reader.GetDouble("all_health"),
-                        all_physical_attack = reader.GetDouble("all_physical_attack"),
-                        all_physical_defense = reader.GetDouble("all_physical_defense"),
-                        all_magical_attack = reader.GetDouble("all_magical_attack"),
-                        all_magical_defense = reader.GetDouble("all_magical_defense"),
-                        all_chemical_attack = reader.GetDouble("all_chemical_attack"),
-                        all_chemical_defense = reader.GetDouble("all_chemical_defense"),
-                        all_atomic_attack = reader.GetDouble("all_atomic_attack"),
-                        all_atomic_defense = reader.GetDouble("all_atomic_defense"),
-                        all_mental_attack = reader.GetDouble("all_mental_attack"),
-                        all_mental_defense = reader.GetDouble("all_mental_defense"),
-                        all_speed = reader.GetDouble("all_speed"),
-                        all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
-                        all_critical_rate = reader.GetDouble("all_critical_rate"),
-                        all_critical_resistance_rate = reader.GetDouble("all_critical_resistance_rate"),
-                        all_ignore_critical_rate = reader.GetDouble("all_ignore_critical_rate"),
-                        all_penetration_rate = reader.GetDouble("all_penetration_rate"),
-                        all_penetration_resistance_rate = reader.GetDouble("all_penetration_resistance_rate"),
-                        all_evasion_rate = reader.GetDouble("all_evasion_rate"),
-                        all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
-                        all_ignore_damage_absorption_rate = reader.GetDouble("all_ignore_damage_absorption_rate"),
-                        all_absorbed_damage_rate = reader.GetDouble("all_absorbed_damage_rate"),
-                        all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
-                        all_vitality_regeneration_resistance_rate = reader.GetDouble("all_vitality_regeneration_resistance_rate"),
-                        all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
-                        all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
-                        all_shield_strength = reader.GetDouble("all_shield_strength"),
-                        all_tenacity = reader.GetDouble("all_tenacity"),
-                        all_resistance_rate = reader.GetDouble("all_resistance_rate"),
-                        all_combo_rate = reader.GetDouble("all_combo_rate"),
-                        all_ignore_combo_rate = reader.GetDouble("all_ignore_combo_rate"),
-                        all_combo_damage_rate = reader.GetDouble("all_combo_damage_rate"),
-                        all_combo_resistance_rate = reader.GetDouble("all_combo_resistance_rate"),
-                        all_stun_rate = reader.GetDouble("all_stun_rate"),
-                        all_ignore_stun_rate = reader.GetDouble("all_ignore_stun_rate"),
-                        all_reflection_rate = reader.GetDouble("all_reflection_rate"),
-                        all_ignore_reflection_rate = reader.GetDouble("all_ignore_reflection_rate"),
-                        all_reflection_damage_rate = reader.GetDouble("all_reflection_damage_rate"),
-                        all_reflection_resistance_rate = reader.GetDouble("all_reflection_resistance_rate"),
-                        all_mana = reader.GetFloat("all_mana"),
-                        all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
-                        all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
-                        all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
-                        all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
-                        all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
-                        all_normal_damage_rate = reader.GetDouble("all_normal_damage_rate"),
-                        all_normal_resistance_rate = reader.GetDouble("all_normal_resistance_rate"),
-                        all_skill_damage_rate = reader.GetDouble("all_skill_damage_rate"),
-                        all_skill_resistance_rate = reader.GetDouble("all_skill_resistance_rate"),
                     };
                 }
             }
@@ -1174,11 +792,10 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string userQuery = @"SELECT uc.*, c.*, fch.*
+            string userQuery = @"SELECT uc.*, c.*
                 FROM user_card_military uc
                 LEFT JOIN card_military c ON uc.card_military_id = c.id 
-                LEFT JOIN fact_card_military fch ON fch.user_id = uc.user_id AND fch.user_card_military_id = uc.card_military_id
-                WHERE uc.user_id = @user_id and fch.team_id IS NOT null";
+                WHERE uc.user_id = @user_id and uc.team_id IS NOT null";
             MySqlCommand command = new MySqlCommand(userQuery, connection);
             command.Parameters.AddWithValue("@user_id", user_id);
             MySqlDataReader reader = command.ExecuteReader();
@@ -1250,57 +867,6 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                     skill_damage_rate = reader.GetDouble("skill_damage_rate"),
                     skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
                     description = reader.GetString("description"),
-
-                    all_power = reader.GetDouble("all_power"),
-                    all_health = reader.GetDouble("all_health"),
-                    all_physical_attack = reader.GetDouble("all_physical_attack"),
-                    all_physical_defense = reader.GetDouble("all_physical_defense"),
-                    all_magical_attack = reader.GetDouble("all_magical_attack"),
-                    all_magical_defense = reader.GetDouble("all_magical_defense"),
-                    all_chemical_attack = reader.GetDouble("all_chemical_attack"),
-                    all_chemical_defense = reader.GetDouble("all_chemical_defense"),
-                    all_atomic_attack = reader.GetDouble("all_atomic_attack"),
-                    all_atomic_defense = reader.GetDouble("all_atomic_defense"),
-                    all_mental_attack = reader.GetDouble("all_mental_attack"),
-                    all_mental_defense = reader.GetDouble("all_mental_defense"),
-                    all_speed = reader.GetDouble("all_speed"),
-                    all_critical_damage_rate = reader.GetDouble("all_critical_damage_rate"),
-                    all_critical_rate = reader.GetDouble("all_critical_rate"),
-                    all_critical_resistance_rate = reader.GetDouble("all_critical_resistance_rate"),
-                    all_ignore_critical_rate = reader.GetDouble("all_ignore_critical_rate"),
-                    all_penetration_rate = reader.GetDouble("all_penetration_rate"),
-                    all_penetration_resistance_rate = reader.GetDouble("all_penetration_resistance_rate"),
-                    all_evasion_rate = reader.GetDouble("all_evasion_rate"),
-                    all_damage_absorption_rate = reader.GetDouble("all_damage_absorption_rate"),
-                    all_ignore_damage_absorption_rate = reader.GetDouble("all_ignore_damage_absorption_rate"),
-                    all_absorbed_damage_rate = reader.GetDouble("all_absorbed_damage_rate"),
-                    all_vitality_regeneration_rate = reader.GetDouble("all_vitality_regeneration_rate"),
-                    all_vitality_regeneration_resistance_rate = reader.GetDouble("all_vitality_regeneration_resistance_rate"),
-                    all_accuracy_rate = reader.GetDouble("all_accuracy_rate"),
-                    all_lifesteal_rate = reader.GetDouble("all_lifesteal_rate"),
-                    all_shield_strength = reader.GetDouble("all_shield_strength"),
-                    all_tenacity = reader.GetDouble("all_tenacity"),
-                    all_resistance_rate = reader.GetDouble("all_resistance_rate"),
-                    all_combo_rate = reader.GetDouble("all_combo_rate"),
-                    all_ignore_combo_rate = reader.GetDouble("all_ignore_combo_rate"),
-                    all_combo_damage_rate = reader.GetDouble("all_combo_damage_rate"),
-                    all_combo_resistance_rate = reader.GetDouble("all_combo_resistance_rate"),
-                    all_stun_rate = reader.GetDouble("all_stun_rate"),
-                    all_ignore_stun_rate = reader.GetDouble("all_ignore_stun_rate"),
-                    all_reflection_rate = reader.GetDouble("all_reflection_rate"),
-                    all_ignore_reflection_rate = reader.GetDouble("all_ignore_reflection_rate"),
-                    all_reflection_damage_rate = reader.GetDouble("all_reflection_damage_rate"),
-                    all_reflection_resistance_rate = reader.GetDouble("all_reflection_resistance_rate"),
-                    all_mana = reader.GetFloat("all_mana"),
-                    all_mana_regeneration_rate = reader.GetDouble("all_mana_regeneration_rate"),
-                    all_damage_to_different_faction_rate = reader.GetDouble("all_damage_to_different_faction_rate"),
-                    all_resistance_to_different_faction_rate = reader.GetDouble("all_resistance_to_different_faction_rate"),
-                    all_damage_to_same_faction_rate = reader.GetDouble("all_damage_to_same_faction_rate"),
-                    all_resistance_to_same_faction_rate = reader.GetDouble("all_resistance_to_same_faction_rate"),
-                    all_normal_damage_rate = reader.GetDouble("all_normal_damage_rate"),
-                    all_normal_resistance_rate = reader.GetDouble("all_normal_resistance_rate"),
-                    all_skill_damage_rate = reader.GetDouble("all_skill_damage_rate"),
-                    all_skill_resistance_rate = reader.GetDouble("all_skill_resistance_rate"),
                 };
 
                 cardMilitaries.Add(military);

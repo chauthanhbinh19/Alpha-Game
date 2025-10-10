@@ -326,7 +326,7 @@ public class UserCardHeroesController : MonoBehaviour
         name.text = cardHeroes.name;
 
         TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardHeroes.all_power, false);
+        power.text = NumberFormatter.FormatNumber(cardHeroes.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardHeroes.level.ToString();
@@ -387,7 +387,6 @@ public class UserCardHeroesController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardHeroesService.Create().GetNewLevelPower(cardHeroes, increasePerLevel);
                     UserCardHeroesService.Create().UpdateCardHeroesLevel(newCard, currentLevel + 1);
-                    UserCardHeroesService.Create().UpdateFactCardHeroes(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -419,7 +418,6 @@ public class UserCardHeroesController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardHeroes newCard = UserCardHeroesService.Create().GetNewLevelPower(cardHeroes, levelsGained * increasePerLevel);
                     UserCardHeroesService.Create().UpdateCardHeroesLevel(newCard, currentLevel);
-                    UserCardHeroesService.Create().UpdateFactCardHeroes(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -762,7 +760,6 @@ public class UserCardHeroesController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardHeroesService.Create().GetNewBreakthroughPower(cardHeroes, increasePerUpgrade);
                     UserCardHeroesService.Create().UpdateCardHeroesBreakthrough(newCard, cardHeroes.star + 1, cardHeroes.quantity);
-                    UserCardHeroesService.Create().UpdateFactCardHeroes(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 

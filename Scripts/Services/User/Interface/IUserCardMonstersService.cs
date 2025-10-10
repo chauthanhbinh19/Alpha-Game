@@ -17,9 +17,7 @@ public interface IUserCardMonstersService
     bool InsertUserCardMonsters(CardMonsters CardMonsters);
     bool UpdateCardMonstersLevel(CardMonsters cardMonsters, int cardLevel);
     bool UpdateCardMonstersBreakthrough(CardMonsters cardMonsters, int star, int quantity);
-    bool InsertFactCardMonsters(CardMonsters cardMonsters);
-    bool UpdateFactCardMonsters(CardMonsters cardMonsters);
-    bool UpdateTeamFactCardMonsters(string team_id, string position, string card_id);
+    bool UpdateTeamCardMonsters(string team_id, string position, string card_id);
     CardMonsters GetUserCardMonstersById(string user_id, string Id);
     List<CardMonsters> GetAllUserCardMonstersInTeam(string user_id);
 }

@@ -325,7 +325,7 @@ public class UserCardMonstersController : MonoBehaviour
         name.text = cardMonsters.name;
 
         TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardMonsters.all_power, false);
+        power.text = NumberFormatter.FormatNumber(cardMonsters.power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardMonsters.level.ToString();
@@ -384,7 +384,6 @@ public class UserCardMonstersController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardMonstersService.Create().GetNewLevelPower(cardMonsters, increasePerLevel);
                     UserCardMonstersService.Create().UpdateCardMonstersLevel(newCard, currentLevel + 1);
-                    UserCardMonstersService.Create().UpdateFactCardMonsters(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -416,7 +415,6 @@ public class UserCardMonstersController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardMonsters newCard = UserCardMonstersService.Create().GetNewLevelPower(cardMonsters, levelsGained * increasePerLevel);
                     UserCardMonstersService.Create().UpdateCardMonstersLevel(newCard, currentLevel);
-                    UserCardMonstersService.Create().UpdateFactCardMonsters(newCard);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
@@ -759,7 +757,6 @@ public class UserCardMonstersController : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newMonster = UserCardMonstersService.Create().GetNewBreakthroughPower(cardMonsters, increasePerUpgrade);
                     UserCardMonstersService.Create().UpdateCardMonstersBreakthrough(newMonster, cardMonsters.star + 1, cardMonsters.quantity);
-                    UserCardMonstersService.Create().UpdateFactCardMonsters(newMonster);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 

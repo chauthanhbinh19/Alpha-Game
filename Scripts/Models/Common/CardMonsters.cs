@@ -47,56 +47,6 @@ public class CardMonsters : BaseEntity
     public int quantity { get => quantity1; set => quantity1 = value; }
     public bool block { get => block1; set => block1 = value; }
     public string position { get => position1; set => position1 = value; }
-    public double all_power { get; set; }
-    public double all_health { get; set; }
-    public double all_physical_attack { get; set; }
-    public double all_physical_defense { get; set; }
-    public double all_magical_attack { get; set; }
-    public double all_magical_defense { get; set; }
-    public double all_chemical_attack { get; set; }
-    public double all_chemical_defense { get; set; }
-    public double all_atomic_attack { get; set; }
-    public double all_atomic_defense { get; set; }
-    public double all_mental_attack { get; set; }
-    public double all_mental_defense { get; set; }
-    public double all_speed { get; set; }
-    public double all_critical_damage_rate { get; set; }
-    public double all_critical_rate { get; set; }
-    public double all_critical_resistance_rate { get; set; }
-    public double all_ignore_critical_rate { get; set; }
-    public double all_penetration_rate { get; set; }
-    public double all_penetration_resistance_rate { get; set; }
-    public double all_evasion_rate { get; set; }
-    public double all_damage_absorption_rate { get; set; }
-    public double all_ignore_damage_absorption_rate { get; set; }
-    public double all_absorbed_damage_rate { get; set; }
-    public double all_vitality_regeneration_rate { get; set; }
-    public double all_vitality_regeneration_resistance_rate { get; set; }
-    public double all_accuracy_rate { get; set; }
-    public double all_lifesteal_rate { get; set; }
-    public float all_mana { get; set; }
-    public double all_mana_regeneration_rate { get; set; }
-    public double all_shield_strength { get; set; }
-    public double all_tenacity { get; set; }
-    public double all_resistance_rate { get; set; }
-    public double all_combo_rate { get; set; }
-    public double all_ignore_combo_rate { get; set; }
-    public double all_combo_damage_rate { get; set; }
-    public double all_combo_resistance_rate { get; set; }
-    public double all_stun_rate { get; set; }
-    public double all_ignore_stun_rate { get; set; }
-    public double all_reflection_rate { get; set; }
-    public double all_ignore_reflection_rate { get; set; }
-    public double all_reflection_damage_rate { get; set; }
-    public double all_reflection_resistance_rate { get; set; }
-    public double all_damage_to_different_faction_rate { get; set; }
-    public double all_resistance_to_different_faction_rate { get; set; }
-    public double all_damage_to_same_faction_rate { get; set; }
-    public double all_resistance_to_same_faction_rate { get; set; }
-    public double all_normal_damage_rate { get; set; }
-    public double all_normal_resistance_rate { get; set; }
-    public double all_skill_damage_rate { get; set; }
-    public double all_skill_resistance_rate { get; set; }
     public string description { get => description1; set => description1 = value; }
     public string status { get => status1; set => status1 = value; }
     public string team_id { get; set; }
@@ -146,39 +96,6 @@ public class CardMonsters : BaseEntity
         resistance_to_different_faction_rate = -1;
         damage_to_same_faction_rate = -1;
         resistance_to_same_faction_rate = -1;
-
-        all_power = -1;
-        all_health = -1;
-        all_physical_attack = -1;
-        all_physical_defense = -1;
-        all_magical_attack = -1;
-        all_magical_defense = -1;
-        all_chemical_attack = -1;
-        all_chemical_defense = -1;
-        all_atomic_attack = -1;
-        all_atomic_defense = -1;
-        all_mental_attack = -1;
-        all_mental_defense = -1;
-        all_speed = -1;
-        all_critical_damage_rate = -1;
-        all_critical_rate = -1;
-        all_penetration_rate = -1;
-        all_evasion_rate = -1;
-        all_damage_absorption_rate = -1;
-        all_vitality_regeneration_rate = -1;
-        all_accuracy_rate = -1;
-        all_lifesteal_rate = -1;
-        all_mana = -1;
-        all_mana_regeneration_rate = -1;
-        all_shield_strength = -1;
-        all_tenacity = -1;
-        all_resistance_rate = -1;
-        all_combo_rate = -1;
-        all_reflection_rate = -1;
-        all_damage_to_different_faction_rate = -1;
-        all_resistance_to_different_faction_rate = -1;
-        all_damage_to_same_faction_rate = -1;
-        all_resistance_to_same_faction_rate = -1;
 
         team_id= "-1";
         percent_all_health = -1;
