@@ -16,7 +16,7 @@ public class UserBooksRepository : IUserBooksRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT ub.*, b.*
+                string query = @"SELECT ub.*, b.name, b.image, b.type, b.description
                 FROM user_books ub
                 LEFT JOIN books b ON ub.book_id = b.id 
                 WHERE ub.user_id = @userId AND b.type = @type AND (@rare = 'All' or b.rare = @rare)
@@ -122,7 +122,7 @@ public class UserBooksRepository : IUserBooksRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT ub.*, b.*
+                string query = @"SELECT ub.*, b.name, b.image, b.type, b.description
                 FROM user_books ub
                 LEFT JOIN books b ON ub.book_id = b.id 
                 WHERE ub.user_id = @userId AND ub.team_id=@team_id
@@ -734,7 +734,7 @@ public class UserBooksRepository : IUserBooksRepository
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string userQuery = @"SELECT uc.*, c.*
+            string userQuery = @"SELECT uc.*, c.name, c.image, c.type, c.description
                 FROM user_books uc
                 LEFT JOIN books c ON uc.book_id = c.id 
                 WHERE uc.user_id = @user_id and uc.team_id IS NOT null";

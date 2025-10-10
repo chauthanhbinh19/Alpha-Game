@@ -17,7 +17,7 @@ public class UserPetsRepository : IUserPetsRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT up.*, p.image, p.rare, p.type
+                string query = @"SELECT up.*, p.image, p.rare, p.type, p.description
                 FROM user_pets up
                 LEFT JOIN Pets p ON p.id = up.pet_id
                 WHERE up.user_id = @userId AND p.type = @type AND (@rare = 'All' or p.rare = @rare)
@@ -118,7 +118,7 @@ public class UserPetsRepository : IUserPetsRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT up.*, p.image, p.rare, p.type
+                string query = @"SELECT up.*, p.image, p.rare, p.type, p.description
                 FROM user_pets up
                 LEFT JOIN Pets p ON p.id = up.pet_id
                 WHERE up.user_id = @userId AND up.team_id = @team_id

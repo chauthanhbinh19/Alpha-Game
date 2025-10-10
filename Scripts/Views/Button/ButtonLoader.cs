@@ -508,7 +508,7 @@ public class ButtonLoader : MonoBehaviour
         data is Books books || data is Pets pets || data is Equipments equipments
         )
         {
-            int setButtonNumber = 4;
+            int setButtonNumber = 5;
             for (int i = 0; i < setButtonNumber; i++)
             {
                 int index = i;
@@ -525,6 +525,7 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                         CreateButtonGroup(data);
                     });
                 }
@@ -534,6 +535,7 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                         CreateButtonGroup(data);
                     });
                 }
@@ -543,6 +545,7 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                         CreateButtonGroup(data);
                     });
                 }
@@ -552,6 +555,17 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                        CreateButtonGroup(data);
+                    });
+                }
+                else if (index == 4)
+                {
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.AdvancedButtonSet1);
+                    btn.onClick.AddListener(() =>
+                    {
+                        set = index + 1;
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                         CreateButtonGroup(data);
                     });
                 }
@@ -572,6 +586,7 @@ public class ButtonLoader : MonoBehaviour
         Button CloseButton = popUpPanelGameObject.transform.Find("CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
             Destroy(popUpPanelGameObject);
         });
 
@@ -1147,8 +1162,127 @@ public class ButtonLoader : MonoBehaviour
                 {
                     FindAnyObjectByType<MainMenuQuenManager>().CreateMainMenuQuenManager(data);
                 });
+            }
+            else if (set == 5)
+            {
+                CreateButtonWithBackground(93, AppDisplayConstants.Master.MasterOfBeast, ImageConstants.Background.AdvancedBackground1, Resources.Load<Texture2D>($"UI/Button/Main/Zarx"), content);
+                CreateButtonWithBackground(94, AppDisplayConstants.Master.MasterOfDragon, ImageConstants.Background.AdvancedBackground2, Resources.Load<Texture2D>($"UI/Button/Main/Raik"), content);
+                CreateButtonWithBackground(95, AppDisplayConstants.Master.MasterOfMagic, ImageConstants.Background.AdvancedBackground3, Resources.Load<Texture2D>($"UI/Button/Main/Drax"), content);
+                CreateButtonWithBackground(96, AppDisplayConstants.Master.MasterOfMusic, ImageConstants.Background.AdvancedBackground4, Resources.Load<Texture2D>($"UI/Button/Main/Kron"), content);
+                CreateButtonWithBackground(97, AppDisplayConstants.Master.MasterOfScience, ImageConstants.Background.AdvancedBackground5, Resources.Load<Texture2D>($"UI/Button/Main/Zolt"), content);
+                CreateButtonWithBackground(98, AppDisplayConstants.Master.MasterOfSpirit, ImageConstants.Background.AdvancedBackground6, Resources.Load<Texture2D>($"UI/Button/Main/Gorr"), content);
+                CreateButtonWithBackground(99, AppDisplayConstants.Master.MasterOfWeapon, ImageConstants.Background.AdvancedBackground7, Resources.Load<Texture2D>($"UI/Button/Main/Ryze"), content);
+                CreateButtonWithBackground(100, AppDisplayConstants.Master.MasterOfChemical, ImageConstants.Background.AdvancedBackground8, Resources.Load<Texture2D>($"UI/Button/Main/Jaxx"), content);
+                CreateButtonWithBackground(101, AppDisplayConstants.Master.MasterOfPhysical, ImageConstants.Background.AdvancedBackground9, Resources.Load<Texture2D>($"UI/Button/Main/Thar"), content);
 
+                CreateButtonWithBackground(102, AppDisplayConstants.Master.MasterOfAtomic, ImageConstants.Background.AdvancedBackground10, Resources.Load<Texture2D>($"UI/Button/Main/Vorn"), content);
+                CreateButtonWithBackground(103, AppDisplayConstants.Master.MasterOfMental, ImageConstants.Background.AdvancedBackground11, Resources.Load<Texture2D>($"UI/Button/Main/Nyx"), content);
+                // CreateButtonWithBackground(104, AppDisplayConstants.MainMenuSet4.Aros, ImageConstants.Background.AdvancedBackground12, Resources.Load<Texture2D>($"UI/Button/Main/Aros"), content);
+                // CreateButtonWithBackground(105, AppDisplayConstants.MainMenuSet4.Hex, ImageConstants.Background.AdvancedBackground13, Resources.Load<Texture2D>($"UI/Button/Main/Hex"), content);
+                // CreateButtonWithBackground(83, AppDisplayConstants.MainMenuSet4.Lorn, ImageConstants.Background.AdvancedBackground14, Resources.Load<Texture2D>($"UI/Button/Main/Lorn"), content);
+                // CreateButtonWithBackground(84, AppDisplayConstants.MainMenuSet4.Baxx, ImageConstants.Background.AdvancedBackground15, Resources.Load<Texture2D>($"UI/Button/Main/Baxx"), content);
+                // CreateButtonWithBackground(85, AppDisplayConstants.MainMenuSet4.Zeph, ImageConstants.Background.AdvancedBackground16, Resources.Load<Texture2D>($"UI/Button/Main/Zeph"), content);
 
+                // CreateButtonWithBackground(86, AppDisplayConstants.MainMenuSet4.Kael, ImageConstants.Background.AdvancedBackground17, Resources.Load<Texture2D>($"UI/Button/Main/Kael"), content);
+                // CreateButtonWithBackground(87, AppDisplayConstants.MainMenuSet4.Drav, ImageConstants.Background.AdvancedBackground18, Resources.Load<Texture2D>($"UI/Button/Main/Drav"), content);
+                // CreateButtonWithBackground(88, AppDisplayConstants.MainMenuSet4.Torn, ImageConstants.Background.AdvancedBackground19, Resources.Load<Texture2D>($"UI/Button/Main/Torn"), content);
+                // CreateButtonWithBackground(89, AppDisplayConstants.MainMenuSet4.Myrr, ImageConstants.Background.AdvancedBackground20, Resources.Load<Texture2D>($"UI/Button/Main/Myrr"), content);
+                // CreateButtonWithBackground(90, AppDisplayConstants.MainMenuSet4.Vask, ImageConstants.Background.AdvancedBackground21, Resources.Load<Texture2D>($"UI/Button/Main/Vask"), content);
+                // CreateButtonWithBackground(91, AppDisplayConstants.MainMenuSet4.Jorr, ImageConstants.Background.AdvancedBackground22, Resources.Load<Texture2D>($"UI/Button/Main/Jorr"), content);
+                // CreateButtonWithBackground(92, AppDisplayConstants.MainMenuSet4.Quen, ImageConstants.Background.AdvancedBackground23, Resources.Load<Texture2D>($"UI/Button/Main/Quen"), content);
+
+                ButtonEvent.Instance.AssignButtonEvent("Button_93", content, () =>
+                {
+                    MasterOfBeastManager.Instance.CreateMasterOfBeastManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_94", content, () =>
+                {
+                    MasterOfDragonManager.Instance.CreateMasterOfDragonManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_95", content, () =>
+                {
+                    MasterOfMagicManager.Instance.CreateMasterOfMagicManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_96", content, () =>
+                {
+                    MasterOfMusicManager.Instance.CreateMasterOfMusicManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_97", content, () =>
+                {
+                    MasterOfScienceManager.Instance.CreateMasterOfScienceManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_98", content, () =>
+                {
+                    MasterOfSpiritManager.Instance.CreateMasterOfSpiritManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_99", content, () =>
+                {
+                    MasterOfWeaponManager.Instance.CreateMasterOfWeaponManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_100", content, () =>
+                {
+                    MasterOfChemicalManager.Instance.CreateMasterOfChemicalManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_101", content, () =>
+                {
+                    MasterOfPhysicalManager.Instance.CreateMasterOfPhysicalManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_102", content, () =>
+                {
+                    MasterOfAtomicManager.Instance.CreateMasterOfAtomicManager(data);
+                });
+                ButtonEvent.Instance.AssignButtonEvent("Button_103", content, () =>
+                {
+                    MasterOfMentalManager.Instance.CreateMasterOfMentalManager(data);
+                });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_81", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuArosManager>().CreateMainMenuArosManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_82", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuHexManager>().CreateMainMenuHexManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_83", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuLornManager>().CreateMainMenuLornManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_84", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuBaxxManager>().CreateMainMenuBaxxManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_85", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuZephManager>().CreateMainMenuZephManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_86", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuKaelManager>().CreateMainMenuKaelManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_87", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuDravManager>().CreateMainMenuDravManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_88", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuTornManager>().CreateMainMenuTornManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_89", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuMyrrManager>().CreateMainMenuMyrrManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_90", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuVaskManager>().CreateMainMenuVaskManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_91", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuJorrManager>().CreateMainMenuJorrManager(data);
+                // });
+                // ButtonEvent.Instance.AssignButtonEvent("Button_92", content, () =>
+                // {
+                //     FindAnyObjectByType<MainMenuQuenManager>().CreateMainMenuQuenManager(data);
+                // });
             }
         }
         else if (data is Equipments equipments)

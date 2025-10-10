@@ -17,7 +17,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT um.*, m.*
+                string query = @"SELECT um.*, m.name, m.image, m.type, m.description
                 FROM user_card_military um
                 LEFT JOIN card_military m ON um.card_military_id = m.id 
                 WHERE um.user_id = @userId AND m.type = @type AND (@rare = 'All' or m.rare = @rare)
@@ -122,7 +122,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT um.*, m.*
+                string query = @"SELECT um.*, m.name, m.image, m.type, m.description
                 FROM user_card_military um
                 LEFT JOIN card_military m ON um.card_military_id = m.id 
                 WHERE um.user_id = @userId AND um.team_id = @team_id and SUBSTRING_INDEX(um.position, '-', 1) = @position
@@ -792,7 +792,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string userQuery = @"SELECT uc.*, c.*
+            string userQuery = @"SELECT uc.*, c.name, c.image, c.type, c.description
                 FROM user_card_military uc
                 LEFT JOIN card_military c ON uc.card_military_id = c.id 
                 WHERE uc.user_id = @user_id and uc.team_id IS NOT null";

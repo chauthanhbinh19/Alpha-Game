@@ -1313,11 +1313,11 @@ public class UIManager : MonoBehaviour
             object value = property.GetValue(targetObject, null);
 
             // Gọi hàm xử lý riêng cho từng property
-            CreateSinglePropertyUI(status, property, value,
+            CreateSinglePropertyUI(property, value,
                 firstPopupPanel, elementPopupPanel, element2PopupPanel, element3PopupPanel, element4PopupPanel, descriptionPopupPanel);
         }
     }
-    public void CreateSinglePropertyUI(int status, PropertyInfo property, object value,
+    public void CreateSinglePropertyUI(PropertyInfo property, object value,
     Transform firstPopupPanel, Transform elementPopupPanel, Transform element2PopupPanel, Transform element3PopupPanel, Transform element4PopupPanel, Transform descriptionPopupPanel)
     {
         // Transform DetailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
@@ -1421,48 +1421,21 @@ public class UIManager : MonoBehaviour
                 {
                     if (value is double intValue && intValue != -1)
                     {
-                        if (status == 1)
-                        {
-                            if (property.Name.Contains("all"))
-                            {
-                                // Tạo một element mới từ prefab
-                                GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                        // Tạo một element mới từ prefab
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
 
-                                // Gán tên thuộc tính vào TitleText
-                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                                if (elementTitleText != null)
-                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+                        // Gán tên thuộc tính vào TitleText
+                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                        if (elementTitleText != null)
+                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
-                                // Gán giá trị thuộc tính vào ContentText
-                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                                if (elementContentText != null)
-                                    elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
+                        // Gán giá trị thuộc tính vào ContentText
+                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                        if (elementContentText != null)
+                            elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
 
-                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                                CreatePropertyRuneUI(property.Name, runeImage);
-                            }
-                        }
-                        else if (status == 0)
-                        {
-                            if (!property.Name.Contains("all"))
-                            {
-                                // Tạo một element mới từ prefab
-                                GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
-
-                                // Gán tên thuộc tính vào TitleText
-                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                                if (elementTitleText != null)
-                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
-
-                                // Gán giá trị thuộc tính vào ContentText
-                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                                if (elementContentText != null)
-                                    elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
-
-                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                                CreatePropertyRuneUI(property.Name, runeImage);
-                            }
-                        }
+                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                        CreatePropertyRuneUI(property.Name, runeImage);
                     }
                 }
             }
@@ -1485,47 +1458,21 @@ public class UIManager : MonoBehaviour
                 {
                     if (value is double intValue && intValue != -1)
                     {
-                        if (status == 1)
-                        {
-                            if (property.Name.Contains("all"))
-                            {
-                                // Tạo một element mới từ prefab
-                                GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
+                        // Tạo một element mới từ prefab
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
 
-                                // Gán tên thuộc tính vào TitleText
-                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                                if (elementTitleText != null)
-                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+                        // Gán tên thuộc tính vào TitleText
+                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                        if (elementTitleText != null)
+                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
-                                // Gán giá trị thuộc tính vào ContentText
-                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                                if (elementContentText != null)
-                                    elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
-                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                                CreatePropertyRuneUI(property.Name, runeImage);
-                            }
-                        }
-                        else if (status == 0)
-                        {
-                            if (!property.Name.Contains("all"))
-                            {
-                                // Tạo một element mới từ prefab
-                                GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                        // Gán giá trị thuộc tính vào ContentText
+                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                        if (elementContentText != null)
+                            elementContentText.text = intValue.ToString();
 
-                                // Gán tên thuộc tính vào TitleText
-                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                                if (elementTitleText != null)
-                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
-
-                                // Gán giá trị thuộc tính vào ContentText
-                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                                if (elementContentText != null)
-                                    elementContentText.text = intValue.ToString();
-
-                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                                CreatePropertyRuneUI(property.Name, runeImage);
-                            }
-                        }
+                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                        CreatePropertyRuneUI(property.Name, runeImage);
                     }
                 }
             }
@@ -1552,47 +1499,21 @@ public class UIManager : MonoBehaviour
                 {
                     if (value is double intValue && intValue != -1)
                     {
-                        if (status == 1)
-                        {
-                            if (property.Name.Contains("all"))
-                            {
-                                // Tạo một element mới từ prefab
-                                GameObject elementObject = Instantiate(ElementDetailsPrefab, element3PopupPanel);
+                        // Tạo một element mới từ prefab
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element3PopupPanel);
 
-                                // Gán tên thuộc tính vào TitleText
-                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                                if (elementTitleText != null)
-                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+                        // Gán tên thuộc tính vào TitleText
+                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                        if (elementTitleText != null)
+                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
-                                // Gán giá trị thuộc tính vào ContentText
-                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                                if (elementContentText != null)
-                                    elementContentText.text = intValue.ToString();
-                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                                CreatePropertyRuneUI(property.Name, runeImage);
-                            }
-                        }
-                        else if (status == 0)
-                        {
-                            if (!property.Name.Contains("all"))
-                            {
-                                // Tạo một element mới từ prefab
-                                GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                        // Gán giá trị thuộc tính vào ContentText
+                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                        if (elementContentText != null)
+                            elementContentText.text = intValue.ToString();
 
-                                // Gán tên thuộc tính vào TitleText
-                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                                if (elementTitleText != null)
-                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
-
-                                // Gán giá trị thuộc tính vào ContentText
-                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                                if (elementContentText != null)
-                                    elementContentText.text = intValue.ToString();
-
-                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                                CreatePropertyRuneUI(property.Name, runeImage);
-                            }
-                        }
+                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                        CreatePropertyRuneUI(property.Name, runeImage);
                     }
                 }
             }
@@ -1610,47 +1531,21 @@ public class UIManager : MonoBehaviour
                 {
                     if (value is double intValue && intValue != -1)
                     {
-                        if (status == 1)
-                        {
-                            if (property.Name.Contains("all"))
-                            {
-                                // Tạo một element mới từ prefab
-                                GameObject elementObject = Instantiate(ElementDetailsPrefab, element4PopupPanel);
+                        // Tạo một element mới từ prefab
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element4PopupPanel);
 
-                                // Gán tên thuộc tính vào TitleText
-                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                                if (elementTitleText != null)
-                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+                        // Gán tên thuộc tính vào TitleText
+                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                        if (elementTitleText != null)
+                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
-                                // Gán giá trị thuộc tính vào ContentText
-                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                                if (elementContentText != null)
-                                    elementContentText.text = intValue.ToString();
-                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                                CreatePropertyRuneUI(property.Name, runeImage);
-                            }
-                        }
-                        else if (status == 0)
-                        {
-                            if (!property.Name.Contains("all"))
-                            {
-                                // Tạo một element mới từ prefab
-                                GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                        // Gán giá trị thuộc tính vào ContentText
+                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+                        if (elementContentText != null)
+                            elementContentText.text = intValue.ToString();
 
-                                // Gán tên thuộc tính vào TitleText
-                                TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                                if (elementTitleText != null)
-                                    elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
-
-                                // Gán giá trị thuộc tính vào ContentText
-                                TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                                if (elementContentText != null)
-                                    elementContentText.text = intValue.ToString();
-
-                                RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                                CreatePropertyRuneUI(property.Name, runeImage);
-                            }
-                        }
+                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+                        CreatePropertyRuneUI(property.Name, runeImage);
                     }
                 }
             }

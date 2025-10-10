@@ -17,7 +17,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.*
+                string query = @"Select us.*, s.name, s.image, s.type, s.description
                 FROM user_card_spell us
                 LEFT JOIN card_spell s ON us.card_spell_id = s.id 
                 WHERE us.user_id = @userId AND s.type = @type AND (@rare = 'All' or s.rare = @rare)
@@ -122,7 +122,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.*
+                string query = @"Select us.*, s.name, s.image, s.type, s.description
                 FROM user_card_spell us
                 LEFT JOIN card_spell s ON us.card_spell_id = s.id 
                 WHERE us.user_id = @userId AND us.team_id = @team_id and SUBSTRING_INDEX(us.position, '-', 1) = @position
@@ -791,7 +791,7 @@ public class UserCardSpellRepository : IUserCardSpellRepository
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string userQuery = @"SELECT uc.*, c.*
+            string userQuery = @"SELECT uc.*, c.name, c.image, c.type, c.description
                 FROM user_card_spell uc
                 LEFT JOIN card_spell c ON uc.card_spell_id = c.id 
                 WHERE uc.user_id = @user_id and uc.team_id IS NOT null";
