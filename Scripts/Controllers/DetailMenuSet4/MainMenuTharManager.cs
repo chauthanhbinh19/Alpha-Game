@@ -22,13 +22,16 @@ public class MainMenuTharManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuTharPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuTharPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("TharSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuTharManager(object data)
     {
         currentObject = Instantiate(MainMenuTharPanelPrefab, MainPanel);

@@ -27,6 +27,10 @@ public class DetailMenuManager : MonoBehaviour
     }
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");

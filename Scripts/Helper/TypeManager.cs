@@ -37,6 +37,7 @@ public static class TypeManager
         { AppConstants.MainType.SummonCardGenerals, () => new CardGeneralsService(new CardGeneralsRepository()).GetUniqueCardGeneralsTypes() },
         { AppConstants.MainType.SummonCardAdmirals, () => new CardAdmiralsService(new CardAdmiralsRepository()).GetUniqueCardAdmiralsTypes() },
         { AppConstants.MainType.Item, () => new ItemsService(new ItemsRepository()).GetUniqueItemTypes() },
+        { AppConstants.MainType.SpiritCard, () => new SpiritCardService(new SpiritCardRepository()).GetUniqueSpiritCardTypes() },
     };
     public static List<string> GetUniqueTypes(string type)
     {

@@ -25,14 +25,18 @@ public class SkillsGalleryController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
     public void CreateSkillsGallery(List<Skills> skillsList, Transform DictionaryContentPanel)
     {

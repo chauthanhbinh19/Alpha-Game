@@ -22,13 +22,16 @@ public class MainMenuGunManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuGunPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuGunPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("GunSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuGunManager(object data)
     {
         currentObject = Instantiate(MainMenuGunPanelPrefab, MainPanel);

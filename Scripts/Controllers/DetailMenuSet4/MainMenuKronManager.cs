@@ -22,13 +22,16 @@ public class MainMenuKronManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuKronPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuKronPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("KronSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuKronManager(object data)
     {
         currentObject = Instantiate(MainMenuKronPanelPrefab, MainPanel);

@@ -22,13 +22,16 @@ public class MainMenuIceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuIcePanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuIcePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu2("IceSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuIceManager(object data)
     {
         currentObject = Instantiate(MainMenuIcePanelPrefab, MainPanel);

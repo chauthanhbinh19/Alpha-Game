@@ -36,13 +36,16 @@ public class MasterOfScienceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MasterOfSciencePanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfSciencePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfScienceSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMasterOfScienceManager(object data)
     {
         currentObject = Instantiate(MasterOfSciencePanelPrefab, MainPanel);

@@ -22,13 +22,16 @@ public class MainMenuSeraphirosManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuSeraphirosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuSeraphirosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("SeraphirosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuSeraphirosManager(object data)
     {
         currentObject = Instantiate(MainMenuSeraphirosPanelPrefab, MainPanel);

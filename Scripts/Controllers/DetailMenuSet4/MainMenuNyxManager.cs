@@ -22,13 +22,16 @@ public class MainMenuNyxManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuNyxPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuNyxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("NyxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuNyxManager(object data)
     {
         currentObject = Instantiate(MainMenuNyxPanelPrefab, MainPanel);

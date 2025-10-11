@@ -22,13 +22,16 @@ public class MainMenuQuantumManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuQuantumPanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuQuantumPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu2("QuantumSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuQuantumManager(object data)
     {
         currentObject = Instantiate(MainMenuQuantumPanelPrefab, MainPanel);

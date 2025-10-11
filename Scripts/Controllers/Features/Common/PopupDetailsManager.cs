@@ -38,17 +38,21 @@ public class PopupDetailsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainMenuDetailPanelPrefab = UIManager.Instance.GetGameObject("MainMenuDetailPanelPrefab");
-        ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
-        NumberDetailPrefab = UIManager.Instance.GetGameObject("NumberDetailPrefab");
-        NumberDetail2Prefab = UIManager.Instance.GetGameObject("NumberDetail2Prefab");
-        NumberDetail3Prefab = UIManager.Instance.GetGameObject("NumberDetail3Prefab");
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainMenuDetailPanelPrefab = UIManager.Instance.GetGameObject("MainMenuDetailPanelPrefab");
+        ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
+        NumberDetailPrefab = UIManager.Instance.GetGameObject("NumberDetailPrefab");
+        NumberDetail2Prefab = UIManager.Instance.GetGameObject("NumberDetail2Prefab");
+        NumberDetail3Prefab = UIManager.Instance.GetGameObject("NumberDetail3Prefab");
     }
     public void PopupDetails(object data, Transform panel)
     {

@@ -22,13 +22,16 @@ public class MainMenuHexManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuHexPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuHexPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("HexSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuHexManager(object data)
     {
         currentObject = Instantiate(MainMenuHexPanelPrefab, MainPanel);

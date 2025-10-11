@@ -36,13 +36,16 @@ public class MasterOfChemicalManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MasterOfChemicalPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfChemicalPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfChemicalSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMasterOfChemicalManager(object data)
     {
         currentObject = Instantiate(MasterOfChemicalPanelPrefab, MainPanel);

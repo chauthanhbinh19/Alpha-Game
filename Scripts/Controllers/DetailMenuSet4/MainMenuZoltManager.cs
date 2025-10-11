@@ -22,13 +22,16 @@ public class MainMenuZoltManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuZoltPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuZoltPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("ZoltSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuZoltManager(object data)
     {
         currentObject = Instantiate(MainMenuZoltPanelPrefab, MainPanel);

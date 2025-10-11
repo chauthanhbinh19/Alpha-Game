@@ -166,6 +166,9 @@ public static class AppConstants
         public const string SpiritBeast = "Spirit Beast";
         public const string SpiritBeasts = "Spirit Beasts";
 
+        public const string SpiritCard = "Spirit Card";
+        public const string SpiritCards = "Spirit Cards";
+
         public const string ScienceFiction = "Science Fiction";
         public const string SummonCardHeroes = "Summon Card Heroes";
         public const string SummonBooks = "Summon Books";

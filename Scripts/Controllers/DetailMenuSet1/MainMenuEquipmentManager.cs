@@ -42,6 +42,10 @@ public class MainMenuEquipmentManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         pageSize = 100;
         offset = 0;
         currentPage = 1;
@@ -65,7 +69,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
         teamsService = TeamsService.Create();
     }
-
     public void CreateMainMenuEquipmentManager(object data)
     {
         currentObject = Instantiate(MainMenuEquipmentPanelPrefab, MainPanel);

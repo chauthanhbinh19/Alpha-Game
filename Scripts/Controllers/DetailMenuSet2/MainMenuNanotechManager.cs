@@ -22,13 +22,16 @@ public class MainMenuNanotechManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuNanotechPanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuNanotechPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu2("NanotechSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuNanotechManager(object data)
     {
         currentObject = Instantiate(MainMenuNanotechPanelPrefab, MainPanel);

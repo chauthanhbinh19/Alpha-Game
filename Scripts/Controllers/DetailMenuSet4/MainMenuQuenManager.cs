@@ -22,13 +22,16 @@ public class MainMenuQuenManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuQuenPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuQuenPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("QuenSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuQuenManager(object data)
     {
         currentObject = Instantiate(MainMenuQuenPanelPrefab, MainPanel);

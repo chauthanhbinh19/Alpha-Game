@@ -22,13 +22,16 @@ public class MainMenuVornManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuVornPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuVornPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("VornSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuVornManager(object data)
     {
         currentObject = Instantiate(MainMenuVornPanelPrefab, MainPanel);

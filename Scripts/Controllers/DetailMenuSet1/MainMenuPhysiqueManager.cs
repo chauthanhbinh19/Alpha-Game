@@ -22,13 +22,16 @@ public class MainMenuPhysiqueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuPhysiquePanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuPhysiquePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("PhysiqueSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuPhysiqueManager(object data)
     {
         currentObject = Instantiate(MainMenuPhysiquePanelPrefab, MainPanel);

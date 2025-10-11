@@ -22,13 +22,16 @@ public class MainMenuXylkorManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuXylkorPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuXylkorPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("XylkorSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuXylkorManager(object data)
     {
         currentObject = Instantiate(MainMenuXylkorPanelPrefab, MainPanel);

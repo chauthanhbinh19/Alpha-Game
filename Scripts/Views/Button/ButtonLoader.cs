@@ -40,6 +40,16 @@ public class ButtonLoader : MonoBehaviour
     }
     void Start()
     {
+        Initialize();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    public void Initialize()
+    {
         buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
         mainMenuButtonPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
         mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
@@ -107,13 +117,6 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(1, AppConstants.MainType.Email, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mail"), mainMenuSubButtonGroupPanel);
         CreateButton(1, AppConstants.MainType.Email, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mail"), mainMenuSubButtonGroupPanel);
         CreateButton(1, AppConstants.MainType.Email, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Mail"), mainMenuSubButtonGroupPanel);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
     public void CreateMoreButton(Transform moreMenuPanel)
     {
@@ -134,6 +137,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(15, AppConstants.MainType.Artwork, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Artwork"), moreMenuPanel);
         CreateButton(16, AppConstants.MainType.SpiritBeast, backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpiritBeast"), moreMenuPanel);
         CreateButton(17, AppConstants.MainType.ScienceFiction, backgroundImage, Resources.Load<Texture2D>($"UI/Button/ScienceFiction"), moreMenuPanel);
+        CreateButton(18, AppConstants.MainType.SpiritCard, backgroundImage, Resources.Load<Texture2D>($"UI/Button/SpiritCard"), moreMenuPanel);
         moreMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void CreateButton(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
@@ -322,6 +326,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(26, AppDisplayConstants.Gallery.ArtworkGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/ArtworkGallery"), galleryMenuPanel);
         CreateButton(27, AppDisplayConstants.Gallery.SpiritBeastGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/SpiritBeastGallery"), galleryMenuPanel);
         CreateButton(28, AppDisplayConstants.Gallery.AvatarsGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/AvatarsGallery"), galleryMenuPanel);
+        CreateButton(29, AppDisplayConstants.Gallery.SpiritCardGallery, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Gallery/SpiritCardGallery"), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -357,6 +362,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(26, AppDisplayConstants.Collection.ArtworkCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/ArtworkCollection"), collectionMenuPanel);
         CreateButton(27, AppDisplayConstants.Collection.SpiritBeastCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/SpiritBeastCollection"), collectionMenuPanel);
         CreateButton(28, AppDisplayConstants.Collection.AvatarsCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/AvatarsCollection"), collectionMenuPanel);
+        CreateButton(29, AppDisplayConstants.Collection.SpiritCardCollection, backgroundImage, Resources.Load<Texture2D>($"UI/Button/Collection/SpiritCardCollection"), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

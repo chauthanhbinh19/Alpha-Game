@@ -26,15 +26,19 @@ public class PetsGalleryController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
     public void CreatePetsGallery(List<Pets> petsList, Transform DictionaryContentPanel)
     {

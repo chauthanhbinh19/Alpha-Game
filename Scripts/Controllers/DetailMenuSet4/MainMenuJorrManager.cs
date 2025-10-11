@@ -22,13 +22,16 @@ public class MainMenuJorrManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuJorrPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuJorrPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("JorrSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuJorrManager(object data)
     {
         currentObject = Instantiate(MainMenuJorrPanelPrefab, MainPanel);

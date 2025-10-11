@@ -36,13 +36,16 @@ public class MasterOfWeaponManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MasterOfWeaponPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfWeaponPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfWeaponSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMasterOfWeaponManager(object data)
     {
         currentObject = Instantiate(MasterOfWeaponPanelPrefab, MainPanel);

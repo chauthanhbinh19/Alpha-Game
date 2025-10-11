@@ -37,6 +37,7 @@ public interface IUserCurrencyRepository
     Currency GetUserCardLifePrice(string Id);
     Currency GetUserArtworkPrice(string Id);
     Currency GetUserSpiritBeastPrice(string Id);
+    Currency GetUserSpiritCardPrice(string Id);
     List<Currency> GetAchievementsCurrency();
     List<Currency> GetBooksCurrency(string type);
     List<Currency> GetCardHeroesCurrency(string type);
@@ -65,4 +66,5 @@ public interface IUserCurrencyRepository
     List<Currency> GetCardLifeCurrency(string type);
     List<Currency> GetArtworkCurrency(string type);
     List<Currency> GetSpiritBeastCurrency(string type);
+    List<Currency> GetSpiritCardCurrency(string type);
 }

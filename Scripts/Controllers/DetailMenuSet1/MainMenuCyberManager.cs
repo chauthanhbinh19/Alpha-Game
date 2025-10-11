@@ -22,13 +22,16 @@ public class MainMenuCyberManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuCyberPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuCyberPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("CyberSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuCyberManager(object data)
     {
         currentObject = Instantiate(MainMenuCyberPanelPrefab, MainPanel);

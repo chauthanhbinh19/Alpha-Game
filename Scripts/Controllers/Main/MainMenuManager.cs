@@ -54,6 +54,15 @@ public class MainMenuManager : MonoBehaviour
     private int fontSize;
     void Start()
     {
+        Initialize();
+    }
+
+    void Update()
+    {
+
+    }
+    public void Initialize()
+    {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
@@ -116,12 +125,6 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType(AppConstants.Market.UltraRareMarket));
         ButtonEvent.Instance.AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType(AppConstants.Market.LegendaryMarket));
         ButtonEvent.Instance.AssignButtonEvent("Button_36", SummonMainMenuPanel, () => GetType(AppConstants.Market.MysticMarket));
-        // GetCardsType();
-    }
-
-    void Update()
-    {
-
     }
     public void GetMoreButtonEvent(Transform moreMenuPanel)
     {
@@ -142,6 +145,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_15", moreMenuPanel, () => GetType(AppConstants.MainType.Artwork));
         ButtonEvent.Instance.AssignButtonEvent("Button_16", moreMenuPanel, () => GetType(AppConstants.MainType.SpiritBeast));
         ButtonEvent.Instance.AssignButtonEvent("Button_17", moreMenuPanel, () => GetType(AppConstants.MainType.ScienceFiction));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", moreMenuPanel, () => GetType(AppConstants.MainType.SpiritCard));
     }
     public void GetType(string type)
     {
@@ -1416,7 +1420,16 @@ public class MainMenuManager : MonoBehaviour
             UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
             listCount = spiritBeasts.Count;
 
-            totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
+            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.SpiritCard))
+        {
+            List<SpiritCard> spiritCards = UserSpiritCardService.Create().GetUserSpiritCard(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
+            UserSpiritCardController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
+            listCount = spiritCards.Count;
+
+            totalRecord = UserSpiritCardService.Create().GetUserSpiritCardCount(User.CurrentUserId, type, rare);
         }
 
         if (listCount > 0)

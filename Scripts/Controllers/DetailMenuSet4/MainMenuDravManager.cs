@@ -22,13 +22,16 @@ public class MainMenuDravManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuDravPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuDravPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("DravSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuDravManager(object data)
     {
         currentObject = Instantiate(MainMenuDravPanelPrefab, MainPanel);

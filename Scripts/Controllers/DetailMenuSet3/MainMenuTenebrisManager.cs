@@ -22,13 +22,16 @@ public class MainMenuTenebrisManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuTenebrisPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuTenebrisPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("TenebrisSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuTenebrisManager(object data)
     {
         currentObject = Instantiate(MainMenuTenebrisPanelPrefab, MainPanel);

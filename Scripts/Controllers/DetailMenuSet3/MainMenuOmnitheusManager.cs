@@ -22,13 +22,16 @@ public class MainMenuOmnitheusManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuOmnitheusPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuOmnitheusPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("OmnitheusSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuOmnitheusManager(object data)
     {
         currentObject = Instantiate(MainMenuOmnitheusPanelPrefab, MainPanel);

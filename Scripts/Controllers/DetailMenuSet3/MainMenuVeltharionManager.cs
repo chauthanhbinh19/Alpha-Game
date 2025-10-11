@@ -22,13 +22,16 @@ public class MainMenuVeltharionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuVeltharionPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuVeltharionPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("VeltharionSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuVeltharionManager(object data)
     {
         currentObject = Instantiate(MainMenuVeltharionPanelPrefab, MainPanel);

@@ -22,13 +22,16 @@ public class MainMenuStarforgeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuStarforgePanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuStarforgePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu2("StarforgeSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuStarforgeManager(object data)
     {
         currentObject = Instantiate(MainMenuStarforgePanelPrefab, MainPanel);

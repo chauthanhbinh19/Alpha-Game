@@ -22,13 +22,16 @@ public class MainMenuZarxManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuZarxPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuZarxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("ZarxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuZarxManager(object data)
     {
         currentObject = Instantiate(MainMenuZarxPanelPrefab, MainPanel);

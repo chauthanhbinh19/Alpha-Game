@@ -22,13 +22,16 @@ public class MainMenuXyphosManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuXyphosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuXyphosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("XyphosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuXyphosManager(object data)
     {
         currentObject = Instantiate(MainMenuXyphosPanelPrefab, MainPanel);

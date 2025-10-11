@@ -22,13 +22,16 @@ public class MainMenuBaxxManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuBaxxPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuBaxxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("BaxxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuBaxxManager(object data)
     {
         currentObject = Instantiate(MainMenuBaxxPanelPrefab, MainPanel);

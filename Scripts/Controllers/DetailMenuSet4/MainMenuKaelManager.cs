@@ -22,13 +22,16 @@ public class MainMenuKaelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuKaelPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuKaelPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("KaelSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuKaelManager(object data)
     {
         currentObject = Instantiate(MainMenuKaelPanelPrefab, MainPanel);

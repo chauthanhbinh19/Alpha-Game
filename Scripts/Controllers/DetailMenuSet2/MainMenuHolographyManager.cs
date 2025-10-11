@@ -22,13 +22,16 @@ public class MainMenuHolographyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuHolographyPanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuHolographyPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu2("HolographySlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuHolographyManager(object data)
     {
         currentObject = Instantiate(MainMenuHolographyPanelPrefab, MainPanel);

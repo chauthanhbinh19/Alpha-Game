@@ -22,13 +22,16 @@ public class MainMenuArathorManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuArathorPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuArathorPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("ArathorSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuArathorManager(object data)
     {
         currentObject = Instantiate(MainMenuArathorPanelPrefab, MainPanel);

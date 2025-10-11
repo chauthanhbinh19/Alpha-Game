@@ -65,6 +65,10 @@ public class TeamsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab3 = UIManager.Instance.GetGameObject("CardsThirdPrefab");
         PopupTeamsPrefab = UIManager.Instance.GetGameObject("PopupTeamsPrefab");

@@ -32,17 +32,21 @@ public class UserArtworkController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArtworkFirstPrefab = UIManager.Instance.GetGameObject("ArtworkFirstPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
-        teamsService = TeamsService.Create();
-        userItemsService = UserItemsService.Create();
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        ArtworkFirstPrefab = UIManager.Instance.GetGameObject("ArtworkFirstPrefab");
+        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        teamsService = TeamsService.Create();
+        userItemsService = UserItemsService.Create();
     }
     public void CreateUserArtwork(List<Artwork> alchemies, Transform DictionaryContentPanel)
     {

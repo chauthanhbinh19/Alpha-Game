@@ -22,13 +22,16 @@ public class MainMenuZephManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuZephPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuZephPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("ZephSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuZephManager(object data)
     {
         currentObject = Instantiate(MainMenuZephPanelPrefab, MainPanel);

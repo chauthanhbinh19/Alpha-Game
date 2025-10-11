@@ -22,13 +22,16 @@ public class MainMenuOmnipotenceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuOmnipotencePanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuOmnipotencePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("OmnipotenceSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuOmnipotenceManager(object data)
     {
         currentObject = Instantiate(MainMenuOmnipotencePanelPrefab, MainPanel);

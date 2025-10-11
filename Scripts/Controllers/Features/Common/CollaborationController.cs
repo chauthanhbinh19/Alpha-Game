@@ -30,18 +30,22 @@ public class CollaborationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
+        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
+        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
     public void CreateCollaborationGallery(List<Collaboration> collaborationList, Transform DictionaryContentPanel)
     {

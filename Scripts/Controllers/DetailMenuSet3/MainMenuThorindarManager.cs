@@ -22,13 +22,16 @@ public class MainMenuThorindarManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuThorindarPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuThorindarPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("ThorindarSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuThorindarManager(object data)
     {
         currentObject = Instantiate(MainMenuThorindarPanelPrefab, MainPanel);

@@ -51,6 +51,16 @@ public class UserCardAdmiralsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
         PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
@@ -65,12 +75,6 @@ public class UserCardAdmiralsController : MonoBehaviour
         PopupSkillDetailPrefab = UIManager.Instance.GetGameObject("PopupSkillDetailPrefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
     public void CreateUserCardAdmirals(List<CardAdmirals> cardAdmirals, Transform DictionaryContentPanel)
     {

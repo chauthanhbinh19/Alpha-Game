@@ -21,10 +21,15 @@ public class NotificationManager : MonoBehaviour
         {
             Destroy(gameObject); // Destroy duplicate instances
         }
-    }  
-    void Start(){
-        notificationPanel=UIManager.Instance.GetTransform("notificationPanel");
-        notificationPrefab=UIManager.Instance.GetGameObject("notificationPrefab");
+    }
+    void Start()
+    {
+        Initialize();
+    }
+    public void Initialize()
+    {
+        notificationPanel = UIManager.Instance.GetTransform("notificationPanel");
+        notificationPrefab = UIManager.Instance.GetGameObject("notificationPrefab");
     }
     public void ShowNotification(string message)
     {

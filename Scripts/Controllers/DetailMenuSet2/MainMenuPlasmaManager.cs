@@ -22,13 +22,16 @@ public class MainMenuPlasmaManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuPlasmaPanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuPlasmaPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu2("PlasmaSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuPlasmaManager(object data)
     {
         currentObject = Instantiate(MainMenuPlasmaPanelPrefab, MainPanel);

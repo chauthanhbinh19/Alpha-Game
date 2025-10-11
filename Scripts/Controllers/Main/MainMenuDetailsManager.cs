@@ -60,15 +60,17 @@ public class MainMenuDetailsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainMenuDetailPanel2Prefab = UIManager.Instance.GetGameObject("MainMenuDetailPanel2Prefab");
 
         TabButton5 = UIManager.Instance.GetGameObject("TabButton5");
 
         // teamsService = TeamsService.Create();
         // userItemsService = UserItemsService.Create();
-
     }
-
     public void PopupDetails(object data, Transform panel)
     {
         MainPanel = panel;

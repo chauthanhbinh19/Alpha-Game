@@ -109,6 +109,9 @@ public static class AppDisplayConstants
         public const string SpiritBeast = "spirit_beast";
         public const string SpiritBeasts = "spirit_beasts";
 
+        public const string SpiritCard = "spirit_card";
+        public const string SpiritCards = "spirit_cards";
+
         public const string SummonCardHeroes = "summon_card_heroes";
         public const string SummonBooks = "summon_books";
         public const string SummonCardCaptains = "summon_card_captains";
@@ -179,6 +182,7 @@ public static class AppDisplayConstants
         public const string ArtworkGallery = "Gallery.Artwork";
         public const string SpiritBeastGallery = "Gallery.SpiritBeast";
         public const string AvatarsGallery = "Gallery.Avatars";
+        public const string SpiritCardGallery = "Gallery.SpiritCard";
     }
     public static class Collection
     {
@@ -210,6 +214,7 @@ public static class AppDisplayConstants
         public const string ArtworkCollection = "Collection.ArtworkCollection";
         public const string SpiritBeastCollection = "Collection.SpiritBeastCollection";
         public const string AvatarsCollection = "Collection.Avatars";
+        public const string SpiritCardCollection = "Collection.SpiritCardCollection";
     }
     public static class Anime
     {

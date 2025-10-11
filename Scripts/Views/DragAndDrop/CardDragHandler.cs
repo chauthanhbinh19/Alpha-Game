@@ -28,6 +28,11 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
         if (canvasGroup == null)
@@ -45,7 +50,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         userCardSpellService = UserCardSpellService.Create();
         teamsService = TeamsService.Create();
     }
-
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         // Lưu vị trí ban đầu khi thẻ được khởi tạo

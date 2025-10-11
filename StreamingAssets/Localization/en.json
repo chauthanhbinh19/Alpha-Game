@@ -77,6 +77,8 @@
   { "key": "artworks", "value": "Artworks" },
   { "key": "spirit_beast", "value": "Spirit Beast" },
   { "key": "spirit_beasts", "value": "Spirit Beasts" },
+  { "key": "spirit_card", "value": "Spirit Card" },
+  { "key": "spirit_cards", "value": "Spirit Cards" },
   { "key": "MainType.MasterBoard", "value": "Master board" },
   { "key": "enhancement", "value": "Enhancement" },
   { "key": "MainType.DailyCheckin", "value": "Daily Checkin" },
@@ -135,6 +137,7 @@
   { "key": "Gallery.Artwork", "value": "Artwork Gallery" },
   { "key": "Gallery.SpiritBeast", "value": "Spirit Beast Gallery" },
   { "key": "Gallery.Avatars", "value": "Avatars Gallery" },
+  { "key": "Gallery.SpiritCard", "value": "Spirit Card Gallery" },
 
   { "key": "Collection.CardHeroes", "value": "Card Heroes Collection" },
   { "key": "Collection.Books", "value": "Books Collection" },
@@ -164,6 +167,7 @@
   { "key": "Collection.Artwork", "value": "Artwork Collection" },
   { "key": "Collection.SpiritBeast", "value": "Spirit Beast Collection" },
   { "key": "Collection.Avatars", "value": "Avatars Collection" },
+  { "key": "Collection.SpiritCard", "value": "Spirit Card Collection" },
 
   { "key": "CardHeroes", "value": "Card Heroes" },
   { "key": "Books", "value": "Books" },

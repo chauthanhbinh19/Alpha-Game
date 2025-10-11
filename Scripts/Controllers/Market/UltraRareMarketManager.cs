@@ -47,6 +47,10 @@ public class UltraRareMarketManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         offset = 0;
         currentPage = 1;
         pageSize = 100;

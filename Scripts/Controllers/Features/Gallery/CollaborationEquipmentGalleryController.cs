@@ -25,14 +25,18 @@ public class CollaborationEquipmentGalleryController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
     public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipment> collaborationEquipmentList, Transform DictionaryContentPanel)
     {

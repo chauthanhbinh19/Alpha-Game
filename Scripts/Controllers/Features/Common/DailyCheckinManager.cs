@@ -31,16 +31,20 @@ public class DailyCheckinManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        DailyCheckinPanelPrefab = UIManager.Instance.GetGameObject("DailyCheckinPanelPrefab");
-        DailyCheckinComponentPrefab = UIManager.Instance.GetGameObject("DailyCheckinComponentPrefab");
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        DailyCheckinPanelPrefab = UIManager.Instance.GetGameObject("DailyCheckinPanelPrefab");
+        DailyCheckinComponentPrefab = UIManager.Instance.GetGameObject("DailyCheckinComponentPrefab");
     }
     private static readonly Dictionary<string, Func<string, CheckinItemInfoDTO>> DailyCheckinResolvers =
     new Dictionary<string, Func<string, CheckinItemInfoDTO>>

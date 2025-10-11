@@ -22,13 +22,16 @@ public class MainMenuBloodlineManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuBloodlinePanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuBloodlinePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("BloodlineSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuBloodlineManager(object data)
     {
         currentObject = Instantiate(MainMenuBloodlinePanelPrefab, MainPanel);

@@ -22,13 +22,16 @@ public class MainMenuArosManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuArosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuArosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("ArosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuArosManager(object data)
     {
         currentObject = Instantiate(MainMenuArosPanelPrefab, MainPanel);

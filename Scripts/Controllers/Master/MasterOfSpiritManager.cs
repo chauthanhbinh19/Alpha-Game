@@ -36,13 +36,16 @@ public class MasterOfSpiritManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MasterOfSpiritPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfSpiritPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfSpiritSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMasterOfSpiritManager(object data)
     {
         currentObject = Instantiate(MasterOfSpiritPanelPrefab, MainPanel);

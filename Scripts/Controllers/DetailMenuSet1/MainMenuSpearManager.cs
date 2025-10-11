@@ -22,13 +22,16 @@ public class MainMenuSpearManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuSpearPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuSpearPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("SpearSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuSpearManager(object data)
     {
         currentObject = Instantiate(MainMenuSpearPanelPrefab, MainPanel);

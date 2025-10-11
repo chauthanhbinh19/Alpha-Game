@@ -45,6 +45,10 @@ public class MysticMarketManager : MonoBehaviour
     }
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         offset = 0;
         currentPage = 1;
         pageSize = 100;

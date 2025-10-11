@@ -28,6 +28,10 @@ public class Power : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         PowerPrefab = UIManager.Instance.GetGameObject("PowerPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
         greenGradient = new VertexGradient(

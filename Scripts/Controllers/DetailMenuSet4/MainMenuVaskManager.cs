@@ -22,13 +22,16 @@ public class MainMenuVaskManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuVaskPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuVaskPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("VaskSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuVaskManager(object data)
     {
         currentObject = Instantiate(MainMenuVaskPanelPrefab, MainPanel);

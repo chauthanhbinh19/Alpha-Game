@@ -22,13 +22,16 @@ public class MainMenuVaelithManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuVaelithPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuVaelithPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("VaelithSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuVaelithManager(object data)
     {
         currentObject = Instantiate(MainMenuVaelithPanelPrefab, MainPanel);

@@ -22,13 +22,16 @@ public class MainMenuPhyrixaManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuPhyrixaPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuPhyrixaPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("PhyrixaSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuPhyrixaManager(object data)
     {
         currentObject = Instantiate(MainMenuPhyrixaPanelPrefab, MainPanel);

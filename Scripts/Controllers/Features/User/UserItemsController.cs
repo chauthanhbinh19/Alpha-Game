@@ -26,15 +26,19 @@ public class UserItemsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
-        itemPrefab = UIManager.Instance.GetGameObject("itemSecondPrefab");
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        itemPrefab = UIManager.Instance.GetGameObject("itemSecondPrefab");
     }
     public void CreateUserItems(List<Items> items, Transform DictionaryContentPanel)
     {

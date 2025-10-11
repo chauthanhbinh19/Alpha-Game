@@ -13,6 +13,10 @@ public class ArenaManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ArenaDetailsPanelPrefab = UIManager.Instance.GetGameObject("ArenaDetailsPanelPrefab");
         ArenaSlotPrefab = UIManager.Instance.GetGameObject("ArenaSlotPrefab");

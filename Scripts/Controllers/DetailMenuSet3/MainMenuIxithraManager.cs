@@ -22,13 +22,16 @@ public class MainMenuIxithraManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuIxithraPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuIxithraPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("IxithraSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuIxithraManager(object data)
     {
         currentObject = Instantiate(MainMenuIxithraPanelPrefab, MainPanel);

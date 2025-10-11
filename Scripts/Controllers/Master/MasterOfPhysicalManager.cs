@@ -36,13 +36,16 @@ public class MasterOfPhysicalManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MasterOfPhysicalPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfPhysicalPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfPhysicalSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMasterOfPhysicalManager(object data)
     {
         currentObject = Instantiate(MasterOfPhysicalPanelPrefab, MainPanel);

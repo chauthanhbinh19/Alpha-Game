@@ -25,14 +25,18 @@ public class EquipmentsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
     }
     public void CreateEquipmentsGallery(List<Equipments> equipmentList, Transform DictionaryContentPanel)
     {

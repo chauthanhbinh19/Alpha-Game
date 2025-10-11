@@ -33,6 +33,16 @@ public class ReactorNumber1Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ReactorPanelNumberPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorPanelNumberPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
@@ -40,12 +50,6 @@ public class ReactorNumber1Manager : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
         maxLevel = 10000;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
     public void CreateReactorPanel()
     {

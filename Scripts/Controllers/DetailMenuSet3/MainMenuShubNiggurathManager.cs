@@ -22,13 +22,16 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuShubNiggurathPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuShubNiggurathPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("ShubNiggurathSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuShubNiggurathManager(object data)
     {
         currentObject = Instantiate(MainMenuShubNiggurathPanelPrefab, MainPanel);

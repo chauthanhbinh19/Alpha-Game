@@ -22,13 +22,16 @@ public class MainMenuAeonaxManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuAeonaxPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuAeonaxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("AeonaxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuAeonaxManager(object data)
     {
         currentObject = Instantiate(MainMenuAeonaxPanelPrefab, MainPanel);

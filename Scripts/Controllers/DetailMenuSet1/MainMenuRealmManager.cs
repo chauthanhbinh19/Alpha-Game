@@ -22,13 +22,16 @@ public class MainMenuRealmManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuRealmPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuRealmPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("RealmSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuRealmManager(object data)
     {
         currentObject = Instantiate(MainMenuRealmPanelPrefab, MainPanel);

@@ -22,13 +22,16 @@ public class MainMenuVorathosManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuVorathosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuVorathosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("VorathosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuVorathosManager(object data)
     {
         currentObject = Instantiate(MainMenuVorathosPanelPrefab, MainPanel);

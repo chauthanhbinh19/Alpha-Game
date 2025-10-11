@@ -22,13 +22,16 @@ public class MainMenuSwordManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuSwordPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuSwordPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("SwordSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuSwordManager(object data)
     {
         currentObject = Instantiate(MainMenuSwordPanelPrefab, MainPanel);

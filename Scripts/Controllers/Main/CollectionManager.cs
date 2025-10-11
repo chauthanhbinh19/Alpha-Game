@@ -75,8 +75,8 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_25", () => GetType(AppConstants.MainType.CardLife));
         AssignButtonEvent("Button_26", () => GetType(AppConstants.MainType.Artwork));
         AssignButtonEvent("Button_27", () => GetType(AppConstants.MainType.SpiritBeast));
-
-        // GetCardsType();
+        AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.Avatar));
+        AssignButtonEvent("Button_29", () => GetType(AppConstants.MainType.SpiritCard));
     }
 
     void Update()
@@ -554,6 +554,14 @@ public class CollectionManager : MonoBehaviour
             AvatarsGalleryController.Instance.CreateAvatarsGallery(avatars, DictionaryContentPanel);
 
             totalRecord = avatarsGalleryService.GetAvatarsCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.SpiritCard))
+        {
+            var spiritCardGalleryService = SpiritCardGalleryService.Create();
+            List<SpiritCard> spiritCards = spiritCardGalleryService.GetSpiritCardCollection(type, pageSize, offset, rare);
+            SpiritCardGalleryController.Instance.CreateSpiritCardGallery(spiritCards, DictionaryContentPanel);
+
+            totalRecord = spiritCardGalleryService.GetSpiritCardCount(type, rare);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

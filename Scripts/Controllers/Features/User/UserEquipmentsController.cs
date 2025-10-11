@@ -29,15 +29,19 @@ public class UserEquipmentsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
-        teamsService = TeamsService.Create();
-        userItemsService = UserItemsService.Create();
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        teamsService = TeamsService.Create();
+        userItemsService = UserItemsService.Create();
     }
     public void ShowEquipmentsDetails(Equipments equipments, GameObject currentObject, int buttonType = 1)
     {

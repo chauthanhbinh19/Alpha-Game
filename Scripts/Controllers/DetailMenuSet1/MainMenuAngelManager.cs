@@ -22,13 +22,16 @@ public class MainMenuAngelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuAngelPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuAngelPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("AngelSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuAngelManager(object data)
     {
         currentObject = Instantiate(MainMenuAngelPanelPrefab, MainPanel);

@@ -36,13 +36,16 @@ public class MasterOfAtomicManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MasterOfAtomicPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfAtomicPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfAtomicSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMasterOfAtomicManager(object data)
     {
         currentObject = Instantiate(MasterOfAtomicPanelPrefab, MainPanel);

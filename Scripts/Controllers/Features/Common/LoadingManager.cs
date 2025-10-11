@@ -11,10 +11,13 @@ public class LoadingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         LoadingPanel = UIManager.Instance.GetTransform("LoadingPanel");
         LoadingPanelPrefab = UIManager.Instance.GetGameObject("LoadingPanelPrefab");
     }
-
     public void Loading(Transform firstPanel, Transform secondPanel)
     {
         GameObject loadingObject = Instantiate(LoadingPanelPrefab, LoadingPanel);

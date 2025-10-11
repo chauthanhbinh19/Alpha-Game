@@ -23,6 +23,10 @@ public class MainMenuAffinityManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuAffinityPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuAffinityPanelPrefab");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");

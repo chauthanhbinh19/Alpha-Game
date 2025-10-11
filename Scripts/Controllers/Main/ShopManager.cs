@@ -38,6 +38,10 @@ public class ShopManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
@@ -52,7 +56,6 @@ public class ShopManager : MonoBehaviour
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
         AssignButtonEvent("Button_23", SummonMainMenuPanel, () => CreateShopButton());
     }
-
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {
         Transform buttonTransform = panel.Find(buttonName);

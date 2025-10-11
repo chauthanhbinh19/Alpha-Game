@@ -33,18 +33,22 @@ public class UserPetsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
-        teamsService = TeamsService.Create();
-        userItemsService = UserItemsService.Create();
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        teamsService = TeamsService.Create();
+        userItemsService = UserItemsService.Create();
     }
     public void CreateUserPets(List<Pets> petsList, Transform DictionaryContentPanel)
     {

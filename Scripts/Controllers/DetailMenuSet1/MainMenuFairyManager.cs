@@ -22,13 +22,16 @@ public class MainMenuFairyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuFairyPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuFairyPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("FairySlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuFairyManager(object data)
     {
         currentObject = Instantiate(MainMenuFairyPanelPrefab, MainPanel);

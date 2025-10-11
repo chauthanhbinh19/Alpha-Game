@@ -22,13 +22,16 @@ public class MainMenuArcanosManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuArcanosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuArcanosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("ArcanosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuArcanosManager(object data)
     {
         currentObject = Instantiate(MainMenuArcanosPanelPrefab, MainPanel);

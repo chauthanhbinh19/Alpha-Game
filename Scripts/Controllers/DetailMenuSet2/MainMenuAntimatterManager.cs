@@ -24,6 +24,10 @@ public class MainMenuAntimatterManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuAntimatterPanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuAntimatterPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
@@ -31,7 +35,6 @@ public class MainMenuAntimatterManager : MonoBehaviour
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-
     public void CreateMainMenuAntimatterManager(object data)
     {
         currentObject = Instantiate(MainMenuAntimatterPanelPrefab, MainPanel);

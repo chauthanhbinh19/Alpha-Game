@@ -24,9 +24,12 @@ public class CurrencyManager : MonoBehaviour
     }
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
     }
-
     public void createCurrency(List<Currency> currencies, Transform CurrencyPanel)
     {
         ButtonEvent.Instance.Close(CurrencyPanel);
