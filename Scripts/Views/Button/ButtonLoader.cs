@@ -7,10 +7,6 @@ using TMPro;
 public class ButtonLoader : MonoBehaviour
 {
     private GameObject buttonPrefab; // Prefab của button
-    private Transform mainMenuButtonPanel; // Nơi chứa các button trong scene
-    private Transform mainMenuCampaignPanel;
-    private Transform mainMenuSubButtonGroupPanel;
-    private Transform summonPanel;
     private GameObject TabButton4;
     private GameObject TabButton3;
     private GameObject TabButton6;
@@ -51,10 +47,6 @@ public class ButtonLoader : MonoBehaviour
     public void Initialize()
     {
         buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
-        mainMenuButtonPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
-        mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
-        mainMenuSubButtonGroupPanel = UIManager.Instance.GetTransform("mainMenuSubButtonGroupPanel");
-        summonPanel = UIManager.Instance.GetTransform("summonPanel");
         TabButton4 = UIManager.Instance.GetGameObject("TabButton4");
         TabButton3 = UIManager.Instance.GetGameObject("TabButton3");
         TabButton6 = UIManager.Instance.GetGameObject("TabButton6");
@@ -68,6 +60,14 @@ public class ButtonLoader : MonoBehaviour
         backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Background_V4_422");
         backgroundImage2 = Resources.Load<Texture2D>($"UI/Background2/bg2_prossorder");
 
+        
+    }
+    public void CreateMainButton(GameObject mainObject)
+    {
+        Transform mainMenuButtonPanel = mainObject.transform.Find("MainPanel/MainMenuButton");
+        Transform summonPanel = mainObject.transform.Find("SummonPanel");
+        Transform mainMenuCampaignPanel = mainObject.transform.Find("MainMenu/MenuCampaignBackground/MenuCampaign");
+        Transform mainMenuSubButtonGroupPanel = mainObject.transform.Find("SubMainPanel");
         CreateButton(1, AppConstants.MainType.Campaigns, Resources.Load<Texture2D>($"UI/Background4/Background_V4_110"), Resources.Load<Texture2D>($"UI/UI/Campaign"), mainMenuCampaignPanel);
         //Main menu
         CreateButton(1, AppConstants.MainType.CardHeroes, backgroundImage, Resources.Load<Texture2D>($"UI/UI/Cards"), mainMenuButtonPanel);

@@ -11,17 +11,11 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [Header("Panels")]
-    private Transform mainMenuButtonPanel;
-    private Transform mainMenuCampaignPanel;
-    private Transform mainMenuSubButtonGroupPanel;
+    public Transform RootPanel;
     public Transform notificationPanel;
     public Transform WaitingPanel;
-    public Transform MainScencePanel;
     public Transform MainPanel;
     public Transform popupPanel;
-    public Transform summonPanel;
-    public Transform currencyPanel;
-    public Transform userPanel;
     public Transform LoadingPanel;
 
 
@@ -36,6 +30,7 @@ public class UIManager : MonoBehaviour
     public GameObject DictionaryPanel;
     public GameObject TabButton;
     public GameObject ItemPrefab;
+    public GameObject MainPanelPrefab;
     public GameObject MainMenuPanel;
     public GameObject MainMenuShopPanel;
     public GameObject MainMenuEnhancementPanel;
@@ -363,9 +358,6 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             // DontDestroyOnLoad(gameObject); // Keep this object across scenes
-            mainMenuButtonPanel = MainScencePanel.transform.Find("MainMenu/MenuBackground/MainMenuButton");
-            mainMenuCampaignPanel = MainScencePanel.transform.Find("MainMenu/MenuCampaignBackground/MenuCampaign");
-            mainMenuSubButtonGroupPanel = MainScencePanel.transform.Find("MainMenu/MainMenuSubButtonGroup");
         }
         else
         {
@@ -376,28 +368,16 @@ public class UIManager : MonoBehaviour
     {
         switch (panelName)
         {
+            case "RootPanel":
+                return RootPanel;
             case "MainPanel":
                 return MainPanel;
             case "WaitingPanel":
                 return WaitingPanel;
-            case "MainScencePanel":
-                return MainScencePanel;
-            case "mainMenuButtonPanel":
-                return mainMenuButtonPanel;
-            case "mainMenuSubButtonGroupPanel":
-                return mainMenuSubButtonGroupPanel;
-            case "mainMenuCampaignPanel":
-                return mainMenuCampaignPanel;
             case "notificationPanel":
                 return notificationPanel;
             case "popupPanel":
                 return popupPanel;
-            case "summonPanel":
-                return summonPanel;
-            case "currencyPanel":
-                return currencyPanel;
-            case "userPanel":
-                return userPanel;
             case "LoadingPanel":
                 return LoadingPanel;
             default:
@@ -429,6 +409,8 @@ public class UIManager : MonoBehaviour
                 return ItemPrefab;
             case "MainMenuPanel":
                 return MainMenuPanel;
+            case "MainPanelPrefab":
+                return MainPanelPrefab;
             case "MainMenuShopPanel":
                 return MainMenuShopPanel;
             case "MainMenuEnhancementPanel":

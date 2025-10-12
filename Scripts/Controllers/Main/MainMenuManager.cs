@@ -6,11 +6,14 @@ using System;
 using TMPro;
 using System.Linq;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class MainMenuManager : MonoBehaviour
 {
+    private Transform RootPanel;
     private Transform mainMenuPanel;
     private Transform mainMenuCampaignPanel;
+    private GameObject MainPanelPrefab;
     private GameObject buttonPrefab;
     private GameObject DictionaryPanel;
     private GameObject PopupMenuPanelPrefab;
@@ -34,6 +37,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject summonObject;
     private Transform SummonMainMenuPanel;
     private Transform CurrencyPanel;
+    private GameObject currentObject;
     //Variable for pagination
     private int offset;
     private int currentPage;
@@ -52,6 +56,20 @@ public class MainMenuManager : MonoBehaviour
     private bool canUseRareButton;
     private TMP_FontAsset EuroStyleNormalFont;
     private int fontSize;
+    public static MainMenuManager Instance { get; private set; }
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
     void Start()
     {
         Initialize();
@@ -68,15 +86,16 @@ public class MainMenuManager : MonoBehaviour
         pageSize = 100;
         buttonType = "";
         rare = AppConstants.Rare.All;
-        mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
-        mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
+        RootPanel = UIManager.Instance.GetTransform("RootPanel");
+        MainPanelPrefab = UIManager.Instance.GetGameObject("MainPanelPrefab");
+        // mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
+        // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         buttonPrefab2 = UIManager.Instance.GetGameObject("TabButton2");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
         SummonPanel = UIManager.Instance.GetGameObject("SummonPanelPrefab");
-        SummonMainMenuPanel = UIManager.Instance.GetTransform("summonPanel");
         PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
         ArenaPanelPrefab = UIManager.Instance.GetGameObject("ArenaPanelPrefab");
         AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
@@ -84,7 +103,50 @@ public class MainMenuManager : MonoBehaviour
         MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
         fontSize = 24;
+    }
+    public void CreateMainPanel()
+    {
+        currentObject = Instantiate(MainPanelPrefab, RootPanel);
+        ButtonLoader.Instance.CreateMainButton(currentObject);
+        GetMainButtonEvent();
+    }
+    public GameObject GetMainPanel()
+    {
+        return currentObject;
+    }
+    public Transform GetSummonPanel()
+    {
+        Transform summonPanel = currentObject.transform.Find("SummonPanel");
+        return summonPanel;
+    }
+    public void CreateMainPanelUserInformation(AuthResult authResult)
+    {
+        Transform userPanel = currentObject.transform.Find("User");
+        Transform currencyPanel = currentObject.transform.Find("Currency");
+        Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
+        nameText.text = authResult.User.name;
+        Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
+        levelText.text = authResult.User.level.ToString();
+        Text powerText = userPanel.transform.Find("PowerText").GetComponent<Text>();
+        powerText.text = authResult.User.power.ToString();
+        RawImage avatarImage = userPanel.transform.Find("AvatarImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = authResult.User.image.Replace(".png", "");
+        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        avatarImage.texture = texture;
 
+        RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
+
+        fileNameWithoutExtension = authResult.User.border.Replace(".png", "");
+        Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        borderImage.texture = borderTexture;
+
+        FindObjectOfType<CurrencyManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
+    }
+    public void GetMainButtonEvent()
+    {
+        mainMenuPanel = currentObject.transform.Find("MainPanel/MainMenuButton");
+        mainMenuCampaignPanel = currentObject.transform.Find("MainMenu/MenuCampaignBackground/MenuCampaign");
+        SummonMainMenuPanel = currentObject.transform.Find("SummonPanel");
         ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuCampaignPanel, () => loadScence());
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuPanel, () => GetType(AppConstants.MainType.CardHero));
@@ -175,7 +237,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = summonObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             SummonButton = summonObject.transform.Find("DictionaryCards/SummonButton").GetComponent<Button>();
             Summon10Button = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
-            CloseButton.onClick.AddListener(()=>
+            CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ClosePanel();
@@ -478,7 +540,7 @@ public class MainMenuManager : MonoBehaviour
             PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
             titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
             CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(()=>
+            CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 ClosePanel();
@@ -489,12 +551,12 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
                 Close(MainPanel);
             });
-            NextButton.onClick.AddListener(()=>
+            NextButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
                 ChangeNextPage();
             });
-            PreviousButton.onClick.AddListener(()=>
+            PreviousButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
                 ChangePreviousPage();

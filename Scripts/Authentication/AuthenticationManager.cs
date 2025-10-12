@@ -24,17 +24,16 @@ public class AuthenticationManager : MonoBehaviour
     private GameObject signInPanel;
     private GameObject signUpPanel;
     private GameObject createNamePanel;
-    private Transform MainPanel;
     private Transform WaitingPanel;
+    private Transform RootPanel;
     private Text SI_ErrorUsername;
     private Text SI_ErrorPassword;
     private Text SU_ErrorUsername;
     private Text SU_ErrorPassword;
     private Text SU_ErrorConfirmPassword;
-    private Transform userPanel;
-    private Transform currencyPanel;
     private GameObject currencyPrefab;
     GameObject currentObject;
+    private AuthResult authResult;
     private void Awake()
     {
         if (Instance == null)
@@ -48,14 +47,12 @@ public class AuthenticationManager : MonoBehaviour
     }
     void Start()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainScencePanel");
         WaitingPanel = UIManager.Instance.GetTransform("WaitingPanel");
+        RootPanel = UIManager.Instance.GetTransform("RootPanel");
         signInPanel = UIManager.Instance.GetGameObject("SignInPanel");
         signUpPanel = UIManager.Instance.GetGameObject("SignUpPanel");
         createNamePanel = UIManager.Instance.GetGameObject("CreateNamePanel");
-        currencyPanel = UIManager.Instance.GetTransform("currencyPanel");
         currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
-        userPanel = UIManager.Instance.GetTransform("userPanel");
         startButton = WaitingPanel.transform.Find("StartButton").GetComponent<Button>();
         createSignInButton = WaitingPanel.transform.Find("SignInButton").GetComponent<Button>();
 
@@ -63,7 +60,9 @@ public class AuthenticationManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
             AudioManager.Instance.PlayMusic(AudioConstants.Music.FantasyAmbient);
-            FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, MainPanel);
+            MainMenuManager.Instance.CreateMainPanel();
+            MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
+            FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, RootPanel);
         });
         createSignInButton.onClick.AddListener(() =>
         {
@@ -91,7 +90,7 @@ public class AuthenticationManager : MonoBehaviour
         string password = SI_passwordInput.text;
         IUserRepository _userRepository = new UserRepository();
         UserService _userService = new UserService(_userRepository);
-        var authResult = _userService.SignInUser(username, password);
+        authResult = _userService.SignInUser(username, password);
 
         if (authResult.Success)
         {
@@ -101,24 +100,7 @@ public class AuthenticationManager : MonoBehaviour
                 AuthenticationManager.Instance.createCreateNamePanel(username, password);
                 // signInPanel.SetActive(false);
             }
-            Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
-            nameText.text = authResult.User.name;
-            Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
-            levelText.text = authResult.User.level.ToString();
-            Text powerText = userPanel.transform.Find("PowerText").GetComponent<Text>();
-            powerText.text = authResult.User.power.ToString();
-            RawImage avatarImage = userPanel.transform.Find("AvatarImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = authResult.User.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            avatarImage.texture = texture;
 
-            RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
-
-            fileNameWithoutExtension = authResult.User.border.Replace(".png", "");
-            Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            borderImage.texture = borderTexture;
-
-            FindObjectOfType<CurrencyManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
             PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
         }
         else
@@ -267,23 +249,7 @@ public class AuthenticationManager : MonoBehaviour
             IUserRepository _userRepository = new UserRepository();
             UserService _userService = new UserService(_userRepository);
             _userService.UpdateUserName(User.CurrentUserId, nameInput.text);
-            var authResult = _userService.SignInUser(username, password);
-            Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
-            nameText.text = authResult.User.name;
-            Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
-            levelText.text = authResult.User.level.ToString();
-            Text powerText = userPanel.transform.Find("PowerText").GetComponent<Text>();
-            powerText.text = authResult.User.power.ToString();
-            RawImage avatarImage = userPanel.transform.Find("AvatarImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = authResult.User.image.Replace(".png", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            avatarImage.texture = texture;
-
-            RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = authResult.User.border.Replace(".png", "");
-            Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            borderImage.texture = borderTexture;
-            FindObjectOfType<CurrencyManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
+            authResult = _userService.SignInUser(username, password);
         });
     }
     public void deleteCreateNamePanel()
