@@ -6,21 +6,21 @@ public static class EvaluateSkill
     {
         switch (type)
         {
-            case AppConstants.Skill.Alternative:
+            case AppConstants.Skill.ALTERNATIVE:
                 return ImageConstants.Background.SkillAlternativeBackground;
-            case AppConstants.Skill.Celestial:
+            case AppConstants.Skill.CELESTIAL:
                 return ImageConstants.Background.SkillCelestialBackground;
-            case AppConstants.Skill.Divine:
+            case AppConstants.Skill.DIVINE:
                 return ImageConstants.Background.SkillDivineBackground;
-            case AppConstants.Skill.Forces:
+            case AppConstants.Skill.FORCES:
                 return ImageConstants.Background.SkillForcesBackground;
-            case AppConstants.Skill.Main:
+            case AppConstants.Skill.MAIN:
                 return ImageConstants.Background.SkillMainBackground;
-            case AppConstants.Skill.Normal:
+            case AppConstants.Skill.NORMAL:
                 return ImageConstants.Background.SkillNormalBackground;
-            case AppConstants.Skill.Teamwork:
+            case AppConstants.Skill.TEAMWORK:
                 return ImageConstants.Background.SkillTeamworkBackground;
-            case AppConstants.Skill.Transcendence:
+            case AppConstants.Skill.TRANSCENDENCE:
                 return ImageConstants.Background.SkillTranscendenceBackground;
             default:
                 return ImageConstants.Background.SkillAlternativeBackground;

@@ -69,7 +69,7 @@ public class UserCardLifeController : MonoBehaviour
             Button button = cardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
             });
 
@@ -174,14 +174,14 @@ public class UserCardLifeController : MonoBehaviour
             UIManager.Instance.CreatePropertyLevelUI(properties, cardLife, increasePerLevel, currentObject);
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.CardLife);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.CARD_LIFE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardLife currentCard = new CardLife();
                 currentCard = UserCardLifeService.Create().GetUserCardLifeById(User.CurrentUserId, cardLife.id);
                 int totalExperiment = currentCard.experiment;
@@ -208,7 +208,7 @@ public class UserCardLifeController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardLife currentCard = UserCardLifeService.Create().GetUserCardLifeById(User.CurrentUserId, cardLife.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -261,7 +261,7 @@ public class UserCardLifeController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.CardLife);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.CARD_LIFE);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -289,7 +289,7 @@ public class UserCardLifeController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = cardLife.star + 1;
                 int totalItemQuantity = 0;
 

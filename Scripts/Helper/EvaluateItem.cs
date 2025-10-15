@@ -84,14 +84,14 @@ public static class EvaluateItem
         // Nếu đã đạt max level
         if (currentLevel >= maxLevel)
         {
-            return (materialLeft, currencyLeft, 0, 0, 0, AppConstants.Status.MaxLevel);
+            return (materialLeft, currencyLeft, 0, 0, 0, AppConstants.Status.MAX_LEVEL);
         }
 
         // Nếu chỉ up 1 level
         if (!isMaxLevel)
         {
             if (currentLevel + 1 > maxLevel)
-                return (materialLeft, currencyLeft, 0, 0, 0, AppConstants.Status.MaxLevel);
+                return (materialLeft, currencyLeft, 0, 0, 0, AppConstants.Status.MAX_LEVEL);
             int targetLevel = currentLevel + 1;
 
             // đảm bảo requiredMaterial tối thiểu là 1 (không được là 0)
@@ -109,10 +109,10 @@ public static class EvaluateItem
             }
             else
             {
-                return (materialLeft, currencyLeft, 0, totalMaterialUsed, totalCurrencyUsed, AppConstants.Status.NotEnoughResource);
+                return (materialLeft, currencyLeft, 0, totalMaterialUsed, totalCurrencyUsed, AppConstants.Status.NOT_ENOUGH_RESOURCE);
             }
 
-            return (materialLeft, currencyLeft, levelsGained, totalMaterialUsed, totalCurrencyUsed, AppConstants.Status.Success);
+            return (materialLeft, currencyLeft, levelsGained, totalMaterialUsed, totalCurrencyUsed, AppConstants.Status.SUCCESS);
         }
 
         // Nếu up max có thể
@@ -142,7 +142,7 @@ public static class EvaluateItem
         }
 
         return (materialLeft, currencyLeft, levelsGained, totalMaterialUsed, totalCurrencyUsed, levelsGained > 0
-            ? AppConstants.Status.Success
-            : AppConstants.Status.NotEnoughResource);
+            ? AppConstants.Status.SUCCESS
+            : AppConstants.Status.NOT_ENOUGH_RESOURCE);
     }
 }

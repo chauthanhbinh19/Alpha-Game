@@ -68,13 +68,13 @@ public class RareMarketManager : MonoBehaviour
         CloseButton = RareMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(RareMarketManagerObject);
         });
         HomeButton = RareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Close(MainPanel);
         });
 
@@ -98,7 +98,7 @@ public class RareMarketManager : MonoBehaviour
             Button currencyButton = currencyObject.GetComponent<Button>();
             currencyButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CreateRareMarketItemUI(currency);
             });
         }
@@ -117,30 +117,30 @@ public class RareMarketManager : MonoBehaviour
         CloseButton = RareMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(RareMarketObject);
         });
         HomeButton = RareMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Close(MainPanel);
         });
         NextButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangeNextPage();
         });
         PreviousButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangePreviousPage();
         });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RareMarket);
 
         items = ItemsService.Create().GetItems()
-            .Where(item => item.type.Equals(AppConstants.Market.RareMaterialItem, StringComparison.OrdinalIgnoreCase))
+            .Where(item => item.type.Equals(AppConstants.Market.RARE_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         totalPage = Mathf.CeilToInt((float)items.Count / pageSize);

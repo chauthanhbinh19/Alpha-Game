@@ -65,7 +65,7 @@ public class UserRelicsController : MonoBehaviour
             Button button = relicObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(relic, MainPanel);
             });
 
@@ -178,14 +178,14 @@ public class UserRelicsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Relic);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.RELIC);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Relics currentCard = new Relics();
                 currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.id);
                 int totalExperiment = currentCard.experiment;
@@ -212,7 +212,7 @@ public class UserRelicsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Relics currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -265,7 +265,7 @@ public class UserRelicsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Relic);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.RELIC);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -293,7 +293,7 @@ public class UserRelicsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = relics.star + 1;
                 int totalItemQuantity = 0;
 

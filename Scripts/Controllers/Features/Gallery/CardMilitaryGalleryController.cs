@@ -55,7 +55,7 @@ public class CardMilitaryGalleryController : MonoBehaviour
             Button button = militaryObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(military, MainPanel);
             });
 
@@ -84,7 +84,7 @@ public class CardMilitaryGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var militaryGalleryService = CardMilitaryGalleryService.Create();
                 militaryGalleryService.UpdateStatusCardMilitaryGallery(military.id);
                 blockImage.gameObject.SetActive(false);
@@ -111,7 +111,7 @@ public class CardMilitaryGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardMilitaryGalleryService.Create().UpdateCardMilitaryGalleryPower(military.id);
             });
         }

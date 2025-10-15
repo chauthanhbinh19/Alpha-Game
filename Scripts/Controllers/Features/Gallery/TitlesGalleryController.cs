@@ -57,7 +57,7 @@ public class TitlesGalleryController : MonoBehaviour
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
             });
 
@@ -90,7 +90,7 @@ public class TitlesGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var titleGalleryService = TitlesGalleryService.Create();
                 titleGalleryService.UpdateStatusTitlesGallery(title.id);
                 blockImage.gameObject.SetActive(false);
@@ -117,7 +117,7 @@ public class TitlesGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 TitlesGalleryService.Create().UpdateTitlesGalleryPower(title.id);
             });
         }

@@ -65,7 +65,7 @@ public class UserTalismanController : MonoBehaviour
             Button button = talismanObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(talisman, MainPanel);
             });
 
@@ -178,14 +178,14 @@ public class UserTalismanController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Talisman);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.TALISMAN);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Talisman currentCard = new Talisman();
                 currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.id);
                 int totalExperiment = currentCard.experiment;
@@ -212,7 +212,7 @@ public class UserTalismanController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Talisman currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -265,7 +265,7 @@ public class UserTalismanController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Talisman);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.TALISMAN);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -293,7 +293,7 @@ public class UserTalismanController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = talisman.star + 1;
                 int totalItemQuantity = 0;
 

@@ -92,31 +92,31 @@ public class GachaSystem : MonoBehaviour
         // Xác định class dựa trên type
         switch (name)
         {
-            case AppConstants.MainType.SummonCardHeroes:
+            case AppConstants.MainType.SUMMON_CARD_HEROES:
                 cards = CardHeroesService.Create().GetAllCardHeroes(type);
                 break;
-            case AppConstants.MainType.SummonBooks:
+            case AppConstants.MainType.SUMMON_BOOKS:
                 cards = BooksService.Create().GetAllBooks(type);
                 break;
-            case AppConstants.MainType.SummonCardCaptains:
+            case AppConstants.MainType.SUMMON_CARD_CAPTAINS:
                 cards = CardCaptainsService.Create().GetAllCardCaptains(type);
                 break;
-            case AppConstants.MainType.SummonCardMonsters:
+            case AppConstants.MainType.SUMMON_CARD_MONSTERS:
                 cards = CardMonstersService.Create().GetAllCardMonsters(type);
                 break;
-            case AppConstants.MainType.SummonCardMilitaries:
+            case AppConstants.MainType.SUMMON_CARD_MILITARY:
                 cards = CardMilitaryService.Create().GetAllCardMilitary(type);
                 break;
-            case AppConstants.MainType.SummonCardSpells:
+            case AppConstants.MainType.SUMMON_CARD_SPELLS:
                 cards = CardSpellService.Create().GetAllCardSpell(type);
                 break;
-            case AppConstants.MainType.SummonCardColonels:
+            case AppConstants.MainType.SUMMON_CARD_COLONELS:
                 cards = CardColonelsService.Create().GetAllCardColonels(type);
                 break;
-            case AppConstants.MainType.SummonCardGenerals:
+            case AppConstants.MainType.SUMMON_CARD_GENERALS:
                 cards = CardGeneralsService.Create().GetAllCardGenerals(type);
                 break;
-            case AppConstants.MainType.SummonCardAdmirals:
+            case AppConstants.MainType.SUMMON_CARD_ADMIRALS:
                 cards = CardAdmiralsService.Create().GetAllCardAdmirals(type);
                 break;
             default:
@@ -156,7 +156,7 @@ public class GachaSystem : MonoBehaviour
         {
             // Debug.Log("Summoned item: " + item.ToString());
             // Thực hiện logic riêng tùy thuộc vào loại đối tượng
-            if (name.Equals(AppConstants.MainType.SummonCardHeroes))
+            if (name.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
             {
                 CardHeroes cardItem = card as CardHeroes;
                 if (cardItem != null)
@@ -166,7 +166,7 @@ public class GachaSystem : MonoBehaviour
                     CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardItem.id);
                 }
             }
-            else if (name.Equals(AppConstants.MainType.SummonBooks))
+            else if (name.Equals(AppConstants.MainType.SUMMON_BOOKS))
             {
                 Books bookItem = card as Books;
                 if (bookItem != null)
@@ -176,7 +176,7 @@ public class GachaSystem : MonoBehaviour
                     BooksGalleryService.Create().InsertBooksGallery(bookItem.id);
                 }
             }
-            else if (name.Equals(AppConstants.MainType.SummonCardCaptains))
+            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
             {
                 CardCaptains captainItem = card as CardCaptains;
                 if (captainItem != null)
@@ -186,7 +186,7 @@ public class GachaSystem : MonoBehaviour
                     CardCaptainsGalleryService.Create().InsertCardCaptainsGallery(captainItem.id);
                 }
             }
-            else if (name.Equals(AppConstants.MainType.SummonCardMonsters))
+            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
             {
                 CardMonsters monsterItem = card as CardMonsters;
                 if (monsterItem != null)
@@ -196,7 +196,7 @@ public class GachaSystem : MonoBehaviour
                     CardMonstersGalleryService.Create().InsertCardMonstersGallery(monsterItem.id);
                 }
             }
-            else if (name.Equals(AppConstants.MainType.SummonCardMilitaries))
+            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
             {
                 CardMilitary militaryItem = card as CardMilitary;
                 if (militaryItem != null)
@@ -206,7 +206,7 @@ public class GachaSystem : MonoBehaviour
                     CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(militaryItem.id);
                 }
             }
-            else if (name.Equals(AppConstants.MainType.SummonCardSpells))
+            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
             {
                 CardSpell spellItem = card as CardSpell;
                 if (spellItem != null)
@@ -216,7 +216,7 @@ public class GachaSystem : MonoBehaviour
                     CardSpellGalleryService.Create().InsertCardSpellGallery(spellItem.id);
                 }
             }
-            else if (name.Equals(AppConstants.MainType.SummonCardColonels))
+            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
             {
                 CardColonels colonelItem = card as CardColonels;
                 if (colonelItem != null)
@@ -226,7 +226,7 @@ public class GachaSystem : MonoBehaviour
                     CardColonelsGalleryService.Create().InsertCardColonelsGallery(colonelItem.id);
                 }
             }
-            else if (name.Equals(AppConstants.MainType.SummonCardGenerals))
+            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
             {
                 CardGenerals generalItem = card as CardGenerals;
                 if (generalItem != null)
@@ -236,7 +236,7 @@ public class GachaSystem : MonoBehaviour
                     CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(generalItem.id);
                 }
             }
-            else if (name.Equals(AppConstants.MainType.SummonCardAdmirals))
+            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
             {
                 CardAdmirals admiralItem = card as CardAdmirals;
                 if (admiralItem != null)

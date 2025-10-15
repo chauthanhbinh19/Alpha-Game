@@ -67,13 +67,13 @@ public class MysticMarketManager : MonoBehaviour
         CloseButton = mysticMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(mysticMarketManagerObject);
         });
         HomeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Close(MainPanel);
         });
 
@@ -97,7 +97,7 @@ public class MysticMarketManager : MonoBehaviour
             Button currencyButton = currencyObject.GetComponent<Button>();
             currencyButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CreateMysticMarketItemUI(currency);
             });
         }
@@ -116,30 +116,30 @@ public class MysticMarketManager : MonoBehaviour
         CloseButton = mysticMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(mysticMarketObject);
         });
         HomeButton = mysticMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Close(MainPanel);
         });
         NextButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangeNextPage();
         });
         PreviousButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangePreviousPage();
         });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MysticMarket);
 
         items = ItemsService.Create().GetItems()
-            .Where(item => item.type.Equals(AppConstants.Market.MysticMaterialItem, StringComparison.OrdinalIgnoreCase))
+            .Where(item => item.type.Equals(AppConstants.Market.MYSTIC_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         totalPage = Mathf.CeilToInt((float)items.Count / pageSize);

@@ -65,7 +65,7 @@ public class UserPuppetController : MonoBehaviour
             Button button = puppetObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(puppet, MainPanel);
             });
 
@@ -178,14 +178,14 @@ public class UserPuppetController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Puppet);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.PUPPET);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Puppet currentCard = new Puppet();
                 currentCard = UserPuppetService.Create().GetUserPuppetById(User.CurrentUserId, puppet.id);
                 int totalExperiment = currentCard.experiment;
@@ -212,7 +212,7 @@ public class UserPuppetController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Puppet currentCard = UserPuppetService.Create().GetUserPuppetById(User.CurrentUserId, puppet.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -265,7 +265,7 @@ public class UserPuppetController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Puppet);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.PUPPET);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -293,7 +293,7 @@ public class UserPuppetController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = puppet.star + 1;
                 int totalItemQuantity = 0;
 

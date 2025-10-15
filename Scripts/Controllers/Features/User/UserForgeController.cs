@@ -65,7 +65,7 @@ public class UserForgeController : MonoBehaviour
             Button button = forgeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(forge, MainPanel);
             });
 
@@ -178,14 +178,14 @@ public class UserForgeController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Forge);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.FORGE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Forge currentCard = new Forge();
                 currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.id);
                 int totalExperiment = currentCard.experiment;
@@ -212,7 +212,7 @@ public class UserForgeController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Forge currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -265,7 +265,7 @@ public class UserForgeController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Forge);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.FORGE);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -293,7 +293,7 @@ public class UserForgeController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = forge.star + 1;
                 int totalItemQuantity = 0;
 

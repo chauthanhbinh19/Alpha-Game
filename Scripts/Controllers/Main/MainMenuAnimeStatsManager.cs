@@ -48,7 +48,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             string buttonName = button.name; // Lưu lại giá trị cục bộ để tránh lỗi closure
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CreateMainMenuAnimeStatsManager(buttonName);
             });
         }
@@ -67,12 +67,12 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             ButtonEvent.Instance.Close(MainPanel);
         });
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(currentObject);
         });
 
@@ -97,7 +97,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     OnButtonClick(button, subtype, value);
                 });
 
@@ -162,7 +162,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         AnimeStats animeStats = animeStatsService.GetAnimeStats(mainType, User.CurrentUserId);
         slotObject = Instantiate(AnimeSlotPrefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.Silver);
+        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         string itemName = animeType + " " + mainType;
         Items item = userItemsService.GetUserItemByName(itemName);
@@ -172,10 +172,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
             var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, animeStats.level, false, maxLevel);
-            if (result.message.Equals(AppConstants.Status.Success))
+            if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
@@ -193,10 +193,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             
             var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, animeStats.level, true, maxLevel);
-            if (result.message.Equals(AppConstants.Status.Success))
+            if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);

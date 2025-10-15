@@ -138,14 +138,14 @@ public class UserEquipmentsController : MonoBehaviour
             
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Equipment);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.EQUIPMENT);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Equipments currentCard = new Equipments();
                 currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.id);
                 int totalExperiment = currentCard.experiment;
@@ -172,7 +172,7 @@ public class UserEquipmentsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Equipments currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -225,7 +225,7 @@ public class UserEquipmentsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Equipment);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.EQUIPMENT);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -253,7 +253,7 @@ public class UserEquipmentsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = equipments.star + 1;
                 int totalItemQuantity = 0;
 

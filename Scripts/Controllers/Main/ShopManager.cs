@@ -66,7 +66,7 @@ public class ShopManager : MonoBehaviour
             {
                 button.onClick.AddListener(()=>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     action();
                 });
             }
@@ -84,13 +84,13 @@ public class ShopManager : MonoBehaviour
         CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(currentObject);
         });
         HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(currentObject);
         });
         Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
@@ -100,62 +100,62 @@ public class ShopManager : MonoBehaviour
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        CreateButton(1, AppConstants.MainType.CardHeroes, Resources.Load<Texture2D>($"UI/Button/Gallery/CardsGallery"), tempContent);
-        CreateButton(2, AppConstants.MainType.Books, Resources.Load<Texture2D>($"UI/Button/Gallery/BooksGallery"), tempContent);
-        CreateButton(3, AppConstants.MainType.Pets, Resources.Load<Texture2D>($"UI/Button/Gallery/PetsGallery"), tempContent);
-        CreateButton(4, AppConstants.MainType.CardCaptains, Resources.Load<Texture2D>($"UI/Button/Gallery/CaptainsGallery"), tempContent);
-        CreateButton(5, AppConstants.MainType.CollaborationEquipments, Resources.Load<Texture2D>($"UI/Button/Gallery/CollaborationEquipmentsGallery"), tempContent);
-        CreateButton(6, AppConstants.MainType.CardMilitaries, Resources.Load<Texture2D>($"UI/Button/Gallery/MilitaryGallery"), tempContent);
-        CreateButton(7, AppConstants.MainType.CardSpells, Resources.Load<Texture2D>($"UI/Button/Gallery/SpellGallery"), tempContent);
-        CreateButton(8, AppConstants.MainType.Collaborations, Resources.Load<Texture2D>($"UI/Button/Gallery/CollaborationsGallery"), tempContent);
-        CreateButton(9, AppConstants.MainType.CardMonsters, Resources.Load<Texture2D>($"UI/Button/Gallery/MonstersGallery"), tempContent);
-        CreateButton(10, AppConstants.MainType.Borders, Resources.Load<Texture2D>($"UI/Button/Gallery/BorderGallery"), tempContent);
-        CreateButton(11, AppConstants.MainType.Medals, Resources.Load<Texture2D>($"UI/Button/Gallery/MedalsGallery"), tempContent);
-        CreateButton(12, AppConstants.MainType.Skills, Resources.Load<Texture2D>($"UI/Button/Gallery/SkillsGallery"), tempContent);
-        CreateButton(13, AppConstants.MainType.Symbols, Resources.Load<Texture2D>($"UI/Button/Gallery/SymbolsGallery"), tempContent);
-        CreateButton(14, AppConstants.MainType.Titles, Resources.Load<Texture2D>($"UI/Button/Gallery/TitlesGallery"), tempContent);
-        CreateButton(15, AppConstants.MainType.MagicFormationCircles, Resources.Load<Texture2D>($"UI/Button/Gallery/MagicFormationCircleGallery"), tempContent);
-        CreateButton(16, AppConstants.MainType.Relics, Resources.Load<Texture2D>($"UI/Button/Gallery/RelicsGallery"), tempContent);
-        CreateButton(17, AppConstants.MainType.Artworks, Resources.Load<Texture2D>($"UI/Button/Gallery/ArtworkGallery"), tempContent);
-        CreateButton(18, AppConstants.MainType.Achievements, Resources.Load<Texture2D>($"UI/Button/Gallery/AchievementGallery"), tempContent);
-        CreateButton(19, AppConstants.MainType.CardColonels, Resources.Load<Texture2D>($"UI/Button/Gallery/ColonelsGallery"), tempContent);
-        CreateButton(20, AppConstants.MainType.CardGenerals, Resources.Load<Texture2D>($"UI/Button/Gallery/GeneralsGallery"), tempContent);
-        CreateButton(21, AppConstants.MainType.CardAdmirals, Resources.Load<Texture2D>($"UI/Button/Gallery/AdmiralsGallery"), tempContent);
-        CreateButton(22, AppConstants.MainType.Talismans, Resources.Load<Texture2D>($"UI/Button/Gallery/TalismanGallery"), tempContent);
-        CreateButton(23, AppConstants.MainType.Puppets, Resources.Load<Texture2D>($"UI/Button/Gallery/PuppetGallery"), tempContent);
-        CreateButton(24, AppConstants.MainType.Alchemies, Resources.Load<Texture2D>($"UI/Button/Gallery/AlchemyGallery"), tempContent);
-        CreateButton(25, AppConstants.MainType.Forges, Resources.Load<Texture2D>($"UI/Button/Gallery/ForgeGallery"), tempContent);
-        CreateButton(26, AppConstants.MainType.CardLives, Resources.Load<Texture2D>($"UI/Button/Gallery/LifeGallery"), tempContent);
-        CreateButton(27, AppConstants.MainType.SpiritBeast, Resources.Load<Texture2D>($"UI/Button/Gallery/SpiritBeastGallery"), tempContent);
+        CreateButton(1, AppConstants.MainType.CARD_HEROES, Resources.Load<Texture2D>($"UI/Button/Gallery/CardsGallery"), tempContent);
+        CreateButton(2, AppConstants.MainType.BOOKS, Resources.Load<Texture2D>($"UI/Button/Gallery/BooksGallery"), tempContent);
+        CreateButton(3, AppConstants.MainType.PETS, Resources.Load<Texture2D>($"UI/Button/Gallery/PetsGallery"), tempContent);
+        CreateButton(4, AppConstants.MainType.CARD_CAPTAINS, Resources.Load<Texture2D>($"UI/Button/Gallery/CaptainsGallery"), tempContent);
+        CreateButton(5, AppConstants.MainType.COLLABORATION_EQUIPMENTS, Resources.Load<Texture2D>($"UI/Button/Gallery/CollaborationEquipmentsGallery"), tempContent);
+        CreateButton(6, AppConstants.MainType.CARD_MILITARIES, Resources.Load<Texture2D>($"UI/Button/Gallery/MilitaryGallery"), tempContent);
+        CreateButton(7, AppConstants.MainType.CARD_SPELLS, Resources.Load<Texture2D>($"UI/Button/Gallery/SpellGallery"), tempContent);
+        CreateButton(8, AppConstants.MainType.COLLABORATIONS, Resources.Load<Texture2D>($"UI/Button/Gallery/CollaborationsGallery"), tempContent);
+        CreateButton(9, AppConstants.MainType.CARD_MONSTERS, Resources.Load<Texture2D>($"UI/Button/Gallery/MonstersGallery"), tempContent);
+        CreateButton(10, AppConstants.MainType.BORDERS, Resources.Load<Texture2D>($"UI/Button/Gallery/BorderGallery"), tempContent);
+        CreateButton(11, AppConstants.MainType.MEDALS, Resources.Load<Texture2D>($"UI/Button/Gallery/MedalsGallery"), tempContent);
+        CreateButton(12, AppConstants.MainType.SKILLS, Resources.Load<Texture2D>($"UI/Button/Gallery/SkillsGallery"), tempContent);
+        CreateButton(13, AppConstants.MainType.SYMBOLS, Resources.Load<Texture2D>($"UI/Button/Gallery/SymbolsGallery"), tempContent);
+        CreateButton(14, AppConstants.MainType.TITLES, Resources.Load<Texture2D>($"UI/Button/Gallery/TitlesGallery"), tempContent);
+        CreateButton(15, AppConstants.MainType.MAGIC_FORMATION_CIRCLES, Resources.Load<Texture2D>($"UI/Button/Gallery/MagicFormationCircleGallery"), tempContent);
+        CreateButton(16, AppConstants.MainType.RELICS, Resources.Load<Texture2D>($"UI/Button/Gallery/RelicsGallery"), tempContent);
+        CreateButton(17, AppConstants.MainType.ARTWORKS, Resources.Load<Texture2D>($"UI/Button/Gallery/ArtworkGallery"), tempContent);
+        CreateButton(18, AppConstants.MainType.ACHIEVEMENTS, Resources.Load<Texture2D>($"UI/Button/Gallery/AchievementGallery"), tempContent);
+        CreateButton(19, AppConstants.MainType.CARD_COLONELS, Resources.Load<Texture2D>($"UI/Button/Gallery/ColonelsGallery"), tempContent);
+        CreateButton(20, AppConstants.MainType.CARD_GENERALS, Resources.Load<Texture2D>($"UI/Button/Gallery/GeneralsGallery"), tempContent);
+        CreateButton(21, AppConstants.MainType.CARD_ADMIRALS, Resources.Load<Texture2D>($"UI/Button/Gallery/AdmiralsGallery"), tempContent);
+        CreateButton(22, AppConstants.MainType.TALISMANS, Resources.Load<Texture2D>($"UI/Button/Gallery/TalismanGallery"), tempContent);
+        CreateButton(23, AppConstants.MainType.PUPPETS, Resources.Load<Texture2D>($"UI/Button/Gallery/PuppetGallery"), tempContent);
+        CreateButton(24, AppConstants.MainType.ALCHEMIES, Resources.Load<Texture2D>($"UI/Button/Gallery/AlchemyGallery"), tempContent);
+        CreateButton(25, AppConstants.MainType.FORGES, Resources.Load<Texture2D>($"UI/Button/Gallery/ForgeGallery"), tempContent);
+        CreateButton(26, AppConstants.MainType.CARD_LIVES, Resources.Load<Texture2D>($"UI/Button/Gallery/LifeGallery"), tempContent);
+        CreateButton(27, AppConstants.MainType.SPIRIT_BEAST, Resources.Load<Texture2D>($"UI/Button/Gallery/SpiritBeastGallery"), tempContent);
         // CreateButton(27, AppConstants.MainType.Artwork, Resources.Load<Texture2D>($"UI/Button/ArtworkGallery"), tempContent);
 
-        AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.MainType.CardHero));
-        AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.MainType.Book));
-        AssignButtonEvent("Button_3", tempContent, () => GetType(AppConstants.MainType.Pet));
-        AssignButtonEvent("Button_4", tempContent, () => GetType(AppConstants.MainType.CardCaptain));
-        AssignButtonEvent("Button_5", tempContent, () => GetType(AppConstants.MainType.CollaborationEquipment));
-        AssignButtonEvent("Button_6", tempContent, () => GetType(AppConstants.MainType.CardMilitary));
-        AssignButtonEvent("Button_7", tempContent, () => GetType(AppConstants.MainType.CardSpell));
-        AssignButtonEvent("Button_8", tempContent, () => GetType(AppConstants.MainType.Collaboration));
-        AssignButtonEvent("Button_9", tempContent, () => GetType(AppConstants.MainType.CardMonster));
-        AssignButtonEvent("Button_10", tempContent, () => GetType(AppConstants.MainType.Border));
-        AssignButtonEvent("Button_11", tempContent, () => GetType(AppConstants.MainType.Medal));
-        AssignButtonEvent("Button_12", tempContent, () => GetType(AppConstants.MainType.Skill));
-        AssignButtonEvent("Button_13", tempContent, () => GetType(AppConstants.MainType.Symbol));
-        AssignButtonEvent("Button_14", tempContent, () => GetType(AppConstants.MainType.Title));
-        AssignButtonEvent("Button_15", tempContent, () => GetType(AppConstants.MainType.MagicFormationCircle));
-        AssignButtonEvent("Button_16", tempContent, () => GetType(AppConstants.MainType.Relic));
-        AssignButtonEvent("Button_17", tempContent, () => GetType(AppConstants.MainType.Artwork));
-        AssignButtonEvent("Button_18", tempContent, () => GetType(AppConstants.MainType.Alchievement));
-        AssignButtonEvent("Button_19", tempContent, () => GetType(AppConstants.MainType.CardColonel));
-        AssignButtonEvent("Button_20", tempContent, () => GetType(AppConstants.MainType.CardGeneral));
-        AssignButtonEvent("Button_21", tempContent, () => GetType(AppConstants.MainType.CardAdmiral));
-        AssignButtonEvent("Button_22", tempContent, () => GetType(AppConstants.MainType.Talisman));
-        AssignButtonEvent("Button_23", tempContent, () => GetType(AppConstants.MainType.Puppet));
-        AssignButtonEvent("Button_24", tempContent, () => GetType(AppConstants.MainType.Alchemy));
-        AssignButtonEvent("Button_25", tempContent, () => GetType(AppConstants.MainType.Forge));
-        AssignButtonEvent("Button_26", tempContent, () => GetType(AppConstants.MainType.CardLife));
-        AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.MainType.SpiritBeast));
+        AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.MainType.CARD_HERO));
+        AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.MainType.BOOK));
+        AssignButtonEvent("Button_3", tempContent, () => GetType(AppConstants.MainType.PET));
+        AssignButtonEvent("Button_4", tempContent, () => GetType(AppConstants.MainType.CARD_CAPTAIN));
+        AssignButtonEvent("Button_5", tempContent, () => GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT));
+        AssignButtonEvent("Button_6", tempContent, () => GetType(AppConstants.MainType.CARD_MILITARY));
+        AssignButtonEvent("Button_7", tempContent, () => GetType(AppConstants.MainType.CARD_SPELL));
+        AssignButtonEvent("Button_8", tempContent, () => GetType(AppConstants.MainType.COLLABORATION));
+        AssignButtonEvent("Button_9", tempContent, () => GetType(AppConstants.MainType.CARD_MONSTER));
+        AssignButtonEvent("Button_10", tempContent, () => GetType(AppConstants.MainType.BORDER));
+        AssignButtonEvent("Button_11", tempContent, () => GetType(AppConstants.MainType.MEDAL));
+        AssignButtonEvent("Button_12", tempContent, () => GetType(AppConstants.MainType.SKILL));
+        AssignButtonEvent("Button_13", tempContent, () => GetType(AppConstants.MainType.SYMBOL));
+        AssignButtonEvent("Button_14", tempContent, () => GetType(AppConstants.MainType.TITLE));
+        AssignButtonEvent("Button_15", tempContent, () => GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE));
+        AssignButtonEvent("Button_16", tempContent, () => GetType(AppConstants.MainType.RELIC));
+        AssignButtonEvent("Button_17", tempContent, () => GetType(AppConstants.MainType.ARTWORK));
+        AssignButtonEvent("Button_18", tempContent, () => GetType(AppConstants.MainType.ACHIEVEMENT));
+        AssignButtonEvent("Button_19", tempContent, () => GetType(AppConstants.MainType.CARD_COLONEL));
+        AssignButtonEvent("Button_20", tempContent, () => GetType(AppConstants.MainType.CARD_GENERAL));
+        AssignButtonEvent("Button_21", tempContent, () => GetType(AppConstants.MainType.CARD_ADMIRAL));
+        AssignButtonEvent("Button_22", tempContent, () => GetType(AppConstants.MainType.TALISMAN));
+        AssignButtonEvent("Button_23", tempContent, () => GetType(AppConstants.MainType.PUPPET));
+        AssignButtonEvent("Button_24", tempContent, () => GetType(AppConstants.MainType.ALCHEMY));
+        AssignButtonEvent("Button_25", tempContent, () => GetType(AppConstants.MainType.FORGE));
+        AssignButtonEvent("Button_26", tempContent, () => GetType(AppConstants.MainType.CARD_LIFE));
+        AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
         // AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.MainType.Artwork));
 
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -200,23 +200,23 @@ public class ShopManager : MonoBehaviour
         CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(equipmentObject);
         });
         HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Close(MainPanel);
         });
         NextButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangeNextPage();
         });
         PreviousButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangePreviousPage();
         });
 
@@ -241,7 +241,7 @@ public class ShopManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     OnButtonClick(button, subtype);
                 });
 
@@ -261,42 +261,42 @@ public class ShopManager : MonoBehaviour
         else
         {
             int totalRecord = 0;
-            if (mainType.Equals(AppConstants.MainType.Collaboration))
+            if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
                 List<Collaboration> collaborations = CollaborationService.Create().GetCollaborationWithPrice(pageSize, offset);
                 CollaborationController.Instance.CreateCollaborationTrade(collaborations, subType, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
             }
-            else if (mainType.Equals(AppConstants.MainType.Medal))
+            else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
                 List<Medals> medals = MedalsService.Create().GetMedalsWithPrice(pageSize, offset);
                 MedalsController.Instance.CreateMedalsTrade(medals, subType, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = MedalsService.Create().GetMedalsWithPriceCount();
             }
-            else if (mainType.Equals(AppConstants.MainType.Title))
+            else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
                 List<Titles> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
                 TitlesController.Instance.CreateTitlesTrade(titles, subType, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
             }
-            else if (mainType.Equals(AppConstants.MainType.Border))
+            else if (mainType.Equals(AppConstants.MainType.BORDER))
             {
                 List<Borders> borders = BordersService.Create().GetBordersWithPrice(pageSize, offset);
                 BordersController.Instance.CreateBordersTrade(borders, subType, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = BordersService.Create().GetBordersWithPriceCount();
             }
-            else if (mainType.Equals(AppConstants.MainType.Alchievement))
+            else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
             {
                 List<Achievements> achievements = AchievementsService.Create().GetAchievementsWithPrice(pageSize, offset);
                 AchievementsController.Instance.CreateAchievementsTrade(achievements, subType, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
             }
-            else if (mainType.Equals(AppConstants.MainType.SpiritBeast))
+            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
                 List<SpiritBeast> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
                 SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, subType, currentContent, currencyPanel, popupPanel);
@@ -333,161 +333,161 @@ public class ShopManager : MonoBehaviour
     {
         int totalRecord = 0;
 
-        if (mainType.Equals(AppConstants.MainType.CardHero))
+        if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
             List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesWithPrice(type, pageSize, offset);
             CardHeroesController.Instance.CreateCardHeroesTrade(cardHeroes, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Book))
+        else if (mainType.Equals(AppConstants.MainType.BOOK))
         {
             List<Books> books = BooksService.Create().GetBooksWithPrice(type, pageSize, offset);
             BooksController.Instance.CreateBooksTrade(books, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = BooksService.Create().GetBookssWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardCaptain))
+        else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
             List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsWithPrice(type, pageSize, offset);
             CardCaptainsController.Instance.CreateCardCaptainsTrade(cardCaptains, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardCaptainsService.Create().GetCardCaptainsWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CollaborationEquipment))
+        else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
             List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPrice(type, pageSize, offset);
             CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsTrade(collaborationEquipments, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Equipment))
+        else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
             List<Equipments> equipments = EquipmentsService.Create().GetEquipments(type, pageSize, offset, rare);
             createEquipments(equipments);
 
             totalRecord = EquipmentsService.Create().GetEquipmentsCount(type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Pet))
+        else if (mainType.Equals(AppConstants.MainType.PET))
         {
             List<Pets> pets = PetsService.Create().GetPetsWithPrice(type, pageSize, offset);
             PetsController.Instance.CreatePetsTrade(pets, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = PetsService.Create().GetPetsWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Skill))
+        else if (mainType.Equals(AppConstants.MainType.SKILL))
         {
             List<Skills> skills = SkillsService.Create().GetSkillsWithPrice(type, pageSize, offset);
             SkillsController.Instance.CreateSkillsTrade(skills, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = SkillsService.Create().GetSkillsWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Symbol))
+        else if (mainType.Equals(AppConstants.MainType.SYMBOL))
         {
             List<Symbols> symbols = SymbolsService.Create().GetSymbolsWithPrice(type, pageSize, offset);
             SymbolsController.Instance.CreateSymbolsTrade(symbols, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = SymbolsService.Create().GetSkillsWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardMilitary))
+        else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
             List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryWithPrice(type, pageSize, offset);
             CardMilitaryController.Instance.CreateCardMilitaryTrade(cardMilitaries, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardMilitaryService.Create().GetCardMilitaryWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardSpell))
+        else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
             List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpellWithPrice(type, pageSize, offset);
             CardSpellController.Instance.CreateCardSpellTrade(cardSpells, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardSpellService.Create().GetCardSpellWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.MagicFormationCircle))
+        else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
             List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircleWithPrice(type, pageSize, offset);
             MagicFormationCircleController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(subType);
         }
-        else if (mainType.Equals(AppConstants.MainType.Relic))
+        else if (mainType.Equals(AppConstants.MainType.RELIC))
         {
             List<Relics> relics = RelicsService.Create().GetRelicsWithPrice(type, pageSize, offset);
             RelicsController.Instance.CreateRelicsTrade(relics, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = RelicsService.Create().GetRelicsWithPriceCount(subType);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardMonster))
+        else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
             List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersWithPrice(type, pageSize, offset);
             CardMonstersController.Instance.CreateCardMonstersTrade(cardMonsters, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardMonstersService.Create().GetCardMonstersWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardColonel))
+        else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
             List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsWithPrice(type, pageSize, offset);
             CardColonelsController.Instance.CreateCardColonelsTrade(cardColonels, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardColonelsService.Create().GetCardColonelsWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardGeneral))
+        else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
             List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsWithPrice(type, pageSize, offset);
             CardGeneralsController.Instance.CreateCardGeneralsTrade(cardGenerals, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardGeneralsService.Create().GetCardGeneralsWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
+        else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
             List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsWithPrice(type, pageSize, offset);
             CardAdmiralsController.Instance.CreateCardAdmiralsTrade(cardAdmirals, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardAdmiralsService.Create().GetCardAdmiralsWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Talisman))
+        else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
             List<Talisman> talismans = TalismanService.Create().GetTalismanWithPrice(type, pageSize, offset);
             TalismanController.Instance.CreateTalismanTrade(talismans, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = TalismanService.Create().GetTalismanWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Puppet))
+        else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
             List<Puppet> puppets = PuppetService.Create().GetPuppetWithPrice(type, pageSize, offset);
             PuppetController.Instance.CreatePuppetTrade(puppets, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = PuppetService.Create().GetPuppetWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Alchemy))
+        else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
             List<Alchemy> alchemies = AlchemyService.Create().GetAlchemyWithPrice(type, pageSize, offset);
             AlchemyController.Instance.CreateAlchemyTrade(alchemies, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = AlchemyService.Create().GetAlchemyWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Forge))
+        else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
             List<Forge> forges = ForgeService.Create().GetForgeWithPrice(type, pageSize, offset);
             ForgeController.Instance.CreateForgeTrade(forges, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = ForgeService.Create().GetForgeWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardLife))
+        else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
             List<CardLife> cardLives = CardLifeService.Create().GetCardLifeWithPrice(type, pageSize, offset);
             CardLifeController.Instance.CreateCardLifeTrade(cardLives, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardLifeService.Create().GetCardLifeWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Artwork))
+        else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
             List<Artwork> artworks = ArtworkService.Create().GetArtworkWithPrice(type, pageSize, offset);
             ArtworkController.Instance.CreateArtworkTrade(artworks, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.SpiritBeast))
+        else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
             List<SpiritBeast> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
             SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
@@ -578,7 +578,7 @@ public class ShopManager : MonoBehaviour
             ClearAllPrefabs();
             int totalRecord = 0;
 
-            if (mainType.Equals(AppConstants.MainType.CardHero))
+            if (mainType.Equals(AppConstants.MainType.CARD_HERO))
             {
                 totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -587,7 +587,7 @@ public class ShopManager : MonoBehaviour
                 List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesWithPrice(subType, pageSize, offset);
                 CardHeroesController.Instance.CreateCardHeroesTrade(cardHeroes, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Book))
+            else if (mainType.Equals(AppConstants.MainType.BOOK))
             {
                 totalRecord = BooksService.Create().GetBookssWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -596,7 +596,7 @@ public class ShopManager : MonoBehaviour
                 List<Books> books = BooksService.Create().GetBooksWithPrice(subType, pageSize, offset);
                 BooksController.Instance.CreateBooksTrade(books, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardCaptain))
+            else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
             {
                 totalRecord = CardCaptainsService.Create().GetCardCaptainsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -605,7 +605,7 @@ public class ShopManager : MonoBehaviour
                 List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsWithPrice(subType, pageSize, offset);
                 CardCaptainsController.Instance.CreateCardCaptainsTrade(cardCaptains, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CollaborationEquipment))
+            else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
             {
                 totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -614,7 +614,7 @@ public class ShopManager : MonoBehaviour
                 List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPrice(subType, pageSize, offset);
                 CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsTrade(collaborationEquipments, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Collaboration))
+            else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
                 totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -623,7 +623,7 @@ public class ShopManager : MonoBehaviour
                 List<Collaboration> collaborations = CollaborationService.Create().GetCollaborationWithPrice(pageSize, offset);
                 CollaborationController.Instance.CreateCollaborationTrade(collaborations, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Equipment))
+            else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
             {
                 totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -632,7 +632,7 @@ public class ShopManager : MonoBehaviour
                 List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset, rare);
                 createEquipments(equipments);
             }
-            else if (mainType.Equals(AppConstants.MainType.Medal))
+            else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
                 totalRecord = MedalsService.Create().GetMedalsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -641,7 +641,7 @@ public class ShopManager : MonoBehaviour
                 List<Medals> medals = MedalsService.Create().GetMedalsWithPrice(pageSize, offset);
                 MedalsController.Instance.CreateMedalsTrade(medals, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardMonster))
+            else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
             {
                 totalRecord = CardMonstersService.Create().GetCardMonstersWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -650,7 +650,7 @@ public class ShopManager : MonoBehaviour
                 List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersWithPrice(subType, pageSize, offset);
                 CardMonstersController.Instance.CreateCardMonstersTrade(cardMonsters, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Pet))
+            else if (mainType.Equals(AppConstants.MainType.PET))
             {
                 totalRecord = PetsService.Create().GetPetsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -659,7 +659,7 @@ public class ShopManager : MonoBehaviour
                 List<Pets> pets = PetsService.Create().GetPetsWithPrice(subType, pageSize, offset);
                 PetsController.Instance.CreatePetsTrade(pets, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Skill))
+            else if (mainType.Equals(AppConstants.MainType.SKILL))
             {
                 totalRecord = SkillsService.Create().GetSkillsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -668,7 +668,7 @@ public class ShopManager : MonoBehaviour
                 List<Skills> skills = SkillsService.Create().GetSkillsWithPrice(subType, pageSize, offset);
                 SkillsController.Instance.CreateSkillsTrade(skills, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Symbol))
+            else if (mainType.Equals(AppConstants.MainType.SYMBOL))
             {
                 totalRecord = SymbolsService.Create().GetSkillsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -677,7 +677,7 @@ public class ShopManager : MonoBehaviour
                 List<Symbols> symbols = SymbolsService.Create().GetSymbolsWithPrice(subType, pageSize, offset);
                 SymbolsController.Instance.CreateSymbolsTrade(symbols, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Title))
+            else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
                 totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -686,7 +686,7 @@ public class ShopManager : MonoBehaviour
                 List<Titles> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
                 TitlesController.Instance.CreateTitlesTrade(titles, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardMilitary))
+            else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
             {
                 totalRecord = CardMilitaryService.Create().GetCardMilitaryWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -695,7 +695,7 @@ public class ShopManager : MonoBehaviour
                 List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryWithPrice(subType, pageSize, offset);
                 CardMilitaryController.Instance.CreateCardMilitaryTrade(cardMilitaries, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardSpell))
+            else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
             {
                 totalRecord = CardSpellService.Create().GetCardSpellWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -704,7 +704,7 @@ public class ShopManager : MonoBehaviour
                 List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpellWithPrice(subType, pageSize, offset);
                 CardSpellController.Instance.CreateCardSpellTrade(cardSpells, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.MagicFormationCircle))
+            else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
             {
                 totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -713,7 +713,7 @@ public class ShopManager : MonoBehaviour
                 List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircleWithPrice(subType, pageSize, offset);
                 MagicFormationCircleController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Relic))
+            else if (mainType.Equals(AppConstants.MainType.RELIC))
             {
                 totalRecord = RelicsService.Create().GetRelicsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -722,7 +722,7 @@ public class ShopManager : MonoBehaviour
                 List<Relics> relics = RelicsService.Create().GetRelicsWithPrice(subType, pageSize, offset);
                 RelicsController.Instance.CreateRelicsTrade(relics, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Border))
+            else if (mainType.Equals(AppConstants.MainType.BORDER))
             {
                 totalRecord = BordersService.Create().GetBordersWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -731,7 +731,7 @@ public class ShopManager : MonoBehaviour
                 List<Borders> borders = BordersService.Create().GetBordersWithPrice(pageSize, offset);
                 BordersController.Instance.CreateBordersTrade(borders, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Alchievement))
+            else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
             {
                 totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -740,7 +740,7 @@ public class ShopManager : MonoBehaviour
                 List<Achievements> achievements = AchievementsService.Create().GetAchievementsWithPrice(pageSize, offset);
                 AchievementsController.Instance.CreateAchievementsTrade(achievements, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardColonel))
+            else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
             {
                 totalRecord = CardColonelsService.Create().GetCardColonelsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -749,7 +749,7 @@ public class ShopManager : MonoBehaviour
                 List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsWithPrice(subType, pageSize, offset);
                 CardColonelsController.Instance.CreateCardColonelsTrade(cardColonels, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardGeneral))
+            else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
             {
                 totalRecord = CardGeneralsService.Create().GetCardGeneralsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -758,7 +758,7 @@ public class ShopManager : MonoBehaviour
                 List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsWithPrice(subType, pageSize, offset);
                 CardGeneralsController.Instance.CreateCardGeneralsTrade(cardGenerals, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
+            else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
             {
                 totalRecord = CardAdmiralsService.Create().GetCardAdmiralsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -767,7 +767,7 @@ public class ShopManager : MonoBehaviour
                 List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsWithPrice(subType, pageSize, offset);
                 CardAdmiralsController.Instance.CreateCardAdmiralsTrade(cardAdmirals, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Talisman))
+            else if (mainType.Equals(AppConstants.MainType.TALISMAN))
             {
                 totalRecord = TalismanService.Create().GetTalismanWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -776,7 +776,7 @@ public class ShopManager : MonoBehaviour
                 List<Talisman> talismans = TalismanService.Create().GetTalismanWithPrice(subType, pageSize, offset);
                 TalismanController.Instance.CreateTalismanTrade(talismans, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Puppet))
+            else if (mainType.Equals(AppConstants.MainType.PUPPET))
             {
                 totalRecord = PuppetService.Create().GetPuppetWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -785,7 +785,7 @@ public class ShopManager : MonoBehaviour
                 List<Puppet> puppets = PuppetService.Create().GetPuppetWithPrice(subType, pageSize, offset);
                 PuppetController.Instance.CreatePuppetTrade(puppets, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Alchemy))
+            else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
             {
                 totalRecord = AlchemyService.Create().GetAlchemyWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -794,7 +794,7 @@ public class ShopManager : MonoBehaviour
                 List<Alchemy> alchemies = AlchemyService.Create().GetAlchemyWithPrice(subType, pageSize, offset);
                 AlchemyController.Instance.CreateAlchemyTrade(alchemies, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Forge))
+            else if (mainType.Equals(AppConstants.MainType.FORGE))
             {
                 totalRecord = ForgeService.Create().GetForgeWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -803,7 +803,7 @@ public class ShopManager : MonoBehaviour
                 List<Forge> forges = ForgeService.Create().GetForgeWithPrice(subType, pageSize, offset);
                 ForgeController.Instance.CreateForgeTrade(forges, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardLife))
+            else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
             {
                 totalRecord = CardLifeService.Create().GetCardLifeWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -812,7 +812,7 @@ public class ShopManager : MonoBehaviour
                 List<CardLife> cardLives = CardLifeService.Create().GetCardLifeWithPrice(subType, pageSize, offset);
                 CardLifeController.Instance.CreateCardLifeTrade(cardLives, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Artwork))
+            else if (mainType.Equals(AppConstants.MainType.ARTWORK))
             {
                 totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -821,7 +821,7 @@ public class ShopManager : MonoBehaviour
                 List<Artwork> artworks = ArtworkService.Create().GetArtworkWithPrice(subType, pageSize, offset);
                 ArtworkController.Instance.CreateArtworkTrade(artworks, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.SpiritBeast))
+            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
                 totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -842,7 +842,7 @@ public class ShopManager : MonoBehaviour
             ClearAllPrefabs();
             int totalRecord = 0;
 
-            if (mainType.Equals(AppConstants.MainType.CardHero))
+            if (mainType.Equals(AppConstants.MainType.CARD_HERO))
             {
                 totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -851,7 +851,7 @@ public class ShopManager : MonoBehaviour
                 List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesWithPrice(subType, pageSize, offset);
                 CardHeroesController.Instance.CreateCardHeroesTrade(cardHeroes, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Book))
+            else if (mainType.Equals(AppConstants.MainType.BOOK))
             {
                 totalRecord = BooksService.Create().GetBookssWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -860,7 +860,7 @@ public class ShopManager : MonoBehaviour
                 List<Books> books = BooksService.Create().GetBooksWithPrice(subType, pageSize, offset);
                 BooksController.Instance.CreateBooksTrade(books, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardCaptain))
+            else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
             {
                 totalRecord = CardCaptainsService.Create().GetCardCaptainsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -869,7 +869,7 @@ public class ShopManager : MonoBehaviour
                 List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsWithPrice(subType, pageSize, offset);
                 CardCaptainsController.Instance.CreateCardCaptainsTrade(cardCaptains, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CollaborationEquipment))
+            else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
             {
                 totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -878,7 +878,7 @@ public class ShopManager : MonoBehaviour
                 List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPrice(subType, pageSize, offset);
                 CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsTrade(collaborationEquipments, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Collaboration))
+            else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
                 totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -887,7 +887,7 @@ public class ShopManager : MonoBehaviour
                 List<Collaboration> collaborations = CollaborationService.Create().GetCollaborationWithPrice(pageSize, offset);
                 CollaborationController.Instance.CreateCollaborationTrade(collaborations, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Equipment))
+            else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
             {
                 totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -896,7 +896,7 @@ public class ShopManager : MonoBehaviour
                 List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset, rare);
                 createEquipments(equipments);
             }
-            else if (mainType.Equals(AppConstants.MainType.Medal))
+            else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
                 totalRecord = MedalsService.Create().GetMedalsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -905,7 +905,7 @@ public class ShopManager : MonoBehaviour
                 List<Medals> medals = MedalsService.Create().GetMedalsWithPrice(pageSize, offset);
                 MedalsController.Instance.CreateMedalsTrade(medals, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardMonster))
+            else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
             {
                 totalRecord = CardMonstersService.Create().GetCardMonstersWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -914,7 +914,7 @@ public class ShopManager : MonoBehaviour
                 List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersWithPrice(subType, pageSize, offset);
                 CardMonstersController.Instance.CreateCardMonstersTrade(cardMonsters, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Pet))
+            else if (mainType.Equals(AppConstants.MainType.PET))
             {
                 totalRecord = PetsService.Create().GetPetsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -923,7 +923,7 @@ public class ShopManager : MonoBehaviour
                 List<Pets> pets = PetsService.Create().GetPetsWithPrice(subType, pageSize, offset);
                 PetsController.Instance.CreatePetsTrade(pets, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Skill))
+            else if (mainType.Equals(AppConstants.MainType.SKILL))
             {
                 totalRecord = SkillsService.Create().GetSkillsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -932,7 +932,7 @@ public class ShopManager : MonoBehaviour
                 List<Skills> skills = SkillsService.Create().GetSkillsWithPrice(subType, pageSize, offset);
                 SkillsController.Instance.CreateSkillsTrade(skills, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Symbol))
+            else if (mainType.Equals(AppConstants.MainType.SYMBOL))
             {
                 totalRecord = SymbolsService.Create().GetSkillsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -941,7 +941,7 @@ public class ShopManager : MonoBehaviour
                 List<Symbols> symbols = SymbolsService.Create().GetSymbolsWithPrice(subType, pageSize, offset);
                 SymbolsController.Instance.CreateSymbolsTrade(symbols, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Title))
+            else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
                 totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -950,7 +950,7 @@ public class ShopManager : MonoBehaviour
                 List<Titles> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
                 TitlesController.Instance.CreateTitlesTrade(titles, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardMilitary))
+            else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
             {
                 totalRecord = CardMilitaryService.Create().GetCardMilitaryWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -959,7 +959,7 @@ public class ShopManager : MonoBehaviour
                 List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryWithPrice(subType, pageSize, offset);
                 CardMilitaryController.Instance.CreateCardMilitaryTrade(cardMilitaries, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardSpell))
+            else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
             {
                 totalRecord = CardSpellService.Create().GetCardSpellWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -968,7 +968,7 @@ public class ShopManager : MonoBehaviour
                 List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpellWithPrice(subType, pageSize, offset);
                 CardSpellController.Instance.CreateCardSpellTrade(cardSpells, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.MagicFormationCircle))
+            else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
             {
                 totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -977,7 +977,7 @@ public class ShopManager : MonoBehaviour
                 List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircleWithPrice(subType, pageSize, offset);
                 MagicFormationCircleController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Relic))
+            else if (mainType.Equals(AppConstants.MainType.RELIC))
             {
                 totalRecord = RelicsService.Create().GetRelicsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -986,7 +986,7 @@ public class ShopManager : MonoBehaviour
                 List<Relics> relics = RelicsService.Create().GetRelicsWithPrice(subType, pageSize, offset);
                 RelicsController.Instance.CreateRelicsTrade(relics, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Border))
+            else if (mainType.Equals(AppConstants.MainType.BORDER))
             {
                 totalRecord = BordersService.Create().GetBordersWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -995,7 +995,7 @@ public class ShopManager : MonoBehaviour
                 List<Borders> borders = BordersService.Create().GetBordersWithPrice(pageSize, offset);
                 BordersController.Instance.CreateBordersTrade(borders, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Alchievement))
+            else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
             {
                 totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1004,7 +1004,7 @@ public class ShopManager : MonoBehaviour
                 List<Achievements> achievements = AchievementsService.Create().GetAchievementsWithPrice(pageSize, offset);
                 AchievementsController.Instance.CreateAchievementsTrade(achievements, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardColonel))
+            else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
             {
                 totalRecord = CardColonelsService.Create().GetCardColonelsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1013,7 +1013,7 @@ public class ShopManager : MonoBehaviour
                 List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsWithPrice(subType, pageSize, offset);
                 CardColonelsController.Instance.CreateCardColonelsTrade(cardColonels, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardGeneral))
+            else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
             {
                 totalRecord = CardGeneralsService.Create().GetCardGeneralsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1022,7 +1022,7 @@ public class ShopManager : MonoBehaviour
                 List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsWithPrice(subType, pageSize, offset);
                 CardGeneralsController.Instance.CreateCardGeneralsTrade(cardGenerals, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
+            else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
             {
                 totalRecord = CardAdmiralsService.Create().GetCardAdmiralsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1031,7 +1031,7 @@ public class ShopManager : MonoBehaviour
                 List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsWithPrice(subType, pageSize, offset);
                 CardAdmiralsController.Instance.CreateCardAdmiralsTrade(cardAdmirals, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Talisman))
+            else if (mainType.Equals(AppConstants.MainType.TALISMAN))
             {
                 totalRecord = TalismanService.Create().GetTalismanWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1040,7 +1040,7 @@ public class ShopManager : MonoBehaviour
                 List<Talisman> talismans = TalismanService.Create().GetTalismanWithPrice(subType, pageSize, offset);
                 TalismanController.Instance.CreateTalismanTrade(talismans, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Puppet))
+            else if (mainType.Equals(AppConstants.MainType.PUPPET))
             {
                 totalRecord = PuppetService.Create().GetPuppetWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1049,7 +1049,7 @@ public class ShopManager : MonoBehaviour
                 List<Puppet> puppets = PuppetService.Create().GetPuppetWithPrice(subType, pageSize, offset);
                 PuppetController.Instance.CreatePuppetTrade(puppets, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Alchemy))
+            else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
             {
                 totalRecord = AlchemyService.Create().GetAlchemyWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1058,7 +1058,7 @@ public class ShopManager : MonoBehaviour
                 List<Alchemy> alchemies = AlchemyService.Create().GetAlchemyWithPrice(subType, pageSize, offset);
                 AlchemyController.Instance.CreateAlchemyTrade(alchemies, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Forge))
+            else if (mainType.Equals(AppConstants.MainType.FORGE))
             {
                 Forge forgeManager = new Forge();
                 totalRecord = ForgeService.Create().GetForgeWithPriceCount(subType);
@@ -1068,7 +1068,7 @@ public class ShopManager : MonoBehaviour
                 List<Forge> forges = ForgeService.Create().GetForgeWithPrice(subType, pageSize, offset);
                 ForgeController.Instance.CreateForgeTrade(forges, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardLife))
+            else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
             {
                 totalRecord = CardLifeService.Create().GetCardLifeWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1077,7 +1077,7 @@ public class ShopManager : MonoBehaviour
                 List<CardLife> cardLives = CardLifeService.Create().GetCardLifeWithPrice(subType, pageSize, offset);
                 CardLifeController.Instance.CreateCardLifeTrade(cardLives, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Artwork))
+            else if (mainType.Equals(AppConstants.MainType.ARTWORK))
             {
                 totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1086,7 +1086,7 @@ public class ShopManager : MonoBehaviour
                 List<Artwork> artworks = ArtworkService.Create().GetArtworkWithPrice(subType, pageSize, offset);
                 ArtworkController.Instance.CreateArtworkTrade(artworks, subType, currentContent, currencyPanel, popupPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.SpiritBeast))
+            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
                 totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);

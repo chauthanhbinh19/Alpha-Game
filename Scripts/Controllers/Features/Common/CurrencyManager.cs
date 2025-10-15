@@ -73,7 +73,7 @@ public class CurrencyManager : MonoBehaviour
     public void GetMainCurrency(List<Currency> currencies, Transform panel)
     {
         List<Currency> filteredCurrencies = currencies
-            .Where(c => c.name == AppConstants.Currency.Diamond || c.name == AppConstants.Currency.Gold || c.name == AppConstants.Currency.Silver)
+            .Where(c => c.name == AppConstants.Currency.DIAMOND || c.name == AppConstants.Currency.GOLD || c.name == AppConstants.Currency.SILVER)
             .ToList();
         createCurrency(filteredCurrencies, panel);
     }

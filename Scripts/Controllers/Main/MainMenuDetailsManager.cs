@@ -99,7 +99,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         RawImage backgroundCircle1Image = currentObject.transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             ButtonEvent.Instance.Close(MainPanel);
         });
 
@@ -121,9 +121,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardHero);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_HERO);
             });
         }
         else if (data is Books book)
@@ -136,9 +136,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Book);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.BOOK);
             });
         }
         else if (data is CardCaptains cardCaptains)
@@ -152,9 +152,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardCaptain);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_CAPTAIN);
             });
         }
         else if (data is Pets pet)
@@ -167,9 +167,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Pet);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.PET);
             });
         }
         else if (data is CollaborationEquipment collaborationEquipmentsequipment)
@@ -182,9 +182,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CollaborationEquipment);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT);
             });
         }
         else if (data is CardMilitary cardMilitary)
@@ -198,9 +198,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardMilitary);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_MILITARY);
             });
         }
         else if (data is CardSpell cardSpell)
@@ -213,9 +213,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardSpell);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_SPELL);
             });
         }
         else if (data is Collaboration collaboration)
@@ -228,9 +228,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Collaboration);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.COLLABORATION);
             });
         }
         else if (data is CardMonsters cardMonsters)
@@ -243,9 +243,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardMonster);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_MONSTER);
             });
         }
         else if (data is Equipments equipment)
@@ -258,9 +258,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Equipment);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.EQUIPMENT);
             });
         }
         else if (data is Medals medal)
@@ -273,9 +273,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Medal);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MEDAL);
             });
         }
         else if (data is Skills skill)
@@ -288,9 +288,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Skill);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SKILL);
             });
         }
         else if (data is Symbols symbol)
@@ -303,9 +303,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Symbol);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SYMBOL);
             });
         }
         else if (data is Titles title)
@@ -318,9 +318,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Title);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.TITLE);
             });
         }
         else if (data is MagicFormationCircle magicFormationCircle)
@@ -333,9 +333,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MagicFormationCircle);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
             });
         }
         else if (data is Relics relics)
@@ -348,9 +348,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Relic);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.RELIC);
             });
         }
         else if (data is CardColonels cardColonels)
@@ -364,9 +364,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardColonel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_COLONEL);
             });
         }
         else if (data is CardGenerals cardGenerals)
@@ -380,9 +380,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardGeneral);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_GENERAL);
             });
         }
         else if (data is CardAdmirals cardAdmirals)
@@ -396,9 +396,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardAdmiral);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_ADMIRAL);
             });
         }
         // else if (data is Borders borders)
@@ -416,9 +416,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Alchievement);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ACHIEVEMENT);
             });
         }
         else if (data is Talisman talisman)
@@ -431,9 +431,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Talisman);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.TALISMAN);
             });
         }
         else if (data is Puppet puppet)
@@ -446,9 +446,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Puppet);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.PUPPET);
             });
         }
         else if (data is Alchemy alchemy)
@@ -461,9 +461,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Alchemy);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ALCHEMY);
             });
         }
         else if (data is Forge forge)
@@ -476,9 +476,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Forge);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.FORGE);
             });
         }
         else if (data is CardLife cardLife)
@@ -491,9 +491,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CardLife);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_LIFE);
             });
         }
         else if (data is Artwork artwork)
@@ -506,9 +506,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.Artwork);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ARTWORK);
             });
         }
         else if (data is SpiritBeast spiritBeast)
@@ -521,9 +521,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ButtonEvent.Instance.Close(MainPanel);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SpiritBeast);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SPIRIT_BEAST);
             });
         }
         else

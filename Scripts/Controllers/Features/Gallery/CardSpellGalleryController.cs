@@ -55,7 +55,7 @@ public class CardSpellGalleryController : MonoBehaviour
             Button button = spellObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(spell, MainPanel);
             });
 
@@ -84,7 +84,7 @@ public class CardSpellGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var spellGalleryService = CardSpellGalleryService.Create();
                 spellGalleryService.UpdateStatusCardSpellGallery(spell.id);
                 blockImage.gameObject.SetActive(false);
@@ -111,7 +111,7 @@ public class CardSpellGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardSpellGalleryService.Create().UpdateCardSpellGalleryPower(spell.id);
             });
         }

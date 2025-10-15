@@ -65,7 +65,7 @@ public class UserSymbolsController : MonoBehaviour
             Button button = symbolObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(symbol, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -181,14 +181,14 @@ public class UserSymbolsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Symbol);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.SYMBOL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Symbols currentCard = new Symbols();
                 currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.id);
                 int totalExperiment = currentCard.experiment;
@@ -215,7 +215,7 @@ public class UserSymbolsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Symbols currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -268,7 +268,7 @@ public class UserSymbolsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Symbol);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.SYMBOL);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -296,7 +296,7 @@ public class UserSymbolsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = symbol.star + 1;
                 int totalItemQuantity = 0;
 

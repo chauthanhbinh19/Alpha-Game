@@ -57,7 +57,7 @@ public class BordersGalleryController : MonoBehaviour
             Button button = borderObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(border, MainPanel);
             });
 
@@ -90,7 +90,7 @@ public class BordersGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var borderGalleryService = BordersGalleryService.Create();
                 borderGalleryService.UpdateStatusBordersGallery(border.id);
                 blockImage.gameObject.SetActive(false);
@@ -117,7 +117,7 @@ public class BordersGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 BordersGalleryService.Create().UpdateBordersGalleryPower(border.id);
             });
         }

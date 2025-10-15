@@ -58,12 +58,12 @@ public class ReactorNumber1Manager : MonoBehaviour
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             ButtonEvent.Instance.Close(MainPanel);
         });
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(currentObject);
         });
 
@@ -121,7 +121,7 @@ public class ReactorNumber1Manager : MonoBehaviour
         rightSideCounduit1Image.AddComponent<SlideRightToLeftAnimation>();
         rightSideCounduit2Image.AddComponent<SlideRightToLeftAnimation>();
 
-        ScienceFiction scienceFiction = ScienceFictionService.Create().GetScienceFiction(AppConstants.ScienceFiction.ReactorNumber1);
+        ScienceFiction scienceFiction = ScienceFictionService.Create().GetScienceFiction(AppConstants.ScienceFiction.REACTOR_NUMBER_1);
         RankService rankService = new RankService();
         List<Items> items = new List<Items>();
         items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.ReactorMaterialNumber1));
@@ -168,7 +168,7 @@ public class ReactorNumber1Manager : MonoBehaviour
 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 // rankService.UpLevel(cardHeroes, newRank, mainType);
-                ScienceFictionService.Create().InsertOrUpdateScienceFiction(newScienceFiction, AppConstants.ScienceFiction.ReactorNumber1);
+                ScienceFictionService.Create().InsertOrUpdateScienceFiction(newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
 
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -218,7 +218,7 @@ public class ReactorNumber1Manager : MonoBehaviour
             ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, finalLevel);
 
             double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-            ScienceFictionService.Create().InsertOrUpdateScienceFiction(newScienceFiction, AppConstants.ScienceFiction.ReactorNumber1);
+            ScienceFictionService.Create().InsertOrUpdateScienceFiction(newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
 
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);

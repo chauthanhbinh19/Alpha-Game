@@ -55,7 +55,7 @@ public class CardLifeGalleryController : MonoBehaviour
             Button button = cardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(card, MainPanel);
             });
 
@@ -84,7 +84,7 @@ public class CardLifeGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var cardLifeGalleryService = CardLifeGalleryService.Create();
                 cardLifeGalleryService.UpdateStatusCardLifeGallery(card.id);
                 blockImage.gameObject.SetActive(false);
@@ -111,7 +111,7 @@ public class CardLifeGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardLifeGalleryService.Create().UpdateCardLifeGalleryPower(card.id);
             });
         }

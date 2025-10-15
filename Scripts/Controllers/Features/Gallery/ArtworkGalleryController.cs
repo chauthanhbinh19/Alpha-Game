@@ -58,7 +58,7 @@ public class ArtworkGalleryController : MonoBehaviour
             Button button = ArtworkObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(Artwork, MainPanel);
             });
 
@@ -87,7 +87,7 @@ public class ArtworkGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var artworkGalleryService = ArtworkGalleryService.Create();
                 artworkGalleryService.UpdateStatusArtworkGallery(Artwork.id);
                 blockImage.gameObject.SetActive(false);
@@ -114,7 +114,7 @@ public class ArtworkGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ArtworkGalleryService.Create().UpdateArtworkGalleryPower(Artwork.id);
             });
         }

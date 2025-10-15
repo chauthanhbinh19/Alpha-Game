@@ -137,14 +137,14 @@ public class UserAchievementsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Alchievement);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.ACHIEVEMENT);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Achievements currentCard = new Achievements();
                 currentCard = UserAchievementsService.Create().GetUserAchievementsById(User.CurrentUserId, achievements.id);
                 int totalExperiment = currentCard.experiment;
@@ -171,7 +171,7 @@ public class UserAchievementsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Achievements currentCard = UserAchievementsService.Create().GetUserAchievementsById(User.CurrentUserId, achievements.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -224,7 +224,7 @@ public class UserAchievementsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Alchievement);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.ACHIEVEMENT);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -252,7 +252,7 @@ public class UserAchievementsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = achievements.star + 1;
                 int totalItemQuantity = 0;
 

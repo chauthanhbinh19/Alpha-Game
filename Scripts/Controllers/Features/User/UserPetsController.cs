@@ -89,7 +89,7 @@ public class UserPetsController : MonoBehaviour
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
@@ -207,14 +207,14 @@ public class UserPetsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Pet);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.PET);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Pets currentCard = new Pets();
                 currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.id);
                 int totalExperiment = currentCard.experiment;
@@ -241,7 +241,7 @@ public class UserPetsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Pets currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -294,7 +294,7 @@ public class UserPetsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Pet);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.PET);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -322,7 +322,7 @@ public class UserPetsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = pet.star + 1;
                 int totalItemQuantity = 0;
 

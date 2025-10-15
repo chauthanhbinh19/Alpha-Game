@@ -55,7 +55,7 @@ public class BooksGalleryController : MonoBehaviour
             Button button = bookObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(book, MainPanel);
             });
 
@@ -111,7 +111,7 @@ public class BooksGalleryController : MonoBehaviour
             }
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var booksGalleryService = BooksGalleryService.Create();
                 booksGalleryService.UpdateStatusBooksGallery(book.id);
                 blockImage.gameObject.SetActive(false);
@@ -138,7 +138,7 @@ public class BooksGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 BooksGalleryService.Create().UpdateBooksGalleryPower(book.id);
             });
         }

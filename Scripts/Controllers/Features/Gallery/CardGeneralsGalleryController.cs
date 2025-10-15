@@ -55,7 +55,7 @@ public class CardGeneralsGalleryController : MonoBehaviour
             Button button = spellObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(general, MainPanel);
             });
 
@@ -84,7 +84,7 @@ public class CardGeneralsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var generalGalleryService = CardGeneralsGalleryService.Create();
                 generalGalleryService.UpdateStatusCardGeneralsGallery(general.id);
                 blockImage.gameObject.SetActive(false);
@@ -111,7 +111,7 @@ public class CardGeneralsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardGeneralsGalleryService.Create().UpdateCardGeneralsGalleryPower(general.id);
             });
         }

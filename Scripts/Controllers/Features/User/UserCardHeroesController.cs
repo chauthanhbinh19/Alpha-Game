@@ -97,7 +97,7 @@ public class UserCardHeroesController : MonoBehaviour
             Button button = cardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
             });
 
@@ -258,13 +258,13 @@ public class UserCardHeroesController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.CardHero);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.CARD_HERO);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardHeroes currentCard = new CardHeroes();
                 currentCard = UserCardHeroesService.Create().GetUserCardHeroesById(User.CurrentUserId, cardHeroes.id);
                 int totalExperiment = currentCard.experiment;
@@ -292,7 +292,7 @@ public class UserCardHeroesController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardHeroes currentCard = UserCardHeroesService.Create().GetUserCardHeroesById(User.CurrentUserId, cardHeroes.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -350,7 +350,7 @@ public class UserCardHeroesController : MonoBehaviour
             }
             setUpButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CreateSkillPanel(cardHeroes.id);
             });
         }
@@ -363,12 +363,12 @@ public class UserCardHeroesController : MonoBehaviour
         Button HomeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(skillPanelObject);
         });
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             ButtonEvent.Instance.Close(MainPanel);
         });
 
@@ -376,7 +376,7 @@ public class UserCardHeroesController : MonoBehaviour
         int passiveSkill1Position = 2;
         int passiveSkill2Position = 3;
 
-        List<string> uniqueTypes = TypeManager.GetUniqueTypes(AppConstants.MainType.Skill);
+        List<string> uniqueTypes = TypeManager.GetUniqueTypes(AppConstants.MainType.SKILL);
         for (int i = 0; i < uniqueTypes.Count; i++)
         {
             string currentType = uniqueTypes[i];
@@ -411,17 +411,17 @@ public class UserCardHeroesController : MonoBehaviour
                 activeSkillImage.texture = activeSkillImageTexture;
                 activeSkillButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     // MainMenuDetailsManager.Instance.PopupDetails(activeSkill, MainPanel);
-                    CreatePopupSkillDetail(activeSkillPosition, cardId, currentType, AppConstants.Status.Active, activeSkill);
+                    CreatePopupSkillDetail(activeSkillPosition, cardId, currentType, AppConstants.Status.ACTIVE, activeSkill);
                 });
             }
             else
             {
                 activeSkillButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
-                    CreateSkillPopup(activeSkillPosition, cardId, currentType, AppConstants.Status.Active);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    CreateSkillPopup(activeSkillPosition, cardId, currentType, AppConstants.Status.ACTIVE);
                 });
             }
 
@@ -432,17 +432,17 @@ public class UserCardHeroesController : MonoBehaviour
                 passiveSkill1Image.texture = passiveSkill1ImageTexture;
                 passiveSkillButton1.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     // MainMenuDetailsManager.Instance.PopupDetails(passiveSkill1, MainPanel);
-                    CreatePopupSkillDetail(passiveSkill1Position, cardId, currentType, AppConstants.Status.Passive, passiveSkill1);
+                    CreatePopupSkillDetail(passiveSkill1Position, cardId, currentType, AppConstants.Status.PASSIVE, passiveSkill1);
                 });
             }
             else
             {
                 passiveSkillButton1.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
-                    CreateSkillPopup(passiveSkill1Position, cardId, currentType, AppConstants.Status.Passive);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    CreateSkillPopup(passiveSkill1Position, cardId, currentType, AppConstants.Status.PASSIVE);
                 });
             }
 
@@ -453,17 +453,17 @@ public class UserCardHeroesController : MonoBehaviour
                 passiveSkill2Image.texture = passiveSkill2ImageTexture;
                 passiveSkillButton2.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     // MainMenuDetailsManager.Instance.PopupDetails(passiveSkill2, MainPanel);
-                    CreatePopupSkillDetail(passiveSkill2Position, cardId, currentType, AppConstants.Status.Passive, passiveSkill2);
+                    CreatePopupSkillDetail(passiveSkill2Position, cardId, currentType, AppConstants.Status.PASSIVE, passiveSkill2);
                 });
             }
             else
             {
                 passiveSkillButton2.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
-                    CreateSkillPopup(passiveSkill2Position, cardId, currentType, AppConstants.Status.Passive);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    CreateSkillPopup(passiveSkill2Position, cardId, currentType, AppConstants.Status.PASSIVE);
                 });
             }
         }
@@ -475,7 +475,7 @@ public class UserCardHeroesController : MonoBehaviour
         Button closeButton = skillPopupObject.transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(skillPopupObject);
         });
 
@@ -504,7 +504,7 @@ public class UserCardHeroesController : MonoBehaviour
             Button equipButton = skillObject.transform.Find("EquipButton").GetComponent<Button>();
             equipButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Destroy(skillPopupObject);
                 Destroy(skillPanelObject);
                 if (oldSkill != null)
@@ -526,7 +526,7 @@ public class UserCardHeroesController : MonoBehaviour
         Button closeButton = popupSkillDetailObject.transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(popupSkillDetailObject);
         });
 
@@ -540,7 +540,7 @@ public class UserCardHeroesController : MonoBehaviour
         Button removeButton = popupSkillDetailObject.transform.Find("RemoveButton").GetComponent<Button>();
         removeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(popupSkillDetailObject);
             Destroy(skillPanelObject);
             UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, skill.id, position);
@@ -550,7 +550,7 @@ public class UserCardHeroesController : MonoBehaviour
         Button swapButton = popupSkillDetailObject.transform.Find("SwapButton").GetComponent<Button>();
         swapButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(popupSkillDetailObject);       
             CreateSkillPopup(position, cardId, type, skillType, skill);
         });
@@ -572,7 +572,7 @@ public class UserCardHeroesController : MonoBehaviour
             }
 
             List<Items> items = new List<Items>();
-            items = UserItemsService.Create().GetItemForBreakthourgh(AppConstants.MainType.CardHero);
+            items = UserItemsService.Create().GetItemForBreakthourgh(AppConstants.MainType.CARD_HERO);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -600,7 +600,7 @@ public class UserCardHeroesController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = cardHeroes.star + 1;
                 int totalItemQuantity = 0;
 
@@ -698,13 +698,13 @@ public class UserCardHeroesController : MonoBehaviour
             CreateDetailsUI(cardHeroes, currentObject);
             addButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CreatePopupEquipments(obj, currentObject);
             });
 
             removeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 UserSpiritBeastService.Create().DeleteUserCardHeroesSpiritBeast(User.CurrentUserId, cardHeroes, userCardSpiritBeast);
                 string fileNameWithoutExtension = "UI/Background4/Background_V4_352";
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -734,7 +734,7 @@ public class UserCardHeroesController : MonoBehaviour
         CloseButton.onClick.RemoveAllListeners();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(popupSpiritBeastObject);
         });
         Equipments equipments = new Equipments();
@@ -750,12 +750,12 @@ public class UserCardHeroesController : MonoBehaviour
         PreviousButton.onClick.RemoveAllListeners();
         NextButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangeNextPage(data, PageText, contentPanel, currentObject);
         });
         PreviousButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangePreviousPage(data, PageText, contentPanel, currentObject);
         });
     }
@@ -791,7 +791,7 @@ public class UserCardHeroesController : MonoBehaviour
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
             EquipButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Destroy(popupSpiritBeastObject);
                 if (data is CardHeroes cardHeroes)
                 {

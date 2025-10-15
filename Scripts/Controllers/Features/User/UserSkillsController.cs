@@ -65,7 +65,7 @@ public class UserSkillsController : MonoBehaviour
             Button button = skillObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(skill, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -165,14 +165,14 @@ public class UserSkillsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Skill);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.SKILL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Skills currentCard = new Skills();
                 currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.id);
                 int totalExperiment = currentCard.experiment;
@@ -199,7 +199,7 @@ public class UserSkillsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Skills currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -252,7 +252,7 @@ public class UserSkillsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Skill);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.SKILL);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -280,7 +280,7 @@ public class UserSkillsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = skill.star + 1;
                 int totalItemQuantity = 0;
 

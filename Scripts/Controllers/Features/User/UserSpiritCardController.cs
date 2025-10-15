@@ -68,7 +68,7 @@ public class UserSpiritCardController : MonoBehaviour
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MainMenuDetailsManager.Instance.PopupDetails(title, MainPanel);
             });
 
@@ -182,14 +182,14 @@ public class UserSpiritCardController : MonoBehaviour
             
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.SpiritCard);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.SPIRIT_CARD);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 SpiritCard currentCard = new SpiritCard();
                 currentCard = UserSpiritCardService.Create().GetUserSpiritCardById(User.CurrentUserId, title.id);
                 int totalExperiment = currentCard.experiment;
@@ -216,7 +216,7 @@ public class UserSpiritCardController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 SpiritCard currentCard = UserSpiritCardService.Create().GetUserSpiritCardById(User.CurrentUserId, title.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -269,7 +269,7 @@ public class UserSpiritCardController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.SpiritCard);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.SPIRIT_CARD);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -297,7 +297,7 @@ public class UserSpiritCardController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = spiritBeast.star + 1;
                 int totalItemQuantity = 0;
 

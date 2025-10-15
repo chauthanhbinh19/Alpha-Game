@@ -67,7 +67,7 @@ public class UserService : IUserService
                 return new AuthResult
                 {
                     Success = false,
-                    ErrorField = AppConstants.MainType.Password,
+                    ErrorField = AppConstants.MainType.PASSWORD,
                     ErrorMessage = MessageConstants.IncorrectPassword,
                     User = null
                 };
@@ -122,7 +122,7 @@ public class UserService : IUserService
             return new AuthResult
             {
                 Success = false,
-                ErrorField = AppConstants.MainType.Username,
+                ErrorField = AppConstants.MainType.USERNAME,
                 ErrorMessage = MessageConstants.UsernameDoesNotExist,
                 User = null
             };

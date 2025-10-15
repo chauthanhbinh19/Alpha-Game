@@ -177,14 +177,14 @@ public class UserArtworkController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.Artwork);
+            items = userItemsService.GetItemForLevel(AppConstants.MainType.ARTWORK);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Artwork currentCard = new Artwork();
                 currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.id);
                 int totalExperiment = currentCard.experiment;
@@ -211,7 +211,7 @@ public class UserArtworkController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Artwork currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.id);
                 int totalExperiment = currentCard.experiment;
                 int currentLevel = currentCard.level;
@@ -264,7 +264,7 @@ public class UserArtworkController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.Artwork);
+            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.ARTWORK);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -292,7 +292,7 @@ public class UserArtworkController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 int requiredQuantity = Artwork.star + 1;
                 int totalItemQuantity = 0;
 

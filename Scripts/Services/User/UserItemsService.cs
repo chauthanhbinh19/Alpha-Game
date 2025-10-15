@@ -46,7 +46,7 @@ public class UserItemsService : IUserItemsService
         List<Items> items = new List<Items>();
         switch (type)
         {
-            case AppConstants.MainType.CardHero:
+            case AppConstants.MainType.CARD_HERO:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -54,10 +54,10 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.Book:
+            case AppConstants.MainType.BOOK:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBook));
                 break;
-            case AppConstants.MainType.CardCaptain:
+            case AppConstants.MainType.CARD_CAPTAIN:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -65,13 +65,13 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.Pet:
+            case AppConstants.MainType.PET:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpPet));
                 break;
-            case AppConstants.MainType.CollaborationEquipment:
+            case AppConstants.MainType.COLLABORATION_EQUIPMENT:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpCollaborationEquipment));
                 break;
-            case AppConstants.MainType.CardMilitary:
+            case AppConstants.MainType.CARD_MILITARY:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -79,7 +79,7 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.CardSpell:
+            case AppConstants.MainType.CARD_SPELL:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -87,10 +87,10 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.Collaboration:
+            case AppConstants.MainType.COLLABORATION:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpCollaboration));
                 break;
-            case AppConstants.MainType.CardMonster:
+            case AppConstants.MainType.CARD_MONSTER:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -98,28 +98,28 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.Equipment:
+            case AppConstants.MainType.EQUIPMENT:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpEquipment));
                 break;
-            case AppConstants.MainType.Medal:
+            case AppConstants.MainType.MEDAL:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpMedal));
                 break;
-            case AppConstants.MainType.Skill:
+            case AppConstants.MainType.SKILL:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpSkill));
                 break;
-            case AppConstants.MainType.Symbol:
+            case AppConstants.MainType.SYMBOL:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpSymbol));
                 break;
-            case AppConstants.MainType.Title:
+            case AppConstants.MainType.TITLE:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpTitle));
                 break;
-            case AppConstants.MainType.MagicFormationCircle:
+            case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpMagicFormationCircle));
                 break;
-            case AppConstants.MainType.Relic:
+            case AppConstants.MainType.RELIC:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpRelic));
                 break;
-            case AppConstants.MainType.CardColonel:
+            case AppConstants.MainType.CARD_COLONEL:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -127,7 +127,7 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.CardGeneral:
+            case AppConstants.MainType.CARD_GENERAL:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -135,7 +135,7 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.CardAdmiral:
+            case AppConstants.MainType.CARD_ADMIRAL:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -143,7 +143,7 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.CardLife:
+            case AppConstants.MainType.CARD_LIFE:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -151,7 +151,7 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.SpiritBeast:
+            case AppConstants.MainType.SPIRIT_BEAST:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
@@ -159,7 +159,7 @@ public class UserItemsService : IUserItemsService
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
                 break;
-            case AppConstants.MainType.Alchievement:
+            case AppConstants.MainType.ACHIEVEMENT:
                 items.Add(GetUserItemByName(ItemConstants.Experiment.ExpAchievement));
                 break;
             default:
@@ -178,70 +178,70 @@ public class UserItemsService : IUserItemsService
         List<Items> items = new List<Items>();
         switch (type)
         {
-            case AppConstants.MainType.CardHero:
+            case AppConstants.MainType.CARD_HERO:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Book:
+            case AppConstants.MainType.BOOK:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CardCaptain:
+            case AppConstants.MainType.CARD_CAPTAIN:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Pet:
+            case AppConstants.MainType.PET:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CollaborationEquipment:
+            case AppConstants.MainType.COLLABORATION_EQUIPMENT:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CardMilitary:
+            case AppConstants.MainType.CARD_MILITARY:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CardSpell:
+            case AppConstants.MainType.CARD_SPELL:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Collaboration:
+            case AppConstants.MainType.COLLABORATION:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CardMonster:
+            case AppConstants.MainType.CARD_MONSTER:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Equipment:
+            case AppConstants.MainType.EQUIPMENT:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Medal:
+            case AppConstants.MainType.MEDAL:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Skill:
+            case AppConstants.MainType.SKILL:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Symbol:
+            case AppConstants.MainType.SYMBOL:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Title:
+            case AppConstants.MainType.TITLE:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.MagicFormationCircle:
+            case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Relic:
+            case AppConstants.MainType.RELIC:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CardColonel:
+            case AppConstants.MainType.CARD_COLONEL:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CardGeneral:
+            case AppConstants.MainType.CARD_GENERAL:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CardAdmiral:
+            case AppConstants.MainType.CARD_ADMIRAL:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.CardLife:
+            case AppConstants.MainType.CARD_LIFE:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.SpiritBeast:
+            case AppConstants.MainType.SPIRIT_BEAST:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
-            case AppConstants.MainType.Alchievement:
+            case AppConstants.MainType.ACHIEVEMENT:
                 items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
                 break;
             default:

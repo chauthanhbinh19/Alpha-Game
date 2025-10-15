@@ -49,107 +49,107 @@ public class DailyCheckinManager : MonoBehaviour
     private static readonly Dictionary<string, Func<string, CheckinItemInfoDTO>> DailyCheckinResolvers =
     new Dictionary<string, Func<string, CheckinItemInfoDTO>>
 {
-    { AppConstants.MainType.CardHero, id => {
+    { AppConstants.MainType.CARD_HERO, id => {
         var obj = CardHeroesService.Create().GetCardHeroesById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Alchemy, id => {
+    { AppConstants.MainType.ALCHEMY, id => {
         var obj = AlchemyService.Create().GetAlchemyById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Avatar, id => {
+    { AppConstants.MainType.AVATAR, id => {
         var obj = AvatarsService.Create().GetAvatarsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Border, id => {
+    { AppConstants.MainType.BORDER, id => {
         var obj = BordersService.Create().GetBordersById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Book, id => {
+    { AppConstants.MainType.BOOK, id => {
         var obj = BooksService.Create().GetBooksById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CardAdmiral, id => {
+    { AppConstants.MainType.CARD_ADMIRAL, id => {
         var obj = CardAdmiralsService.Create().GetCardAdmiralsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CardCaptain, id => {
+    { AppConstants.MainType.CARD_CAPTAIN, id => {
         var obj = CardCaptainsService.Create().GetCardCaptainsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CardColonel, id => {
+    { AppConstants.MainType.CARD_COLONEL, id => {
         var obj = CardColonelsService.Create().GetCardColonelsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CardGeneral, id => {
+    { AppConstants.MainType.CARD_GENERAL, id => {
         var obj = CardGeneralsService.Create().GetCardGeneralsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CardLife, id => {
+    { AppConstants.MainType.CARD_LIFE, id => {
         var obj = CardLifeService.Create().GetCardLifeById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CardMilitary, id => {
+    { AppConstants.MainType.CARD_MILITARY, id => {
         var obj = CardMilitaryService.Create().GetCardMilitaryById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CardMonster, id => {
+    { AppConstants.MainType.CARD_MONSTER, id => {
         var obj = CardMonstersService.Create().GetCardMonstersById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CardSpell, id => {
+    { AppConstants.MainType.CARD_SPELL, id => {
         var obj = CardSpellService.Create().GetCardSpellById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.CollaborationEquipment, id => {
+    { AppConstants.MainType.COLLABORATION_EQUIPMENT, id => {
         var obj = CollaborationEquipmentService.Create().GetCollaborationEquipmentsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Collaboration, id => {
+    { AppConstants.MainType.COLLABORATION, id => {
         var obj = CollaborationService.Create().GetCollaborationsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Equipment, id => {
+    { AppConstants.MainType.EQUIPMENT, id => {
         var obj = EquipmentsService.Create().GetEquipmentById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Forge, id => {
+    { AppConstants.MainType.FORGE, id => {
         var obj = ForgeService.Create().GetForgeById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.MagicFormationCircle, id => {
+    { AppConstants.MainType.MAGIC_FORMATION_CIRCLE, id => {
         var obj = MagicFormationCircleService.Create().GetMagicFormationCircleById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Medal, id => {
+    { AppConstants.MainType.MEDAL, id => {
         var obj = MedalsService.Create().GetMedalsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Pet, id => {
+    { AppConstants.MainType.PET, id => {
         var obj = PetsService.Create().GetPetsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Puppet, id => {
+    { AppConstants.MainType.PUPPET, id => {
         var obj = PuppetService.Create().GetPuppetById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Relic, id => {
+    { AppConstants.MainType.RELIC, id => {
         var obj = RelicsService.Create().GetRelicsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Skill, id => {
+    { AppConstants.MainType.SKILL, id => {
         var obj = SkillsService.Create().GetSkillsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Symbol, id => {
+    { AppConstants.MainType.SYMBOL, id => {
         var obj = SymbolsService.Create().GetSymbolsById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Talisman, id => {
+    { AppConstants.MainType.TALISMAN, id => {
         var obj = TalismanService.Create().GetTalismanById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
-    { AppConstants.MainType.Title, id => {
+    { AppConstants.MainType.TITLE, id => {
         var obj = TitlesService.Create().GetTitlesById(id);
         return new CheckinItemInfoDTO(obj.image, obj.quantity);
     }},
@@ -163,13 +163,13 @@ public class DailyCheckinManager : MonoBehaviour
         Button CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             ButtonEvent.Instance.Close(MainPanel);
         });
         Button HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             ButtonEvent.Instance.Close(MainPanel);
         });
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.DailyCheckin);
@@ -191,7 +191,7 @@ public class DailyCheckinManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     OnButtonClick(button, subType);
                 });
 

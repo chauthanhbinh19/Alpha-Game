@@ -58,7 +58,7 @@ public class AlchemyGalleryController : MonoBehaviour
             Button button = alchemyObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 PopupDetailsManager.Instance.PopupDetails(alchemy, MainPanel);
             });
 
@@ -87,7 +87,7 @@ public class AlchemyGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var alchemyGalleryService = AlchemyGalleryService.Create();
                 alchemyGalleryService.UpdateStatusAlchemyGallery(alchemy.id);
                 blockImage.gameObject.SetActive(false);
@@ -114,7 +114,7 @@ public class AlchemyGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 AlchemyGalleryService.Create().UpdateAlchemyGalleryPower(alchemy.id);
             });
         }

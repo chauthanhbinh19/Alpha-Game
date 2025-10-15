@@ -149,65 +149,65 @@ public class MainMenuManager : MonoBehaviour
         SummonMainMenuPanel = currentObject.transform.Find("SummonPanel");
         ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuCampaignPanel, () => loadScence());
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuPanel, () => GetType(AppConstants.MainType.CardHero));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", mainMenuPanel, () => GetType(AppConstants.MainType.Book));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", mainMenuPanel, () => GetType(AppConstants.MainType.Pet));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", mainMenuPanel, () => GetType(AppConstants.MainType.CardCaptain));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", mainMenuPanel, () => GetType(AppConstants.MainType.CardColonel));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", mainMenuPanel, () => GetType(AppConstants.MainType.CardGeneral));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", mainMenuPanel, () => GetType(AppConstants.MainType.CardAdmiral));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", mainMenuPanel, () => GetType(AppConstants.MainType.CardMilitary));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", mainMenuPanel, () => GetType(AppConstants.MainType.CardSpell));
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", mainMenuPanel, () => GetType(AppConstants.MainType.CardMonster));
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_HERO));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", mainMenuPanel, () => GetType(AppConstants.MainType.BOOK));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", mainMenuPanel, () => GetType(AppConstants.MainType.PET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_CAPTAIN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_COLONEL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_GENERAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_ADMIRAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_MILITARY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_SPELL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_MONSTER));
         // Button_13 Equipments có thể được thêm lại nếu cần
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", mainMenuPanel, () => GetType(AppConstants.MainType.Item));
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", mainMenuPanel, () => GetType(AppConstants.MainType.Teams));
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", mainMenuPanel, () => GetType(AppConstants.MainType.More));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", mainMenuPanel, () => GetType(AppConstants.MainType.ITEM));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", mainMenuPanel, () => GetType(AppConstants.MainType.TEAMS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", mainMenuPanel, () => GetType(AppConstants.MainType.MORE));
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonCardHeroes));
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonBooks));
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonCardCaptains));
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonCardMonsters));
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonCardMilitaries));
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonCardSpells));
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonCardColonels));
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonCardGenerals));
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SummonCardAdmirals));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_HEROES));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_BOOKS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_CAPTAINS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MONSTERS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MILITARY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_SPELLS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_COLONELS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_GENERALS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_ADMIRALS));
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType(AppConstants.MainType.Gallery));
-        ButtonEvent.Instance.AssignButtonEvent("Button_25", SummonMainMenuPanel, () => GetType(AppConstants.MainType.Collection));
-        ButtonEvent.Instance.AssignButtonEvent("Button_26", SummonMainMenuPanel, () => GetType(AppConstants.MainType.Equipment));
-        ButtonEvent.Instance.AssignButtonEvent("Button_27", SummonMainMenuPanel, () => GetType(AppConstants.MainType.Anime));
-        ButtonEvent.Instance.AssignButtonEvent("Button_28", SummonMainMenuPanel, () => GetType(AppConstants.MainType.Arena));
-        ButtonEvent.Instance.AssignButtonEvent("Button_29", SummonMainMenuPanel, () => GetType(AppConstants.MainType.Guild));
-        ButtonEvent.Instance.AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType(AppConstants.MainType.Tower));
-        ButtonEvent.Instance.AssignButtonEvent("Button_31", SummonMainMenuPanel, () => GetType(AppConstants.MainType.Event));
-        ButtonEvent.Instance.AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType(AppConstants.MainType.DailyCheckin));
-        ButtonEvent.Instance.AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType(AppConstants.Market.RareMarket));
-        ButtonEvent.Instance.AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType(AppConstants.Market.UltraRareMarket));
-        ButtonEvent.Instance.AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType(AppConstants.Market.LegendaryMarket));
-        ButtonEvent.Instance.AssignButtonEvent("Button_36", SummonMainMenuPanel, () => GetType(AppConstants.Market.MysticMarket));
+        ButtonEvent.Instance.AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType(AppConstants.MainType.GALLERY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_25", SummonMainMenuPanel, () => GetType(AppConstants.MainType.COLLECTION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_26", SummonMainMenuPanel, () => GetType(AppConstants.MainType.EQUIPMENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", SummonMainMenuPanel, () => GetType(AppConstants.MainType.ANIME));
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", SummonMainMenuPanel, () => GetType(AppConstants.MainType.ARENA));
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", SummonMainMenuPanel, () => GetType(AppConstants.MainType.GUILD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType(AppConstants.MainType.TOWER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_31", SummonMainMenuPanel, () => GetType(AppConstants.MainType.EVENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType(AppConstants.MainType.DAILY_CHECKIN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType(AppConstants.Market.RARE_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType(AppConstants.Market.ULTRA_RARE_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType(AppConstants.Market.LEGENDARY_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_36", SummonMainMenuPanel, () => GetType(AppConstants.Market.MYSTIC_MARKET));
     }
     public void GetMoreButtonEvent(Transform moreMenuPanel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", moreMenuPanel, () => GetType(AppConstants.MainType.CollaborationEquipment));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", moreMenuPanel, () => GetType(AppConstants.MainType.Collaboration));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", moreMenuPanel, () => GetType(AppConstants.MainType.Medal));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", moreMenuPanel, () => GetType(AppConstants.MainType.Skill));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", moreMenuPanel, () => GetType(AppConstants.MainType.Symbol));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", moreMenuPanel, () => GetType(AppConstants.MainType.Title));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", moreMenuPanel, () => GetType(AppConstants.MainType.MagicFormationCircle));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", moreMenuPanel, () => GetType(AppConstants.MainType.Relic));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", moreMenuPanel, () => GetType(AppConstants.MainType.Talisman));
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", moreMenuPanel, () => GetType(AppConstants.MainType.Puppet));
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", moreMenuPanel, () => GetType(AppConstants.MainType.Alchemy));
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", moreMenuPanel, () => GetType(AppConstants.MainType.Forge));
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", moreMenuPanel, () => GetType(AppConstants.MainType.CardLife));
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", moreMenuPanel, () => GetType(AppConstants.MainType.MasterBoard));
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", moreMenuPanel, () => GetType(AppConstants.MainType.Artwork));
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", moreMenuPanel, () => GetType(AppConstants.MainType.SpiritBeast));
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", moreMenuPanel, () => GetType(AppConstants.MainType.ScienceFiction));
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", moreMenuPanel, () => GetType(AppConstants.MainType.SpiritCard));
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", moreMenuPanel, () => GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", moreMenuPanel, () => GetType(AppConstants.MainType.COLLABORATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", moreMenuPanel, () => GetType(AppConstants.MainType.MEDAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", moreMenuPanel, () => GetType(AppConstants.MainType.SKILL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", moreMenuPanel, () => GetType(AppConstants.MainType.SYMBOL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", moreMenuPanel, () => GetType(AppConstants.MainType.TITLE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", moreMenuPanel, () => GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", moreMenuPanel, () => GetType(AppConstants.MainType.RELIC));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", moreMenuPanel, () => GetType(AppConstants.MainType.TALISMAN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", moreMenuPanel, () => GetType(AppConstants.MainType.PUPPET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", moreMenuPanel, () => GetType(AppConstants.MainType.ALCHEMY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", moreMenuPanel, () => GetType(AppConstants.MainType.FORGE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", moreMenuPanel, () => GetType(AppConstants.MainType.CARD_LIFE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", moreMenuPanel, () => GetType(AppConstants.MainType.MASTER_BOARD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", moreMenuPanel, () => GetType(AppConstants.MainType.ARTWORK));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", moreMenuPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", moreMenuPanel, () => GetType(AppConstants.MainType.SCIENCE_FICTION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", moreMenuPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD));
     }
     public void GetType(string type)
     {
@@ -221,9 +221,9 @@ public class MainMenuManager : MonoBehaviour
     public void GetButtonType()
     {
         // MainMenuPanel.SetActive(true);
-        if (mainType.Equals(AppConstants.MainType.SummonCardHeroes) || mainType.Equals(AppConstants.MainType.SummonBooks) || mainType.Equals(AppConstants.MainType.SummonCardCaptains) ||
-        mainType.Equals(AppConstants.MainType.SummonCardColonels) || mainType.Equals(AppConstants.MainType.SummonCardGenerals) || mainType.Equals(AppConstants.MainType.SummonCardAdmirals) ||
-        mainType.Equals(AppConstants.MainType.SummonCardMilitaries) || mainType.Equals(AppConstants.MainType.SummonCardMonsters) || mainType.Equals(AppConstants.MainType.SummonCardSpells))
+        if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES) || mainType.Equals(AppConstants.MainType.SUMMON_BOOKS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS) ||
+        mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS) ||
+        mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
         {
             buttonType = "button2";
             canUseRareButton = false;
@@ -239,13 +239,13 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ClosePanel();
             });
             HomeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             // SummonAreaPanel = summonObject.transform.Find("SummonArea");
@@ -266,7 +266,7 @@ public class MainMenuManager : MonoBehaviour
             RawImage rawImage1 = summonObject.transform.Find("DictionaryCards/RawImage1").GetComponent<RawImage>();
             RawImage rawImage2 = summonObject.transform.Find("DictionaryCards/RawImage2").GetComponent<RawImage>();
             RawImage background2 = summonObject.transform.Find("DictionaryCards/Background2").GetComponent<RawImage>();
-            if (mainType.Equals(AppConstants.MainType.SummonCardHeroes))
+            if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_52");
                 // dictionaryBackground.texture = texture;
@@ -275,7 +275,7 @@ public class MainMenuManager : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SummonBooks) || mainType.Equals(AppConstants.MainType.SummonCardColonels))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_51");
                 // dictionaryBackground.texture = texture;
@@ -284,7 +284,7 @@ public class MainMenuManager : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SummonCardCaptains) || mainType.Equals(AppConstants.MainType.SummonCardGenerals))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_50");
                 // dictionaryBackground.texture = texture;
@@ -293,7 +293,7 @@ public class MainMenuManager : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SummonCardMonsters) || mainType.Equals(AppConstants.MainType.SummonCardAdmirals))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_49");
                 // dictionaryBackground.texture = texture;
@@ -302,7 +302,7 @@ public class MainMenuManager : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SummonCardMilitaries))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_48");
                 // dictionaryBackground.texture = texture;
@@ -311,7 +311,7 @@ public class MainMenuManager : MonoBehaviour
                 rawImage2.texture = rawTexture;
                 background2.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SummonCardSpells))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
             {
                 Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_47");
                 // dictionaryBackground.texture = texture;
@@ -321,55 +321,55 @@ public class MainMenuManager : MonoBehaviour
                 background2.texture = texture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.Gallery))
+        else if (mainType.Equals(AppConstants.MainType.GALLERY))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = LocalizationManager.Get(AppConstants.MainType.Gallery);
+            TitleText.text = LocalizationManager.Get(AppConstants.MainType.GALLERY);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
             scrollViewPanel.gameObject.SetActive(false);
         }
-        else if (mainType.Equals(AppConstants.MainType.Collection))
+        else if (mainType.Equals(AppConstants.MainType.COLLECTION))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = LocalizationManager.Get(AppConstants.MainType.Collection);
+            TitleText.text = LocalizationManager.Get(AppConstants.MainType.COLLECTION);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
             scrollViewPanel.gameObject.SetActive(false);
         }
-        else if (mainType.Equals(AppConstants.MainType.Equipment))
+        else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = LocalizationManager.Get(AppConstants.MainType.Equipments);
+            TitleText.text = LocalizationManager.Get(AppConstants.MainType.EQUIPMENTS);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateEquipmentsButton(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
             scrollViewPanel.gameObject.SetActive(false);
         }
-        else if (mainType.Equals(AppConstants.MainType.Anime))
+        else if (mainType.Equals(AppConstants.MainType.ANIME))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(AnimePanelPrefab, MainPanel);
@@ -377,18 +377,18 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
-        else if (mainType.Equals(AppConstants.MainType.ScienceFiction))
+        else if (mainType.Equals(AppConstants.MainType.SCIENCE_FICTION))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(ReactorPanelPrefab, MainPanel);
@@ -396,19 +396,19 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             ScienceFictionManager.Instance.GetScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
-        else if (mainType.Equals(AppConstants.MainType.Arena))
+        else if (mainType.Equals(AppConstants.MainType.ARENA))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
@@ -416,18 +416,18 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
-        else if (mainType.Equals(AppConstants.MainType.Guild))
+        else if (mainType.Equals(AppConstants.MainType.GUILD))
         {
             canUseRareButton = false;
             // GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
@@ -438,7 +438,7 @@ public class MainMenuManager : MonoBehaviour
             // HomeButton.onClick.AddListener(() => Close(MainPanel));
             // FindObjectOfType<ButtonLoader>().CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
-        else if (mainType.Equals(AppConstants.MainType.Tower))
+        else if (mainType.Equals(AppConstants.MainType.TOWER))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
@@ -446,22 +446,22 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateTowerButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
-        else if (mainType.Equals(AppConstants.MainType.Event))
+        else if (mainType.Equals(AppConstants.MainType.EVENT))
         {
             canUseRareButton = false;
         }
-        else if (mainType.Equals(AppConstants.MainType.MasterBoard))
+        else if (mainType.Equals(AppConstants.MainType.MASTER_BOARD))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(MasterBoardPanelPrefab, MainPanel);
@@ -469,60 +469,60 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
-            titleTMPText.text = LocalizationManager.Get(AppConstants.MainType.MasterBoard);
+            titleTMPText.text = LocalizationManager.Get(AppConstants.MainType.MASTER_BOARD);
             // FindObjectOfType<ButtonLoader>().CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             MasterBoardController.Instance.CreateMasterBoard(popupObject);
         }
-        else if (mainType.Equals(AppConstants.MainType.Teams))
+        else if (mainType.Equals(AppConstants.MainType.TEAMS))
         {
             canUseRareButton = false;
             TeamsManager.Instance.CreateTeams();
         }
-        else if (mainType.Equals(AppConstants.MainType.More))
+        else if (mainType.Equals(AppConstants.MainType.MORE))
         {
             canUseRareButton = false;
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = LocalizationManager.Get(AppConstants.MainType.More);
+            TitleText.text = LocalizationManager.Get(AppConstants.MainType.MORE);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateMoreButton(popupObject.transform.Find("Content"));
             GetMoreButtonEvent(popupObject.transform.Find("Content"));
         }
-        else if (mainType.Equals(AppConstants.MainType.DailyCheckin))
+        else if (mainType.Equals(AppConstants.MainType.DAILY_CHECKIN))
         {
             canUseRareButton = false;
             DailyCheckinManager.Instance.CreateDailyCheckinGroup();
         }
-        else if (mainType.Equals(AppConstants.Market.RareMarket))
+        else if (mainType.Equals(AppConstants.Market.RARE_MARKET))
         {
             canUseRareButton = false;
             RareMarketManager.Instance.CreateRareMarket();
         }
-        else if (mainType.Equals(AppConstants.Market.UltraRareMarket))
+        else if (mainType.Equals(AppConstants.Market.ULTRA_RARE_MARKET))
         {
             canUseRareButton = false;
             UltraRareMarketManager.Instance.CreateUltraRareMarket();
         }
-        else if (mainType.Equals(AppConstants.Market.LegendaryMarket))
+        else if (mainType.Equals(AppConstants.Market.LEGENDARY_MARKET))
         {
             canUseRareButton = false;
             LegendaryMarketManager.Instance.CreateLegendaryMarket();
         }
-        else if (mainType.Equals(AppConstants.Market.MysticMarket))
+        else if (mainType.Equals(AppConstants.Market.MYSTIC_MARKET))
         {
             canUseRareButton = false;
             MysticMarketManager.Instance.CreateMysticMarket();
@@ -542,23 +542,23 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 ClosePanel();
             });
             HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
             NextButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
                 ChangeNextPage();
             });
             PreviousButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SwitchClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
                 ChangePreviousPage();
             });
 
@@ -572,7 +572,7 @@ public class MainMenuManager : MonoBehaviour
         List<string> uniqueRaries = QualityEvaluator.rarities;
         List<string> uniqueTypes = TypeManager.GetUniqueTypes(mainType);
 
-        if (uniqueRaries.Count > 0 && uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.MainType.Item) && canUseRareButton)
+        if (uniqueRaries.Count > 0 && uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.MainType.ITEM) && canUseRareButton)
         {
             for (int i = 0; i < uniqueRaries.Count; i++)
             {
@@ -586,7 +586,7 @@ public class MainMenuManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     OnRareTabButtonClick(button, rareTemp);
                 });
 
@@ -609,7 +609,7 @@ public class MainMenuManager : MonoBehaviour
             }
         }
 
-        if (uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.MainType.Equipment))
+        if (uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
             for (int i = 0; i < uniqueTypes.Count; i++)
             {
@@ -632,7 +632,7 @@ public class MainMenuManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     OnButtonClick(button, subType);
                 });
 
@@ -667,7 +667,7 @@ public class MainMenuManager : MonoBehaviour
         {
             int totalRecord = 0;
             int listCount = 0;
-            if (mainType.Equals(AppConstants.MainType.Collaboration))
+            if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
                 List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
                 UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
@@ -675,7 +675,7 @@ public class MainMenuManager : MonoBehaviour
 
                 totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
             }
-            else if (mainType.Equals(AppConstants.MainType.Medal))
+            else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
                 List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
                 UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
@@ -683,7 +683,7 @@ public class MainMenuManager : MonoBehaviour
 
                 totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
             }
-            else if (mainType.Equals(AppConstants.MainType.Title))
+            else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
                 List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
@@ -691,7 +691,7 @@ public class MainMenuManager : MonoBehaviour
 
                 totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
             }
-            else if (mainType.Equals(AppConstants.MainType.SpiritBeast))
+            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
                 List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
                 UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
@@ -788,7 +788,7 @@ public class MainMenuManager : MonoBehaviour
         int listCount = 0;
         // offset = 0;
 
-        if (mainType.Equals(AppConstants.MainType.CardHero))
+        if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
             List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -797,7 +797,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Book))
+        else if (mainType.Equals(AppConstants.MainType.BOOK))
         {
             List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -806,7 +806,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardCaptain))
+        else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
             List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -815,7 +815,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CollaborationEquipment))
+        else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
             List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -824,7 +824,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Item))
+        else if (mainType.Equals(AppConstants.MainType.ITEM))
         {
             List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, type, pageSize, offset);
             Close(DictionaryContentPanel);
@@ -833,7 +833,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserItemsService.Create().GetUserItemCount(User.CurrentUserId, type);
         }
-        else if (mainType.Equals(AppConstants.MainType.Pet))
+        else if (mainType.Equals(AppConstants.MainType.PET))
         {
             List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -842,7 +842,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Skill))
+        else if (mainType.Equals(AppConstants.MainType.SKILL))
         {
             List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -851,7 +851,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Symbol))
+        else if (mainType.Equals(AppConstants.MainType.SYMBOL))
         {
             List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -860,7 +860,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardMilitary))
+        else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
             List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -869,7 +869,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardSpell))
+        else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
             List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -878,7 +878,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Collaboration))
+        else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
         {
             List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -887,7 +887,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Medal))
+        else if (mainType.Equals(AppConstants.MainType.MEDAL))
         {
             List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -896,7 +896,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Title))
+        else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
             List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -905,7 +905,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.MagicFormationCircle))
+        else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
             List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -914,7 +914,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Relic))
+        else if (mainType.Equals(AppConstants.MainType.RELIC))
         {
             List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -923,7 +923,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardMonster))
+        else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
             List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -932,7 +932,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardColonel))
+        else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
             List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -941,7 +941,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardGeneral))
+        else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
             List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -950,7 +950,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
+        else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
             List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -959,7 +959,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonCardHeroes))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
         {
             titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesRandom(type, 3);
@@ -977,7 +977,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -996,7 +996,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1013,7 +1013,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonBooks))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS))
         {
             titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             List<Books> books = BooksService.Create().GetBooksRandom(type, 3);
@@ -1029,7 +1029,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1047,7 +1047,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1064,7 +1064,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonCardCaptains))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
         {
             titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsRandom(type, 3);
@@ -1080,7 +1080,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1098,7 +1098,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1115,7 +1115,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonCardMilitaries))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
         {
             titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryRandom(type, 3);
@@ -1131,7 +1131,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1149,7 +1149,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1166,7 +1166,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonCardSpells))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
         {
             titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpellRandom(type, 3);
@@ -1182,7 +1182,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1200,7 +1200,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1217,7 +1217,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonCardMonsters))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
         {
             titleText2.text = "Summon " + string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersRandom(type, 3);
@@ -1233,7 +1233,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1251,7 +1251,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1268,7 +1268,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonCardColonels))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
         {
             titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsRandom(type, 3);
@@ -1284,7 +1284,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1302,7 +1302,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1319,7 +1319,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonCardGenerals))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
         {
             titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsRandom(type, 3);
@@ -1335,7 +1335,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1353,7 +1353,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1370,7 +1370,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SummonCardAdmirals))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
         {
             titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsRandom(type, 3);
@@ -1386,7 +1386,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1404,7 +1404,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.ButtonClick);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1421,7 +1421,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.Talisman))
+        else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
             List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -1430,7 +1430,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Puppet))
+        else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
             List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -1439,7 +1439,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Alchemy))
+        else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
             List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -1448,7 +1448,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Forge))
+        else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
             List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -1457,7 +1457,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CardLife))
+        else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
             List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -1466,7 +1466,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.Artwork))
+        else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
             List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -1475,7 +1475,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.SpiritBeast))
+        else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
             List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -1484,7 +1484,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.SpiritCard))
+        else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
             List<SpiritCard> spiritCards = UserSpiritCardService.Create().GetUserSpiritCard(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
@@ -1586,7 +1586,7 @@ public class MainMenuManager : MonoBehaviour
             ClearAllPrefabs();
             int totalRecord = 0;
 
-            if (mainType.Equals(AppConstants.MainType.CardHero))
+            if (mainType.Equals(AppConstants.MainType.CARD_HERO))
             {
                 totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1595,7 +1595,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardHeroesController.Instance.CreateUserCardHeroes(cardHeroes, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Book))
+            else if (mainType.Equals(AppConstants.MainType.BOOK))
             {
                 totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1604,7 +1604,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserBooksController.Instance.CreateUserBooks(books, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardCaptain))
+            else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
             {
                 totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1613,7 +1613,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardCaptainsController.Instance.CreateUserCardCaptains(cardCaptains, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CollaborationEquipment))
+            else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
             {
                 totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1622,7 +1622,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCollaborationEquipmentController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Collaboration))
+            else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
                 totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1631,7 +1631,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
                 UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Medal))
+            else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
                 totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1640,7 +1640,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
                 UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardMonster))
+            else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
             {
                 totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1649,7 +1649,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardMonstersController.Instance.CreateUserCardMonsters(cardMonsters, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Pet))
+            else if (mainType.Equals(AppConstants.MainType.PET))
             {
                 totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1658,7 +1658,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserPetsController.Instance.CreateUserPets(pets, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Skill))
+            else if (mainType.Equals(AppConstants.MainType.SKILL))
             {
                 totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1667,7 +1667,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSkillsController.Instance.CreateUserSkills(skills, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Symbol))
+            else if (mainType.Equals(AppConstants.MainType.SYMBOL))
             {
                 totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1676,7 +1676,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSymbolsController.Instance.CreateUserSymbols(symbols, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Title))
+            else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
                 totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1685,7 +1685,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardMilitary))
+            else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
             {
                 totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1694,7 +1694,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardMilitaryController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardSpell))
+            else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
             {
                 totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1703,7 +1703,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardSpellController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.MagicFormationCircle))
+            else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
             {
                 totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1712,7 +1712,7 @@ public class MainMenuManager : MonoBehaviour
                 List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserMagicFormationCircleController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Relic))
+            else if (mainType.Equals(AppConstants.MainType.RELIC))
             {
                 totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1721,7 +1721,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserRelicsController.Instance.CreateUserRelics(relics, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Talisman))
+            else if (mainType.Equals(AppConstants.MainType.TALISMAN))
             {
                 totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1730,7 +1730,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserTalismanController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Puppet))
+            else if (mainType.Equals(AppConstants.MainType.PUPPET))
             {
                 totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1739,7 +1739,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserPuppetController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Alchemy))
+            else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
             {
                 totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1748,7 +1748,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserAlchemyController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Forge))
+            else if (mainType.Equals(AppConstants.MainType.FORGE))
             {
                 totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1757,7 +1757,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserForgeController.Instance.CreateUserForge(forges, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardColonel))
+            else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
             {
                 totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1766,7 +1766,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardColonelsController.Instance.CreateUserCardColonels(cardColonels, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardGeneral))
+            else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
             {
                 totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1775,7 +1775,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardGeneralsController.Instance.CreateUserCardGenerals(cardGenerals, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
+            else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
             {
                 totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1784,7 +1784,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardAdmiralsController.Instance.CreateUserCardAdmirals(cardAdmirals, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardLife))
+            else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
             {
                 totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1793,7 +1793,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Artwork))
+            else if (mainType.Equals(AppConstants.MainType.ARTWORK))
             {
                 totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1802,7 +1802,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Item))
+            else if (mainType.Equals(AppConstants.MainType.ITEM))
             {
                 totalRecord = UserItemsService.Create().GetUserItemCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1811,7 +1811,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, subType, pageSize, offset);
                 UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.SpiritBeast))
+            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
                 totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1832,7 +1832,7 @@ public class MainMenuManager : MonoBehaviour
             ClearAllPrefabs();
             int totalRecord = 0;
 
-            if (mainType.Equals(AppConstants.MainType.CardHero))
+            if (mainType.Equals(AppConstants.MainType.CARD_HERO))
             {
                 totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1841,7 +1841,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardHeroesController.Instance.CreateUserCardHeroes(cardHeroes, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Book))
+            else if (mainType.Equals(AppConstants.MainType.BOOK))
             {
                 totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1850,7 +1850,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserBooksController.Instance.CreateUserBooks(books, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardCaptain))
+            else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
             {
                 totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1859,7 +1859,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardCaptainsController.Instance.CreateUserCardCaptains(cardCaptains, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CollaborationEquipment))
+            else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
             {
                 totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1868,7 +1868,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CollaborationEquipment> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCollaborationEquipmentController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Collaboration))
+            else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
                 totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1877,7 +1877,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Collaboration> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
                 UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Medal))
+            else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
                 totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1886,7 +1886,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
                 UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardMonster))
+            else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
             {
                 totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1895,7 +1895,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardMonstersController.Instance.CreateUserCardMonsters(cardMonsters, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Pet))
+            else if (mainType.Equals(AppConstants.MainType.PET))
             {
                 totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1904,7 +1904,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserPetsController.Instance.CreateUserPets(pets, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Skill))
+            else if (mainType.Equals(AppConstants.MainType.SKILL))
             {
                 totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1913,7 +1913,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSkillsController.Instance.CreateUserSkills(skills, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Symbol))
+            else if (mainType.Equals(AppConstants.MainType.SYMBOL))
             {
                 totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1922,7 +1922,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSymbolsController.Instance.CreateUserSymbols(symbols, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Title))
+            else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
                 totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1931,7 +1931,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardMilitary))
+            else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
             {
                 totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1940,7 +1940,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardMilitary> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardMilitaryController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardSpell))
+            else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
             {
                 totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1949,7 +1949,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardSpell> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardSpellController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.MagicFormationCircle))
+            else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
             {
                 totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1958,7 +1958,7 @@ public class MainMenuManager : MonoBehaviour
                 List<MagicFormationCircle> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserMagicFormationCircleController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Relic))
+            else if (mainType.Equals(AppConstants.MainType.RELIC))
             {
                 totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1967,7 +1967,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserRelicsController.Instance.CreateUserRelics(relics, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Talisman))
+            else if (mainType.Equals(AppConstants.MainType.TALISMAN))
             {
                 totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1976,7 +1976,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Talisman> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserTalismanController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Puppet))
+            else if (mainType.Equals(AppConstants.MainType.PUPPET))
             {
                 totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1985,7 +1985,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Puppet> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserPuppetController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Alchemy))
+            else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
             {
                 totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1994,7 +1994,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Alchemy> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserAlchemyController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Forge))
+            else if (mainType.Equals(AppConstants.MainType.FORGE))
             {
                 totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -2003,7 +2003,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Forge> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserForgeController.Instance.CreateUserForge(forges, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardColonel))
+            else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
             {
                 totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -2012,7 +2012,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardColonelsController.Instance.CreateUserCardColonels(cardColonels, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardGeneral))
+            else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
             {
                 totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -2021,7 +2021,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardGeneralsController.Instance.CreateUserCardGenerals(cardGenerals, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
+            else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
             {
                 totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -2030,7 +2030,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardAdmiralsController.Instance.CreateUserCardAdmirals(cardAdmirals, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.CardLife))
+            else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
             {
                 totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -2039,7 +2039,7 @@ public class MainMenuManager : MonoBehaviour
                 List<CardLife> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Artwork))
+            else if (mainType.Equals(AppConstants.MainType.ARTWORK))
             {
                 totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -2048,7 +2048,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Artwork> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.Item))
+            else if (mainType.Equals(AppConstants.MainType.ITEM))
             {
                 totalRecord = UserItemsService.Create().GetUserItemCount(User.CurrentUserId, subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -2057,7 +2057,7 @@ public class MainMenuManager : MonoBehaviour
                 List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, subType, pageSize, offset);
                 UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
             }
-            else if (mainType.Equals(AppConstants.MainType.SpiritBeast))
+            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
                 totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);

@@ -2,14 +2,14 @@ public static class AudioConstants
 {
     public static class Music
     {
-        public const string FantasyAmbient = "FantasyAmbient";
+        public const string FANTASY_AMBIENT = "FantasyAmbient";
     }
     public static class SFX
     {
-        public const string ButtonClick = "ButtonClick1";
-        public const string LevelUp = "LevelUp1";
-        public const string StarUp = "StarUp1";
-        public const string SwitchClick = "SwitchClick";
-        public const string CanOpening = "CanOpening";
+        public const string BUTTON_CLICK = "ButtonClick1";
+        public const string LEVEL_UP = "LevelUp1";
+        public const string STAR_UP = "StarUp1";
+        public const string SWITCH_CLICK = "SwitchClick";
+        public const string CAN_OPENING = "CanOpening";
     }
 }
