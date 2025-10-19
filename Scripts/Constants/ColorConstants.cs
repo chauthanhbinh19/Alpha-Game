@@ -3,26 +3,26 @@ using UnityEngine;
 
 public static class ColorConstants
 {
-    public const string DefaultText = "#F9EED9";
-    public const string RareText = "#FFD700"; // Vàng
-    public const string EpicText = "#800080"; // Tím
-    public const string LegendaryText = "#FF4500"; // Cam đỏ
-    public const string DisabledText = "#AAAAAA";
-    public const string Red       = "#FF0000";
-    public const string Green     = "#00FF00";
-    public const string Blue      = "#0000FF";
-    public const string Yellow    = "#FFFF00";
-    public const string Cyan      = "#00FFFF";
-    public const string Magenta   = "#FF00FF";
-    public const string Orange    = "#FFA500";
-    public const string Purple    = "#800080";
-    public const string Pink      = "#FFC0CB";
-    public const string Brown     = "#A52A2A";
-    public const string Gray      = "#808080";
-    public const string LightGray = "#D3D3D3";
-    public const string DarkGray  = "#A9A9A9";
-    public const string Black     = "#000000";
-    public const string White     = "#FFFFFF";
+    public const string DEFAULT_TEXT_COLOR = "#F9EED9";
+    public const string RARE_TEXT_COLOR = "#FFD700"; // Vàng
+    public const string EPIC_TEXT_COLOR = "#800080"; // Tím
+    public const string LEGENDARY_TEXT_COLOR = "#FF4500"; // Cam đỏ
+    public const string DISABLED_TEXT_COLOR = "#AAAAAA";
+    public const string RED_COLOR       = "#FF0000";
+    public const string GREEN_COLOR     = "#00FF00";
+    public const string BLUE_COLOR      = "#0000FF";
+    public const string YELLOW_COLOR    = "#FFFF00";
+    public const string CYAN_COLOR      = "#00FFFF";
+    public const string MAGENTA_COLOR   = "#FF00FF";
+    public const string ORANGE_COLOR    = "#FFA500";
+    public const string PURPLE_COLOR    = "#800080";
+    public const string PINK_COLOR      = "#FFC0CB";
+    public const string BROWN_COLOR     = "#A52A2A";
+    public const string GRAY_COLOR      = "#808080";
+    public const string LIGHT_GRAY_COLOR = "#D3D3D3";
+    public const string DARK_GRAY_COLOR  = "#A9A9A9";
+    public const string BLACK_COLOR     = "#000000";
+    public const string WHITE_COLOR     = "#FFFFFF";
     public static VertexGradient PhysicalGradient = new VertexGradient(
         new Color32(255, 99, 71, 255),   // Top Left - Tomato
         new Color32(255, 69, 0, 255),    // Top Right - OrangeRed

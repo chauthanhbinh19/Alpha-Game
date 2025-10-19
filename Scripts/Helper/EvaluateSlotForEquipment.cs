@@ -286,111 +286,111 @@ public static class EvaluateSlotForEquipment
         switch (type)
         {
             case AppConstants.Equipment.AMNITUS:
-                return ImageConstants.Background.CardBackground1;
+                return ImageConstants.Background.CARD_BACKGROUND_1_URL;
             case AppConstants.Equipment.ANGELIS:
-                return ImageConstants.Background.CardBackground2;
+                return ImageConstants.Background.CARD_BACKGROUND_2_URL;
             case AppConstants.Equipment.BELLION:
-                return ImageConstants.Background.CardBackground3;
+                return ImageConstants.Background.CARD_BACKGROUND_3_URL;
             case AppConstants.Equipment.BENZAMIN:
-                return ImageConstants.Background.CardBackground4;
+                return ImageConstants.Background.CARD_BACKGROUND_4_URL;
             case AppConstants.Equipment.CELESTIAL:
-                return ImageConstants.Background.CardBackground5;
+                return ImageConstants.Background.CARD_BACKGROUND_5_URL;
             case AppConstants.Equipment.CEVERUS:
-                return ImageConstants.Background.CardBackground6;
+                return ImageConstants.Background.CARD_BACKGROUND_6_URL;
             case AppConstants.Equipment.DELIUS:
-                return ImageConstants.Background.CardBackground7;
+                return ImageConstants.Background.CARD_BACKGROUND_7_URL;
             case AppConstants.Equipment.DOMITIUS:
-                return ImageConstants.Background.CardBackground8;
+                return ImageConstants.Background.CARD_BACKGROUND_8_URL;
             case AppConstants.Equipment.EVERLYN:
-                return ImageConstants.Background.CardBackground9;
+                return ImageConstants.Background.CARD_BACKGROUND_9_URL;
             case AppConstants.Equipment.EXTRA:
-                return ImageConstants.Background.CardBackground10;
+                return ImageConstants.Background.CARD_BACKGROUND_10_URL;
             case AppConstants.Equipment.FAILTUS:
-                return ImageConstants.Background.CardBackground11;
+                return ImageConstants.Background.CARD_BACKGROUND_11_URL;
             case AppConstants.Equipment.FEALAN:
-                return ImageConstants.Background.CardBackground12;
+                return ImageConstants.Background.CARD_BACKGROUND_12_URL;
             case AppConstants.Equipment.GAMMA:
-                return ImageConstants.Background.CardBackground13;
+                return ImageConstants.Background.CARD_BACKGROUND_13_URL;
             case AppConstants.Equipment.GEM:
-                return ImageConstants.Background.CardBackground14;
+                return ImageConstants.Background.CARD_BACKGROUND_14_URL;
             case AppConstants.Equipment.HAGORO:
-                return ImageConstants.Background.CardBackground15;
+                return ImageConstants.Background.CARD_BACKGROUND_15_URL;
             case AppConstants.Equipment.HAKALITE:
-                return ImageConstants.Background.CardBackground16;
+                return ImageConstants.Background.CARD_BACKGROUND_16_URL;
             case AppConstants.Equipment.IGNIS:
-                return ImageConstants.Background.CardBackground17;
+                return ImageConstants.Background.CARD_BACKGROUND_17_URL;
             case AppConstants.Equipment.IVITUS:
-                return ImageConstants.Background.CardBackground18;
+                return ImageConstants.Background.CARD_BACKGROUND_18_URL;
             case AppConstants.Equipment.JORVAN:
-                return ImageConstants.Background.CardBackground19;
+                return ImageConstants.Background.CARD_BACKGROUND_19_URL;
             case AppConstants.Equipment.JULLIAN:
-                return ImageConstants.Background.CardBackground20;
+                return ImageConstants.Background.CARD_BACKGROUND_20_URL;
             case AppConstants.Equipment.KARIS:
-                return ImageConstants.Background.CardBackground21;
+                return ImageConstants.Background.CARD_BACKGROUND_21_URL;
             case AppConstants.Equipment.KARMUS:
-                return ImageConstants.Background.CardBackground22;
+                return ImageConstants.Background.CARD_BACKGROUND_22_URL;
             case AppConstants.Equipment.LOTUS:
-                return ImageConstants.Background.CardBackground23;
+                return ImageConstants.Background.CARD_BACKGROUND_23_URL;
             case AppConstants.Equipment.LUMINIUS:
-                return ImageConstants.Background.CardBackground24;
+                return ImageConstants.Background.CARD_BACKGROUND_24_URL;
             case AppConstants.Equipment.MACUS:
-                return ImageConstants.Background.CardBackground25;
+                return ImageConstants.Background.CARD_BACKGROUND_25_URL;
             case AppConstants.Equipment.MORGANIS:
-                return ImageConstants.Background.CardBackground26;
+                return ImageConstants.Background.CARD_BACKGROUND_26_URL;
             case AppConstants.Equipment.NIMIGAZIN:
-                return ImageConstants.Background.CardBackground27;
+                return ImageConstants.Background.CARD_BACKGROUND_27_URL;
             case AppConstants.Equipment.NOVA:
-                return ImageConstants.Background.CardBackground28;
+                return ImageConstants.Background.CARD_BACKGROUND_28_URL;
             case AppConstants.Equipment.OMONITUS:
-                return ImageConstants.Background.CardBackground29;
+                return ImageConstants.Background.CARD_BACKGROUND_29_URL;
             case AppConstants.Equipment.OMEGA:
-                return ImageConstants.Background.CardBackground30;
+                return ImageConstants.Background.CARD_BACKGROUND_30_URL;
             case AppConstants.Equipment.PET:
-                return ImageConstants.Background.CardBackground31;
+                return ImageConstants.Background.CARD_BACKGROUND_31_URL;
             case AppConstants.Equipment.PYROS:
-                return ImageConstants.Background.CardBackground32;
+                return ImageConstants.Background.CARD_BACKGROUND_32_URL;
             case AppConstants.Equipment.QIYANTUS:
-                return ImageConstants.Background.CardBackground33;
+                return ImageConstants.Background.CARD_BACKGROUND_33_URL;
             case AppConstants.Equipment.QUASAR:
-                return ImageConstants.Background.CardBackground34;
+                return ImageConstants.Background.CARD_BACKGROUND_34_URL;
             case AppConstants.Equipment.RAINBOW:
-                return ImageConstants.Background.CardBackground35;
+                return ImageConstants.Background.CARD_BACKGROUND_35_URL;
             case AppConstants.Equipment.REDVENGER:
-                return ImageConstants.Background.CardBackground36;
+                return ImageConstants.Background.CARD_BACKGROUND_36_URL;
             case AppConstants.Equipment.SOULS:
-                return ImageConstants.Background.CardBackground37;
+                return ImageConstants.Background.CARD_BACKGROUND_37_URL;
             case AppConstants.Equipment.SYNCROHARON:
-                return ImageConstants.Background.CardBackground38;
+                return ImageConstants.Background.CARD_BACKGROUND_38_URL;
             case AppConstants.Equipment.TARIAN:
-                return ImageConstants.Background.CardBackground39;
+                return ImageConstants.Background.CARD_BACKGROUND_39_URL;
             case AppConstants.Equipment.TEYRIC:
-                return ImageConstants.Background.CardBackground40;
+                return ImageConstants.Background.CARD_BACKGROUND_40_URL;
             case AppConstants.Equipment.UNI:
-                return ImageConstants.Background.CardBackground41;
+                return ImageConstants.Background.CARD_BACKGROUND_41_URL;
             case AppConstants.Equipment.ULTRION:
-                return ImageConstants.Background.CardBackground42;
+                return ImageConstants.Background.CARD_BACKGROUND_42_URL;
             case AppConstants.Equipment.VARETHION:
-                return ImageConstants.Background.CardBackground43;
+                return ImageConstants.Background.CARD_BACKGROUND_43_URL;
             case AppConstants.Equipment.VELMIRA:
-                return ImageConstants.Background.CardBackground44;
+                return ImageConstants.Background.CARD_BACKGROUND_44_URL;
             case AppConstants.Equipment.WENLITHAR:
-                return ImageConstants.Background.CardBackground45;
+                return ImageConstants.Background.CARD_BACKGROUND_45_URL;
             case AppConstants.Equipment.WYRMORA:
-                return ImageConstants.Background.CardBackground46;
+                return ImageConstants.Background.CARD_BACKGROUND_46_URL;
             case AppConstants.Equipment.XALTHEON:
-                return ImageConstants.Background.CardBackground47;
+                return ImageConstants.Background.CARD_BACKGROUND_47_URL;
             case AppConstants.Equipment.XYRALIS:
-                return ImageConstants.Background.CardBackground48;
+                return ImageConstants.Background.CARD_BACKGROUND_48_URL;
             case AppConstants.Equipment.YLORAN:
-                return ImageConstants.Background.CardBackground49;
+                return ImageConstants.Background.CARD_BACKGROUND_49_URL;
             case AppConstants.Equipment.YVARION:
-                return ImageConstants.Background.CardBackground50;
+                return ImageConstants.Background.CARD_BACKGROUND_50_URL;
             case AppConstants.Equipment.ZODIAC:
-                return ImageConstants.Background.CardBackground51;
+                return ImageConstants.Background.CARD_BACKGROUND_51_URL;
             case AppConstants.Equipment.ZEROX:
-                return ImageConstants.Background.CardBackground52;
+                return ImageConstants.Background.CARD_BACKGROUND_52_URL;
             default:
-                return ImageConstants.Background.CardBackground1;
+                return ImageConstants.Background.CARD_BACKGROUND_1_URL;
         }
     }
     public static string FrameImageForEquipment(string type)
@@ -398,111 +398,111 @@ public static class EvaluateSlotForEquipment
         switch (type)
         {
             case AppConstants.Equipment.AMNITUS:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.ANGELIS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.BELLION:
-                return ImageConstants.Frame.CardFrame4;
+                return ImageConstants.Frame.CARD_FRAME_4;
             case AppConstants.Equipment.BENZAMIN:
-                return ImageConstants.Frame.CardFrame1;
+                return ImageConstants.Frame.CARD_FRAME_1;
             case AppConstants.Equipment.CELESTIAL:
-                return ImageConstants.Frame.CardFrame2;
+                return ImageConstants.Frame.CARD_FRAME_2;
             case AppConstants.Equipment.CEVERUS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.DELIUS:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.DOMITIUS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.EVERLYN:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.EXTRA:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.FAILTUS:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.FEALAN:
-                return ImageConstants.Frame.CardFrame2;
+                return ImageConstants.Frame.CARD_FRAME_2;
             case AppConstants.Equipment.GAMMA:
-                return ImageConstants.Frame.CardFrame4;
+                return ImageConstants.Frame.CARD_FRAME_4;
             case AppConstants.Equipment.GEM:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.HAGORO:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.HAKALITE:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.IGNIS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.IVITUS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.JORVAN:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.JULLIAN:
-                return ImageConstants.Frame.CardFrame2;
+                return ImageConstants.Frame.CARD_FRAME_2;
             case AppConstants.Equipment.KARIS:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.KARMUS:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.LOTUS:
-                return ImageConstants.Frame.CardFrame2;
+                return ImageConstants.Frame.CARD_FRAME_2;
             case AppConstants.Equipment.LUMINIUS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.MACUS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.MORGANIS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.NIMIGAZIN:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.NOVA:
-                return ImageConstants.Frame.CardFrame4;
+                return ImageConstants.Frame.CARD_FRAME_4;
             case AppConstants.Equipment.OMONITUS:
-                return ImageConstants.Frame.CardFrame1;
+                return ImageConstants.Frame.CARD_FRAME_1;
             case AppConstants.Equipment.OMEGA:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.PET:
-                return ImageConstants.Frame.CardFrame2;
+                return ImageConstants.Frame.CARD_FRAME_2;
             case AppConstants.Equipment.PYROS:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.QIYANTUS:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.QUASAR:
-                return ImageConstants.Frame.CardFrame2;
+                return ImageConstants.Frame.CARD_FRAME_2;
             case AppConstants.Equipment.RAINBOW:
-                return ImageConstants.Frame.CardFrame1;
+                return ImageConstants.Frame.CARD_FRAME_1;
             case AppConstants.Equipment.REDVENGER:
-                return ImageConstants.Frame.CardFrame4;
+                return ImageConstants.Frame.CARD_FRAME_4;
             case AppConstants.Equipment.SOULS:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.SYNCROHARON:
-                return ImageConstants.Frame.CardFrame4;
+                return ImageConstants.Frame.CARD_FRAME_4;
             case AppConstants.Equipment.TARIAN:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.TEYRIC:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.UNI:
-                return ImageConstants.Frame.CardFrame1;
+                return ImageConstants.Frame.CARD_FRAME_1;
             case AppConstants.Equipment.ULTRION:
-                return ImageConstants.Frame.CardFrame4;
+                return ImageConstants.Frame.CARD_FRAME_4;
             case AppConstants.Equipment.VARETHION:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.VELMIRA:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.WENLITHAR:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.WYRMORA:
-                return ImageConstants.Frame.CardFrame2;
+                return ImageConstants.Frame.CARD_FRAME_2;
             case AppConstants.Equipment.XALTHEON:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.XYRALIS:
-                return ImageConstants.Frame.CardFrame1;
+                return ImageConstants.Frame.CARD_FRAME_1;
             case AppConstants.Equipment.YLORAN:
-                return ImageConstants.Frame.CardFrame3;
+                return ImageConstants.Frame.CARD_FRAME_3;
             case AppConstants.Equipment.YVARION:
-                return ImageConstants.Frame.CardFrame5;
+                return ImageConstants.Frame.CARD_FRAME_5;
             case AppConstants.Equipment.ZODIAC:
-                return ImageConstants.Frame.CardFrame4;
+                return ImageConstants.Frame.CARD_FRAME_4;
             case AppConstants.Equipment.ZEROX:
-                return ImageConstants.Frame.CardFrame2;
+                return ImageConstants.Frame.CARD_FRAME_2;
             default:
-                return ImageConstants.Frame.CardFrame1;
+                return ImageConstants.Frame.CARD_FRAME_1;
         }
 
     }

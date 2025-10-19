@@ -83,6 +83,8 @@ public class UIManager : MonoBehaviour
     public GameObject Skill1Prefab;
     public GameObject Skill2Prefab;
     public GameObject PopupSkillDetailPrefab;
+    public GameObject CardContractPrefab;
+    public GameObject CardPenaltyPrefab;
     [Header("Science Fiction")]
     public GameObject ReactorPanelPrefab;
     public GameObject ReactorButtonPrefab;
@@ -507,6 +509,10 @@ public class UIManager : MonoBehaviour
                 return Skill2Prefab;
             case "PopupSkillDetailPrefab":
                 return PopupSkillDetailPrefab;
+            case "CardPenaltyPrefab":
+                return CardPenaltyPrefab;
+            case "CardContractPrefab":
+                return CardContractPrefab;
             //Market
             case "RareMarketManagerPrefab":
                 return RareMarketManagerPrefab;
@@ -1200,8 +1206,8 @@ public class UIManager : MonoBehaviour
         var maxResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
         RawImage OneLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         RawImage MaxLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
-        Texture OneLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.Silver}");
-        Texture MaxLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.Silver}");
+        Texture OneLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.SILVER}");
+        Texture MaxLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.SILVER}");
         OneLevelCurrencyImage.texture = OneLevelCurrencyTexture;
         MaxLevelCurrencyImage.texture = MaxLevelCurrencyTexture;
 
@@ -1538,203 +1544,203 @@ public class UIManager : MonoBehaviour
         Texture runeTexture;
         if (title.Equals(AppConstants.StatFields.PHYSICAL_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.PhysicalAttackRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.PHYSICAL_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.PHYSICAL_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.PhysicalDefenseRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.PHYSICAL_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MAGICAL_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MagicalAttackRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MAGICAL_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MAGICAL_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MagicalDefenseRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MAGICAL_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CHEMICAL_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.ChemicalAttackRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.CHEMICAL_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CHEMICAL_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.ChemicalDefenseRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.CHEMICAL_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ATOMIC_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.AtomicAttackRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.ATOMIC_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ATOMIC_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.AtomicDefenseRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.ATOMIC_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MENTAL_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MentalAttackRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MENTAL_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MENTAL_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MentalDefenseRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MENTAL_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.HEALTH))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.HealthRuneUrl);
+            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.HEALTH_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.SPEED)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SpeedRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SPEED_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CRITICAL_RATE)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CRITICAL_DAMAGE_RATE)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.DAMAGE_ABSORPTION_RATE)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CRITICAL_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_CRITICAL_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.PENETRATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.PENETRATION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.EVASION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ProtectionRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PROTECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ABSORBED_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ACCURACY_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.AccuracyRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ACCURACY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.LIFE_STEAL_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.AccuracyRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ACCURACY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.SHIELD_STRENGTH))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ProtectionRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PROTECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.TENACITY))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_COMBO_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.STUN_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.AccuracyRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ACCURACY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_STUN_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MANA))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ProtectionRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PROTECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MANA_REGENERATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_REFLECTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DamageRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ResistanceRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE) || title.Equals(AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE) ||
@@ -1742,7 +1748,7 @@ public class UIManager : MonoBehaviour
          title.Equals(AppConstants.StatFields.NORMAL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.NORMAL_RESISTANCE_RATE) ||
          title.Equals(AppConstants.StatFields.SKILL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.SKILL_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SkillRuneUrl}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SKILL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         runeImage.gameObject.SetActive(true);
@@ -1790,7 +1796,7 @@ public class UIManager : MonoBehaviour
                             double newintValue = increasePerLevel * intValue;
                             elementContentText.text = "+" + NumberFormatter.FormatNumber(newintValue, false);
                             Color greenColor;
-                            if (ColorUtility.TryParseHtmlString(ColorConstants.Green, out greenColor)) // Màu xanh lá LimeGreen
+                            if (ColorUtility.TryParseHtmlString(ColorConstants.GREEN_COLOR, out greenColor)) // Màu xanh lá LimeGreen
                             {
                                 elementContentText.color = greenColor;
                                 elementContentText.fontMaterial.SetColor(ShaderUtilities.ID_GlowColor, Color.green); // Màu phát sáng
@@ -1838,7 +1844,7 @@ public class UIManager : MonoBehaviour
                             double newintValue = increasePerUpgrade * intValue;
                             elementContentText.text = "+" + NumberFormatter.FormatNumber(newintValue, false);
                             Color greenColor;
-                            if (ColorUtility.TryParseHtmlString(ColorConstants.Green, out greenColor)) // Màu xanh lá LimeGreen
+                            if (ColorUtility.TryParseHtmlString(ColorConstants.GREEN_COLOR, out greenColor)) // Màu xanh lá LimeGreen
                             {
                                 elementContentText.color = greenColor;
                                 elementContentText.fontMaterial.SetColor(ShaderUtilities.ID_GlowColor, Color.green); // Màu phát sáng
@@ -1916,51 +1922,51 @@ public class UIManager : MonoBehaviour
     }
     public void GetStarImage(RawImage starImage, int starIndex)
     {
-        Texture starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star1Url}");
+        Texture starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV1_URL}");
         switch (starIndex)
         {
             case 0:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star1Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV1_URL}");
                 starImage.texture = starTexture;
                 break;
             case 1:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star2Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV2_URL}");
                 starImage.texture = starTexture;
                 break;
             case 2:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star3Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV3_URL}");
                 starImage.texture = starTexture;
                 break;
             case 3:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star4Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV4_URL}");
                 starImage.texture = starTexture;
                 break;
             case 4:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star5Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV5_URL}");
                 starImage.texture = starTexture;
                 break;
             case 5:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star6Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV6_URL}");
                 starImage.texture = starTexture;
                 break;
             case 6:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star7Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV7_URL}");
                 starImage.texture = starTexture;
                 break;
             case 7:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star8Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV8_URL}");
                 starImage.texture = starTexture;
                 break;
             case 8:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star9Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV9_URL}");
                 starImage.texture = starTexture;
                 break;
             case 9:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star10Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV10_URL}");
                 starImage.texture = starTexture;
                 break;
             default:
-                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.Star1Url}");
+                starTexture = Resources.Load<Texture>($"{ImageConstants.Star.STAR_LV1_URL}");
                 starImage.texture = starTexture;
                 break;
         }

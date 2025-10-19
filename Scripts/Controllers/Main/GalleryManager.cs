@@ -166,12 +166,12 @@ public class GalleryManager : MonoBehaviour
                 if (i == 0)
                 {
                     rare = selectedRare;
-                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RareButtonUrlAfterClick);
+                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
                     // LoadCurrentPage();
                 }
                 else
                 {
-                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RareButtonUrlBeforeClick);
+                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
                 }
             }
         }
@@ -198,12 +198,12 @@ public class GalleryManager : MonoBehaviour
                 if (i == 0)
                 {
                     type = subType;
-                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlAfterClick);
+                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     LoadCurrentPage();
                 }
                 else
                 {
-                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
             }
         }
@@ -267,7 +267,7 @@ public class GalleryManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick); // Giả sử bạn có texture trắng
+                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
             }
         }
 
@@ -275,7 +275,7 @@ public class GalleryManager : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
+        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
 
         if (RightScrollViewContentPanel.childCount > 0)
         {
@@ -289,11 +289,11 @@ public class GalleryManager : MonoBehaviour
                     if (i == 0)
                     {
                         rare = QualityEvaluator.rarities[0]; // hoặc AppConstants.MainType.All
-                        ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RareButtonUrlAfterClick);
+                        ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
                     }
                     else
                     {
-                        ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RareButtonUrlBeforeClick);
+                        ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
                     }
                 }
             }
@@ -308,7 +308,7 @@ public class GalleryManager : MonoBehaviour
             Button button = child.GetComponent<Button>();
             if (button != null)
             {
-                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.RareButtonUrlBeforeClick);
+                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
             }
         }
 
@@ -316,7 +316,7 @@ public class GalleryManager : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.RareButtonUrlAfterClick);
+        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
         LoadCurrentPage();
     }
     public void LoadCurrentPage()

@@ -75,14 +75,14 @@ public class MasterBoardController : MonoBehaviour
                 if (index == 0)
                 {
                     mainType = name;
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlAfterClick);
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     // mainId = cardHeroes.id;
                     List<MasterBoard> masterBoards = UserMasterBoardService.Create().GetUserMasterBoard(User.CurrentUserId, name);
                     CreateMasterBoardUI(masterBoards);
                 }
                 else
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
                 index = index + 1;
             }
@@ -97,12 +97,12 @@ public class MasterBoardController : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                UIManager.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick); // Giả sử bạn có texture trắng
+                UIManager.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
             }
         }
 
         mainType = type;
-        UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
+        UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
         Content.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
         // mainId = cardHeroes.id;

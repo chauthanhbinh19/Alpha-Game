@@ -32,21 +32,21 @@ public class UserService : IUserService
 
         PowerManagerService.Create().InsertUserStats(userId);
 
-        Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket);
+        Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET);
         UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
-        Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket);
+        Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET);
         UserItemsService.Create().InsertUserItems(cardCaptainsTicket, 1000000);
-        Items cardMilitaryTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket);
+        Items cardMilitaryTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET);
         UserItemsService.Create().InsertUserItems(cardMilitaryTicket, 1000000);
-        Items cardSpellTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket);
+        Items cardSpellTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET);
         UserItemsService.Create().InsertUserItems(cardSpellTicket, 1000000);
-        Items cardMonstersTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket);
+        Items cardMonstersTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET);
         UserItemsService.Create().InsertUserItems(cardMonstersTicket, 1000000);
-        Items cardColonelsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket);
+        Items cardColonelsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET);
         UserItemsService.Create().InsertUserItems(cardColonelsTicket, 1000000);
-        Items cardGeneralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket);
+        Items cardGeneralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET);
         UserItemsService.Create().InsertUserItems(cardGeneralsTicket, 1000000);
-        Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket);
+        Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET);
         UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
 
         for (int i = 0; i < 50; i++)
@@ -68,7 +68,7 @@ public class UserService : IUserService
                 {
                     Success = false,
                     ErrorField = AppConstants.MainType.PASSWORD,
-                    ErrorMessage = MessageConstants.IncorrectPassword,
+                    ErrorMessage = MessageConstants.INCORRECT_PASSWORD,
                     User = null
                 };
             }
@@ -123,7 +123,7 @@ public class UserService : IUserService
             {
                 Success = false,
                 ErrorField = AppConstants.MainType.USERNAME,
-                ErrorMessage = MessageConstants.UsernameDoesNotExist,
+                ErrorMessage = MessageConstants.USERNAME_DOES_NOT_EXIST,
                 User = null
             };
         }

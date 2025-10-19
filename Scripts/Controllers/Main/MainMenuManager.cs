@@ -595,7 +595,7 @@ public class MainMenuManager : MonoBehaviour
                     if (buttonType.Equals("button1"))
                     {
                         rare = selectedRare;
-                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RareButtonUrlAfterClick);
+                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
                         LoadCurrentPage();
                     }
                 }
@@ -603,7 +603,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (buttonType.Equals("button1"))
                     {
-                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RareButtonUrlBeforeClick);
+                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
                     }
                 }
             }
@@ -641,11 +641,11 @@ public class MainMenuManager : MonoBehaviour
                     type = subType;
                     if (buttonType.Equals("button1"))
                     {
-                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlAfterClick);
+                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     }
                     else if (buttonType.Equals("button2"))
                     {
-                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.SummonButtonUrlAfterClick);
+                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.SUMMON_BUTTON_AFTER_CLICK_URL);
                     }
                     LoadCurrentPage();
 
@@ -654,11 +654,11 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (buttonType.Equals("button1"))
                     {
-                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                     }
                     else if (buttonType.Equals("button2"))
                     {
-                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.SummonButtonUrlBeforeClick);
+                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.SUMMON_BUTTON_BEFORE_CLICK_URL);
                     }
                 }
             }
@@ -719,11 +719,11 @@ public class MainMenuManager : MonoBehaviour
                 // Gọi hàm ChangeButtonBackground với màu trắng
                 if (buttonType.Equals("button1"))
                 {
-                    ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                    ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
                 else if (buttonType.Equals("button2"))
                 {
-                    ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.SummonButtonUrlBeforeClick);
+                    ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.SUMMON_BUTTON_BEFORE_CLICK_URL);
                 }
             }
         }
@@ -734,7 +734,7 @@ public class MainMenuManager : MonoBehaviour
         ClearAllPrefabs();
         if (buttonType.Equals("button1"))
         {
-            ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
+            ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
 
             if (RightScrollViewContentPanel.childCount > 0)
             {
@@ -748,11 +748,11 @@ public class MainMenuManager : MonoBehaviour
                         if (i == 0)
                         {
                             rare = QualityEvaluator.rarities[0]; // hoặc AppConstants.MainType.All
-                            ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RareButtonUrlAfterClick);
+                            ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
                         }
                         else
                         {
-                            ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RareButtonUrlBeforeClick);
+                            ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
                         }
                     }
                 }
@@ -760,7 +760,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (buttonType.Equals("button2"))
         {
-            ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.SummonButtonUrlAfterClick);
+            ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.SUMMON_BUTTON_AFTER_CLICK_URL);
         }
         LoadCurrentPage();
     }
@@ -771,7 +771,7 @@ public class MainMenuManager : MonoBehaviour
             Button button = child.GetComponent<Button>();
             if (button != null)
             {
-                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.RareButtonUrlBeforeClick);
+                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
             }
         }
 
@@ -779,7 +779,7 @@ public class MainMenuManager : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.RareButtonUrlAfterClick);
+        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
         LoadCurrentPage();
     }
     public void LoadCurrentPage()
@@ -967,7 +967,7 @@ public class MainMenuManager : MonoBehaviour
 
 
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -983,7 +983,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1002,7 +1002,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1019,7 +1019,7 @@ public class MainMenuManager : MonoBehaviour
             List<Books> books = BooksService.Create().GetBooksRandom(type, 3);
             UserBooksController.Instance.CreateUserBooksForSummon(books, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1035,7 +1035,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1053,7 +1053,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1070,7 +1070,7 @@ public class MainMenuManager : MonoBehaviour
             List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsRandom(type, 3);
             UserCardCaptainsController.Instance.CreateUserCardCaptainsForSummon(cardCaptains, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1086,7 +1086,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1104,7 +1104,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1121,7 +1121,7 @@ public class MainMenuManager : MonoBehaviour
             List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryRandom(type, 3);
             UserCardMilitaryController.Instance.CreateUserCardMilitaryForSummon(cardMilitaries, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1137,7 +1137,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1155,7 +1155,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1172,7 +1172,7 @@ public class MainMenuManager : MonoBehaviour
             List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpellRandom(type, 3);
             UserCardSpellController.Instance.CreateUserCardSpellForSummon(cardSpells, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1188,7 +1188,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1206,7 +1206,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1223,7 +1223,7 @@ public class MainMenuManager : MonoBehaviour
             List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersRandom(type, 3);
             UserCardMonstersController.Instance.CreateUserCardMonstersForSummon(cardMonsters, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1239,7 +1239,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1257,7 +1257,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1274,7 +1274,7 @@ public class MainMenuManager : MonoBehaviour
             List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsRandom(type, 3);
             UserCardColonelsController.Instance.CreateUserCardColonelsForSummon(cardColonels, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1290,7 +1290,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1308,7 +1308,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1325,7 +1325,7 @@ public class MainMenuManager : MonoBehaviour
             List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsRandom(type, 3);
             UserCardGeneralsController.Instance.CreateUserCardGeneralsForSummon(cardGenerals, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1341,7 +1341,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1359,7 +1359,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1376,7 +1376,7 @@ public class MainMenuManager : MonoBehaviour
             List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsRandom(type, 3);
             UserCardAdmiralsController.Instance.CreateUserCardAdmiralsForSummon(cardAdmirals, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) };
+            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) };
             CurrencyManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1392,7 +1392,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1410,7 +1410,7 @@ public class MainMenuManager : MonoBehaviour
                     if (success)
                     {
                         CurrencyManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket) },
+                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) },
                         CurrencyPanel
                         );
                     }

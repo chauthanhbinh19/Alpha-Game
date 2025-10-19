@@ -124,8 +124,8 @@ public class ReactorNumber1Manager : MonoBehaviour
         ScienceFiction scienceFiction = ScienceFictionService.Create().GetScienceFiction(AppConstants.ScienceFiction.REACTOR_NUMBER_1);
         RankService rankService = new RankService();
         List<Items> items = new List<Items>();
-        items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.ReactorMaterialNumber1));
-        items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.ReactorMaterialNumber2));
+        items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.REACTOR_MATERIAL_NUMBER_1));
+        items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.REACTOR_MATERIAL_NUMBER_2));
 
         for (int i = 0; i < items.Count; i++)
         {

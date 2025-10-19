@@ -248,13 +248,13 @@ public class ShopManager : MonoBehaviour
                 if (i == 0)
                 {
                     subType = subtype;
-                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlAfterClick);
+                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     LoadCurrentPage(subtype);
 
                 }
                 else
                 {
-                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
             }
         }
@@ -318,7 +318,7 @@ public class ShopManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick); // Giả sử bạn có texture trắng
+                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
             }
         }
 
@@ -326,7 +326,7 @@ public class ShopManager : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
+        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
         LoadCurrentPage(type);
     }
     public void LoadCurrentPage(string type)

@@ -47,128 +47,128 @@ public class UserItemsService : IUserItemsService
         switch (type)
         {
             case AppConstants.MainType.CARD_HERO:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.BOOK:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBook));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOOK));
                 break;
             case AppConstants.MainType.CARD_CAPTAIN:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.PET:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpPet));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_PET));
                 break;
             case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpCollaborationEquipment));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_COLLABORATION_EQUIPMENT));
                 break;
             case AppConstants.MainType.CARD_MILITARY:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.CARD_SPELL:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.COLLABORATION:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpCollaboration));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_COLLABORATION));
                 break;
             case AppConstants.MainType.CARD_MONSTER:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.EQUIPMENT:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpEquipment));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_EQUIPMENT));
                 break;
             case AppConstants.MainType.MEDAL:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpMedal));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_MEDAL));
                 break;
             case AppConstants.MainType.SKILL:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpSkill));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_SKILL));
                 break;
             case AppConstants.MainType.SYMBOL:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpSymbol));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_SYMBOL));
                 break;
             case AppConstants.MainType.TITLE:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpTitle));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_TITLE));
                 break;
             case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpMagicFormationCircle));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_MAGIC_FORMATION_CIRCLE));
                 break;
             case AppConstants.MainType.RELIC:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpRelic));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_RELIC));
                 break;
             case AppConstants.MainType.CARD_COLONEL:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.CARD_GENERAL:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.CARD_ADMIRAL:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.CARD_LIFE:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.ACHIEVEMENT:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpAchievement));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_ACHIEVEMENT));
                 break;
             default:
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv1));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv2));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv3));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv4));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv5));
-                items.Add(GetUserItemByName(ItemConstants.Experiment.ExpBottleLv6));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+                items.Add(GetUserItemByName(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
         }
         return items;
@@ -179,73 +179,73 @@ public class UserItemsService : IUserItemsService
         switch (type)
         {
             case AppConstants.MainType.CARD_HERO:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.BOOK:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.CARD_CAPTAIN:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.PET:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.CARD_MILITARY:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.CARD_SPELL:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.COLLABORATION:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.CARD_MONSTER:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.EQUIPMENT:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.MEDAL:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.SKILL:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.SYMBOL:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.TITLE:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.RELIC:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.CARD_COLONEL:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.CARD_GENERAL:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.CARD_ADMIRAL:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.CARD_LIFE:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             case AppConstants.MainType.ACHIEVEMENT:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             default:
-                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BreakthroughToken));
+                items.Add(GetUserItemByName(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
         }
         return items;
@@ -256,23 +256,23 @@ public class UserItemsService : IUserItemsService
         switch (type)
         {
             case "Affinity":
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber1));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber2));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber3));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber4));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber5));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber6));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber7));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber8));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber9));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber10));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber11));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber12));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber13));
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber14));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_1));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_2));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_3));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_4));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_5));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_6));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_7));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_8));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_9));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_10));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_11));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_12));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_14));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_15));
                 break;
             default:
-                items.Add(GetUserItemByName(ItemConstants.Affinity.AffinityNumber1));
+                items.Add(GetUserItemByName(ItemConstants.Affinity.AFFINITY_NUMBER_1));
                 break;
         }
         return items;

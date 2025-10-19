@@ -83,7 +83,7 @@ public class MainMenuXyphosManager : MonoBehaviour
                 if (index == 0)
                 {
                     mainType = subtype;
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlAfterClick);
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     if (data is CardHeroes cardHeroes)
                     {
                         // mainId = cardHeroes.id;
@@ -230,7 +230,7 @@ public class MainMenuXyphosManager : MonoBehaviour
                 }
                 else
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
                 ButtonEvent.Instance.CheckLockedButton(data, value, button);
                 index = index + 1;
@@ -247,12 +247,12 @@ public class MainMenuXyphosManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                UIManager.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick); // Giả sử bạn có texture trắng
+                UIManager.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
             }
         }
 
         mainType = type;
-        UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
+        UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
 
         if (data is CardHeroes cardHeroes)
         {

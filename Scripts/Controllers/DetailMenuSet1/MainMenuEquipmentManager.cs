@@ -113,7 +113,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (i == 0)
                 {
                     mainType = subtype;
-                    ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlAfterClick);
+                    ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     if (data is CardHeroes cardHeroes)
                     {
                         CreateCardHeroesEquipments(cardHeroes);
@@ -157,7 +157,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else
                 {
-                    ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                    ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
             }
             LoadAnimation();
@@ -173,12 +173,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick); // Giả sử bạn có texture trắng
+                ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
             }
         }
 
         mainType = type;
-        ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
+        ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
         CreateSetButton(data);
         if (data is CardHeroes cardHeroes)
         {
@@ -271,11 +271,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (i == 0)
                 {
                     set = subtype;
-                    ChangeButtonBackground(button, ImageConstants.Button.SetButtonUrlAfterClick);
+                    ChangeButtonBackground(button, ImageConstants.Button.SET_BUTTON_AFTER_CLICK_URL);
                 }
                 else
                 {
-                    ChangeButtonBackground(button, ImageConstants.Button.SetButtonUrlBeforeClick);
+                    ChangeButtonBackground(button, ImageConstants.Button.SET_BUTTON_BEFORE_CLICK_URL);
                 }
             }
         }
@@ -289,12 +289,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, ImageConstants.Button.SetButtonUrlBeforeClick); // Giả sử bạn có texture trắng
+                ChangeButtonBackground(button.gameObject, ImageConstants.Button.SET_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
             }
         }
 
         set = type;
-        ChangeButtonBackground(clickedButton, ImageConstants.Button.SetButtonUrlAfterClick);
+        ChangeButtonBackground(clickedButton, ImageConstants.Button.SET_BUTTON_AFTER_CLICK_URL);
         // CreateSetButton();
         if (data is CardHeroes cardHeroes)
         {

@@ -104,7 +104,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 if (index == 0)
                 {
                     mainType = subtype;
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlAfterClick);
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     // mainId = cardHeroes.id;
                     CreateAnimeStats();
                     if (User.CurrentUserLevel >= value)
@@ -120,7 +120,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 }
                 else
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TabbuttonUrlBeforeClick);
+                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
                 ButtonEvent.Instance.CheckLockedButton("AnimeStats",value, button);
                 index = index + 1;
@@ -136,12 +136,12 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             if (button != null)
             {
                 // Gọi hàm ChangeButtonBackground với màu trắng
-                UIManager.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TabbuttonUrlBeforeClick); // Giả sử bạn có texture trắng
+                UIManager.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
             }
         }
 
         mainType = type;
-        UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TabbuttonUrlAfterClick);
+        UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
 
         // mainId = cardHeroes.id;
         CreateAnimeStats();
@@ -282,8 +282,8 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         var maxResult = EvaluateItem.CalculateLevelUp(item.quantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
         RawImage OneLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         RawImage MaxLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
-        Texture OneLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.Silver}");
-        Texture MaxLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.Silver}");
+        Texture OneLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.SILVER}");
+        Texture MaxLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.SILVER}");
         OneLevelCurrencyImage.texture = OneLevelCurrencyTexture;
         MaxLevelCurrencyImage.texture = MaxLevelCurrencyTexture;
 
