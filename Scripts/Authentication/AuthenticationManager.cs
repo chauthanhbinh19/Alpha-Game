@@ -95,7 +95,7 @@ public class AuthenticationManager : MonoBehaviour
         if (authResult.Success)
         {
             Destroy(currentObject);
-            if (string.IsNullOrEmpty(authResult.User.name))
+            if (string.IsNullOrEmpty(authResult.User.Name))
             {
                 AuthenticationManager.Instance.createCreateNamePanel(username, password);
                 // signInPanel.SetActive(false);

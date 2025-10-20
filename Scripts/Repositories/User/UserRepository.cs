@@ -25,14 +25,14 @@ public class UserRepository : IUserRepository
                 {
                     return new User
                     {
-                        id = reader["id"].ToString(),
+                        Id = reader["id"].ToString(),
                         Username = reader.GetString("username"),
                         Password = reader.GetString("password"),
-                        name = reader["name"].ToString(),
-                        level = Convert.ToInt32(reader["level"]),
-                        experiment = Convert.ToInt32(reader["experiment"]),
-                        vip = Convert.ToInt32(reader["vip"]),
-                        power = Convert.ToInt32(reader["power"])
+                        Name = reader["name"].ToString(),
+                        Level = Convert.ToInt32(reader["level"]),
+                        Experiment = Convert.ToInt32(reader["experiment"]),
+                        Vip = Convert.ToInt32(reader["vip"]),
+                        Power = Convert.ToInt32(reader["power"])
                     };
                 }
             }
@@ -104,8 +104,8 @@ public class UserRepository : IUserRepository
     // }
     public User SignInUser(string username, string password)
     {
-        if (string.IsNullOrEmpty(username)) username = User.savedUsername;
-        if (string.IsNullOrEmpty(password)) password = User.savedPassword;
+        if (string.IsNullOrEmpty(username)) username = User.SavedUsername;
+        if (string.IsNullOrEmpty(password)) password = User.SavedPassword;
 
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -128,8 +128,8 @@ public class UserRepository : IUserRepository
                 int Experiment = reader.GetInt32("experiment");
 
                 User.CurrentUserId = userId;
-                User.savedUsername = Username;
-                User.savedPassword = Password;
+                User.SavedUsername = Username;
+                User.SavedPassword = Password;
                 User.CurrentUserLevel = Level;
 
                 reader.Close();
@@ -159,16 +159,16 @@ public class UserRepository : IUserRepository
 
                 User user = new User
                 {
-                    id = userId,
-                    name = Name,
+                    Id = userId,
+                    Name = Name,
                     Username = username,
                     Password = password,
-                    level = Level,
-                    vip = Vip,
-                    experiment = Experiment,
-                    power = Power,
-                    image = "",
-                    border = "",
+                    Level = Level,
+                    Vip = Vip,
+                    Experiment = Experiment,
+                    Power = Power,
+                    Image = "",
+                    Border = "",
                     Currencies = currencies
                 };
                 // Debug.Log(user.name);
@@ -231,16 +231,16 @@ public class UserRepository : IUserRepository
 
                 User user = new User
                 {
-                    id = userId,
-                    name = Name,
+                    Id = userId,
+                    Name = Name,
                     Username = username,
                     Password = password,
-                    level = Level,
-                    vip = Vip,
-                    experiment = Experiment,
-                    power = Power,
-                    image = "",
-                    border = "",
+                    Level = Level,
+                    Vip = Vip,
+                    Experiment = Experiment,
+                    Power = Power,
+                    Image = "",
+                    Border = "",
                     Currencies = currencies
                 };
                 return user;

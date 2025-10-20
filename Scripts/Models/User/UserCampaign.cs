@@ -38,7 +38,7 @@ public class UserCampaign
     // Phương thức truy vấn Campaign của UserCampaign
     public Campaigns GetCampaign(List<Campaigns> allCampaigns)
     {
-        return allCampaigns.Find(campaign => campaign.id == campaignId);
+        return allCampaigns.Find(campaign => campaign.Id == campaignId);
     }
 
     // Phương thức truy vấn CampaignDetail của UserCampaign
@@ -81,13 +81,13 @@ public class UserCampaign
                 {
                     campaign = new Campaigns
                     {
-                        id = reader.GetInt32("id"),
-                        chapter = reader.GetString("chapter"),
-                        type = reader.GetString("type"),
-                        subType = reader.GetString("sub_type"),
-                        difficulty = reader.GetString("difficulty"),
-                        levelRequired = reader.GetInt32("level_required"),
-                        description = reader.GetString("description"),
+                        Id = reader.GetInt32("id"),
+                        Chapter = reader.GetString("chapter"),
+                        Type = reader.GetString("type"),
+                        SubType = reader.GetString("sub_type"),
+                        Difficulty = reader.GetString("difficulty"),
+                        LevelRequired = reader.GetInt32("level_required"),
+                        Description = reader.GetString("description"),
                     };
                 }
 
@@ -106,17 +106,17 @@ public class UserCampaign
                 {
                     CampaignDetail campaignDetail = new CampaignDetail
                     {
-                        campaignId = reader.GetInt32("campaign_id"),
-                        id = reader.GetInt32("id"),
-                        chapter = reader.GetString("chapter"),
-                        name = reader.GetString("name"),
-                        difficulty = reader.GetString("difficulty"),
-                        levelRequired = reader.GetInt32("level_required"),
-                        strengthMultiplier = reader.GetDouble("strength_multiplier"),
-                        isActive = reader.GetBoolean("is_active"),
-                        description = reader.GetString("description"),
-                        status = reader.GetString("status"),
-                        stars = reader.GetInt32("stars"),
+                        CampaignId = reader.GetInt32("campaign_id"),
+                        Id = reader.GetInt32("id"),
+                        Chapter = reader.GetString("chapter"),
+                        Name = reader.GetString("name"),
+                        Difficulty = reader.GetString("difficulty"),
+                        LevelRequired = reader.GetInt32("level_required"),
+                        StrengthMultiplier = reader.GetDouble("strength_multiplier"),
+                        IsActive = reader.GetBoolean("is_active"),
+                        Description = reader.GetString("description"),
+                        Status = reader.GetString("status"),
+                        Stars = reader.GetInt32("stars"),
                     };
                     campaignDetails.Add(campaignDetail);
                 }
@@ -132,23 +132,23 @@ public class UserCampaign
                     command.Parameters.AddWithValue("@chapter", chapter);
                     command.Parameters.AddWithValue("@chapter1", chapter);
                     command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@campaign_detail_id", cd.id);
+                    command.Parameters.AddWithValue("@campaign_detail_id", cd.Id);
                     reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         CampaignReward campaignReward = new CampaignReward
                         {
-                            campaignId = reader.GetInt32("campaign_id"),
-                            campaignDetailId = reader.GetInt32("campaign_detail_id"),
-                            itemId = reader.GetInt32("item_id"),
-                            quantity = reader.GetInt32("quantity"),
-                            chapter = reader.GetString("chapter"),
+                            CampaignId = reader.GetInt32("campaign_id"),
+                            CampaignDetailId = reader.GetInt32("campaign_detail_id"),
+                            ItemId = reader.GetInt32("item_id"),
+                            Quantity = reader.GetInt32("quantity"),
+                            Chapter = reader.GetString("chapter"),
                         };
-                        campaignReward.items=new Items{
+                        campaignReward.Items=new Items{
                             Name = reader.GetString("name"),
                             Image = reader.GetString("image"),
                         };
-                        cd.campaignRewards.Add(campaignReward);
+                        cd.CampaignRewards.Add(campaignReward);
                     }
                     // cd.campaignRewards = campaignRewards;
                     reader.Close();
@@ -165,27 +165,27 @@ public class UserCampaign
                     command.Parameters.AddWithValue("@chapter", chapter);
                     command.Parameters.AddWithValue("@chapter1", chapter);
                     command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@campaign_detail_id", cd.id);
+                    command.Parameters.AddWithValue("@campaign_detail_id", cd.Id);
                     reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         CampaignDetailCard campaignDetailCard = new CampaignDetailCard
                         {
-                            campaignId = reader.GetInt32("campaign_id"),
-                            campaignDetailId = reader.GetInt32("campaign_detail_id"),
-                            cardId = reader.GetInt32("card_hero_id"),
-                            chapter = reader.GetString("chapter"),
+                            CampaignId = reader.GetInt32("campaign_id"),
+                            CampaignDetailId = reader.GetInt32("campaign_detail_id"),
+                            CardId = reader.GetInt32("card_hero_id"),
+                            Chapter = reader.GetString("chapter"),
                         };
-                        campaignDetailCard.cards=new CardHeroes{
+                        campaignDetailCard.Cards=new CardHeroes{
                             Image = reader.GetString("image"),
                         };
-                        cd.campaignDetailCards.Add(campaignDetailCard);
+                        cd.CampaignDetailCards.Add(campaignDetailCard);
                     }
                     // cd.campaignDetailCards = campaignDetailCards;
                     reader.Close();
                 }
-                campaign.campaignDetails = new List<CampaignDetail>();
-                campaign.campaignDetails = campaignDetails;
+                campaign.CampaignDetails = new List<CampaignDetail>();
+                campaign.CampaignDetails = campaignDetails;
             }
             catch (MySqlException ex)
             {

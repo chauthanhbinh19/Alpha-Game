@@ -74,17 +74,17 @@ public class UserService : IUserService
             }
 
             user = _userRepository.SignInUser(username, password);
-            Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
+            Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
             string Border = borders.Image;
 
-            Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.id);
+            Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
             string Image = avatar.Image;
 
             User.CurrentUserAvatar = Image;
             User.CurrentUserBorder = Border;
 
-            user.image = Image;
-            user.border = Border;
+            user.Image = Image;
+            user.Border = Border;
 
             DateTime now = DateTime.Now;
             int year = now.Year;
@@ -98,12 +98,12 @@ public class UserService : IUserService
                     UserDailyCheckinService.Create().DeleteUserDailyCheckin(User.CurrentUserId, day.ToString());
                     UserDailyCheckin userDailyCheckin = new UserDailyCheckin
                     {
-                        user_id = User.CurrentUserId,
-                        daily_checkin_id = day.ToString(),
-                        status = false,
-                        day = currentDate,
-                        month = month,
-                        year = year
+                        UserId = User.CurrentUserId,
+                        DailyCheckinId = day.ToString(),
+                        Status = false,
+                        Day = currentDate,
+                        Month = month,
+                        Year = year
                     };
                     UserDailyCheckinService.Create().InsertUserDailyCheckin(User.CurrentUserId, userDailyCheckin);
                 }
@@ -149,17 +149,17 @@ public class UserService : IUserService
     {
         User user = _userRepository.GetUserById(Id);
 
-        Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
+        Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
         string Border = borders.Image;
 
-        Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.id);
+        Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
         string Image = avatar.Image;
 
         User.CurrentUserAvatar = Image;
         User.CurrentUserBorder = Border;
 
-        user.image = Image;
-        user.border = Border;
+        user.Image = Image;
+        user.Border = Border;
 
         return user;
     }

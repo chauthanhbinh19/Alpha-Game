@@ -1,11 +1,11 @@
 public class CheckinItemInfoDTO
 {
-    public string image;
-    public int quantity;
+    public string Image;
+    public int Quantity;
 
     public CheckinItemInfoDTO(string image, int quantity)
     {
-        this.image = image;
-        this.quantity = quantity;
+        this.Image = image;
+        this.Quantity = quantity;
     }
 }

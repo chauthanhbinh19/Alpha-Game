@@ -245,7 +245,7 @@ public class DailyCheckinManager : MonoBehaviour
             if (DailyCheckinResolvers.TryGetValue(type, out var resolver))
             {
                 CheckinItemInfoDTO item = resolver(objectId);
-                CreateDailyCheckinUI(item.image, quantity);
+                CreateDailyCheckinUI(item.Image, quantity);
             }
             else
             {

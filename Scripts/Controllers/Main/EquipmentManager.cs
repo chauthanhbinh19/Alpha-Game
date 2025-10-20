@@ -287,12 +287,12 @@ public class EquipmentManager : MonoBehaviour
         float yFrequency = Mathf.PI / 6; // Tần số dao động trên trục Y
 
         int index = 0; // Dùng để tính toán vị trí dựa trên chỉ s
-        foreach (var campaignDetail in campaigns.campaignDetails)
+        foreach (var campaignDetail in campaigns.CampaignDetails)
         {
             GameObject equipmentObject = Instantiate(campaignPrefab, tempContent);
 
             TextMeshProUGUI title = equipmentObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
-            title.text = campaignDetail.name.Replace("_", " ");
+            title.text = campaignDetail.Name.Replace("_", " ");
 
             // RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             // string fileNameWithoutExtension = equipment.image.Replace(".png", "");
@@ -317,7 +317,7 @@ public class EquipmentManager : MonoBehaviour
                 }
 
                 // Tạo các ngôi sao dựa trên số lượng sao
-                int starCount = campaignDetail.stars; // Số lượng sao, ví dụ: 1, 2, ..., 5
+                int starCount = campaignDetail.Stars; // Số lượng sao, ví dụ: 1, 2, ..., 5
                 for (int i = 0; i < starCount; i++)
                 {
                     GameObject star = new GameObject("Star"); // Tạo đối tượng GameObject mới
@@ -516,7 +516,7 @@ public class EquipmentManager : MonoBehaviour
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
             Title.text = LocalizationManager.Get("campaign");
             TextMeshProUGUI chapter = DictionaryPanel.transform.Find("CampaignTitleText").GetComponent<TextMeshProUGUI>();
-            chapter.text = userCampaigns.chapter.Replace("_", " ");
+            chapter.text = userCampaigns.Chapter.Replace("_", " ");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuCampaignContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() => Destroy(currentObject));
@@ -804,8 +804,8 @@ public class EquipmentManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             Destroy(popupObject);
         });
-        titleText.text = campaignDetail.name;
-        foreach (CampaignReward campaignReward in campaignDetail.campaignRewards)
+        titleText.text = campaignDetail.Name;
+        foreach (CampaignReward campaignReward in campaignDetail.CampaignRewards)
         {
             GameObject itemObject = Instantiate(ItemsPrefab, itemsGroup);
             Text itemTitleText = itemObject.transform.Find("ItemName").GetComponent<Text>();
@@ -817,7 +817,7 @@ public class EquipmentManager : MonoBehaviour
             itemBackground.texture = backgroundTexture;
 
             RawImage itemImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            Texture itemTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(campaignReward.items.Image)}");
+            Texture itemTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(campaignReward.Items.Image)}");
             itemImage.texture = itemTexture;
 
             // Chỉnh kích thước RectTransform thành 100x100
@@ -827,11 +827,11 @@ public class EquipmentManager : MonoBehaviour
             rectTransform.sizeDelta = new Vector2(100, 100);
             // Debug.Log(campaignReward.items.image);
         }
-        foreach (CampaignDetailCard campaignDetailCardcard in campaignDetail.campaignDetailCards)
+        foreach (CampaignDetailCard campaignDetailCardcard in campaignDetail.CampaignDetailCards)
         {
             GameObject cardObject = Instantiate(cardsPrefab, enemyGroup);
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(campaignDetailCardcard.cards.Image)}");
+            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(campaignDetailCardcard.Cards.Image)}");
             Image.texture = texture;
         }
     }

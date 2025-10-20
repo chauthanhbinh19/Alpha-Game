@@ -124,19 +124,19 @@ public class MainMenuManager : MonoBehaviour
         Transform userPanel = currentObject.transform.Find("User");
         Transform currencyPanel = currentObject.transform.Find("Currency");
         Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
-        nameText.text = authResult.User.name;
+        nameText.text = authResult.User.Name;
         Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
-        levelText.text = authResult.User.level.ToString();
+        levelText.text = authResult.User.Level.ToString();
         Text powerText = userPanel.transform.Find("PowerText").GetComponent<Text>();
-        powerText.text = authResult.User.power.ToString();
+        powerText.text = authResult.User.Power.ToString();
         RawImage avatarImage = userPanel.transform.Find("AvatarImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = authResult.User.image.Replace(".png", "");
+        string fileNameWithoutExtension = authResult.User.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         avatarImage.texture = texture;
 
         RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
 
-        fileNameWithoutExtension = authResult.User.border.Replace(".png", "");
+        fileNameWithoutExtension = authResult.User.Border.Replace(".png", "");
         Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 

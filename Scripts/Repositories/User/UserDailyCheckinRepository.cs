@@ -21,11 +21,11 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                 ";
                 MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
                 currencyCommand.Parameters.AddWithValue("@user_id", userId);
-                currencyCommand.Parameters.AddWithValue("@daily_checkin_id", userDailyCheckin.daily_checkin_id);
-                currencyCommand.Parameters.AddWithValue("@day", userDailyCheckin.day);
-                currencyCommand.Parameters.AddWithValue("@month", userDailyCheckin.month);
-                currencyCommand.Parameters.AddWithValue("@year", userDailyCheckin.year);
-                currencyCommand.Parameters.AddWithValue("@status", userDailyCheckin.status);
+                currencyCommand.Parameters.AddWithValue("@daily_checkin_id", userDailyCheckin.DailyCheckinId);
+                currencyCommand.Parameters.AddWithValue("@day", userDailyCheckin.Day);
+                currencyCommand.Parameters.AddWithValue("@month", userDailyCheckin.Month);
+                currencyCommand.Parameters.AddWithValue("@year", userDailyCheckin.Year);
+                currencyCommand.Parameters.AddWithValue("@status", userDailyCheckin.Status);
                 currencyCommand.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -154,7 +154,7 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                     };
                     userDailyCheckins.Add(new UserDailyCheckin
                     {
-                        status = currencyReader.GetBoolean("status"),
+                        Status = currencyReader.GetBoolean("status"),
                         DailyCheckin = dailyCheckin
                     });
                 }

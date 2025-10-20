@@ -465,7 +465,7 @@ public class TeamsManager : MonoBehaviour
         });
         typeText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
         List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
-        CreatePosition(positionPanel, user.level, teamsObject);
+        CreatePosition(positionPanel, user.Level, teamsObject);
         CreateCardTeams(cardObjects, choseTeam);
         selectedOptionName = dropdownType.options[dropdownType.value].text;
         int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName, rare);

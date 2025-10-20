@@ -94,11 +94,11 @@ public class ArenaManager : MonoBehaviour
                 TextMeshProUGUI arenaRankText = arenaSlotObject.transform.Find("RankText").GetComponent<TextMeshProUGUI>();
                 arenaRankText.text = pair.Value.ToString();
                 TextMeshProUGUI arenaTitleText = arenaSlotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                arenaTitleText.text = user.name;
+                arenaTitleText.text = user.Name;
                 TextMeshProUGUI arenaLevelText = arenaSlotObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-                arenaLevelText.text = user.level.ToString();
+                arenaLevelText.text = user.Level.ToString();
                 TextMeshProUGUI arenaPowerText = arenaSlotObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-                arenaPowerText.text = user.power.ToString();
+                arenaPowerText.text = user.Power.ToString();
             }
         }
     }

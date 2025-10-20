@@ -7,37 +7,22 @@ using System.Xml.Linq;
 
 public class CardMonsters : BaseEntity
 {
-    private string id1;
-    private string name1;
-    private string image1;
-    private string rare1;
-    private string type1;
-    private int star1;
-    private int level1;
-    private int experiment1;
-    private int quantity1;
-    private bool block1;
-    private string position1;
-    private string description1;
-    private string status1;
-    private int quality1;
-
-    public string Id { get => id1; set => id1 = value; }
-    public string Name { get => name1; set => name1 = value; }
-    public string Image { get => image1; set => image1 = value; }
-    public string Rare { get => rare1; set => rare1 = value; }
-    public int Quality { get => quality1; set => quality1 = value; }
-    public string Type { get => type1; set => type1 = value; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Image { get; set; }
+    public string Rare { get; set; }
+    public int Quality { get; set; }
+    public string Type { get; set; }
     public int CurrentStar { get; set; }
     public int TempStar { get; set; }
-    public int Star { get => star1; set => star1 = value; }
-    public int Level { get => level1; set => level1 = value; }
-    public int Experiment { get => experiment1; set => experiment1 = value; }
-    public int Quantity { get => quantity1; set => quantity1 = value; }
-    public bool Block { get => block1; set => block1 = value; }
-    public string Position { get => position1; set => position1 = value; }
-    public string Description { get => description1; set => description1 = value; }
-    public string Status { get => status1; set => status1 = value; }
+    public int Star { get; set; }
+    public int Level { get; set; }
+    public int Experiment { get; set; }
+    public int Quantity { get; set; }
+    public bool Block { get; set; }
+    public string Position { get; set; }
+    public string Description { get; set; }
+    public string Status { get; set; }
     public string TeamId { get; set; }
     public double PercentAllHealth { get; set; }
     public double PercentAllPhysicalAttack { get; set; }
