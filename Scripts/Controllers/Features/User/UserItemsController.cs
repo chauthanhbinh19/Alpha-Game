@@ -47,10 +47,10 @@ public class UserItemsController : MonoBehaviour
             GameObject itemObject = Instantiate(itemPrefab, DictionaryContentPanel);
 
             TextMeshProUGUI Title = itemObject.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
-            Title.text = item.name.Replace("_", " ");
+            Title.text = item.Name.Replace("_", " ");
 
             RawImage Image = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -65,7 +65,7 @@ public class UserItemsController : MonoBehaviour
             itemBackgroundImage.gameObject.SetActive(false);
 
             TextMeshProUGUI itemQuantityText = itemObject.transform.Find("ItemQuantity").GetComponent<TextMeshProUGUI>();
-            itemQuantityText.text = item.quantity.ToString();
+            itemQuantityText.text = item.Quantity.ToString();
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

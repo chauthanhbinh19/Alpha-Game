@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 public interface ICardMilitaryGalleryRepository
 {
-    List<CardMilitary> GetCardMilitaryCollection(string type, int pageSize, int offset, string rare);
+    List<CardMilitaries> GetCardMilitaryCollection(string type, int pageSize, int offset, string rare);
     int GetCardMilitaryCount(string type, string rare);
-    void InsertCardMilitaryGallery(string Id, CardMilitary CardMilitaryFromDB);
+    void InsertCardMilitaryGallery(string Id, CardMilitaries CardMilitaryFromDB);
     void UpdateStatusCardMilitaryGallery(string Id);
     void UpdateStarCardMilitaryGallery(string Id, double star);
-    void UpdateCardMilitaryGalleryPower(string Id, CardMilitary CardMilitaryFromDB);
-    CardMilitary SumPowerCardMilitaryGallery();
+    void UpdateCardMilitaryGalleryPower(string Id, CardMilitaries CardMilitaryFromDB);
+    CardMilitaries SumPowerCardMilitaryGallery();
 }

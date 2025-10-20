@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
 {
-    public List<CardMilitary> GetCardMilitaryCollection(string type, int pageSize, int offset, string rare)
+    public List<CardMilitaries> GetCardMilitaryCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardMilitary> CardMilitaryList = new List<CardMilitary>();
+        List<CardMilitaries> CardMilitaryList = new List<CardMilitaries>();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -30,69 +30,69 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    CardMilitary CardMilitary = new CardMilitary
+                    CardMilitaries CardMilitary = new CardMilitaries
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        type = reader.GetString("type"),
-                        current_star = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetInt32("current_star"),
-                        temp_star = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetInt32("temp_star"),
-                        star = reader.GetInt32("star"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
-                        description = reader.GetString("description"),
-                        status = reader.GetString("status"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Type = reader.GetString("type"),
+                        CurrentStar = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetInt32("current_star"),
+                        TempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetInt32("temp_star"),
+                        Star = reader.GetInt32("star"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                        Description = reader.GetString("description"),
+                        Status = reader.GetString("status"),
                     };
 
                     CardMilitaryList.Add(CardMilitary);
@@ -130,10 +130,10 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
         }
         return count;
     }
-    public void InsertCardMilitaryGallery(string Id, CardMilitary CardMilitaryFromDB)
+    public void InsertCardMilitaryGallery(string Id, CardMilitaries CardMilitaryFromDB)
     {
         // CardMilitary CardMilitaryFromDB = GetCardMilitaryById(Id);
-        int percent = QualityEvaluator.CheckQuality(CardMilitaryFromDB.type);
+        int percent = QualityEvaluator.CheckQuality(CardMilitaryFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -199,56 +199,56 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
-                    command.Parameters.AddWithValue("@power", CardMilitaryFromDB.power);
-                    command.Parameters.AddWithValue("@health", CardMilitaryFromDB.health);
-                    command.Parameters.AddWithValue("@physical_attack", CardMilitaryFromDB.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", CardMilitaryFromDB.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", CardMilitaryFromDB.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", CardMilitaryFromDB.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", CardMilitaryFromDB.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", CardMilitaryFromDB.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", CardMilitaryFromDB.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", CardMilitaryFromDB.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", CardMilitaryFromDB.magical_attack);
-                    command.Parameters.AddWithValue("@mental_defense", CardMilitaryFromDB.magical_defense);
-                    command.Parameters.AddWithValue("@speed", CardMilitaryFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", CardMilitaryFromDB.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", CardMilitaryFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", CardMilitaryFromDB.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", CardMilitaryFromDB.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", CardMilitaryFromDB.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", CardMilitaryFromDB.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", CardMilitaryFromDB.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", CardMilitaryFromDB.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardMilitaryFromDB.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", CardMilitaryFromDB.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", CardMilitaryFromDB.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardMilitaryFromDB.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", CardMilitaryFromDB.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", CardMilitaryFromDB.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", CardMilitaryFromDB.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", CardMilitaryFromDB.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", CardMilitaryFromDB.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", CardMilitaryFromDB.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", CardMilitaryFromDB.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", CardMilitaryFromDB.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", CardMilitaryFromDB.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", CardMilitaryFromDB.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", CardMilitaryFromDB.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", CardMilitaryFromDB.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", CardMilitaryFromDB.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", CardMilitaryFromDB.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", CardMilitaryFromDB.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", CardMilitaryFromDB.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", CardMilitaryFromDB.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardMilitaryFromDB.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardMilitaryFromDB.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardMilitaryFromDB.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardMilitaryFromDB.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", CardMilitaryFromDB.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", CardMilitaryFromDB.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", CardMilitaryFromDB.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", CardMilitaryFromDB.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@power", CardMilitaryFromDB.Power);
+                    command.Parameters.AddWithValue("@health", CardMilitaryFromDB.Health);
+                    command.Parameters.AddWithValue("@physical_attack", CardMilitaryFromDB.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", CardMilitaryFromDB.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", CardMilitaryFromDB.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", CardMilitaryFromDB.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", CardMilitaryFromDB.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", CardMilitaryFromDB.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", CardMilitaryFromDB.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", CardMilitaryFromDB.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", CardMilitaryFromDB.MagicalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", CardMilitaryFromDB.MagicalDefense);
+                    command.Parameters.AddWithValue("@speed", CardMilitaryFromDB.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", CardMilitaryFromDB.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", CardMilitaryFromDB.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", CardMilitaryFromDB.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", CardMilitaryFromDB.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", CardMilitaryFromDB.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", CardMilitaryFromDB.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", CardMilitaryFromDB.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", CardMilitaryFromDB.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardMilitaryFromDB.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", CardMilitaryFromDB.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", CardMilitaryFromDB.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardMilitaryFromDB.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", CardMilitaryFromDB.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", CardMilitaryFromDB.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", CardMilitaryFromDB.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", CardMilitaryFromDB.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", CardMilitaryFromDB.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", CardMilitaryFromDB.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", CardMilitaryFromDB.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", CardMilitaryFromDB.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", CardMilitaryFromDB.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", CardMilitaryFromDB.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", CardMilitaryFromDB.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", CardMilitaryFromDB.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", CardMilitaryFromDB.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", CardMilitaryFromDB.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", CardMilitaryFromDB.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", CardMilitaryFromDB.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", CardMilitaryFromDB.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardMilitaryFromDB.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardMilitaryFromDB.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardMilitaryFromDB.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardMilitaryFromDB.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", CardMilitaryFromDB.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", CardMilitaryFromDB.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", CardMilitaryFromDB.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", CardMilitaryFromDB.SkillResistanceRate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -345,7 +345,7 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
             }
         }
     }
-    public void UpdateCardMilitaryGalleryPower(string Id, CardMilitary CardMilitaryFromDB)
+    public void UpdateCardMilitaryGalleryPower(string Id, CardMilitaries CardMilitaryFromDB)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -427,56 +427,56 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
                 command.Parameters.AddWithValue("@card_military_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
-                command.Parameters.AddWithValue("@power", CardMilitaryFromDB.power);
-                command.Parameters.AddWithValue("@health", CardMilitaryFromDB.health);
-                command.Parameters.AddWithValue("@physical_attack", CardMilitaryFromDB.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", CardMilitaryFromDB.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", CardMilitaryFromDB.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", CardMilitaryFromDB.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", CardMilitaryFromDB.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", CardMilitaryFromDB.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", CardMilitaryFromDB.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", CardMilitaryFromDB.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", CardMilitaryFromDB.magical_attack);
-                command.Parameters.AddWithValue("@mental_defense", CardMilitaryFromDB.magical_defense);
-                command.Parameters.AddWithValue("@speed", CardMilitaryFromDB.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", CardMilitaryFromDB.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", CardMilitaryFromDB.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", CardMilitaryFromDB.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", CardMilitaryFromDB.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", CardMilitaryFromDB.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", CardMilitaryFromDB.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", CardMilitaryFromDB.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", CardMilitaryFromDB.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardMilitaryFromDB.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", CardMilitaryFromDB.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", CardMilitaryFromDB.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardMilitaryFromDB.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", CardMilitaryFromDB.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", CardMilitaryFromDB.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", CardMilitaryFromDB.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", CardMilitaryFromDB.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", CardMilitaryFromDB.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", CardMilitaryFromDB.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", CardMilitaryFromDB.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", CardMilitaryFromDB.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", CardMilitaryFromDB.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", CardMilitaryFromDB.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", CardMilitaryFromDB.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", CardMilitaryFromDB.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", CardMilitaryFromDB.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", CardMilitaryFromDB.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", CardMilitaryFromDB.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", CardMilitaryFromDB.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", CardMilitaryFromDB.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardMilitaryFromDB.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardMilitaryFromDB.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardMilitaryFromDB.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardMilitaryFromDB.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", CardMilitaryFromDB.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", CardMilitaryFromDB.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", CardMilitaryFromDB.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", CardMilitaryFromDB.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", CardMilitaryFromDB.Power);
+                command.Parameters.AddWithValue("@health", CardMilitaryFromDB.Health);
+                command.Parameters.AddWithValue("@physical_attack", CardMilitaryFromDB.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", CardMilitaryFromDB.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", CardMilitaryFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", CardMilitaryFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", CardMilitaryFromDB.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", CardMilitaryFromDB.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", CardMilitaryFromDB.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", CardMilitaryFromDB.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", CardMilitaryFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@mental_defense", CardMilitaryFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@speed", CardMilitaryFromDB.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", CardMilitaryFromDB.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", CardMilitaryFromDB.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", CardMilitaryFromDB.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", CardMilitaryFromDB.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", CardMilitaryFromDB.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", CardMilitaryFromDB.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", CardMilitaryFromDB.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", CardMilitaryFromDB.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardMilitaryFromDB.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", CardMilitaryFromDB.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", CardMilitaryFromDB.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardMilitaryFromDB.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", CardMilitaryFromDB.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", CardMilitaryFromDB.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", CardMilitaryFromDB.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", CardMilitaryFromDB.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", CardMilitaryFromDB.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", CardMilitaryFromDB.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", CardMilitaryFromDB.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", CardMilitaryFromDB.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", CardMilitaryFromDB.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", CardMilitaryFromDB.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", CardMilitaryFromDB.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", CardMilitaryFromDB.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", CardMilitaryFromDB.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", CardMilitaryFromDB.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", CardMilitaryFromDB.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", CardMilitaryFromDB.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", CardMilitaryFromDB.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardMilitaryFromDB.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardMilitaryFromDB.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardMilitaryFromDB.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardMilitaryFromDB.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", CardMilitaryFromDB.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", CardMilitaryFromDB.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", CardMilitaryFromDB.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", CardMilitaryFromDB.SkillResistanceRate);
                 command.Parameters.AddWithValue("@percent_all_health", 5);
                 command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
                 command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
@@ -500,9 +500,9 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
             }
         }
     }
-    public CardMilitary SumPowerCardMilitaryGallery()
+    public CardMilitaries SumPowerCardMilitaryGallery()
     {
-        CardMilitary sumCardMilitary = new CardMilitary();
+        CardMilitaries sumCardMilitary = new CardMilitaries();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -556,67 +556,67 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
                 {
                     if (reader.Read())
                     {
-                        sumCardMilitary.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumCardMilitary.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumCardMilitary.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumCardMilitary.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumCardMilitary.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumCardMilitary.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumCardMilitary.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumCardMilitary.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumCardMilitary.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumCardMilitary.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumCardMilitary.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumCardMilitary.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumCardMilitary.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumCardMilitary.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumCardMilitary.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumCardMilitary.critical_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumCardMilitary.ignore_critical_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumCardMilitary.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumCardMilitary.penetration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumCardMilitary.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumCardMilitary.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumCardMilitary.ignore_damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumCardMilitary.absorbed_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumCardMilitary.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumCardMilitary.vitality_regeneration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumCardMilitary.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumCardMilitary.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumCardMilitary.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumCardMilitary.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumCardMilitary.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumCardMilitary.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumCardMilitary.ignore_combo_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumCardMilitary.combo_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumCardMilitary.combo_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumCardMilitary.stun_rate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumCardMilitary.ignore_stun_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumCardMilitary.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumCardMilitary.ignore_reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumCardMilitary.reflection_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumCardMilitary.reflection_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumCardMilitary.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumCardMilitary.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumCardMilitary.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumCardMilitary.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumCardMilitary.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumCardMilitary.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumCardMilitary.normal_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumCardMilitary.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumCardMilitary.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumCardMilitary.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
-                        sumCardMilitary.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
-                        sumCardMilitary.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
-                        sumCardMilitary.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
-                        sumCardMilitary.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
-                        sumCardMilitary.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
-                        sumCardMilitary.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
-                        sumCardMilitary.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
-                        sumCardMilitary.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
-                        sumCardMilitary.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
-                        sumCardMilitary.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
-                        sumCardMilitary.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
+                        sumCardMilitary.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumCardMilitary.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumCardMilitary.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumCardMilitary.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumCardMilitary.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumCardMilitary.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumCardMilitary.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumCardMilitary.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumCardMilitary.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumCardMilitary.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumCardMilitary.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumCardMilitary.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumCardMilitary.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumCardMilitary.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumCardMilitary.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumCardMilitary.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                        sumCardMilitary.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                        sumCardMilitary.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumCardMilitary.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                        sumCardMilitary.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumCardMilitary.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumCardMilitary.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                        sumCardMilitary.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                        sumCardMilitary.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumCardMilitary.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                        sumCardMilitary.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumCardMilitary.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumCardMilitary.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumCardMilitary.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumCardMilitary.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumCardMilitary.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumCardMilitary.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                        sumCardMilitary.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                        sumCardMilitary.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                        sumCardMilitary.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                        sumCardMilitary.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                        sumCardMilitary.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumCardMilitary.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                        sumCardMilitary.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                        sumCardMilitary.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                        sumCardMilitary.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumCardMilitary.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumCardMilitary.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumCardMilitary.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumCardMilitary.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumCardMilitary.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                        sumCardMilitary.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                        sumCardMilitary.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                        sumCardMilitary.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                        sumCardMilitary.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        sumCardMilitary.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumCardMilitary.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumCardMilitary.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumCardMilitary.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumCardMilitary.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumCardMilitary.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumCardMilitary.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumCardMilitary.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumCardMilitary.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumCardMilitary.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumCardMilitary.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
 

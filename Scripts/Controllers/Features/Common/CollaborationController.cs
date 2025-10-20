@@ -47,17 +47,17 @@ public class CollaborationController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCollaborationGallery(List<Collaboration> collaborationList, Transform DictionaryContentPanel)
+    public void CreateCollaborationGallery(List<Collaborations> collaborationList, Transform DictionaryContentPanel)
     {
         foreach (var collaboration in collaborationList)
         {
             GameObject collaborationObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = collaboration.name.Replace("_", " ");
+            Title.text = collaboration.Name.Replace("_", " ");
 
             RawImage Image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -82,7 +82,7 @@ public class CollaborationController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateCollaborationTrade(List<Collaboration> collaborationList, string subType, Transform currentContent,
+    public void CreateCollaborationTrade(List<Collaborations> collaborationList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var collaboration in collaborationList)
@@ -90,10 +90,10 @@ public class CollaborationController : MonoBehaviour
             GameObject collaborationObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = collaboration.name.Replace("_", " ");
+            Title.text = collaboration.Name.Replace("_", " ");
 
             RawImage Image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = collaborationObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class CollaborationController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = collaborationObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = collaborationObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(collaboration.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(collaboration.Currency.Quantity, false);
 
             Button buy = collaborationObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,11 +123,11 @@ public class CollaborationController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(collaboration.currency.quantity, collaboration, subType, popupPanel, currencyPanel);
+                GetQuantity(collaboration.Currency.Quantity, collaboration, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetCollaborationsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -242,14 +242,14 @@ public class CollaborationController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is Collaboration collaboration)
+            Currencies userCurrency = new Currencies();
+            if (obj is Collaborations collaboration)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(collaboration.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(collaboration.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -273,10 +273,10 @@ public class CollaborationController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Collaboration collaboration)
+            if (obj is Collaborations collaboration)
             {
-                collaboration.quantity = collaboration.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(collaboration.currency.id, price);
+                collaboration.Quantity = collaboration.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(collaboration.Currency.Id, price);
                 bool success = UserCollaborationService.Create().InsertUserCollaborations(collaboration);
                 if (!success)
                 {
@@ -288,11 +288,11 @@ public class CollaborationController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    CollaborationGalleryService.Create().InsertCollaborationsGallery(collaboration.id);
+                    CollaborationGalleryService.Create().InsertCollaborationsGallery(collaboration.Id);
                     currencies = UserCurrencyService.Create().GetCardMilitaryCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

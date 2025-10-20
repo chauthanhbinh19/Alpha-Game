@@ -47,17 +47,17 @@ public class PuppetController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreatePuppetGallery(List<Puppet> puppets, Transform DictionaryContentPanel)
+    public void CreatePuppetGallery(List<Puppets> puppets, Transform DictionaryContentPanel)
     {
         foreach (var puppet in puppets)
         {
             GameObject puppetObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = puppet.name.Replace("_", " ");
+            Title.text = puppet.Name.Replace("_", " ");
 
             RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,7 +71,7 @@ public class PuppetController : MonoBehaviour
             });
 
             RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -82,7 +82,7 @@ public class PuppetController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreatePuppetTrade(List<Puppet> puppets, string subType, Transform currentContent,
+    public void CreatePuppetTrade(List<Puppets> puppets, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var puppet in puppets)
@@ -90,10 +90,10 @@ public class PuppetController : MonoBehaviour
             GameObject puppetObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = puppet.name.Replace("_", " ");
+            Title.text = puppet.Name.Replace("_", " ");
 
             RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = puppetObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class PuppetController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = puppetObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = puppetObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(puppet.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(puppet.Currency.Quantity, false);
 
             Button buy = puppetObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,12 +123,12 @@ public class PuppetController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(puppet.currency.quantity, puppet, subType, popupPanel, currencyPanel);
+                GetQuantity(puppet.Currency.Quantity, puppet, subType, popupPanel, currencyPanel);
             });
 
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetPuppetCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -243,14 +243,14 @@ public class PuppetController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is Puppet puppet)
+            Currencies userCurrency = new Currencies();
+            if (obj is Puppets puppet)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(puppet.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(puppet.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -274,10 +274,10 @@ public class PuppetController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Puppet puppet)
+            if (obj is Puppets puppet)
             {
-                puppet.quantity = puppet.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(puppet.currency.id, price);
+                puppet.Quantity = puppet.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(puppet.Currency.Id, price);
                 bool success = UserPuppetService.Create().InsertUserPuppet(puppet);
                 if (!success)
                 {
@@ -289,11 +289,11 @@ public class PuppetController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    PuppetGalleryService.Create().InsertPuppetGallery(puppet.id);
+                    PuppetGalleryService.Create().InsertPuppetGallery(puppet.Id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

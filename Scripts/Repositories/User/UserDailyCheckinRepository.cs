@@ -146,11 +146,11 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                 {
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = currencyReader.GetString("id"),
-                        type = currencyReader.GetString("type"),
-                        object_id = currencyReader.GetString("object_id"),
-                        date = currencyReader.GetDateTime("day"),
-                        quantity = currencyReader.GetInt32("quantity")
+                        Id = currencyReader.GetString("id"),
+                        Type = currencyReader.GetString("type"),
+                        ObjectId = currencyReader.GetString("object_id"),
+                        Date = currencyReader.GetDateTime("day"),
+                        Quantity = currencyReader.GetInt32("quantity")
                     };
                     userDailyCheckins.Add(new UserDailyCheckin
                     {

@@ -145,8 +145,8 @@ public class UserCampaign
                             chapter = reader.GetString("chapter"),
                         };
                         campaignReward.items=new Items{
-                            name = reader.GetString("name"),
-                            image = reader.GetString("image"),
+                            Name = reader.GetString("name"),
+                            Image = reader.GetString("image"),
                         };
                         cd.campaignRewards.Add(campaignReward);
                     }
@@ -177,7 +177,7 @@ public class UserCampaign
                             chapter = reader.GetString("chapter"),
                         };
                         campaignDetailCard.cards=new CardHeroes{
-                            image = reader.GetString("image"),
+                            Image = reader.GetString("image"),
                         };
                         cd.campaignDetailCards.Add(campaignDetailCard);
                     }

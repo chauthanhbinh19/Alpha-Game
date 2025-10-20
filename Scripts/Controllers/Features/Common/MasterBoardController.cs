@@ -116,14 +116,14 @@ public class MasterBoardController : MonoBehaviour
         {
             GameObject node = Instantiate(MasterBoardNodePrefab, Content);
             RectTransform rectTransform = node.GetComponent<RectTransform>();
-            rectTransform.anchoredPosition = new Vector2(masterBoard.position_x * 105, masterBoard.position_y * 105);
+            rectTransform.anchoredPosition = new Vector2(masterBoard.PositionX * 105, masterBoard.PositionY * 105);
 
             RawImage mainImage = node.transform.Find("MainImage").GetComponent<RawImage>();
-            Texture mainTexture = Resources.Load<Texture>($"UI/Master_Board/{masterBoard.type}");
+            Texture mainTexture = Resources.Load<Texture>($"UI/Master_Board/{masterBoard.Type}");
             mainImage.texture = mainTexture;
 
             RawImage backgroundImage = node.transform.Find("Background").GetComponent<RawImage>();
-            if (masterBoard.status.Equals("block"))
+            if (masterBoard.Status.Equals("block"))
             {
                 Texture backgroundTexture = Resources.Load<Texture>($"UI/Background4/Node_0");
                 backgroundImage.texture = backgroundTexture;
@@ -156,7 +156,7 @@ public class MasterBoardController : MonoBehaviour
         buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Buy);
 
         RawImage mainImage = popup.transform.Find("MainImage").GetComponent<RawImage>();
-        Texture mainTexture = Resources.Load<Texture>($"UI/Master_Board/{masterBoard.type}");
+        Texture mainTexture = Resources.Load<Texture>($"UI/Master_Board/{masterBoard.Type}");
         mainImage.texture = mainTexture;
 
         RawImage backgroundImage = popup.transform.Find("BackgroundImage").GetComponent<RawImage>();
@@ -166,23 +166,23 @@ public class MasterBoardController : MonoBehaviour
 
         RawImage materialImage = popup.transform.Find("Material/MaterialImage").GetComponent<RawImage>();
         Items items = userItemsService.GetUserItemByName("Attack Amulet");
-        string fileNameWithoutExtension = items.image.Split('.')[0];
+        string fileNameWithoutExtension = items.Image.Split('.')[0];
         Texture materialTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         materialImage.texture = materialTexture;
 
         TextMeshProUGUI materialNameText = popup.transform.Find("Material/QuantityText").GetComponent<TextMeshProUGUI>();
-        int materialQuantity = QualityEvaluator.CheckQuality(masterBoard.rank_level);
+        int materialQuantity = QualityEvaluator.CheckQuality(masterBoard.RankLevel);
         materialNameText.text = NumberFormatter.FormatNumber(materialQuantity, false);
 
         buyButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-            if (masterBoard.status.Equals("block"))
+            if (masterBoard.Status.Equals("block"))
             {
 
-                if (items.quantity >= materialQuantity)
+                if (items.Quantity >= materialQuantity)
                 {
-                    items.quantity = items.quantity - materialQuantity;
+                    items.Quantity = items.Quantity - materialQuantity;
                     userItemsService.UpdateUserItemsQuantity(items);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -199,11 +199,11 @@ public class MasterBoardController : MonoBehaviour
             }
             else
             {
-                if (items.quantity >= materialQuantity)
+                if (items.Quantity >= materialQuantity)
                 {
-                    items.quantity = items.quantity - materialQuantity;
+                    items.Quantity = items.Quantity - materialQuantity;
                     userItemsService.UpdateUserItemsQuantity(items);
-                    masterBoard.rank_level = QualityEvaluator.GetNextQuality(masterBoard.rank_level);
+                    masterBoard.RankLevel = QualityEvaluator.GetNextQuality(masterBoard.RankLevel);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     UserMasterBoardService.Create().UpdateUserMasterBoard(User.CurrentUserId, masterBoard);

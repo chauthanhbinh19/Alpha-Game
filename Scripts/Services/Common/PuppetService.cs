@@ -19,9 +19,9 @@ public class PuppetService : IPuppetService
         return _puppetRepository.GetUniquePuppetTypes();
     }
 
-    public List<Puppet> GetPuppet(string type, int pageSize, int offset, string rare)
+    public List<Puppets> GetPuppet(string type, int pageSize, int offset, string rare)
     {
-        List<Puppet> list = _puppetRepository.GetPuppet(type, pageSize, offset, rare);
+        List<Puppets> list = _puppetRepository.GetPuppet(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,9 +31,9 @@ public class PuppetService : IPuppetService
         return _puppetRepository.GetPuppetCount(type, rare);
     }
 
-    public List<Puppet> GetPuppetWithPrice(string type, int pageSize, int offset)
+    public List<Puppets> GetPuppetWithPrice(string type, int pageSize, int offset)
     {
-        List<Puppet> list = _puppetRepository.GetPuppetWithPrice(type, pageSize, offset);
+        List<Puppets> list = _puppetRepository.GetPuppetWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -43,12 +43,12 @@ public class PuppetService : IPuppetService
         return _puppetRepository.GetPuppetWithPriceCount(type);
     }
 
-    public Puppet GetPuppetById(string Id)
+    public Puppets GetPuppetById(string Id)
     {
         return _puppetRepository.GetPuppetById(Id);
     }
 
-    public Puppet SumPowerPuppetPercent()
+    public Puppets SumPowerPuppetPercent()
     {
         return _puppetRepository.SumPowerPuppetPercent();
     }

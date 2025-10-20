@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 {
-    public List<SpiritBeast> GetUserSpiritBeast(string user_id, int pageSize, int offset, string rare)
+    public List<SpiritBeasts> GetUserSpiritBeast(string user_id, int pageSize, int offset, string rare)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -28,67 +28,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -100,7 +100,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         // percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
                         // percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
                         // percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        description = reader.GetString("description")
+                        Description = reader.GetString("description")
                     };
 
                     SpiritBeastList.Add(title);
@@ -114,9 +114,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public List<SpiritBeast> GetAllUserSpiritBeast(string user_id, int pageSize, int offset)
+    public List<SpiritBeasts> GetAllUserSpiritBeast(string user_id, int pageSize, int offset)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -133,67 +133,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -205,7 +205,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         // percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
                         // percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
                         // percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        description = reader.GetString("description")
+                        Description = reader.GetString("description")
                     };
 
                     SpiritBeastList.Add(title);
@@ -245,9 +245,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return count;
     }
-    public SpiritBeast GetUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes)
+    public SpiritBeasts GetUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes)
     {
-        SpiritBeast spiritBeast = new SpiritBeast();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -264,80 +264,80 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 where ue.user_id = @userId and che.user_card_hero_id = @user_card_hero_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.id);
+                command.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    spiritBeast.id = reader.GetString("spirit_beast_id");
-                    spiritBeast.name = reader.GetString("name");
-                    spiritBeast.image = reader.GetString("image");
-                    spiritBeast.rare = reader.GetString("rare");
-                    spiritBeast.quality = reader.GetInt32("quality");
-                    spiritBeast.star = reader.GetInt32("star");
-                    spiritBeast.level = reader.GetInt32("level");
-                    spiritBeast.experiment = reader.GetInt32("experiment");
-                    spiritBeast.quantity = reader.GetInt32("quantity");
-                    spiritBeast.power = reader.GetDouble("power");
-                    spiritBeast.health = reader.GetDouble("health");
-                    spiritBeast.physical_attack = reader.GetDouble("physical_attack");
-                    spiritBeast.physical_defense = reader.GetDouble("physical_defense");
-                    spiritBeast.magical_attack = reader.GetDouble("magical_attack");
-                    spiritBeast.magical_defense = reader.GetDouble("magical_defense");
-                    spiritBeast.chemical_attack = reader.GetDouble("chemical_attack");
-                    spiritBeast.chemical_defense = reader.GetDouble("chemical_defense");
-                    spiritBeast.atomic_attack = reader.GetDouble("atomic_attack");
-                    spiritBeast.atomic_defense = reader.GetDouble("atomic_defense");
-                    spiritBeast.mental_attack = reader.GetDouble("mental_attack");
-                    spiritBeast.mental_defense = reader.GetDouble("mental_defense");
-                    spiritBeast.speed = reader.GetDouble("speed");
-                    spiritBeast.critical_damage_rate = reader.GetDouble("critical_damage_rate");
-                    spiritBeast.critical_rate = reader.GetDouble("critical_rate");
-                    spiritBeast.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
-                    spiritBeast.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
-                    spiritBeast.penetration_rate = reader.GetDouble("penetration_rate");
-                    spiritBeast.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
-                    spiritBeast.evasion_rate = reader.GetDouble("evasion_rate");
-                    spiritBeast.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
-                    spiritBeast.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
-                    spiritBeast.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
-                    spiritBeast.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
-                    spiritBeast.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                    spiritBeast.accuracy_rate = reader.GetDouble("accuracy_rate");
-                    spiritBeast.lifesteal_rate = reader.GetDouble("lifesteal_rate");
-                    spiritBeast.shield_strength = reader.GetDouble("shield_strength");
-                    spiritBeast.tenacity = reader.GetDouble("tenacity");
-                    spiritBeast.resistance_rate = reader.GetDouble("resistance_rate");
-                    spiritBeast.combo_rate = reader.GetDouble("combo_rate");
-                    spiritBeast.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
-                    spiritBeast.combo_damage_rate = reader.GetDouble("combo_damage_rate");
-                    spiritBeast.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
-                    spiritBeast.stun_rate = reader.GetDouble("stun_rate");
-                    spiritBeast.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
-                    spiritBeast.reflection_rate = reader.GetDouble("reflection_rate");
-                    spiritBeast.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
-                    spiritBeast.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
-                    spiritBeast.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.mana = reader.GetFloat("mana");
-                    spiritBeast.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
-                    spiritBeast.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
-                    spiritBeast.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
-                    spiritBeast.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
-                    spiritBeast.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
-                    spiritBeast.normal_damage_rate = reader.GetDouble("normal_damage_rate");
-                    spiritBeast.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
-                    spiritBeast.skill_damage_rate = reader.GetDouble("skill_damage_rate");
-                    spiritBeast.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
-                    spiritBeast.percent_all_health = reader.GetDouble("percent_all_health");
-                    spiritBeast.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                    spiritBeast.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                    spiritBeast.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                    spiritBeast.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                    spiritBeast.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                    spiritBeast.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                    spiritBeast.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                    spiritBeast.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                    spiritBeast.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                    spiritBeast.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                    spiritBeast.Id = reader.GetString("spirit_beast_id");
+                    spiritBeast.Name = reader.GetString("name");
+                    spiritBeast.Image = reader.GetString("image");
+                    spiritBeast.Rare = reader.GetString("rare");
+                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Star = reader.GetInt32("star");
+                    spiritBeast.Level = reader.GetInt32("level");
+                    spiritBeast.Experiment = reader.GetInt32("experiment");
+                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Power = reader.GetDouble("power");
+                    spiritBeast.Health = reader.GetDouble("health");
+                    spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
+                    spiritBeast.PhysicalDefense = reader.GetDouble("physical_defense");
+                    spiritBeast.MagicalAttack = reader.GetDouble("magical_attack");
+                    spiritBeast.MagicalDefense = reader.GetDouble("magical_defense");
+                    spiritBeast.ChemicalAttack = reader.GetDouble("chemical_attack");
+                    spiritBeast.ChemicalDefense = reader.GetDouble("chemical_defense");
+                    spiritBeast.AtomicAttack = reader.GetDouble("atomic_attack");
+                    spiritBeast.AtomicDefense = reader.GetDouble("atomic_defense");
+                    spiritBeast.MentalAttack = reader.GetDouble("mental_attack");
+                    spiritBeast.MentalDefense = reader.GetDouble("mental_defense");
+                    spiritBeast.Speed = reader.GetDouble("speed");
+                    spiritBeast.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
+                    spiritBeast.CriticalRate = reader.GetDouble("critical_rate");
+                    spiritBeast.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
+                    spiritBeast.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
+                    spiritBeast.PenetrationRate = reader.GetDouble("penetration_rate");
+                    spiritBeast.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
+                    spiritBeast.EvasionRate = reader.GetDouble("evasion_rate");
+                    spiritBeast.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
+                    spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
+                    spiritBeast.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
+                    spiritBeast.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
+                    spiritBeast.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
+                    spiritBeast.AccuracyRate = reader.GetDouble("accuracy_rate");
+                    spiritBeast.LifestealRate = reader.GetDouble("lifesteal_rate");
+                    spiritBeast.ShieldStrength = reader.GetDouble("shield_strength");
+                    spiritBeast.Tenacity = reader.GetDouble("tenacity");
+                    spiritBeast.ResistanceRate = reader.GetDouble("resistance_rate");
+                    spiritBeast.ComboRate = reader.GetDouble("combo_rate");
+                    spiritBeast.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
+                    spiritBeast.ComboDamageRate = reader.GetDouble("combo_damage_rate");
+                    spiritBeast.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
+                    spiritBeast.StunRate = reader.GetDouble("stun_rate");
+                    spiritBeast.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
+                    spiritBeast.ReflectionRate = reader.GetDouble("reflection_rate");
+                    spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
+                    spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
+                    spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
+                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
+                    spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
+                    spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
+                    spiritBeast.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
+                    spiritBeast.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
+                    spiritBeast.NormalDamageRate = reader.GetDouble("normal_damage_rate");
+                    spiritBeast.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
+                    spiritBeast.SkillDamageRate = reader.GetDouble("skill_damage_rate");
+                    spiritBeast.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
+                    spiritBeast.PercentAllHealth = reader.GetDouble("percent_all_health");
+                    spiritBeast.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
+                    spiritBeast.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
+                    spiritBeast.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
+                    spiritBeast.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
+                    spiritBeast.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
+                    spiritBeast.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
+                    spiritBeast.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
+                    spiritBeast.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
+                    spiritBeast.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
+                    spiritBeast.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
 
                 }
             }
@@ -349,9 +349,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return spiritBeast;
     }
-    public SpiritBeast GetUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains)
+    public SpiritBeasts GetUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains)
     {
-        SpiritBeast spiritBeast = new SpiritBeast();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -368,80 +368,80 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 where ue.user_id = @userId and che.user_card_captain_id = @user_card_captain_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.id);
+                command.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    spiritBeast.id = reader.GetString("spirit_beast_id");
-                    spiritBeast.name = reader.GetString("name");
-                    spiritBeast.image = reader.GetString("image");
-                    spiritBeast.rare = reader.GetString("rare");
-                    spiritBeast.quality = reader.GetInt32("quality");
-                    spiritBeast.star = reader.GetInt32("star");
-                    spiritBeast.level = reader.GetInt32("level");
-                    spiritBeast.experiment = reader.GetInt32("experiment");
-                    spiritBeast.quantity = reader.GetInt32("quantity");
-                    spiritBeast.power = reader.GetDouble("power");
-                    spiritBeast.health = reader.GetDouble("health");
-                    spiritBeast.physical_attack = reader.GetDouble("physical_attack");
-                    spiritBeast.physical_defense = reader.GetDouble("physical_defense");
-                    spiritBeast.magical_attack = reader.GetDouble("magical_attack");
-                    spiritBeast.magical_defense = reader.GetDouble("magical_defense");
-                    spiritBeast.chemical_attack = reader.GetDouble("chemical_attack");
-                    spiritBeast.chemical_defense = reader.GetDouble("chemical_defense");
-                    spiritBeast.atomic_attack = reader.GetDouble("atomic_attack");
-                    spiritBeast.atomic_defense = reader.GetDouble("atomic_defense");
-                    spiritBeast.mental_attack = reader.GetDouble("mental_attack");
-                    spiritBeast.mental_defense = reader.GetDouble("mental_defense");
-                    spiritBeast.speed = reader.GetDouble("speed");
-                    spiritBeast.critical_damage_rate = reader.GetDouble("critical_damage_rate");
-                    spiritBeast.critical_rate = reader.GetDouble("critical_rate");
-                    spiritBeast.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
-                    spiritBeast.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
-                    spiritBeast.penetration_rate = reader.GetDouble("penetration_rate");
-                    spiritBeast.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
-                    spiritBeast.evasion_rate = reader.GetDouble("evasion_rate");
-                    spiritBeast.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
-                    spiritBeast.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
-                    spiritBeast.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
-                    spiritBeast.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
-                    spiritBeast.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                    spiritBeast.accuracy_rate = reader.GetDouble("accuracy_rate");
-                    spiritBeast.lifesteal_rate = reader.GetDouble("lifesteal_rate");
-                    spiritBeast.shield_strength = reader.GetDouble("shield_strength");
-                    spiritBeast.tenacity = reader.GetDouble("tenacity");
-                    spiritBeast.resistance_rate = reader.GetDouble("resistance_rate");
-                    spiritBeast.combo_rate = reader.GetDouble("combo_rate");
-                    spiritBeast.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
-                    spiritBeast.combo_damage_rate = reader.GetDouble("combo_damage_rate");
-                    spiritBeast.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
-                    spiritBeast.stun_rate = reader.GetDouble("stun_rate");
-                    spiritBeast.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
-                    spiritBeast.reflection_rate = reader.GetDouble("reflection_rate");
-                    spiritBeast.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
-                    spiritBeast.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
-                    spiritBeast.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.mana = reader.GetFloat("mana");
-                    spiritBeast.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
-                    spiritBeast.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
-                    spiritBeast.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
-                    spiritBeast.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
-                    spiritBeast.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
-                    spiritBeast.normal_damage_rate = reader.GetDouble("normal_damage_rate");
-                    spiritBeast.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
-                    spiritBeast.skill_damage_rate = reader.GetDouble("skill_damage_rate");
-                    spiritBeast.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
-                    spiritBeast.percent_all_health = reader.GetDouble("percent_all_health");
-                    spiritBeast.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                    spiritBeast.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                    spiritBeast.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                    spiritBeast.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                    spiritBeast.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                    spiritBeast.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                    spiritBeast.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                    spiritBeast.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                    spiritBeast.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                    spiritBeast.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                    spiritBeast.Id = reader.GetString("spirit_beast_id");
+                    spiritBeast.Name = reader.GetString("name");
+                    spiritBeast.Image = reader.GetString("image");
+                    spiritBeast.Rare = reader.GetString("rare");
+                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Star = reader.GetInt32("star");
+                    spiritBeast.Level = reader.GetInt32("level");
+                    spiritBeast.Experiment = reader.GetInt32("experiment");
+                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Power = reader.GetDouble("power");
+                    spiritBeast.Health = reader.GetDouble("health");
+                    spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
+                    spiritBeast.PhysicalDefense = reader.GetDouble("physical_defense");
+                    spiritBeast.MagicalAttack = reader.GetDouble("magical_attack");
+                    spiritBeast.MagicalDefense = reader.GetDouble("magical_defense");
+                    spiritBeast.ChemicalAttack = reader.GetDouble("chemical_attack");
+                    spiritBeast.ChemicalDefense = reader.GetDouble("chemical_defense");
+                    spiritBeast.AtomicAttack = reader.GetDouble("atomic_attack");
+                    spiritBeast.AtomicDefense = reader.GetDouble("atomic_defense");
+                    spiritBeast.MentalAttack = reader.GetDouble("mental_attack");
+                    spiritBeast.MentalDefense = reader.GetDouble("mental_defense");
+                    spiritBeast.Speed = reader.GetDouble("speed");
+                    spiritBeast.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
+                    spiritBeast.CriticalRate = reader.GetDouble("critical_rate");
+                    spiritBeast.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
+                    spiritBeast.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
+                    spiritBeast.PenetrationRate = reader.GetDouble("penetration_rate");
+                    spiritBeast.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
+                    spiritBeast.EvasionRate = reader.GetDouble("evasion_rate");
+                    spiritBeast.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
+                    spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
+                    spiritBeast.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
+                    spiritBeast.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
+                    spiritBeast.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
+                    spiritBeast.AccuracyRate = reader.GetDouble("accuracy_rate");
+                    spiritBeast.LifestealRate = reader.GetDouble("lifesteal_rate");
+                    spiritBeast.ShieldStrength = reader.GetDouble("shield_strength");
+                    spiritBeast.Tenacity = reader.GetDouble("tenacity");
+                    spiritBeast.ResistanceRate = reader.GetDouble("resistance_rate");
+                    spiritBeast.ComboRate = reader.GetDouble("combo_rate");
+                    spiritBeast.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
+                    spiritBeast.ComboDamageRate = reader.GetDouble("combo_damage_rate");
+                    spiritBeast.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
+                    spiritBeast.StunRate = reader.GetDouble("stun_rate");
+                    spiritBeast.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
+                    spiritBeast.ReflectionRate = reader.GetDouble("reflection_rate");
+                    spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
+                    spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
+                    spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
+                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
+                    spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
+                    spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
+                    spiritBeast.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
+                    spiritBeast.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
+                    spiritBeast.NormalDamageRate = reader.GetDouble("normal_damage_rate");
+                    spiritBeast.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
+                    spiritBeast.SkillDamageRate = reader.GetDouble("skill_damage_rate");
+                    spiritBeast.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
+                    spiritBeast.PercentAllHealth = reader.GetDouble("percent_all_health");
+                    spiritBeast.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
+                    spiritBeast.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
+                    spiritBeast.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
+                    spiritBeast.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
+                    spiritBeast.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
+                    spiritBeast.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
+                    spiritBeast.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
+                    spiritBeast.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
+                    spiritBeast.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
+                    spiritBeast.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
 
                 }
             }
@@ -453,9 +453,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return spiritBeast;
     }
-    public SpiritBeast GetUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels)
+    public SpiritBeasts GetUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels)
     {
-        SpiritBeast spiritBeast = new SpiritBeast();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -472,80 +472,80 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 where ue.user_id = @userId and che.user_card_colonel_id = @user_card_colonel_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.id);
+                command.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    spiritBeast.id = reader.GetString("spirit_beast_id");
-                    spiritBeast.name = reader.GetString("name");
-                    spiritBeast.image = reader.GetString("image");
-                    spiritBeast.rare = reader.GetString("rare");
-                    spiritBeast.quality = reader.GetInt32("quality");
-                    spiritBeast.star = reader.GetInt32("star");
-                    spiritBeast.level = reader.GetInt32("level");
-                    spiritBeast.experiment = reader.GetInt32("experiment");
-                    spiritBeast.quantity = reader.GetInt32("quantity");
-                    spiritBeast.power = reader.GetDouble("power");
-                    spiritBeast.health = reader.GetDouble("health");
-                    spiritBeast.physical_attack = reader.GetDouble("physical_attack");
-                    spiritBeast.physical_defense = reader.GetDouble("physical_defense");
-                    spiritBeast.magical_attack = reader.GetDouble("magical_attack");
-                    spiritBeast.magical_defense = reader.GetDouble("magical_defense");
-                    spiritBeast.chemical_attack = reader.GetDouble("chemical_attack");
-                    spiritBeast.chemical_defense = reader.GetDouble("chemical_defense");
-                    spiritBeast.atomic_attack = reader.GetDouble("atomic_attack");
-                    spiritBeast.atomic_defense = reader.GetDouble("atomic_defense");
-                    spiritBeast.mental_attack = reader.GetDouble("mental_attack");
-                    spiritBeast.mental_defense = reader.GetDouble("mental_defense");
-                    spiritBeast.speed = reader.GetDouble("speed");
-                    spiritBeast.critical_damage_rate = reader.GetDouble("critical_damage_rate");
-                    spiritBeast.critical_rate = reader.GetDouble("critical_rate");
-                    spiritBeast.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
-                    spiritBeast.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
-                    spiritBeast.penetration_rate = reader.GetDouble("penetration_rate");
-                    spiritBeast.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
-                    spiritBeast.evasion_rate = reader.GetDouble("evasion_rate");
-                    spiritBeast.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
-                    spiritBeast.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
-                    spiritBeast.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
-                    spiritBeast.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
-                    spiritBeast.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                    spiritBeast.accuracy_rate = reader.GetDouble("accuracy_rate");
-                    spiritBeast.lifesteal_rate = reader.GetDouble("lifesteal_rate");
-                    spiritBeast.shield_strength = reader.GetDouble("shield_strength");
-                    spiritBeast.tenacity = reader.GetDouble("tenacity");
-                    spiritBeast.resistance_rate = reader.GetDouble("resistance_rate");
-                    spiritBeast.combo_rate = reader.GetDouble("combo_rate");
-                    spiritBeast.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
-                    spiritBeast.combo_damage_rate = reader.GetDouble("combo_damage_rate");
-                    spiritBeast.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
-                    spiritBeast.stun_rate = reader.GetDouble("stun_rate");
-                    spiritBeast.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
-                    spiritBeast.reflection_rate = reader.GetDouble("reflection_rate");
-                    spiritBeast.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
-                    spiritBeast.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
-                    spiritBeast.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.mana = reader.GetFloat("mana");
-                    spiritBeast.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
-                    spiritBeast.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
-                    spiritBeast.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
-                    spiritBeast.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
-                    spiritBeast.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
-                    spiritBeast.normal_damage_rate = reader.GetDouble("normal_damage_rate");
-                    spiritBeast.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
-                    spiritBeast.skill_damage_rate = reader.GetDouble("skill_damage_rate");
-                    spiritBeast.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
-                    spiritBeast.percent_all_health = reader.GetDouble("percent_all_health");
-                    spiritBeast.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                    spiritBeast.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                    spiritBeast.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                    spiritBeast.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                    spiritBeast.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                    spiritBeast.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                    spiritBeast.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                    spiritBeast.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                    spiritBeast.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                    spiritBeast.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                    spiritBeast.Id = reader.GetString("spirit_beast_id");
+                    spiritBeast.Name = reader.GetString("name");
+                    spiritBeast.Image = reader.GetString("image");
+                    spiritBeast.Rare = reader.GetString("rare");
+                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Star = reader.GetInt32("star");
+                    spiritBeast.Level = reader.GetInt32("level");
+                    spiritBeast.Experiment = reader.GetInt32("experiment");
+                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Power = reader.GetDouble("power");
+                    spiritBeast.Health = reader.GetDouble("health");
+                    spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
+                    spiritBeast.PhysicalDefense = reader.GetDouble("physical_defense");
+                    spiritBeast.MagicalAttack = reader.GetDouble("magical_attack");
+                    spiritBeast.MagicalDefense = reader.GetDouble("magical_defense");
+                    spiritBeast.ChemicalAttack = reader.GetDouble("chemical_attack");
+                    spiritBeast.ChemicalDefense = reader.GetDouble("chemical_defense");
+                    spiritBeast.AtomicAttack = reader.GetDouble("atomic_attack");
+                    spiritBeast.AtomicDefense = reader.GetDouble("atomic_defense");
+                    spiritBeast.MentalAttack = reader.GetDouble("mental_attack");
+                    spiritBeast.MentalDefense = reader.GetDouble("mental_defense");
+                    spiritBeast.Speed = reader.GetDouble("speed");
+                    spiritBeast.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
+                    spiritBeast.CriticalRate = reader.GetDouble("critical_rate");
+                    spiritBeast.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
+                    spiritBeast.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
+                    spiritBeast.PenetrationRate = reader.GetDouble("penetration_rate");
+                    spiritBeast.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
+                    spiritBeast.EvasionRate = reader.GetDouble("evasion_rate");
+                    spiritBeast.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
+                    spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
+                    spiritBeast.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
+                    spiritBeast.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
+                    spiritBeast.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
+                    spiritBeast.AccuracyRate = reader.GetDouble("accuracy_rate");
+                    spiritBeast.LifestealRate = reader.GetDouble("lifesteal_rate");
+                    spiritBeast.ShieldStrength = reader.GetDouble("shield_strength");
+                    spiritBeast.Tenacity = reader.GetDouble("tenacity");
+                    spiritBeast.ResistanceRate = reader.GetDouble("resistance_rate");
+                    spiritBeast.ComboRate = reader.GetDouble("combo_rate");
+                    spiritBeast.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
+                    spiritBeast.ComboDamageRate = reader.GetDouble("combo_damage_rate");
+                    spiritBeast.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
+                    spiritBeast.StunRate = reader.GetDouble("stun_rate");
+                    spiritBeast.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
+                    spiritBeast.ReflectionRate = reader.GetDouble("reflection_rate");
+                    spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
+                    spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
+                    spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
+                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
+                    spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
+                    spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
+                    spiritBeast.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
+                    spiritBeast.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
+                    spiritBeast.NormalDamageRate = reader.GetDouble("normal_damage_rate");
+                    spiritBeast.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
+                    spiritBeast.SkillDamageRate = reader.GetDouble("skill_damage_rate");
+                    spiritBeast.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
+                    spiritBeast.PercentAllHealth = reader.GetDouble("percent_all_health");
+                    spiritBeast.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
+                    spiritBeast.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
+                    spiritBeast.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
+                    spiritBeast.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
+                    spiritBeast.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
+                    spiritBeast.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
+                    spiritBeast.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
+                    spiritBeast.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
+                    spiritBeast.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
+                    spiritBeast.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
 
                 }
             }
@@ -557,9 +557,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return spiritBeast;
     }
-    public SpiritBeast GetUserCardGeneralsSpiritBeast(string userId, CardGenerals cardGenerals)
+    public SpiritBeasts GetUserCardGeneralsSpiritBeast(string userId, CardGenerals cardGenerals)
     {
-        SpiritBeast spiritBeast = new SpiritBeast();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -576,80 +576,80 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 where ue.user_id = @userId and che.user_card_general_id = @user_card_general_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.id);
+                command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    spiritBeast.id = reader.GetString("spirit_beast_id");
-                    spiritBeast.name = reader.GetString("name");
-                    spiritBeast.image = reader.GetString("image");
-                    spiritBeast.rare = reader.GetString("rare");
-                    spiritBeast.quality = reader.GetInt32("quality");
-                    spiritBeast.star = reader.GetInt32("star");
-                    spiritBeast.level = reader.GetInt32("level");
-                    spiritBeast.experiment = reader.GetInt32("experiment");
-                    spiritBeast.quantity = reader.GetInt32("quantity");
-                    spiritBeast.power = reader.GetDouble("power");
-                    spiritBeast.health = reader.GetDouble("health");
-                    spiritBeast.physical_attack = reader.GetDouble("physical_attack");
-                    spiritBeast.physical_defense = reader.GetDouble("physical_defense");
-                    spiritBeast.magical_attack = reader.GetDouble("magical_attack");
-                    spiritBeast.magical_defense = reader.GetDouble("magical_defense");
-                    spiritBeast.chemical_attack = reader.GetDouble("chemical_attack");
-                    spiritBeast.chemical_defense = reader.GetDouble("chemical_defense");
-                    spiritBeast.atomic_attack = reader.GetDouble("atomic_attack");
-                    spiritBeast.atomic_defense = reader.GetDouble("atomic_defense");
-                    spiritBeast.mental_attack = reader.GetDouble("mental_attack");
-                    spiritBeast.mental_defense = reader.GetDouble("mental_defense");
-                    spiritBeast.speed = reader.GetDouble("speed");
-                    spiritBeast.critical_damage_rate = reader.GetDouble("critical_damage_rate");
-                    spiritBeast.critical_rate = reader.GetDouble("critical_rate");
-                    spiritBeast.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
-                    spiritBeast.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
-                    spiritBeast.penetration_rate = reader.GetDouble("penetration_rate");
-                    spiritBeast.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
-                    spiritBeast.evasion_rate = reader.GetDouble("evasion_rate");
-                    spiritBeast.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
-                    spiritBeast.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
-                    spiritBeast.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
-                    spiritBeast.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
-                    spiritBeast.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                    spiritBeast.accuracy_rate = reader.GetDouble("accuracy_rate");
-                    spiritBeast.lifesteal_rate = reader.GetDouble("lifesteal_rate");
-                    spiritBeast.shield_strength = reader.GetDouble("shield_strength");
-                    spiritBeast.tenacity = reader.GetDouble("tenacity");
-                    spiritBeast.resistance_rate = reader.GetDouble("resistance_rate");
-                    spiritBeast.combo_rate = reader.GetDouble("combo_rate");
-                    spiritBeast.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
-                    spiritBeast.combo_damage_rate = reader.GetDouble("combo_damage_rate");
-                    spiritBeast.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
-                    spiritBeast.stun_rate = reader.GetDouble("stun_rate");
-                    spiritBeast.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
-                    spiritBeast.reflection_rate = reader.GetDouble("reflection_rate");
-                    spiritBeast.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
-                    spiritBeast.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
-                    spiritBeast.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.mana = reader.GetFloat("mana");
-                    spiritBeast.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
-                    spiritBeast.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
-                    spiritBeast.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
-                    spiritBeast.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
-                    spiritBeast.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
-                    spiritBeast.normal_damage_rate = reader.GetDouble("normal_damage_rate");
-                    spiritBeast.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
-                    spiritBeast.skill_damage_rate = reader.GetDouble("skill_damage_rate");
-                    spiritBeast.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
-                    spiritBeast.percent_all_health = reader.GetDouble("percent_all_health");
-                    spiritBeast.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                    spiritBeast.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                    spiritBeast.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                    spiritBeast.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                    spiritBeast.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                    spiritBeast.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                    spiritBeast.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                    spiritBeast.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                    spiritBeast.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                    spiritBeast.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                    spiritBeast.Id = reader.GetString("spirit_beast_id");
+                    spiritBeast.Name = reader.GetString("name");
+                    spiritBeast.Image = reader.GetString("image");
+                    spiritBeast.Rare = reader.GetString("rare");
+                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Star = reader.GetInt32("star");
+                    spiritBeast.Level = reader.GetInt32("level");
+                    spiritBeast.Experiment = reader.GetInt32("experiment");
+                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Power = reader.GetDouble("power");
+                    spiritBeast.Health = reader.GetDouble("health");
+                    spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
+                    spiritBeast.PhysicalDefense = reader.GetDouble("physical_defense");
+                    spiritBeast.MagicalAttack = reader.GetDouble("magical_attack");
+                    spiritBeast.MagicalDefense = reader.GetDouble("magical_defense");
+                    spiritBeast.ChemicalAttack = reader.GetDouble("chemical_attack");
+                    spiritBeast.ChemicalDefense = reader.GetDouble("chemical_defense");
+                    spiritBeast.AtomicAttack = reader.GetDouble("atomic_attack");
+                    spiritBeast.AtomicDefense = reader.GetDouble("atomic_defense");
+                    spiritBeast.MentalAttack = reader.GetDouble("mental_attack");
+                    spiritBeast.MentalDefense = reader.GetDouble("mental_defense");
+                    spiritBeast.Speed = reader.GetDouble("speed");
+                    spiritBeast.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
+                    spiritBeast.CriticalRate = reader.GetDouble("critical_rate");
+                    spiritBeast.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
+                    spiritBeast.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
+                    spiritBeast.PenetrationRate = reader.GetDouble("penetration_rate");
+                    spiritBeast.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
+                    spiritBeast.EvasionRate = reader.GetDouble("evasion_rate");
+                    spiritBeast.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
+                    spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
+                    spiritBeast.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
+                    spiritBeast.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
+                    spiritBeast.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
+                    spiritBeast.AccuracyRate = reader.GetDouble("accuracy_rate");
+                    spiritBeast.LifestealRate = reader.GetDouble("lifesteal_rate");
+                    spiritBeast.ShieldStrength = reader.GetDouble("shield_strength");
+                    spiritBeast.Tenacity = reader.GetDouble("tenacity");
+                    spiritBeast.ResistanceRate = reader.GetDouble("resistance_rate");
+                    spiritBeast.ComboRate = reader.GetDouble("combo_rate");
+                    spiritBeast.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
+                    spiritBeast.ComboDamageRate = reader.GetDouble("combo_damage_rate");
+                    spiritBeast.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
+                    spiritBeast.StunRate = reader.GetDouble("stun_rate");
+                    spiritBeast.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
+                    spiritBeast.ReflectionRate = reader.GetDouble("reflection_rate");
+                    spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
+                    spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
+                    spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
+                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
+                    spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
+                    spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
+                    spiritBeast.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
+                    spiritBeast.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
+                    spiritBeast.NormalDamageRate = reader.GetDouble("normal_damage_rate");
+                    spiritBeast.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
+                    spiritBeast.SkillDamageRate = reader.GetDouble("skill_damage_rate");
+                    spiritBeast.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
+                    spiritBeast.PercentAllHealth = reader.GetDouble("percent_all_health");
+                    spiritBeast.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
+                    spiritBeast.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
+                    spiritBeast.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
+                    spiritBeast.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
+                    spiritBeast.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
+                    spiritBeast.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
+                    spiritBeast.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
+                    spiritBeast.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
+                    spiritBeast.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
+                    spiritBeast.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
 
                 }
             }
@@ -661,9 +661,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return spiritBeast;
     }
-    public SpiritBeast GetUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals)
+    public SpiritBeasts GetUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals)
     {
-        SpiritBeast spiritBeast = new SpiritBeast();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -680,80 +680,80 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 where ue.user_id = @userId and che.user_card_admiral_id = @user_card_admiral_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.id);
+                command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    spiritBeast.id = reader.GetString("spirit_beast_id");
-                    spiritBeast.name = reader.GetString("name");
-                    spiritBeast.image = reader.GetString("image");
-                    spiritBeast.rare = reader.GetString("rare");
-                    spiritBeast.quality = reader.GetInt32("quality");
-                    spiritBeast.star = reader.GetInt32("star");
-                    spiritBeast.level = reader.GetInt32("level");
-                    spiritBeast.experiment = reader.GetInt32("experiment");
-                    spiritBeast.quantity = reader.GetInt32("quantity");
-                    spiritBeast.power = reader.GetDouble("power");
-                    spiritBeast.health = reader.GetDouble("health");
-                    spiritBeast.physical_attack = reader.GetDouble("physical_attack");
-                    spiritBeast.physical_defense = reader.GetDouble("physical_defense");
-                    spiritBeast.magical_attack = reader.GetDouble("magical_attack");
-                    spiritBeast.magical_defense = reader.GetDouble("magical_defense");
-                    spiritBeast.chemical_attack = reader.GetDouble("chemical_attack");
-                    spiritBeast.chemical_defense = reader.GetDouble("chemical_defense");
-                    spiritBeast.atomic_attack = reader.GetDouble("atomic_attack");
-                    spiritBeast.atomic_defense = reader.GetDouble("atomic_defense");
-                    spiritBeast.mental_attack = reader.GetDouble("mental_attack");
-                    spiritBeast.mental_defense = reader.GetDouble("mental_defense");
-                    spiritBeast.speed = reader.GetDouble("speed");
-                    spiritBeast.critical_damage_rate = reader.GetDouble("critical_damage_rate");
-                    spiritBeast.critical_rate = reader.GetDouble("critical_rate");
-                    spiritBeast.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
-                    spiritBeast.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
-                    spiritBeast.penetration_rate = reader.GetDouble("penetration_rate");
-                    spiritBeast.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
-                    spiritBeast.evasion_rate = reader.GetDouble("evasion_rate");
-                    spiritBeast.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
-                    spiritBeast.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
-                    spiritBeast.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
-                    spiritBeast.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
-                    spiritBeast.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                    spiritBeast.accuracy_rate = reader.GetDouble("accuracy_rate");
-                    spiritBeast.lifesteal_rate = reader.GetDouble("lifesteal_rate");
-                    spiritBeast.shield_strength = reader.GetDouble("shield_strength");
-                    spiritBeast.tenacity = reader.GetDouble("tenacity");
-                    spiritBeast.resistance_rate = reader.GetDouble("resistance_rate");
-                    spiritBeast.combo_rate = reader.GetDouble("combo_rate");
-                    spiritBeast.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
-                    spiritBeast.combo_damage_rate = reader.GetDouble("combo_damage_rate");
-                    spiritBeast.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
-                    spiritBeast.stun_rate = reader.GetDouble("stun_rate");
-                    spiritBeast.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
-                    spiritBeast.reflection_rate = reader.GetDouble("reflection_rate");
-                    spiritBeast.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
-                    spiritBeast.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
-                    spiritBeast.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.mana = reader.GetFloat("mana");
-                    spiritBeast.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
-                    spiritBeast.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
-                    spiritBeast.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
-                    spiritBeast.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
-                    spiritBeast.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
-                    spiritBeast.normal_damage_rate = reader.GetDouble("normal_damage_rate");
-                    spiritBeast.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
-                    spiritBeast.skill_damage_rate = reader.GetDouble("skill_damage_rate");
-                    spiritBeast.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
-                    spiritBeast.percent_all_health = reader.GetDouble("percent_all_health");
-                    spiritBeast.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                    spiritBeast.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                    spiritBeast.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                    spiritBeast.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                    spiritBeast.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                    spiritBeast.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                    spiritBeast.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                    spiritBeast.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                    spiritBeast.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                    spiritBeast.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                    spiritBeast.Id = reader.GetString("spirit_beast_id");
+                    spiritBeast.Name = reader.GetString("name");
+                    spiritBeast.Image = reader.GetString("image");
+                    spiritBeast.Rare = reader.GetString("rare");
+                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Star = reader.GetInt32("star");
+                    spiritBeast.Level = reader.GetInt32("level");
+                    spiritBeast.Experiment = reader.GetInt32("experiment");
+                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Power = reader.GetDouble("power");
+                    spiritBeast.Health = reader.GetDouble("health");
+                    spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
+                    spiritBeast.PhysicalDefense = reader.GetDouble("physical_defense");
+                    spiritBeast.MagicalAttack = reader.GetDouble("magical_attack");
+                    spiritBeast.MagicalDefense = reader.GetDouble("magical_defense");
+                    spiritBeast.ChemicalAttack = reader.GetDouble("chemical_attack");
+                    spiritBeast.ChemicalDefense = reader.GetDouble("chemical_defense");
+                    spiritBeast.AtomicAttack = reader.GetDouble("atomic_attack");
+                    spiritBeast.AtomicDefense = reader.GetDouble("atomic_defense");
+                    spiritBeast.MentalAttack = reader.GetDouble("mental_attack");
+                    spiritBeast.MentalDefense = reader.GetDouble("mental_defense");
+                    spiritBeast.Speed = reader.GetDouble("speed");
+                    spiritBeast.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
+                    spiritBeast.CriticalRate = reader.GetDouble("critical_rate");
+                    spiritBeast.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
+                    spiritBeast.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
+                    spiritBeast.PenetrationRate = reader.GetDouble("penetration_rate");
+                    spiritBeast.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
+                    spiritBeast.EvasionRate = reader.GetDouble("evasion_rate");
+                    spiritBeast.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
+                    spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
+                    spiritBeast.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
+                    spiritBeast.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
+                    spiritBeast.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
+                    spiritBeast.AccuracyRate = reader.GetDouble("accuracy_rate");
+                    spiritBeast.LifestealRate = reader.GetDouble("lifesteal_rate");
+                    spiritBeast.ShieldStrength = reader.GetDouble("shield_strength");
+                    spiritBeast.Tenacity = reader.GetDouble("tenacity");
+                    spiritBeast.ResistanceRate = reader.GetDouble("resistance_rate");
+                    spiritBeast.ComboRate = reader.GetDouble("combo_rate");
+                    spiritBeast.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
+                    spiritBeast.ComboDamageRate = reader.GetDouble("combo_damage_rate");
+                    spiritBeast.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
+                    spiritBeast.StunRate = reader.GetDouble("stun_rate");
+                    spiritBeast.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
+                    spiritBeast.ReflectionRate = reader.GetDouble("reflection_rate");
+                    spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
+                    spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
+                    spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
+                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
+                    spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
+                    spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
+                    spiritBeast.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
+                    spiritBeast.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
+                    spiritBeast.NormalDamageRate = reader.GetDouble("normal_damage_rate");
+                    spiritBeast.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
+                    spiritBeast.SkillDamageRate = reader.GetDouble("skill_damage_rate");
+                    spiritBeast.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
+                    spiritBeast.PercentAllHealth = reader.GetDouble("percent_all_health");
+                    spiritBeast.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
+                    spiritBeast.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
+                    spiritBeast.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
+                    spiritBeast.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
+                    spiritBeast.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
+                    spiritBeast.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
+                    spiritBeast.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
+                    spiritBeast.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
+                    spiritBeast.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
+                    spiritBeast.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
 
                 }
             }
@@ -765,9 +765,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return spiritBeast;
     }
-    public SpiritBeast GetUserCardMilitarySpiritBeast(string userId, CardMilitary cardMilitary)
+    public SpiritBeasts GetUserCardMilitarySpiritBeast(string userId, CardMilitaries cardMilitary)
     {
-        SpiritBeast spiritBeast = new SpiritBeast();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -784,80 +784,80 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 where ue.user_id = @userId and che.user_card_military_id = @user_card_military_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.id);
+                command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    spiritBeast.id = reader.GetString("spirit_beast_id");
-                    spiritBeast.name = reader.GetString("name");
-                    spiritBeast.image = reader.GetString("image");
-                    spiritBeast.rare = reader.GetString("rare");
-                    spiritBeast.quality = reader.GetInt32("quality");
-                    spiritBeast.star = reader.GetInt32("star");
-                    spiritBeast.level = reader.GetInt32("level");
-                    spiritBeast.experiment = reader.GetInt32("experiment");
-                    spiritBeast.quantity = reader.GetInt32("quantity");
-                    spiritBeast.power = reader.GetDouble("power");
-                    spiritBeast.health = reader.GetDouble("health");
-                    spiritBeast.physical_attack = reader.GetDouble("physical_attack");
-                    spiritBeast.physical_defense = reader.GetDouble("physical_defense");
-                    spiritBeast.magical_attack = reader.GetDouble("magical_attack");
-                    spiritBeast.magical_defense = reader.GetDouble("magical_defense");
-                    spiritBeast.chemical_attack = reader.GetDouble("chemical_attack");
-                    spiritBeast.chemical_defense = reader.GetDouble("chemical_defense");
-                    spiritBeast.atomic_attack = reader.GetDouble("atomic_attack");
-                    spiritBeast.atomic_defense = reader.GetDouble("atomic_defense");
-                    spiritBeast.mental_attack = reader.GetDouble("mental_attack");
-                    spiritBeast.mental_defense = reader.GetDouble("mental_defense");
-                    spiritBeast.speed = reader.GetDouble("speed");
-                    spiritBeast.critical_damage_rate = reader.GetDouble("critical_damage_rate");
-                    spiritBeast.critical_rate = reader.GetDouble("critical_rate");
-                    spiritBeast.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
-                    spiritBeast.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
-                    spiritBeast.penetration_rate = reader.GetDouble("penetration_rate");
-                    spiritBeast.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
-                    spiritBeast.evasion_rate = reader.GetDouble("evasion_rate");
-                    spiritBeast.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
-                    spiritBeast.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
-                    spiritBeast.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
-                    spiritBeast.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
-                    spiritBeast.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                    spiritBeast.accuracy_rate = reader.GetDouble("accuracy_rate");
-                    spiritBeast.lifesteal_rate = reader.GetDouble("lifesteal_rate");
-                    spiritBeast.shield_strength = reader.GetDouble("shield_strength");
-                    spiritBeast.tenacity = reader.GetDouble("tenacity");
-                    spiritBeast.resistance_rate = reader.GetDouble("resistance_rate");
-                    spiritBeast.combo_rate = reader.GetDouble("combo_rate");
-                    spiritBeast.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
-                    spiritBeast.combo_damage_rate = reader.GetDouble("combo_damage_rate");
-                    spiritBeast.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
-                    spiritBeast.stun_rate = reader.GetDouble("stun_rate");
-                    spiritBeast.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
-                    spiritBeast.reflection_rate = reader.GetDouble("reflection_rate");
-                    spiritBeast.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
-                    spiritBeast.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
-                    spiritBeast.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.mana = reader.GetFloat("mana");
-                    spiritBeast.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
-                    spiritBeast.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
-                    spiritBeast.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
-                    spiritBeast.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
-                    spiritBeast.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
-                    spiritBeast.normal_damage_rate = reader.GetDouble("normal_damage_rate");
-                    spiritBeast.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
-                    spiritBeast.skill_damage_rate = reader.GetDouble("skill_damage_rate");
-                    spiritBeast.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
-                    spiritBeast.percent_all_health = reader.GetDouble("percent_all_health");
-                    spiritBeast.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                    spiritBeast.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                    spiritBeast.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                    spiritBeast.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                    spiritBeast.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                    spiritBeast.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                    spiritBeast.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                    spiritBeast.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                    spiritBeast.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                    spiritBeast.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                    spiritBeast.Id = reader.GetString("spirit_beast_id");
+                    spiritBeast.Name = reader.GetString("name");
+                    spiritBeast.Image = reader.GetString("image");
+                    spiritBeast.Rare = reader.GetString("rare");
+                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Star = reader.GetInt32("star");
+                    spiritBeast.Level = reader.GetInt32("level");
+                    spiritBeast.Experiment = reader.GetInt32("experiment");
+                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Power = reader.GetDouble("power");
+                    spiritBeast.Health = reader.GetDouble("health");
+                    spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
+                    spiritBeast.PhysicalDefense = reader.GetDouble("physical_defense");
+                    spiritBeast.MagicalAttack = reader.GetDouble("magical_attack");
+                    spiritBeast.MagicalDefense = reader.GetDouble("magical_defense");
+                    spiritBeast.ChemicalAttack = reader.GetDouble("chemical_attack");
+                    spiritBeast.ChemicalDefense = reader.GetDouble("chemical_defense");
+                    spiritBeast.AtomicAttack = reader.GetDouble("atomic_attack");
+                    spiritBeast.AtomicDefense = reader.GetDouble("atomic_defense");
+                    spiritBeast.MentalAttack = reader.GetDouble("mental_attack");
+                    spiritBeast.MentalDefense = reader.GetDouble("mental_defense");
+                    spiritBeast.Speed = reader.GetDouble("speed");
+                    spiritBeast.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
+                    spiritBeast.CriticalRate = reader.GetDouble("critical_rate");
+                    spiritBeast.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
+                    spiritBeast.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
+                    spiritBeast.PenetrationRate = reader.GetDouble("penetration_rate");
+                    spiritBeast.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
+                    spiritBeast.EvasionRate = reader.GetDouble("evasion_rate");
+                    spiritBeast.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
+                    spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
+                    spiritBeast.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
+                    spiritBeast.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
+                    spiritBeast.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
+                    spiritBeast.AccuracyRate = reader.GetDouble("accuracy_rate");
+                    spiritBeast.LifestealRate = reader.GetDouble("lifesteal_rate");
+                    spiritBeast.ShieldStrength = reader.GetDouble("shield_strength");
+                    spiritBeast.Tenacity = reader.GetDouble("tenacity");
+                    spiritBeast.ResistanceRate = reader.GetDouble("resistance_rate");
+                    spiritBeast.ComboRate = reader.GetDouble("combo_rate");
+                    spiritBeast.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
+                    spiritBeast.ComboDamageRate = reader.GetDouble("combo_damage_rate");
+                    spiritBeast.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
+                    spiritBeast.StunRate = reader.GetDouble("stun_rate");
+                    spiritBeast.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
+                    spiritBeast.ReflectionRate = reader.GetDouble("reflection_rate");
+                    spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
+                    spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
+                    spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
+                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
+                    spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
+                    spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
+                    spiritBeast.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
+                    spiritBeast.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
+                    spiritBeast.NormalDamageRate = reader.GetDouble("normal_damage_rate");
+                    spiritBeast.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
+                    spiritBeast.SkillDamageRate = reader.GetDouble("skill_damage_rate");
+                    spiritBeast.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
+                    spiritBeast.PercentAllHealth = reader.GetDouble("percent_all_health");
+                    spiritBeast.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
+                    spiritBeast.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
+                    spiritBeast.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
+                    spiritBeast.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
+                    spiritBeast.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
+                    spiritBeast.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
+                    spiritBeast.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
+                    spiritBeast.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
+                    spiritBeast.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
+                    spiritBeast.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
 
                 }
             }
@@ -869,9 +869,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return spiritBeast;
     }
-    public SpiritBeast GetUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters)
+    public SpiritBeasts GetUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters)
     {
-        SpiritBeast spiritBeast = new SpiritBeast();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -888,80 +888,80 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 where ue.user_id = @userId and che.user_card_monster_id = @user_card_monster_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.id);
+                command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    spiritBeast.id = reader.GetString("spirit_beast_id");
-                    spiritBeast.name = reader.GetString("name");
-                    spiritBeast.image = reader.GetString("image");
-                    spiritBeast.rare = reader.GetString("rare");
-                    spiritBeast.quality = reader.GetInt32("quality");
-                    spiritBeast.star = reader.GetInt32("star");
-                    spiritBeast.level = reader.GetInt32("level");
-                    spiritBeast.experiment = reader.GetInt32("experiment");
-                    spiritBeast.quantity = reader.GetInt32("quantity");
-                    spiritBeast.power = reader.GetDouble("power");
-                    spiritBeast.health = reader.GetDouble("health");
-                    spiritBeast.physical_attack = reader.GetDouble("physical_attack");
-                    spiritBeast.physical_defense = reader.GetDouble("physical_defense");
-                    spiritBeast.magical_attack = reader.GetDouble("magical_attack");
-                    spiritBeast.magical_defense = reader.GetDouble("magical_defense");
-                    spiritBeast.chemical_attack = reader.GetDouble("chemical_attack");
-                    spiritBeast.chemical_defense = reader.GetDouble("chemical_defense");
-                    spiritBeast.atomic_attack = reader.GetDouble("atomic_attack");
-                    spiritBeast.atomic_defense = reader.GetDouble("atomic_defense");
-                    spiritBeast.mental_attack = reader.GetDouble("mental_attack");
-                    spiritBeast.mental_defense = reader.GetDouble("mental_defense");
-                    spiritBeast.speed = reader.GetDouble("speed");
-                    spiritBeast.critical_damage_rate = reader.GetDouble("critical_damage_rate");
-                    spiritBeast.critical_rate = reader.GetDouble("critical_rate");
-                    spiritBeast.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
-                    spiritBeast.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
-                    spiritBeast.penetration_rate = reader.GetDouble("penetration_rate");
-                    spiritBeast.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
-                    spiritBeast.evasion_rate = reader.GetDouble("evasion_rate");
-                    spiritBeast.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
-                    spiritBeast.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
-                    spiritBeast.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
-                    spiritBeast.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
-                    spiritBeast.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                    spiritBeast.accuracy_rate = reader.GetDouble("accuracy_rate");
-                    spiritBeast.lifesteal_rate = reader.GetDouble("lifesteal_rate");
-                    spiritBeast.shield_strength = reader.GetDouble("shield_strength");
-                    spiritBeast.tenacity = reader.GetDouble("tenacity");
-                    spiritBeast.resistance_rate = reader.GetDouble("resistance_rate");
-                    spiritBeast.combo_rate = reader.GetDouble("combo_rate");
-                    spiritBeast.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
-                    spiritBeast.combo_damage_rate = reader.GetDouble("combo_damage_rate");
-                    spiritBeast.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
-                    spiritBeast.stun_rate = reader.GetDouble("stun_rate");
-                    spiritBeast.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
-                    spiritBeast.reflection_rate = reader.GetDouble("reflection_rate");
-                    spiritBeast.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
-                    spiritBeast.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
-                    spiritBeast.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.mana = reader.GetFloat("mana");
-                    spiritBeast.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
-                    spiritBeast.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
-                    spiritBeast.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
-                    spiritBeast.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
-                    spiritBeast.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
-                    spiritBeast.normal_damage_rate = reader.GetDouble("normal_damage_rate");
-                    spiritBeast.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
-                    spiritBeast.skill_damage_rate = reader.GetDouble("skill_damage_rate");
-                    spiritBeast.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
-                    spiritBeast.percent_all_health = reader.GetDouble("percent_all_health");
-                    spiritBeast.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                    spiritBeast.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                    spiritBeast.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                    spiritBeast.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                    spiritBeast.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                    spiritBeast.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                    spiritBeast.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                    spiritBeast.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                    spiritBeast.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                    spiritBeast.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                    spiritBeast.Id = reader.GetString("spirit_beast_id");
+                    spiritBeast.Name = reader.GetString("name");
+                    spiritBeast.Image = reader.GetString("image");
+                    spiritBeast.Rare = reader.GetString("rare");
+                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Star = reader.GetInt32("star");
+                    spiritBeast.Level = reader.GetInt32("level");
+                    spiritBeast.Experiment = reader.GetInt32("experiment");
+                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Power = reader.GetDouble("power");
+                    spiritBeast.Health = reader.GetDouble("health");
+                    spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
+                    spiritBeast.PhysicalDefense = reader.GetDouble("physical_defense");
+                    spiritBeast.MagicalAttack = reader.GetDouble("magical_attack");
+                    spiritBeast.MagicalDefense = reader.GetDouble("magical_defense");
+                    spiritBeast.ChemicalAttack = reader.GetDouble("chemical_attack");
+                    spiritBeast.ChemicalDefense = reader.GetDouble("chemical_defense");
+                    spiritBeast.AtomicAttack = reader.GetDouble("atomic_attack");
+                    spiritBeast.AtomicDefense = reader.GetDouble("atomic_defense");
+                    spiritBeast.MentalAttack = reader.GetDouble("mental_attack");
+                    spiritBeast.MentalDefense = reader.GetDouble("mental_defense");
+                    spiritBeast.Speed = reader.GetDouble("speed");
+                    spiritBeast.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
+                    spiritBeast.CriticalRate = reader.GetDouble("critical_rate");
+                    spiritBeast.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
+                    spiritBeast.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
+                    spiritBeast.PenetrationRate = reader.GetDouble("penetration_rate");
+                    spiritBeast.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
+                    spiritBeast.EvasionRate = reader.GetDouble("evasion_rate");
+                    spiritBeast.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
+                    spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
+                    spiritBeast.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
+                    spiritBeast.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
+                    spiritBeast.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
+                    spiritBeast.AccuracyRate = reader.GetDouble("accuracy_rate");
+                    spiritBeast.LifestealRate = reader.GetDouble("lifesteal_rate");
+                    spiritBeast.ShieldStrength = reader.GetDouble("shield_strength");
+                    spiritBeast.Tenacity = reader.GetDouble("tenacity");
+                    spiritBeast.ResistanceRate = reader.GetDouble("resistance_rate");
+                    spiritBeast.ComboRate = reader.GetDouble("combo_rate");
+                    spiritBeast.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
+                    spiritBeast.ComboDamageRate = reader.GetDouble("combo_damage_rate");
+                    spiritBeast.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
+                    spiritBeast.StunRate = reader.GetDouble("stun_rate");
+                    spiritBeast.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
+                    spiritBeast.ReflectionRate = reader.GetDouble("reflection_rate");
+                    spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
+                    spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
+                    spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
+                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
+                    spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
+                    spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
+                    spiritBeast.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
+                    spiritBeast.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
+                    spiritBeast.NormalDamageRate = reader.GetDouble("normal_damage_rate");
+                    spiritBeast.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
+                    spiritBeast.SkillDamageRate = reader.GetDouble("skill_damage_rate");
+                    spiritBeast.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
+                    spiritBeast.PercentAllHealth = reader.GetDouble("percent_all_health");
+                    spiritBeast.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
+                    spiritBeast.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
+                    spiritBeast.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
+                    spiritBeast.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
+                    spiritBeast.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
+                    spiritBeast.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
+                    spiritBeast.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
+                    spiritBeast.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
+                    spiritBeast.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
+                    spiritBeast.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
 
                 }
             }
@@ -973,9 +973,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return spiritBeast;
     }
-    public SpiritBeast GetUserCardSpellSpiritBeast(string userId, CardSpell cardSpell)
+    public SpiritBeasts GetUserCardSpellSpiritBeast(string userId, CardSpells cardSpell)
     {
-        SpiritBeast spiritBeast = new SpiritBeast();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -992,80 +992,80 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 where ue.user_id = @userId and che.user_card_spell_id = @user_card_spell_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.id);
+                command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    spiritBeast.id = reader.GetString("spirit_beast_id");
-                    spiritBeast.name = reader.GetString("name");
-                    spiritBeast.image = reader.GetString("image");
-                    spiritBeast.rare = reader.GetString("rare");
-                    spiritBeast.quality = reader.GetInt32("quality");
-                    spiritBeast.star = reader.GetInt32("star");
-                    spiritBeast.level = reader.GetInt32("level");
-                    spiritBeast.experiment = reader.GetInt32("experiment");
-                    spiritBeast.quantity = reader.GetInt32("quantity");
-                    spiritBeast.power = reader.GetDouble("power");
-                    spiritBeast.health = reader.GetDouble("health");
-                    spiritBeast.physical_attack = reader.GetDouble("physical_attack");
-                    spiritBeast.physical_defense = reader.GetDouble("physical_defense");
-                    spiritBeast.magical_attack = reader.GetDouble("magical_attack");
-                    spiritBeast.magical_defense = reader.GetDouble("magical_defense");
-                    spiritBeast.chemical_attack = reader.GetDouble("chemical_attack");
-                    spiritBeast.chemical_defense = reader.GetDouble("chemical_defense");
-                    spiritBeast.atomic_attack = reader.GetDouble("atomic_attack");
-                    spiritBeast.atomic_defense = reader.GetDouble("atomic_defense");
-                    spiritBeast.mental_attack = reader.GetDouble("mental_attack");
-                    spiritBeast.mental_defense = reader.GetDouble("mental_defense");
-                    spiritBeast.speed = reader.GetDouble("speed");
-                    spiritBeast.critical_damage_rate = reader.GetDouble("critical_damage_rate");
-                    spiritBeast.critical_rate = reader.GetDouble("critical_rate");
-                    spiritBeast.critical_resistance_rate = reader.GetDouble("critical_resistance_rate");
-                    spiritBeast.ignore_critical_rate = reader.GetDouble("ignore_critical_rate");
-                    spiritBeast.penetration_rate = reader.GetDouble("penetration_rate");
-                    spiritBeast.penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate");
-                    spiritBeast.evasion_rate = reader.GetDouble("evasion_rate");
-                    spiritBeast.damage_absorption_rate = reader.GetDouble("damage_absorption_rate");
-                    spiritBeast.ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate");
-                    spiritBeast.absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate");
-                    spiritBeast.vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate");
-                    spiritBeast.vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                    spiritBeast.accuracy_rate = reader.GetDouble("accuracy_rate");
-                    spiritBeast.lifesteal_rate = reader.GetDouble("lifesteal_rate");
-                    spiritBeast.shield_strength = reader.GetDouble("shield_strength");
-                    spiritBeast.tenacity = reader.GetDouble("tenacity");
-                    spiritBeast.resistance_rate = reader.GetDouble("resistance_rate");
-                    spiritBeast.combo_rate = reader.GetDouble("combo_rate");
-                    spiritBeast.ignore_combo_rate = reader.GetDouble("ignore_combo_rate");
-                    spiritBeast.combo_damage_rate = reader.GetDouble("combo_damage_rate");
-                    spiritBeast.combo_resistance_rate = reader.GetDouble("combo_resistance_rate");
-                    spiritBeast.stun_rate = reader.GetDouble("stun_rate");
-                    spiritBeast.ignore_stun_rate = reader.GetDouble("ignore_stun_rate");
-                    spiritBeast.reflection_rate = reader.GetDouble("reflection_rate");
-                    spiritBeast.ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate");
-                    spiritBeast.reflection_damage_rate = reader.GetDouble("reflection_damage_rate");
-                    spiritBeast.reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.mana = reader.GetFloat("mana");
-                    spiritBeast.mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate");
-                    spiritBeast.damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate");
-                    spiritBeast.resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate");
-                    spiritBeast.damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate");
-                    spiritBeast.resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate");
-                    spiritBeast.normal_damage_rate = reader.GetDouble("normal_damage_rate");
-                    spiritBeast.normal_resistance_rate = reader.GetDouble("normal_resistance_rate");
-                    spiritBeast.skill_damage_rate = reader.GetDouble("skill_damage_rate");
-                    spiritBeast.skill_resistance_rate = reader.GetDouble("skill_resistance_rate");
-                    spiritBeast.percent_all_health = reader.GetDouble("percent_all_health");
-                    spiritBeast.percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack");
-                    spiritBeast.percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense");
-                    spiritBeast.percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack");
-                    spiritBeast.percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense");
-                    spiritBeast.percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack");
-                    spiritBeast.percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense");
-                    spiritBeast.percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack");
-                    spiritBeast.percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense");
-                    spiritBeast.percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack");
-                    spiritBeast.percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense");
+                    spiritBeast.Id = reader.GetString("spirit_beast_id");
+                    spiritBeast.Name = reader.GetString("name");
+                    spiritBeast.Image = reader.GetString("image");
+                    spiritBeast.Rare = reader.GetString("rare");
+                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Star = reader.GetInt32("star");
+                    spiritBeast.Level = reader.GetInt32("level");
+                    spiritBeast.Experiment = reader.GetInt32("experiment");
+                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Power = reader.GetDouble("power");
+                    spiritBeast.Health = reader.GetDouble("health");
+                    spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
+                    spiritBeast.PhysicalDefense = reader.GetDouble("physical_defense");
+                    spiritBeast.MagicalAttack = reader.GetDouble("magical_attack");
+                    spiritBeast.MagicalDefense = reader.GetDouble("magical_defense");
+                    spiritBeast.ChemicalAttack = reader.GetDouble("chemical_attack");
+                    spiritBeast.ChemicalDefense = reader.GetDouble("chemical_defense");
+                    spiritBeast.AtomicAttack = reader.GetDouble("atomic_attack");
+                    spiritBeast.AtomicDefense = reader.GetDouble("atomic_defense");
+                    spiritBeast.MentalAttack = reader.GetDouble("mental_attack");
+                    spiritBeast.MentalDefense = reader.GetDouble("mental_defense");
+                    spiritBeast.Speed = reader.GetDouble("speed");
+                    spiritBeast.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
+                    spiritBeast.CriticalRate = reader.GetDouble("critical_rate");
+                    spiritBeast.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
+                    spiritBeast.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
+                    spiritBeast.PenetrationRate = reader.GetDouble("penetration_rate");
+                    spiritBeast.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
+                    spiritBeast.EvasionRate = reader.GetDouble("evasion_rate");
+                    spiritBeast.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
+                    spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
+                    spiritBeast.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
+                    spiritBeast.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
+                    spiritBeast.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
+                    spiritBeast.AccuracyRate = reader.GetDouble("accuracy_rate");
+                    spiritBeast.LifestealRate = reader.GetDouble("lifesteal_rate");
+                    spiritBeast.ShieldStrength = reader.GetDouble("shield_strength");
+                    spiritBeast.Tenacity = reader.GetDouble("tenacity");
+                    spiritBeast.ResistanceRate = reader.GetDouble("resistance_rate");
+                    spiritBeast.ComboRate = reader.GetDouble("combo_rate");
+                    spiritBeast.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
+                    spiritBeast.ComboDamageRate = reader.GetDouble("combo_damage_rate");
+                    spiritBeast.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
+                    spiritBeast.StunRate = reader.GetDouble("stun_rate");
+                    spiritBeast.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
+                    spiritBeast.ReflectionRate = reader.GetDouble("reflection_rate");
+                    spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
+                    spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
+                    spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
+                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
+                    spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
+                    spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
+                    spiritBeast.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
+                    spiritBeast.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
+                    spiritBeast.NormalDamageRate = reader.GetDouble("normal_damage_rate");
+                    spiritBeast.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
+                    spiritBeast.SkillDamageRate = reader.GetDouble("skill_damage_rate");
+                    spiritBeast.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
+                    spiritBeast.PercentAllHealth = reader.GetDouble("percent_all_health");
+                    spiritBeast.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
+                    spiritBeast.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
+                    spiritBeast.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
+                    spiritBeast.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
+                    spiritBeast.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
+                    spiritBeast.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
+                    spiritBeast.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
+                    spiritBeast.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
+                    spiritBeast.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
+                    spiritBeast.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
 
                 }
             }
@@ -1077,7 +1077,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return spiritBeast;
     }
-    public bool InsertUserSpiritBeast(SpiritBeast SpiritBeast)
+    public bool InsertUserSpiritBeast(SpiritBeasts SpiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1093,7 +1093,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1136,64 +1136,64 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.id);
-                    command.Parameters.AddWithValue("@rare", SpiritBeast.rare);
+                    command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
+                    command.Parameters.AddWithValue("@rare", SpiritBeast.Rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(SpiritBeast.rare));
+                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(SpiritBeast.Rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", SpiritBeast.quantity);
-                    command.Parameters.AddWithValue("@power", SpiritBeast.power);
-                    command.Parameters.AddWithValue("@health", SpiritBeast.health);
-                    command.Parameters.AddWithValue("@physical_attack", SpiritBeast.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", SpiritBeast.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", SpiritBeast.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", SpiritBeast.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", SpiritBeast.mental_attack);
-                    command.Parameters.AddWithValue("@mental_defense", SpiritBeast.mental_defense);
-                    command.Parameters.AddWithValue("@speed", SpiritBeast.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", SpiritBeast.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", SpiritBeast.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", SpiritBeast.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", SpiritBeast.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", SpiritBeast.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", SpiritBeast.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@quantity", SpiritBeast.Quantity);
+                    command.Parameters.AddWithValue("@power", SpiritBeast.Power);
+                    command.Parameters.AddWithValue("@health", SpiritBeast.Health);
+                    command.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1206,8 +1206,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.id);
-                    updateCommand.Parameters.AddWithValue("@quantity", SpiritBeast.quantity);
+                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", SpiritBeast.Quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1222,7 +1222,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool UpdateSpiritBeastLevel(SpiritBeast SpiritBeast, int cardLevel)
+    public bool UpdateSpiritBeastLevel(SpiritBeasts SpiritBeast, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1261,58 +1261,58 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 WHERE user_id = @user_id AND spirit_beast_id = @spirit_beast_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.id);
+                command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", SpiritBeast.power);
-                command.Parameters.AddWithValue("@health", SpiritBeast.health);
-                command.Parameters.AddWithValue("@physical_attack", SpiritBeast.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", SpiritBeast.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", SpiritBeast.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", SpiritBeast.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", SpiritBeast.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", SpiritBeast.mental_defense);
-                command.Parameters.AddWithValue("@speed", SpiritBeast.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", SpiritBeast.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", SpiritBeast.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", SpiritBeast.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", SpiritBeast.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", SpiritBeast.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", SpiritBeast.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", SpiritBeast.Power);
+                command.Parameters.AddWithValue("@health", SpiritBeast.Health);
+                command.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
+                command.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -1323,7 +1323,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool UpdateSpiritBeastBreakthrough(SpiritBeast SpiritBeast, int star, int quantity)
+    public bool UpdateSpiritBeastBreakthrough(SpiritBeasts SpiritBeast, int star, int quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1362,59 +1362,59 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 WHERE user_id = @user_id AND spirit_beast_id = @spirit_beast_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.id);
+                command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", SpiritBeast.power);
-                command.Parameters.AddWithValue("@health", SpiritBeast.health);
-                command.Parameters.AddWithValue("@physical_attack", SpiritBeast.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", SpiritBeast.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", SpiritBeast.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", SpiritBeast.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", SpiritBeast.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", SpiritBeast.mental_defense);
-                command.Parameters.AddWithValue("@speed", SpiritBeast.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", SpiritBeast.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", SpiritBeast.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", SpiritBeast.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", SpiritBeast.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", SpiritBeast.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", SpiritBeast.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", SpiritBeast.Power);
+                command.Parameters.AddWithValue("@health", SpiritBeast.Health);
+                command.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
+                command.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -1425,7 +1425,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool InsertOrUpdateUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes, SpiritBeast spiritBeast)
+    public bool InsertOrUpdateUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1441,7 +1441,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.id);
+                checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1454,8 +1454,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1468,8 +1468,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.id);
-                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    updateCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1484,7 +1484,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool InsertOrUpdateUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains, SpiritBeast spiritBeast)
+    public bool InsertOrUpdateUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1500,7 +1500,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.id);
+                checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1513,8 +1513,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1527,8 +1527,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.id);
-                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    updateCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1543,7 +1543,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool InsertOrUpdateUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels, SpiritBeast spiritBeast)
+    public bool InsertOrUpdateUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1559,7 +1559,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.id);
+                checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1572,8 +1572,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1586,8 +1586,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.id);
-                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    updateCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1602,7 +1602,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool InsertOrUpdateUserCardGeneralsSpiritBeast(string userId, CardGenerals cardGenerals, SpiritBeast spiritBeast)
+    public bool InsertOrUpdateUserCardGeneralsSpiritBeast(string userId, CardGenerals cardGenerals, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1618,7 +1618,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.id);
+                checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1631,8 +1631,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1645,8 +1645,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.id);
-                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    updateCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1661,7 +1661,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool InsertOrUpdateUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals, SpiritBeast spiritBeast)
+    public bool InsertOrUpdateUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1677,7 +1677,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.id);
+                checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1690,8 +1690,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_hero_id", cardAdmirals.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_hero_id", cardAdmirals.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1704,8 +1704,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.id);
-                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    updateCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
+                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1720,7 +1720,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool InsertOrUpdateUserCardMilitarySpiritBeast(string userId, CardMilitary cardMilitary, SpiritBeast spiritBeast)
+    public bool InsertOrUpdateUserCardMilitarySpiritBeast(string userId, CardMilitaries cardMilitary, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1736,7 +1736,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.id);
+                checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1749,8 +1749,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1763,8 +1763,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.id);
-                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    updateCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
+                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1779,7 +1779,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool InsertOrUpdateUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters, SpiritBeast spiritBeast)
+    public bool InsertOrUpdateUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1795,7 +1795,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.id);
+                checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1808,8 +1808,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1822,8 +1822,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.id);
-                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    updateCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1838,7 +1838,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool InsertOrUpdateUserCardSpellSpiritBeast(string userId, CardSpell cardSpell, SpiritBeast spiritBeast)
+    public bool InsertOrUpdateUserCardSpellSpiritBeast(string userId, CardSpells cardSpell, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1854,7 +1854,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.id);
+                checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -1867,8 +1867,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -1881,8 +1881,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.id);
-                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    updateCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
+                    updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -1897,9 +1897,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public List<SpiritBeast> GetAllUserCardHeroesSpiritBeast(string user_id, int pageSize, int offset, string status)
+    public List<SpiritBeasts> GetAllUserCardHeroesSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1930,67 +1930,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -2015,9 +2015,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public List<SpiritBeast> GetAllUserCardCaptainsSpiritBeast(string user_id, int pageSize, int offset, string status)
+    public List<SpiritBeasts> GetAllUserCardCaptainsSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2048,67 +2048,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -2133,9 +2133,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public List<SpiritBeast> GetAllUserCardColonelsSpiritBeast(string user_id, int pageSize, int offset, string status)
+    public List<SpiritBeasts> GetAllUserCardColonelsSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2166,67 +2166,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -2251,9 +2251,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public List<SpiritBeast> GetAllUserCardGeneralsSpiritBeast(string user_id, int pageSize, int offset, string status)
+    public List<SpiritBeasts> GetAllUserCardGeneralsSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2284,67 +2284,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -2369,9 +2369,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public List<SpiritBeast> GetAllUserCardAdmiralsSpiritBeast(string user_id, int pageSize, int offset, string status)
+    public List<SpiritBeasts> GetAllUserCardAdmiralsSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2402,67 +2402,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -2487,9 +2487,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public List<SpiritBeast> GetAllUserCardMilitarySpiritBeast(string user_id, int pageSize, int offset, string status)
+    public List<SpiritBeasts> GetAllUserCardMilitarySpiritBeast(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2520,67 +2520,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -2605,9 +2605,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public List<SpiritBeast> GetAllUserCardMonstersSpiritBeast(string user_id, int pageSize, int offset, string status)
+    public List<SpiritBeasts> GetAllUserCardMonstersSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2638,67 +2638,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -2723,9 +2723,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public List<SpiritBeast> GetAllUserCardSpellSpiritBeast(string user_id, int pageSize, int offset, string status)
+    public List<SpiritBeasts> GetAllUserCardSpellSpiritBeast(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeast> SpiritBeastList = new List<SpiritBeast>();
+        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2756,67 +2756,67 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    SpiritBeast title = new SpiritBeast
+                    SpiritBeasts title = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -2841,7 +2841,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return SpiritBeastList;
     }
-    public bool DeleteUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes, SpiritBeast spiritBeast)
+    public bool DeleteUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2857,8 +2857,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.id);
-                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count != 0)
                 {
@@ -2867,8 +2867,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id AND user_spirit_beast_id = @user_spirit_beast_id;";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -2882,7 +2882,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool DeleteUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains, SpiritBeast spiritBeast)
+    public bool DeleteUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2898,8 +2898,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.id);
-                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count != 0)
                 {
@@ -2908,8 +2908,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     WHERE user_id = @user_id AND user_card_captain_id = @user_card_captain_id AND user_spirit_beast_id = @user_spirit_beast_id;";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -2923,7 +2923,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool DeleteUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels, SpiritBeast spiritBeast)
+    public bool DeleteUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2939,8 +2939,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.id);
-                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count != 0)
                 {
@@ -2949,8 +2949,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     WHERE user_id = @user_id AND user_card_colonel_id = @user_card_colonel_id AND spiruser_spirit_beast_idit_beast_id = @user_spirit_beast_id;";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -2964,7 +2964,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool DeleteUserCardGeneralsSpiritBeast(string userId, CardGenerals cardGenerals, SpiritBeast spiritBeast)
+    public bool DeleteUserCardGeneralsSpiritBeast(string userId, CardGenerals cardGenerals, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2980,8 +2980,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.id);
-                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count != 0)
                 {
@@ -2990,8 +2990,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     WHERE user_id = @user_id AND user_card_general_id = @user_card_general_id AND user_spirit_beast_id = @user_spirit_beast_id;";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -3005,7 +3005,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool DeleteUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals, SpiritBeast spiritBeast)
+    public bool DeleteUserCardAdmiralsSpiritBeast(string userId, CardAdmirals cardAdmirals, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3021,8 +3021,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.id);
-                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
+                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count != 0)
                 {
@@ -3031,8 +3031,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     WHERE user_id = @user_id AND user_card_admiral_id = @user_card_admiral_id AND user_spirit_beast_id = @user_spirit_beast_id;";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -3046,7 +3046,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool DeleteUserCardMilitarySpiritBeast(string userId, CardMilitary cardMilitary, SpiritBeast spiritBeast)
+    public bool DeleteUserCardMilitarySpiritBeast(string userId, CardMilitaries cardMilitary, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3062,8 +3062,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.id);
-                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
+                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count != 0)
                 {
@@ -3072,8 +3072,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     WHERE user_id = @user_id AND user_card_military_id = @user_card_military_id AND user_spirit_beast_id = @user_spirit_beast_id;";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -3087,7 +3087,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool DeleteUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters, SpiritBeast spiritBeast)
+    public bool DeleteUserCardMonstersSpiritBeast(string userId, CardMonsters cardMonsters, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3103,8 +3103,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.id);
-                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count != 0)
                 {
@@ -3113,8 +3113,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     WHERE user_id = @user_id AND user_card_monster_id = @user_card_monster_id AND user_spirit_beast_id = @user_spirit_beast_id;";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -3128,7 +3128,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool DeleteUserCardSpellSpiritBeast(string userId, CardSpell cardSpell, SpiritBeast spiritBeast)
+    public bool DeleteUserCardSpellSpiritBeast(string userId, CardSpells cardSpell, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3144,8 +3144,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.id);
-                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
+                checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count != 0)
                 {
@@ -3154,8 +3154,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     WHERE user_id = @user_id AND user_card_spell_id = @user_card_spell_id AND user_spirit_beast_id = @user_spirit_beast_id;";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.id);
-                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.id);
+                    command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
+                    command.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -3169,9 +3169,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public SpiritBeast GetUserSpiritBeastById(string user_id, string Id)
+    public SpiritBeasts GetUserSpiritBeastById(string user_id, string Id)
     {
-        SpiritBeast card = new SpiritBeast();
+        SpiritBeasts card = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3186,63 +3186,63 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    card = new SpiritBeast
+                    card = new SpiritBeasts
                     {
-                        id = reader.GetString("spirit_beast_id"),
-                        level = reader.GetInt32("level"),
-                        quality = reader.GetInt32("quality"),
-                        experiment = reader.GetInt32("experiment"),
-                        star = reader.GetInt32("star"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("spirit_beast_id"),
+                        Level = reader.GetInt32("level"),
+                        Quality = reader.GetInt32("quality"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Star = reader.GetInt32("star"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                     };
                 }
             }
@@ -3254,9 +3254,9 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return card;
     }
-    public SpiritBeast SumPowerUserSpiritBeast()
+    public SpiritBeasts SumPowerUserSpiritBeast()
     {
-        SpiritBeast sumSpiritBeast = new SpiritBeast();
+        SpiritBeasts sumSpiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -3323,56 +3323,56 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 {
                     if (reader.Read())
                     {
-                        sumSpiritBeast.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumSpiritBeast.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumSpiritBeast.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumSpiritBeast.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumSpiritBeast.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumSpiritBeast.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumSpiritBeast.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumSpiritBeast.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumSpiritBeast.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumSpiritBeast.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumSpiritBeast.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumSpiritBeast.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumSpiritBeast.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumSpiritBeast.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumSpiritBeast.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumSpiritBeast.critical_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumSpiritBeast.ignore_critical_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumSpiritBeast.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumSpiritBeast.penetration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumSpiritBeast.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumSpiritBeast.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumSpiritBeast.ignore_damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumSpiritBeast.absorbed_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumSpiritBeast.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumSpiritBeast.vitality_regeneration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumSpiritBeast.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumSpiritBeast.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumSpiritBeast.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumSpiritBeast.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumSpiritBeast.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumSpiritBeast.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumSpiritBeast.ignore_combo_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumSpiritBeast.combo_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumSpiritBeast.combo_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumSpiritBeast.stun_rate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumSpiritBeast.ignore_stun_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumSpiritBeast.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumSpiritBeast.ignore_reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumSpiritBeast.reflection_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumSpiritBeast.reflection_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumSpiritBeast.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumSpiritBeast.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumSpiritBeast.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumSpiritBeast.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumSpiritBeast.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumSpiritBeast.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumSpiritBeast.normal_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumSpiritBeast.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumSpiritBeast.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumSpiritBeast.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        sumSpiritBeast.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumSpiritBeast.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumSpiritBeast.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumSpiritBeast.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumSpiritBeast.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumSpiritBeast.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumSpiritBeast.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumSpiritBeast.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumSpiritBeast.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumSpiritBeast.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumSpiritBeast.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumSpiritBeast.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumSpiritBeast.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumSpiritBeast.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumSpiritBeast.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumSpiritBeast.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                        sumSpiritBeast.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                        sumSpiritBeast.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumSpiritBeast.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                        sumSpiritBeast.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumSpiritBeast.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumSpiritBeast.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                        sumSpiritBeast.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                        sumSpiritBeast.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumSpiritBeast.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                        sumSpiritBeast.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumSpiritBeast.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumSpiritBeast.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumSpiritBeast.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumSpiritBeast.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumSpiritBeast.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumSpiritBeast.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                        sumSpiritBeast.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                        sumSpiritBeast.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                        sumSpiritBeast.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                        sumSpiritBeast.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                        sumSpiritBeast.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumSpiritBeast.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                        sumSpiritBeast.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                        sumSpiritBeast.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                        sumSpiritBeast.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumSpiritBeast.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumSpiritBeast.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumSpiritBeast.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumSpiritBeast.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumSpiritBeast.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                        sumSpiritBeast.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                        sumSpiritBeast.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                        sumSpiritBeast.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                        sumSpiritBeast.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
                     }
                 }
 

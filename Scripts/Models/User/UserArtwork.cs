@@ -30,7 +30,7 @@ public class UserArtwork : BaseEntity
     public double percent_all_atomic_defense { get; set; }
     public double percent_all_mental_attack { get; set; }
     public double percent_all_mental_defense { get; set; }
-    public Currency currency { get; set; }
+    public Currencies currency { get; set; }
     public UserArtwork()
     {
         percent_all_health = -1;

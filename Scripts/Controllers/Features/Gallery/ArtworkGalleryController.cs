@@ -38,17 +38,17 @@ public class ArtworkGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ArtworkSecondPrefab = UIManager.Instance.GetGameObject("ArtworkSecondPrefab");
     }
-    public void CreateArtworkGallery(List<Artwork> alchemies, Transform DictionaryContentPanel)
+    public void CreateArtworkGallery(List<Artworks> alchemies, Transform DictionaryContentPanel)
     {
         foreach (var Artwork in alchemies)
         {
             GameObject ArtworkObject = Instantiate(ArtworkSecondPrefab, DictionaryContentPanel);
 
             Text Title = ArtworkObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = Artwork.name.Replace("_", " ");
+            Title.text = Artwork.Name.Replace("_", " ");
 
             RawImage Image = ArtworkObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -63,23 +63,23 @@ public class ArtworkGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = ArtworkObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = ArtworkObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = ArtworkObject.transform.Find("Unlock").GetComponent<Button>();
-            if (Artwork.status.Equals("available"))
+            if (Artwork.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (Artwork.status.Equals("pending"))
+            else if (Artwork.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (Artwork.status.Equals("block"))
+            else if (Artwork.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -89,7 +89,7 @@ public class ArtworkGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var artworkGalleryService = ArtworkGalleryService.Create();
-                artworkGalleryService.UpdateStatusArtworkGallery(Artwork.id);
+                artworkGalleryService.UpdateStatusArtworkGallery(Artwork.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -103,7 +103,7 @@ public class ArtworkGalleryController : MonoBehaviour
             });
 
             Button Upgrade = ArtworkObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((Artwork.current_star < Artwork.temp_star) && Artwork.status.Equals("available"))
+            if ((Artwork.CurrentStar < Artwork.TempStar) && Artwork.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -115,7 +115,7 @@ public class ArtworkGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                ArtworkGalleryService.Create().UpdateArtworkGalleryPower(Artwork.id);
+                ArtworkGalleryService.Create().UpdateArtworkGalleryPower(Artwork.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

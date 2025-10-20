@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 public interface IUserForgeRepository
 {
-    List<Forge> GetUserForge(string user_id, string type, int pageSize, int offset, string rare);
+    List<Forges> GetUserForge(string user_id, string type, int pageSize, int offset, string rare);
     int GetUserForgeCount(string user_id, string type, string rare);
-    bool InsertUserForge(Forge Forge);
-    bool UpdateForgeLevel(Forge Forge, int cardLevel);
-    bool UpdateForgeBreakthrough(Forge Forge, int star, int quantity);
-    Forge GetUserForgeById(string user_id, string Id);
-    Forge SumPowerUserForge();
+    bool InsertUserForge(Forges Forge);
+    bool UpdateForgeLevel(Forges Forge, int cardLevel);
+    bool UpdateForgeBreakthrough(Forges Forge, int star, int quantity);
+    Forges GetUserForgeById(string user_id, string Id);
+    Forges SumPowerUserForge();
 }

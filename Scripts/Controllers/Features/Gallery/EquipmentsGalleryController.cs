@@ -45,10 +45,10 @@ public class EquipmentsGalleryController : MonoBehaviour
             GameObject equipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = equipment.name.Replace("_", " ");
+            Title.text = equipment.Name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -62,23 +62,23 @@ public class EquipmentsGalleryController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = equipmentObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = equipmentObject.transform.Find("Unlock").GetComponent<Button>();
-            if (equipment.status.Equals("available"))
+            if (equipment.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (equipment.status.Equals("pending"))
+            else if (equipment.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (equipment.status.Equals("block"))
+            else if (equipment.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -88,7 +88,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var equipmentGalleryService = EquipmentsGalleryService.Create();
-                equipmentGalleryService.UpdateStatusEquipmentsGallery(equipment.id);
+                equipmentGalleryService.UpdateStatusEquipmentsGallery(equipment.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -102,7 +102,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = equipmentObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((equipment.current_star < equipment.temp_star) && equipment.status.Equals("available"))
+            if ((equipment.CurrentStar < equipment.TempStar) && equipment.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -114,7 +114,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                EquipmentsGalleryService.Create().UpdateEquipmentsGalleryPower(equipment.id);
+                EquipmentsGalleryService.Create().UpdateEquipmentsGalleryPower(equipment.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

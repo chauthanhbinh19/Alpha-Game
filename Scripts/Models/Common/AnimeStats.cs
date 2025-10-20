@@ -6,33 +6,19 @@ using System;
 
 public class AnimeStats : BaseEntity
 {
-    private string type1;
-    private int level1;
-    private double percent_all_health1;
-    private double percent_all_physical_attack1;
-    private double percent_all_physical_defense1;
-    private double percent_all_magical_attack1;
-    private double percent_all_magical_defense1;
-    private double percent_all_chemical_attack1;
-    private double percent_all_chemical_defense1;
-    private double percent_all_atomic_attack1;
-    private double percent_all_atomic_defense1;
-    private double percent_all_mental_attack1;
-    private double percent_all_mental_defense1;
-
-    public string type { get => type1; set => type1 = value; }
-    public int level { get => level1; set => level1 = value; }
-    public double percent_all_health { get => percent_all_health1; set => percent_all_health1 = value; }
-    public double percent_all_physical_attack { get => percent_all_physical_attack1; set => percent_all_physical_attack1 = value; }
-    public double percent_all_physical_defense { get => percent_all_physical_defense1; set => percent_all_physical_defense1 = value; }
-    public double percent_all_magical_attack { get => percent_all_magical_attack1; set => percent_all_magical_attack1 = value; }
-    public double percent_all_magical_defense { get => percent_all_magical_defense1; set => percent_all_magical_defense1 = value; }
-    public double percent_all_chemical_attack { get => percent_all_chemical_attack1; set => percent_all_chemical_attack1 = value; }
-    public double percent_all_chemical_defense { get => percent_all_chemical_defense1; set => percent_all_chemical_defense1 = value; }
-    public double percent_all_atomic_attack { get => percent_all_atomic_attack1; set => percent_all_atomic_attack1 = value; }
-    public double percent_all_atomic_defense { get => percent_all_atomic_defense1; set => percent_all_atomic_defense1 = value; }
-    public double percent_all_mental_attack { get => percent_all_mental_attack1; set => percent_all_mental_attack1 = value; }
-    public double percent_all_mental_defense { get => percent_all_mental_defense1; set => percent_all_mental_defense1 = value; }
+    public string Type { get; set; }
+    public int Level { get; set; }
+    public double PercentAllHealth { get; set; }
+    public double PercentAllPhysicalAttack { get; set; }
+    public double PercentAllPhysicalDefense { get; set; }
+    public double PercentAllMagicalAttack { get; set; }
+    public double PercentAllMagicalDefense { get; set; }
+    public double PercentAllChemicalAttack { get; set; }
+    public double PercentAllChemicalDefense { get; set; }
+    public double PercentAllAtomicAttack { get; set; }
+    public double PercentAllAtomicDefense { get; set; }
+    public double PercentAllMentalAttack { get; set; }
+    public double PercentAllMentalDefense { get; set; }
     public AnimeStats()
     {
 

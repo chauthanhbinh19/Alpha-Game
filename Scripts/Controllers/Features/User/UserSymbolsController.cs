@@ -55,10 +55,10 @@ public class UserSymbolsController : MonoBehaviour
             GameObject symbolObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = symbol.name.Replace("_", " ");
+            Title.text = symbol.Name.Replace("_", " ");
 
             RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -72,7 +72,7 @@ public class UserSymbolsController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = symbolObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage rareBackgroundImage = symbolObject.transform.Find("RareBackground").GetComponent<RawImage>();
@@ -141,22 +141,22 @@ public class UserSymbolsController : MonoBehaviour
         if (obj is Symbols symbol)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = symbol.name;
+            name.text = symbol.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(symbol.power, false);
+            power.text = NumberFormatter.FormatNumber(symbol.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -190,9 +190,9 @@ public class UserSymbolsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Symbols currentCard = new Symbols();
-                currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
@@ -216,9 +216,9 @@ public class UserSymbolsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Symbols currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Symbols currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -275,67 +275,67 @@ public class UserSymbolsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (symbol.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (symbol.Star + 1).ToString();
             }
             GameObject symbolObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage symbolImage = symbolObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
             Texture symbolTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             symbolImage.texture = symbolTexture;
 
             TextMeshProUGUI symbolQuantity = symbolObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            symbolQuantity.text = symbol.quantity.ToString() + "/" + (symbol.star + 1).ToString();
+            symbolQuantity.text = symbol.Quantity.ToString() + "/" + (symbol.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(symbol.star, currentObject);
+            UIManager.Instance.CreateStarUI(symbol.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = symbol.star + 1;
+                int requiredQuantity = symbol.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng biểu tượng
-                bool hasEnoughSymbols = symbol.quantity >= requiredQuantity;
+                bool hasEnoughSymbols = symbol.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + symbol.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + symbol.Quantity >= requiredQuantity;
 
                 if (hasEnoughSymbols || hasEnoughItems)
                 {
                     // Giảm số lượng biểu tượng trước
-                    if (symbol.quantity >= requiredQuantity)
+                    if (symbol.Quantity >= requiredQuantity)
                     {
-                        symbol.quantity -= requiredQuantity;
+                        symbol.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu biểu tượng không đủ, dùng cả biểu tượng + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - symbol.quantity;
-                        symbol.quantity = 0; // Dùng hết biểu tượng
+                        int remainingRequired = requiredQuantity - symbol.Quantity;
+                        symbol.Quantity = 0; // Dùng hết biểu tượng
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -349,17 +349,17 @@ public class UserSymbolsController : MonoBehaviour
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newSymbol = UserSymbolsService.Create().GetNewBreakthroughPower(symbol, increasePerUpgrade);
-                    UserSymbolsService.Create().UpdateSymbolsBreakthrough(newSymbol, symbol.star + 1, symbol.quantity);
+                    UserSymbolsService.Create().UpdateSymbolsBreakthrough(newSymbol, symbol.Star + 1, symbol.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    SymbolsGalleryService.Create().UpdateStarSymbolsGallery(symbol.id, symbol.star + 1);
+                    SymbolsGalleryService.Create().UpdateStarSymbolsGallery(symbol.Id, symbol.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(symbol.star, currentObject);
+                    UIManager.Instance.CreateStarUI(symbol.Star, currentObject);
                 }
                 else
                 {

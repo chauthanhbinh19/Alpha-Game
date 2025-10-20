@@ -45,10 +45,10 @@ public class SkillsGalleryController : MonoBehaviour
             GameObject skillObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = skillObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = skill.name.Replace("_", " ");
+            Title.text = skill.Name.Replace("_", " ");
 
             RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -62,23 +62,23 @@ public class SkillsGalleryController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = skillObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = skillObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = skillObject.transform.Find("Unlock").GetComponent<Button>();
-            if (skill.status.Equals("available"))
+            if (skill.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (skill.status.Equals("pending"))
+            else if (skill.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (skill.status.Equals("block"))
+            else if (skill.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -88,7 +88,7 @@ public class SkillsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var skillGalleryService = SkillsGalleryService.Create();
-                skillGalleryService.UpdateStatusSkillsGallery(skill.id);
+                skillGalleryService.UpdateStatusSkillsGallery(skill.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -102,7 +102,7 @@ public class SkillsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = skillObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((skill.current_star < skill.temp_star) && skill.status.Equals("available"))
+            if ((skill.CurrentStar < skill.TempStar) && skill.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -114,7 +114,7 @@ public class SkillsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                SkillsGalleryService.Create().UpdateSkillsGalleryPower(skill.id);
+                SkillsGalleryService.Create().UpdateSkillsGalleryPower(skill.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

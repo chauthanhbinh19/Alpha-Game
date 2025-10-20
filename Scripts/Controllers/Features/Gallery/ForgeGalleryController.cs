@@ -38,17 +38,17 @@ public class ForgeGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateForgeGallery(List<Forge> forges, Transform DictionaryContentPanel)
+    public void CreateForgeGallery(List<Forges> forges, Transform DictionaryContentPanel)
     {
         foreach (var forge in forges)
         {
             GameObject forgeObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = forge.name.Replace("_", " ");
+            Title.text = forge.Name.Replace("_", " ");
 
             RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -63,23 +63,23 @@ public class ForgeGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = forgeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = forgeObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = forgeObject.transform.Find("Unlock").GetComponent<Button>();
-            if (forge.status.Equals("available"))
+            if (forge.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (forge.status.Equals("pending"))
+            else if (forge.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (forge.status.Equals("block"))
+            else if (forge.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -89,7 +89,7 @@ public class ForgeGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var forgeGalleryService = ForgeGalleryService.Create();
-                forgeGalleryService.UpdateStatusForgeGallery(forge.id);
+                forgeGalleryService.UpdateStatusForgeGallery(forge.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -103,7 +103,7 @@ public class ForgeGalleryController : MonoBehaviour
             });
 
             Button Upgrade = forgeObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((forge.current_star < forge.temp_star) && forge.status.Equals("available"))
+            if ((forge.CurrentStar < forge.TempStar) && forge.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -115,7 +115,7 @@ public class ForgeGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                ForgeGalleryService.Create().UpdateForgeGalleryPower(forge.id);
+                ForgeGalleryService.Create().UpdateForgeGalleryPower(forge.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

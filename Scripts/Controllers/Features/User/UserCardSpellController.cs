@@ -76,17 +76,17 @@ public class UserCardSpellController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardSpell(List<CardSpell> spellList, Transform DictionaryContentPanel)
+    public void CreateUserCardSpell(List<CardSpells> spellList, Transform DictionaryContentPanel)
     {
         foreach (var spell in spellList)
         {
             GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
+            Title.text = spell.Name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -98,7 +98,7 @@ public class UserCardSpellController : MonoBehaviour
             });
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
             rareImage.texture = rareTexture;
 
             GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
@@ -109,14 +109,14 @@ public class UserCardSpellController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateUserCardSpellForSummon(List<CardSpell> spells, Transform PositionPanel)
+    public void CreateUserCardSpellForSummon(List<CardSpells> spells, Transform PositionPanel)
     {
         foreach (var spell in spells)
         {
             GameObject spellObject = Instantiate(PositionPrefab, PositionPanel);
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -134,7 +134,7 @@ public class UserCardSpellController : MonoBehaviour
             // }
         }
     }
-    public void ShowCardSpellDetails(CardSpell cardSpell, GameObject currentObject, int buttonType = 1)
+    public void ShowCardSpellDetails(CardSpells cardSpell, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -202,30 +202,30 @@ public class UserCardSpellController : MonoBehaviour
         }
         RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
-    public void CreateDetailsUI(CardSpell cardSpell, GameObject currentObject)
+    public void CreateDetailsUI(CardSpells cardSpell, GameObject currentObject)
     {
         RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.image); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardSpell.name;
+        name.text = cardSpell.Name;
 
         TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardSpell.power, false);
+        power.text = NumberFormatter.FormatNumber(cardSpell.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardSpell.level.ToString();
 
         RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.rare}");
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.Rare}");
         rareImage.texture = rareTexture;
     }
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is CardSpell cardSpell)
+        if (obj is CardSpells cardSpell)
         {
             CreateDetailsUI(cardSpell, currentObject);
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -243,7 +243,7 @@ public class UserCardSpellController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is CardSpell cardSpell)
+        if (obj is CardSpells cardSpell)
         {
             PropertyInfo[] properties = cardSpell.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, cardSpell, increasePerLevel, currentObject);
@@ -258,17 +258,17 @@ public class UserCardSpellController : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CardSpell currentCard = new CardSpell();
-                currentCard = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                CardSpells currentCard = new CardSpells();
+                currentCard = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    CardSpell newCard = new CardSpell();
+                    CardSpells newCard = new CardSpells();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, increasePerLevel);
@@ -285,9 +285,9 @@ public class UserCardSpellController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CardSpell currentCard = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                CardSpells currentCard = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -302,7 +302,7 @@ public class UserCardSpellController : MonoBehaviour
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    CardSpell newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, levelsGained * increasePerLevel);
+                    CardSpells newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, levelsGained * increasePerLevel);
                     UserCardSpellService.Create().UpdateCardSpellLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -321,29 +321,29 @@ public class UserCardSpellController : MonoBehaviour
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
         Transform skillContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
         Button setUpButton = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
-        if (obj is CardSpell cardSpell)
+        if (obj is CardSpells cardSpell)
         {
-            var skills = UserSkillsService.Create().GetUserCardSpellSkills(User.CurrentUserId, cardSpell.id);
-            skills = skills.Where(x => x.position != 0).ToList();
+            var skills = UserSkillsService.Create().GetUserCardSpellSkills(User.CurrentUserId, cardSpell.Id);
+            skills = skills.Where(x => x.Position != 0).ToList();
             foreach (var skill in skills)
             {
                 GameObject skillObject = Instantiate(Skill1Prefab, skillContent);
                 RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
-                Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+                Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
                 skillImage.texture = skillImageTexure;
 
                 TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                skillTitleText.text = skill.name;
+                skillTitleText.text = skill.Name;
 
                 RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
-                string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.type);
+                string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
                 Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
                 skillBackgroundImage.texture = skillBackgroundImageTexture;
             }
             setUpButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CreateSkillPanel(cardSpell.id);
+                CreateSkillPanel(cardSpell.Id);
             });
         }
     }
@@ -387,10 +387,10 @@ public class UserCardSpellController : MonoBehaviour
             Button passiveSkillButton2 = skillGroupObject.transform.Find("PassiveSkillButton2").GetComponent<Button>();
 
             var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
-            skills = skills.Where(x => x.type.Equals(currentType)).ToList();
-            var activeSkill = skills.FirstOrDefault(x => x.position == activeSkillPosition);
-            var passiveSkill1 = skills.FirstOrDefault(x => x.position == passiveSkill1Position);
-            var passiveSkill2 = skills.FirstOrDefault(x => x.position == passiveSkill2Position);
+            skills = skills.Where(x => x.Type.Equals(currentType)).ToList();
+            var activeSkill = skills.FirstOrDefault(x => x.Position == activeSkillPosition);
+            var passiveSkill1 = skills.FirstOrDefault(x => x.Position == passiveSkill1Position);
+            var passiveSkill2 = skills.FirstOrDefault(x => x.Position == passiveSkill2Position);
 
             activeSkillButton.onClick.RemoveAllListeners();
             passiveSkillButton1.onClick.RemoveAllListeners();
@@ -399,7 +399,7 @@ public class UserCardSpellController : MonoBehaviour
             if (activeSkill != null)
             {
                 RawImage activeSkillImage = activeSkillButton.GetComponent<RawImage>();
-                Texture activeSkillImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(activeSkill.image)}");
+                Texture activeSkillImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(activeSkill.Image)}");
                 activeSkillImage.texture = activeSkillImageTexture;
                 activeSkillButton.onClick.AddListener(() =>
                 {
@@ -420,7 +420,7 @@ public class UserCardSpellController : MonoBehaviour
             if (passiveSkill1 != null)
             {
                 RawImage passiveSkill1Image = passiveSkillButton1.GetComponent<RawImage>();
-                Texture passiveSkill1ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill1.image)}");
+                Texture passiveSkill1ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill1.Image)}");
                 passiveSkill1Image.texture = passiveSkill1ImageTexture;
                 passiveSkillButton1.onClick.AddListener(() =>
                 {
@@ -441,7 +441,7 @@ public class UserCardSpellController : MonoBehaviour
             if (passiveSkill2 != null)
             {
                 RawImage passiveSkill2Image = passiveSkillButton2.GetComponent<RawImage>();
-                Texture passiveSkill2ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill2.image)}");
+                Texture passiveSkill2ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill2.Image)}");
                 passiveSkill2Image.texture = passiveSkill2ImageTexture;
                 passiveSkillButton2.onClick.AddListener(() =>
                 {
@@ -472,24 +472,24 @@ public class UserCardSpellController : MonoBehaviour
         });
 
         var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
-        skills = skills.Where(x => x.type.Equals(type)
-                                && x.position != 1
-                                && x.position != 2
-                                && x.position != 3
-                                && x.skill_type.Equals(skillType)).ToList();
+        skills = skills.Where(x => x.Type.Equals(type)
+                                && x.Position != 1
+                                && x.Position != 2
+                                && x.Position != 3
+                                && x.SkillType.Equals(skillType)).ToList();
 
         foreach (var skill in skills)
         {
             GameObject skillObject = Instantiate(Skill2Prefab, skillContent);
             RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
-            Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+            Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
             skillImage.texture = skillImageTexure;
 
             TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            skillTitleText.text = skill.name;
+            skillTitleText.text = skill.Name;
 
             RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
-            string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.type);
+            string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
             Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
@@ -501,12 +501,12 @@ public class UserCardSpellController : MonoBehaviour
                 Destroy(skillPanelObject);
                 if (oldSkill != null)
                 {
-                    UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, oldSkill.id, position);
-                    UserSkillsService.Create().InsertUserCardHeroesSkills(User.CurrentUserId, cardId, skill.id, position);
+                    UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, oldSkill.Id, position);
+                    UserSkillsService.Create().InsertUserCardHeroesSkills(User.CurrentUserId, cardId, skill.Id, position);
                 }
                 else
                 {
-                    UserSkillsService.Create().InsertUserCardHeroesSkills(User.CurrentUserId, cardId, skill.id, position);
+                    UserSkillsService.Create().InsertUserCardHeroesSkills(User.CurrentUserId, cardId, skill.Id, position);
                 }
                 CreateSkillPanel(cardId);
             });
@@ -523,11 +523,11 @@ public class UserCardSpellController : MonoBehaviour
         });
 
         RawImage skillImage = popupSkillDetailObject.transform.Find("SkillImage").GetComponent<RawImage>();
-        Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+        Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
         skillImage.texture = skillImageTexure;
 
         TextMeshProUGUI skillTitleText = popupSkillDetailObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-        skillTitleText.text = skill.name;
+        skillTitleText.text = skill.Name;
 
         Button removeButton = popupSkillDetailObject.transform.Find("RemoveButton").GetComponent<Button>();
         removeButton.onClick.AddListener(() =>
@@ -535,7 +535,7 @@ public class UserCardSpellController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(popupSkillDetailObject);
             Destroy(skillPanelObject);
-            UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, skill.id, position);
+            UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, skill.Id, position);
             CreateSkillPanel(cardId);
         });
 
@@ -553,7 +553,7 @@ public class UserCardSpellController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is CardSpell cardSpell)
+        if (obj is CardSpells cardSpell)
         {
             PropertyInfo[] properties = cardSpell.GetType().GetProperties();
             foreach (var property in properties)
@@ -571,67 +571,67 @@ public class UserCardSpellController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (cardSpell.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (cardSpell.Star + 1).ToString();
             }
             GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
             Texture cardTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             cardImage.texture = cardTexture;
 
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = cardSpell.quantity.ToString() + "/" + (cardSpell.star + 1).ToString();
+            cardQuantity.text = cardSpell.Quantity.ToString() + "/" + (cardSpell.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(cardSpell.star, currentObject);
+            UIManager.Instance.CreateStarUI(cardSpell.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = cardSpell.star + 1;
+                int requiredQuantity = cardSpell.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = cardSpell.quantity >= requiredQuantity;
+                bool hasEnoughCards = cardSpell.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + cardSpell.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + cardSpell.Quantity >= requiredQuantity;
 
                 if (hasEnoughCards || hasEnoughItems)
                 {
                     // Giảm số lượng thẻ bài trước
-                    if (cardSpell.quantity >= requiredQuantity)
+                    if (cardSpell.Quantity >= requiredQuantity)
                     {
-                        cardSpell.quantity -= requiredQuantity;
+                        cardSpell.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - cardSpell.quantity;
-                        cardSpell.quantity = 0; // Dùng hết thẻ bài
+                        int remainingRequired = requiredQuantity - cardSpell.Quantity;
+                        cardSpell.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -641,21 +641,21 @@ public class UserCardSpellController : MonoBehaviour
                         userItemsService.UpdateUserItemsQuantity(items1);
                     }
                     // Cập nhật cấp sao (Star)
-                    CardSpell newCard = new CardSpell();
+                    CardSpells newCard = new CardSpells();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardSpellService.Create().GetNewBreakthroughPower(cardSpell, increasePerUpgrade);
-                    UserCardSpellService.Create().UpdateCardSpellBreakthrough(newCard, cardSpell.star + 1, cardSpell.quantity);
+                    UserCardSpellService.Create().UpdateCardSpellBreakthrough(newCard, cardSpell.Star + 1, cardSpell.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    CardSpellGalleryService.Create().UpdateStarCardSpellGallery(cardSpell.id, cardSpell.star + 1);
+                    CardSpellGalleryService.Create().UpdateStarCardSpellGallery(cardSpell.Id, cardSpell.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(cardSpell.star, currentObject);
+                    UIManager.Instance.CreateStarUI(cardSpell.Star, currentObject);
                 }
                 else
                 {
@@ -677,12 +677,12 @@ public class UserCardSpellController : MonoBehaviour
 
         background1Image.gameObject.AddComponent<RotateAnimation>();
 
-        if (obj is CardSpell cardSpell)
+        if (obj is CardSpells cardSpell)
         {
             var userCardSpiritBeast = UserSpiritBeastService.Create().GetUserCardSpellSpiritBeast(User.CurrentUserId, cardSpell);
             RawImage spiritBeastImage = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = userCardSpiritBeast.image != null
-                ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.image)
+            string fileNameWithoutExtension = userCardSpiritBeast.Image != null
+                ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image)
                 : "UI/Background4/Background_V4_352";
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             spiritBeastImage.texture = texture;
@@ -702,7 +702,7 @@ public class UserCardSpellController : MonoBehaviour
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 spiritBeastImage.texture = texture;
 
-                var card = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.id);
+                var card = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
                 ShowCardSpellDetails(card, currentObject, 5);
             });
         }
@@ -730,7 +730,7 @@ public class UserCardSpellController : MonoBehaviour
             Destroy(popupSpiritBeastObject);
         });
         Equipments equipments = new Equipments();
-        List<SpiritBeast> spiritBeasts = new List<SpiritBeast>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardSpellSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
 
         int totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.All);
@@ -756,20 +756,20 @@ public class UserCardSpellController : MonoBehaviour
         if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
         return (int)Math.Ceiling((double)totalRecords / pageSize);
     }
-    public void CreatePopupEquipmentsUI(object data, List<SpiritBeast> spiritBeasts, Transform content, GameObject currentObject)
+    public void CreatePopupEquipmentsUI(object data, List<SpiritBeasts> spiritBeasts, Transform content, GameObject currentObject)
     {
         foreach (var spiritBeast in spiritBeasts)
         {
             GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, content);
 
             TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = spiritBeast.name.Replace("_", " ");
+            Title.text = spiritBeast.Name.Replace("_", " ");
 
             TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-            Power.text = spiritBeast.power.ToString();
+            Power.text = spiritBeast.Power.ToString();
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spiritBeast.image.Replace(".png", "");
+            string fileNameWithoutExtension = spiritBeast.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
@@ -777,7 +777,7 @@ public class UserCardSpellController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.Rare}");
             rareImage.texture = rareTexture;
 
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
@@ -785,21 +785,21 @@ public class UserCardSpellController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Destroy(popupSpiritBeastObject);
-                if (data is CardSpell cardSpell)
+                if (data is CardSpells cardSpell)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     UserSpiritBeastService.Create().InsertOrUpdateUserCardSpellSpiritBeast(User.CurrentUserId, cardSpell, spiritBeast);
 
                     RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
                     var userCardSpiritBeast = UserSpiritBeastService.Create().GetUserCardSpellSpiritBeast(User.CurrentUserId, cardSpell);
-                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.image);
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
 
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    var card = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.id);
+                    var card = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
                     ShowCardSpellDetails(card, currentObject, 5);
                 }
 
@@ -823,7 +823,7 @@ public class UserCardSpellController : MonoBehaviour
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage + 1;
             offset = offset + pageSize;
-            List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardSpellSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+            List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardSpellSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -841,7 +841,7 @@ public class UserCardSpellController : MonoBehaviour
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage - 1;
             offset = offset - pageSize;
-            List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardSpellSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+            List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardSpellSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

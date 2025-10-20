@@ -30,7 +30,7 @@ public class CurrencyManager : MonoBehaviour
     {
         currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
     }
-    public void createCurrency(List<Currency> currencies, Transform CurrencyPanel)
+    public void createCurrency(List<Currencies> currencies, Transform CurrencyPanel)
     {
         ButtonEvent.Instance.Close(CurrencyPanel);
         foreach (var currency in currencies)
@@ -38,11 +38,11 @@ public class CurrencyManager : MonoBehaviour
             GameObject currencyObject = Instantiate(currencyPrefab, CurrencyPanel);
 
             Text Title = currencyObject.transform.Find("Content").GetComponent<Text>();
-            Title.text = currency.quantity.ToString();
-            Title.text = NumberFormatter.FormatNumber(currency.quantity, false);
+            Title.text = currency.Quantity.ToString();
+            Title.text = NumberFormatter.FormatNumber(currency.Quantity, false);
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
         }
@@ -55,10 +55,10 @@ public class CurrencyManager : MonoBehaviour
             GameObject currencyObject = Instantiate(currencyPrefab, itemPanel);
 
             Text Title = currencyObject.transform.Find("Content").GetComponent<Text>();
-            Title.text = NumberFormatter.FormatNumber(item.quantity, false);
+            Title.text = NumberFormatter.FormatNumber(item.Quantity, false);
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
         }
@@ -67,13 +67,13 @@ public class CurrencyManager : MonoBehaviour
     {
         IUserCurrencyRepository userCurrencyRepository = new UserCurrencyRepository();
         UserCurrencyService userCurrencyService = new UserCurrencyService(userCurrencyRepository);
-        List<Currency> currencies = userCurrencyService.GetEquipmentsCurrency(type);
+        List<Currencies> currencies = userCurrencyService.GetEquipmentsCurrency(type);
         createCurrency(currencies, panel);
     }
-    public void GetMainCurrency(List<Currency> currencies, Transform panel)
+    public void GetMainCurrency(List<Currencies> currencies, Transform panel)
     {
-        List<Currency> filteredCurrencies = currencies
-            .Where(c => c.name == AppConstants.Currency.DIAMOND || c.name == AppConstants.Currency.GOLD || c.name == AppConstants.Currency.SILVER)
+        List<Currencies> filteredCurrencies = currencies
+            .Where(c => c.Name == AppConstants.Currency.DIAMOND || c.Name == AppConstants.Currency.GOLD || c.Name == AppConstants.Currency.SILVER)
             .ToList();
         createCurrency(filteredCurrencies, panel);
     }

@@ -45,10 +45,10 @@ public class CardHeroesGalleryController : MonoBehaviour
             GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = card.name.Replace("_", " ");
+            Title.text = card.Name.Replace("_", " ");
 
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -60,23 +60,23 @@ public class CardHeroesGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = cardObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardObject.transform.Find("Unlock").GetComponent<Button>();
-            if (card.status.Equals("available"))
+            if (card.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (card.status.Equals("pending"))
+            else if (card.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (card.status.Equals("block"))
+            else if (card.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -86,7 +86,7 @@ public class CardHeroesGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var cardHeroesGalleryService = CardHeroesGalleryService.Create();
-                cardHeroesGalleryService.UpdateStatusCardHeroesGallery(card.id);
+                cardHeroesGalleryService.UpdateStatusCardHeroesGallery(card.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -100,7 +100,7 @@ public class CardHeroesGalleryController : MonoBehaviour
             });
 
             Button Upgrade = cardObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((card.current_star < card.temp_star) && card.status.Equals("available"))
+            if ((card.CurrentStar < card.TempStar) && card.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -112,7 +112,7 @@ public class CardHeroesGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CardHeroesGalleryService.Create().UpdateCardHeroesGalleryPower(card.id);
+                CardHeroesGalleryService.Create().UpdateCardHeroesGalleryPower(card.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

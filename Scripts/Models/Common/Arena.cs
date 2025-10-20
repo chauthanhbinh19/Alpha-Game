@@ -6,9 +6,9 @@ using System;
 
 public class Arena
 {
-    public string id { get; set; }
-    public string arena_mode { get; set; }
-    public int rank_point { get; set; }
+    public string Id { get; set; }
+    public string ArenaMode { get; set; }
+    public int RankPoint { get; set; }
 
     public Arena()
     {

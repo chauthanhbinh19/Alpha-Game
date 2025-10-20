@@ -57,17 +57,17 @@ public class PowerManager
     public double normal_resistance_rate { get; set; } = 0;
     public double skill_damage_rate { get; set; } = 0;
     public double skill_resistance_rate { get; set; } = 0;
-    public double percent_all_health { get; set; } = 0;
-    public double percent_all_physical_attack { get; set; } = 0;
-    public double percent_all_physical_defense { get; set; } = 0;
-    public double percent_all_magical_attack { get; set; } = 0;
-    public double percent_all_magical_defense { get; set; } = 0;
-    public double percent_all_chemical_attack { get; set; } = 0;
-    public double percent_all_chemical_defense { get; set; } = 0;
-    public double percent_all_atomic_attack { get; set; } = 0;
-    public double percent_all_atomic_defense { get; set; } = 0;
-    public double percent_all_mental_attack { get; set; } = 0;
-    public double percent_all_mental_defense { get; set; } = 0;
+    public double PercentAllHealth { get; set; } = 0;
+    public double PercentAllPhysicalAttack { get; set; } = 0;
+    public double PercentAllPhysicalDefense { get; set; } = 0;
+    public double PercentAllMagicalAttack { get; set; } = 0;
+    public double PercentAllMagicalDefense { get; set; } = 0;
+    public double PercentAllChemicalAttack { get; set; } = 0;
+    public double PercentAllChemicalDefense { get; set; } = 0;
+    public double PercentAllAtomicAttack { get; set; } = 0;
+    public double PercentAllAtomicDefense { get; set; } = 0;
+    public double PercentAllMentalAttack { get; set; } = 0;
+    public double PercentAllMentalDefense { get; set; } = 0;
     public const double coefficient = 0.5;
 
     // Start is called before the first frame update

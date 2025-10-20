@@ -45,10 +45,10 @@ public class BooksGalleryController : MonoBehaviour
             GameObject bookObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = book.name.Replace("_", " ");
+            Title.text = book.Name.Replace("_", " ");
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -60,25 +60,25 @@ public class BooksGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
             rareImage.texture = rareTexture;
             // Đặt kích thước gốc
             Image.SetNativeSize();
 
             RawImage blockImage = bookObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = bookObject.transform.Find("Unlock").GetComponent<Button>();
-            if (book.status.Equals("available"))
+            if (book.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (book.status.Equals("pending"))
+            else if (book.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (book.status.Equals("block"))
+            else if (book.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -113,7 +113,7 @@ public class BooksGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var booksGalleryService = BooksGalleryService.Create();
-                booksGalleryService.UpdateStatusBooksGallery(book.id);
+                booksGalleryService.UpdateStatusBooksGallery(book.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -127,7 +127,7 @@ public class BooksGalleryController : MonoBehaviour
             });
 
             Button Upgrade = bookObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((book.current_star < book.temp_star) && book.status.Equals("available"))
+            if ((book.CurrentStar < book.TempStar) && book.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -139,7 +139,7 @@ public class BooksGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                BooksGalleryService.Create().UpdateBooksGalleryPower(book.id);
+                BooksGalleryService.Create().UpdateBooksGalleryPower(book.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

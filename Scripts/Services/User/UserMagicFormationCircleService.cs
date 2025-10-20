@@ -14,176 +14,176 @@ public class UserMagicFormationCircleService : IUserMagicFormationCircleService
         return new UserMagicFormationCircleService(new UserMagicFormationCirlceRepository());
     }
 
-    public MagicFormationCircle GetNewLevelPower(MagicFormationCircle c, double coefficient)
+    public MagicFormationCircles GetNewLevelPower(MagicFormationCircles c, double coefficient)
     {
         IMagicFormationCircleRepository _repository = new MagicFormationCircleRepository();
         MagicFormationCircleService _service = new MagicFormationCircleService(_repository);
-        MagicFormationCircle orginCard = _service.GetMagicFormationCircleById(c.id);
-        MagicFormationCircle magicFormationCircle = new MagicFormationCircle
+        MagicFormationCircles orginCard = _service.GetMagicFormationCircleById(c.Id);
+        MagicFormationCircles magicFormationCircle = new MagicFormationCircles
         {
-            id = c.id,
-            health = c.health + orginCard.health * coefficient,
-            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
-            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
-            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
-            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
-            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
-            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
-            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
-            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
-            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
-            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
-            speed = c.speed + orginCard.speed * coefficient,
-            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
-            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            critical_resistance_rate = c.critical_resistance_rate + orginCard.critical_resistance_rate * coefficient,
-            ignore_critical_rate = c.ignore_critical_rate + orginCard.ignore_critical_rate * coefficient,
-            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
-            penetration_resistance_rate = c.penetration_resistance_rate + orginCard.penetration_resistance_rate * coefficient,
-            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
-            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
-            ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + orginCard.ignore_damage_absorption_rate * coefficient,
-            absorbed_damage_rate = c.absorbed_damage_rate + orginCard.absorbed_damage_rate * coefficient,
-            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
-            vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + orginCard.vitality_regeneration_resistance_rate * coefficient,
-            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
-            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
-            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
-            tenacity = c.tenacity + orginCard.tenacity * coefficient,
-            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
-            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
-            ignore_combo_rate = c.ignore_combo_rate + orginCard.ignore_combo_rate * coefficient,
-            combo_damage_rate = c.combo_damage_rate + orginCard.combo_damage_rate * coefficient,
-            combo_resistance_rate = c.combo_resistance_rate + orginCard.combo_resistance_rate * coefficient,
-            stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
-            ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
-            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
-            reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
-            reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient,
-            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
-            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
-            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
-            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
-            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
-            normal_damage_rate = c.normal_damage_rate + orginCard.normal_damage_rate * coefficient,
-            normal_resistance_rate = c.normal_resistance_rate + orginCard.normal_resistance_rate * coefficient,
-            skill_damage_rate = c.skill_damage_rate + orginCard.skill_damage_rate * coefficient,
-            skill_resistance_rate = c.skill_resistance_rate + orginCard.skill_resistance_rate * coefficient
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        magicFormationCircle.power = EvaluatePower.CalculatePower(
-            magicFormationCircle.health,
-            magicFormationCircle.physical_attack, magicFormationCircle.physical_defense,
-            magicFormationCircle.magical_attack, magicFormationCircle.magical_defense,
-            magicFormationCircle.chemical_attack, magicFormationCircle.chemical_defense,
-            magicFormationCircle.atomic_attack, magicFormationCircle.atomic_defense,
-            magicFormationCircle.mental_attack, magicFormationCircle.mental_defense,
-            magicFormationCircle.speed,
-            magicFormationCircle.critical_damage_rate, magicFormationCircle.critical_rate, magicFormationCircle.critical_resistance_rate, magicFormationCircle.ignore_critical_rate,
-            magicFormationCircle.penetration_rate, magicFormationCircle.penetration_resistance_rate, magicFormationCircle.evasion_rate,
-            magicFormationCircle.damage_absorption_rate, magicFormationCircle.ignore_damage_absorption_rate, magicFormationCircle.absorbed_damage_rate,
-            magicFormationCircle.vitality_regeneration_rate, magicFormationCircle.vitality_regeneration_resistance_rate,
-            magicFormationCircle.accuracy_rate, magicFormationCircle.lifesteal_rate,
-            magicFormationCircle.shield_strength, magicFormationCircle.tenacity, magicFormationCircle.resistance_rate,
-            magicFormationCircle.combo_rate, magicFormationCircle.ignore_combo_rate, magicFormationCircle.combo_damage_rate, magicFormationCircle.combo_resistance_rate,
-            magicFormationCircle.stun_rate, magicFormationCircle.ignore_stun_rate,
-            magicFormationCircle.reflection_rate, magicFormationCircle.ignore_reflection_rate, magicFormationCircle.reflection_damage_rate, magicFormationCircle.reflection_resistance_rate,
-            magicFormationCircle.mana, magicFormationCircle.mana_regeneration_rate,
-            magicFormationCircle.damage_to_different_faction_rate, magicFormationCircle.resistance_to_different_faction_rate,
-            magicFormationCircle.damage_to_same_faction_rate, magicFormationCircle.resistance_to_same_faction_rate,
-            magicFormationCircle.normal_damage_rate, magicFormationCircle.normal_resistance_rate,
-            magicFormationCircle.skill_damage_rate, magicFormationCircle.skill_resistance_rate
+        magicFormationCircle.Power = EvaluatePower.CalculatePower(
+            magicFormationCircle.Health,
+            magicFormationCircle.PhysicalAttack, magicFormationCircle.PhysicalDefense,
+            magicFormationCircle.MagicalAttack, magicFormationCircle.MagicalDefense,
+            magicFormationCircle.ChemicalAttack, magicFormationCircle.ChemicalDefense,
+            magicFormationCircle.AtomicAttack, magicFormationCircle.AtomicDefense,
+            magicFormationCircle.MentalAttack, magicFormationCircle.MentalDefense,
+            magicFormationCircle.Speed,
+            magicFormationCircle.CriticalDamageRate, magicFormationCircle.CriticalRate, magicFormationCircle.CriticalResistanceRate, magicFormationCircle.IgnoreCriticalRate,
+            magicFormationCircle.PenetrationRate, magicFormationCircle.PenetrationResistanceRate, magicFormationCircle.EvasionRate,
+            magicFormationCircle.DamageAbsorptionRate, magicFormationCircle.IgnoreDamageAbsorptionRate, magicFormationCircle.AbsorbedDamageRate,
+            magicFormationCircle.VitalityRegenerationRate, magicFormationCircle.VitalityRegenerationResistanceRate,
+            magicFormationCircle.AccuracyRate, magicFormationCircle.LifestealRate,
+            magicFormationCircle.ShieldStrength, magicFormationCircle.Tenacity, magicFormationCircle.ResistanceRate,
+            magicFormationCircle.ComboRate, magicFormationCircle.IgnoreComboRate, magicFormationCircle.ComboDamageRate, magicFormationCircle.ComboResistanceRate,
+            magicFormationCircle.StunRate, magicFormationCircle.IgnoreStunRate,
+            magicFormationCircle.ReflectionRate, magicFormationCircle.IgnoreReflectionRate, magicFormationCircle.ReflectionDamageRate, magicFormationCircle.ReflectionResistanceRate,
+            magicFormationCircle.Mana, magicFormationCircle.ManaRegenerationRate,
+            magicFormationCircle.DamageToDifferentFactionRate, magicFormationCircle.ResistanceToDifferentFactionRate,
+            magicFormationCircle.DamageToSameFactionRate, magicFormationCircle.ResistanceToSameFactionRate,
+            magicFormationCircle.NormalDamageRate, magicFormationCircle.NormalResistanceRate,
+            magicFormationCircle.SkillDamageRate, magicFormationCircle.SkillResistanceRate
         );
         return magicFormationCircle;
     }
-    public MagicFormationCircle GetNewBreakthroughPower(MagicFormationCircle c, double coefficient)
+    public MagicFormationCircles GetNewBreakthroughPower(MagicFormationCircles c, double coefficient)
     {
         IMagicFormationCircleRepository _repository = new MagicFormationCircleRepository();
         MagicFormationCircleService _service = new MagicFormationCircleService(_repository);
-        MagicFormationCircle orginCard = _service.GetMagicFormationCircleById(c.id);
-        MagicFormationCircle magicFormationCircle = new MagicFormationCircle
+        MagicFormationCircles orginCard = _service.GetMagicFormationCircleById(c.Id);
+        MagicFormationCircles magicFormationCircle = new MagicFormationCircles
         {
-            id = c.id,
-            health = c.health + orginCard.health * coefficient,
-            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
-            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
-            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
-            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
-            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
-            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
-            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
-            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
-            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
-            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
-            speed = c.speed + orginCard.speed * coefficient,
-            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
-            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            critical_resistance_rate = c.critical_resistance_rate + orginCard.critical_resistance_rate * coefficient,
-            ignore_critical_rate = c.ignore_critical_rate + orginCard.ignore_critical_rate * coefficient,
-            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
-            penetration_resistance_rate = c.penetration_resistance_rate + orginCard.penetration_resistance_rate * coefficient,
-            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
-            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
-            ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + orginCard.ignore_damage_absorption_rate * coefficient,
-            absorbed_damage_rate = c.absorbed_damage_rate + orginCard.absorbed_damage_rate * coefficient,
-            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
-            vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + orginCard.vitality_regeneration_resistance_rate * coefficient,
-            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
-            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
-            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
-            tenacity = c.tenacity + orginCard.tenacity * coefficient,
-            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
-            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
-            ignore_combo_rate = c.ignore_combo_rate + orginCard.ignore_combo_rate * coefficient,
-            combo_damage_rate = c.combo_damage_rate + orginCard.combo_damage_rate * coefficient,
-            combo_resistance_rate = c.combo_resistance_rate + orginCard.combo_resistance_rate * coefficient,
-            stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
-            ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
-            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
-            reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
-            reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient,
-            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
-            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
-            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
-            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
-            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
-            normal_damage_rate = c.normal_damage_rate + orginCard.normal_damage_rate * coefficient,
-            normal_resistance_rate = c.normal_resistance_rate + orginCard.normal_resistance_rate * coefficient,
-            skill_damage_rate = c.skill_damage_rate + orginCard.skill_damage_rate * coefficient,
-            skill_resistance_rate = c.skill_resistance_rate + orginCard.skill_resistance_rate * coefficient
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        magicFormationCircle.power = EvaluatePower.CalculatePower(
-            magicFormationCircle.health,
-            magicFormationCircle.physical_attack, magicFormationCircle.physical_defense,
-            magicFormationCircle.magical_attack, magicFormationCircle.magical_defense,
-            magicFormationCircle.chemical_attack, magicFormationCircle.chemical_defense,
-            magicFormationCircle.atomic_attack, magicFormationCircle.atomic_defense,
-            magicFormationCircle.mental_attack, magicFormationCircle.mental_defense,
-            magicFormationCircle.speed,
-            magicFormationCircle.critical_damage_rate, magicFormationCircle.critical_rate, magicFormationCircle.critical_resistance_rate, magicFormationCircle.ignore_critical_rate,
-            magicFormationCircle.penetration_rate, magicFormationCircle.penetration_resistance_rate, magicFormationCircle.evasion_rate,
-            magicFormationCircle.damage_absorption_rate, magicFormationCircle.ignore_damage_absorption_rate, magicFormationCircle.absorbed_damage_rate,
-            magicFormationCircle.vitality_regeneration_rate, magicFormationCircle.vitality_regeneration_resistance_rate,
-            magicFormationCircle.accuracy_rate, magicFormationCircle.lifesteal_rate,
-            magicFormationCircle.shield_strength, magicFormationCircle.tenacity, magicFormationCircle.resistance_rate,
-            magicFormationCircle.combo_rate, magicFormationCircle.ignore_combo_rate, magicFormationCircle.combo_damage_rate, magicFormationCircle.combo_resistance_rate,
-            magicFormationCircle.stun_rate, magicFormationCircle.ignore_stun_rate,
-            magicFormationCircle.reflection_rate, magicFormationCircle.ignore_reflection_rate, magicFormationCircle.reflection_damage_rate, magicFormationCircle.reflection_resistance_rate,
-            magicFormationCircle.mana, magicFormationCircle.mana_regeneration_rate,
-            magicFormationCircle.damage_to_different_faction_rate, magicFormationCircle.resistance_to_different_faction_rate,
-            magicFormationCircle.damage_to_same_faction_rate, magicFormationCircle.resistance_to_same_faction_rate,
-            magicFormationCircle.normal_damage_rate, magicFormationCircle.normal_resistance_rate,
-            magicFormationCircle.skill_damage_rate, magicFormationCircle.skill_resistance_rate
+        magicFormationCircle.Power = EvaluatePower.CalculatePower(
+            magicFormationCircle.Health,
+            magicFormationCircle.PhysicalAttack, magicFormationCircle.PhysicalDefense,
+            magicFormationCircle.MagicalAttack, magicFormationCircle.MagicalDefense,
+            magicFormationCircle.ChemicalAttack, magicFormationCircle.ChemicalDefense,
+            magicFormationCircle.AtomicAttack, magicFormationCircle.AtomicDefense,
+            magicFormationCircle.MentalAttack, magicFormationCircle.MentalDefense,
+            magicFormationCircle.Speed,
+            magicFormationCircle.CriticalDamageRate, magicFormationCircle.CriticalRate, magicFormationCircle.CriticalResistanceRate, magicFormationCircle.IgnoreCriticalRate,
+            magicFormationCircle.PenetrationRate, magicFormationCircle.PenetrationResistanceRate, magicFormationCircle.EvasionRate,
+            magicFormationCircle.DamageAbsorptionRate, magicFormationCircle.IgnoreDamageAbsorptionRate, magicFormationCircle.AbsorbedDamageRate,
+            magicFormationCircle.VitalityRegenerationRate, magicFormationCircle.VitalityRegenerationResistanceRate,
+            magicFormationCircle.AccuracyRate, magicFormationCircle.LifestealRate,
+            magicFormationCircle.ShieldStrength, magicFormationCircle.Tenacity, magicFormationCircle.ResistanceRate,
+            magicFormationCircle.ComboRate, magicFormationCircle.IgnoreComboRate, magicFormationCircle.ComboDamageRate, magicFormationCircle.ComboResistanceRate,
+            magicFormationCircle.StunRate, magicFormationCircle.IgnoreStunRate,
+            magicFormationCircle.ReflectionRate, magicFormationCircle.IgnoreReflectionRate, magicFormationCircle.ReflectionDamageRate, magicFormationCircle.ReflectionResistanceRate,
+            magicFormationCircle.Mana, magicFormationCircle.ManaRegenerationRate,
+            magicFormationCircle.DamageToDifferentFactionRate, magicFormationCircle.ResistanceToDifferentFactionRate,
+            magicFormationCircle.DamageToSameFactionRate, magicFormationCircle.ResistanceToSameFactionRate,
+            magicFormationCircle.NormalDamageRate, magicFormationCircle.NormalResistanceRate,
+            magicFormationCircle.SkillDamageRate, magicFormationCircle.SkillResistanceRate
         );
         return magicFormationCircle;
     }
 
-    public List<MagicFormationCircle> GetUserMagicFormationCircle(string user_id, string type, int pageSize, int offset, string rare)
+    public List<MagicFormationCircles> GetUserMagicFormationCircle(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircle> list = _userMagicFormationCircleRepository.GetUserMagicFormationCircle(user_id, type, pageSize, offset, rare);
+        List<MagicFormationCircles> list = _userMagicFormationCircleRepository.GetUserMagicFormationCircle(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -193,27 +193,27 @@ public class UserMagicFormationCircleService : IUserMagicFormationCircleService
         return _userMagicFormationCircleRepository.GetUserMagicFormationCircleCount(user_id, type, rare);
     }
 
-    public bool InsertUserMagicFormationCircle(MagicFormationCircle magicFormationCircle)
+    public bool InsertUserMagicFormationCircle(MagicFormationCircles magicFormationCircle)
     {
         return _userMagicFormationCircleRepository.InsertUserMagicFormationCircle(magicFormationCircle);
     }
 
-    public bool UpdateMagicFormationCircleLevel(MagicFormationCircle magicFormationCircle, int cardLevel)
+    public bool UpdateMagicFormationCircleLevel(MagicFormationCircles magicFormationCircle, int cardLevel)
     {
         return _userMagicFormationCircleRepository.UpdateMagicFormationCircleLevel(magicFormationCircle, cardLevel);
     }
 
-    public bool UpdateMagicFormationCircleBreakthrough(MagicFormationCircle magicFormationCircle, int star, int quantity)
+    public bool UpdateMagicFormationCircleBreakthrough(MagicFormationCircles magicFormationCircle, int star, int quantity)
     {
         return _userMagicFormationCircleRepository.UpdateMagicFormationCircleBreakthrough(magicFormationCircle, star, quantity);
     }
 
-    public MagicFormationCircle GetUserMagicFormationCircleById(string user_id, string Id)
+    public MagicFormationCircles GetUserMagicFormationCircleById(string user_id, string Id)
     {
         return _userMagicFormationCircleRepository.GetUserMagicFormationCircleById(user_id, Id);
     }
 
-    public MagicFormationCircle SumPowerUserMagicFormationCircle()
+    public MagicFormationCircles SumPowerUserMagicFormationCircle()
     {
         return _userMagicFormationCircleRepository.SumPowerUserMagicFormationCircle();
     }

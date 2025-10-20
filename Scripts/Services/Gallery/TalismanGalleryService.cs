@@ -14,9 +14,9 @@ public class TalismanGalleryService : ITalismanGalleryService
         return new TalismanGalleryService(new TalismanGalleryRepository());
     }
 
-    public List<Talisman> GetTalismanCollection(string type, int pageSize, int offset, string rare)
+    public List<Talismans> GetTalismanCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Talisman> list = _talismanGalleryRepository.GetTalismanCollection(type, pageSize, offset, rare);
+        List<Talismans> list = _talismanGalleryRepository.GetTalismanCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class TalismanGalleryService : ITalismanGalleryService
         _talismanGalleryRepository.UpdateStatusTalismanGallery(Id);
     }
 
-    public Talisman SumPowerTalismanGallery()
+    public Talismans SumPowerTalismanGallery()
     {
         return _talismanGalleryRepository.SumPowerTalismanGallery();
     }

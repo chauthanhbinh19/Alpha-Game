@@ -31,77 +31,77 @@ public class UserRelicsRepository : IUserRelicsRepository
                 {
                     Relics relics = new Relics
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        description = reader.GetString("description")
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                        PercentAllHealth = reader.GetDouble("percent_all_health"),
+                        PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
+                        PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
+                        PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
+                        PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
+                        PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
+                        PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
+                        PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
+                        PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
+                        PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
+                        PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
+                        Description = reader.GetString("description")
                     };
 
                     relicsList.Add(relics);
@@ -158,7 +158,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@relic_id", relics.id);
+                checkCommand.Parameters.AddWithValue("@relic_id", relics.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -201,65 +201,65 @@ public class UserRelicsRepository : IUserRelicsRepository
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@relic_id", relics.id);
-                    command.Parameters.AddWithValue("@rare", relics.rare);
+                    command.Parameters.AddWithValue("@relic_id", relics.Id);
+                    command.Parameters.AddWithValue("@rare", relics.Rare);
                     // command.Parameters.AddWithValue("@sequence", GetMaxSequence(connection, relics.id) + 1);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(relics.rare));
+                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(relics.Rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", relics.quantity);
-                    command.Parameters.AddWithValue("@power", relics.power);
-                    command.Parameters.AddWithValue("@health", relics.health);
-                    command.Parameters.AddWithValue("@physical_attack", relics.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", relics.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", relics.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", relics.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", relics.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", relics.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", relics.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", relics.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", relics.mental_attack);
-                    command.Parameters.AddWithValue("@mental_defense", relics.mental_defense);
-                    command.Parameters.AddWithValue("@speed", relics.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", relics.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", relics.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", relics.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", relics.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", relics.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", relics.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", relics.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", relics.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relics.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", relics.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", relics.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relics.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", relics.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", relics.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", relics.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", relics.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", relics.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", relics.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", relics.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", relics.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", relics.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", relics.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", relics.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", relics.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", relics.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", relics.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", relics.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", relics.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", relics.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", relics.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relics.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", relics.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relics.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", relics.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", relics.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", relics.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", relics.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@quantity", relics.Quantity);
+                    command.Parameters.AddWithValue("@power", relics.Power);
+                    command.Parameters.AddWithValue("@health", relics.Health);
+                    command.Parameters.AddWithValue("@physical_attack", relics.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", relics.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", relics.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", relics.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", relics.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", relics.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", relics.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", relics.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", relics.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", relics.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", relics.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", relics.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", relics.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", relics.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", relics.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", relics.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", relics.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", relics.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", relics.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relics.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", relics.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", relics.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relics.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", relics.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", relics.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", relics.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", relics.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", relics.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", relics.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", relics.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", relics.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", relics.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", relics.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", relics.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", relics.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", relics.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", relics.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", relics.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", relics.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", relics.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", relics.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relics.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", relics.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relics.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", relics.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", relics.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", relics.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", relics.SkillResistanceRate);
 
                     // command.Parameters.AddWithValue("@percent_all_health", relics.percent_all_health);
                     // command.Parameters.AddWithValue("@percent_all_physical_attack", relics.percent_all_physical_attack);
@@ -293,8 +293,8 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@relic_id", relics.id);
-                    updateCommand.Parameters.AddWithValue("@quantity", relics.quantity);
+                    updateCommand.Parameters.AddWithValue("@relic_id", relics.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", relics.Quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -351,58 +351,58 @@ public class UserRelicsRepository : IUserRelicsRepository
                 WHERE user_id = @user_id AND relic_id = @relic_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@relic_id", relics.id);
+                command.Parameters.AddWithValue("@relic_id", relics.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", relics.power);
-                command.Parameters.AddWithValue("@health", relics.health);
-                command.Parameters.AddWithValue("@physical_attack", relics.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", relics.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", relics.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", relics.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", relics.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", relics.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", relics.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", relics.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", relics.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", relics.mental_defense);
-                command.Parameters.AddWithValue("@speed", relics.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", relics.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", relics.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", relics.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", relics.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", relics.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", relics.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", relics.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", relics.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relics.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", relics.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", relics.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relics.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", relics.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", relics.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", relics.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", relics.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", relics.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", relics.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", relics.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", relics.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", relics.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", relics.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", relics.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", relics.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", relics.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", relics.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", relics.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", relics.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", relics.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", relics.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relics.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", relics.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relics.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", relics.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", relics.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", relics.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", relics.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", relics.Power);
+                command.Parameters.AddWithValue("@health", relics.Health);
+                command.Parameters.AddWithValue("@physical_attack", relics.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", relics.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", relics.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", relics.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", relics.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", relics.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", relics.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", relics.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", relics.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", relics.MentalDefense);
+                command.Parameters.AddWithValue("@speed", relics.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", relics.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", relics.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", relics.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", relics.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", relics.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", relics.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", relics.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", relics.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relics.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", relics.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", relics.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relics.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", relics.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", relics.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", relics.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", relics.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", relics.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", relics.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", relics.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", relics.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", relics.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", relics.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", relics.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", relics.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", relics.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", relics.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", relics.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", relics.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", relics.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", relics.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relics.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", relics.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relics.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", relics.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", relics.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", relics.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", relics.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -452,60 +452,60 @@ public class UserRelicsRepository : IUserRelicsRepository
                 WHERE user_id = @user_id AND relic_id = @relic_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@relic_id", relics.id);
+                command.Parameters.AddWithValue("@relic_id", relics.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", relics.power);
-                command.Parameters.AddWithValue("@power", relics.power);
-                command.Parameters.AddWithValue("@health", relics.health);
-                command.Parameters.AddWithValue("@physical_attack", relics.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", relics.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", relics.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", relics.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", relics.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", relics.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", relics.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", relics.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", relics.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", relics.mental_defense);
-                command.Parameters.AddWithValue("@speed", relics.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", relics.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", relics.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", relics.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", relics.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", relics.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", relics.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", relics.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", relics.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relics.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", relics.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", relics.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relics.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", relics.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", relics.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", relics.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", relics.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", relics.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", relics.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", relics.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", relics.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", relics.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", relics.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", relics.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", relics.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", relics.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", relics.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", relics.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", relics.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", relics.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", relics.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relics.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", relics.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relics.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", relics.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", relics.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", relics.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", relics.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", relics.Power);
+                command.Parameters.AddWithValue("@power", relics.Power);
+                command.Parameters.AddWithValue("@health", relics.Health);
+                command.Parameters.AddWithValue("@physical_attack", relics.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", relics.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", relics.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", relics.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", relics.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", relics.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", relics.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", relics.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", relics.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", relics.MentalDefense);
+                command.Parameters.AddWithValue("@speed", relics.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", relics.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", relics.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", relics.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", relics.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", relics.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", relics.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", relics.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", relics.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relics.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", relics.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", relics.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relics.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", relics.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", relics.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", relics.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", relics.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", relics.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", relics.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", relics.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", relics.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", relics.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", relics.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", relics.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", relics.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", relics.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", relics.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", relics.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", relics.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", relics.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", relics.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relics.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", relics.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relics.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", relics.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", relics.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", relics.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", relics.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -535,61 +535,61 @@ public class UserRelicsRepository : IUserRelicsRepository
                 {
                     card = new Relics
                     {
-                        id = reader.GetString("relic_id"),
-                        level = reader.GetInt32("level"),
-                        quality = reader.GetInt32("quality"),
-                        experiment = reader.GetInt32("experiment"),
-                        star = reader.GetInt32("star"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("relic_id"),
+                        Level = reader.GetInt32("level"),
+                        Quality = reader.GetInt32("quality"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Star = reader.GetInt32("star"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                     };
                 }
             }
@@ -669,56 +669,56 @@ public class UserRelicsRepository : IUserRelicsRepository
                 {
                     if (reader.Read())
                     {
-                        sumRelics.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumRelics.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumRelics.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumRelics.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumRelics.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumRelics.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumRelics.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumRelics.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumRelics.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumRelics.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumRelics.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumRelics.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumRelics.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumRelics.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumRelics.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumRelics.critical_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumRelics.ignore_critical_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumRelics.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumRelics.penetration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumRelics.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumRelics.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumRelics.ignore_damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumRelics.absorbed_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumRelics.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumRelics.vitality_regeneration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumRelics.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumRelics.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumRelics.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumRelics.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumRelics.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumRelics.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumRelics.ignore_combo_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumRelics.combo_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumRelics.combo_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumRelics.stun_rate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumRelics.ignore_stun_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumRelics.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumRelics.ignore_reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumRelics.reflection_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumRelics.reflection_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumRelics.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumRelics.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumRelics.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumRelics.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumRelics.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumRelics.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumRelics.normal_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumRelics.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumRelics.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumRelics.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        sumRelics.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumRelics.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumRelics.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumRelics.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumRelics.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumRelics.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumRelics.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumRelics.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumRelics.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumRelics.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumRelics.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumRelics.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumRelics.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumRelics.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumRelics.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumRelics.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                        sumRelics.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                        sumRelics.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumRelics.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                        sumRelics.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumRelics.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumRelics.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                        sumRelics.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                        sumRelics.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumRelics.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                        sumRelics.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumRelics.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumRelics.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumRelics.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumRelics.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumRelics.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumRelics.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                        sumRelics.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                        sumRelics.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                        sumRelics.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                        sumRelics.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                        sumRelics.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumRelics.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                        sumRelics.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                        sumRelics.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                        sumRelics.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumRelics.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumRelics.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumRelics.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumRelics.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumRelics.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                        sumRelics.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                        sumRelics.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                        sumRelics.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                        sumRelics.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
                     }
                 }
 

@@ -14,9 +14,9 @@ public class CardMilitaryGalleryService : ICardMilitaryGallerService
         return new CardMilitaryGalleryService(new CardMilitaryGalleryRepository());
     }
 
-    public List<CardMilitary> GetCardMilitaryCollection(string type, int pageSize, int offset, string rare)
+    public List<CardMilitaries> GetCardMilitaryCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardMilitary> list = _cardMilitaryGalleryRepository.GetCardMilitaryCollection(type, pageSize, offset, rare);
+        List<CardMilitaries> list = _cardMilitaryGalleryRepository.GetCardMilitaryCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class CardMilitaryGalleryService : ICardMilitaryGallerService
         _cardMilitaryGalleryRepository.UpdateStatusCardMilitaryGallery(Id);
     }
 
-    public CardMilitary SumPowerCardMilitaryGallery()
+    public CardMilitaries SumPowerCardMilitaryGallery()
     {
         return _cardMilitaryGalleryRepository.SumPowerCardMilitaryGallery();
     }

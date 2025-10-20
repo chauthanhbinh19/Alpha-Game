@@ -45,10 +45,10 @@ public class EquipmentsController : MonoBehaviour
             GameObject equipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = equipment.name.Replace("_", " ");
+            Title.text = equipment.Name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -62,7 +62,7 @@ public class EquipmentsController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

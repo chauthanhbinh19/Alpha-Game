@@ -54,10 +54,10 @@ public class CardGeneralsController : MonoBehaviour
             GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
+            Title.text = spell.Name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -69,7 +69,7 @@ public class CardGeneralsController : MonoBehaviour
             });
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
@@ -87,10 +87,10 @@ public class CardGeneralsController : MonoBehaviour
             GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = achievementObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = cardGeneral.name.Replace("_", " ");
+            Title.text = cardGeneral.Name.Replace("_", " ");
 
             RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -107,12 +107,12 @@ public class CardGeneralsController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(cardGeneral.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(cardGeneral.Currency.Quantity, false);
 
             Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -120,11 +120,11 @@ public class CardGeneralsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(cardGeneral.currency.quantity, cardGeneral, subType, popupPanel, currencyPanel);
+                GetQuantity(cardGeneral.Currency.Quantity, cardGeneral, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetCardGeneralsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -239,14 +239,14 @@ public class CardGeneralsController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is CardGenerals cardGenerals)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardGenerals.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardGenerals.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -272,8 +272,8 @@ public class CardGeneralsController : MonoBehaviour
 
             if (obj is CardGenerals cardGenerals)
             {
-                cardGenerals.quantity = cardGenerals.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(cardGenerals.currency.id, price);
+                cardGenerals.Quantity = cardGenerals.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(cardGenerals.Currency.Id, price);
                 bool success = UserCardGeneralsService.Create().InsertUserCardGenerals(cardGenerals);
                 if (!success)
                 {
@@ -285,11 +285,11 @@ public class CardGeneralsController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(cardGenerals.id);
+                    CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(cardGenerals.Id);
                     currencies = UserCurrencyService.Create().GetCardGeneralsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGenerals.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGenerals.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

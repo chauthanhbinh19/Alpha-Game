@@ -75,10 +75,10 @@ public class UserService : IUserService
 
             user = _userRepository.SignInUser(username, password);
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
-            string Border = borders.image;
+            string Border = borders.Image;
 
             Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.id);
-            string Image = avatar.image;
+            string Image = avatar.Image;
 
             User.CurrentUserAvatar = Image;
             User.CurrentUserBorder = Border;
@@ -150,10 +150,10 @@ public class UserService : IUserService
         User user = _userRepository.GetUserById(Id);
 
         Borders borders = UserBordersService.Create().GetBordersByUsed(user.id);
-        string Border = borders.image;
+        string Border = borders.Image;
 
         Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.id);
-        string Image = avatar.image;
+        string Image = avatar.Image;
 
         User.CurrentUserAvatar = Image;
         User.CurrentUserBorder = Border;

@@ -7,11 +7,11 @@ using System.Xml.Linq;
 
 public interface IUserAlchemyRepository
 {
-    List<Alchemy> GetUserAlchemy(string user_id, string type, int pageSize, int offset, string rare);
+    List<Alchemies> GetUserAlchemy(string user_id, string type, int pageSize, int offset, string rare);
     int GetUserAlchemyCount(string user_id, string type, string rare);
-    bool InsertUserAlchemy(Alchemy Alchemy);
-    bool UpdateAlchemyLevel(Alchemy Alchemy, int cardLevel);
-    bool UpdateAlchemyBreakthrough(Alchemy Alchemy, int star, int quantity);
-    Alchemy GetUserAlchemyById(string user_id, string Id);
-    Alchemy SumPowerUserAlchemy();
+    bool InsertUserAlchemy(Alchemies Alchemy);
+    bool UpdateAlchemyLevel(Alchemies Alchemy, int cardLevel);
+    bool UpdateAlchemyBreakthrough(Alchemies Alchemy, int star, int quantity);
+    Alchemies GetUserAlchemyById(string user_id, string Id);
+    Alchemies SumPowerUserAlchemy();
 }

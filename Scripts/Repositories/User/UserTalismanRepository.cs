@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class UserTalismanRepository : IUserTalismanRepository
 {
-    public List<Talisman> GetUserTalisman(string user_id, string type, int pageSize, int offset, string rare)
+    public List<Talismans> GetUserTalisman(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Talisman> talismanList = new List<Talisman>();
+        List<Talismans> talismanList = new List<Talismans>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -29,67 +29,67 @@ public class UserTalismanRepository : IUserTalismanRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Talisman talisman = new Talisman
+                    Talismans talisman = new Talismans
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -101,7 +101,7 @@ public class UserTalismanRepository : IUserTalismanRepository
                         // percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
                         // percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
                         // percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        description = reader.GetString("description")
+                        Description = reader.GetString("description")
                     };
 
                     talismanList.Add(talisman);
@@ -142,7 +142,7 @@ public class UserTalismanRepository : IUserTalismanRepository
         }
         return count;
     }
-    public bool InsertUserTalisman(Talisman Talisman)
+    public bool InsertUserTalisman(Talismans Talisman)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -158,7 +158,7 @@ public class UserTalismanRepository : IUserTalismanRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@talisman_id", Talisman.id);
+                checkCommand.Parameters.AddWithValue("@talisman_id", Talisman.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -201,64 +201,64 @@ public class UserTalismanRepository : IUserTalismanRepository
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@talisman_id", Talisman.id);
-                    command.Parameters.AddWithValue("@rare", Talisman.rare);
+                    command.Parameters.AddWithValue("@talisman_id", Talisman.Id);
+                    command.Parameters.AddWithValue("@rare", Talisman.Rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Talisman.rare));
+                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Talisman.Rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", Talisman.quantity);
-                    command.Parameters.AddWithValue("@power", Talisman.power);
-                    command.Parameters.AddWithValue("@health", Talisman.health);
-                    command.Parameters.AddWithValue("@physical_attack", Talisman.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", Talisman.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", Talisman.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", Talisman.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", Talisman.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", Talisman.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", Talisman.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", Talisman.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", Talisman.mental_attack);
-                    command.Parameters.AddWithValue("@mental_defense", Talisman.mental_defense);
-                    command.Parameters.AddWithValue("@speed", Talisman.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Talisman.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", Talisman.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Talisman.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Talisman.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", Talisman.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Talisman.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", Talisman.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Talisman.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Talisman.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Talisman.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Talisman.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Talisman.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Talisman.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Talisman.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", Talisman.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", Talisman.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Talisman.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", Talisman.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Talisman.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Talisman.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Talisman.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", Talisman.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Talisman.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", Talisman.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Talisman.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Talisman.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Talisman.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", Talisman.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Talisman.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Talisman.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Talisman.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Talisman.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Talisman.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Talisman.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Talisman.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Talisman.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Talisman.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@quantity", Talisman.Quantity);
+                    command.Parameters.AddWithValue("@power", Talisman.Power);
+                    command.Parameters.AddWithValue("@health", Talisman.Health);
+                    command.Parameters.AddWithValue("@physical_attack", Talisman.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", Talisman.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", Talisman.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", Talisman.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", Talisman.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", Talisman.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", Talisman.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", Talisman.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", Talisman.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", Talisman.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", Talisman.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", Talisman.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", Talisman.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", Talisman.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", Talisman.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", Talisman.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", Talisman.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", Talisman.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", Talisman.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Talisman.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", Talisman.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Talisman.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Talisman.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", Talisman.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", Talisman.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", Talisman.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", Talisman.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", Talisman.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", Talisman.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", Talisman.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", Talisman.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", Talisman.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", Talisman.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", Talisman.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", Talisman.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", Talisman.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", Talisman.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", Talisman.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", Talisman.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", Talisman.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Talisman.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Talisman.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Talisman.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Talisman.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", Talisman.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", Talisman.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", Talisman.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", Talisman.SkillResistanceRate);
 
                     // command.Parameters.AddWithValue("@percent_all_health", Talisman.percent_all_health);
                     // command.Parameters.AddWithValue("@percent_all_physical_attack", Talisman.percent_all_physical_attack);
@@ -292,8 +292,8 @@ public class UserTalismanRepository : IUserTalismanRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@talisman_id", Talisman.id);
-                    updateCommand.Parameters.AddWithValue("@quantity", Talisman.quantity);
+                    updateCommand.Parameters.AddWithValue("@talisman_id", Talisman.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", Talisman.Quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -308,7 +308,7 @@ public class UserTalismanRepository : IUserTalismanRepository
         }
         return true;
     }
-    public bool UpdateTalismanLevel(Talisman Talisman, int cardLevel)
+    public bool UpdateTalismanLevel(Talismans Talisman, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -347,58 +347,58 @@ public class UserTalismanRepository : IUserTalismanRepository
                 WHERE user_id = @user_id AND talisman_id = @talisman_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@talisman_id", Talisman.id);
+                command.Parameters.AddWithValue("@talisman_id", Talisman.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", Talisman.power);
-                command.Parameters.AddWithValue("@health", Talisman.health);
-                command.Parameters.AddWithValue("@physical_attack", Talisman.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", Talisman.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", Talisman.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", Talisman.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", Talisman.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", Talisman.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", Talisman.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", Talisman.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", Talisman.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", Talisman.mental_defense);
-                command.Parameters.AddWithValue("@speed", Talisman.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", Talisman.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", Talisman.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", Talisman.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", Talisman.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", Talisman.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", Talisman.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", Talisman.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", Talisman.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Talisman.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", Talisman.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", Talisman.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Talisman.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", Talisman.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", Talisman.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", Talisman.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", Talisman.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", Talisman.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", Talisman.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", Talisman.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", Talisman.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", Talisman.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", Talisman.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", Talisman.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", Talisman.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", Talisman.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", Talisman.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", Talisman.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", Talisman.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", Talisman.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Talisman.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Talisman.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Talisman.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Talisman.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", Talisman.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", Talisman.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", Talisman.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", Talisman.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", Talisman.Power);
+                command.Parameters.AddWithValue("@health", Talisman.Health);
+                command.Parameters.AddWithValue("@physical_attack", Talisman.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", Talisman.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", Talisman.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", Talisman.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", Talisman.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", Talisman.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", Talisman.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", Talisman.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", Talisman.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", Talisman.MentalDefense);
+                command.Parameters.AddWithValue("@speed", Talisman.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", Talisman.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", Talisman.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", Talisman.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", Talisman.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", Talisman.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", Talisman.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", Talisman.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", Talisman.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Talisman.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", Talisman.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", Talisman.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Talisman.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", Talisman.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", Talisman.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", Talisman.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", Talisman.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", Talisman.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", Talisman.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", Talisman.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", Talisman.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", Talisman.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", Talisman.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", Talisman.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", Talisman.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", Talisman.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", Talisman.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", Talisman.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", Talisman.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", Talisman.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Talisman.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Talisman.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Talisman.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Talisman.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", Talisman.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", Talisman.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", Talisman.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", Talisman.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -409,7 +409,7 @@ public class UserTalismanRepository : IUserTalismanRepository
         }
         return true;
     }
-    public bool UpdateTalismanBreakthrough(Talisman Talisman, int star, int quantity)
+    public bool UpdateTalismanBreakthrough(Talismans Talisman, int star, int quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -448,59 +448,59 @@ public class UserTalismanRepository : IUserTalismanRepository
                 WHERE user_id = @user_id AND talisman_id = @talisman_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@talisman_id", Talisman.id);
+                command.Parameters.AddWithValue("@talisman_id", Talisman.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", Talisman.power);
-                command.Parameters.AddWithValue("@health", Talisman.health);
-                command.Parameters.AddWithValue("@physical_attack", Talisman.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", Talisman.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", Talisman.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", Talisman.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", Talisman.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", Talisman.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", Talisman.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", Talisman.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", Talisman.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", Talisman.mental_defense);
-                command.Parameters.AddWithValue("@speed", Talisman.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", Talisman.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", Talisman.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", Talisman.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", Talisman.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", Talisman.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", Talisman.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", Talisman.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", Talisman.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Talisman.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", Talisman.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", Talisman.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Talisman.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", Talisman.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", Talisman.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", Talisman.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", Talisman.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", Talisman.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", Talisman.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", Talisman.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", Talisman.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", Talisman.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", Talisman.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", Talisman.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", Talisman.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", Talisman.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", Talisman.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", Talisman.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", Talisman.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", Talisman.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Talisman.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Talisman.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Talisman.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Talisman.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", Talisman.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", Talisman.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", Talisman.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", Talisman.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", Talisman.Power);
+                command.Parameters.AddWithValue("@health", Talisman.Health);
+                command.Parameters.AddWithValue("@physical_attack", Talisman.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", Talisman.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", Talisman.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", Talisman.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", Talisman.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", Talisman.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", Talisman.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", Talisman.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", Talisman.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", Talisman.MentalDefense);
+                command.Parameters.AddWithValue("@speed", Talisman.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", Talisman.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", Talisman.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", Talisman.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", Talisman.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", Talisman.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", Talisman.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", Talisman.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", Talisman.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Talisman.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", Talisman.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", Talisman.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Talisman.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", Talisman.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", Talisman.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", Talisman.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", Talisman.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", Talisman.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", Talisman.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", Talisman.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", Talisman.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", Talisman.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", Talisman.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", Talisman.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", Talisman.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", Talisman.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", Talisman.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", Talisman.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", Talisman.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", Talisman.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Talisman.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Talisman.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Talisman.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Talisman.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", Talisman.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", Talisman.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", Talisman.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", Talisman.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -511,9 +511,9 @@ public class UserTalismanRepository : IUserTalismanRepository
         }
         return true;
     }
-    public Talisman GetUserTalismanById(string user_id, string Id)
+    public Talismans GetUserTalismanById(string user_id, string Id)
     {
-        Talisman card = new Talisman();
+        Talismans card = new Talismans();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -528,63 +528,63 @@ public class UserTalismanRepository : IUserTalismanRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    card = new Talisman
+                    card = new Talismans
                     {
-                        id = reader.GetString("talisman_id"),
-                        level = reader.GetInt32("level"),
-                        quality = reader.GetInt32("quality"),
-                        experiment = reader.GetInt32("experiment"),
-                        star = reader.GetInt32("star"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("talisman_id"),
+                        Level = reader.GetInt32("level"),
+                        Quality = reader.GetInt32("quality"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Star = reader.GetInt32("star"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                     };
                 }
             }
@@ -596,9 +596,9 @@ public class UserTalismanRepository : IUserTalismanRepository
         }
         return card;
     }
-    public Talisman SumPowerUserTalisman()
+    public Talismans SumPowerUserTalisman()
     {
-        Talisman sumTalisman = new Talisman();
+        Talismans sumTalisman = new Talismans();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -664,56 +664,56 @@ public class UserTalismanRepository : IUserTalismanRepository
                 {
                     if (reader.Read())
                     {
-                        sumTalisman.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumTalisman.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumTalisman.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumTalisman.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumTalisman.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumTalisman.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumTalisman.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumTalisman.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumTalisman.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumTalisman.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumTalisman.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumTalisman.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumTalisman.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumTalisman.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumTalisman.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumTalisman.critical_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumTalisman.ignore_critical_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumTalisman.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumTalisman.penetration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumTalisman.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumTalisman.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumTalisman.ignore_damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumTalisman.absorbed_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumTalisman.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumTalisman.vitality_regeneration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumTalisman.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumTalisman.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumTalisman.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumTalisman.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumTalisman.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumTalisman.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumTalisman.ignore_combo_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumTalisman.combo_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumTalisman.combo_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumTalisman.stun_rate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumTalisman.ignore_stun_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumTalisman.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumTalisman.ignore_reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumTalisman.reflection_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumTalisman.reflection_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumTalisman.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumTalisman.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumTalisman.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumTalisman.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumTalisman.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumTalisman.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumTalisman.normal_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumTalisman.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumTalisman.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumTalisman.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        sumTalisman.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumTalisman.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumTalisman.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumTalisman.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumTalisman.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumTalisman.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumTalisman.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumTalisman.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumTalisman.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumTalisman.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumTalisman.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumTalisman.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumTalisman.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumTalisman.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumTalisman.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumTalisman.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                        sumTalisman.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                        sumTalisman.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumTalisman.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                        sumTalisman.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumTalisman.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumTalisman.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                        sumTalisman.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                        sumTalisman.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumTalisman.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                        sumTalisman.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumTalisman.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumTalisman.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumTalisman.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumTalisman.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumTalisman.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumTalisman.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                        sumTalisman.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                        sumTalisman.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                        sumTalisman.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                        sumTalisman.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                        sumTalisman.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumTalisman.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                        sumTalisman.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                        sumTalisman.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                        sumTalisman.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumTalisman.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumTalisman.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumTalisman.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumTalisman.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumTalisman.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                        sumTalisman.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                        sumTalisman.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                        sumTalisman.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                        sumTalisman.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
                     }
                 }
 

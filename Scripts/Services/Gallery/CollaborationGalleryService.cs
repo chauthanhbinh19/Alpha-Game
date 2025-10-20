@@ -14,9 +14,9 @@ public class CollaborationGalleryService : ICollaborationGalleryService
         return new CollaborationGalleryService(new CollaborationGalleryRepository());
     }
 
-    public List<Collaboration> GetCollaborationCollection(int pageSize, int offset, string rare)
+    public List<Collaborations> GetCollaborationCollection(int pageSize, int offset, string rare)
     {
-        List<Collaboration> list = _collaborationGalleryRepository.GetCollaborationCollection(pageSize, offset, rare);
+        List<Collaborations> list = _collaborationGalleryRepository.GetCollaborationCollection(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class CollaborationGalleryService : ICollaborationGalleryService
         _collaborationGalleryRepository.UpdateStatusCollaborationsGallery(Id);
     }
 
-    public Collaboration SumPowerCollaborationsGallery()
+    public Collaborations SumPowerCollaborationsGallery()
     {
         return _collaborationGalleryRepository.SumPowerCollaborationsGallery();
     }

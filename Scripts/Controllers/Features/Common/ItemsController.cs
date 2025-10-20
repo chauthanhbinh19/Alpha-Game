@@ -47,10 +47,10 @@ public class ItemsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateItemsTrade(List<Items> items, Currency currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
+    public void CreateItemsTrade(List<Items> items, Currencies currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
-        List<Currency> currencies = new List<Currency>();
-        var tempCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.id);
+        List<Currencies> currencies = new List<Currencies>();
+        var tempCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.Id);
         currencies.Add(tempCurrency);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
 
@@ -59,10 +59,10 @@ public class ItemsController : MonoBehaviour
             GameObject itemObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = itemObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = item.name.Replace("_", " ");
+            Title.text = item.Name.Replace("_", " ");
 
             RawImage Image = itemObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,12 +71,12 @@ public class ItemsController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = itemObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = itemObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(item.price, false);
+            currencyText.text = NumberFormatter.FormatNumber(item.Price, false);
 
             Button buy = itemObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -84,12 +84,12 @@ public class ItemsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(item.price, item, popupPanel, currency, currencyPanel);
+                GetQuantity(item.Price, item, popupPanel, currency, currencyPanel);
             });
         }
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void GetQuantity(double originPrice, object obj, Transform popupPanel, Currency currency, Transform currencyPanel)
+    public void GetQuantity(double originPrice, object obj, Transform popupPanel, Currencies currency, Transform currencyPanel)
     {
         GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
 
@@ -124,7 +124,7 @@ public class ItemsController : MonoBehaviour
             string id = (string)idProperty.GetValue(obj);
             string image = (string)imageProperty.GetValue(obj);
 
-            string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);
+            string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -184,8 +184,8 @@ public class ItemsController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = userCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.id);
-            int max = (int)(userCurrency.quantity / price);
+            Currencies userCurrency = userCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.Id);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -211,7 +211,7 @@ public class ItemsController : MonoBehaviour
 
             if (obj is Items item)
             {
-                UserCurrencyService.Create().UpdateUserCurrency(currency.id, price);
+                UserCurrencyService.Create().UpdateUserCurrency(currency.Id, price);
                 bool success = UserItemsService.Create().InsertUserItems(item, quantity);
                 if (!success)
                 {
@@ -223,10 +223,10 @@ public class ItemsController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
-                    var tempCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.id);
+                    List<Currencies> currencies = new List<Currencies>();
+                    var tempCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.Id);
                     currencies.Add(tempCurrency);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

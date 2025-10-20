@@ -38,17 +38,17 @@ public class CollaborationEquipmentGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipment> collaborationEquipmentList, Transform DictionaryContentPanel)
+    public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipments> collaborationEquipmentList, Transform DictionaryContentPanel)
     {
         foreach (var collaborationEquipment in collaborationEquipmentList)
         {
             GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = collaborationEquipment.name.Replace("_", " ");
+            Title.text = collaborationEquipment.Name.Replace("_", " ");
 
             RawImage Image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -60,23 +60,23 @@ public class CollaborationEquipmentGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = collaborationEquipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = collaborationEquipmentObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = collaborationEquipmentObject.transform.Find("Unlock").GetComponent<Button>();
-            if (collaborationEquipment.status.Equals("available"))
+            if (collaborationEquipment.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (collaborationEquipment.status.Equals("pending"))
+            else if (collaborationEquipment.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (collaborationEquipment.status.Equals("block"))
+            else if (collaborationEquipment.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -85,7 +85,7 @@ public class CollaborationEquipmentGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var collaborationEquipmentGalleryService = CollaborationEquipmentGalleryService.Create();
-                collaborationEquipmentGalleryService.UpdateStatusCollaborationEquipmentsGallery(collaborationEquipment.id);
+                collaborationEquipmentGalleryService.UpdateStatusCollaborationEquipmentsGallery(collaborationEquipment.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -99,7 +99,7 @@ public class CollaborationEquipmentGalleryController : MonoBehaviour
             });
 
             Button Upgrade = collaborationEquipmentObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((collaborationEquipment.current_star < collaborationEquipment.temp_star) && collaborationEquipment.status.Equals("available"))
+            if ((collaborationEquipment.CurrentStar < collaborationEquipment.TempStar) && collaborationEquipment.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -111,7 +111,7 @@ public class CollaborationEquipmentGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CollaborationEquipmentGalleryService.Create().UpdateCollaborationEquipmentsGalleryPower(collaborationEquipment.id);
+                CollaborationEquipmentGalleryService.Create().UpdateCollaborationEquipmentsGalleryPower(collaborationEquipment.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

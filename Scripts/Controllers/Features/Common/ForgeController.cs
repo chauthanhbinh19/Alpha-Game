@@ -47,17 +47,17 @@ public class ForgeController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateForgeGallery(List<Forge> forges, Transform DictionaryContentPanel)
+    public void CreateForgeGallery(List<Forges> forges, Transform DictionaryContentPanel)
     {
         foreach (var forge in forges)
         {
             GameObject forgeObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = forge.name.Replace("_", " ");
+            Title.text = forge.Name.Replace("_", " ");
 
             RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,7 +71,7 @@ public class ForgeController : MonoBehaviour
             });
 
             RawImage rareImage = forgeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -82,7 +82,7 @@ public class ForgeController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateForgeTrade(List<Forge> forges, string subType, Transform currentContent,
+    public void CreateForgeTrade(List<Forges> forges, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var forge in forges)
@@ -90,10 +90,10 @@ public class ForgeController : MonoBehaviour
             GameObject forgeObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = forge.name.Replace("_", " ");
+            Title.text = forge.Name.Replace("_", " ");
 
             RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = forgeObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class ForgeController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = forgeObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = forgeObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(forge.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(forge.Currency.Quantity, false);
 
             Button buy = forgeObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,12 +123,12 @@ public class ForgeController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(forge.currency.quantity, forge, subType, popupPanel, currencyPanel);
+                GetQuantity(forge.Currency.Quantity, forge, subType, popupPanel, currencyPanel);
             });
 
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetForgeCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -243,14 +243,14 @@ public class ForgeController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is Forge forge)
+            Currencies userCurrency = new Currencies();
+            if (obj is Forges forge)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(forge.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(forge.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -274,10 +274,10 @@ public class ForgeController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Forge forge)
+            if (obj is Forges forge)
             {
-                forge.quantity = forge.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(forge.currency.id, price);
+                forge.Quantity = forge.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(forge.Currency.Id, price);
                 bool success = UserForgeService.Create().InsertUserForge(forge);
                 if (!success)
                 {
@@ -289,11 +289,11 @@ public class ForgeController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    ForgeGalleryService.Create().InsertForgeGallery(forge.id);
+                    ForgeGalleryService.Create().InsertForgeGallery(forge.Id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

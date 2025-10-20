@@ -25,9 +25,9 @@ public class User
     public static string CurrentUserBorder { get; set; }
     public static string savedUsername;
     public static string savedPassword;
-    public List<Currency> Currencies { get; set; }
+    public List<Currencies> Currencies { get; set; }
     public User(){
-        Currencies = new List<Currency>();
+        Currencies = new List<Currencies>();
         power = 0;
     }
 

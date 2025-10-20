@@ -38,17 +38,17 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateMagicFormationCircleGallery(List<MagicFormationCircle> magicFormationCircles, Transform DictionaryContentPanel)
+    public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform DictionaryContentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
             GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = magicFormationCircle.name.Replace("_", " ");
+            Title.text = magicFormationCircle.Name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -63,23 +63,23 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = magicFormationCircleObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = magicFormationCircleObject.transform.Find("Unlock").GetComponent<Button>();
-            if (magicFormationCircle.status.Equals("available"))
+            if (magicFormationCircle.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (magicFormationCircle.status.Equals("pending"))
+            else if (magicFormationCircle.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (magicFormationCircle.status.Equals("block"))
+            else if (magicFormationCircle.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -89,7 +89,7 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var magicFormationCircleGallery = MagicFormationCircleGalleryService.Create();
-                magicFormationCircleGallery.UpdateStatusMagicFormationCircleGallery(magicFormationCircle.id);
+                magicFormationCircleGallery.UpdateStatusMagicFormationCircleGallery(magicFormationCircle.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -103,7 +103,7 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
             });
 
             Button Upgrade = magicFormationCircleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((magicFormationCircle.current_star < magicFormationCircle.temp_star) && magicFormationCircle.status.Equals("available"))
+            if ((magicFormationCircle.CurrentStar < magicFormationCircle.TempStar) && magicFormationCircle.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -115,7 +115,7 @@ public class MagicFormationCircleGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                MagicFormationCircleGalleryService.Create().UpdateMagicFormationCircleGalleryPower(magicFormationCircle.id);
+                MagicFormationCircleGalleryService.Create().UpdateMagicFormationCircleGalleryPower(magicFormationCircle.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

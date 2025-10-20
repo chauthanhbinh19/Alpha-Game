@@ -47,17 +47,17 @@ public class ArtworkController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateArtworkGallery(List<Artwork> artworks, Transform DictionaryContentPanel)
+    public void CreateArtworkGallery(List<Artworks> artworks, Transform DictionaryContentPanel)
     {
         foreach (var artwork in artworks)
         {
             GameObject artworkObject = Instantiate(ArtworkFirstPrefab, DictionaryContentPanel);
 
             Text Title = artworkObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = artwork.name.Replace("_", " ");
+            Title.text = artwork.Name.Replace("_", " ");
 
             RawImage Image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,7 +71,7 @@ public class ArtworkController : MonoBehaviour
             });
 
             RawImage rareImage = artworkObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -82,7 +82,7 @@ public class ArtworkController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateArtworkTrade(List<Artwork> alchemies, string subType, Transform currentContent,
+    public void CreateArtworkTrade(List<Artworks> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var Artwork in alchemies)
@@ -90,10 +90,10 @@ public class ArtworkController : MonoBehaviour
             GameObject ArtworkObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = ArtworkObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = Artwork.name.Replace("_", " ");
+            Title.text = Artwork.Name.Replace("_", " ");
 
             RawImage Image = ArtworkObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = ArtworkObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class ArtworkController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = ArtworkObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = ArtworkObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(Artwork.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(Artwork.Currency.Quantity, false);
 
             Button buy = ArtworkObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,12 +123,12 @@ public class ArtworkController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(Artwork.currency.quantity, Artwork, subType, popupPanel, currencyPanel);
+                GetQuantity(Artwork.Currency.Quantity, Artwork, subType, popupPanel, currencyPanel);
             });
 
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetArtworkCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -243,14 +243,14 @@ public class ArtworkController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is Artwork Artwork)
+            Currencies userCurrency = new Currencies();
+            if (obj is Artworks Artwork)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Artwork.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Artwork.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -274,10 +274,10 @@ public class ArtworkController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Artwork Artwork)
+            if (obj is Artworks Artwork)
             {
-                Artwork.quantity = Artwork.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(Artwork.currency.id, price);
+                Artwork.Quantity = Artwork.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(Artwork.Currency.Id, price);
                 bool success = UserArtworkService.Create().InsertUserArtwork(Artwork);
                 if (!success)
                 {
@@ -289,11 +289,11 @@ public class ArtworkController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    ArtworkGalleryService.Create().InsertArtworkGallery(Artwork.id);
+                    ArtworkGalleryService.Create().InsertArtworkGallery(Artwork.Id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

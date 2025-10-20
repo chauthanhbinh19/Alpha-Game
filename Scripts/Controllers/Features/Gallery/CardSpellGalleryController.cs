@@ -38,17 +38,17 @@ public class CardSpellGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
     }
-    public void CreateCardSpellGallery(List<CardSpell> spellList, Transform DictionaryContentPanel)
+    public void CreateCardSpellGallery(List<CardSpells> spellList, Transform DictionaryContentPanel)
     {
         foreach (var spell in spellList)
         {
             GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
+            Title.text = spell.Name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -60,23 +60,23 @@ public class CardSpellGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = spellObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = spellObject.transform.Find("Unlock").GetComponent<Button>();
-            if (spell.status.Equals("available"))
+            if (spell.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (spell.status.Equals("pending"))
+            else if (spell.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (spell.status.Equals("block"))
+            else if (spell.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -86,7 +86,7 @@ public class CardSpellGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var spellGalleryService = CardSpellGalleryService.Create();
-                spellGalleryService.UpdateStatusCardSpellGallery(spell.id);
+                spellGalleryService.UpdateStatusCardSpellGallery(spell.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -100,7 +100,7 @@ public class CardSpellGalleryController : MonoBehaviour
             });
 
             Button Upgrade = spellObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((spell.current_star < spell.temp_star) && spell.status.Equals("available"))
+            if ((spell.CurrentStar < spell.TempStar) && spell.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -112,7 +112,7 @@ public class CardSpellGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CardSpellGalleryService.Create().UpdateCardSpellGalleryPower(spell.id);
+                CardSpellGalleryService.Create().UpdateCardSpellGalleryPower(spell.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

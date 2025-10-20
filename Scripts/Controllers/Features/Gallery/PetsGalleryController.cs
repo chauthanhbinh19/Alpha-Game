@@ -45,7 +45,7 @@ public class PetsGalleryController : MonoBehaviour
         foreach (var pet in petsList)
         {
             GameObject petsObject;
-            if (pet.type.Equals("Legendary_Dragon") || pet.type.Equals("Naruto_Bijuu") || pet.type.Equals("Naruto_Susanoo") || pet.type.Equals("One_Piece_Ship") || pet.type.Equals("Prime_Monster"))
+            if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
             {
                 petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
@@ -69,10 +69,10 @@ public class PetsGalleryController : MonoBehaviour
             }
 
             Text Title = petsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = pet.name.Replace("_", " ");
+            Title.text = pet.Name.Replace("_", " ");
 
             RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -85,24 +85,24 @@ public class PetsGalleryController : MonoBehaviour
 
             RawImage blockImage = petsObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = petsObject.transform.Find("Unlock").GetComponent<Button>();
-            if (pet.status.Equals("available"))
+            if (pet.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (pet.status.Equals("pending"))
+            else if (pet.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (pet.status.Equals("block"))
+            else if (pet.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
 
-            if (pet.type.Equals("Prime_Monster"))
+            if (pet.Type.Equals("Prime_Monster"))
             {
                 Image.SetNativeSize();
                 Image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -116,7 +116,7 @@ public class PetsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var petGalleryService = PetsGalleryService.Create();
-                petGalleryService.UpdateStatusPetsGallery(pet.id);
+                petGalleryService.UpdateStatusPetsGallery(pet.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -130,7 +130,7 @@ public class PetsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = petsObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((pet.current_star < pet.temp_star) && pet.status.Equals("available"))
+            if ((pet.CurrentStar < pet.TempStar) && pet.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -142,7 +142,7 @@ public class PetsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                PetsGalleryService.Create().UpdatePetsGalleryPower(pet.id);
+                PetsGalleryService.Create().UpdatePetsGalleryPower(pet.Id);
             });
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

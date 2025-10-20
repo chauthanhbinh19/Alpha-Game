@@ -48,17 +48,17 @@ public class UserCollaborationController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCollaboration(List<Collaboration> collaborationList, Transform DictionaryContentPanel)
+    public void CreateUserCollaboration(List<Collaborations> collaborationList, Transform DictionaryContentPanel)
     {
         foreach (var collaboration in collaborationList)
         {
             GameObject collaborationObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = collaboration.name.Replace("_", " ");
+            Title.text = collaboration.Name.Replace("_", " ");
 
             RawImage Image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -84,7 +84,7 @@ public class UserCollaborationController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowCollaborationsDetails(Collaboration collaboration, GameObject currentObject, int buttonType = 1)
+    public void ShowCollaborationsDetails(Collaborations collaboration, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -140,25 +140,25 @@ public class UserCollaborationController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Collaboration collaboration)
+        if (obj is Collaborations collaboration)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = collaboration.name;
+            name.text = collaboration.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(collaboration.power, false);
+            power.text = NumberFormatter.FormatNumber(collaboration.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaboration.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaboration.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -176,7 +176,7 @@ public class UserCollaborationController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Collaboration collaboration)
+        if (obj is Collaborations collaboration)
         {
             PropertyInfo[] properties = collaboration.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, collaboration, increasePerLevel, currentObject);
@@ -191,17 +191,17 @@ public class UserCollaborationController : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Collaboration currentCard = new Collaboration();
-                currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Collaborations currentCard = new Collaborations();
+                currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Collaboration newCard = new Collaboration();
+                    Collaborations newCard = new Collaborations();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCollaborationService.Create().GetNewLevelPower(collaboration, increasePerLevel);
@@ -218,9 +218,9 @@ public class UserCollaborationController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Collaboration currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Collaborations currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -235,7 +235,7 @@ public class UserCollaborationController : MonoBehaviour
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    Collaboration newCard = UserCollaborationService.Create().GetNewLevelPower(collaboration, levelsGained * increasePerLevel);
+                    Collaborations newCard = UserCollaborationService.Create().GetNewLevelPower(collaboration, levelsGained * increasePerLevel);
                     UserCollaborationService.Create().UpdateCollaborationsLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -259,7 +259,7 @@ public class UserCollaborationController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Collaboration collaboration)
+        if (obj is Collaborations collaboration)
         {
             PropertyInfo[] properties = collaboration.GetType().GetProperties();
             foreach (var property in properties)
@@ -277,67 +277,67 @@ public class UserCollaborationController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (collaboration.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (collaboration.Star + 1).ToString();
             }
             GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
             Texture cardTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             cardImage.texture = cardTexture;
 
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = collaboration.quantity.ToString() + "/" + (collaboration.star + 1).ToString();
+            cardQuantity.text = collaboration.Quantity.ToString() + "/" + (collaboration.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(collaboration.star, currentObject);
+            UIManager.Instance.CreateStarUI(collaboration.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = collaboration.star + 1;
+                int requiredQuantity = collaboration.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = collaboration.quantity >= requiredQuantity;
+                bool hasEnoughCards = collaboration.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + collaboration.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + collaboration.Quantity >= requiredQuantity;
 
                 if (hasEnoughCards || hasEnoughItems)
                 {
                     // Giảm số lượng thẻ bài trước
-                    if (collaboration.quantity >= requiredQuantity)
+                    if (collaboration.Quantity >= requiredQuantity)
                     {
-                        collaboration.quantity -= requiredQuantity;
+                        collaboration.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - collaboration.quantity;
-                        collaboration.quantity = 0; // Dùng hết thẻ bài
+                        int remainingRequired = requiredQuantity - collaboration.Quantity;
+                        collaboration.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -347,21 +347,21 @@ public class UserCollaborationController : MonoBehaviour
                         userItemsService.UpdateUserItemsQuantity(items1);
                     }
                     // Cập nhật cấp sao (Star)
-                    Collaboration newCollaboration = new Collaboration();
+                    Collaborations newCollaboration = new Collaborations();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCollaboration = UserCollaborationService.Create().GetNewBreakthroughPower(collaboration, increasePerUpgrade);
-                    UserCollaborationService.Create().UpdateCollaborationsBreakthrough(newCollaboration, collaboration.star + 1, collaboration.quantity);
+                    UserCollaborationService.Create().UpdateCollaborationsBreakthrough(newCollaboration, collaboration.Star + 1, collaboration.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    CollaborationGalleryService.Create().UpdateStarCollaborationsGallery(collaboration.id, collaboration.star + 1);
+                    CollaborationGalleryService.Create().UpdateStarCollaborationsGallery(collaboration.Id, collaboration.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(collaboration.star, currentObject);
+                    UIManager.Instance.CreateStarUI(collaboration.Star, currentObject);
                 }
                 else
                 {

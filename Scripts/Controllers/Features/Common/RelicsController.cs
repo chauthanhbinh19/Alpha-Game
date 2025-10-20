@@ -54,10 +54,10 @@ public class RelicsController : MonoBehaviour
             GameObject relicObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = relic.name.Replace("_", " ");
+            Title.text = relic.Name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,7 +71,7 @@ public class RelicsController : MonoBehaviour
             });
 
             RawImage rareImage = relicObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -90,10 +90,10 @@ public class RelicsController : MonoBehaviour
             GameObject relicObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = relic.name.Replace("_", " ");
+            Title.text = relic.Name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = relicObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class RelicsController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = relicObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = relicObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(relic.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(relic.Currency.Quantity, false);
 
             Button buy = relicObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,11 +123,11 @@ public class RelicsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(relic.currency.quantity, relic, subType, popupPanel, currencyPanel);
+                GetQuantity(relic.Currency.Quantity, relic, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetRelicsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -242,14 +242,14 @@ public class RelicsController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is Relics relics)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(relics.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(relics.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -275,8 +275,8 @@ public class RelicsController : MonoBehaviour
 
             if (obj is Relics relics)
             {
-                relics.quantity = relics.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(relics.currency.id, price);
+                relics.Quantity = relics.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(relics.Currency.Id, price);
                 bool success = UserRelicsService.Create().InsertUserReclis(relics);
                 if (!success)
                 {
@@ -288,11 +288,11 @@ public class RelicsController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    RelicsGalleryService.Create().InsertRelicsGallery(relics.id);
+                    RelicsGalleryService.Create().InsertRelicsGallery(relics.Id);
                     currencies = UserCurrencyService.Create().GetRelicsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

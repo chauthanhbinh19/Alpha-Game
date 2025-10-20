@@ -6,19 +6,19 @@ using System;
 
 public class Rank : BaseEntity
 {
-    public string type { get; set; }
-    public int level { get; set; }
-    public double percent_all_health { get; set; }
-    public double percent_all_physical_attack { get; set; }
-    public double percent_all_physical_defense { get; set; }
-    public double percent_all_magical_attack { get; set; }
-    public double percent_all_magical_defense { get; set; }
-    public double percent_all_chemical_attack { get; set; }
-    public double percent_all_chemical_defense { get; set; }
-    public double percent_all_atomic_attack { get; set; }
-    public double percent_all_atomic_defense { get; set; }
-    public double percent_all_mental_attack { get; set; }
-    public double percent_all_mental_defense { get; set; }
+    public string Type { get; set; }
+    public int Level { get; set; }
+    public double PercentAllHealth { get; set; }
+    public double PercentAllPhysicalAttack { get; set; }
+    public double PercentAllPhysicalDefense { get; set; }
+    public double PercentAllMagicalAttack { get; set; }
+    public double PercentAllMagicalDefense { get; set; }
+    public double PercentAllChemicalAttack { get; set; }
+    public double PercentAllChemicalDefense { get; set; }
+    public double PercentAllAtomicAttack { get; set; }
+    public double PercentAllAtomicDefense { get; set; }
+    public double PercentAllMentalAttack { get; set; }
+    public double PercentAllMentalDefense { get; set; }
     public Rank()
     {
 

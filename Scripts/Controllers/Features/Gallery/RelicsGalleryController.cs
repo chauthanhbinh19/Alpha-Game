@@ -45,10 +45,10 @@ public class RelicsGalleryController : MonoBehaviour
             GameObject relicObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = relic.name.Replace("_", " ");
+            Title.text = relic.Name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -62,23 +62,23 @@ public class RelicsGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = relicObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = relicObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = relicObject.transform.Find("Unlock").GetComponent<Button>();
-            if (relic.status.Equals("available"))
+            if (relic.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (relic.status.Equals("pending"))
+            else if (relic.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (relic.status.Equals("block"))
+            else if (relic.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -88,7 +88,7 @@ public class RelicsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var relicGalleryService = RelicsGalleryService.Create();
-                relicGalleryService.UpdateStatusRelicsGallery(relic.id);
+                relicGalleryService.UpdateStatusRelicsGallery(relic.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -103,7 +103,7 @@ public class RelicsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = relicObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((relic.current_star < relic.temp_star) && relic.status.Equals("available"))
+            if ((relic.CurrentStar < relic.TempStar) && relic.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -115,7 +115,7 @@ public class RelicsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                RelicsGalleryService.Create().UpdateRelicsGalleryPower(relic.id);
+                RelicsGalleryService.Create().UpdateRelicsGalleryPower(relic.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

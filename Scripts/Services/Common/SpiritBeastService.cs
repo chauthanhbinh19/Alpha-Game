@@ -14,9 +14,9 @@ public class SpiritBeastService : ISpiritBeastService
         return new SpiritBeastService(new SpiritBeastRepository());
     }
 
-    public List<SpiritBeast> GetSpiritBeast(int pageSize, int offset, string rare)
+    public List<SpiritBeasts> GetSpiritBeast(int pageSize, int offset, string rare)
     {
-        List<SpiritBeast> list = _SpiritBeastRepository.GetSpiritBeast(pageSize, offset, rare);
+        List<SpiritBeasts> list = _SpiritBeastRepository.GetSpiritBeast(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -26,9 +26,9 @@ public class SpiritBeastService : ISpiritBeastService
         return _SpiritBeastRepository.GetSpiritBeastCount(rare);
     }
 
-    public List<SpiritBeast> GetSpiritBeastWithPrice(int pageSize, int offset)
+    public List<SpiritBeasts> GetSpiritBeastWithPrice(int pageSize, int offset)
     {
-        List<SpiritBeast> list = _SpiritBeastRepository.GetSpiritBeastWithPrice(pageSize, offset);
+        List<SpiritBeasts> list = _SpiritBeastRepository.GetSpiritBeastWithPrice(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,12 +38,12 @@ public class SpiritBeastService : ISpiritBeastService
         return _SpiritBeastRepository.GetSpiritBeastWithPriceCount();
     }
 
-    public SpiritBeast GetSpiritBeastById(string Id)
+    public SpiritBeasts GetSpiritBeastById(string Id)
     {
         return _SpiritBeastRepository.GetSpiritBeastById(Id);
     }
 
-    public SpiritBeast SumPowerSpiritBeastPercent()
+    public SpiritBeasts SumPowerSpiritBeastPercent()
     {
         return _SpiritBeastRepository.SumPowerSpiritBeastPercent();
     }

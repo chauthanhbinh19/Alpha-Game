@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class PuppetGalleryRepository : IPuppetGalleryRepository
 {
-    public List<Puppet> GetPuppetCollection(string type, int pageSize, int offset, string rare)
+    public List<Puppets> GetPuppetCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Puppet> Puppets = new List<Puppet>();
+        List<Puppets> Puppets = new List<Puppets>();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -30,78 +30,78 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Puppet Puppet = new Puppet
+                    Puppets Puppet = new Puppets
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        power = reader.GetDouble("power"),
-                        current_star = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetInt32("current_star"),
-                        temp_star = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetInt32("temp_star"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        description = reader.GetString("description"),
-                        status = reader.GetString("status"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Power = reader.GetDouble("power"),
+                        CurrentStar = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetInt32("current_star"),
+                        TempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetInt32("temp_star"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                        PercentAllHealth = reader.GetDouble("percent_all_health"),
+                        PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
+                        PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
+                        PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
+                        PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
+                        PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
+                        PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
+                        PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
+                        PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
+                        PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
+                        PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
+                        Description = reader.GetString("description"),
+                        Status = reader.GetString("status"),
                     };
 
                     Puppets.Add(Puppet);
@@ -139,10 +139,10 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
         }
         return count;
     }
-    public void InsertPuppetGallery(string Id, Puppet PuppetFromDB)
+    public void InsertPuppetGallery(string Id, Puppets PuppetFromDB)
     {
         // Puppet PuppetFromDB = GetPuppetById(Id);
-        int percent = QualityEvaluator.CheckQuality(PuppetFromDB.type);
+        int percent = QualityEvaluator.CheckQuality(PuppetFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -208,56 +208,56 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
-                    command.Parameters.AddWithValue("@power", PuppetFromDB.power);
-                    command.Parameters.AddWithValue("@health", PuppetFromDB.health);
-                    command.Parameters.AddWithValue("@physical_attack", PuppetFromDB.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", PuppetFromDB.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", PuppetFromDB.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", PuppetFromDB.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", PuppetFromDB.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", PuppetFromDB.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", PuppetFromDB.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", PuppetFromDB.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", PuppetFromDB.magical_attack);
-                    command.Parameters.AddWithValue("@mental_defense", PuppetFromDB.magical_defense);
-                    command.Parameters.AddWithValue("@speed", PuppetFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", PuppetFromDB.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", PuppetFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", PuppetFromDB.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", PuppetFromDB.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", PuppetFromDB.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", PuppetFromDB.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", PuppetFromDB.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", PuppetFromDB.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", PuppetFromDB.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", PuppetFromDB.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", PuppetFromDB.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", PuppetFromDB.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", PuppetFromDB.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", PuppetFromDB.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", PuppetFromDB.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", PuppetFromDB.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", PuppetFromDB.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", PuppetFromDB.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", PuppetFromDB.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", PuppetFromDB.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", PuppetFromDB.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", PuppetFromDB.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", PuppetFromDB.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", PuppetFromDB.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", PuppetFromDB.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", PuppetFromDB.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", PuppetFromDB.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", PuppetFromDB.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", PuppetFromDB.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", PuppetFromDB.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", PuppetFromDB.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", PuppetFromDB.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", PuppetFromDB.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", PuppetFromDB.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", PuppetFromDB.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", PuppetFromDB.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", PuppetFromDB.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@power", PuppetFromDB.Power);
+                    command.Parameters.AddWithValue("@health", PuppetFromDB.Health);
+                    command.Parameters.AddWithValue("@physical_attack", PuppetFromDB.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", PuppetFromDB.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", PuppetFromDB.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", PuppetFromDB.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", PuppetFromDB.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", PuppetFromDB.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", PuppetFromDB.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", PuppetFromDB.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", PuppetFromDB.MagicalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", PuppetFromDB.MagicalDefense);
+                    command.Parameters.AddWithValue("@speed", PuppetFromDB.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", PuppetFromDB.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", PuppetFromDB.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", PuppetFromDB.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", PuppetFromDB.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", PuppetFromDB.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", PuppetFromDB.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", PuppetFromDB.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", PuppetFromDB.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", PuppetFromDB.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", PuppetFromDB.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", PuppetFromDB.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", PuppetFromDB.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", PuppetFromDB.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", PuppetFromDB.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", PuppetFromDB.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", PuppetFromDB.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", PuppetFromDB.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", PuppetFromDB.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", PuppetFromDB.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", PuppetFromDB.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", PuppetFromDB.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", PuppetFromDB.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", PuppetFromDB.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", PuppetFromDB.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", PuppetFromDB.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", PuppetFromDB.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", PuppetFromDB.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", PuppetFromDB.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", PuppetFromDB.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", PuppetFromDB.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", PuppetFromDB.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", PuppetFromDB.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", PuppetFromDB.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", PuppetFromDB.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", PuppetFromDB.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", PuppetFromDB.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", PuppetFromDB.SkillResistanceRate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -354,7 +354,7 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
             }
         }
     }
-    public void UpdatePuppetGalleryPower(string Id, Puppet PuppetFromDB)
+    public void UpdatePuppetGalleryPower(string Id, Puppets PuppetFromDB)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -436,56 +436,56 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
                 command.Parameters.AddWithValue("@puppet_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
-                command.Parameters.AddWithValue("@power", PuppetFromDB.power);
-                command.Parameters.AddWithValue("@health", PuppetFromDB.health);
-                command.Parameters.AddWithValue("@physical_attack", PuppetFromDB.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", PuppetFromDB.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", PuppetFromDB.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", PuppetFromDB.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", PuppetFromDB.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", PuppetFromDB.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", PuppetFromDB.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", PuppetFromDB.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", PuppetFromDB.magical_attack);
-                command.Parameters.AddWithValue("@mental_defense", PuppetFromDB.magical_defense);
-                command.Parameters.AddWithValue("@speed", PuppetFromDB.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", PuppetFromDB.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", PuppetFromDB.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", PuppetFromDB.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", PuppetFromDB.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", PuppetFromDB.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", PuppetFromDB.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", PuppetFromDB.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", PuppetFromDB.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", PuppetFromDB.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", PuppetFromDB.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", PuppetFromDB.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", PuppetFromDB.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", PuppetFromDB.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", PuppetFromDB.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", PuppetFromDB.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", PuppetFromDB.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", PuppetFromDB.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", PuppetFromDB.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", PuppetFromDB.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", PuppetFromDB.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", PuppetFromDB.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", PuppetFromDB.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", PuppetFromDB.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", PuppetFromDB.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", PuppetFromDB.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", PuppetFromDB.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", PuppetFromDB.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", PuppetFromDB.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", PuppetFromDB.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", PuppetFromDB.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", PuppetFromDB.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", PuppetFromDB.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", PuppetFromDB.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", PuppetFromDB.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", PuppetFromDB.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", PuppetFromDB.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", PuppetFromDB.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", PuppetFromDB.Power);
+                command.Parameters.AddWithValue("@health", PuppetFromDB.Health);
+                command.Parameters.AddWithValue("@physical_attack", PuppetFromDB.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", PuppetFromDB.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", PuppetFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", PuppetFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", PuppetFromDB.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", PuppetFromDB.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", PuppetFromDB.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", PuppetFromDB.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", PuppetFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@mental_defense", PuppetFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@speed", PuppetFromDB.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", PuppetFromDB.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", PuppetFromDB.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", PuppetFromDB.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", PuppetFromDB.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", PuppetFromDB.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", PuppetFromDB.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", PuppetFromDB.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", PuppetFromDB.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", PuppetFromDB.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", PuppetFromDB.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", PuppetFromDB.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", PuppetFromDB.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", PuppetFromDB.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", PuppetFromDB.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", PuppetFromDB.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", PuppetFromDB.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", PuppetFromDB.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", PuppetFromDB.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", PuppetFromDB.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", PuppetFromDB.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", PuppetFromDB.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", PuppetFromDB.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", PuppetFromDB.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", PuppetFromDB.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", PuppetFromDB.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", PuppetFromDB.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", PuppetFromDB.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", PuppetFromDB.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", PuppetFromDB.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", PuppetFromDB.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", PuppetFromDB.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", PuppetFromDB.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", PuppetFromDB.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", PuppetFromDB.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", PuppetFromDB.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", PuppetFromDB.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", PuppetFromDB.SkillResistanceRate);
                 command.Parameters.AddWithValue("@percent_all_health", 5);
                 command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
                 command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
@@ -509,9 +509,9 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
             }
         }
     }
-    public Puppet SumPowerPuppetGallery()
+    public Puppets SumPowerPuppetGallery()
     {
-        Puppet sumPuppet = new Puppet();
+        Puppets sumPuppet = new Puppets();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -565,67 +565,67 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
                 {
                     if (reader.Read())
                     {
-                        sumPuppet.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumPuppet.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumPuppet.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumPuppet.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumPuppet.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumPuppet.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumPuppet.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumPuppet.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumPuppet.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumPuppet.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumPuppet.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumPuppet.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumPuppet.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumPuppet.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumPuppet.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumPuppet.critical_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumPuppet.ignore_critical_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumPuppet.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumPuppet.penetration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumPuppet.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumPuppet.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumPuppet.ignore_damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumPuppet.absorbed_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumPuppet.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumPuppet.vitality_regeneration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumPuppet.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumPuppet.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumPuppet.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumPuppet.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumPuppet.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumPuppet.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumPuppet.ignore_combo_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumPuppet.combo_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumPuppet.combo_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumPuppet.stun_rate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumPuppet.ignore_stun_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumPuppet.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumPuppet.ignore_reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumPuppet.reflection_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumPuppet.reflection_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumPuppet.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumPuppet.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumPuppet.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumPuppet.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumPuppet.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumPuppet.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumPuppet.normal_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumPuppet.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumPuppet.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumPuppet.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
-                        sumPuppet.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
-                        sumPuppet.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
-                        sumPuppet.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
-                        sumPuppet.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
-                        sumPuppet.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
-                        sumPuppet.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
-                        sumPuppet.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
-                        sumPuppet.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
-                        sumPuppet.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
-                        sumPuppet.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
-                        sumPuppet.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
+                        sumPuppet.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumPuppet.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumPuppet.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumPuppet.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumPuppet.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumPuppet.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumPuppet.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumPuppet.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumPuppet.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumPuppet.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumPuppet.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumPuppet.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumPuppet.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumPuppet.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumPuppet.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumPuppet.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                        sumPuppet.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                        sumPuppet.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumPuppet.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                        sumPuppet.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumPuppet.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumPuppet.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                        sumPuppet.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                        sumPuppet.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumPuppet.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                        sumPuppet.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumPuppet.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumPuppet.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumPuppet.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumPuppet.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumPuppet.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumPuppet.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                        sumPuppet.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                        sumPuppet.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                        sumPuppet.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                        sumPuppet.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                        sumPuppet.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumPuppet.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                        sumPuppet.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                        sumPuppet.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                        sumPuppet.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumPuppet.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumPuppet.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumPuppet.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumPuppet.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumPuppet.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                        sumPuppet.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                        sumPuppet.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                        sumPuppet.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                        sumPuppet.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        sumPuppet.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumPuppet.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumPuppet.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumPuppet.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumPuppet.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumPuppet.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumPuppet.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumPuppet.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumPuppet.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumPuppet.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumPuppet.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
 

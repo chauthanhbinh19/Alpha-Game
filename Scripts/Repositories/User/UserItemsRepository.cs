@@ -30,10 +30,10 @@ public class UserItemsRepository : IUserItemsRepository
                 {
                     Items item = new Items
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                         
                     };
 
@@ -92,10 +92,10 @@ public class UserItemsRepository : IUserItemsRepository
             MySqlDataReader reader = command.ExecuteReader();
             if (reader.Read()) // Nếu có dữ liệu
             {
-                items.id = reader.GetString("itemID");
-                items.name = reader["itemName"]?.ToString() ?? string.Empty; // Gán giá trị cột 'name'
-                items.image = reader["itemImage"]?.ToString() ?? string.Empty;
-                items.quantity = reader["quantity"] != DBNull.Value
+                items.Id = reader.GetString("itemID");
+                items.Name = reader["itemName"]?.ToString() ?? string.Empty; // Gán giá trị cột 'name'
+                items.Image = reader["itemImage"]?.ToString() ?? string.Empty;
+                items.Quantity = reader["quantity"] != DBNull.Value
                                  ? Convert.ToInt32(reader["quantity"])
                                  : 0; // Gán giá trị cột 'quantity'
             }
@@ -114,7 +114,7 @@ public class UserItemsRepository : IUserItemsRepository
                 string query = @"select count(*) from user_items where user_id=@user_id and item_id=@item_id";
                 MySqlCommand checkCommand = new MySqlCommand(query, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@item_id", items.id);
+                checkCommand.Parameters.AddWithValue("@item_id", items.Id);
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
                 {
@@ -122,13 +122,13 @@ public class UserItemsRepository : IUserItemsRepository
                 (@user_id, @item_id, @quantity)";
                     MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
                     insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    insertCommand.Parameters.AddWithValue("@item_id", items.id);
+                    insertCommand.Parameters.AddWithValue("@item_id", items.Id);
                     insertCommand.Parameters.AddWithValue("@quantity", quantity);
                     insertCommand.ExecuteNonQuery();
                 }
                 else
                 {
-                    items.quantity = quantity;
+                    items.Quantity = quantity;
                     UpdateUserItemsQuantity(items);
                 }
             }
@@ -151,8 +151,8 @@ public class UserItemsRepository : IUserItemsRepository
             where user_id=@user_id and item_id=@item_id";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            command.Parameters.AddWithValue("@item_id", items.id);
-            command.Parameters.AddWithValue("@quantity", items.quantity);
+            command.Parameters.AddWithValue("@item_id", items.Id);
+            command.Parameters.AddWithValue("@quantity", items.Quantity);
             command.ExecuteNonQuery();
 
         }
@@ -168,7 +168,7 @@ public class UserItemsRepository : IUserItemsRepository
             where user_id=@user_id and item_id=@item_id";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            command.Parameters.AddWithValue("@item_id", items.id);
+            command.Parameters.AddWithValue("@item_id", items.Id);
             command.Parameters.AddWithValue("@quantity", quantity);
             command.ExecuteNonQuery();
 

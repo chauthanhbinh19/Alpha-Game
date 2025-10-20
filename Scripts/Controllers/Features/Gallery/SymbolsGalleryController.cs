@@ -45,10 +45,10 @@ public class SymbolsGalleryController : MonoBehaviour
             GameObject symbolObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = symbol.name.Replace("_", " ");
+            Title.text = symbol.Name.Replace("_", " ");
 
             RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -62,23 +62,23 @@ public class SymbolsGalleryController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = symbolObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = symbolObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = symbolObject.transform.Find("Unlock").GetComponent<Button>();
-            if (symbol.status.Equals("available"))
+            if (symbol.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (symbol.status.Equals("pending"))
+            else if (symbol.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (symbol.status.Equals("block"))
+            else if (symbol.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -92,7 +92,7 @@ public class SymbolsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var symbolGalleryService = SymbolsGalleryService.Create();
-                symbolGalleryService.UpdateStatusSymbolsGallery(symbol.id);
+                symbolGalleryService.UpdateStatusSymbolsGallery(symbol.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -106,7 +106,7 @@ public class SymbolsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = symbolObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((symbol.current_star < symbol.temp_star) && symbol.status.Equals("available"))
+            if ((symbol.CurrentStar < symbol.TempStar) && symbol.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -118,7 +118,7 @@ public class SymbolsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                SymbolsGalleryService.Create().UpdateSymbolsGalleryPower(symbol.id);
+                SymbolsGalleryService.Create().UpdateSymbolsGalleryPower(symbol.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

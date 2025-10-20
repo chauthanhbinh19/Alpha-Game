@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 public class DailyCheckin
 {
-    public string id { get; set; }
-    public DateTime date { get; set; }
-    public int month { get; set; }
-    public int year { get; set; }
-    public string type { get; set; }
-    public string object_id { get; set; }
-    public int quantity { get; set; }
+    public string Id { get; set; }
+    public DateTime Date { get; set; }
+    public int Month { get; set; }
+    public int Year { get; set; }
+    public string Type { get; set; }
+    public string ObjectId { get; set; }
+    public int Quantity { get; set; }
     public UserDailyCheckin UserDailyCheckin { get; set; }
 }

@@ -7,11 +7,11 @@ using System.Xml.Linq;
 
 public interface IUserArtworkRepository
 {
-    List<Artwork> GetUserArtwork(string user_id, string type, int pageSize, int offset, string rare);
+    List<Artworks> GetUserArtwork(string user_id, string type, int pageSize, int offset, string rare);
     int GetUserArtworkCount(string user_id, string type, string rare);
-    bool InsertUserArtwork(Artwork Artwork);
-    bool UpdateArtworkLevel(Artwork Artwork, int cardLevel);
-    bool UpdateArtworkBreakthrough(Artwork Artwork, int star, int quantity);
-    Artwork GetUserArtworkById(string user_id, string Id);
-    Artwork SumPowerUserArtwork();
+    bool InsertUserArtwork(Artworks Artwork);
+    bool UpdateArtworkLevel(Artworks Artwork, int cardLevel);
+    bool UpdateArtworkBreakthrough(Artworks Artwork, int star, int quantity);
+    Artworks GetUserArtworkById(string user_id, string Id);
+    Artworks SumPowerUserArtwork();
 }

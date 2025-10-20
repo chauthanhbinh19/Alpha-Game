@@ -78,9 +78,9 @@ public class GachaSystem : MonoBehaviour
 
         foreach (Items item in items)
         {
-            if (item.quantity >= quantity)
+            if (item.Quantity >= quantity)
             {
-                item.quantity = item.quantity - quantity;
+                item.Quantity = item.Quantity - quantity;
                 UserItemsService.Create().UpdateUserItemsQuantity(item);
             }
             else
@@ -161,9 +161,9 @@ public class GachaSystem : MonoBehaviour
                 CardHeroes cardItem = card as CardHeroes;
                 if (cardItem != null)
                 {
-                    cardItem.quantity = cardItem.quantity + 1;
+                    cardItem.Quantity = cardItem.Quantity + 1;
                     UserCardHeroesService.Create().InsertUserCardHeroes(cardItem);
-                    CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardItem.id);
+                    CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardItem.Id);
                 }
             }
             else if (name.Equals(AppConstants.MainType.SUMMON_BOOKS))
@@ -171,9 +171,9 @@ public class GachaSystem : MonoBehaviour
                 Books bookItem = card as Books;
                 if (bookItem != null)
                 {
-                    bookItem.quantity = bookItem.quantity + 1;
+                    bookItem.Quantity = bookItem.Quantity + 1;
                     UserBooksService.Create().InsertUserBooks(bookItem);
-                    BooksGalleryService.Create().InsertBooksGallery(bookItem.id);
+                    BooksGalleryService.Create().InsertBooksGallery(bookItem.Id);
                 }
             }
             else if (name.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
@@ -181,9 +181,9 @@ public class GachaSystem : MonoBehaviour
                 CardCaptains captainItem = card as CardCaptains;
                 if (captainItem != null)
                 {
-                    captainItem.quantity = captainItem.quantity + 1;
+                    captainItem.Quantity = captainItem.Quantity + 1;
                     UserCardCaptainsService.Create().InsertUserCardCaptains(captainItem);
-                    CardCaptainsGalleryService.Create().InsertCardCaptainsGallery(captainItem.id);
+                    CardCaptainsGalleryService.Create().InsertCardCaptainsGallery(captainItem.Id);
                 }
             }
             else if (name.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
@@ -191,29 +191,29 @@ public class GachaSystem : MonoBehaviour
                 CardMonsters monsterItem = card as CardMonsters;
                 if (monsterItem != null)
                 {
-                    monsterItem.quantity = monsterItem.quantity + 1;
+                    monsterItem.Quantity = monsterItem.Quantity + 1;
                     UserCardMonstersService.Create().InsertUserCardMonsters(monsterItem);
-                    CardMonstersGalleryService.Create().InsertCardMonstersGallery(monsterItem.id);
+                    CardMonstersGalleryService.Create().InsertCardMonstersGallery(monsterItem.Id);
                 }
             }
             else if (name.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
             {
-                CardMilitary militaryItem = card as CardMilitary;
+                CardMilitaries militaryItem = card as CardMilitaries;
                 if (militaryItem != null)
                 {
-                    militaryItem.quantity = militaryItem.quantity + 1;
+                    militaryItem.Quantity = militaryItem.Quantity + 1;
                     UserCardMilitaryService.Create().InsertUserCardMilitary(militaryItem);
-                    CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(militaryItem.id);
+                    CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(militaryItem.Id);
                 }
             }
             else if (name.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
             {
-                CardSpell spellItem = card as CardSpell;
+                CardSpells spellItem = card as CardSpells;
                 if (spellItem != null)
                 {
-                    spellItem.quantity = spellItem.quantity + 1;
+                    spellItem.Quantity = spellItem.Quantity + 1;
                     UserCardSpellService.Create().InsertUserCardSpell(spellItem);
-                    CardSpellGalleryService.Create().InsertCardSpellGallery(spellItem.id);
+                    CardSpellGalleryService.Create().InsertCardSpellGallery(spellItem.Id);
                 }
             }
             else if (name.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
@@ -221,9 +221,9 @@ public class GachaSystem : MonoBehaviour
                 CardColonels colonelItem = card as CardColonels;
                 if (colonelItem != null)
                 {
-                    colonelItem.quantity = colonelItem.quantity + 1;
+                    colonelItem.Quantity = colonelItem.Quantity + 1;
                     UserCardColonelsService.Create().InsertUserCardColonels(colonelItem);
-                    CardColonelsGalleryService.Create().InsertCardColonelsGallery(colonelItem.id);
+                    CardColonelsGalleryService.Create().InsertCardColonelsGallery(colonelItem.Id);
                 }
             }
             else if (name.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
@@ -231,9 +231,9 @@ public class GachaSystem : MonoBehaviour
                 CardGenerals generalItem = card as CardGenerals;
                 if (generalItem != null)
                 {
-                    generalItem.quantity = generalItem.quantity + 1;
+                    generalItem.Quantity = generalItem.Quantity + 1;
                     UserCardGeneralsService.Create().InsertUserCardGenerals(generalItem);
-                    CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(generalItem.id);
+                    CardGeneralsGalleryService.Create().InsertCardGeneralsGallery(generalItem.Id);
                 }
             }
             else if (name.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
@@ -241,9 +241,9 @@ public class GachaSystem : MonoBehaviour
                 CardAdmirals admiralItem = card as CardAdmirals;
                 if (admiralItem != null)
                 {
-                    admiralItem.quantity = admiralItem.quantity + 1;
+                    admiralItem.Quantity = admiralItem.Quantity + 1;
                     UserCardAdmiralsService.Create().InsertUserCardAdmirals(admiralItem);
-                    CardAdmiralsGalleryService.Create().InsertCardAdmiralsGallery(admiralItem.id);
+                    CardAdmiralsGalleryService.Create().InsertCardAdmiralsGallery(admiralItem.Id);
                 }
             }
             // Thêm các xử lý tương tự cho các loại khác
@@ -275,47 +275,47 @@ public class GachaSystem : MonoBehaviour
             RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
             if (item is CardHeroes card)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is Books book)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardCaptains captains)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captains.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captains.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardMonsters monsters)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monsters.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monsters.Rare}");
                 rareImage.texture = rareTexture;
             }
-            else if (item is CardMilitary military)
+            else if (item is CardMilitaries military)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.Rare}");
                 rareImage.texture = rareTexture;
             }
-            else if (item is CardSpell spell)
+            else if (item is CardSpells spell)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardColonels colonels)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{colonels.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{colonels.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardGenerals generals)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{generals.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{generals.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardAdmirals admirals)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admirals.rare}");
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admirals.Rare}");
                 rareImage.texture = rareTexture;
             }
             rareImage.gameObject.SetActive(false);
@@ -347,47 +347,47 @@ public class GachaSystem : MonoBehaviour
             if (randomItems[index] is CardHeroes card)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, card.image));
+                yield return StartCoroutine(FlipCard(image, card.Image));
             }
             else if (randomItems[index] is Books book)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, book.image));
+                yield return StartCoroutine(FlipCard(image, book.Image));
             }
             else if (randomItems[index] is CardCaptains captain)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, captain.image));
+                yield return StartCoroutine(FlipCard(image, captain.Image));
             }
             else if (randomItems[index] is CardMonsters monster)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, monster.image));
+                yield return StartCoroutine(FlipCard(image, monster.Image));
             }
-            else if (randomItems[index] is CardMilitary military)
+            else if (randomItems[index] is CardMilitaries military)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, military.image));
+                yield return StartCoroutine(FlipCard(image, military.Image));
             }
-            else if (randomItems[index] is CardSpell spell)
+            else if (randomItems[index] is CardSpells spell)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, spell.image));
+                yield return StartCoroutine(FlipCard(image, spell.Image));
             }
             else if (randomItems[index] is CardColonels colonels)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, colonels.image));
+                yield return StartCoroutine(FlipCard(image, colonels.Image));
             }
             else if (randomItems[index] is CardGenerals generals)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, generals.image));
+                yield return StartCoroutine(FlipCard(image, generals.Image));
             }
             else if (randomItems[index] is CardAdmirals admirals)
             {
                 // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, admirals.image));
+                yield return StartCoroutine(FlipCard(image, admirals.Image));
             }
         }
     }

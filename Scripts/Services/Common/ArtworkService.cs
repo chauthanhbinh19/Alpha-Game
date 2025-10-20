@@ -19,9 +19,9 @@ public class ArtworkService : IArtworkService
         return _ArtworkRepository.GetUniqueArtworkTypes();
     }
 
-    public List<Artwork> GetArtwork(string type, int pageSize, int offset, string rare)
+    public List<Artworks> GetArtwork(string type, int pageSize, int offset, string rare)
     {
-        List<Artwork> list = _ArtworkRepository.GetArtwork(type, pageSize, offset, rare);
+        List<Artworks> list = _ArtworkRepository.GetArtwork(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,9 +31,9 @@ public class ArtworkService : IArtworkService
         return _ArtworkRepository.GetArtworkCount(type, rare);
     }
 
-    public List<Artwork> GetArtworkWithPrice(string type, int pageSize, int offset)
+    public List<Artworks> GetArtworkWithPrice(string type, int pageSize, int offset)
     {
-        List<Artwork> list = _ArtworkRepository.GetArtworkWithPrice(type, pageSize, offset);
+        List<Artworks> list = _ArtworkRepository.GetArtworkWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -43,12 +43,12 @@ public class ArtworkService : IArtworkService
         return _ArtworkRepository.GetArtworkWithPriceCount(type);
     }
 
-    public Artwork GetArtworkById(string Id)
+    public Artworks GetArtworkById(string Id)
     {
         return _ArtworkRepository.GetArtworkById(Id);
     }
 
-    public Artwork SumPowerArtworkPercent()
+    public Artworks SumPowerArtworkPercent()
     {
         return _ArtworkRepository.SumPowerArtworkPercent();
     }

@@ -83,10 +83,10 @@ public class UserCardAdmiralsController : MonoBehaviour
             GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = admirals.name.Replace("_", " ");
+            Title.text = admirals.Name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(admirals.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(admirals.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -97,7 +97,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             });
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admirals.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admirals.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
@@ -114,7 +114,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             GameObject captainObject = Instantiate(PositionPrefab, PositionPanel);
 
             RawImage Image = captainObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(admiral.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(admiral.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -205,21 +205,21 @@ public class UserCardAdmiralsController : MonoBehaviour
     public void CreateDetailsUI(CardAdmirals cardAdmirals, GameObject currentObject)
     {
         RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.image); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardAdmirals.name;
+        name.text = cardAdmirals.Name;
 
         TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardAdmirals.power, false);
+        power.text = NumberFormatter.FormatNumber(cardAdmirals.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardAdmirals.level.ToString();
 
         RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmirals.rare}");
+        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmirals.Rare}");
         rareImage.texture = rareTexture;
     }
     public void GetDetails(object obj, GameObject currentObject)
@@ -259,9 +259,9 @@ public class UserCardAdmiralsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardAdmirals currentCard = new CardAdmirals();
-                currentCard = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                currentCard = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
@@ -285,9 +285,9 @@ public class UserCardAdmiralsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CardAdmirals currentCard = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                CardAdmirals currentCard = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -323,27 +323,27 @@ public class UserCardAdmiralsController : MonoBehaviour
         Button setUpButton = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
         if (obj is CardAdmirals cardAdmirals)
         {
-            var skills = UserSkillsService.Create().GetUserCardAdmiralsSkills(User.CurrentUserId, cardAdmirals.id);
-            skills = skills.Where(x => x.position != 0).ToList();
+            var skills = UserSkillsService.Create().GetUserCardAdmiralsSkills(User.CurrentUserId, cardAdmirals.Id);
+            skills = skills.Where(x => x.Position != 0).ToList();
             foreach (var skill in skills)
             {
                 GameObject skillObject = Instantiate(Skill1Prefab, skillContent);
                 RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
-                Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+                Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
                 skillImage.texture = skillImageTexure;
 
                 TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                skillTitleText.text = skill.name;
+                skillTitleText.text = skill.Name;
 
                 RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
-                string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.type);
+                string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
                 Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
                 skillBackgroundImage.texture = skillBackgroundImageTexture;
             }
             setUpButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CreateSkillPanel(cardAdmirals.id);
+                CreateSkillPanel(cardAdmirals.Id);
             });
         }
     }
@@ -387,10 +387,10 @@ public class UserCardAdmiralsController : MonoBehaviour
             Button passiveSkillButton2 = skillGroupObject.transform.Find("PassiveSkillButton2").GetComponent<Button>();
 
             var skills = UserSkillsService.Create().GetUserCardAdmiralsSkills(User.CurrentUserId, cardId);
-            skills = skills.Where(x => x.type.Equals(currentType)).ToList();
-            var activeSkill = skills.FirstOrDefault(x => x.position == activeSkillPosition);
-            var passiveSkill1 = skills.FirstOrDefault(x => x.position == passiveSkill1Position);
-            var passiveSkill2 = skills.FirstOrDefault(x => x.position == passiveSkill2Position);
+            skills = skills.Where(x => x.Type.Equals(currentType)).ToList();
+            var activeSkill = skills.FirstOrDefault(x => x.Position == activeSkillPosition);
+            var passiveSkill1 = skills.FirstOrDefault(x => x.Position == passiveSkill1Position);
+            var passiveSkill2 = skills.FirstOrDefault(x => x.Position == passiveSkill2Position);
 
             activeSkillButton.onClick.RemoveAllListeners();
             passiveSkillButton1.onClick.RemoveAllListeners();
@@ -399,7 +399,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             if (activeSkill != null)
             {
                 RawImage activeSkillImage = activeSkillButton.GetComponent<RawImage>();
-                Texture activeSkillImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(activeSkill.image)}");
+                Texture activeSkillImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(activeSkill.Image)}");
                 activeSkillImage.texture = activeSkillImageTexture;
                 activeSkillButton.onClick.AddListener(() =>
                 {
@@ -420,7 +420,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             if (passiveSkill1 != null)
             {
                 RawImage passiveSkill1Image = passiveSkillButton1.GetComponent<RawImage>();
-                Texture passiveSkill1ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill1.image)}");
+                Texture passiveSkill1ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill1.Image)}");
                 passiveSkill1Image.texture = passiveSkill1ImageTexture;
                 passiveSkillButton1.onClick.AddListener(() =>
                 {
@@ -441,7 +441,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             if (passiveSkill2 != null)
             {
                 RawImage passiveSkill2Image = passiveSkillButton2.GetComponent<RawImage>();
-                Texture passiveSkill2ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill2.image)}");
+                Texture passiveSkill2ImageTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill2.Image)}");
                 passiveSkill2Image.texture = passiveSkill2ImageTexture;
                 passiveSkillButton2.onClick.AddListener(() =>
                 {
@@ -472,24 +472,24 @@ public class UserCardAdmiralsController : MonoBehaviour
         });
 
         var skills = UserSkillsService.Create().GetUserCardAdmiralsSkills(User.CurrentUserId, cardId);
-        skills = skills.Where(x => x.type.Equals(type)
-                                && x.position != 1
-                                && x.position != 2
-                                && x.position != 3
-                                && x.skill_type.Equals(skillType)).ToList();
+        skills = skills.Where(x => x.Type.Equals(type)
+                                && x.Position != 1
+                                && x.Position != 2
+                                && x.Position != 3
+                                && x.SkillType.Equals(skillType)).ToList();
 
         foreach (var skill in skills)
         {
             GameObject skillObject = Instantiate(Skill2Prefab, skillContent);
             RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
-            Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+            Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
             skillImage.texture = skillImageTexure;
 
             TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            skillTitleText.text = skill.name;
+            skillTitleText.text = skill.Name;
 
             RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
-            string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.type);
+            string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
             Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
@@ -501,12 +501,12 @@ public class UserCardAdmiralsController : MonoBehaviour
                 Destroy(skillPanelObject);
                 if (oldSkill != null)
                 {
-                    UserSkillsService.Create().DeleteUserCardAdmiralsSkills(User.CurrentUserId, cardId, oldSkill.id, position);
-                    UserSkillsService.Create().InsertUserCardAdmiralsSkills(User.CurrentUserId, cardId, skill.id, position);
+                    UserSkillsService.Create().DeleteUserCardAdmiralsSkills(User.CurrentUserId, cardId, oldSkill.Id, position);
+                    UserSkillsService.Create().InsertUserCardAdmiralsSkills(User.CurrentUserId, cardId, skill.Id, position);
                 }
                 else
                 {
-                    UserSkillsService.Create().InsertUserCardAdmiralsSkills(User.CurrentUserId, cardId, skill.id, position);
+                    UserSkillsService.Create().InsertUserCardAdmiralsSkills(User.CurrentUserId, cardId, skill.Id, position);
                 }
                 CreateSkillPanel(cardId);
             });
@@ -523,11 +523,11 @@ public class UserCardAdmiralsController : MonoBehaviour
         });
 
         RawImage skillImage = popupSkillDetailObject.transform.Find("SkillImage").GetComponent<RawImage>();
-        Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.image)}");
+        Texture skillImageTexure = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
         skillImage.texture = skillImageTexure;
 
         TextMeshProUGUI skillTitleText = popupSkillDetailObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-        skillTitleText.text = skill.name;
+        skillTitleText.text = skill.Name;
 
         Button removeButton = popupSkillDetailObject.transform.Find("RemoveButton").GetComponent<Button>();
         removeButton.onClick.AddListener(() =>
@@ -535,7 +535,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Destroy(popupSkillDetailObject);
             Destroy(skillPanelObject);
-            UserSkillsService.Create().DeleteUserCardAdmiralsSkills(User.CurrentUserId, cardId, skill.id, position);
+            UserSkillsService.Create().DeleteUserCardAdmiralsSkills(User.CurrentUserId, cardId, skill.Id, position);
             CreateSkillPanel(cardId);
         });
 
@@ -571,67 +571,67 @@ public class UserCardAdmiralsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (cardAdmirals.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (cardAdmirals.Star + 1).ToString();
             }
             GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.Image);
             Texture cardTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             cardImage.texture = cardTexture;
 
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = cardAdmirals.quantity.ToString() + "/" + (cardAdmirals.star + 1).ToString();
+            cardQuantity.text = cardAdmirals.Quantity.ToString() + "/" + (cardAdmirals.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(cardAdmirals.star, currentObject);
+            UIManager.Instance.CreateStarUI(cardAdmirals.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = cardAdmirals.star + 1;
+                int requiredQuantity = cardAdmirals.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = cardAdmirals.quantity >= requiredQuantity;
+                bool hasEnoughCards = cardAdmirals.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + cardAdmirals.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + cardAdmirals.Quantity >= requiredQuantity;
 
                 if (hasEnoughCards || hasEnoughItems)
                 {
                     // Giảm số lượng thẻ bài trước
-                    if (cardAdmirals.quantity >= requiredQuantity)
+                    if (cardAdmirals.Quantity >= requiredQuantity)
                     {
-                        cardAdmirals.quantity -= requiredQuantity;
+                        cardAdmirals.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - cardAdmirals.quantity;
-                        cardAdmirals.quantity = 0; // Dùng hết thẻ bài
+                        int remainingRequired = requiredQuantity - cardAdmirals.Quantity;
+                        cardAdmirals.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -645,17 +645,17 @@ public class UserCardAdmiralsController : MonoBehaviour
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardAdmiralsService.Create().GetNewBreakthroughPower(cardAdmirals, increasePerUpgrade);
-                    UserCardAdmiralsService.Create().UpdateCardAdmiralsBreakthrough(newCard, cardAdmirals.star + 1, cardAdmirals.quantity);
+                    UserCardAdmiralsService.Create().UpdateCardAdmiralsBreakthrough(newCard, cardAdmirals.Star + 1, cardAdmirals.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    CardAdmiralsGalleryService.Create().UpdateStarCardAdmiralsGallery(cardAdmirals.id, cardAdmirals.star + 1);
+                    CardAdmiralsGalleryService.Create().UpdateStarCardAdmiralsGallery(cardAdmirals.Id, cardAdmirals.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(cardAdmirals.star, currentObject);
+                    UIManager.Instance.CreateStarUI(cardAdmirals.Star, currentObject);
                 }
                 else
                 {
@@ -681,8 +681,8 @@ public class UserCardAdmiralsController : MonoBehaviour
         {
             var userCardSpiritBeast = UserSpiritBeastService.Create().GetUserCardAdmiralsSpiritBeast(User.CurrentUserId, cardAdmirals);
             RawImage spiritBeastImage = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = userCardSpiritBeast.image != null
-                ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.image)
+            string fileNameWithoutExtension = userCardSpiritBeast.Image != null
+                ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image)
                 : "UI/Background4/Background_V4_352";
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             spiritBeastImage.texture = texture;
@@ -701,7 +701,7 @@ public class UserCardAdmiralsController : MonoBehaviour
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 spiritBeastImage.texture = texture;
 
-                var card = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.id);
+                var card = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.Id);
                 ShowCardAdmiralsDetails(card, currentObject, 5);
             });
         }
@@ -729,7 +729,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             Destroy(popupSpiritBeastObject);
         });
         Equipments equipments = new Equipments();
-        List<SpiritBeast> spiritBeasts = new List<SpiritBeast>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardAdmiralsSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
 
         int totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.All);
@@ -755,20 +755,20 @@ public class UserCardAdmiralsController : MonoBehaviour
         if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
         return (int)Math.Ceiling((double)totalRecords / pageSize);
     }
-    public void CreatePopupEquipmentsUI(object data, List<SpiritBeast> spiritBeasts, Transform content, GameObject currentObject)
+    public void CreatePopupEquipmentsUI(object data, List<SpiritBeasts> spiritBeasts, Transform content, GameObject currentObject)
     {
         foreach (var spiritBeast in spiritBeasts)
         {
             GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, content);
 
             TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = spiritBeast.name.Replace("_", " ");
+            Title.text = spiritBeast.Name.Replace("_", " ");
 
             TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-            Power.text = spiritBeast.power.ToString();
+            Power.text = spiritBeast.Power.ToString();
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spiritBeast.image.Replace(".png", "");
+            string fileNameWithoutExtension = spiritBeast.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
@@ -776,7 +776,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.Rare}");
             rareImage.texture = rareTexture;
 
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
@@ -791,14 +791,14 @@ public class UserCardAdmiralsController : MonoBehaviour
 
                     RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
                     var userCardSpiritBeast = UserSpiritBeastService.Create().GetUserCardAdmiralsSpiritBeast(User.CurrentUserId, cardAdmirals);
-                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.image);
+                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
 
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    var card = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.id);
+                    var card = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.Id);
                     ShowCardAdmiralsDetails(card, currentObject, 5);
                 }
 
@@ -822,7 +822,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage + 1;
             offset = offset + pageSize;
-            List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardAdmiralsSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+            List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardAdmiralsSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -840,7 +840,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage - 1;
             offset = offset - pageSize;
-            List<SpiritBeast> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardAdmiralsSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+            List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardAdmiralsSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

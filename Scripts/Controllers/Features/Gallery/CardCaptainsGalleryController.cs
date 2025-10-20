@@ -45,10 +45,10 @@ public class CardCaptainsGalleryController : MonoBehaviour
             GameObject captainsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = captain.name.Replace("_", " ");
+            Title.text = captain.Name.Replace("_", " ");
 
             RawImage Image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -60,23 +60,23 @@ public class CardCaptainsGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = captainsObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = captainsObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = captainsObject.transform.Find("Unlock").GetComponent<Button>();
-            if (captain.status.Equals("available"))
+            if (captain.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (captain.status.Equals("pending"))
+            else if (captain.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (captain.status.Equals("block"))
+            else if (captain.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -85,7 +85,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var cardCaptainsGalleryService = CardCaptainsGalleryService.Create();
-                cardCaptainsGalleryService.UpdateStatusCardCaptainsGallery(captain.id);
+                cardCaptainsGalleryService.UpdateStatusCardCaptainsGallery(captain.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -99,7 +99,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = captainsObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((captain.current_star < captain.temp_star) && captain.status.Equals("available"))
+            if ((captain.CurrentStar < captain.TempStar) && captain.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -111,7 +111,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CardCaptainsGalleryService.Create().UpdateCardCaptainsGalleryPower(captain.id);
+                CardCaptainsGalleryService.Create().UpdateCardCaptainsGalleryPower(captain.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

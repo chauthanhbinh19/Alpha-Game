@@ -45,10 +45,10 @@ public class MedalsGalleryController : MonoBehaviour
             GameObject medalObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = medal.name.Replace("_", " ");
+            Title.text = medal.Name.Replace("_", " ");
 
             RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -65,18 +65,18 @@ public class MedalsGalleryController : MonoBehaviour
 
             RawImage blockImage = medalObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = medalObject.transform.Find("Unlock").GetComponent<Button>();
-            if (medal.status.Equals("available"))
+            if (medal.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (medal.status.Equals("pending"))
+            else if (medal.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (medal.status.Equals("block"))
+            else if (medal.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -89,7 +89,7 @@ public class MedalsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var medalGalleryService = MedalsGalleryService.Create();
-                medalGalleryService.UpdateStatusMedalsGallery(medal.id);
+                medalGalleryService.UpdateStatusMedalsGallery(medal.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -103,7 +103,7 @@ public class MedalsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = medalObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((medal.current_star < medal.temp_star) && medal.status.Equals("available"))
+            if ((medal.CurrentStar < medal.TempStar) && medal.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -115,7 +115,7 @@ public class MedalsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                MedalsGalleryService.Create().UpdateMedalsGalleryPower(medal.id);
+                MedalsGalleryService.Create().UpdateMedalsGalleryPower(medal.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

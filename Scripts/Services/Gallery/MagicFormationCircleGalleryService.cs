@@ -14,9 +14,9 @@ public class MagicFormationCircleGalleryService : IMagicFormationCircleGallerySe
         return new MagicFormationCircleGalleryService(new MagicFormationCircleGalleryRepository());
     }
 
-    public List<MagicFormationCircle> GetMagicFormationCircleCollection(string type, int pageSize, int offset, string rare)
+    public List<MagicFormationCircles> GetMagicFormationCircleCollection(string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircle> list = _magicFormationCircleRepository.GetMagicFormationCircleCollection(type, pageSize, offset, rare);
+        List<MagicFormationCircles> list = _magicFormationCircleRepository.GetMagicFormationCircleCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class MagicFormationCircleGalleryService : IMagicFormationCircleGallerySe
         _magicFormationCircleRepository.UpdateStatusMagicFormationCircleGallery(Id);
     }
 
-    public MagicFormationCircle SumPowerMagicFormationCircleGallery()
+    public MagicFormationCircles SumPowerMagicFormationCircleGallery()
     {
         return _magicFormationCircleRepository.SumPowerMagicFormationCircleGallery();
     }

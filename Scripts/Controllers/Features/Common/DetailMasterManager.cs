@@ -40,17 +40,17 @@ public class DetailMasterManager : MonoBehaviour
     public void CreateCardHeroesEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardHeroes cardHeroes)
     {
-        Master master = UserCardHeroesMasterService.Create().GetCardHeroesMaster(mainType, cardHeroes.id);
+        Master master = UserCardHeroesMasterService.Create().GetCardHeroesMaster(mainType, cardHeroes.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -68,15 +68,15 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardHeroes, newMaster, mainType);
@@ -90,14 +90,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardHeroes, newMaster, mainType);
@@ -111,17 +111,17 @@ public class DetailMasterManager : MonoBehaviour
     public void CreateBooksEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, Books books)
     {
-        Master master = UserBooksMasterService.Create().GetBooksMaster(mainType, books.id);
+        Master master = UserBooksMasterService.Create().GetBooksMaster(mainType, books.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -140,14 +140,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(books, newMaster, mainType);
@@ -161,14 +161,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(books, newMaster, mainType);
@@ -182,17 +182,17 @@ public class DetailMasterManager : MonoBehaviour
     public void CreateCardCaptainsEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardCaptains cardCaptains)
     {
-        Master master = UserCardCaptainsMasterService.Create().GetCardCaptainsMaster(mainType, cardCaptains.id);
+        Master master = UserCardCaptainsMasterService.Create().GetCardCaptainsMaster(mainType, cardCaptains.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -211,14 +211,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, 1);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardCaptains, newMaster, mainType);
@@ -232,14 +232,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardCaptains, newMaster, mainType);
@@ -253,17 +253,17 @@ public class DetailMasterManager : MonoBehaviour
     public void CreatePetsEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, Pets pets)
     {
-        Master master = UserPetsMasterService.Create().GetPetsMaster(mainType, pets.id);
+        Master master = UserPetsMasterService.Create().GetPetsMaster(mainType, pets.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -282,14 +282,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, 1);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(pets, newMaster, mainType);
@@ -303,14 +303,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(pets, newMaster, mainType);
@@ -322,19 +322,19 @@ public class DetailMasterManager : MonoBehaviour
         });
     }
     public void CreateCardMilitaryEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardMilitary cardMilitary)
+     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardMilitaries cardMilitary)
     {
-        Master master = UserCardMilitaryMasterService.Create().GetCardMilitaryMaster(mainType, cardMilitary.id);
+        Master master = UserCardMilitaryMasterService.Create().GetCardMilitaryMaster(mainType, cardMilitary.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -353,14 +353,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardMilitary, newMaster, mainType);
@@ -374,14 +374,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardMilitary, newMaster, mainType);
@@ -393,19 +393,19 @@ public class DetailMasterManager : MonoBehaviour
         });
     }
     public void CreateCardSpellEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardSpell cardSpell)
+     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardSpells cardSpell)
     {
-        Master master = UserCardSpellMasterService.Create().GetCardSpellMaster(mainType, cardSpell.id);
+        Master master = UserCardSpellMasterService.Create().GetCardSpellMaster(mainType, cardSpell.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -424,14 +424,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardSpell, newMaster, mainType);
@@ -445,14 +445,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardSpell, newMaster, mainType);
@@ -466,17 +466,17 @@ public class DetailMasterManager : MonoBehaviour
     public void CreateCardMonstersEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardMonsters cardMonsters)
     {
-        Master master = UserCardMonstersMasterService.Create().GetCardMonstersMaster(mainType, cardMonsters.id);
+        Master master = UserCardMonstersMasterService.Create().GetCardMonstersMaster(mainType, cardMonsters.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -495,14 +495,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardMonsters, newMaster, mainType);
@@ -516,14 +516,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardMonsters, newMaster, mainType);
@@ -537,17 +537,17 @@ public class DetailMasterManager : MonoBehaviour
     public void CreateCardColonelsEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardColonels cardColonels)
     {
-        Master master = UserCardColonelsMasterService.Create().GetCardColonelsMaster(mainType, cardColonels.id);
+        Master master = UserCardColonelsMasterService.Create().GetCardColonelsMaster(mainType, cardColonels.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -566,14 +566,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardColonels, newMaster, mainType);
@@ -587,14 +587,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardColonels, newMaster, mainType);
@@ -608,17 +608,17 @@ public class DetailMasterManager : MonoBehaviour
     public void CreateCardGeneralsEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardGenerals cardGenerals)
     {
-        Master master = UserCardGeneralsMasterService.Create().GetCardGeneralsMaster(mainType, cardGenerals.id);
+        Master master = UserCardGeneralsMasterService.Create().GetCardGeneralsMaster(mainType, cardGenerals.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -637,14 +637,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardGenerals, newMaster, mainType);
@@ -658,14 +658,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardGenerals, newMaster, mainType);
@@ -679,17 +679,17 @@ public class DetailMasterManager : MonoBehaviour
     public void CreateCardAdmiralsEquipments(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardAdmirals cardAdmirals)
     {
-        Master master = UserCardAdmiralsMasterService.Create().GetCardAdmiralsMaster(mainType, cardAdmirals.id);
+        Master master = UserCardAdmiralsMasterService.Create().GetCardAdmiralsMaster(mainType, cardAdmirals.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
         item = userItemsService.GetUserItemByName(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.image, item.quantity, silver.quantity, master.level, maxLevel);
+        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
         
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -708,14 +708,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardAdmirals, newMaster, mainType);
@@ -729,14 +729,14 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, master.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardAdmirals, newMaster, mainType);

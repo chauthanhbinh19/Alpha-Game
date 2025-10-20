@@ -108,17 +108,17 @@ public class PowerManagerRepository : IPowerManagerRepository
                 command.Parameters.AddWithValue("@all_normal_resistance_rate", powerManager.normal_resistance_rate);
                 command.Parameters.AddWithValue("@all_skill_damage_rate", powerManager.skill_damage_rate);
                 command.Parameters.AddWithValue("@all_skill_resistance_rate", powerManager.skill_resistance_rate);
-                command.Parameters.AddWithValue("@percentAllHealth", powerManager.percent_all_health);
-                command.Parameters.AddWithValue("@percentAllPhysicalAttack", powerManager.percent_all_physical_attack);
-                command.Parameters.AddWithValue("@percentAllPhysicalDefense", powerManager.percent_all_physical_defense);
-                command.Parameters.AddWithValue("@percentAllMagicalAttack", powerManager.percent_all_magical_attack);
-                command.Parameters.AddWithValue("@percentAllMagicalDefense", powerManager.percent_all_magical_defense);
-                command.Parameters.AddWithValue("@percentAllChemicalAttack", powerManager.percent_all_chemical_attack);
-                command.Parameters.AddWithValue("@percentAllChemicalDefense", powerManager.percent_all_chemical_defense);
-                command.Parameters.AddWithValue("@percentAllAtomicAttack", powerManager.percent_all_atomic_attack);
-                command.Parameters.AddWithValue("@percentAllAtomicDefense", powerManager.percent_all_atomic_defense);
-                command.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.percent_all_mental_attack);
-                command.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.percent_all_mental_defense);
+                command.Parameters.AddWithValue("@percentAllHealth", powerManager.PercentAllHealth);
+                command.Parameters.AddWithValue("@percentAllPhysicalAttack", powerManager.PercentAllPhysicalAttack);
+                command.Parameters.AddWithValue("@percentAllPhysicalDefense", powerManager.PercentAllPhysicalDefense);
+                command.Parameters.AddWithValue("@percentAllMagicalAttack", powerManager.PercentAllMagicalAttack);
+                command.Parameters.AddWithValue("@percentAllMagicalDefense", powerManager.PercentAllMagicalDefense);
+                command.Parameters.AddWithValue("@percentAllChemicalAttack", powerManager.PercentAllChemicalAttack);
+                command.Parameters.AddWithValue("@percentAllChemicalDefense", powerManager.PercentAllChemicalDefense);
+                command.Parameters.AddWithValue("@percentAllAtomicAttack", powerManager.PercentAllAtomicAttack);
+                command.Parameters.AddWithValue("@percentAllAtomicDefense", powerManager.PercentAllAtomicDefense);
+                command.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.PercentAllMentalAttack);
+                command.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.PercentAllMentalDefense);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -221,17 +221,17 @@ public class PowerManagerRepository : IPowerManagerRepository
                 command.Parameters.AddWithValue("@all_normal_resistance_rate", powerManager.normal_resistance_rate);
                 command.Parameters.AddWithValue("@all_skill_damage_rate", powerManager.skill_damage_rate);
                 command.Parameters.AddWithValue("@all_skill_resistance_rate", powerManager.skill_resistance_rate);
-                command.Parameters.AddWithValue("@percentAllHealth", powerManager.percent_all_health);
-                command.Parameters.AddWithValue("@percentAllPhysicalAttack", powerManager.percent_all_physical_attack);
-                command.Parameters.AddWithValue("@percentAllPhysicalDefense", powerManager.percent_all_physical_defense);
-                command.Parameters.AddWithValue("@percentAllMagicalAttack", powerManager.percent_all_magical_attack);
-                command.Parameters.AddWithValue("@percentAllMagicalDefense", powerManager.percent_all_magical_defense);
-                command.Parameters.AddWithValue("@percentAllChemicalAttack", powerManager.percent_all_chemical_attack);
-                command.Parameters.AddWithValue("@percentAllChemicalDefense", powerManager.percent_all_chemical_defense);
-                command.Parameters.AddWithValue("@percentAllAtomicAttack", powerManager.percent_all_atomic_attack);
-                command.Parameters.AddWithValue("@percentAllAtomicDefense", powerManager.percent_all_atomic_defense);
-                command.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.percent_all_mental_attack);
-                command.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.percent_all_mental_defense);
+                command.Parameters.AddWithValue("@percentAllHealth", powerManager.PercentAllHealth);
+                command.Parameters.AddWithValue("@percentAllPhysicalAttack", powerManager.PercentAllPhysicalAttack);
+                command.Parameters.AddWithValue("@percentAllPhysicalDefense", powerManager.PercentAllPhysicalDefense);
+                command.Parameters.AddWithValue("@percentAllMagicalAttack", powerManager.PercentAllMagicalAttack);
+                command.Parameters.AddWithValue("@percentAllMagicalDefense", powerManager.PercentAllMagicalDefense);
+                command.Parameters.AddWithValue("@percentAllChemicalAttack", powerManager.PercentAllChemicalAttack);
+                command.Parameters.AddWithValue("@percentAllChemicalDefense", powerManager.PercentAllChemicalDefense);
+                command.Parameters.AddWithValue("@percentAllAtomicAttack", powerManager.PercentAllAtomicAttack);
+                command.Parameters.AddWithValue("@percentAllAtomicDefense", powerManager.PercentAllAtomicDefense);
+                command.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.PercentAllMentalAttack);
+                command.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.PercentAllMentalDefense);
 
                 command.ExecuteNonQuery();
             }
@@ -312,17 +312,17 @@ public class PowerManagerRepository : IPowerManagerRepository
                         powerManager.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("all_normal_resistance_rate")) ? 0 : reader.GetDouble("all_normal_resistance_rate");
                         powerManager.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("all_skill_damage_rate")) ? 0 : reader.GetDouble("all_skill_damage_rate");
                         powerManager.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("all_skill_resistance_rate")) ? 0 : reader.GetDouble("all_skill_resistance_rate");
-                        powerManager.percent_all_health = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
-                        powerManager.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
-                        powerManager.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
-                        powerManager.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
-                        powerManager.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
-                        powerManager.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
-                        powerManager.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
-                        powerManager.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
-                        powerManager.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
-                        powerManager.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
-                        powerManager.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
+                        powerManager.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDouble("percent_all_health");
+                        powerManager.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDouble("percent_all_physical_attack");
+                        powerManager.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDouble("percent_all_physical_defense");
+                        powerManager.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDouble("percent_all_magical_attack");
+                        powerManager.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDouble("percent_all_magical_defense");
+                        powerManager.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDouble("percent_all_chemical_attack");
+                        powerManager.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDouble("percent_all_chemical_defense");
+                        powerManager.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDouble("percent_all_atomic_attack");
+                        powerManager.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDouble("percent_all_atomic_defense");
+                        powerManager.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDouble("percent_all_mental_attack");
+                        powerManager.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
                     }
                 }
             }

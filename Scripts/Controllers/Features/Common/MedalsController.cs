@@ -54,10 +54,10 @@ public class MedalsController : MonoBehaviour
             GameObject medalObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = medal.name.Replace("_", " ");
+            Title.text = medal.Name.Replace("_", " ");
 
             RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -91,10 +91,10 @@ public class MedalsController : MonoBehaviour
             GameObject medalObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = medal.name.Replace("_", " ");
+            Title.text = medal.Name.Replace("_", " ");
 
             RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = medalObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -111,12 +111,12 @@ public class MedalsController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = medalObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = medalObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(medal.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(medal.Currency.Quantity, false);
 
             Button buy = medalObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -124,11 +124,11 @@ public class MedalsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(medal.currency.quantity, medal, subType, popupPanel, currencyPanel);
+                GetQuantity(medal.Currency.Quantity, medal, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetMedalsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -243,14 +243,14 @@ public class MedalsController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is Medals medals)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(medals.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(medals.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -276,8 +276,8 @@ public class MedalsController : MonoBehaviour
 
             if (obj is Medals medals)
             {
-                medals.quantity = medals.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(medals.currency.id, price);
+                medals.Quantity = medals.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(medals.Currency.Id, price);
                 bool success = UserMedalsService.Create().InsertUserMedals(medals);
                 if (!success)
                 {
@@ -289,11 +289,11 @@ public class MedalsController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    MedalsGalleryService.Create().InsertMedalsGallery(medals.id);
+                    MedalsGalleryService.Create().InsertMedalsGallery(medals.Id);
                     currencies = UserCurrencyService.Create().GetMedalsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medals.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medals.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

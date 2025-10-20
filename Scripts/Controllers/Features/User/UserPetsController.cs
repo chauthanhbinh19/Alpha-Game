@@ -55,7 +55,7 @@ public class UserPetsController : MonoBehaviour
         foreach (var pet in petsList)
         {
             GameObject petsObject;
-            if (pet.type.Equals("Legendary_Dragon") || pet.type.Equals("Naruto_Bijuu") || pet.type.Equals("Naruto_Susanoo") || pet.type.Equals("One_Piece_Ship") || pet.type.Equals("Prime_Monster"))
+            if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
             {
                 petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
@@ -79,10 +79,10 @@ public class UserPetsController : MonoBehaviour
             }
 
             Text Title = petsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = pet.name.Replace("_", " ");
+            Title.text = pet.Name.Replace("_", " ");
 
             RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -93,7 +93,7 @@ public class UserPetsController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
-            if (pet.type.Equals("Prime_Monster"))
+            if (pet.Type.Equals("Prime_Monster"))
             {
                 Image.SetNativeSize();
                 Image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -166,23 +166,23 @@ public class UserPetsController : MonoBehaviour
         if (obj is Pets pet)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
 
             ImageManager.Instance.ChangeSizeImage(Image, texture, 700f);
             Image.texture = texture;
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = pet.name;
+            name.text = pet.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(pet.power, false);
+            power.text = NumberFormatter.FormatNumber(pet.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{pet.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{pet.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -216,9 +216,9 @@ public class UserPetsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Pets currentCard = new Pets();
-                currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
@@ -242,9 +242,9 @@ public class UserPetsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Pets currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Pets currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -301,67 +301,67 @@ public class UserPetsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (pet.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (pet.Star + 1).ToString();
             }
             GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
             Texture cardTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             cardImage.texture = cardTexture;
 
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = pet.quantity.ToString() + "/" + (pet.star + 1).ToString();
+            cardQuantity.text = pet.Quantity.ToString() + "/" + (pet.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(pet.star, currentObject);
+            UIManager.Instance.CreateStarUI(pet.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = pet.star + 1;
+                int requiredQuantity = pet.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = pet.quantity >= requiredQuantity;
+                bool hasEnoughCards = pet.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + pet.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + pet.Quantity >= requiredQuantity;
 
                 if (hasEnoughCards || hasEnoughItems)
                 {
                     // Giảm số lượng thẻ bài trước
-                    if (pet.quantity >= requiredQuantity)
+                    if (pet.Quantity >= requiredQuantity)
                     {
-                        pet.quantity -= requiredQuantity;
+                        pet.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - pet.quantity;
-                        pet.quantity = 0; // Dùng hết thẻ bài
+                        int remainingRequired = requiredQuantity - pet.Quantity;
+                        pet.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -375,17 +375,17 @@ public class UserPetsController : MonoBehaviour
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserPetsService.Create().GetNewBreakthroughPower(pet, increasePerUpgrade);
-                    UserPetsService.Create().UpdatePetsBreakthrough(newCard, pet.star + 1, pet.quantity);
+                    UserPetsService.Create().UpdatePetsBreakthrough(newCard, pet.Star + 1, pet.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    PetsGalleryService.Create().UpdateStarPetsGallery(pet.id, pet.star + 1);
+                    PetsGalleryService.Create().UpdateStarPetsGallery(pet.Id, pet.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(pet.star, currentObject);
+                    UIManager.Instance.CreateStarUI(pet.Star, currentObject);
                 }
                 else
                 {

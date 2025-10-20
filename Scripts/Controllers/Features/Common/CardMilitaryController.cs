@@ -47,17 +47,17 @@ public class CardMilitaryController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCardMilitaryGallery(List<CardMilitary> militaryList, Transform DictionaryContentPanel)
+    public void CreateCardMilitaryGallery(List<CardMilitaries> militaryList, Transform DictionaryContentPanel)
     {
         foreach (var military in militaryList)
         {
             GameObject militaryObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = military.name.Replace("_", " ");
+            Title.text = military.Name.Replace("_", " ");
 
             RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -69,7 +69,7 @@ public class CardMilitaryController : MonoBehaviour
             });
 
             RawImage rareImage = militaryObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
@@ -79,7 +79,7 @@ public class CardMilitaryController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateCardMilitaryTrade(List<CardMilitary> militaryList, string subType, Transform currentContent,
+    public void CreateCardMilitaryTrade(List<CardMilitaries> militaryList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var military in militaryList)
@@ -87,10 +87,10 @@ public class CardMilitaryController : MonoBehaviour
             GameObject militaryObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = military.name.Replace("_", " ");
+            Title.text = military.Name.Replace("_", " ");
 
             RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = militaryObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -107,12 +107,12 @@ public class CardMilitaryController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = militaryObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = militaryObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(military.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(military.Currency.Quantity, false);
 
             Button buy = militaryObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -120,11 +120,11 @@ public class CardMilitaryController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(military.currency.quantity, military, subType, popupPanel, currencyPanel);
+                GetQuantity(military.Currency.Quantity, military, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetCardMilitaryCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -239,14 +239,14 @@ public class CardMilitaryController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is CardMilitary cardMilitary)
+            Currencies userCurrency = new Currencies();
+            if (obj is CardMilitaries cardMilitary)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardMilitary.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardMilitary.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -270,10 +270,10 @@ public class CardMilitaryController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is CardMilitary cardMilitary)
+            if (obj is CardMilitaries cardMilitary)
             {
-                cardMilitary.quantity = cardMilitary.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(cardMilitary.currency.id, price);
+                cardMilitary.Quantity = cardMilitary.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(cardMilitary.Currency.Id, price);
                 bool success = UserCardMilitaryService.Create().InsertUserCardMilitary(cardMilitary);
                 if (!success)
                 {
@@ -285,11 +285,11 @@ public class CardMilitaryController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(cardMilitary.id);
+                    CardMilitaryGalleryService.Create().InsertCardMilitaryGallery(cardMilitary.Id);
                     currencies = UserCurrencyService.Create().GetCardMilitaryCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

@@ -5,12 +5,10 @@ using UnityEngine;
 
 public class LoadTeams : MonoBehaviour
 {
-    private float currentHealth;
     public Transform playerCardField;
     public Transform enemyCardField;
     public GameObject CardModelPrefab;
     public GameObject healthBarPrefab;
-    private HealthBar healthBar;
     private string type;
     void Start()
     {
@@ -43,62 +41,62 @@ public class LoadTeams : MonoBehaviour
     //     currentHealth = Mathf.Clamp(currentHealth, 0, 1);
     //     healthBar.SetHealth(currentHealth);
     // }
-    // public void LoadPlayerTeamCard(string team_id)
-    // {
-    //     List<CardHeroes> cardHeroesList = new List<CardHeroes>();
-    //     List<CardCaptains> cardCaptainsList = new List<CardCaptains>();
-    //     List<CardColonels> cardColonelsList = new List<CardColonels>();
-    //     List<CardGenerals> cardGeneralsList = new List<CardGenerals>();
-    //     List<CardAdmirals> cardAdmiralsList = new List<CardAdmirals>();
-    //     List<CardMonsters> cardMonstersList = new List<CardMonsters>();
-    //     List<CardMilitary> cardMilitaryList = new List<CardMilitary>();
-    //     List<CardSpell> cardSpellList = new List<CardSpell>();
-    //     for (int i = 1; i <= 10; i++)
-    //     {
-    //         string position = i.ToString();
-    //         if (type == "cardHeroes")
-    //         {
-    //             cardHeroesList.AddRange(UserCardHeroesService.Create().GetUserCardHeroesTeam("638841909493399392", team_id, position));
-    //         }
-    //         else if (type == "cardCaptains")
-    //         {
-    //             CardCaptains c = new CardCaptains();
-    //             cardCaptainsList.AddRange(UserCardCaptainsService.Create().GetUserCardCaptainsTeam(User.CurrentUserId, team_id, position));
-    //         }
-    //         else if (type == "CardColonels")
-    //         {
-    //             CardColonels c = new CardColonels();
-    //             cardColonelsList.AddRange(UserCardColonelsService.Create().GetUserCardColonelsTeam(User.CurrentUserId, team_id, position));
-    //         }
-    //         else if (type == "CardGenerals")
-    //         {
-    //             CardGenerals c = new CardGenerals();
-    //             cardGeneralsList.AddRange(UserCardGeneralsService.Create().GetUserCardGeneralsTeam(User.CurrentUserId, team_id, position));
-    //         }
-    //         else if (type == "CardAdmirals")
-    //         {
-    //             CardAdmirals c = new CardAdmirals();
-    //             cardAdmiralsList.AddRange(UserCardAdmiralsService.Create().GetUserCardAdmiralsTeam(User.CurrentUserId, team_id, position));
-    //         }
-    //         else if (type == "CardMonsters")
-    //         {
-    //             CardMonsters c = new CardMonsters();
-    //             cardMonstersList.AddRange(UserCardMonstersService.Create().GetUserCardMonstersTeam(User.CurrentUserId, team_id, position));
-    //         }
-    //         else if (type == "CardMilitary")
-    //         {
-    //             CardMilitary c = new CardMilitary();
-    //             cardMilitaryList.AddRange(UserCardMilitaryService.Create().GetUserCardMilitaryTeam(User.CurrentUserId, team_id, position));
-    //         }
-    //         else if (type == "CardSpell")
-    //         {
-    //             CardSpell c = new CardSpell();
-    //             cardSpellList.AddRange(UserCardSpellService.Create().GetUserCardSpellTeam(User.CurrentUserId, team_id, position));
-    //         }
-    //     }
+    public void LoadPlayerTeamCard(string team_id)
+    {
+        List<CardHeroes> cardHeroesList = new List<CardHeroes>();
+        List<CardCaptains> cardCaptainsList = new List<CardCaptains>();
+        List<CardColonels> cardColonelsList = new List<CardColonels>();
+        List<CardGenerals> cardGeneralsList = new List<CardGenerals>();
+        List<CardAdmirals> cardAdmiralsList = new List<CardAdmirals>();
+        List<CardMonsters> cardMonstersList = new List<CardMonsters>();
+        List<CardMilitaries> cardMilitaryList = new List<CardMilitaries>();
+        List<CardSpells> cardSpellList = new List<CardSpells>();
+        for (int i = 1; i <= 10; i++)
+        {
+            string position = i.ToString();
+            if (type == "cardHeroes")
+            {
+                cardHeroesList.AddRange(UserCardHeroesService.Create().GetUserCardHeroesTeam("638841909493399392", team_id, position));
+            }
+            else if (type == "cardCaptains")
+            {
+                CardCaptains c = new CardCaptains();
+                cardCaptainsList.AddRange(UserCardCaptainsService.Create().GetUserCardCaptainsTeam(User.CurrentUserId, team_id, position));
+            }
+            else if (type == "CardColonels")
+            {
+                CardColonels c = new CardColonels();
+                cardColonelsList.AddRange(UserCardColonelsService.Create().GetUserCardColonelsTeam(User.CurrentUserId, team_id, position));
+            }
+            else if (type == "CardGenerals")
+            {
+                CardGenerals c = new CardGenerals();
+                cardGeneralsList.AddRange(UserCardGeneralsService.Create().GetUserCardGeneralsTeam(User.CurrentUserId, team_id, position));
+            }
+            else if (type == "CardAdmirals")
+            {
+                CardAdmirals c = new CardAdmirals();
+                cardAdmiralsList.AddRange(UserCardAdmiralsService.Create().GetUserCardAdmiralsTeam(User.CurrentUserId, team_id, position));
+            }
+            else if (type == "CardMonsters")
+            {
+                CardMonsters c = new CardMonsters();
+                cardMonstersList.AddRange(UserCardMonstersService.Create().GetUserCardMonstersTeam(User.CurrentUserId, team_id, position));
+            }
+            else if (type == "CardMilitary")
+            {
+                CardMilitaries c = new CardMilitaries();
+                cardMilitaryList.AddRange(UserCardMilitaryService.Create().GetUserCardMilitaryTeam(User.CurrentUserId, team_id, position));
+            }
+            else if (type == "CardSpell")
+            {
+                CardSpells c = new CardSpells();
+                cardSpellList.AddRange(UserCardSpellService.Create().GetUserCardSpellTeam(User.CurrentUserId, team_id, position));
+            }
+        }
 
-    //     LoadPlayerCardHeroes(cardHeroesList);
-    // }
+        // LoadPlayerCardHeroes(cardHeroesList);
+    }
     // public void LoadEnemyTeamCard(string team_id)
     // {
     //     List<CardHeroes> cardHeroesList = new List<CardHeroes>();

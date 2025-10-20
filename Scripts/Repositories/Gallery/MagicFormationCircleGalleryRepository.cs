@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGalleryRepository
 {
-    public List<MagicFormationCircle> GetMagicFormationCircleCollection(string type, int pageSize, int offset, string rare)
+    public List<MagicFormationCircles> GetMagicFormationCircleCollection(string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircle> magicFormationCircles = new List<MagicFormationCircle>();
+        List<MagicFormationCircles> magicFormationCircles = new List<MagicFormationCircles>();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -30,78 +30,78 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    MagicFormationCircle magicFormationCircle = new MagicFormationCircle
+                    MagicFormationCircles magicFormationCircle = new MagicFormationCircles
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        power = reader.GetDouble("power"),
-                        current_star = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetInt32("current_star"),
-                        temp_star = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetInt32("temp_star"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
-                        percent_all_health = reader.GetDouble("percent_all_health"),
-                        percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        description = reader.GetString("description"),
-                        status = reader.GetString("status"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Power = reader.GetDouble("power"),
+                        CurrentStar = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetInt32("current_star"),
+                        TempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetInt32("temp_star"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                        PercentAllHealth = reader.GetDouble("percent_all_health"),
+                        PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
+                        PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
+                        PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
+                        PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
+                        PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
+                        PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
+                        PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
+                        PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
+                        PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
+                        PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
+                        Description = reader.GetString("description"),
+                        Status = reader.GetString("status"),
                     };
 
                     magicFormationCircles.Add(magicFormationCircle);
@@ -139,10 +139,10 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
         }
         return count;
     }
-    public void InsertMagicFormationCircleGallery(string Id, MagicFormationCircle magicFormationCircleFromDB)
+    public void InsertMagicFormationCircleGallery(string Id, MagicFormationCircles magicFormationCircleFromDB)
     {
         // MagicFormationCircle magicFormationCircleFromDB = GetMagicFormationCircleById(Id);
-        int percent = QualityEvaluator.CheckQuality(magicFormationCircleFromDB.type);
+        int percent = QualityEvaluator.CheckQuality(magicFormationCircleFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -208,56 +208,56 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
-                    command.Parameters.AddWithValue("@power", magicFormationCircleFromDB.power);
-                    command.Parameters.AddWithValue("@health", magicFormationCircleFromDB.health);
-                    command.Parameters.AddWithValue("@physical_attack", magicFormationCircleFromDB.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", magicFormationCircleFromDB.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", magicFormationCircleFromDB.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", magicFormationCircleFromDB.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", magicFormationCircleFromDB.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", magicFormationCircleFromDB.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", magicFormationCircleFromDB.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", magicFormationCircleFromDB.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", magicFormationCircleFromDB.magical_attack);
-                    command.Parameters.AddWithValue("@mental_defense", magicFormationCircleFromDB.magical_defense);
-                    command.Parameters.AddWithValue("@speed", magicFormationCircleFromDB.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircleFromDB.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", magicFormationCircleFromDB.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", magicFormationCircleFromDB.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", magicFormationCircleFromDB.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", magicFormationCircleFromDB.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", magicFormationCircleFromDB.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", magicFormationCircleFromDB.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircleFromDB.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", magicFormationCircleFromDB.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", magicFormationCircleFromDB.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircleFromDB.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", magicFormationCircleFromDB.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", magicFormationCircleFromDB.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircleFromDB.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", magicFormationCircleFromDB.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", magicFormationCircleFromDB.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", magicFormationCircleFromDB.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", magicFormationCircleFromDB.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", magicFormationCircleFromDB.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", magicFormationCircleFromDB.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", magicFormationCircleFromDB.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", magicFormationCircleFromDB.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", magicFormationCircleFromDB.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", magicFormationCircleFromDB.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", magicFormationCircleFromDB.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", magicFormationCircleFromDB.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", magicFormationCircleFromDB.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", magicFormationCircleFromDB.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircleFromDB.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircleFromDB.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircleFromDB.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircleFromDB.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircleFromDB.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", magicFormationCircleFromDB.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", magicFormationCircleFromDB.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", magicFormationCircleFromDB.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", magicFormationCircleFromDB.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@power", magicFormationCircleFromDB.Power);
+                    command.Parameters.AddWithValue("@health", magicFormationCircleFromDB.Health);
+                    command.Parameters.AddWithValue("@physical_attack", magicFormationCircleFromDB.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", magicFormationCircleFromDB.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", magicFormationCircleFromDB.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", magicFormationCircleFromDB.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", magicFormationCircleFromDB.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", magicFormationCircleFromDB.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", magicFormationCircleFromDB.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", magicFormationCircleFromDB.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", magicFormationCircleFromDB.MagicalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", magicFormationCircleFromDB.MagicalDefense);
+                    command.Parameters.AddWithValue("@speed", magicFormationCircleFromDB.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircleFromDB.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", magicFormationCircleFromDB.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", magicFormationCircleFromDB.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", magicFormationCircleFromDB.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", magicFormationCircleFromDB.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", magicFormationCircleFromDB.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", magicFormationCircleFromDB.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircleFromDB.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", magicFormationCircleFromDB.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", magicFormationCircleFromDB.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircleFromDB.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", magicFormationCircleFromDB.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", magicFormationCircleFromDB.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircleFromDB.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", magicFormationCircleFromDB.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", magicFormationCircleFromDB.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", magicFormationCircleFromDB.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", magicFormationCircleFromDB.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", magicFormationCircleFromDB.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", magicFormationCircleFromDB.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", magicFormationCircleFromDB.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", magicFormationCircleFromDB.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", magicFormationCircleFromDB.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", magicFormationCircleFromDB.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", magicFormationCircleFromDB.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", magicFormationCircleFromDB.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", magicFormationCircleFromDB.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", magicFormationCircleFromDB.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircleFromDB.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircleFromDB.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircleFromDB.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircleFromDB.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircleFromDB.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", magicFormationCircleFromDB.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", magicFormationCircleFromDB.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", magicFormationCircleFromDB.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", magicFormationCircleFromDB.SkillResistanceRate);
                     command.Parameters.AddWithValue("@percent_all_health", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
                     command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
@@ -354,7 +354,7 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
             }
         }
     }
-    public void UpdateMagicFormationCircleGalleryPower(string Id, MagicFormationCircle MagicFormationCircleFromDB)
+    public void UpdateMagicFormationCircleGalleryPower(string Id, MagicFormationCircles MagicFormationCircleFromDB)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -436,56 +436,56 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
                 command.Parameters.AddWithValue("@mfc_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
-                command.Parameters.AddWithValue("@power", MagicFormationCircleFromDB.power);
-                command.Parameters.AddWithValue("@health", MagicFormationCircleFromDB.health);
-                command.Parameters.AddWithValue("@physical_attack", MagicFormationCircleFromDB.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", MagicFormationCircleFromDB.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", MagicFormationCircleFromDB.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", MagicFormationCircleFromDB.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", MagicFormationCircleFromDB.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", MagicFormationCircleFromDB.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", MagicFormationCircleFromDB.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", MagicFormationCircleFromDB.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", MagicFormationCircleFromDB.magical_attack);
-                command.Parameters.AddWithValue("@mental_defense", MagicFormationCircleFromDB.magical_defense);
-                command.Parameters.AddWithValue("@speed", MagicFormationCircleFromDB.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", MagicFormationCircleFromDB.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", MagicFormationCircleFromDB.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", MagicFormationCircleFromDB.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", MagicFormationCircleFromDB.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", MagicFormationCircleFromDB.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", MagicFormationCircleFromDB.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", MagicFormationCircleFromDB.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", MagicFormationCircleFromDB.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", MagicFormationCircleFromDB.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", MagicFormationCircleFromDB.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", MagicFormationCircleFromDB.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", MagicFormationCircleFromDB.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", MagicFormationCircleFromDB.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", MagicFormationCircleFromDB.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", MagicFormationCircleFromDB.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", MagicFormationCircleFromDB.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", MagicFormationCircleFromDB.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", MagicFormationCircleFromDB.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", MagicFormationCircleFromDB.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", MagicFormationCircleFromDB.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", MagicFormationCircleFromDB.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", MagicFormationCircleFromDB.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", MagicFormationCircleFromDB.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", MagicFormationCircleFromDB.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", MagicFormationCircleFromDB.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", MagicFormationCircleFromDB.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", MagicFormationCircleFromDB.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", MagicFormationCircleFromDB.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", MagicFormationCircleFromDB.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", MagicFormationCircleFromDB.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", MagicFormationCircleFromDB.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", MagicFormationCircleFromDB.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", MagicFormationCircleFromDB.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", MagicFormationCircleFromDB.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", MagicFormationCircleFromDB.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", MagicFormationCircleFromDB.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", MagicFormationCircleFromDB.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", MagicFormationCircleFromDB.Power);
+                command.Parameters.AddWithValue("@health", MagicFormationCircleFromDB.Health);
+                command.Parameters.AddWithValue("@physical_attack", MagicFormationCircleFromDB.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", MagicFormationCircleFromDB.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", MagicFormationCircleFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", MagicFormationCircleFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", MagicFormationCircleFromDB.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", MagicFormationCircleFromDB.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", MagicFormationCircleFromDB.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", MagicFormationCircleFromDB.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", MagicFormationCircleFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@mental_defense", MagicFormationCircleFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@speed", MagicFormationCircleFromDB.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", MagicFormationCircleFromDB.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", MagicFormationCircleFromDB.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", MagicFormationCircleFromDB.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", MagicFormationCircleFromDB.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", MagicFormationCircleFromDB.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", MagicFormationCircleFromDB.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", MagicFormationCircleFromDB.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", MagicFormationCircleFromDB.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", MagicFormationCircleFromDB.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", MagicFormationCircleFromDB.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", MagicFormationCircleFromDB.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", MagicFormationCircleFromDB.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", MagicFormationCircleFromDB.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", MagicFormationCircleFromDB.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", MagicFormationCircleFromDB.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", MagicFormationCircleFromDB.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", MagicFormationCircleFromDB.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", MagicFormationCircleFromDB.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", MagicFormationCircleFromDB.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", MagicFormationCircleFromDB.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", MagicFormationCircleFromDB.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", MagicFormationCircleFromDB.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", MagicFormationCircleFromDB.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", MagicFormationCircleFromDB.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", MagicFormationCircleFromDB.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", MagicFormationCircleFromDB.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", MagicFormationCircleFromDB.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", MagicFormationCircleFromDB.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", MagicFormationCircleFromDB.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", MagicFormationCircleFromDB.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", MagicFormationCircleFromDB.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", MagicFormationCircleFromDB.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", MagicFormationCircleFromDB.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", MagicFormationCircleFromDB.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", MagicFormationCircleFromDB.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", MagicFormationCircleFromDB.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", MagicFormationCircleFromDB.SkillResistanceRate);
                 command.Parameters.AddWithValue("@percent_all_health", 5);
                 command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
                 command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
@@ -509,9 +509,9 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
             }
         }
     }
-    public MagicFormationCircle SumPowerMagicFormationCircleGallery()
+    public MagicFormationCircles SumPowerMagicFormationCircleGallery()
     {
-        MagicFormationCircle sumMagicFormationCircle = new MagicFormationCircle();
+        MagicFormationCircles sumMagicFormationCircle = new MagicFormationCircles();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -565,67 +565,67 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
                 {
                     if (reader.Read())
                     {
-                        sumMagicFormationCircle.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumMagicFormationCircle.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumMagicFormationCircle.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumMagicFormationCircle.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumMagicFormationCircle.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumMagicFormationCircle.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumMagicFormationCircle.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumMagicFormationCircle.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumMagicFormationCircle.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumMagicFormationCircle.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumMagicFormationCircle.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumMagicFormationCircle.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumMagicFormationCircle.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumMagicFormationCircle.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumMagicFormationCircle.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumMagicFormationCircle.critical_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumMagicFormationCircle.ignore_critical_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumMagicFormationCircle.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumMagicFormationCircle.penetration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumMagicFormationCircle.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumMagicFormationCircle.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumMagicFormationCircle.ignore_damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumMagicFormationCircle.absorbed_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumMagicFormationCircle.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumMagicFormationCircle.vitality_regeneration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumMagicFormationCircle.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumMagicFormationCircle.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumMagicFormationCircle.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumMagicFormationCircle.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumMagicFormationCircle.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumMagicFormationCircle.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumMagicFormationCircle.ignore_combo_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumMagicFormationCircle.combo_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumMagicFormationCircle.combo_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumMagicFormationCircle.stun_rate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumMagicFormationCircle.ignore_stun_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumMagicFormationCircle.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumMagicFormationCircle.ignore_reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumMagicFormationCircle.reflection_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumMagicFormationCircle.reflection_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumMagicFormationCircle.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumMagicFormationCircle.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumMagicFormationCircle.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumMagicFormationCircle.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumMagicFormationCircle.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumMagicFormationCircle.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumMagicFormationCircle.normal_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumMagicFormationCircle.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumMagicFormationCircle.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumMagicFormationCircle.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
-                        sumMagicFormationCircle.percent_all_health = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
-                        sumMagicFormationCircle.percent_all_physical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
-                        sumMagicFormationCircle.percent_all_physical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
-                        sumMagicFormationCircle.percent_all_magical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
-                        sumMagicFormationCircle.percent_all_magical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
-                        sumMagicFormationCircle.percent_all_chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
-                        sumMagicFormationCircle.percent_all_chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
-                        sumMagicFormationCircle.percent_all_atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
-                        sumMagicFormationCircle.percent_all_atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
-                        sumMagicFormationCircle.percent_all_mental_attack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
-                        sumMagicFormationCircle.percent_all_mental_defense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
+                        sumMagicFormationCircle.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumMagicFormationCircle.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumMagicFormationCircle.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumMagicFormationCircle.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumMagicFormationCircle.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumMagicFormationCircle.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumMagicFormationCircle.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumMagicFormationCircle.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumMagicFormationCircle.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumMagicFormationCircle.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumMagicFormationCircle.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumMagicFormationCircle.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumMagicFormationCircle.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumMagicFormationCircle.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumMagicFormationCircle.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumMagicFormationCircle.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                        sumMagicFormationCircle.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                        sumMagicFormationCircle.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumMagicFormationCircle.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                        sumMagicFormationCircle.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumMagicFormationCircle.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumMagicFormationCircle.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                        sumMagicFormationCircle.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                        sumMagicFormationCircle.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumMagicFormationCircle.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                        sumMagicFormationCircle.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumMagicFormationCircle.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumMagicFormationCircle.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumMagicFormationCircle.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumMagicFormationCircle.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumMagicFormationCircle.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumMagicFormationCircle.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                        sumMagicFormationCircle.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                        sumMagicFormationCircle.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                        sumMagicFormationCircle.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                        sumMagicFormationCircle.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                        sumMagicFormationCircle.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumMagicFormationCircle.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                        sumMagicFormationCircle.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                        sumMagicFormationCircle.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                        sumMagicFormationCircle.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumMagicFormationCircle.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumMagicFormationCircle.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumMagicFormationCircle.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumMagicFormationCircle.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumMagicFormationCircle.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                        sumMagicFormationCircle.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                        sumMagicFormationCircle.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                        sumMagicFormationCircle.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                        sumMagicFormationCircle.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        sumMagicFormationCircle.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                        sumMagicFormationCircle.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                        sumMagicFormationCircle.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                        sumMagicFormationCircle.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                        sumMagicFormationCircle.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                        sumMagicFormationCircle.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                        sumMagicFormationCircle.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                        sumMagicFormationCircle.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                        sumMagicFormationCircle.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                        sumMagicFormationCircle.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                        sumMagicFormationCircle.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
 

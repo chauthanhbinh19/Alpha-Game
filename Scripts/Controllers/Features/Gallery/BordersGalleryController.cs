@@ -45,10 +45,10 @@ public class BordersGalleryController : MonoBehaviour
             GameObject borderObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = borderObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = border.name.Replace("_", " ");
+            Title.text = border.Name.Replace("_", " ");
 
             RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -62,7 +62,7 @@ public class BordersGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = borderObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{border.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{border.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage rareBackgroundImage = borderObject.transform.Find("RareBackground").GetComponent<RawImage>();
@@ -71,18 +71,18 @@ public class BordersGalleryController : MonoBehaviour
 
             RawImage blockImage = borderObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = borderObject.transform.Find("Unlock").GetComponent<Button>();
-            if (border.status.Equals("available"))
+            if (border.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (border.status.Equals("pending"))
+            else if (border.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (border.status.Equals("block"))
+            else if (border.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -92,7 +92,7 @@ public class BordersGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var borderGalleryService = BordersGalleryService.Create();
-                borderGalleryService.UpdateStatusBordersGallery(border.id);
+                borderGalleryService.UpdateStatusBordersGallery(border.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -106,7 +106,7 @@ public class BordersGalleryController : MonoBehaviour
             });
 
             Button Upgrade = borderObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((border.current_star < border.temp_star) && border.status.Equals("available"))
+            if ((border.CurrentStar < border.TempStar) && border.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -118,7 +118,7 @@ public class BordersGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                BordersGalleryService.Create().UpdateBordersGalleryPower(border.id);
+                BordersGalleryService.Create().UpdateBordersGalleryPower(border.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

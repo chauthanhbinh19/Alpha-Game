@@ -21,79 +21,79 @@ public class UserBooksService : IUserBooksService
         PowerManager powerManager = powerManagerService.GetUserStats(user_id);
         foreach (var c in BooksList)
         {
-            Books books = _userBooksRepository.GetUserBooksById(user_id, c.id);
-            c.health = c.health + powerManager.health + books.health * powerManager.percent_all_health / 100;
-            c.physical_attack = c.physical_attack + powerManager.physical_attack + books.physical_attack * powerManager.percent_all_physical_attack / 100;
-            c.physical_defense = c.physical_defense + powerManager.physical_defense + books.physical_defense * powerManager.percent_all_physical_defense / 100;
-            c.magical_attack = c.magical_attack + powerManager.magical_attack + books.magical_attack * powerManager.percent_all_magical_attack / 100;
-            c.magical_defense = c.magical_defense + powerManager.magical_defense + books.magical_defense * powerManager.percent_all_magical_defense / 100;
-            c.chemical_attack = c.chemical_attack + powerManager.chemical_attack + books.chemical_attack * powerManager.percent_all_chemical_attack / 100;
-            c.chemical_defense = c.chemical_defense + powerManager.chemical_defense + books.chemical_defense * powerManager.percent_all_chemical_defense / 100;
-            c.atomic_attack = c.atomic_attack + powerManager.atomic_attack + books.atomic_attack * powerManager.percent_all_atomic_attack / 100;
-            c.atomic_defense = c.atomic_defense + powerManager.atomic_defense + books.atomic_defense * powerManager.percent_all_atomic_defense / 100;
-            c.mental_attack = c.mental_attack + powerManager.mental_attack + books.mental_attack * powerManager.percent_all_mental_attack / 100;
-            c.mental_defense = c.mental_defense + powerManager.mental_defense + books.mental_defense * powerManager.percent_all_mental_defense / 100;
-            c.speed = c.speed + powerManager.speed;
-            c.critical_damage_rate = c.critical_damage_rate + powerManager.critical_damage_rate;
-            c.critical_rate = c.critical_rate + powerManager.critical_rate;
-            c.critical_resistance_rate = c.critical_resistance_rate + powerManager.critical_resistance_rate;
-            c.ignore_critical_rate = c.ignore_critical_rate + powerManager.ignore_critical_rate;
-            c.penetration_rate = c.penetration_rate + powerManager.penetration_rate;
-            c.penetration_resistance_rate = c.penetration_resistance_rate + powerManager.penetration_resistance_rate;
-            c.evasion_rate = c.evasion_rate + powerManager.evasion_rate;
-            c.damage_absorption_rate = c.damage_absorption_rate + powerManager.damage_absorption_rate;
-            c.ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + powerManager.ignore_damage_absorption_rate;
-            c.absorbed_damage_rate = c.absorbed_damage_rate + powerManager.absorbed_damage_rate;
-            c.vitality_regeneration_rate = c.vitality_regeneration_rate + powerManager.vitality_regeneration_rate;
-            c.vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + powerManager.vitality_regeneration_resistance_rate;
-            c.accuracy_rate = c.accuracy_rate + powerManager.accuracy_rate;
-            c.lifesteal_rate = c.lifesteal_rate + powerManager.lifesteal_rate;
-            c.shield_strength = c.shield_strength + powerManager.shield_strength;
-            c.tenacity = c.tenacity + powerManager.tenacity;
-            c.resistance_rate = c.resistance_rate + powerManager.resistance_rate;
-            c.combo_rate = c.combo_rate + powerManager.combo_rate;
-            c.ignore_combo_rate = c.ignore_combo_rate + powerManager.ignore_combo_rate;
-            c.combo_damage_rate = c.combo_damage_rate + powerManager.combo_damage_rate;
-            c.combo_resistance_rate = c.combo_resistance_rate + powerManager.combo_resistance_rate;
-            c.stun_rate = c.stun_rate + powerManager.stun_rate;
-            c.ignore_stun_rate = c.ignore_stun_rate + powerManager.ignore_stun_rate;
-            c.reflection_rate = c.reflection_rate + powerManager.reflection_rate;
-            c.ignore_reflection_rate  = c.ignore_reflection_rate + powerManager.ignore_reflection_rate;
-            c.reflection_damage_rate = c.reflection_damage_rate + powerManager.reflection_damage_rate;
-            c.reflection_resistance_rate = c.reflection_resistance_rate + powerManager.reflection_resistance_rate;
-            c.mana = c.mana + powerManager.mana;
-            c.mana_regeneration_rate = c.mana_regeneration_rate + powerManager.mana_regeneration_rate;
-            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate + powerManager.damage_to_different_faction_rate;
-            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + powerManager.resistance_to_different_faction_rate;
-            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate + powerManager.damage_to_same_faction_rate;
-            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + powerManager.resistance_to_same_faction_rate;
-            c.normal_damage_rate = c.normal_damage_rate + powerManager.normal_damage_rate;
-            c.normal_resistance_rate = c.normal_resistance_rate + powerManager.normal_resistance_rate;
-            c.skill_damage_rate = c.skill_damage_rate + powerManager.skill_damage_rate;
-            c.skill_resistance_rate = c.skill_resistance_rate + powerManager.skill_resistance_rate;
+            Books books = _userBooksRepository.GetUserBooksById(user_id, c.Id);
+            c.Health = c.Health + powerManager.health + books.Health * powerManager.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + powerManager.physical_attack + books.PhysicalAttack * powerManager.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + powerManager.physical_defense + books.PhysicalDefense * powerManager.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + powerManager.magical_attack + books.MagicalAttack * powerManager.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + powerManager.magical_defense + books.MagicalDefense * powerManager.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + powerManager.chemical_attack + books.ChemicalAttack * powerManager.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + powerManager.chemical_defense + books.ChemicalDefense * powerManager.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + powerManager.atomic_attack + books.AtomicAttack * powerManager.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + powerManager.atomic_defense + books.AtomicDefense * powerManager.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + powerManager.mental_attack + books.MentalAttack * powerManager.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + powerManager.mental_defense + books.MentalDefense * powerManager.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + powerManager.speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + powerManager.critical_damage_rate;
+            c.CriticalRate = c.CriticalRate + powerManager.critical_rate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + powerManager.critical_resistance_rate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + powerManager.ignore_critical_rate;
+            c.PenetrationRate = c.PenetrationRate + powerManager.penetration_rate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + powerManager.penetration_resistance_rate;
+            c.EvasionRate = c.EvasionRate + powerManager.evasion_rate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + powerManager.damage_absorption_rate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + powerManager.ignore_damage_absorption_rate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + powerManager.absorbed_damage_rate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + powerManager.vitality_regeneration_rate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + powerManager.vitality_regeneration_resistance_rate;
+            c.AccuracyRate = c.AccuracyRate + powerManager.accuracy_rate;
+            c.LifestealRate = c.LifestealRate + powerManager.lifesteal_rate;
+            c.ShieldStrength = c.ShieldStrength + powerManager.shield_strength;
+            c.Tenacity = c.Tenacity + powerManager.tenacity;
+            c.ResistanceRate = c.ResistanceRate + powerManager.resistance_rate;
+            c.ComboRate = c.ComboRate + powerManager.combo_rate;
+            c.IgnoreComboRate = c.IgnoreComboRate + powerManager.ignore_combo_rate;
+            c.ComboDamageRate = c.ComboDamageRate + powerManager.combo_damage_rate;
+            c.ComboResistanceRate = c.ComboResistanceRate + powerManager.combo_resistance_rate;
+            c.StunRate = c.StunRate + powerManager.stun_rate;
+            c.IgnoreStunRate = c.IgnoreStunRate + powerManager.ignore_stun_rate;
+            c.ReflectionRate = c.ReflectionRate + powerManager.reflection_rate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + powerManager.ignore_reflection_rate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + powerManager.reflection_damage_rate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + powerManager.reflection_resistance_rate;
+            c.Mana = c.Mana + powerManager.mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + powerManager.mana_regeneration_rate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + powerManager.damage_to_different_faction_rate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + powerManager.resistance_to_different_faction_rate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + powerManager.damage_to_same_faction_rate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + powerManager.resistance_to_same_faction_rate;
+            c.NormalDamageRate = c.NormalDamageRate + powerManager.normal_damage_rate;
+            c.NormalResistanceRate = c.NormalResistanceRate + powerManager.normal_resistance_rate;
+            c.SkillDamageRate = c.SkillDamageRate + powerManager.skill_damage_rate;
+            c.SkillResistanceRate = c.SkillResistanceRate + powerManager.skill_resistance_rate;
 
-            c.power = EvaluatePower.CalculatePower(
-            c.health,
-            c.physical_attack, c.physical_defense,
-            c.magical_attack, c.magical_defense,
-            c.chemical_attack, c.chemical_defense,
-            c.atomic_attack, c.atomic_defense,
-            c.mental_attack, c.mental_defense,
-            c.speed,
-            c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate,
-            c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate,
-            c.damage_absorption_rate, c.ignore_damage_absorption_rate, c.absorbed_damage_rate,
-            c.vitality_regeneration_rate, c.vitality_regeneration_resistance_rate,
-            c.accuracy_rate, c.lifesteal_rate,
-            c.shield_strength, c.tenacity, c.resistance_rate,
-            c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, c.combo_resistance_rate,
-            c.stun_rate, c.ignore_stun_rate,
-            c.reflection_rate, c.ignore_reflection_rate, c.reflection_damage_rate, c.reflection_resistance_rate,
-            c.mana, c.mana_regeneration_rate,
-            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
-            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate,
-            c.normal_damage_rate, c.normal_resistance_rate,
-            c.skill_damage_rate, c.skill_resistance_rate
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
         );
         }
         return BooksList;
@@ -103,79 +103,79 @@ public class UserBooksService : IUserBooksService
         ScienceFiction scienceFiction = ScienceFictionService.Create().GetSumScienceFiction(user_id);
         foreach (var c in BooksList)
         {
-            Books books = _userBooksRepository.GetUserBooksById(user_id, c.id);
-            c.health = c.health + scienceFiction.health + books.health * scienceFiction.percent_all_health / 100;
-            c.physical_attack = c.physical_attack + scienceFiction.physical_attack + books.physical_attack * scienceFiction.percent_all_physical_attack / 100;
-            c.physical_defense = c.physical_defense + scienceFiction.physical_defense + books.physical_defense * scienceFiction.percent_all_physical_defense / 100;
-            c.magical_attack = c.magical_attack + scienceFiction.magical_attack + books.magical_attack * scienceFiction.percent_all_magical_attack / 100;
-            c.magical_defense = c.magical_defense + scienceFiction.magical_defense + books.magical_defense * scienceFiction.percent_all_magical_defense / 100;
-            c.chemical_attack = c.chemical_attack + scienceFiction.chemical_attack + books.chemical_attack * scienceFiction.percent_all_chemical_attack / 100;
-            c.chemical_defense = c.chemical_defense + scienceFiction.chemical_defense + books.chemical_defense * scienceFiction.percent_all_chemical_defense / 100;
-            c.atomic_attack = c.atomic_attack + scienceFiction.atomic_attack + books.atomic_attack * scienceFiction.percent_all_atomic_attack / 100;
-            c.atomic_defense = c.atomic_defense + scienceFiction.atomic_defense + books.atomic_defense * scienceFiction.percent_all_atomic_defense / 100;
-            c.mental_attack = c.mental_attack + scienceFiction.mental_attack + books.mental_attack * scienceFiction.percent_all_mental_attack / 100;
-            c.mental_defense = c.mental_defense + scienceFiction.mental_defense + books.mental_defense * scienceFiction.percent_all_mental_defense / 100;
-            c.speed = c.speed + scienceFiction.speed;
-            c.critical_damage_rate = c.critical_damage_rate + scienceFiction.critical_damage_rate;
-            c.critical_rate = c.critical_rate + scienceFiction.critical_rate;
-            c.critical_resistance_rate = c.critical_resistance_rate + scienceFiction.critical_resistance_rate;
-            c.ignore_critical_rate = c.ignore_critical_rate + scienceFiction.ignore_critical_rate;
-            c.penetration_rate = c.penetration_rate + scienceFiction.penetration_rate;
-            c.penetration_resistance_rate = c.penetration_resistance_rate + scienceFiction.penetration_resistance_rate;
-            c.evasion_rate = c.evasion_rate + scienceFiction.evasion_rate;
-            c.damage_absorption_rate = c.damage_absorption_rate + scienceFiction.damage_absorption_rate;
-            c.ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + scienceFiction.ignore_damage_absorption_rate;
-            c.absorbed_damage_rate = c.absorbed_damage_rate + scienceFiction.absorbed_damage_rate;
-            c.vitality_regeneration_rate = c.vitality_regeneration_rate + scienceFiction.vitality_regeneration_rate;
-            c.vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + scienceFiction.vitality_regeneration_resistance_rate;
-            c.accuracy_rate = c.accuracy_rate + scienceFiction.accuracy_rate;
-            c.lifesteal_rate = c.lifesteal_rate + scienceFiction.lifesteal_rate;
-            c.shield_strength = c.shield_strength + scienceFiction.shield_strength;
-            c.tenacity = c.tenacity + scienceFiction.tenacity;
-            c.resistance_rate = c.resistance_rate + scienceFiction.resistance_rate;
-            c.combo_rate = c.combo_rate + scienceFiction.combo_rate;
-            c.ignore_combo_rate = c.ignore_combo_rate + scienceFiction.ignore_combo_rate;
-            c.combo_damage_rate = c.combo_damage_rate + scienceFiction.combo_damage_rate;
-            c.combo_resistance_rate = c.combo_resistance_rate + scienceFiction.combo_resistance_rate;
-            c.stun_rate = c.stun_rate + scienceFiction.stun_rate;
-            c.ignore_stun_rate = c.ignore_stun_rate + scienceFiction.ignore_stun_rate;
-            c.reflection_rate = c.reflection_rate + scienceFiction.reflection_rate;
-            c.ignore_reflection_rate  = c.ignore_reflection_rate + scienceFiction.ignore_reflection_rate;
-            c.reflection_damage_rate = c.reflection_damage_rate + scienceFiction.reflection_damage_rate;
-            c.reflection_resistance_rate = c.reflection_resistance_rate + scienceFiction.reflection_resistance_rate;
-            c.mana = c.mana + scienceFiction.mana;
-            c.mana_regeneration_rate = c.mana_regeneration_rate + scienceFiction.mana_regeneration_rate;
-            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate + scienceFiction.damage_to_different_faction_rate;
-            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + scienceFiction.resistance_to_different_faction_rate;
-            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate + scienceFiction.damage_to_same_faction_rate;
-            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + scienceFiction.resistance_to_same_faction_rate;
-            c.normal_damage_rate = c.normal_damage_rate + scienceFiction.normal_damage_rate;
-            c.normal_resistance_rate = c.normal_resistance_rate + scienceFiction.normal_resistance_rate;
-            c.skill_damage_rate = c.skill_damage_rate + scienceFiction.skill_damage_rate;
-            c.skill_resistance_rate = c.skill_resistance_rate + scienceFiction.skill_resistance_rate;
+            Books books = _userBooksRepository.GetUserBooksById(user_id, c.Id);
+            c.Health = c.Health + scienceFiction.Health + books.Health * scienceFiction.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + scienceFiction.PhysicalAttack + books.PhysicalAttack * scienceFiction.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + scienceFiction.PhysicalDefense + books.PhysicalDefense * scienceFiction.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + scienceFiction.MagicalAttack + books.MagicalAttack * scienceFiction.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + scienceFiction.MagicalDefense + books.MagicalDefense * scienceFiction.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + scienceFiction.ChemicalAttack + books.ChemicalAttack * scienceFiction.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + scienceFiction.ChemicalDefense + books.ChemicalDefense * scienceFiction.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + scienceFiction.AtomicAttack + books.AtomicAttack * scienceFiction.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + scienceFiction.AtomicDefense + books.AtomicDefense * scienceFiction.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + scienceFiction.MentalAttack + books.MentalAttack * scienceFiction.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + scienceFiction.MentalDefense + books.MentalDefense * scienceFiction.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + scienceFiction.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + scienceFiction.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + scienceFiction.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + scienceFiction.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + scienceFiction.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + scienceFiction.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + scienceFiction.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + scienceFiction.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + scienceFiction.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + scienceFiction.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + scienceFiction.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + scienceFiction.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + scienceFiction.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + scienceFiction.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + scienceFiction.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + scienceFiction.ShieldStrength;
+            c.Tenacity = c.Tenacity + scienceFiction.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + scienceFiction.ResistanceRate;
+            c.ComboRate = c.ComboRate + scienceFiction.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + scienceFiction.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + scienceFiction.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + scienceFiction.ComboResistanceRate;
+            c.StunRate = c.StunRate + scienceFiction.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + scienceFiction.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + scienceFiction.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + scienceFiction.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + scienceFiction.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + scienceFiction.ReflectionResistanceRate;
+            c.Mana = c.Mana + scienceFiction.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + scienceFiction.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + scienceFiction.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + scienceFiction.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + scienceFiction.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + scienceFiction.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + scienceFiction.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + scienceFiction.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + scienceFiction.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + scienceFiction.SkillResistanceRate;
 
-            c.power = EvaluatePower.CalculatePower(
-            c.health,
-            c.physical_attack, c.physical_defense,
-            c.magical_attack, c.magical_defense,
-            c.chemical_attack, c.chemical_defense,
-            c.atomic_attack, c.atomic_defense,
-            c.mental_attack, c.mental_defense,
-            c.speed,
-            c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate,
-            c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate,
-            c.damage_absorption_rate, c.ignore_damage_absorption_rate, c.absorbed_damage_rate,
-            c.vitality_regeneration_rate, c.vitality_regeneration_resistance_rate,
-            c.accuracy_rate, c.lifesteal_rate,
-            c.shield_strength, c.tenacity, c.resistance_rate,
-            c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, c.combo_resistance_rate,
-            c.stun_rate, c.ignore_stun_rate,
-            c.reflection_rate, c.ignore_reflection_rate, c.reflection_damage_rate, c.reflection_resistance_rate,
-            c.mana, c.mana_regeneration_rate,
-            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
-            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate,
-            c.normal_damage_rate, c.normal_resistance_rate,
-            c.skill_damage_rate, c.skill_resistance_rate
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
         );
         }
         return BooksList;
@@ -186,79 +186,79 @@ public class UserBooksService : IUserBooksService
         UserEquipmentsService userEquipmentsService = new UserEquipmentsService(userEquipmentsRepository);
         foreach (var c in BooksList)
         {
-            Equipments equipments = userEquipmentsService.GetAllEquipmentsByBooksId(user_id, c.id);
-            c.health = c.health + equipments.health + equipments.special_health;
-            c.physical_attack = c.physical_attack + equipments.physical_attack + equipments.special_physical_attack;
-            c.physical_defense = c.physical_defense + equipments.physical_defense + equipments.special_physical_defense;
-            c.magical_attack = c.magical_attack + equipments.magical_attack + equipments.special_magical_attack;
-            c.magical_defense = c.magical_defense + equipments.magical_defense + equipments.special_magical_defense;
-            c.chemical_attack = c.chemical_attack + equipments.chemical_attack + equipments.special_chemical_attack;
-            c.chemical_defense = c.chemical_defense + equipments.chemical_defense + equipments.special_chemical_defense;
-            c.atomic_attack = c.atomic_attack + equipments.atomic_attack + equipments.special_atomic_attack;
-            c.atomic_defense = c.atomic_defense + equipments.atomic_defense + equipments.special_atomic_defense;
-            c.mental_attack = c.mental_attack + equipments.mental_attack + equipments.special_mental_attack;
-            c.mental_defense = c.mental_defense + equipments.mental_defense + equipments.special_mental_defense;
-            c.speed = c.speed + equipments.speed;
-            c.critical_damage_rate = c.critical_damage_rate + equipments.critical_damage_rate;
-            c.critical_rate = c.critical_rate + equipments.critical_rate;
-            c.critical_resistance_rate = c.critical_resistance_rate + equipments.critical_resistance_rate;
-            c.ignore_critical_rate = c.ignore_critical_rate + equipments.ignore_critical_rate;
-            c.penetration_rate = c.penetration_rate + equipments.penetration_rate;
-            c.penetration_resistance_rate = c.penetration_resistance_rate + equipments.penetration_resistance_rate;
-            c.evasion_rate = c.evasion_rate + equipments.evasion_rate;
-            c.damage_absorption_rate = c.damage_absorption_rate + equipments.damage_absorption_rate;
-            c.ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + equipments.ignore_damage_absorption_rate;
-            c.absorbed_damage_rate = c.absorbed_damage_rate + equipments.absorbed_damage_rate;
-            c.vitality_regeneration_rate = c.vitality_regeneration_rate + equipments.vitality_regeneration_rate;
-            c.vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + equipments.vitality_regeneration_resistance_rate;
-            c.accuracy_rate = c.accuracy_rate + equipments.accuracy_rate;
-            c.lifesteal_rate = c.lifesteal_rate + equipments.lifesteal_rate;
-            c.shield_strength = c.shield_strength + equipments.shield_strength;
-            c.tenacity = c.tenacity + equipments.tenacity;
-            c.resistance_rate = c.resistance_rate + equipments.resistance_rate;
-            c.combo_rate = c.combo_rate + equipments.combo_rate;
-            c.ignore_combo_rate = c.ignore_combo_rate + equipments.ignore_combo_rate;
-            c.combo_damage_rate = c.combo_damage_rate + equipments.combo_damage_rate;
-            c.combo_resistance_rate = c.combo_resistance_rate + equipments.combo_resistance_rate;
-            c.stun_rate = c.stun_rate + equipments.stun_rate;
-            c.ignore_stun_rate = c.ignore_stun_rate + equipments.ignore_stun_rate;
-            c.reflection_rate = c.reflection_rate + equipments.reflection_rate;
-            c.ignore_reflection_rate = c.ignore_reflection_rate + equipments.ignore_reflection_rate;
-            c.reflection_damage_rate = c.reflection_damage_rate + equipments.reflection_damage_rate;
-            c.reflection_resistance_rate = c.reflection_resistance_rate + equipments.reflection_resistance_rate;
-            c.mana = c.mana + equipments.mana;
-            c.mana_regeneration_rate = c.mana_regeneration_rate + equipments.mana_regeneration_rate;
-            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate + equipments.damage_to_different_faction_rate;
-            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + equipments.resistance_to_different_faction_rate;
-            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate + equipments.damage_to_same_faction_rate;
-            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + equipments.resistance_to_same_faction_rate;
-            c.normal_damage_rate = c.normal_damage_rate + equipments.normal_damage_rate;
-            c.normal_resistance_rate = c.normal_resistance_rate + equipments.normal_resistance_rate;
-            c.skill_damage_rate = c.skill_damage_rate + equipments.skill_damage_rate;
-            c.skill_resistance_rate = c.skill_resistance_rate + equipments.skill_resistance_rate;
+            Equipments equipments = userEquipmentsService.GetAllEquipmentsByBooksId(user_id, c.Id);
+            c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
+            c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
+            c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
+            c.MagicalAttack = c.MagicalAttack + equipments.MagicalAttack + equipments.SpecialMagicalAttack;
+            c.MagicalDefense = c.MagicalDefense + equipments.MagicalDefense + equipments.SpecialMagicalDefense;
+            c.ChemicalAttack = c.ChemicalAttack + equipments.ChemicalAttack + equipments.SpecialChemicalAttack;
+            c.ChemicalDefense = c.ChemicalDefense + equipments.ChemicalDefense + equipments.SpecialChemicalDefense;
+            c.AtomicAttack = c.AtomicAttack + equipments.AtomicAttack + equipments.SpecialAtomicAttack;
+            c.AtomicDefense = c.AtomicDefense + equipments.AtomicDefense + equipments.SpecialAtomicDefense;
+            c.MentalAttack = c.MentalAttack + equipments.MentalAttack + equipments.SpecialMentalAttack;
+            c.MentalDefense = c.MentalDefense + equipments.MentalDefense + equipments.SpecialMentalDefense;
+            c.Speed = c.Speed + equipments.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + equipments.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + equipments.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + equipments.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + equipments.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + equipments.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + equipments.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + equipments.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + equipments.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + equipments.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + equipments.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + equipments.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + equipments.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + equipments.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + equipments.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + equipments.ShieldStrength;
+            c.Tenacity = c.Tenacity + equipments.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + equipments.ResistanceRate;
+            c.ComboRate = c.ComboRate + equipments.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + equipments.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + equipments.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + equipments.ComboResistanceRate;
+            c.StunRate = c.StunRate + equipments.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + equipments.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + equipments.ReflectionRate;
+            c.IgnoreReflectionRate = c.IgnoreReflectionRate + equipments.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + equipments.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + equipments.ReflectionResistanceRate;
+            c.Mana = c.Mana + equipments.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + equipments.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + equipments.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + equipments.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + equipments.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + equipments.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + equipments.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + equipments.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + equipments.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + equipments.SkillResistanceRate;
 
-            c.power = EvaluatePower.CalculatePower(
-            c.health,
-            c.physical_attack, c.physical_defense,
-            c.magical_attack, c.magical_defense,
-            c.chemical_attack, c.chemical_defense,
-            c.atomic_attack, c.atomic_defense,
-            c.mental_attack, c.mental_defense,
-            c.speed,
-            c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate,
-            c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate,
-            c.damage_absorption_rate, c.ignore_damage_absorption_rate, c.absorbed_damage_rate,
-            c.vitality_regeneration_rate, c.vitality_regeneration_resistance_rate,
-            c.accuracy_rate, c.lifesteal_rate,
-            c.shield_strength, c.tenacity, c.resistance_rate,
-            c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, c.combo_resistance_rate,
-            c.stun_rate, c.ignore_stun_rate,
-            c.reflection_rate, c.ignore_reflection_rate, c.reflection_damage_rate, c.reflection_resistance_rate,
-            c.mana, c.mana_regeneration_rate,
-            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
-            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate,
-            c.normal_damage_rate, c.normal_resistance_rate,
-            c.skill_damage_rate, c.skill_resistance_rate
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
         );
         }
         return BooksList;
@@ -269,80 +269,80 @@ public class UserBooksService : IUserBooksService
         UserBooksRankService userBooksRankService = new UserBooksRankService(userBooksRankRepository);
         foreach (var c in BooksList)
         {
-            Books books = _userBooksRepository.GetUserBooksById(user_id, c.id);
-            Rank rank = userBooksRankService.GetSumBooksRank(user_id, c.id);
-            c.health = c.health + rank.health + books.health * rank.percent_all_health / 100;
-            c.physical_attack = c.physical_attack + rank.physical_attack + books.physical_attack * rank.percent_all_physical_attack / 100;
-            c.physical_defense = c.physical_defense + rank.physical_defense + books.physical_defense * rank.percent_all_physical_defense / 100;
-            c.magical_attack = c.magical_attack + rank.magical_attack + books.magical_attack * rank.percent_all_magical_attack / 100;
-            c.magical_defense = c.magical_defense + rank.magical_defense + books.magical_defense * rank.percent_all_magical_defense / 100;
-            c.chemical_attack = c.chemical_attack + rank.chemical_attack + books.chemical_attack * rank.percent_all_chemical_attack / 100;
-            c.chemical_defense = c.chemical_defense + rank.chemical_defense + books.chemical_defense * rank.percent_all_chemical_defense / 100;
-            c.atomic_attack = c.atomic_attack + rank.atomic_attack + books.atomic_attack * rank.percent_all_atomic_attack / 100;
-            c.atomic_defense = c.atomic_defense + rank.atomic_defense + books.atomic_defense * rank.percent_all_atomic_defense / 100;
-            c.mental_attack = c.mental_attack + rank.mental_attack + books.mental_attack * rank.percent_all_mental_attack / 100;
-            c.mental_defense = c.mental_defense + rank.mental_defense + books.mental_defense * rank.percent_all_mental_defense / 100;
-            c.speed = c.speed + rank.speed;
-            c.critical_damage_rate = c.critical_damage_rate + rank.critical_damage_rate;
-            c.critical_rate = c.critical_rate + rank.critical_rate;
-            c.critical_resistance_rate = c.critical_resistance_rate + rank.critical_resistance_rate;
-            c.ignore_critical_rate = c.ignore_critical_rate + rank.ignore_critical_rate;
-            c.penetration_rate = c.penetration_rate + rank.penetration_rate;
-            c.penetration_resistance_rate = c.penetration_resistance_rate + rank.penetration_resistance_rate;
-            c.evasion_rate = c.evasion_rate + rank.evasion_rate;
-            c.damage_absorption_rate = c.damage_absorption_rate + rank.damage_absorption_rate;
-            c.ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + rank.ignore_damage_absorption_rate;
-            c.absorbed_damage_rate = c.absorbed_damage_rate + rank.absorbed_damage_rate;
-            c.vitality_regeneration_rate = c.vitality_regeneration_rate + rank.vitality_regeneration_rate;
-            c.vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + rank.vitality_regeneration_resistance_rate;
-            c.accuracy_rate = c.accuracy_rate + rank.accuracy_rate;
-            c.lifesteal_rate = c.lifesteal_rate + rank.lifesteal_rate;
-            c.shield_strength = c.shield_strength + rank.shield_strength;
-            c.tenacity = c.tenacity + rank.tenacity;
-            c.resistance_rate = c.resistance_rate + rank.resistance_rate;
-            c.combo_rate = c.combo_rate + rank.combo_rate;
-            c.ignore_combo_rate = c.ignore_combo_rate + rank.ignore_combo_rate;
-            c.combo_damage_rate = c.combo_damage_rate + rank.combo_damage_rate;
-            c.combo_resistance_rate = c.combo_resistance_rate + rank.combo_resistance_rate;
-            c.stun_rate = c.stun_rate + rank.stun_rate;
-            c.ignore_stun_rate = c.ignore_stun_rate + rank.ignore_stun_rate;
-            c.reflection_rate = c.reflection_rate + rank.reflection_rate;
-            c.ignore_reflection_rate  = c.ignore_reflection_rate + rank.ignore_reflection_rate;
-            c.reflection_damage_rate = c.reflection_damage_rate + rank.reflection_damage_rate;
-            c.reflection_resistance_rate = c.reflection_resistance_rate + rank.reflection_resistance_rate;
-            c.mana = c.mana + rank.mana;
-            c.mana_regeneration_rate = c.mana_regeneration_rate + rank.mana_regeneration_rate;
-            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate + rank.damage_to_different_faction_rate;
-            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + rank.resistance_to_different_faction_rate;
-            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate + rank.damage_to_same_faction_rate;
-            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + rank.resistance_to_same_faction_rate;
-            c.normal_damage_rate = c.normal_damage_rate + rank.normal_damage_rate;
-            c.normal_resistance_rate = c.normal_resistance_rate + rank.normal_resistance_rate;
-            c.skill_damage_rate = c.skill_damage_rate + rank.skill_damage_rate;
-            c.skill_resistance_rate = c.skill_resistance_rate + rank.skill_resistance_rate;
+            Books books = _userBooksRepository.GetUserBooksById(user_id, c.Id);
+            Rank rank = userBooksRankService.GetSumBooksRank(user_id, c.Id);
+            c.Health = c.Health + rank.Health + books.Health * rank.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + books.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + books.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + rank.MagicalAttack + books.MagicalAttack * rank.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + rank.MagicalDefense + books.MagicalDefense * rank.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + rank.ChemicalAttack + books.ChemicalAttack * rank.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + rank.ChemicalDefense + books.ChemicalDefense * rank.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + rank.AtomicAttack + books.AtomicAttack * rank.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + rank.AtomicDefense + books.AtomicDefense * rank.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + rank.MentalAttack + books.MentalAttack * rank.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + rank.MentalDefense + books.MentalDefense * rank.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + rank.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + rank.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + rank.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + rank.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + rank.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + rank.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + rank.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + rank.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + rank.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + rank.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + rank.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + rank.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + rank.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + rank.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + rank.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + rank.ShieldStrength;
+            c.Tenacity = c.Tenacity + rank.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + rank.ResistanceRate;
+            c.ComboRate = c.ComboRate + rank.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + rank.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + rank.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + rank.ComboResistanceRate;
+            c.StunRate = c.StunRate + rank.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + rank.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + rank.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + rank.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + rank.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + rank.ReflectionResistanceRate;
+            c.Mana = c.Mana + rank.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + rank.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + rank.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + rank.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + rank.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + rank.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + rank.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + rank.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + rank.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + rank.SkillResistanceRate;
 
-            c.power = EvaluatePower.CalculatePower(
-            c.health,
-            c.physical_attack, c.physical_defense,
-            c.magical_attack, c.magical_defense,
-            c.chemical_attack, c.chemical_defense,
-            c.atomic_attack, c.atomic_defense,
-            c.mental_attack, c.mental_defense,
-            c.speed,
-            c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate,
-            c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate,
-            c.damage_absorption_rate, c.ignore_damage_absorption_rate, c.absorbed_damage_rate,
-            c.vitality_regeneration_rate, c.vitality_regeneration_resistance_rate,
-            c.accuracy_rate, c.lifesteal_rate,
-            c.shield_strength, c.tenacity, c.resistance_rate,
-            c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, c.combo_resistance_rate,
-            c.stun_rate, c.ignore_stun_rate,
-            c.reflection_rate, c.ignore_reflection_rate, c.reflection_damage_rate, c.reflection_resistance_rate,
-            c.mana, c.mana_regeneration_rate,
-            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
-            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate,
-            c.normal_damage_rate, c.normal_resistance_rate,
-            c.skill_damage_rate, c.skill_resistance_rate
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
         );
         }
         return BooksList;
@@ -353,80 +353,80 @@ public class UserBooksService : IUserBooksService
         UserBooksMasterService userBooksMasterService = new UserBooksMasterService(userBooksMasterRepository);
         foreach (var c in BooksList)
         {
-            Books books = _userBooksRepository.GetUserBooksById(user_id, c.id);
-            Master master = userBooksMasterService.GetSumBooksMaster(user_id, c.id);
-            c.health = c.health + master.health + books.health * master.percent_all_health / 100;
-            c.physical_attack = c.physical_attack + master.physical_attack + books.physical_attack * master.percent_all_physical_attack / 100;
-            c.physical_defense = c.physical_defense + master.physical_defense + books.physical_defense * master.percent_all_physical_defense / 100;
-            c.magical_attack = c.magical_attack + master.magical_attack + books.magical_attack * master.percent_all_magical_attack / 100;
-            c.magical_defense = c.magical_defense + master.magical_defense + books.magical_defense * master.percent_all_magical_defense / 100;
-            c.chemical_attack = c.chemical_attack + master.chemical_attack + books.chemical_attack * master.percent_all_chemical_attack / 100;
-            c.chemical_defense = c.chemical_defense + master.chemical_defense + books.chemical_defense * master.percent_all_chemical_defense / 100;
-            c.atomic_attack = c.atomic_attack + master.atomic_attack + books.atomic_attack * master.percent_all_atomic_attack / 100;
-            c.atomic_defense = c.atomic_defense + master.atomic_defense + books.atomic_defense * master.percent_all_atomic_defense / 100;
-            c.mental_attack = c.mental_attack + master.mental_attack + books.mental_attack * master.percent_all_mental_attack / 100;
-            c.mental_defense = c.mental_defense + master.mental_defense + books.mental_defense * master.percent_all_mental_defense / 100;
-            c.speed = c.speed + master.speed;
-            c.critical_damage_rate = c.critical_damage_rate + master.critical_damage_rate;
-            c.critical_rate = c.critical_rate + master.critical_rate;
-            c.critical_resistance_rate = c.critical_resistance_rate + master.critical_resistance_rate;
-            c.ignore_critical_rate = c.ignore_critical_rate + master.ignore_critical_rate;
-            c.penetration_rate = c.penetration_rate + master.penetration_rate;
-            c.penetration_resistance_rate = c.penetration_resistance_rate + master.penetration_resistance_rate;
-            c.evasion_rate = c.evasion_rate + master.evasion_rate;
-            c.damage_absorption_rate = c.damage_absorption_rate + master.damage_absorption_rate;
-            c.ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + master.ignore_damage_absorption_rate;
-            c.absorbed_damage_rate = c.absorbed_damage_rate + master.absorbed_damage_rate;
-            c.vitality_regeneration_rate = c.vitality_regeneration_rate + master.vitality_regeneration_rate;
-            c.vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + master.vitality_regeneration_resistance_rate;
-            c.accuracy_rate = c.accuracy_rate + master.accuracy_rate;
-            c.lifesteal_rate = c.lifesteal_rate + master.lifesteal_rate;
-            c.shield_strength = c.shield_strength + master.shield_strength;
-            c.tenacity = c.tenacity + master.tenacity;
-            c.resistance_rate = c.resistance_rate + master.resistance_rate;
-            c.combo_rate = c.combo_rate + master.combo_rate;
-            c.ignore_combo_rate = c.ignore_combo_rate + master.ignore_combo_rate;
-            c.combo_damage_rate = c.combo_damage_rate + master.combo_damage_rate;
-            c.combo_resistance_rate = c.combo_resistance_rate + master.combo_resistance_rate;
-            c.stun_rate = c.stun_rate + master.stun_rate;
-            c.ignore_stun_rate = c.ignore_stun_rate + master.ignore_stun_rate;
-            c.reflection_rate = c.reflection_rate + master.reflection_rate;
-            c.ignore_reflection_rate  = c.ignore_reflection_rate + master.ignore_reflection_rate;
-            c.reflection_damage_rate = c.reflection_damage_rate + master.reflection_damage_rate;
-            c.reflection_resistance_rate = c.reflection_resistance_rate + master.reflection_resistance_rate;
-            c.mana = c.mana + master.mana;
-            c.mana_regeneration_rate = c.mana_regeneration_rate + master.mana_regeneration_rate;
-            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate + master.damage_to_different_faction_rate;
-            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + master.resistance_to_different_faction_rate;
-            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate + master.damage_to_same_faction_rate;
-            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + master.resistance_to_same_faction_rate;
-            c.normal_damage_rate = c.normal_damage_rate + master.normal_damage_rate;
-            c.normal_resistance_rate = c.normal_resistance_rate + master.normal_resistance_rate;
-            c.skill_damage_rate = c.skill_damage_rate + master.skill_damage_rate;
-            c.skill_resistance_rate = c.skill_resistance_rate + master.skill_resistance_rate;
+            Books books = _userBooksRepository.GetUserBooksById(user_id, c.Id);
+            Master master = userBooksMasterService.GetSumBooksMaster(user_id, c.Id);
+            c.Health = c.Health + master.Health + books.Health * master.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + books.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + books.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + master.MagicalAttack + books.MagicalAttack * master.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + master.MagicalDefense + books.MagicalDefense * master.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + master.ChemicalAttack + books.ChemicalAttack * master.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + master.ChemicalDefense + books.ChemicalDefense * master.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + master.AtomicAttack + books.AtomicAttack * master.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + master.AtomicDefense + books.AtomicDefense * master.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + master.MentalAttack + books.MentalAttack * master.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + master.MentalDefense + books.MentalDefense * master.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + master.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + master.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + master.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + master.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + master.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + master.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + master.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + master.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + master.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + master.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + master.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + master.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + master.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + master.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + master.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + master.ShieldStrength;
+            c.Tenacity = c.Tenacity + master.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + master.ResistanceRate;
+            c.ComboRate = c.ComboRate + master.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + master.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + master.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + master.ComboResistanceRate;
+            c.StunRate = c.StunRate + master.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + master.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + master.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + master.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + master.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + master.ReflectionResistanceRate;
+            c.Mana = c.Mana + master.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + master.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + master.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + master.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + master.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + master.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + master.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + master.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + master.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + master.SkillResistanceRate;
 
-            c.power = EvaluatePower.CalculatePower(
-            c.health,
-            c.physical_attack, c.physical_defense,
-            c.magical_attack, c.magical_defense,
-            c.chemical_attack, c.chemical_defense,
-            c.atomic_attack, c.atomic_defense,
-            c.mental_attack, c.mental_defense,
-            c.speed,
-            c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate,
-            c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate,
-            c.damage_absorption_rate, c.ignore_damage_absorption_rate, c.absorbed_damage_rate,
-            c.vitality_regeneration_rate, c.vitality_regeneration_resistance_rate,
-            c.accuracy_rate, c.lifesteal_rate,
-            c.shield_strength, c.tenacity, c.resistance_rate,
-            c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, c.combo_resistance_rate,
-            c.stun_rate, c.ignore_stun_rate,
-            c.reflection_rate, c.ignore_reflection_rate, c.reflection_damage_rate, c.reflection_resistance_rate,
-            c.mana, c.mana_regeneration_rate,
-            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
-            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate,
-            c.normal_damage_rate, c.normal_resistance_rate,
-            c.skill_damage_rate, c.skill_resistance_rate
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
         );
         }
         return BooksList;
@@ -437,80 +437,80 @@ public class UserBooksService : IUserBooksService
         AnimeStatsService animeStatsService = new AnimeStatsService(animeStatsRepository);
         foreach (var c in BooksList)
         {
-            Books books = _userBooksRepository.GetUserBooksById(user_id, c.id);
+            Books books = _userBooksRepository.GetUserBooksById(user_id, c.Id);
             AnimeStats animeStats = animeStatsService.GetSumAnimeStats(user_id);
-            c.health = c.health + animeStats.health + books.health * animeStats.percent_all_health / 100;
-            c.physical_attack = c.physical_attack + animeStats.physical_attack + books.physical_attack * animeStats.percent_all_physical_attack / 100;
-            c.physical_defense = c.physical_defense + animeStats.physical_defense + books.physical_defense * animeStats.percent_all_physical_defense / 100;
-            c.magical_attack = c.magical_attack + animeStats.magical_attack + books.magical_attack * animeStats.percent_all_magical_attack / 100;
-            c.magical_defense = c.magical_defense + animeStats.magical_defense + books.magical_defense * animeStats.percent_all_magical_defense / 100;
-            c.chemical_attack = c.chemical_attack + animeStats.chemical_attack + books.chemical_attack * animeStats.percent_all_chemical_attack / 100;
-            c.chemical_defense = c.chemical_defense + animeStats.chemical_defense + books.chemical_defense * animeStats.percent_all_chemical_defense / 100;
-            c.atomic_attack = c.atomic_attack + animeStats.atomic_attack + books.atomic_attack * animeStats.percent_all_atomic_attack / 100;
-            c.atomic_defense = c.atomic_defense + animeStats.atomic_defense + books.atomic_defense * animeStats.percent_all_atomic_defense / 100;
-            c.mental_attack = c.mental_attack + animeStats.mental_attack + books.mental_attack * animeStats.percent_all_mental_attack / 100;
-            c.mental_defense = c.mental_defense + animeStats.mental_defense + books.mental_defense * animeStats.percent_all_mental_defense / 100;
-            c.speed = c.speed + animeStats.speed;
-            c.critical_damage_rate = c.critical_damage_rate + animeStats.critical_damage_rate;
-            c.critical_rate = c.critical_rate + animeStats.critical_rate;
-            c.critical_resistance_rate = c.critical_resistance_rate + animeStats.critical_resistance_rate;
-            c.ignore_critical_rate = c.ignore_critical_rate + animeStats.ignore_critical_rate;
-            c.penetration_rate = c.penetration_rate + animeStats.penetration_rate;
-            c.penetration_resistance_rate = c.penetration_resistance_rate + animeStats.penetration_resistance_rate;
-            c.evasion_rate = c.evasion_rate + animeStats.evasion_rate;
-            c.damage_absorption_rate = c.damage_absorption_rate + animeStats.damage_absorption_rate;
-            c.ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + animeStats.ignore_damage_absorption_rate;
-            c.absorbed_damage_rate = c.absorbed_damage_rate + animeStats.absorbed_damage_rate;
-            c.vitality_regeneration_rate = c.vitality_regeneration_rate + animeStats.vitality_regeneration_rate;
-            c.vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + animeStats.vitality_regeneration_resistance_rate;
-            c.accuracy_rate = c.accuracy_rate + animeStats.accuracy_rate;
-            c.lifesteal_rate = c.lifesteal_rate + animeStats.lifesteal_rate;
-            c.shield_strength = c.shield_strength + animeStats.shield_strength;
-            c.tenacity = c.tenacity + animeStats.tenacity;
-            c.resistance_rate = c.resistance_rate + animeStats.resistance_rate;
-            c.combo_rate = c.combo_rate + animeStats.combo_rate;
-            c.ignore_combo_rate = c.ignore_combo_rate + animeStats.ignore_combo_rate;
-            c.combo_damage_rate = c.combo_damage_rate + animeStats.combo_damage_rate;
-            c.combo_resistance_rate = c.combo_resistance_rate + animeStats.combo_resistance_rate;
-            c.stun_rate = c.stun_rate + animeStats.stun_rate;
-            c.ignore_stun_rate = c.ignore_stun_rate + animeStats.ignore_stun_rate;
-            c.reflection_rate = c.reflection_rate + animeStats.reflection_rate;
-            c.ignore_reflection_rate = c.ignore_reflection_rate + animeStats.ignore_reflection_rate;
-            c.reflection_damage_rate = c.reflection_damage_rate + animeStats.reflection_damage_rate;
-            c.reflection_resistance_rate = c.reflection_resistance_rate + animeStats.reflection_resistance_rate;
-            c.mana = c.mana + animeStats.mana;
-            c.mana_regeneration_rate = c.mana_regeneration_rate + animeStats.mana_regeneration_rate;
-            c.damage_to_different_faction_rate = c.damage_to_different_faction_rate + animeStats.damage_to_different_faction_rate;
-            c.resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + animeStats.resistance_to_different_faction_rate;
-            c.damage_to_same_faction_rate = c.damage_to_same_faction_rate + animeStats.damage_to_same_faction_rate;
-            c.resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + animeStats.resistance_to_same_faction_rate;
-            c.normal_damage_rate = c.normal_damage_rate + animeStats.normal_damage_rate;
-            c.normal_resistance_rate = c.normal_resistance_rate + animeStats.normal_resistance_rate;
-            c.skill_damage_rate = c.skill_damage_rate + animeStats.skill_damage_rate;
-            c.skill_resistance_rate = c.skill_resistance_rate + animeStats.skill_resistance_rate;
+            c.Health = c.Health + animeStats.Health + books.Health * animeStats.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + animeStats.PhysicalAttack + books.PhysicalAttack * animeStats.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + animeStats.PhysicalDefense + books.PhysicalDefense * animeStats.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + animeStats.MagicalAttack + books.MagicalAttack * animeStats.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + animeStats.MagicalDefense + books.MagicalDefense * animeStats.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + animeStats.ChemicalAttack + books.ChemicalAttack * animeStats.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + animeStats.ChemicalDefense + books.ChemicalDefense * animeStats.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + animeStats.AtomicAttack + books.AtomicAttack * animeStats.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + animeStats.AtomicDefense + books.AtomicDefense * animeStats.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + animeStats.MentalAttack + books.MentalAttack * animeStats.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + animeStats.MentalDefense + books.MentalDefense * animeStats.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + animeStats.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + animeStats.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + animeStats.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + animeStats.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + animeStats.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + animeStats.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + animeStats.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + animeStats.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + animeStats.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + animeStats.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + animeStats.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + animeStats.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + animeStats.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + animeStats.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + animeStats.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + animeStats.ShieldStrength;
+            c.Tenacity = c.Tenacity + animeStats.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + animeStats.ResistanceRate;
+            c.ComboRate = c.ComboRate + animeStats.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + animeStats.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + animeStats.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + animeStats.ComboResistanceRate;
+            c.StunRate = c.StunRate + animeStats.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + animeStats.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + animeStats.ReflectionRate;
+            c.IgnoreReflectionRate = c.IgnoreReflectionRate + animeStats.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + animeStats.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + animeStats.ReflectionResistanceRate;
+            c.Mana = c.Mana + animeStats.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + animeStats.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + animeStats.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + animeStats.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + animeStats.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + animeStats.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + animeStats.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + animeStats.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + animeStats.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + animeStats.SkillResistanceRate;
 
-            c.power = EvaluatePower.CalculatePower(
-            c.health,
-            c.physical_attack, c.physical_defense,
-            c.magical_attack, c.magical_defense,
-            c.chemical_attack, c.chemical_defense,
-            c.atomic_attack, c.atomic_defense,
-            c.mental_attack, c.mental_defense,
-            c.speed,
-            c.critical_damage_rate, c.critical_rate, c.critical_resistance_rate, c.ignore_critical_rate,
-            c.penetration_rate, c.penetration_resistance_rate, c.evasion_rate,
-            c.damage_absorption_rate, c.ignore_damage_absorption_rate, c.absorbed_damage_rate,
-            c.vitality_regeneration_rate, c.vitality_regeneration_resistance_rate,
-            c.accuracy_rate, c.lifesteal_rate,
-            c.shield_strength, c.tenacity, c.resistance_rate,
-            c.combo_rate, c.ignore_combo_rate, c.combo_damage_rate, c.combo_resistance_rate,
-            c.stun_rate, c.ignore_stun_rate,
-            c.reflection_rate, c.ignore_reflection_rate, c.reflection_damage_rate, c.reflection_resistance_rate,
-            c.mana, c.mana_regeneration_rate,
-            c.damage_to_different_faction_rate, c.resistance_to_different_faction_rate,
-            c.damage_to_same_faction_rate, c.resistance_to_same_faction_rate,
-            c.normal_damage_rate, c.normal_resistance_rate,
-            c.skill_damage_rate, c.skill_resistance_rate
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
         );
         }
         return BooksList;
@@ -519,82 +519,82 @@ public class UserBooksService : IUserBooksService
     {
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
-        Books orginCard = _service.GetBooksById(c.id);
+        Books orginCard = _service.GetBooksById(c.Id);
         Books books = new Books
         {
-            id = c.id,
-            health = c.health + orginCard.health * coefficient,
-            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
-            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
-            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
-            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
-            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
-            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
-            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
-            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
-            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
-            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
-            speed = c.speed + orginCard.speed * coefficient,
-            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
-            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            critical_resistance_rate = c.critical_resistance_rate + orginCard.critical_resistance_rate * coefficient,
-            ignore_critical_rate = c.ignore_critical_rate + orginCard.ignore_critical_rate * coefficient,
-            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
-            penetration_resistance_rate = c.penetration_resistance_rate + orginCard.penetration_resistance_rate * coefficient,
-            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
-            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
-            ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + orginCard.ignore_damage_absorption_rate * coefficient,
-            absorbed_damage_rate = c.absorbed_damage_rate + orginCard.absorbed_damage_rate * coefficient,
-            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
-            vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + orginCard.vitality_regeneration_resistance_rate * coefficient,
-            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
-            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
-            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
-            tenacity = c.tenacity + orginCard.tenacity * coefficient,
-            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
-            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
-            ignore_combo_rate = c.ignore_combo_rate + orginCard.ignore_combo_rate * coefficient,
-            combo_damage_rate = c.combo_damage_rate + orginCard.combo_damage_rate * coefficient,
-            combo_resistance_rate = c.combo_resistance_rate + orginCard.combo_resistance_rate * coefficient,
-            stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
-            ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
-            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
-            reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
-            reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient,
-            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
-            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
-            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
-            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
-            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
-            normal_damage_rate = c.normal_damage_rate + orginCard.normal_damage_rate * coefficient,
-            normal_resistance_rate = c.normal_resistance_rate + orginCard.normal_resistance_rate * coefficient,
-            skill_damage_rate = c.skill_damage_rate + orginCard.skill_damage_rate * coefficient,
-            skill_resistance_rate = c.skill_resistance_rate + orginCard.skill_resistance_rate * coefficient
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        books.power = EvaluatePower.CalculatePower(
-            books.health,
-            books.physical_attack, books.physical_defense,
-            books.magical_attack, books.magical_defense,
-            books.chemical_attack, books.chemical_defense,
-            books.atomic_attack, books.atomic_defense,
-            books.mental_attack, books.mental_defense,
-            books.speed,
-            books.critical_damage_rate, books.critical_rate, books.critical_resistance_rate, books.ignore_critical_rate,
-            books.penetration_rate, books.penetration_resistance_rate, books.evasion_rate,
-            books.damage_absorption_rate, books.ignore_damage_absorption_rate, books.absorbed_damage_rate,
-            books.vitality_regeneration_rate, books.vitality_regeneration_resistance_rate,
-            books.accuracy_rate, books.lifesteal_rate,
-            books.shield_strength, books.tenacity, books.resistance_rate,
-            books.combo_rate, books.ignore_combo_rate, books.combo_damage_rate, books.combo_resistance_rate,
-            books.stun_rate, books.ignore_stun_rate,
-            books.reflection_rate, books.ignore_reflection_rate, books.reflection_damage_rate, books.reflection_resistance_rate,
-            books.mana, books.mana_regeneration_rate,
-            books.damage_to_different_faction_rate, books.resistance_to_different_faction_rate,
-            books.damage_to_same_faction_rate, books.resistance_to_same_faction_rate,
-            books.normal_damage_rate, books.normal_resistance_rate,
-            books.skill_damage_rate, books.skill_resistance_rate
+        books.Power = EvaluatePower.CalculatePower(
+            books.Health,
+            books.PhysicalAttack, books.PhysicalDefense,
+            books.MagicalAttack, books.MagicalDefense,
+            books.ChemicalAttack, books.ChemicalDefense,
+            books.AtomicAttack, books.AtomicDefense,
+            books.MentalAttack, books.MentalDefense,
+            books.Speed,
+            books.CriticalDamageRate, books.CriticalRate, books.CriticalResistanceRate, books.IgnoreCriticalRate,
+            books.PenetrationRate, books.PenetrationResistanceRate, books.EvasionRate,
+            books.DamageAbsorptionRate, books.IgnoreDamageAbsorptionRate, books.AbsorbedDamageRate,
+            books.VitalityRegenerationRate, books.VitalityRegenerationResistanceRate,
+            books.AccuracyRate, books.LifestealRate,
+            books.ShieldStrength, books.Tenacity, books.ResistanceRate,
+            books.ComboRate, books.IgnoreComboRate, books.ComboDamageRate, books.ComboResistanceRate,
+            books.StunRate, books.IgnoreStunRate,
+            books.ReflectionRate, books.IgnoreReflectionRate, books.ReflectionDamageRate, books.ReflectionResistanceRate,
+            books.Mana, books.ManaRegenerationRate,
+            books.DamageToDifferentFactionRate, books.ResistanceToDifferentFactionRate,
+            books.DamageToSameFactionRate, books.ResistanceToSameFactionRate,
+            books.NormalDamageRate, books.NormalResistanceRate,
+            books.SkillDamageRate, books.SkillResistanceRate
         );
         return books;
     }
@@ -602,82 +602,82 @@ public class UserBooksService : IUserBooksService
     {
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
-        Books orginCard = _service.GetBooksById(c.id);
+        Books orginCard = _service.GetBooksById(c.Id);
         Books books = new Books
         {
-            id = c.id,
-            health = c.health + orginCard.health * coefficient,
-            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
-            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
-            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
-            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
-            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
-            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
-            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
-            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
-            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
-            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
-            speed = c.speed + orginCard.speed * coefficient,
-            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
-            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            critical_resistance_rate = c.critical_resistance_rate + orginCard.critical_resistance_rate * coefficient,
-            ignore_critical_rate = c.ignore_critical_rate + orginCard.ignore_critical_rate * coefficient,
-            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
-            penetration_resistance_rate = c.penetration_resistance_rate + orginCard.penetration_resistance_rate * coefficient,
-            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
-            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
-            ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + orginCard.ignore_damage_absorption_rate * coefficient,
-            absorbed_damage_rate = c.absorbed_damage_rate + orginCard.absorbed_damage_rate * coefficient,
-            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
-            vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + orginCard.vitality_regeneration_resistance_rate * coefficient,
-            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
-            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
-            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
-            tenacity = c.tenacity + orginCard.tenacity * coefficient,
-            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
-            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
-            ignore_combo_rate = c.ignore_combo_rate + orginCard.ignore_combo_rate * coefficient,
-            combo_damage_rate = c.combo_damage_rate + orginCard.combo_damage_rate * coefficient,
-            combo_resistance_rate = c.combo_resistance_rate + orginCard.combo_resistance_rate * coefficient,
-            stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
-            ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
-            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
-            reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
-            reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient,
-            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
-            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
-            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
-            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
-            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
-            normal_damage_rate = c.normal_damage_rate + orginCard.normal_damage_rate * coefficient,
-            normal_resistance_rate = c.normal_resistance_rate + orginCard.normal_resistance_rate * coefficient,
-            skill_damage_rate = c.skill_damage_rate + orginCard.skill_damage_rate * coefficient,
-            skill_resistance_rate = c.skill_resistance_rate + orginCard.skill_resistance_rate * coefficient
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        books.power = EvaluatePower.CalculatePower(
-            books.health,
-            books.physical_attack, books.physical_defense,
-            books.magical_attack, books.magical_defense,
-            books.chemical_attack, books.chemical_defense,
-            books.atomic_attack, books.atomic_defense,
-            books.mental_attack, books.mental_defense,
-            books.speed,
-            books.critical_damage_rate, books.critical_rate, books.critical_resistance_rate, books.ignore_critical_rate,
-            books.penetration_rate, books.penetration_resistance_rate, books.evasion_rate,
-            books.damage_absorption_rate, books.ignore_damage_absorption_rate, books.absorbed_damage_rate,
-            books.vitality_regeneration_rate, books.vitality_regeneration_resistance_rate,
-            books.accuracy_rate, books.lifesteal_rate,
-            books.shield_strength, books.tenacity, books.resistance_rate,
-            books.combo_rate, books.ignore_combo_rate, books.combo_damage_rate, books.combo_resistance_rate,
-            books.stun_rate, books.ignore_stun_rate,
-            books.reflection_rate, books.ignore_reflection_rate, books.reflection_damage_rate, books.reflection_resistance_rate,
-            books.mana, books.mana_regeneration_rate,
-            books.damage_to_different_faction_rate, books.resistance_to_different_faction_rate,
-            books.damage_to_same_faction_rate, books.resistance_to_same_faction_rate,
-            books.normal_damage_rate, books.normal_resistance_rate,
-            books.skill_damage_rate, books.skill_resistance_rate
+        books.Power = EvaluatePower.CalculatePower(
+            books.Health,
+            books.PhysicalAttack, books.PhysicalDefense,
+            books.MagicalAttack, books.MagicalDefense,
+            books.ChemicalAttack, books.ChemicalDefense,
+            books.AtomicAttack, books.AtomicDefense,
+            books.MentalAttack, books.MentalDefense,
+            books.Speed,
+            books.CriticalDamageRate, books.CriticalRate, books.CriticalResistanceRate, books.IgnoreCriticalRate,
+            books.PenetrationRate, books.PenetrationResistanceRate, books.EvasionRate,
+            books.DamageAbsorptionRate, books.IgnoreDamageAbsorptionRate, books.AbsorbedDamageRate,
+            books.VitalityRegenerationRate, books.VitalityRegenerationResistanceRate,
+            books.AccuracyRate, books.LifestealRate,
+            books.ShieldStrength, books.Tenacity, books.ResistanceRate,
+            books.ComboRate, books.IgnoreComboRate, books.ComboDamageRate, books.ComboResistanceRate,
+            books.StunRate, books.IgnoreStunRate,
+            books.ReflectionRate, books.IgnoreReflectionRate, books.ReflectionDamageRate, books.ReflectionResistanceRate,
+            books.Mana, books.ManaRegenerationRate,
+            books.DamageToDifferentFactionRate, books.ResistanceToDifferentFactionRate,
+            books.DamageToSameFactionRate, books.ResistanceToSameFactionRate,
+            books.NormalDamageRate, books.NormalResistanceRate,
+            books.SkillDamageRate, books.SkillResistanceRate
         );
         return books;
     }

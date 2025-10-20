@@ -15,9 +15,9 @@ public class ForgeGalleryService : IForgeGalleryService
         return new ForgeGalleryService(new ForgeGalleryRepository());
     }
 
-    public List<Forge> GetForgeCollection(string type, int pageSize, int offset, string rare)
+    public List<Forges> GetForgeCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Forge> list = _forgeGalleryRepository.GetForgeCollection(type, pageSize, offset, rare);
+        List<Forges> list = _forgeGalleryRepository.GetForgeCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -39,7 +39,7 @@ public class ForgeGalleryService : IForgeGalleryService
         _forgeGalleryRepository.UpdateStatusForgeGallery(Id);
     }
 
-    public Forge SumPowerForgeGallery()
+    public Forges SumPowerForgeGallery()
     {
         return _forgeGalleryRepository.SumPowerForgeGallery();
     }

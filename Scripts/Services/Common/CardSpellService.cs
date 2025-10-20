@@ -19,9 +19,9 @@ public class CardSpellService : ICardSpellService
         return _cardSpellRepository.GetUniqueCardSpellTypes();
     }
 
-    public List<CardSpell> GetCardSpell(string type, int pageSize, int offset, string rare)
+    public List<CardSpells> GetCardSpell(string type, int pageSize, int offset, string rare)
     {
-        List<CardSpell> list = _cardSpellRepository.GetCardSpell(type, pageSize, offset, rare);
+        List<CardSpells> list = _cardSpellRepository.GetCardSpell(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,24 +31,24 @@ public class CardSpellService : ICardSpellService
         return _cardSpellRepository.GetCardSpellCount(type, rare);
     }
 
-    public List<CardSpell> GetCardSpellRandom(string type, int pageSize)
+    public List<CardSpells> GetCardSpellRandom(string type, int pageSize)
     {
         return _cardSpellRepository.GetCardSpellRandom(type, pageSize);
     }
 
-    public List<CardSpell> GetAllCardSpell(string type)
+    public List<CardSpells> GetAllCardSpell(string type)
     {
         return _cardSpellRepository.GetAllCardSpell(type);
     }
 
-    public CardSpell GetCardSpellById(string Id)
+    public CardSpells GetCardSpellById(string Id)
     {
         return _cardSpellRepository.GetCardSpellById(Id);
     }
 
-    public List<CardSpell> GetCardSpellWithPrice(string type, int pageSize, int offset)
+    public List<CardSpells> GetCardSpellWithPrice(string type, int pageSize, int offset)
     {
-        List<CardSpell> list = _cardSpellRepository.GetCardSpellWithPrice(type, pageSize, offset);
+        List<CardSpells> list = _cardSpellRepository.GetCardSpellWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }

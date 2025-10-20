@@ -98,22 +98,22 @@ public class UserEquipmentsController : MonoBehaviour
         if (obj is Equipments equipment)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = equipment.name;
+            name.text = equipment.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(equipment.power, false);
+            power.text = NumberFormatter.FormatNumber(equipment.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -147,9 +147,9 @@ public class UserEquipmentsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Equipments currentCard = new Equipments();
-                currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
@@ -173,9 +173,9 @@ public class UserEquipmentsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Equipments currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Equipments currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -232,67 +232,67 @@ public class UserEquipmentsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (equipments.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (equipments.Star + 1).ToString();
             }
             GameObject equipmentObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage equipmentImage = equipmentObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.Image);
             Texture equipTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             equipmentImage.texture = equipTexture;
 
             TextMeshProUGUI equipQuantity = equipmentObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            equipQuantity.text = equipments.quantity.ToString() + "/" + (equipments.star + 1).ToString();
+            equipQuantity.text = equipments.Quantity.ToString() + "/" + (equipments.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(equipments.star, currentObject);
+            UIManager.Instance.CreateStarUI(equipments.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = equipments.star + 1;
+                int requiredQuantity = equipments.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng trang bị
-                bool hasEnoughEquipments = equipments.quantity >= requiredQuantity;
+                bool hasEnoughEquipments = equipments.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + equipments.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + equipments.Quantity >= requiredQuantity;
 
                 if (hasEnoughEquipments || hasEnoughItems)
                 {
                     // Giảm số lượng trang bị trước
-                    if (equipments.quantity >= requiredQuantity)
+                    if (equipments.Quantity >= requiredQuantity)
                     {
-                        equipments.quantity -= requiredQuantity;
+                        equipments.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu trang bị không đủ, dùng cả trang bị + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - equipments.quantity;
-                        equipments.quantity = 0; // Dùng hết trang bị
+                        int remainingRequired = requiredQuantity - equipments.Quantity;
+                        equipments.Quantity = 0; // Dùng hết trang bị
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -306,17 +306,17 @@ public class UserEquipmentsController : MonoBehaviour
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newEquipment = UserEquipmentsService.Create().GetNewBreakthroughPower(equipments, increasePerUpgrade);
-                    UserEquipmentsService.Create().UpdateEquipmentsBreakthrough(newEquipment, equipments.star + 1, equipments.quantity);
+                    UserEquipmentsService.Create().UpdateEquipmentsBreakthrough(newEquipment, equipments.Star + 1, equipments.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    EquipmentsGalleryService.Create().UpdateStarEquipmentsGallery(equipments.id, equipments.star + 1);
+                    EquipmentsGalleryService.Create().UpdateStarEquipmentsGallery(equipments.Id, equipments.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(equipments.star, currentObject);
+                    UIManager.Instance.CreateStarUI(equipments.Star, currentObject);
                 }
                 else
                 {

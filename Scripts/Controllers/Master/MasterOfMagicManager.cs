@@ -102,7 +102,7 @@ public class MasterOfMagicManager : MonoBehaviour
                     {
                         // mainId = cardHeroes.id;
                         DetailMasterManager.Instance.CreateCardHeroesEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardHeroes);
-                        if (cardHeroes.level >= value)
+                        if (cardHeroes.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -115,7 +115,7 @@ public class MasterOfMagicManager : MonoBehaviour
                     {
                         // mainId = books.id;
                         DetailMasterManager.Instance.CreateBooksEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, books);
-                        if (books.level >= value)
+                        if (books.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -128,7 +128,7 @@ public class MasterOfMagicManager : MonoBehaviour
                     {
                         // mainId = cardCaptains.id;
                         DetailMasterManager.Instance.CreateCardCaptainsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardCaptains);
-                        if (cardCaptains.level >= value)
+                        if (cardCaptains.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -141,7 +141,7 @@ public class MasterOfMagicManager : MonoBehaviour
                     {
                         // mainId = pets.id;
                         DetailMasterManager.Instance.CreatePetsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, pets);
-                        if (pets.level >= value)
+                        if (pets.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -150,11 +150,11 @@ public class MasterOfMagicManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is CardMilitary cardMilitary)
+                    else if (data is CardMilitaries cardMilitary)
                     {
                         // mainId = cardMilitary.id;
                         DetailMasterManager.Instance.CreateCardMilitaryEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMilitary);
-                        if (cardMilitary.level >= value)
+                        if (cardMilitary.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -163,11 +163,11 @@ public class MasterOfMagicManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is CardSpell cardSpell)
+                    else if (data is CardSpells cardSpell)
                     {
                         // mainId = cardSpell.id;
                         DetailMasterManager.Instance.CreateCardSpellEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardSpell);
-                        if (cardSpell.level >= value)
+                        if (cardSpell.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -180,7 +180,7 @@ public class MasterOfMagicManager : MonoBehaviour
                     {
                         // mainId = cardMonsters.id;
                         DetailMasterManager.Instance.CreateCardMonstersEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMonsters);
-                        if (cardMonsters.level >= value)
+                        if (cardMonsters.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -193,7 +193,7 @@ public class MasterOfMagicManager : MonoBehaviour
                     {
                         // mainId = cardColonels.id;
                         DetailMasterManager.Instance.CreateCardColonelsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardColonels);
-                        if (cardColonels.level >= value)
+                        if (cardColonels.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -206,7 +206,7 @@ public class MasterOfMagicManager : MonoBehaviour
                     {
                         // mainId = cardGenerals.id;
                         DetailMasterManager.Instance.CreateCardGeneralsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardGenerals);
-                        if (cardGenerals.level >= value)
+                        if (cardGenerals.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -219,7 +219,7 @@ public class MasterOfMagicManager : MonoBehaviour
                     {
                         // mainId = cardAdmirals.id;
                         DetailMasterManager.Instance.CreateCardAdmiralsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardAdmirals);
-                        if (cardAdmirals.level >= value)
+                        if (cardAdmirals.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -272,7 +272,7 @@ public class MasterOfMagicManager : MonoBehaviour
         {
             // mainId = cardHeroes.id;
             DetailMasterManager.Instance.CreateCardHeroesEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardHeroes);
-            if (cardHeroes.level >= value)
+            if (cardHeroes.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -285,7 +285,7 @@ public class MasterOfMagicManager : MonoBehaviour
         {
             // mainId = books.id;
             DetailMasterManager.Instance.CreateBooksEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, books);
-            if (books.level >= value)
+            if (books.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -298,7 +298,7 @@ public class MasterOfMagicManager : MonoBehaviour
         {
             // mainId = cardCaptains.id;
             DetailMasterManager.Instance.CreateCardCaptainsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardCaptains);
-            if (cardCaptains.level >= value)
+            if (cardCaptains.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -311,7 +311,7 @@ public class MasterOfMagicManager : MonoBehaviour
         {
             // mainId = pets.id;
             DetailMasterManager.Instance.CreatePetsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, pets);
-            if (pets.level >= value)
+            if (pets.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -320,11 +320,11 @@ public class MasterOfMagicManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is CardMilitary cardMilitary)
+        else if (data is CardMilitaries cardMilitary)
         {
             // mainId = cardMilitary.id;
             DetailMasterManager.Instance.CreateCardMilitaryEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMilitary);
-            if (cardMilitary.level >= value)
+            if (cardMilitary.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -333,11 +333,11 @@ public class MasterOfMagicManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is CardSpell cardSpell)
+        else if (data is CardSpells cardSpell)
         {
             // mainId = cardSpell.id;
             DetailMasterManager.Instance.CreateCardSpellEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardSpell);
-            if (cardSpell.level >= value)
+            if (cardSpell.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -350,7 +350,7 @@ public class MasterOfMagicManager : MonoBehaviour
         {
             // mainId = cardMonsters.id;
             DetailMasterManager.Instance.CreateCardMonstersEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMonsters);
-            if (cardMonsters.level >= value)
+            if (cardMonsters.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -363,7 +363,7 @@ public class MasterOfMagicManager : MonoBehaviour
         {
             // mainId = cardColonels.id;
             DetailMasterManager.Instance.CreateCardColonelsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardColonels);
-            if (cardColonels.level >= value)
+            if (cardColonels.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -376,7 +376,7 @@ public class MasterOfMagicManager : MonoBehaviour
         {
             // mainId = cardGenerals.id;
             DetailMasterManager.Instance.CreateCardGeneralsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardGenerals);
-            if (cardGenerals.level >= value)
+            if (cardGenerals.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -389,7 +389,7 @@ public class MasterOfMagicManager : MonoBehaviour
         {
             // mainId = cardAdmirals.id;
             DetailMasterManager.Instance.CreateCardAdmiralsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardAdmirals);
-            if (cardAdmirals.level >= value)
+            if (cardAdmirals.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }

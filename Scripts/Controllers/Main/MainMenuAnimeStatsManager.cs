@@ -162,26 +162,26 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         AnimeStats animeStats = animeStatsService.GetAnimeStats(mainType, User.CurrentUserId);
         slotObject = Instantiate(AnimeSlotPrefab, SlotPanel);
 
-        Currency silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
 
         string itemName = animeType + " " + mainType;
         Items item = userItemsService.GetUserItemByName(itemName);
-        SetUI(slotObject, mainType, animeStats.level);
-        SetMaterialUI(currentObject, mainType, item, silver.quantity, animeStats.level);
+        SetUI(slotObject, mainType, animeStats.Level);
+        SetMaterialUI(currentObject, mainType, item, silver.Quantity, animeStats.Level);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
 
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, animeStats.level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, animeStats.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 AnimeStats newanimeStats = new AnimeStats();
                 newanimeStats = EnhanceAnimeStats(animeStats, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 UpLevel(newanimeStats, mainType);
@@ -195,14 +195,14 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             
-            var result = EvaluateItem.CalculateLevelUp(item.quantity, silver.quantity, 1, 10, animeStats.level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, animeStats.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
-                item.quantity = result.totalMaterialUsed;
+                item.Quantity = result.totalMaterialUsed;
                 userItemsService.UpdateUserItemsQuantity(item);
                 AnimeStats newanimeStats = new AnimeStats();
                 newanimeStats = EnhanceAnimeStats(animeStats, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.id, result.currencyLeft);
+                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 UpLevel(newanimeStats, mainType);
@@ -274,12 +274,12 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     public void SetMaterialUI(GameObject gameObject, string type, Items item, int currencyQuantity, int rankLevel)
     {
         Transform currencyPanel = gameObject.transform.Find("DictionaryCards/Currency");
-        List<Currency> currencies = UserCurrencyService.Create().GetUserCurrency();
+        List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency();
         ButtonEvent.Instance.Close(currencyPanel);
         CurrencyManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
-        var oneResult = EvaluateItem.CalculateLevelUp(item.quantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
-        var maxResult = EvaluateItem.CalculateLevelUp(item.quantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
+        var oneResult = EvaluateItem.CalculateLevelUp(item.Quantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
+        var maxResult = EvaluateItem.CalculateLevelUp(item.Quantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
         RawImage OneLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         RawImage MaxLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         Texture OneLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.SILVER}");
@@ -300,28 +300,28 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         GameObject maxLevelMaterialObject = Instantiate(ElementDetails2Prefab, MaxLevelMaterial);
 
         RawImage oneLevelImage = oneLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-        Texture oneLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.image)}");
+        Texture oneLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
         oneLevelImage.texture = oneLevelTexture;
 
         RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
         oneLevelRectTransform.sizeDelta = new Vector2(40, 40);
 
         TextMeshProUGUI oneLevelQuantity = oneLevelMaterialObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        oneLevelQuantity.text = item.quantity + "/" + oneResult.totalMaterialUsed;
+        oneLevelQuantity.text = item.Quantity + "/" + oneResult.totalMaterialUsed;
 
         RawImage maxLevelImage = maxLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-        Texture maxLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.image)}");
+        Texture maxLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
         maxLevelImage.texture = maxLevelTexture;
 
         TextMeshProUGUI maxLevelQuantity = maxLevelMaterialObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        maxLevelQuantity.text = item.quantity + "/" + maxResult.totalMaterialUsed;
+        maxLevelQuantity.text = item.Quantity + "/" + maxResult.totalMaterialUsed;
 
         RectTransform maxLevelRectTransform = maxLevelImage.GetComponent<RectTransform>();
         maxLevelRectTransform.sizeDelta = new Vector2(40, 40);
     }
     public AnimeStats EnhanceAnimeStats(AnimeStats animeStats, int level)
     {
-        int startLevel = animeStats.level;
+        int startLevel = animeStats.Level;
         int endLevel = startLevel + level;
 
         for (int lvl = startLevel; lvl < endLevel; lvl++)
@@ -330,154 +330,154 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
 
             if (lvl >= 0 && lvl <= 500)
             {
-                animeStats.health += 10000000 * statMultiplier;
+                animeStats.Health += 10000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                animeStats.physical_attack += 1500000 * statMultiplier;
-                animeStats.physical_defense += 1500000 * statMultiplier;
+                animeStats.PhysicalAttack += 1500000 * statMultiplier;
+                animeStats.PhysicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                animeStats.magical_attack += 1500000 * statMultiplier;
-                animeStats.magical_defense += 1500000 * statMultiplier;
+                animeStats.MagicalAttack += 1500000 * statMultiplier;
+                animeStats.MagicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                animeStats.chemical_attack += 1500000 * statMultiplier;
-                animeStats.chemical_defense += 1500000 * statMultiplier;
+                animeStats.ChemicalAttack += 1500000 * statMultiplier;
+                animeStats.ChemicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                animeStats.atomic_attack += 1500000 * statMultiplier;
-                animeStats.atomic_defense += 1500000 * statMultiplier;
+                animeStats.AtomicAttack += 1500000 * statMultiplier;
+                animeStats.AtomicDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                animeStats.mental_attack += 1500000 * statMultiplier;
-                animeStats.mental_defense += 1500000 * statMultiplier;
+                animeStats.MentalAttack += 1500000 * statMultiplier;
+                animeStats.MentalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                animeStats.speed += 1500000 * statMultiplier;
-                animeStats.critical_damage_rate += 0.1 * statMultiplier;
-                animeStats.critical_rate += 0.1 * statMultiplier;
-                animeStats.critical_resistance_rate += 0.1 * statMultiplier;
-                animeStats.ignore_critical_rate += 0.1 * statMultiplier;
-                animeStats.penetration_rate += 0.1 * statMultiplier;
-                animeStats.penetration_resistance_rate += 0.1 * statMultiplier;
+                animeStats.Speed += 1500000 * statMultiplier;
+                animeStats.CriticalDamageRate += 0.1 * statMultiplier;
+                animeStats.CriticalRate += 0.1 * statMultiplier;
+                animeStats.CriticalResistanceRate += 0.1 * statMultiplier;
+                animeStats.IgnoreCriticalRate += 0.1 * statMultiplier;
+                animeStats.PenetrationRate += 0.1 * statMultiplier;
+                animeStats.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                animeStats.evasion_rate += 0.1 * statMultiplier;
-                animeStats.damage_absorption_rate += 0.1 * statMultiplier;
-                animeStats.ignore_damage_absorption_rate += 0.1 * statMultiplier;
-                animeStats.absorbed_damage_rate += 0.1 * statMultiplier;
-                animeStats.vitality_regeneration_rate += 0.1 * statMultiplier;
-                animeStats.vitality_regeneration_resistance_rate += 0.1 * statMultiplier;
-                animeStats.accuracy_rate += 0.1 * statMultiplier;
+                animeStats.EvasionRate += 0.1 * statMultiplier;
+                animeStats.DamageAbsorptionRate += 0.1 * statMultiplier;
+                animeStats.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                animeStats.AbsorbedDamageRate += 0.1 * statMultiplier;
+                animeStats.VitalityRegenerationRate += 0.1 * statMultiplier;
+                animeStats.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                animeStats.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                animeStats.lifesteal_rate += 0.1 * statMultiplier;
-                animeStats.mana += 1500000 * statMultiplier;
-                animeStats.mana_regeneration_rate += 0.1 * statMultiplier;
-                animeStats.shield_strength += 1500000 * statMultiplier;
+                animeStats.LifestealRate += 0.1 * statMultiplier;
+                animeStats.Mana += 1500000 * statMultiplier;
+                animeStats.ManaRegenerationRate += 0.1 * statMultiplier;
+                animeStats.ShieldStrength += 1500000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                animeStats.tenacity += 0.5 * statMultiplier;
-                animeStats.resistance_rate += 0.1 * statMultiplier;
-                animeStats.combo_rate += 0.1 * statMultiplier;
-                animeStats.ignore_combo_rate += 0.1 * statMultiplier;
-                animeStats.combo_damage_rate += 0.1 * statMultiplier;
-                animeStats.combo_resistance_rate += 0.1 * statMultiplier;
-                animeStats.stun_rate += 0.1 * statMultiplier;
-                animeStats.ignore_stun_rate += 0.1 * statMultiplier;
+                animeStats.Tenacity += 0.5 * statMultiplier;
+                animeStats.ResistanceRate += 0.1 * statMultiplier;
+                animeStats.ComboRate += 0.1 * statMultiplier;
+                animeStats.IgnoreComboRate += 0.1 * statMultiplier;
+                animeStats.ComboDamageRate += 0.1 * statMultiplier;
+                animeStats.ComboResistanceRate += 0.1 * statMultiplier;
+                animeStats.StunRate += 0.1 * statMultiplier;
+                animeStats.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                animeStats.reflection_rate += 0.1 * statMultiplier;
-                animeStats.ignore_reflection_rate += 0.1 * statMultiplier;
-                animeStats.reflection_damage_rate += 0.1 * statMultiplier;
-                animeStats.reflection_resistance_rate += 0.1 * statMultiplier;
-                animeStats.damage_to_different_faction_rate += 0.1 * statMultiplier;
-                animeStats.resistance_to_different_faction_rate += 0.1 * statMultiplier;
-                animeStats.damage_to_same_faction_rate += 0.1 * statMultiplier;
-                animeStats.resistance_to_same_faction_rate += 0.1 * statMultiplier;
+                animeStats.ReflectionRate += 0.1 * statMultiplier;
+                animeStats.IgnoreReflectionRate += 0.1 * statMultiplier;
+                animeStats.ReflectionDamageRate += 0.1 * statMultiplier;
+                animeStats.ReflectionResistanceRate += 0.1 * statMultiplier;
+                animeStats.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                animeStats.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                animeStats.DamageToSameFactionRate += 0.1 * statMultiplier;
+                animeStats.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                animeStats.normal_damage_rate += 0.1 * statMultiplier;
-                animeStats.normal_resistance_rate += 0.1 * statMultiplier;
-                animeStats.skill_damage_rate += 0.1 * statMultiplier;
-                animeStats.skill_resistance_rate += 0.1 * statMultiplier;
-                animeStats.percent_all_health += 5 * statMultiplier;
-                animeStats.percent_all_physical_attack += 5 * statMultiplier;
-                animeStats.percent_all_physical_defense += 5 * statMultiplier;
+                animeStats.NormalDamageRate += 0.1 * statMultiplier;
+                animeStats.NormalResistanceRate += 0.1 * statMultiplier;
+                animeStats.SkillDamageRate += 0.1 * statMultiplier;
+                animeStats.SkillResistanceRate += 0.1 * statMultiplier;
+                animeStats.PercentAllHealth += 5 * statMultiplier;
+                animeStats.PercentAllPhysicalAttack += 5 * statMultiplier;
+                animeStats.PercentAllPhysicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 6500 && lvl <= 7000)
             {
-                animeStats.percent_all_magical_attack += 5 * statMultiplier;
-                animeStats.percent_all_magical_defense += 5 * statMultiplier;
+                animeStats.PercentAllMagicalAttack += 5 * statMultiplier;
+                animeStats.PercentAllMagicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 7000 && lvl <= 7500)
             {
-                animeStats.percent_all_chemical_attack += 5 * statMultiplier;
-                animeStats.percent_all_chemical_defense += 5 * statMultiplier;
+                animeStats.PercentAllChemicalAttack += 5 * statMultiplier;
+                animeStats.PercentAllChemicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 7500 && lvl <= 8000)
             {
-                animeStats.percent_all_atomic_attack += 5 * statMultiplier;
-                animeStats.percent_all_atomic_defense += 5 * statMultiplier;
+                animeStats.PercentAllAtomicAttack += 5 * statMultiplier;
+                animeStats.PercentAllAtomicDefense += 5 * statMultiplier;
             }
             else if (lvl > 8000 && lvl <= 8500)
             {
-                animeStats.percent_all_mental_attack += 5 * statMultiplier;
-                animeStats.percent_all_mental_defense += 5 * statMultiplier;
+                animeStats.PercentAllMentalAttack += 5 * statMultiplier;
+                animeStats.PercentAllMentalDefense += 5 * statMultiplier;
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                animeStats.physical_attack += 1500000 * statMultiplier;
-                animeStats.magical_attack += 1500000 * statMultiplier;
-                animeStats.chemical_attack += 1500000 * statMultiplier;
-                animeStats.atomic_attack += 1500000 * statMultiplier;
-                animeStats.mental_attack += 1500000 * statMultiplier;
+                animeStats.PhysicalAttack += 1500000 * statMultiplier;
+                animeStats.MagicalAttack += 1500000 * statMultiplier;
+                animeStats.ChemicalAttack += 1500000 * statMultiplier;
+                animeStats.AtomicAttack += 1500000 * statMultiplier;
+                animeStats.MentalAttack += 1500000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                animeStats.physical_defense += 1500000 * statMultiplier;
-                animeStats.magical_defense += 1500000 * statMultiplier;
-                animeStats.chemical_defense += 1500000 * statMultiplier;
-                animeStats.atomic_defense += 1500000 * statMultiplier;
-                animeStats.mental_defense += 1500000 * statMultiplier;
+                animeStats.PhysicalDefense += 1500000 * statMultiplier;
+                animeStats.MagicalDefense += 1500000 * statMultiplier;
+                animeStats.ChemicalDefense += 1500000 * statMultiplier;
+                animeStats.AtomicDefense += 1500000 * statMultiplier;
+                animeStats.MentalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                animeStats.speed += 1500000 * statMultiplier;
-                animeStats.critical_damage_rate += 0.1 * statMultiplier;
-                animeStats.critical_rate += 0.1 * statMultiplier;
-                animeStats.penetration_rate += 0.1 * statMultiplier;
-                animeStats.evasion_rate += 0.1 * statMultiplier;
-                animeStats.damage_absorption_rate += 0.1 * statMultiplier;
-                animeStats.vitality_regeneration_rate += 0.1 * statMultiplier;
-                animeStats.accuracy_rate += 0.1 * statMultiplier;
-                animeStats.lifesteal_rate += 0.1 * statMultiplier;
-                animeStats.mana += 1500000 * statMultiplier;
-                animeStats.mana_regeneration_rate += 0.1 * statMultiplier;
-                animeStats.shield_strength += 1500000 * statMultiplier;
-                animeStats.tenacity += 0.5 * statMultiplier;
-                animeStats.resistance_rate += 0.1 * statMultiplier;
-                animeStats.combo_rate += 0.1 * statMultiplier;
-                animeStats.reflection_rate += 0.1 * statMultiplier;
-                animeStats.damage_to_different_faction_rate += 0.1 * statMultiplier;
-                animeStats.resistance_to_different_faction_rate += 0.1 * statMultiplier;
-                animeStats.damage_to_same_faction_rate += 0.1 * statMultiplier;
-                animeStats.resistance_to_same_faction_rate += 0.1 * statMultiplier;
+                animeStats.Speed += 1500000 * statMultiplier;
+                animeStats.CriticalDamageRate += 0.1 * statMultiplier;
+                animeStats.CriticalRate += 0.1 * statMultiplier;
+                animeStats.PenetrationRate += 0.1 * statMultiplier;
+                animeStats.EvasionRate += 0.1 * statMultiplier;
+                animeStats.DamageAbsorptionRate += 0.1 * statMultiplier;
+                animeStats.VitalityRegenerationRate += 0.1 * statMultiplier;
+                animeStats.AccuracyRate += 0.1 * statMultiplier;
+                animeStats.LifestealRate += 0.1 * statMultiplier;
+                animeStats.Mana += 1500000 * statMultiplier;
+                animeStats.ManaRegenerationRate += 0.1 * statMultiplier;
+                animeStats.ShieldStrength += 1500000 * statMultiplier;
+                animeStats.Tenacity += 0.5 * statMultiplier;
+                animeStats.ResistanceRate += 0.1 * statMultiplier;
+                animeStats.ComboRate += 0.1 * statMultiplier;
+                animeStats.ReflectionRate += 0.1 * statMultiplier;
+                animeStats.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                animeStats.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                animeStats.DamageToSameFactionRate += 0.1 * statMultiplier;
+                animeStats.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
-        animeStats.level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
+        animeStats.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return animeStats;
     }
     public void UpLevel(AnimeStats animeStats, string type)

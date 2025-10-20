@@ -14,9 +14,9 @@ public class CollaborationEquipmentGalleryService : ICollaborationEquipmentGalle
         return new CollaborationEquipmentGalleryService(new CollaborationEquipmentGalleryRepository());
     }
 
-    public List<CollaborationEquipment> GetCollaborationEquipmentsCollection(string type, int pageSize, int offset, string rare)
+    public List<CollaborationEquipments> GetCollaborationEquipmentsCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipment> list = _collabEquipmentGalleryRepo.GetCollaborationEquipmentsCollection(type, pageSize, offset, rare);
+        List<CollaborationEquipments> list = _collabEquipmentGalleryRepo.GetCollaborationEquipmentsCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class CollaborationEquipmentGalleryService : ICollaborationEquipmentGalle
         _collabEquipmentGalleryRepo.UpdateStatusCollaborationEquipmentsGallery(Id);
     }
 
-    public CollaborationEquipment SumPowerCollaborationEquipmentsGallery()
+    public CollaborationEquipments SumPowerCollaborationEquipmentsGallery()
     {
         return _collabEquipmentGalleryRepo.SumPowerCollaborationEquipmentsGallery();
     }

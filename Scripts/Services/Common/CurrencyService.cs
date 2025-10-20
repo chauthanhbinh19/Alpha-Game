@@ -14,7 +14,7 @@ public class CurrencyService : ICurrencyService
         return new CurrencyService(new CurrencyRepository());
     }
 
-    public List<Currency> GetCurrencyList()
+    public List<Currencies> GetCurrencyList()
     {
         return _currencyRepository.GetCurrencyList();
     }

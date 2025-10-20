@@ -47,17 +47,17 @@ public class SpiritBeastController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateSpiritBeastGallery(List<SpiritBeast> SpiritBeastList, Transform DictionaryContentPanel)
+    public void CreateSpiritBeastGallery(List<SpiritBeasts> SpiritBeastList, Transform DictionaryContentPanel)
     {
         foreach (var title in SpiritBeastList)
         {
             GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.name.Replace("_", " ");
+            Title.text = title.Name.Replace("_", " ");
 
             RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -71,7 +71,7 @@ public class SpiritBeastController : MonoBehaviour
             });
 
             RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
@@ -85,7 +85,7 @@ public class SpiritBeastController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateSpiritBeastTrade(List<SpiritBeast> SpiritBeastList, string subType, Transform currentContent,
+    public void CreateSpiritBeastTrade(List<SpiritBeasts> SpiritBeastList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var title in SpiritBeastList)
@@ -93,10 +93,10 @@ public class SpiritBeastController : MonoBehaviour
             GameObject titleObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.name.Replace("_", " ");
+            Title.text = title.Name.Replace("_", " ");
 
             RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -115,12 +115,12 @@ public class SpiritBeastController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = titleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = titleObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(title.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(title.Currency.Quantity, false);
 
             Button buy = titleObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -128,11 +128,11 @@ public class SpiritBeastController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(title.currency.quantity, title, subType, popupPanel, currencyPanel);
+                GetQuantity(title.Currency.Quantity, title, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetSpiritBeastCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -247,14 +247,14 @@ public class SpiritBeastController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is SpiritBeast SpiritBeast)
+            Currencies userCurrency = new Currencies();
+            if (obj is SpiritBeasts SpiritBeast)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(SpiritBeast.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(SpiritBeast.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -278,10 +278,10 @@ public class SpiritBeastController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is SpiritBeast SpiritBeast)
+            if (obj is SpiritBeasts SpiritBeast)
             {
-                SpiritBeast.quantity = SpiritBeast.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(SpiritBeast.currency.id, price);
+                SpiritBeast.Quantity = SpiritBeast.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(SpiritBeast.Currency.Id, price);
                 bool success = UserSpiritBeastService.Create().InsertUserSpiritBeast(SpiritBeast);
                 if (!success)
                 {
@@ -293,11 +293,11 @@ public class SpiritBeastController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    SpiritBeastGalleryService.Create().InsertSpiritBeastGallery(SpiritBeast.id);
+                    SpiritBeastGalleryService.Create().InsertSpiritBeastGallery(SpiritBeast.Id);
                     currencies = UserCurrencyService.Create().GetSpiritBeastCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(SpiritBeast.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(SpiritBeast.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

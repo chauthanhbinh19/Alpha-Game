@@ -47,17 +47,17 @@ public class MagicFormationCircleController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateMagicFormationCircleGallery(List<MagicFormationCircle> magicFormationCircles, Transform DictionaryContentPanel)
+    public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform DictionaryContentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
             GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = magicFormationCircle.name.Replace("_", " ");
+            Title.text = magicFormationCircle.Name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,7 +71,7 @@ public class MagicFormationCircleController : MonoBehaviour
             });
 
             RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -82,7 +82,7 @@ public class MagicFormationCircleController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateMagicFormationCircleTrade(List<MagicFormationCircle> magicFormationCircles, string subType, Transform currentContent,
+    public void CreateMagicFormationCircleTrade(List<MagicFormationCircles> magicFormationCircles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
@@ -90,10 +90,10 @@ public class MagicFormationCircleController : MonoBehaviour
             GameObject magicFormationCircleObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = magicFormationCircle.name.Replace("_", " ");
+            Title.text = magicFormationCircle.Name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = magicFormationCircleObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class MagicFormationCircleController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = magicFormationCircleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = magicFormationCircleObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(magicFormationCircle.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(magicFormationCircle.Currency.Quantity, false);
 
             Button buy = magicFormationCircleObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,12 +123,12 @@ public class MagicFormationCircleController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(magicFormationCircle.currency.quantity, magicFormationCircle, subType, popupPanel, currencyPanel);
+                GetQuantity(magicFormationCircle.Currency.Quantity, magicFormationCircle, subType, popupPanel, currencyPanel);
             });
 
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetMagicFormationCircleCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -243,14 +243,14 @@ public class MagicFormationCircleController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is MagicFormationCircle magicFormationCircle)
+            Currencies userCurrency = new Currencies();
+            if (obj is MagicFormationCircles magicFormationCircle)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(magicFormationCircle.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(magicFormationCircle.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -274,10 +274,10 @@ public class MagicFormationCircleController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is MagicFormationCircle magicFormationCircle)
+            if (obj is MagicFormationCircles magicFormationCircle)
             {
-                magicFormationCircle.quantity = magicFormationCircle.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(magicFormationCircle.currency.id, price);
+                magicFormationCircle.Quantity = magicFormationCircle.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(magicFormationCircle.Currency.Id, price);
                 bool success = UserMagicFormationCircleService.Create().InsertUserMagicFormationCircle(magicFormationCircle);
                 if (!success)
                 {
@@ -289,11 +289,11 @@ public class MagicFormationCircleController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    MagicFormationCircleGalleryService.Create().InsertMagicFormationCircleGallery(magicFormationCircle.id);
+                    MagicFormationCircleGalleryService.Create().InsertMagicFormationCircleGallery(magicFormationCircle.Id);
                     currencies = UserCurrencyService.Create().GetMagicFormationCircleCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

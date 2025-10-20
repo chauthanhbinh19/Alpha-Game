@@ -14,176 +14,176 @@ public class UserForgeService : IUserForgeService
         return new UserForgeService(new UserForgeRepository());
     }
 
-    public Forge GetNewLevelPower(Forge c, double coefficient)
+    public Forges GetNewLevelPower(Forges c, double coefficient)
     {
         IForgeRepository _repository = new ForgeRepository();
         ForgeService _service = new ForgeService(_repository);
-        Forge orginCard = _service.GetForgeById(c.id);
-        Forge Forge = new Forge
+        Forges orginCard = _service.GetForgeById(c.Id);
+        Forges Forge = new Forges
         {
-            id = c.id,
-            health = c.health + orginCard.health * coefficient,
-            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
-            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
-            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
-            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
-            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
-            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
-            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
-            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
-            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
-            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
-            speed = c.speed + orginCard.speed * coefficient,
-            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
-            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            critical_resistance_rate = c.critical_resistance_rate + orginCard.critical_resistance_rate * coefficient,
-            ignore_critical_rate = c.ignore_critical_rate + orginCard.ignore_critical_rate * coefficient,
-            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
-            penetration_resistance_rate = c.penetration_resistance_rate + orginCard.penetration_resistance_rate * coefficient,
-            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
-            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
-            ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + orginCard.ignore_damage_absorption_rate * coefficient,
-            absorbed_damage_rate = c.absorbed_damage_rate + orginCard.absorbed_damage_rate * coefficient,
-            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
-            vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + orginCard.vitality_regeneration_resistance_rate * coefficient,
-            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
-            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
-            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
-            tenacity = c.tenacity + orginCard.tenacity * coefficient,
-            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
-            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
-            ignore_combo_rate = c.ignore_combo_rate + orginCard.ignore_combo_rate * coefficient,
-            combo_damage_rate = c.combo_damage_rate + orginCard.combo_damage_rate * coefficient,
-            combo_resistance_rate = c.combo_resistance_rate + orginCard.combo_resistance_rate * coefficient,
-            stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
-            ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
-            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
-            reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
-            reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient,
-            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
-            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
-            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
-            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
-            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
-            normal_damage_rate = c.normal_damage_rate + orginCard.normal_damage_rate * coefficient,
-            normal_resistance_rate = c.normal_resistance_rate + orginCard.normal_resistance_rate * coefficient,
-            skill_damage_rate = c.skill_damage_rate + orginCard.skill_damage_rate * coefficient,
-            skill_resistance_rate = c.skill_resistance_rate + orginCard.skill_resistance_rate * coefficient
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Forge.power = EvaluatePower.CalculatePower(
-            Forge.health,
-            Forge.physical_attack, Forge.physical_defense,
-            Forge.magical_attack, Forge.magical_defense,
-            Forge.chemical_attack, Forge.chemical_defense,
-            Forge.atomic_attack, Forge.atomic_defense,
-            Forge.mental_attack, Forge.mental_defense,
-            Forge.speed,
-            Forge.critical_damage_rate, Forge.critical_rate, Forge.critical_resistance_rate, Forge.ignore_critical_rate,
-            Forge.penetration_rate, Forge.penetration_resistance_rate, Forge.evasion_rate,
-            Forge.damage_absorption_rate, Forge.ignore_damage_absorption_rate, Forge.absorbed_damage_rate,
-            Forge.vitality_regeneration_rate, Forge.vitality_regeneration_resistance_rate,
-            Forge.accuracy_rate, Forge.lifesteal_rate,
-            Forge.shield_strength, Forge.tenacity, Forge.resistance_rate,
-            Forge.combo_rate, Forge.ignore_combo_rate, Forge.combo_damage_rate, Forge.combo_resistance_rate,
-            Forge.stun_rate, Forge.ignore_stun_rate,
-            Forge.reflection_rate, Forge.ignore_reflection_rate, Forge.reflection_damage_rate, Forge.reflection_resistance_rate,
-            Forge.mana, Forge.mana_regeneration_rate,
-            Forge.damage_to_different_faction_rate, Forge.resistance_to_different_faction_rate,
-            Forge.damage_to_same_faction_rate, Forge.resistance_to_same_faction_rate,
-            Forge.normal_damage_rate, Forge.normal_resistance_rate,
-            Forge.skill_damage_rate, Forge.skill_resistance_rate
+        Forge.Power = EvaluatePower.CalculatePower(
+            Forge.Health,
+            Forge.PhysicalAttack, Forge.PhysicalDefense,
+            Forge.MagicalAttack, Forge.MagicalDefense,
+            Forge.ChemicalAttack, Forge.ChemicalDefense,
+            Forge.AtomicAttack, Forge.AtomicDefense,
+            Forge.MentalAttack, Forge.MentalDefense,
+            Forge.Speed,
+            Forge.CriticalDamageRate, Forge.CriticalRate, Forge.CriticalResistanceRate, Forge.IgnoreCriticalRate,
+            Forge.PenetrationRate, Forge.PenetrationResistanceRate, Forge.EvasionRate,
+            Forge.DamageAbsorptionRate, Forge.IgnoreDamageAbsorptionRate, Forge.AbsorbedDamageRate,
+            Forge.VitalityRegenerationRate, Forge.VitalityRegenerationResistanceRate,
+            Forge.AccuracyRate, Forge.LifestealRate,
+            Forge.ShieldStrength, Forge.Tenacity, Forge.ResistanceRate,
+            Forge.ComboRate, Forge.IgnoreComboRate, Forge.ComboDamageRate, Forge.ComboResistanceRate,
+            Forge.StunRate, Forge.IgnoreStunRate,
+            Forge.ReflectionRate, Forge.IgnoreReflectionRate, Forge.ReflectionDamageRate, Forge.ReflectionResistanceRate,
+            Forge.Mana, Forge.ManaRegenerationRate,
+            Forge.DamageToDifferentFactionRate, Forge.ResistanceToDifferentFactionRate,
+            Forge.DamageToSameFactionRate, Forge.ResistanceToSameFactionRate,
+            Forge.NormalDamageRate, Forge.NormalResistanceRate,
+            Forge.SkillDamageRate, Forge.SkillResistanceRate
         );
         return Forge;
     }
-    public Forge GetNewBreakthroughPower(Forge c, double coefficient)
+    public Forges GetNewBreakthroughPower(Forges c, double coefficient)
     {
         IForgeRepository _repository = new ForgeRepository();
         ForgeService _service = new ForgeService(_repository);
-        Forge orginCard = _service.GetForgeById(c.id);
-        Forge Forge = new Forge
+        Forges orginCard = _service.GetForgeById(c.Id);
+        Forges Forge = new Forges
         {
-            id = c.id,
-            health = c.health + orginCard.health * coefficient,
-            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
-            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
-            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
-            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
-            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
-            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
-            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
-            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
-            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
-            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
-            speed = c.speed + orginCard.speed * coefficient,
-            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
-            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            critical_resistance_rate = c.critical_resistance_rate + orginCard.critical_resistance_rate * coefficient,
-            ignore_critical_rate = c.ignore_critical_rate + orginCard.ignore_critical_rate * coefficient,
-            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
-            penetration_resistance_rate = c.penetration_resistance_rate + orginCard.penetration_resistance_rate * coefficient,
-            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
-            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
-            ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + orginCard.ignore_damage_absorption_rate * coefficient,
-            absorbed_damage_rate = c.absorbed_damage_rate + orginCard.absorbed_damage_rate * coefficient,
-            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
-            vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + orginCard.vitality_regeneration_resistance_rate * coefficient,
-            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
-            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
-            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
-            tenacity = c.tenacity + orginCard.tenacity * coefficient,
-            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
-            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
-            ignore_combo_rate = c.ignore_combo_rate + orginCard.ignore_combo_rate * coefficient,
-            combo_damage_rate = c.combo_damage_rate + orginCard.combo_damage_rate * coefficient,
-            combo_resistance_rate = c.combo_resistance_rate + orginCard.combo_resistance_rate * coefficient,
-            stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
-            ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
-            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
-            reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
-            reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient,
-            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
-            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
-            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
-            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
-            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
-            normal_damage_rate = c.normal_damage_rate + orginCard.normal_damage_rate * coefficient,
-            normal_resistance_rate = c.normal_resistance_rate + orginCard.normal_resistance_rate * coefficient,
-            skill_damage_rate = c.skill_damage_rate + orginCard.skill_damage_rate * coefficient,
-            skill_resistance_rate = c.skill_resistance_rate + orginCard.skill_resistance_rate * coefficient
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Forge.power = EvaluatePower.CalculatePower(
-            Forge.health,
-            Forge.physical_attack, Forge.physical_defense,
-            Forge.magical_attack, Forge.magical_defense,
-            Forge.chemical_attack, Forge.chemical_defense,
-            Forge.atomic_attack, Forge.atomic_defense,
-            Forge.mental_attack, Forge.mental_defense,
-            Forge.speed,
-            Forge.critical_damage_rate, Forge.critical_rate, Forge.critical_resistance_rate, Forge.ignore_critical_rate,
-            Forge.penetration_rate, Forge.penetration_resistance_rate, Forge.evasion_rate,
-            Forge.damage_absorption_rate, Forge.ignore_damage_absorption_rate, Forge.absorbed_damage_rate,
-            Forge.vitality_regeneration_rate, Forge.vitality_regeneration_resistance_rate,
-            Forge.accuracy_rate, Forge.lifesteal_rate,
-            Forge.shield_strength, Forge.tenacity, Forge.resistance_rate,
-            Forge.combo_rate, Forge.ignore_combo_rate, Forge.combo_damage_rate, Forge.combo_resistance_rate,
-            Forge.stun_rate, Forge.ignore_stun_rate,
-            Forge.reflection_rate, Forge.ignore_reflection_rate, Forge.reflection_damage_rate, Forge.reflection_resistance_rate,
-            Forge.mana, Forge.mana_regeneration_rate,
-            Forge.damage_to_different_faction_rate, Forge.resistance_to_different_faction_rate,
-            Forge.damage_to_same_faction_rate, Forge.resistance_to_same_faction_rate,
-            Forge.normal_damage_rate, Forge.normal_resistance_rate,
-            Forge.skill_damage_rate, Forge.skill_resistance_rate
+        Forge.Power = EvaluatePower.CalculatePower(
+            Forge.Health,
+            Forge.PhysicalAttack, Forge.PhysicalDefense,
+            Forge.MagicalAttack, Forge.MagicalDefense,
+            Forge.ChemicalAttack, Forge.ChemicalDefense,
+            Forge.AtomicAttack, Forge.AtomicDefense,
+            Forge.MentalAttack, Forge.MentalDefense,
+            Forge.Speed,
+            Forge.CriticalDamageRate, Forge.CriticalRate, Forge.CriticalResistanceRate, Forge.IgnoreCriticalRate,
+            Forge.PenetrationRate, Forge.PenetrationResistanceRate, Forge.EvasionRate,
+            Forge.DamageAbsorptionRate, Forge.IgnoreDamageAbsorptionRate, Forge.AbsorbedDamageRate,
+            Forge.VitalityRegenerationRate, Forge.VitalityRegenerationResistanceRate,
+            Forge.AccuracyRate, Forge.LifestealRate,
+            Forge.ShieldStrength, Forge.Tenacity, Forge.ResistanceRate,
+            Forge.ComboRate, Forge.IgnoreComboRate, Forge.ComboDamageRate, Forge.ComboResistanceRate,
+            Forge.StunRate, Forge.IgnoreStunRate,
+            Forge.ReflectionRate, Forge.IgnoreReflectionRate, Forge.ReflectionDamageRate, Forge.ReflectionResistanceRate,
+            Forge.Mana, Forge.ManaRegenerationRate,
+            Forge.DamageToDifferentFactionRate, Forge.ResistanceToDifferentFactionRate,
+            Forge.DamageToSameFactionRate, Forge.ResistanceToSameFactionRate,
+            Forge.NormalDamageRate, Forge.NormalResistanceRate,
+            Forge.SkillDamageRate, Forge.SkillResistanceRate
         );
         return Forge;
     }
 
-    public List<Forge> GetUserForge(string user_id, string type, int pageSize, int offset, string rare)
+    public List<Forges> GetUserForge(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Forge> list = _userForgeRepository.GetUserForge(user_id, type, pageSize, offset, rare);
+        List<Forges> list = _userForgeRepository.GetUserForge(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -193,27 +193,27 @@ public class UserForgeService : IUserForgeService
         return _userForgeRepository.GetUserForgeCount(user_id, type, rare);
     }
 
-    public bool InsertUserForge(Forge forge)
+    public bool InsertUserForge(Forges forge)
     {
         return _userForgeRepository.InsertUserForge(forge);
     }
 
-    public bool UpdateForgeLevel(Forge forge, int cardLevel)
+    public bool UpdateForgeLevel(Forges forge, int cardLevel)
     {
         return _userForgeRepository.UpdateForgeLevel(forge, cardLevel);
     }
 
-    public bool UpdateForgeBreakthrough(Forge forge, int star, int quantity)
+    public bool UpdateForgeBreakthrough(Forges forge, int star, int quantity)
     {
         return _userForgeRepository.UpdateForgeBreakthrough(forge, star, quantity);
     }
 
-    public Forge GetUserForgeById(string user_id, string Id)
+    public Forges GetUserForgeById(string user_id, string Id)
     {
         return _userForgeRepository.GetUserForgeById(user_id, Id);
     }
 
-    public Forge SumPowerUserForge()
+    public Forges SumPowerUserForge()
     {
         return _userForgeRepository.SumPowerUserForge();
     }

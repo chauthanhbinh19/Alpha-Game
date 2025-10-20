@@ -19,9 +19,9 @@ public class CardLifeService : ICardLifeService
         return _cardLifeRepository.GetUniqueCardLifeTypes();
     }
 
-    public List<CardLife> GetCardLife(string type, int pageSize, int offset, string rare)
+    public List<CardLives> GetCardLife(string type, int pageSize, int offset, string rare)
     {
-        List<CardLife> list = _cardLifeRepository.GetCardLife(type, pageSize, offset, rare);
+        List<CardLives> list = _cardLifeRepository.GetCardLife(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,9 +31,9 @@ public class CardLifeService : ICardLifeService
         return _cardLifeRepository.GetCardLifeCount(type, rare);
     }
 
-    public List<CardLife> GetCardLifeWithPrice(string type, int pageSize, int offset)
+    public List<CardLives> GetCardLifeWithPrice(string type, int pageSize, int offset)
     {
-        List<CardLife> list = _cardLifeRepository.GetCardLifeWithPrice(type, pageSize, offset);
+        List<CardLives> list = _cardLifeRepository.GetCardLifeWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -43,12 +43,12 @@ public class CardLifeService : ICardLifeService
         return _cardLifeRepository.GetCardLifeWithPriceCount(type);
     }
 
-    public CardLife GetCardLifeById(string Id)
+    public CardLives GetCardLifeById(string Id)
     {
         return _cardLifeRepository.GetCardLifeById(Id);
     }
 
-    public CardLife SumPowerCardLifePercent()
+    public CardLives SumPowerCardLifePercent()
     {
         return _cardLifeRepository.SumPowerCardLifePercent();
     }

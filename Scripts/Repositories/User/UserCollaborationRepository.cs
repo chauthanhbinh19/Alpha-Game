@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class UserCollaborationRepository : IUserCollaborationRepository
 {
-    public List<Collaboration> GetUserCollaboration(string user_id, int pageSize, int offset, string rare)
+    public List<Collaborations> GetUserCollaboration(string user_id, int pageSize, int offset, string rare)
     {
-        List<Collaboration> collaborationList = new List<Collaboration>();
+        List<Collaborations> collaborationList = new List<Collaborations>();
         // string user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -28,67 +28,67 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Collaboration collaboration = new Collaboration
+                    Collaborations collaboration = new Collaborations
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -100,7 +100,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                         // percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
                         // percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
                         // percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        description = reader.GetString("description")
+                        Description = reader.GetString("description")
                     };
 
                     collaborationList.Add(collaboration);
@@ -140,7 +140,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
         }
         return count;
     }
-    public bool InsertUserCollaborations(Collaboration collaboration)
+    public bool InsertUserCollaborations(Collaborations collaboration)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -156,7 +156,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@collaboration_id", collaboration.id);
+                checkCommand.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -199,64 +199,64 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@collaboration_id", collaboration.id);
-                    command.Parameters.AddWithValue("@rare", collaboration.rare);
+                    command.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
+                    command.Parameters.AddWithValue("@rare", collaboration.Rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(collaboration.rare));
+                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(collaboration.Rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", collaboration.quantity);
-                    command.Parameters.AddWithValue("@power", collaboration.power);
-                    command.Parameters.AddWithValue("@health", collaboration.health);
-                    command.Parameters.AddWithValue("@physical_attack", collaboration.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", collaboration.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", collaboration.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", collaboration.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", collaboration.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", collaboration.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", collaboration.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", collaboration.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", collaboration.mental_attack);
-                    command.Parameters.AddWithValue("@mental_defense", collaboration.mental_defense);
-                    command.Parameters.AddWithValue("@speed", collaboration.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", collaboration.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", collaboration.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", collaboration.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", collaboration.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", collaboration.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", collaboration.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", collaboration.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", collaboration.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaboration.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", collaboration.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", collaboration.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaboration.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", collaboration.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", collaboration.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", collaboration.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", collaboration.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", collaboration.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", collaboration.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", collaboration.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", collaboration.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", collaboration.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", collaboration.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", collaboration.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", collaboration.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", collaboration.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", collaboration.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", collaboration.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", collaboration.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", collaboration.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaboration.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaboration.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaboration.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaboration.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", collaboration.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", collaboration.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", collaboration.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", collaboration.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@quantity", collaboration.Quantity);
+                    command.Parameters.AddWithValue("@power", collaboration.Power);
+                    command.Parameters.AddWithValue("@health", collaboration.Health);
+                    command.Parameters.AddWithValue("@physical_attack", collaboration.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", collaboration.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", collaboration.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", collaboration.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", collaboration.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", collaboration.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", collaboration.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", collaboration.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", collaboration.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", collaboration.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", collaboration.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", collaboration.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", collaboration.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", collaboration.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", collaboration.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", collaboration.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", collaboration.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", collaboration.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", collaboration.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaboration.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", collaboration.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", collaboration.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaboration.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", collaboration.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", collaboration.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", collaboration.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", collaboration.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", collaboration.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", collaboration.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", collaboration.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", collaboration.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", collaboration.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", collaboration.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", collaboration.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", collaboration.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", collaboration.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", collaboration.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", collaboration.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", collaboration.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", collaboration.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaboration.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaboration.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaboration.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaboration.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", collaboration.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", collaboration.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", collaboration.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", collaboration.SkillResistanceRate);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -269,8 +269,8 @@ public class UserCollaborationRepository : IUserCollaborationRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@collaboration_id", collaboration.id);
-                    updateCommand.Parameters.AddWithValue("@quantity", collaboration.quantity);
+                    updateCommand.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", collaboration.Quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -285,7 +285,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
         }
         return true;
     }
-    public bool UpdateCollaborationsLevel(Collaboration collaboration, int cardLevel)
+    public bool UpdateCollaborationsLevel(Collaborations collaboration, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -324,58 +324,58 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                 WHERE user_id = @user_id AND collaboration_id = @collaboration_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@collaboration_id", collaboration.id);
+                command.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", collaboration.power);
-                command.Parameters.AddWithValue("@health", collaboration.health);
-                command.Parameters.AddWithValue("@physical_attack", collaboration.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", collaboration.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", collaboration.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", collaboration.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", collaboration.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", collaboration.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", collaboration.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", collaboration.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", collaboration.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", collaboration.mental_defense);
-                command.Parameters.AddWithValue("@speed", collaboration.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", collaboration.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", collaboration.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", collaboration.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", collaboration.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", collaboration.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", collaboration.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", collaboration.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", collaboration.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaboration.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", collaboration.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", collaboration.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaboration.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", collaboration.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", collaboration.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", collaboration.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", collaboration.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", collaboration.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", collaboration.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", collaboration.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", collaboration.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", collaboration.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", collaboration.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", collaboration.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", collaboration.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", collaboration.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", collaboration.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", collaboration.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", collaboration.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", collaboration.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaboration.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaboration.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaboration.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaboration.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", collaboration.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", collaboration.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", collaboration.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", collaboration.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", collaboration.Power);
+                command.Parameters.AddWithValue("@health", collaboration.Health);
+                command.Parameters.AddWithValue("@physical_attack", collaboration.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", collaboration.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", collaboration.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", collaboration.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", collaboration.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", collaboration.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", collaboration.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", collaboration.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", collaboration.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", collaboration.MentalDefense);
+                command.Parameters.AddWithValue("@speed", collaboration.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", collaboration.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", collaboration.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", collaboration.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", collaboration.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", collaboration.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", collaboration.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", collaboration.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", collaboration.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaboration.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", collaboration.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", collaboration.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaboration.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", collaboration.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", collaboration.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", collaboration.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", collaboration.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", collaboration.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", collaboration.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", collaboration.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", collaboration.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", collaboration.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", collaboration.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", collaboration.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", collaboration.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", collaboration.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", collaboration.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", collaboration.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", collaboration.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", collaboration.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaboration.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaboration.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaboration.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaboration.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", collaboration.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", collaboration.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", collaboration.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", collaboration.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -386,7 +386,7 @@ public class UserCollaborationRepository : IUserCollaborationRepository
         }
         return true;
     }
-    public bool UpdateCollaborationsBreakthrough(Collaboration collaboration, int star, int quantity)
+    public bool UpdateCollaborationsBreakthrough(Collaborations collaboration, int star, int quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -425,59 +425,59 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                 WHERE user_id = @user_id AND collaboration_id = @collaboration_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@collaboration_id", collaboration.id);
+                command.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", collaboration.power);
-                command.Parameters.AddWithValue("@health", collaboration.health);
-                command.Parameters.AddWithValue("@physical_attack", collaboration.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", collaboration.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", collaboration.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", collaboration.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", collaboration.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", collaboration.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", collaboration.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", collaboration.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", collaboration.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", collaboration.mental_defense);
-                command.Parameters.AddWithValue("@speed", collaboration.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", collaboration.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", collaboration.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", collaboration.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", collaboration.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", collaboration.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", collaboration.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", collaboration.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", collaboration.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaboration.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", collaboration.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", collaboration.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaboration.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", collaboration.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", collaboration.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", collaboration.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", collaboration.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", collaboration.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", collaboration.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", collaboration.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", collaboration.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", collaboration.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", collaboration.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", collaboration.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", collaboration.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", collaboration.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", collaboration.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", collaboration.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", collaboration.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", collaboration.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaboration.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaboration.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaboration.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaboration.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", collaboration.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", collaboration.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", collaboration.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", collaboration.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", collaboration.Power);
+                command.Parameters.AddWithValue("@health", collaboration.Health);
+                command.Parameters.AddWithValue("@physical_attack", collaboration.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", collaboration.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", collaboration.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", collaboration.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", collaboration.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", collaboration.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", collaboration.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", collaboration.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", collaboration.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", collaboration.MentalDefense);
+                command.Parameters.AddWithValue("@speed", collaboration.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", collaboration.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", collaboration.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", collaboration.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", collaboration.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", collaboration.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", collaboration.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", collaboration.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", collaboration.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaboration.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", collaboration.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", collaboration.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaboration.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", collaboration.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", collaboration.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", collaboration.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", collaboration.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", collaboration.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", collaboration.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", collaboration.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", collaboration.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", collaboration.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", collaboration.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", collaboration.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", collaboration.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", collaboration.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", collaboration.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", collaboration.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", collaboration.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", collaboration.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaboration.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaboration.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaboration.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaboration.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", collaboration.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", collaboration.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", collaboration.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", collaboration.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -488,9 +488,9 @@ public class UserCollaborationRepository : IUserCollaborationRepository
         }
         return true;
     }
-    public Collaboration GetUserCollaborationsById(string user_id, string Id)
+    public Collaborations GetUserCollaborationsById(string user_id, string Id)
     {
-        Collaboration card = new Collaboration();
+        Collaborations card = new Collaborations();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -505,63 +505,63 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    card = new Collaboration
+                    card = new Collaborations
                     {
-                        id = reader.GetString("collaboration_id"),
-                        level = reader.GetInt32("level"),
-                        quality = reader.GetInt32("quality"),
-                        experiment = reader.GetInt32("experiment"),
-                        star = reader.GetInt32("star"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("collaboration_id"),
+                        Level = reader.GetInt32("level"),
+                        Quality = reader.GetInt32("quality"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Star = reader.GetInt32("star"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                     };
                 }
             }
@@ -573,9 +573,9 @@ public class UserCollaborationRepository : IUserCollaborationRepository
         }
         return card;
     }
-    public Collaboration SumPowerUserCollaborations()
+    public Collaborations SumPowerUserCollaborations()
     {
-        Collaboration sumCollaborations = new Collaboration();
+        Collaborations sumCollaborations = new Collaborations();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -641,56 +641,56 @@ public class UserCollaborationRepository : IUserCollaborationRepository
                 {
                     if (reader.Read())
                     {
-                        sumCollaborations.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumCollaborations.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumCollaborations.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumCollaborations.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumCollaborations.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumCollaborations.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumCollaborations.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumCollaborations.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumCollaborations.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumCollaborations.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumCollaborations.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumCollaborations.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumCollaborations.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumCollaborations.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumCollaborations.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumCollaborations.critical_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumCollaborations.ignore_critical_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumCollaborations.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumCollaborations.penetration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumCollaborations.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumCollaborations.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumCollaborations.ignore_damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumCollaborations.absorbed_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumCollaborations.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumCollaborations.vitality_regeneration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumCollaborations.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumCollaborations.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumCollaborations.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumCollaborations.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumCollaborations.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumCollaborations.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumCollaborations.ignore_combo_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumCollaborations.combo_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumCollaborations.combo_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumCollaborations.stun_rate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumCollaborations.ignore_stun_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumCollaborations.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumCollaborations.ignore_reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumCollaborations.reflection_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumCollaborations.reflection_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumCollaborations.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumCollaborations.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumCollaborations.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumCollaborations.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumCollaborations.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumCollaborations.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumCollaborations.normal_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumCollaborations.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumCollaborations.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumCollaborations.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        sumCollaborations.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumCollaborations.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumCollaborations.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumCollaborations.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumCollaborations.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumCollaborations.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumCollaborations.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumCollaborations.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumCollaborations.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumCollaborations.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumCollaborations.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumCollaborations.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumCollaborations.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumCollaborations.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumCollaborations.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumCollaborations.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                        sumCollaborations.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                        sumCollaborations.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumCollaborations.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                        sumCollaborations.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumCollaborations.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumCollaborations.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                        sumCollaborations.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                        sumCollaborations.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumCollaborations.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                        sumCollaborations.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumCollaborations.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumCollaborations.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumCollaborations.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumCollaborations.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumCollaborations.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumCollaborations.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                        sumCollaborations.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                        sumCollaborations.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                        sumCollaborations.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                        sumCollaborations.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                        sumCollaborations.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumCollaborations.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                        sumCollaborations.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                        sumCollaborations.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                        sumCollaborations.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumCollaborations.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumCollaborations.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumCollaborations.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumCollaborations.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumCollaborations.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                        sumCollaborations.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                        sumCollaborations.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                        sumCollaborations.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                        sumCollaborations.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
                     }
                 }
 

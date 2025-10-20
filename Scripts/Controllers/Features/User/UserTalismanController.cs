@@ -48,17 +48,17 @@ public class UserTalismanController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserTalisman(List<Talisman> talismans, Transform DictionaryContentPanel)
+    public void CreateUserTalisman(List<Talismans> talismans, Transform DictionaryContentPanel)
     {
         foreach (var talisman in talismans)
         {
             GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = talisman.name.Replace("_", " ");
+            Title.text = talisman.Name.Replace("_", " ");
 
             RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -73,7 +73,7 @@ public class UserTalismanController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -84,7 +84,7 @@ public class UserTalismanController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowTalismanDetails(Talisman talisman, GameObject currentObject, int buttonType = 1)
+    public void ShowTalismanDetails(Talismans talisman, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -135,25 +135,25 @@ public class UserTalismanController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Talisman talisman)
+        if (obj is Talismans talisman)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = talisman.name;
+            name.text = talisman.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(talisman.power, false);
+            power.text = NumberFormatter.FormatNumber(talisman.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -171,7 +171,7 @@ public class UserTalismanController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Talisman talisman)
+        if (obj is Talismans talisman)
         {
             PropertyInfo[] properties = talisman.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, talisman, increasePerLevel, currentObject);
@@ -186,17 +186,17 @@ public class UserTalismanController : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Talisman currentCard = new Talisman();
-                currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Talismans currentCard = new Talismans();
+                currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Talisman newCard = new Talisman();
+                    Talismans newCard = new Talismans();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserTalismanService.Create().GetNewLevelPower(talisman, increasePerLevel);
@@ -213,9 +213,9 @@ public class UserTalismanController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Talisman currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Talismans currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -230,7 +230,7 @@ public class UserTalismanController : MonoBehaviour
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    Talisman newCard = UserTalismanService.Create().GetNewLevelPower(talisman, levelsGained * increasePerLevel);
+                    Talismans newCard = UserTalismanService.Create().GetNewLevelPower(talisman, levelsGained * increasePerLevel);
                     UserTalismanService.Create().UpdateTalismanLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -254,7 +254,7 @@ public class UserTalismanController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Talisman talisman)
+        if (obj is Talismans talisman)
         {
             PropertyInfo[] properties = talisman.GetType().GetProperties();
             foreach (var property in properties)
@@ -272,67 +272,67 @@ public class UserTalismanController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (talisman.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (talisman.Star + 1).ToString();
             }
             GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
             Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             magicFormationImage.texture = magicFormationTexture;
 
             TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = talisman.quantity.ToString() + "/" + (talisman.star + 1).ToString();
+            magicFormationQuantity.text = talisman.Quantity.ToString() + "/" + (talisman.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(talisman.star, currentObject);
+            UIManager.Instance.CreateStarUI(talisman.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = talisman.star + 1;
+                int requiredQuantity = talisman.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = talisman.quantity >= requiredQuantity;
+                bool hasEnoughMagicFormation = talisman.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + talisman.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + talisman.Quantity >= requiredQuantity;
 
                 if (hasEnoughMagicFormation || hasEnoughItems)
                 {
                     // Giảm số lượng vòng phép trước
-                    if (talisman.quantity >= requiredQuantity)
+                    if (talisman.Quantity >= requiredQuantity)
                     {
-                        talisman.quantity -= requiredQuantity;
+                        talisman.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - talisman.quantity;
-                        talisman.quantity = 0; // Dùng hết vòng phép
+                        int remainingRequired = requiredQuantity - talisman.Quantity;
+                        talisman.Quantity = 0; // Dùng hết vòng phép
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -342,21 +342,21 @@ public class UserTalismanController : MonoBehaviour
                         userItemsService.UpdateUserItemsQuantity(items1);
                     }
                     // Cập nhật cấp sao (Star)
-                    Talisman newtalisman = new Talisman();
+                    Talismans newtalisman = new Talismans();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newtalisman = UserTalismanService.Create().GetNewBreakthroughPower(talisman, increasePerUpgrade);
-                    UserTalismanService.Create().UpdateTalismanBreakthrough(newtalisman, talisman.star + 1, talisman.quantity);
+                    UserTalismanService.Create().UpdateTalismanBreakthrough(newtalisman, talisman.Star + 1, talisman.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    TalismanGalleryService.Create().UpdateStarTalismanGallery(talisman.id, talisman.star + 1);
+                    TalismanGalleryService.Create().UpdateStarTalismanGallery(talisman.Id, talisman.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(talisman.star, currentObject);
+                    UIManager.Instance.CreateStarUI(talisman.Star, currentObject);
                 }
                 else
                 {

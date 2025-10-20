@@ -47,17 +47,17 @@ public class CardSpellController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCardSpellGallery(List<CardSpell> spellList, Transform DictionaryContentPanel)
+    public void CreateCardSpellGallery(List<CardSpells> spellList, Transform DictionaryContentPanel)
     {
         foreach (var spell in spellList)
         {
             GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
+            Title.text = spell.Name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -69,7 +69,7 @@ public class CardSpellController : MonoBehaviour
             });
 
             RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
@@ -79,7 +79,7 @@ public class CardSpellController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateCardSpellTrade(List<CardSpell> spellList, string subType, Transform currentContent,
+    public void CreateCardSpellTrade(List<CardSpells> spellList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var spell in spellList)
@@ -87,10 +87,10 @@ public class CardSpellController : MonoBehaviour
             GameObject spellObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.name.Replace("_", " ");
+            Title.text = spell.Name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = spellObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -107,12 +107,12 @@ public class CardSpellController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = spellObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = spellObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(spell.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(spell.Currency.Quantity, false);
 
             Button buy = spellObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -120,11 +120,11 @@ public class CardSpellController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(spell.currency.quantity, spell, subType, popupPanel, currencyPanel);
+                GetQuantity(spell.Currency.Quantity, spell, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetCardSpellCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -239,14 +239,14 @@ public class CardSpellController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is CardSpell cardSpell)
+            Currencies userCurrency = new Currencies();
+            if (obj is CardSpells cardSpell)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardSpell.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardSpell.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -270,10 +270,10 @@ public class CardSpellController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is CardSpell cardSpell)
+            if (obj is CardSpells cardSpell)
             {
-                cardSpell.quantity = cardSpell.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(cardSpell.currency.id, price);
+                cardSpell.Quantity = cardSpell.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(cardSpell.Currency.Id, price);
                 bool success = UserCardSpellService.Create().InsertUserCardSpell(cardSpell);
                 if (!success)
                 {
@@ -285,11 +285,11 @@ public class CardSpellController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    CardSpellGalleryService.Create().InsertCardSpellGallery(cardSpell.id);
+                    CardSpellGalleryService.Create().InsertCardSpellGallery(cardSpell.Id);
                     currencies = UserCurrencyService.Create().GetCardMilitaryCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

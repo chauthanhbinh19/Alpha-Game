@@ -55,10 +55,10 @@ public class UserRelicsController : MonoBehaviour
             GameObject relicObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = relic.name.Replace("_", " ");
+            Title.text = relic.Name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -73,7 +73,7 @@ public class UserRelicsController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             RawImage rareImage = relicObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -138,22 +138,22 @@ public class UserRelicsController : MonoBehaviour
         if (obj is Relics relics)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = relics.name;
+            name.text = relics.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(relics.power, false);
+            power.text = NumberFormatter.FormatNumber(relics.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relics.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relics.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -187,9 +187,9 @@ public class UserRelicsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Relics currentCard = new Relics();
-                currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
@@ -213,9 +213,9 @@ public class UserRelicsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Relics currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Relics currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -272,67 +272,67 @@ public class UserRelicsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (relics.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (relics.Star + 1).ToString();
             }
             GameObject relicsObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage relicsImage = relicsObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.Image);
             Texture relicsTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             relicsImage.texture = relicsTexture;
 
             TextMeshProUGUI relicsQuantity = relicsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            relicsQuantity.text = relics.quantity.ToString() + "/" + (relics.star + 1).ToString();
+            relicsQuantity.text = relics.Quantity.ToString() + "/" + (relics.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(relics.star, currentObject);
+            UIManager.Instance.CreateStarUI(relics.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = relics.star + 1;
+                int requiredQuantity = relics.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng di vật
-                bool hasEnoughRelics = relics.quantity >= requiredQuantity;
+                bool hasEnoughRelics = relics.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + relics.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + relics.Quantity >= requiredQuantity;
 
                 if (hasEnoughRelics || hasEnoughItems)
                 {
                     // Giảm số lượng di vật trước
-                    if (relics.quantity >= requiredQuantity)
+                    if (relics.Quantity >= requiredQuantity)
                     {
-                        relics.quantity -= requiredQuantity;
+                        relics.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu di vật không đủ, dùng cả di vật + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - relics.quantity;
-                        relics.quantity = 0; // Dùng hết di vật
+                        int remainingRequired = requiredQuantity - relics.Quantity;
+                        relics.Quantity = 0; // Dùng hết di vật
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -346,17 +346,17 @@ public class UserRelicsController : MonoBehaviour
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newRelics = UserRelicsService.Create().GetNewBreakthroughPower(relics, increasePerUpgrade);
-                    UserRelicsService.Create().UpdateRelicsBreakthrough(newRelics, relics.star + 1, relics.quantity);
+                    UserRelicsService.Create().UpdateRelicsBreakthrough(newRelics, relics.Star + 1, relics.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    RelicsGalleryService.Create().UpdateStarRelicsGallery(relics.id, relics.star + 1);
+                    RelicsGalleryService.Create().UpdateStarRelicsGallery(relics.Id, relics.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(relics.star, currentObject);
+                    UIManager.Instance.CreateStarUI(relics.Star, currentObject);
                 }
                 else
                 {

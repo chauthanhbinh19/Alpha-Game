@@ -14,9 +14,9 @@ public class SpiritBeastGalleryService : ISpiritBeastGalleryService
         return new SpiritBeastGalleryService(new SpiritBeastGalleryRepository());
     }
 
-    public List<SpiritBeast> GetSpiritBeastCollection(int pageSize, int offset, string rare)
+    public List<SpiritBeasts> GetSpiritBeastCollection(int pageSize, int offset, string rare)
     {
-        List<SpiritBeast> list = _SpiritBeastGalleryRepository.GetSpiritBeastCollection(pageSize, offset, rare);
+        List<SpiritBeasts> list = _SpiritBeastGalleryRepository.GetSpiritBeastCollection(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class SpiritBeastGalleryService : ISpiritBeastGalleryService
         _SpiritBeastGalleryRepository.UpdateStatusSpiritBeastGallery(Id);
     }
 
-    public SpiritBeast SumPowerSpiritBeastGallery()
+    public SpiritBeasts SumPowerSpiritBeastGallery()
     {
         return _SpiritBeastGalleryRepository.SumPowerSpiritBeastGallery();
     }

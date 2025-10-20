@@ -509,7 +509,7 @@ public class ButtonLoader : MonoBehaviour
         if (data is CardHeroes cardHeroes || data is CardCaptains cardCaptains ||
         data is CardColonels cardColonels || data is CardGenerals cardGenerals ||
         data is CardAdmirals cardAdmirals || data is CardMonsters cardMonsters ||
-        data is CardMilitary cardMilitary || data is CardSpell cardSpell ||
+        data is CardMilitaries cardMilitary || data is CardSpells cardSpell ||
         data is Books books || data is Pets pets || data is Equipments equipments
         )
         {
@@ -619,11 +619,11 @@ public class ButtonLoader : MonoBehaviour
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is CardMilitary cardMilitary)
+        else if (data is CardMilitaries cardMilitary)
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is CardSpell cardSpell)
+        else if (data is CardSpells cardSpell)
         {
             CreateButtonGroupDetails(data, content);
         }
@@ -678,7 +678,7 @@ public class ButtonLoader : MonoBehaviour
         if (data is CardHeroes cardHeroes || data is CardCaptains cardCaptains ||
         data is CardColonels cardColonels || data is CardGenerals cardGenerals ||
         data is CardAdmirals cardAdmirals || data is CardMonsters cardMonsters ||
-        data is CardMilitary cardMilitary || data is CardSpell cardSpell ||
+        data is CardMilitaries cardMilitary || data is CardSpells cardSpell ||
         data is Books books || data is Pets pets
         )
         {

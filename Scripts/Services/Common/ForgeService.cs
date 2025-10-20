@@ -19,9 +19,9 @@ public class ForgeService : IForgeService
         return _forgeRepository.GetUniqueForgeTypes();
     }
 
-    public List<Forge> GetForge(string type, int pageSize, int offset, string rare)
+    public List<Forges> GetForge(string type, int pageSize, int offset, string rare)
     {
-        List<Forge> list = _forgeRepository.GetForge(type, pageSize, offset, rare);
+        List<Forges> list = _forgeRepository.GetForge(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,9 +31,9 @@ public class ForgeService : IForgeService
         return _forgeRepository.GetForgeCount(type, rare);
     }
 
-    public List<Forge> GetForgeWithPrice(string type, int pageSize, int offset)
+    public List<Forges> GetForgeWithPrice(string type, int pageSize, int offset)
     {
-        List<Forge> list = _forgeRepository.GetForgeWithPrice(type, pageSize, offset);
+        List<Forges> list = _forgeRepository.GetForgeWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -43,12 +43,12 @@ public class ForgeService : IForgeService
         return _forgeRepository.GetForgeWithPriceCount(type);
     }
 
-    public Forge GetForgeById(string Id)
+    public Forges GetForgeById(string Id)
     {
         return _forgeRepository.GetForgeById(Id);
     }
 
-    public Forge SumPowerForgePercent()
+    public Forges SumPowerForgePercent()
     {
         return _forgeRepository.SumPowerForgePercent();
     }

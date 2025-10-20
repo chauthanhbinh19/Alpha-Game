@@ -14,9 +14,9 @@ public class SpiritCardGalleryService : ISpiritCardGalleryService
         return new SpiritCardGalleryService(new SpiritCardGalleryRepository());
     }
 
-    public List<SpiritCard> GetSpiritCardCollection(string type, int pageSize, int offset, string rare)
+    public List<SpiritCards> GetSpiritCardCollection(string type, int pageSize, int offset, string rare)
     {
-        List<SpiritCard> list = _SpiritCardGalleryRepository.GetSpiritCardCollection(type, pageSize, offset, rare);
+        List<SpiritCards> list = _SpiritCardGalleryRepository.GetSpiritCardCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class SpiritCardGalleryService : ISpiritCardGalleryService
         _SpiritCardGalleryRepository.UpdateStatusSpiritCardGallery(Id);
     }
 
-    public SpiritCard SumPowerSpiritCardGallery()
+    public SpiritCards SumPowerSpiritCardGallery()
     {
         return _SpiritCardGalleryRepository.SumPowerSpiritCardGallery();
     }

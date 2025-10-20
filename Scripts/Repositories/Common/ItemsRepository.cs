@@ -58,11 +58,11 @@ public class ItemsRepository : IItemsRepository
             {
                 Items item = new Items
                 {
-                    id = reader.GetString("id"),
-                    name = reader.GetString("name"),
-                    image = reader.GetString("image"),
-                    type = reader.GetString("type"),
-                    price = reader.GetInt32("price"),
+                    Id = reader.GetString("id"),
+                    Name = reader.GetString("name"),
+                    Image = reader.GetString("image"),
+                    Type = reader.GetString("type"),
+                    Price = reader.GetInt32("price"),
                 };
                 items.Add(item);
             }

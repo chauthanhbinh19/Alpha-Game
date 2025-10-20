@@ -19,9 +19,9 @@ public class MagicFormationCircleService : IMagicFormationCircleService
         return _magicFormationCircleRepository.GetUniqueMagicFormationCircleTypes();
     }
 
-    public List<MagicFormationCircle> GetMagicFormationCircle(string type, int pageSize, int offset, string rare)
+    public List<MagicFormationCircles> GetMagicFormationCircle(string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircle> list = _magicFormationCircleRepository.GetMagicFormationCircle(type, pageSize, offset, rare);
+        List<MagicFormationCircles> list = _magicFormationCircleRepository.GetMagicFormationCircle(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,9 +31,9 @@ public class MagicFormationCircleService : IMagicFormationCircleService
         return _magicFormationCircleRepository.GetMagicFormationCircleCount(type, rare);
     }
 
-    public List<MagicFormationCircle> GetMagicFormationCircleWithPrice(string type, int pageSize, int offset)
+    public List<MagicFormationCircles> GetMagicFormationCircleWithPrice(string type, int pageSize, int offset)
     {
-        List<MagicFormationCircle> list = _magicFormationCircleRepository.GetMagicFormationCircleWithPrice(type, pageSize, offset);
+        List<MagicFormationCircles> list = _magicFormationCircleRepository.GetMagicFormationCircleWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -43,12 +43,12 @@ public class MagicFormationCircleService : IMagicFormationCircleService
         return _magicFormationCircleRepository.GetMagicFormationCircleWithPriceCount(type);
     }
 
-    public MagicFormationCircle GetMagicFormationCircleById(string Id)
+    public MagicFormationCircles GetMagicFormationCircleById(string Id)
     {
         return _magicFormationCircleRepository.GetMagicFormationCircleById(Id);
     }
 
-    public MagicFormationCircle SumPowerMagicFormationCirclePercent()
+    public MagicFormationCircles SumPowerMagicFormationCirclePercent()
     {
         return _magicFormationCircleRepository.SumPowerMagicFormationCirclePercent();
     }

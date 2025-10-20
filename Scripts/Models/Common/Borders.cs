@@ -7,59 +7,40 @@ using System.Xml.Linq;
 
 public class Borders : BaseEntity
 {
-    private string id1;
-    private string name1;
-    private string image1;
-    private string rare1;
-    private string description1;
-    private string status1;
-    private double percent_all_health1;
-    private double percent_all_physical_attack1;
-    private double percent_all_physical_defense1;
-    private double percent_all_magical_attack1;
-    private double percent_all_magical_defense1;
-    private double percent_all_chemical_attack1;
-    private double percent_all_chemical_defense1;
-    private double percent_all_atomic_attack1;
-    private double percent_all_atomic_defense1;
-    private double percent_all_mental_attack1;
-    private double percent_all_mental_defense1;
-    private int quality1;
-
-    public string id { get => id1; set => id1 = value; }
-    public string name { get => name1; set => name1 = value; }
-    public string image { get => image1; set => image1 = value; }
-    public string rare { get => rare1; set => rare1 = value; }
-    public int quality { get => quality1; set => quality1 = value; }
-    public int quantity { get; set; }
-    public int current_star { get; set; }
-    public int temp_star { get; set; }
-    public string description { get => description1; set => description1 = value; }
-    public string status { get => status1; set => status1 = value; }
-    public double percent_all_health { get => percent_all_health1; set => percent_all_health1 = value; }
-    public double percent_all_physical_attack { get => percent_all_physical_attack1; set => percent_all_physical_attack1 = value; }
-    public double percent_all_physical_defense { get => percent_all_physical_defense1; set => percent_all_physical_defense1 = value; }
-    public double percent_all_magical_attack { get => percent_all_magical_attack1; set => percent_all_magical_attack1 = value; }
-    public double percent_all_magical_defense { get => percent_all_magical_defense1; set => percent_all_magical_defense1 = value; }
-    public double percent_all_chemical_attack { get => percent_all_chemical_attack1; set => percent_all_chemical_attack1 = value; }
-    public double percent_all_chemical_defense { get => percent_all_chemical_defense1; set => percent_all_chemical_defense1 = value; }
-    public double percent_all_atomic_attack { get => percent_all_atomic_attack1; set => percent_all_atomic_attack1 = value; }
-    public double percent_all_atomic_defense { get => percent_all_atomic_defense1; set => percent_all_atomic_defense1 = value; }
-    public double percent_all_mental_attack { get => percent_all_mental_attack1; set => percent_all_mental_attack1 = value; }
-    public double percent_all_mental_defense { get => percent_all_mental_defense1; set => percent_all_mental_defense1 = value; }
-    public Currency currency { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Image { get; set; }
+    public string Rare { get; set; }
+    public int Quality { get; set; }
+    public int Quantity { get; set; }
+    public int CurrentStar { get; set; }
+    public int TempStar { get; set; }
+    public string Description { get; set; }
+    public string Status { get; set; }
+    public double PercentAllHealth { get; set; }
+    public double PercentAllPhysicalAttack { get; set; }
+    public double PercentAllPhysicalDefense { get; set; }
+    public double PercentAllMagicalAttack { get; set; }
+    public double PercentAllMagicalDefense { get; set; }
+    public double PercentAllChemicalAttack { get; set; }
+    public double PercentAllChemicalDefense { get; set; }
+    public double PercentAllAtomicAttack { get; set; }
+    public double PercentAllAtomicDefense { get; set; }
+    public double PercentAllMentalAttack { get; set; }
+    public double PercentAllMentalDefense { get; set; }
+    public Currencies Currency { get; set; }
     public Borders()
     {
-        percent_all_health = -1;
-        percent_all_physical_attack = -1;
-        percent_all_physical_defense = -1;
-        percent_all_magical_attack = -1;
-        percent_all_magical_defense = -1;
-        percent_all_chemical_attack = -1;
-        percent_all_chemical_defense = -1;
-        percent_all_atomic_attack = -1;
-        percent_all_atomic_defense = -1;
-        percent_all_mental_attack = -1;
-        percent_all_mental_defense = -1;
+        PercentAllHealth = -1;
+        PercentAllPhysicalAttack = -1;
+        PercentAllPhysicalDefense = -1;
+        PercentAllMagicalAttack = -1;
+        PercentAllMagicalDefense = -1;
+        PercentAllChemicalAttack = -1;
+        PercentAllChemicalDefense = -1;
+        PercentAllAtomicAttack = -1;
+        PercentAllAtomicDefense = -1;
+        PercentAllMentalAttack = -1;
+        PercentAllMentalDefense = -1;
     }
 }

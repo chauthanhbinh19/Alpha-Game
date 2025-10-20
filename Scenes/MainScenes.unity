@@ -6207,7 +6207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1553028487
 Transform:
   m_ObjectHideFlags: 0
@@ -7097,12 +7097,13 @@ MonoBehaviour:
   TabButton5: {fileID: 5647053732788993068, guid: d599b2cbcd8a60d4bb091b0b21511a9f, type: 3}
   TabButton6: {fileID: 5647053732788993068, guid: 19d3fcdb77ebadd4a8661651b96c9168, type: 3}
   AdvancedButtonFirst: {fileID: 8708252175272485654, guid: b20d4084356f82b428b6e7eef4789d33, type: 3}
-  PopupTeamsPrefab: {fileID: 5745659240395072349, guid: 401d4a58adbdf454fbce4a3f7b34f5de, type: 3}
+  PopupTeamFirstPrefab: {fileID: 5745659240395072349, guid: 1a48a1d529a316c4faef6154b5669b14, type: 3}
+  PopupTeamSecondPrefab: {fileID: 5745659240395072349, guid: 401d4a58adbdf454fbce4a3f7b34f5de, type: 3}
   TeamsPanelPrefab: {fileID: 5745659240395072349, guid: f7254e99ace19834cba0968acafacb11, type: 3}
   TeamsPositionPrefab: {fileID: 8828003423608059818, guid: 93937cbd8a0febd49b8184a7306b2e83, type: 3}
-  TeamsTypePrefab: {fileID: 8828003423608059818, guid: c5faee41ff61de14a8e93281c7227c13, type: 3}
+  TeamTypePrefab: {fileID: 8828003423608059818, guid: c5faee41ff61de14a8e93281c7227c13, type: 3}
+  TeamSlotPrefab: {fileID: 8828003423608059818, guid: 0b8b9408b6a02594a989e2dd319d9458, type: 3}
   CardsThirdPrefab: {fileID: 8708252175272485654, guid: d14cac826ab808c4986bc7daaf402d7d, type: 3}
-  TypePrefab: {fileID: 1661859481911484232, guid: 2840113ef6e6c3448b15846a5b4b774a, type: 3}
   StarPrefab: {fileID: 1661859481911484232, guid: 11f1658caea6e42488ac72d1ed68d131, type: 3}
   PowerPrefab: {fileID: 1661859481911484232, guid: 3e6f4cc94b6b4c4488a5edc36f3050b6, type: 3}
   LoadingPanelPrefab: {fileID: 5490652922311943017, guid: 6838c378af7e73b46bfa50ce6176ac4b, type: 3}
@@ -7111,8 +7112,8 @@ MonoBehaviour:
   Skill1Prefab: {fileID: 8708252175272485654, guid: f2a7a0f5ff32afa48acda33085c7f966, type: 3}
   Skill2Prefab: {fileID: 8708252175272485654, guid: c4b9bc5c069c4314bb79b8986a261d16, type: 3}
   PopupSkillDetailPrefab: {fileID: 3471210453278062185, guid: d966586c80a6df74592c783cb04e1bcc, type: 3}
-  CardContractPrefab: {fileID: 0}
-  CardPenaltyPrefab: {fileID: 0}
+  CardContractPrefab: {fileID: 8708252175272485654, guid: 55d6289042d670f4d9ba76815eec6f6d, type: 3}
+  CardPenaltyPrefab: {fileID: 8708252175272485654, guid: 76e547406ff76e448b3741e657f46dd2, type: 3}
   ReactorPanelPrefab: {fileID: 5745659240395072349, guid: 4631e5596c21e6a41877541d96a4241d, type: 3}
   ReactorButtonPrefab: {fileID: 8708252175272485654, guid: 00e6aff5ada6a2946901257d89389044, type: 3}
   ReactorPanelNumberPrefab: {fileID: 5745659240395072349, guid: feecd0567b8aa2043944271f8b5486b2, type: 3}

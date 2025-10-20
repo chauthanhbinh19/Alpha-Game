@@ -47,17 +47,17 @@ public class CardLifeController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCardLifeGallery(List<CardLife> cards, Transform DictionaryContentPanel)
+    public void CreateCardLifeGallery(List<CardLives> cards, Transform DictionaryContentPanel)
     {
         foreach (var card in cards)
         {
             GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = card.name.Replace("_", " ");
+            Title.text = card.Name.Replace("_", " ");
 
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -69,7 +69,7 @@ public class CardLifeController : MonoBehaviour
             });
 
             RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
@@ -79,7 +79,7 @@ public class CardLifeController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateCardLifeTrade(List<CardLife> cards, string subType, Transform currentContent,
+    public void CreateCardLifeTrade(List<CardLives> cards, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var card in cards)
@@ -87,10 +87,10 @@ public class CardLifeController : MonoBehaviour
             GameObject cardObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = card.name.Replace("_", " ");
+            Title.text = card.Name.Replace("_", " ");
 
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = cardObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -106,12 +106,12 @@ public class CardLifeController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = cardObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = cardObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(card.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(card.Currency.Quantity, false);
 
             Button buy = cardObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -119,11 +119,11 @@ public class CardLifeController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(card.currency.quantity, card, subType, popupPanel, currencyPanel);
+                GetQuantity(card.Currency.Quantity, card, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetCardLifeCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -238,14 +238,14 @@ public class CardLifeController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is CardLife cardLife)
+            Currencies userCurrency = new Currencies();
+            if (obj is CardLives cardLife)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardLife.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardLife.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -269,10 +269,10 @@ public class CardLifeController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is CardLife cardLife)
+            if (obj is CardLives cardLife)
             {
-                cardLife.quantity = cardLife.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(cardLife.currency.id, price);
+                cardLife.Quantity = cardLife.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(cardLife.Currency.Id, price);
                 bool success = UserCardLifeService.Create().InsertUserCardLife(cardLife);
                 if (!success)
                 {
@@ -284,11 +284,11 @@ public class CardLifeController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    CardLifeGalleryService.Create().InsertCardLifeGallery(cardLife.id);
+                    CardLifeGalleryService.Create().InsertCardLifeGallery(cardLife.Id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

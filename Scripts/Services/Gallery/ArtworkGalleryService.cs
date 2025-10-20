@@ -14,9 +14,9 @@ public class ArtworkGalleryService : IArtworkGalleryService
         return new ArtworkGalleryService(new ArtworkGalleryRepository());
     }
 
-    public List<Artwork> GetArtworkCollection(string type, int pageSize, int offset, string rare)
+    public List<Artworks> GetArtworkCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Artwork> list = _ArtworkGalleryRepository.GetArtworkCollection(type, pageSize, offset, rare);
+        List<Artworks> list = _ArtworkGalleryRepository.GetArtworkCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class ArtworkGalleryService : IArtworkGalleryService
         _ArtworkGalleryRepository.UpdateStatusArtworkGallery(Id);
     }
 
-    public Artwork SumPowerArtworkGallery()
+    public Artworks SumPowerArtworkGallery()
     {
         return _ArtworkGalleryRepository.SumPowerArtworkGallery();
     }

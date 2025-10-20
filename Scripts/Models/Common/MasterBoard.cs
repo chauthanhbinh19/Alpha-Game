@@ -7,37 +7,37 @@ using System.Xml.Linq;
 
 public class MasterBoard : BaseEntity
 {
-    public string id { get; set; }
-    public string name { get; set; }
-    public string rank_level { get; set; }
-    public string type { get; set; }
-    public int position_x { get; set; }
-    public int position_y { get; set; }
-    public string status { get; set; }
-    public double percent_all_health { get; set; }
-    public double percent_all_physical_attack { get; set; }
-    public double percent_all_physical_defense { get; set; }
-    public double percent_all_magical_attack { get; set; }
-    public double percent_all_magical_defense { get; set; }
-    public double percent_all_chemical_attack { get; set; }
-    public double percent_all_chemical_defense { get; set; }
-    public double percent_all_atomic_attack { get; set; }
-    public double percent_all_atomic_defense { get; set; }
-    public double percent_all_mental_attack { get; set; }
-    public double percent_all_mental_defense { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string RankLevel { get; set; }
+    public string Type { get; set; }
+    public int PositionX { get; set; }
+    public int PositionY { get; set; }
+    public string Status { get; set; }
+    public double PercentAllHealth { get; set; }
+    public double PercentAllPhysicalAttack { get; set; }
+    public double PercentAllPhysicalDefense { get; set; }
+    public double PercentAllMagicalAttack { get; set; }
+    public double PercentAllMagicalDefense { get; set; }
+    public double PercentAllChemicalAttack { get; set; }
+    public double PercentAllChemicalDefense { get; set; }
+    public double PercentAllAtomicAttack { get; set; }
+    public double PercentAllAtomicDefense { get; set; }
+    public double PercentAllMentalAttack { get; set; }
+    public double PercentAllMentalDefense { get; set; }
     public MasterBoard()
     {
-        percent_all_health = -1;
-        percent_all_physical_attack = -1;
-        percent_all_physical_defense = -1;
-        percent_all_magical_attack = -1;
-        percent_all_magical_defense = -1;
-        percent_all_chemical_attack = -1;
-        percent_all_chemical_defense = -1;
-        percent_all_atomic_attack = -1;
-        percent_all_atomic_defense = -1;
-        percent_all_mental_attack = -1;
-        percent_all_mental_defense = -1;
+        PercentAllHealth = -1;
+        PercentAllPhysicalAttack = -1;
+        PercentAllPhysicalDefense = -1;
+        PercentAllMagicalAttack = -1;
+        PercentAllMagicalDefense = -1;
+        PercentAllChemicalAttack = -1;
+        PercentAllChemicalDefense = -1;
+        PercentAllAtomicAttack = -1;
+        PercentAllAtomicDefense = -1;
+        PercentAllMentalAttack = -1;
+        PercentAllMentalDefense = -1;
     }
     
 }

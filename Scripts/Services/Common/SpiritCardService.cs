@@ -19,9 +19,9 @@ public class SpiritCardService : ISpiritCardService
         return _SpiritCardRepository.GetUniqueSpiritCardTypes();
     }
 
-    public List<SpiritCard> GetSpiritCard(string type, int pageSize, int offset, string rare)
+    public List<SpiritCards> GetSpiritCard(string type, int pageSize, int offset, string rare)
     {
-        List<SpiritCard> list = _SpiritCardRepository.GetSpiritCard(type, pageSize, offset, rare);
+        List<SpiritCards> list = _SpiritCardRepository.GetSpiritCard(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,9 +31,9 @@ public class SpiritCardService : ISpiritCardService
         return _SpiritCardRepository.GetSpiritCardCount(type, rare);
     }
 
-    public List<SpiritCard> GetSpiritCardWithPrice(string type, int pageSize, int offset)
+    public List<SpiritCards> GetSpiritCardWithPrice(string type, int pageSize, int offset)
     {
-        List<SpiritCard> list = _SpiritCardRepository.GetSpiritCardWithPrice(type, pageSize, offset);
+        List<SpiritCards> list = _SpiritCardRepository.GetSpiritCardWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -43,12 +43,12 @@ public class SpiritCardService : ISpiritCardService
         return _SpiritCardRepository.GetSpiritCardWithPriceCount(type);
     }
 
-    public SpiritCard GetSpiritCardById(string Id)
+    public SpiritCards GetSpiritCardById(string Id)
     {
         return _SpiritCardRepository.GetSpiritCardById(Id);
     }
 
-    public SpiritCard SumPowerSpiritCardPercent()
+    public SpiritCards SumPowerSpiritCardPercent()
     {
         return _SpiritCardRepository.SumPowerSpiritCardPercent();
     }

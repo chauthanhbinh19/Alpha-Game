@@ -54,7 +54,7 @@ public class PetsController : MonoBehaviour
         foreach (var pet in petsList)
         {
             GameObject petsObject;
-            if (pet.type.Equals("Legendary_Dragon") || pet.type.Equals("Naruto_Bijuu") || pet.type.Equals("Naruto_Susanoo") || pet.type.Equals("One_Piece_Ship") || pet.type.Equals("Prime_Monster"))
+            if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
             {
                 petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
@@ -78,10 +78,10 @@ public class PetsController : MonoBehaviour
             }
 
             Text Title = petsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = pet.name.Replace("_", " ");
+            Title.text = pet.Name.Replace("_", " ");
 
             RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -92,7 +92,7 @@ public class PetsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
-            if (pet.type.Equals("Prime_Monster"))
+            if (pet.Type.Equals("Prime_Monster"))
             {
                 Image.SetNativeSize();
                 Image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -111,7 +111,7 @@ public class PetsController : MonoBehaviour
         foreach (var pet in petsList)
         {
             GameObject petsObject;
-            if (pet.type.Equals("Legendary_Dragon") || pet.type.Equals("Naruto_Bijuu") || pet.type.Equals("Naruto_Susanoo") || pet.type.Equals("One_Piece_Ship") || pet.type.Equals("Prime_Monster"))
+            if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
             {
                 petsObject = Instantiate(equipmentsShopPrefab, currentContent);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
@@ -135,10 +135,10 @@ public class PetsController : MonoBehaviour
             }
 
             Text Title = petsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = pet.name.Replace("_", " ");
+            Title.text = pet.Name.Replace("_", " ");
 
             RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = petsObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -160,12 +160,12 @@ public class PetsController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = petsObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = petsObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(pet.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(pet.Currency.Quantity, false);
 
             Button buy = petsObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -173,11 +173,11 @@ public class PetsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(pet.currency.quantity, pet, subType, popupPanel, currencyPanel);
+                GetQuantity(pet.Currency.Quantity, pet, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -292,14 +292,14 @@ public class PetsController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is Pets pets)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(pets.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(pets.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -325,8 +325,8 @@ public class PetsController : MonoBehaviour
 
             if (obj is Pets pets)
             {
-                pets.quantity = pets.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(pets.currency.id, price);
+                pets.Quantity = pets.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(pets.Currency.Id, price);
                 bool success = UserPetsService.Create().InsertUserPets(pets);
                 if (!success)
                 {
@@ -338,11 +338,11 @@ public class PetsController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    PetsGalleryService.Create().InsertPetsGallery(pets.id);
+                    PetsGalleryService.Create().InsertPetsGallery(pets.Id);
                     currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pets.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pets.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

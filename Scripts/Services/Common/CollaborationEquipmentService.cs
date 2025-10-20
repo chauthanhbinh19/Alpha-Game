@@ -20,9 +20,9 @@ public class CollaborationEquipmentService : ICollaborationEquipmentService
         return _collaborationEquipmentRepository.GetUniqueCollaborationEquipmentTypes();
     }
 
-    public List<CollaborationEquipment> GetCollaborationEquipments(string type, int pageSize, int offset, string rare)
+    public List<CollaborationEquipments> GetCollaborationEquipments(string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipment> list = _collaborationEquipmentRepository.GetCollaborationEquipments(type, pageSize, offset, rare);
+        List<CollaborationEquipments> list = _collaborationEquipmentRepository.GetCollaborationEquipments(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -32,9 +32,9 @@ public class CollaborationEquipmentService : ICollaborationEquipmentService
         return _collaborationEquipmentRepository.GetCollaborationEquipmentCount(type, rare);
     }
 
-    public List<CollaborationEquipment> GetCollaborationEquipmentsWithPrice(string type, int pageSize, int offset)
+    public List<CollaborationEquipments> GetCollaborationEquipmentsWithPrice(string type, int pageSize, int offset)
     {
-        List<CollaborationEquipment> list = _collaborationEquipmentRepository.GetCollaborationEquipmentsWithPrice(type, pageSize, offset);
+        List<CollaborationEquipments> list = _collaborationEquipmentRepository.GetCollaborationEquipmentsWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -44,7 +44,7 @@ public class CollaborationEquipmentService : ICollaborationEquipmentService
         return _collaborationEquipmentRepository.GetCollaborationEquipmentsWithPriceCount(type);
     }
 
-    public CollaborationEquipment GetCollaborationEquipmentsById(string Id)
+    public CollaborationEquipments GetCollaborationEquipmentsById(string Id)
     {
         return _collaborationEquipmentRepository.GetCollaborationEquipmentsById(Id);
     }

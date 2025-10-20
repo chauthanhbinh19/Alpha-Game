@@ -54,7 +54,7 @@ public class PuppetGallery : BaseEntity
     public double percent_all_atomic_defense { get => percent_all_atomic_defense1; set => percent_all_atomic_defense1 = value; }
     public double percent_all_mental_attack { get => percent_all_mental_attack1; set => percent_all_mental_attack1 = value; }
     public double percent_all_mental_defense { get => percent_all_mental_defense1; set => percent_all_mental_defense1 = value; }
-    public Currency currency { get; set; }
+    public Currencies currency { get; set; }
     public PuppetGallery()
     {
         percent_all_health = -1;

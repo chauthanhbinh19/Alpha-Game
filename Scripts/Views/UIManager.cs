@@ -69,12 +69,13 @@ public class UIManager : MonoBehaviour
     public GameObject TabButton5;
     public GameObject TabButton6;
     public GameObject AdvancedButtonFirst;
-    public GameObject PopupTeamsPrefab;
+    public GameObject PopupTeamFirstPrefab;
+    public GameObject PopupTeamSecondPrefab;
     public GameObject TeamsPanelPrefab;
     public GameObject TeamsPositionPrefab;
-    public GameObject TeamsTypePrefab;
+    public GameObject TeamTypePrefab;
+    public GameObject TeamSlotPrefab;
     public GameObject CardsThirdPrefab;
-    public GameObject TypePrefab;
     public GameObject StarPrefab;
     public GameObject PowerPrefab;
     public GameObject LoadingPanelPrefab;
@@ -481,16 +482,18 @@ public class UIManager : MonoBehaviour
                 return ReceivedNotification;
             case "ItemThird":
                 return ItemThird;
-            case "PopupTeamsPrefab":
-                return PopupTeamsPrefab;
+            case "PopupTeamFirstPrefab":
+                return PopupTeamFirstPrefab;
+            case "PopupTeamSecondPrefab":
+                return PopupTeamSecondPrefab;
             case "TeamsPanelPrefab":
                 return TeamsPanelPrefab;
             case "TeamsPositionPrefab":
                 return TeamsPositionPrefab;
-            case "TeamsTypePrefab":
-                return TeamsTypePrefab;
-            case "TypePrefab":
-                return TypePrefab;
+            case "TeamTypePrefab":
+                return TeamTypePrefab;
+            case "TeamSlotPrefab":
+                return TeamSlotPrefab;
             case "StarPrefab":
                 return StarPrefab;
             case "ElementDetails2Prefab":
@@ -1198,7 +1201,7 @@ public class UIManager : MonoBehaviour
     public void SetMaterialUI(GameObject gameobject, string itemImage, int itemQuantity, int currencyQuantity, int rankLevel, int maxLevel)
     {
         Transform currencyPanel = gameobject.transform.Find("DictionaryCards/Currency");
-        List<Currency> currencies = UserCurrencyService.Create().GetUserCurrency();
+        List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency();
         ButtonEvent.Instance.Close(currencyPanel);
         CurrencyManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
@@ -1879,11 +1882,11 @@ public class UIManager : MonoBehaviour
             GameObject itemObject = Instantiate(ItemThird, LevelMaterialContent);
 
             RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            Texture equipmentTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.image)}");
+            Texture equipmentTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
             eImage.texture = equipmentTexture;
 
             TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
-            eQuantity.text = NumberFormatter.FormatNumber(item.quantity, false);
+            eQuantity.text = NumberFormatter.FormatNumber(item.Quantity, false);
         }
     }
     public void CreateStarUI(int star, GameObject currentObject)

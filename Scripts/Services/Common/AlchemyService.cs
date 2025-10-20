@@ -19,9 +19,9 @@ public class AlchemyService : IAlchemyService
         return _alchemyRepository.GetUniqueAlchemyTypes();
     }
 
-    public List<Alchemy> GetAlchemy(string type, int pageSize, int offset, string rare)
+    public List<Alchemies> GetAlchemy(string type, int pageSize, int offset, string rare)
     {
-        List<Alchemy> list = _alchemyRepository.GetAlchemy(type, pageSize, offset, rare);
+        List<Alchemies> list = _alchemyRepository.GetAlchemy(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,9 +31,9 @@ public class AlchemyService : IAlchemyService
         return _alchemyRepository.GetAlchemyCount(type, rare);
     }
 
-    public List<Alchemy> GetAlchemyWithPrice(string type, int pageSize, int offset)
+    public List<Alchemies> GetAlchemyWithPrice(string type, int pageSize, int offset)
     {
-        List<Alchemy> list = _alchemyRepository.GetAlchemyWithPrice(type, pageSize, offset);
+        List<Alchemies> list = _alchemyRepository.GetAlchemyWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -43,12 +43,12 @@ public class AlchemyService : IAlchemyService
         return _alchemyRepository.GetAlchemyWithPriceCount(type);
     }
 
-    public Alchemy GetAlchemyById(string Id)
+    public Alchemies GetAlchemyById(string Id)
     {
         return _alchemyRepository.GetAlchemyById(Id);
     }
 
-    public Alchemy SumPowerAlchemyPercent()
+    public Alchemies SumPowerAlchemyPercent()
     {
         return _alchemyRepository.SumPowerAlchemyPercent();
     }

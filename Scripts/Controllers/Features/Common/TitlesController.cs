@@ -54,10 +54,10 @@ public class TitlesController : MonoBehaviour
             GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.name.Replace("_", " ");
+            Title.text = title.Name.Replace("_", " ");
 
             RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -71,7 +71,7 @@ public class TitlesController : MonoBehaviour
             });
 
             RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
@@ -93,10 +93,10 @@ public class TitlesController : MonoBehaviour
             GameObject titleObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.name.Replace("_", " ");
+            Title.text = title.Name.Replace("_", " ");
 
             RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -115,12 +115,12 @@ public class TitlesController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = titleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = titleObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(title.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(title.currency.Quantity, false);
 
             Button buy = titleObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -128,11 +128,11 @@ public class TitlesController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(title.currency.quantity, title, subType, popupPanel, currencyPanel);
+                GetQuantity(title.currency.Quantity, title, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetTitlesCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -247,14 +247,14 @@ public class TitlesController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is Titles titles)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(titles.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(titles.currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -280,8 +280,8 @@ public class TitlesController : MonoBehaviour
 
             if (obj is Titles titles)
             {
-                titles.quantity = titles.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(titles.currency.id, price);
+                titles.Quantity = titles.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(titles.currency.Id, price);
                 bool success = UserTitlesService.Create().InsertUserTitles(titles);
                 if (!success)
                 {
@@ -293,11 +293,11 @@ public class TitlesController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    TitlesGalleryService.Create().InsertTitlesGallery(titles.id);
+                    TitlesGalleryService.Create().InsertTitlesGallery(titles.Id);
                     currencies = UserCurrencyService.Create().GetTitlesCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(titles.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(titles.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

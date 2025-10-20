@@ -130,11 +130,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     {
                         CreatePetsEquipments(pets);
                     }
-                    else if (data is CardMilitary cardMilitary)
+                    else if (data is CardMilitaries cardMilitary)
                     {
                         CreateCardMilitaryEquipments(cardMilitary);
                     }
-                    else if (data is CardSpell cardSpell)
+                    else if (data is CardSpells cardSpell)
                     {
                         CreateCardSpellEquipments(cardSpell);
                     }
@@ -196,11 +196,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             CreatePetsEquipments(pets);
         }
-        else if (data is CardMilitary cardMilitary)
+        else if (data is CardMilitaries cardMilitary)
         {
             CreateCardMilitaryEquipments(cardMilitary);
         }
-        else if (data is CardSpell cardSpell)
+        else if (data is CardSpells cardSpell)
         {
             CreateCardSpellEquipments(cardSpell);
         }
@@ -312,11 +312,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             CreatePetsEquipments(pets);
         }
-        else if (data is CardMilitary cardMilitary)
+        else if (data is CardMilitaries cardMilitary)
         {
             CreateCardMilitaryEquipments(cardMilitary);
         }
-        else if (data is CardSpell cardSpell)
+        else if (data is CardSpells cardSpell)
         {
             CreateCardSpellEquipments(cardSpell);
         }
@@ -342,9 +342,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardHeroesEquipments(User.CurrentUserId, cardHeroes.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = cardHeroes.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetCardHeroesEquipments(User.CurrentUserId, cardHeroes.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = cardHeroes.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -437,9 +437,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardCaptainsEquipments(User.CurrentUserId, cardCaptains.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = cardCaptains.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetCardCaptainsEquipments(User.CurrentUserId, cardCaptains.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = cardCaptains.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -532,9 +532,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardColonelsEquipments(User.CurrentUserId, cardColonels.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = cardColonels.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetCardColonelsEquipments(User.CurrentUserId, cardColonels.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = cardColonels.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -627,9 +627,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardGeneralsEquipments(User.CurrentUserId, cardGenerals.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = cardGenerals.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetCardGeneralsEquipments(User.CurrentUserId, cardGenerals.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = cardGenerals.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -722,9 +722,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardAdmiralsEquipments(User.CurrentUserId, cardAdmirals.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = cardAdmirals.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetCardAdmiralsEquipments(User.CurrentUserId, cardAdmirals.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = cardAdmirals.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -901,9 +901,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardMonstersEquipments(User.CurrentUserId, cardMonsters.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = cardMonsters.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetCardMonstersEquipments(User.CurrentUserId, cardMonsters.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = cardMonsters.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -991,14 +991,14 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardMilitaryEquipments(CardMilitary cardMilitary)
+    public void CreateCardMilitaryEquipments(CardMilitaries cardMilitary)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardMilitaryEquipments(User.CurrentUserId, cardMilitary.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = cardMilitary.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetCardMilitaryEquipments(User.CurrentUserId, cardMilitary.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = cardMilitary.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -1086,14 +1086,14 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardSpellEquipments(CardSpell cardSpell)
+    public void CreateCardSpellEquipments(CardSpells cardSpell)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardSpellEquipments(User.CurrentUserId, cardSpell.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = cardSpell.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetCardSpellEquipments(User.CurrentUserId, cardSpell.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = cardSpell.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -1186,9 +1186,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetBooksEquipments(User.CurrentUserId, books.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = books.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetBooksEquipments(User.CurrentUserId, books.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = books.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -1281,9 +1281,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetPetsEquipments(User.CurrentUserId, pets.id, mainType);
-        equipmentList = equipmentList.Where(e => e.set == set).ToList();
-        string fileNameWithoutExtension = pets.image.Replace(".png", "");
+        equipmentList = UserEquipmentsService.Create().GetPetsEquipments(User.CurrentUserId, pets.Id, mainType);
+        equipmentList = equipmentList.Where(e => e.Set == set).ToList();
+        string fileNameWithoutExtension = pets.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
@@ -1501,9 +1501,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Equipments foundEquip = null;
         foreach (Equipments equipment in equipmentList)
         {
-            if (equipment.position == position)
+            if (equipment.Position == position)
             {
-                string fileNameWithoutExtension = equipment.image.Replace(".png", "").Replace(".jpg", "");
+                string fileNameWithoutExtension = equipment.Image.Replace(".png", "").Replace(".jpg", "");
                 Texture equipmentTexture = Resources.Load<Texture>(fileNameWithoutExtension);
 
                 if (equipmentTexture != null)
@@ -1514,9 +1514,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     TextMeshProUGUI LevelText = button.transform.Find("Level").GetComponent<TextMeshProUGUI>();
                     if (LevelText != null)
                     {
-                        if (equipment.level != 0)
+                        if (equipment.Level != 0)
                         {
-                            LevelText.text = equipment.level.ToString();
+                            LevelText.text = equipment.Level.ToString();
                         }
                     }
                     else
@@ -1525,7 +1525,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     }
 
                     Transform currentStar = button.transform.Find("Star");
-                    CreateStarUI(equipment.star, currentStar);
+                    CreateStarUI(equipment.Star, currentStar);
 
                     Transform borderEffect = button.transform.Find("BorderEffect");
                     if (borderEffect != null)
@@ -1609,11 +1609,11 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             equipmentsList = UserEquipmentsService.Create().GetAllCardMonstersEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
-        else if (data is CardMilitary cardMilitary)
+        else if (data is CardMilitaries cardMilitary)
         {
             equipmentsList = UserEquipmentsService.Create().GetAllCardMilitaryEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
-        else if (data is CardSpell cardSpell)
+        else if (data is CardSpells cardSpell)
         {
             equipmentsList = UserEquipmentsService.Create().GetAllCardSpellEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
@@ -1625,7 +1625,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             equipmentsList = UserEquipmentsService.Create().GetAllPetsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
-        equipmentsList = equipmentsList.Where(e => e.set == set).ToList();
+        equipmentsList = equipmentsList.Where(e => e.Set == set).ToList();
         int totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, mainType, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
@@ -1641,13 +1641,13 @@ public class MainMenuEquipmentManager : MonoBehaviour
             GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, content);
 
             TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = equipment.name.Replace("_", " ");
+            Title.text = equipment.Name.Replace("_", " ");
 
             TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-            Power.text = equipment.power.ToString();
+            Power.text = equipment.Power.ToString();
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = equipment.image.Replace(".png", "");
+            string fileNameWithoutExtension = equipment.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
@@ -1655,7 +1655,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
 
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
@@ -1665,7 +1665,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (data is CardHeroes cardHeroes)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertCardHeroesEquipments(cardHeroes.id, equipment, position);
+                    UserEquipmentsService.Create().InsertCardHeroesEquipments(cardHeroes.Id, equipment, position);
                     CreateCardHeroesEquipments(cardHeroes);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1673,7 +1673,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 else if (data is CardCaptains cardCaptains)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertCardCaptainsEquipments(cardCaptains.id, equipment, position);
+                    UserEquipmentsService.Create().InsertCardCaptainsEquipments(cardCaptains.Id, equipment, position);
                     CreateCardCaptainsEquipments(cardCaptains);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1681,7 +1681,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 else if (data is CardColonels cardColonels)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertCardColonelsEquipments(cardColonels.id, equipment, position);
+                    UserEquipmentsService.Create().InsertCardColonelsEquipments(cardColonels.Id, equipment, position);
                     CreateCardColonelsEquipments(cardColonels);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1689,7 +1689,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 else if (data is CardGenerals cardGenerals)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertCardGeneralsEquipments(cardGenerals.id, equipment, position);
+                    UserEquipmentsService.Create().InsertCardGeneralsEquipments(cardGenerals.Id, equipment, position);
                     CreateCardGeneralsEquipments(cardGenerals);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1697,7 +1697,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 else if (data is CardAdmirals cardAdmirals)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertCardAdmiralsEquipments(cardAdmirals.id, equipment, position);
+                    UserEquipmentsService.Create().InsertCardAdmiralsEquipments(cardAdmirals.Id, equipment, position);
                     CreateCardAdmiralsEquipments(cardAdmirals);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1705,23 +1705,23 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 else if (data is CardMonsters cardMonsters)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertCardMonstersEquipments(cardMonsters.id, equipment, position);
+                    UserEquipmentsService.Create().InsertCardMonstersEquipments(cardMonsters.Id, equipment, position);
                     CreateCardMonstersEquipments(cardMonsters);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
-                else if (data is CardMilitary cardMilitary)
+                else if (data is CardMilitaries cardMilitary)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertCardMilitaryEquipments(cardMilitary.id, equipment, position);
+                    UserEquipmentsService.Create().InsertCardMilitaryEquipments(cardMilitary.Id, equipment, position);
                     CreateCardMilitaryEquipments(cardMilitary);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
-                else if (data is CardSpell cardSpell)
+                else if (data is CardSpells cardSpell)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertCardSpellEquipments(cardSpell.id, equipment, position);
+                    UserEquipmentsService.Create().InsertCardSpellEquipments(cardSpell.Id, equipment, position);
                     CreateCardSpellEquipments(cardSpell);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1729,7 +1729,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 else if (data is Books books)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertBooksEquipments(books.id, equipment, position);
+                    UserEquipmentsService.Create().InsertBooksEquipments(books.Id, equipment, position);
                     CreateBooksEquipments(books);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1737,7 +1737,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 else if (data is Pets pets)
                 {
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserEquipmentsService.Create().InsertPetsEquipments(pets.id, equipment, position);
+                    UserEquipmentsService.Create().InsertPetsEquipments(pets.Id, equipment, position);
                     CreatePetsEquipments(pets);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1813,7 +1813,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardMonstersEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
-            else if (data is CardMilitary cardMilitary)
+            else if (data is CardMilitaries cardMilitary)
             {
                 totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1822,7 +1822,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardMilitaryEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
-            else if (data is CardSpell cardSpell)
+            else if (data is CardSpells cardSpell)
             {
                 totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1915,7 +1915,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardMonstersEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
-            else if (data is CardMilitary cardMilitary)
+            else if (data is CardMilitaries cardMilitary)
             {
                 totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1924,7 +1924,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardMilitaryEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
-            else if (data is CardSpell cardSpell)
+            else if (data is CardSpells cardSpell)
             {
                 totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);

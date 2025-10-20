@@ -21,11 +21,11 @@ public class TeamsRepository : ITeamsRepository
             {
                 teams.Add(new Teams
                 {
-                    user_id = reader.GetString("user_id"),
-                    team_id = reader.GetString("team_id"),
-                    team_number = reader.GetInt32("team_number"),
-                    team_avatar = reader.GetString("team_avatar"),
-                    team_border = reader.GetString("team_border"),
+                    UserId = reader.GetString("user_id"),
+                    TeamId = reader.GetString("team_id"),
+                    TeamNumber = reader.GetInt32("team_number"),
+                    TeamAvatar = reader.GetString("team_avatar"),
+                    TeamBorder = reader.GetString("team_border"),
                 });
             }
         }

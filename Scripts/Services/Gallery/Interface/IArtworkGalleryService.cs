@@ -7,11 +7,11 @@ using System.Xml.Linq;
 
 public interface IArtworkGalleryService
 {
-    List<Artwork> GetArtworkCollection(string type, int pageSize, int offset, string rare);
+    List<Artworks> GetArtworkCollection(string type, int pageSize, int offset, string rare);
     int GetArtworkCount(string type, string rare);
     void InsertArtworkGallery(string Id);
     void UpdateStatusArtworkGallery(string Id);
     void UpdateStarArtworkGallery(string Id, double star);
     void UpdateArtworkGalleryPower(string Id);
-    Artwork SumPowerArtworkGallery();
+    Artworks SumPowerArtworkGallery();
 }

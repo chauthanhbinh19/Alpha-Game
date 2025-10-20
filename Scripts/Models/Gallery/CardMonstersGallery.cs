@@ -110,41 +110,41 @@ public class CardMonstersGallery : BaseEntity
     public double percent_all_atomic_defense { get => percent_all_atomic_defense1; set => percent_all_atomic_defense1 = value; }
     public double percent_all_mental_attack { get => percent_all_mental_attack1; set => percent_all_mental_attack1 = value; }
     public double percent_all_mental_defense { get => percent_all_mental_defense1; set => percent_all_mental_defense1 = value; }
-    public Currency currency { get; set; }
+    public Currencies currency { get; set; }
     public CardMonstersGallery()
     {
-        power = -1;
-        health = -1;
-        physical_attack = -1;
-        physical_defense = -1;
-        magical_attack = -1;
-        magical_defense = -1;
-        chemical_attack = -1;
-        chemical_defense = -1;
-        atomic_attack = -1;
-        atomic_defense = -1;
-        mental_attack = -1;
-        mental_defense = -1;
-        speed = -1;
-        critical_damage_rate = -1;
-        critical_rate = -1;
-        penetration_rate = -1;
-        evasion_rate = -1;
-        damage_absorption_rate = -1;
-        vitality_regeneration_rate = -1;
-        accuracy_rate = -1;
-        lifesteal_rate = -1;
-        mana = -1;
-        mana_regeneration_rate = -1;
-        shield_strength = -1;
-        tenacity = -1;
-        resistance_rate = -1;
-        combo_rate = -1;
-        reflection_rate = -1;
-        damage_to_different_faction_rate = -1;
-        resistance_to_different_faction_rate = -1;
-        damage_to_same_faction_rate = -1;
-        resistance_to_same_faction_rate = -1;
+        Power = -1;
+        Health = -1;
+        PhysicalAttack = -1;
+        PhysicalDefense = -1;
+        MagicalAttack = -1;
+        MagicalDefense = -1;
+        ChemicalAttack = -1;
+        ChemicalDefense = -1;
+        AtomicAttack = -1;
+        AtomicDefense = -1;
+        MentalAttack = -1;
+        MentalDefense = -1;
+        Speed = -1;
+        CriticalDamageRate = -1;
+        CriticalRate = -1;
+        PenetrationRate = -1;
+        EvasionRate = -1;
+        DamageAbsorptionRate = -1;
+        VitalityRegenerationRate = -1;
+        AccuracyRate = -1;
+        LifestealRate = -1;
+        Mana = -1;
+        ManaRegenerationRate = -1;
+        ShieldStrength = -1;
+        Tenacity = -1;
+        ResistanceRate = -1;
+        ComboRate = -1;
+        ReflectionRate = -1;
+        DamageToDifferentFactionRate = -1;
+        ResistanceToDifferentFactionRate = -1;
+        DamageToSameFactionRate = -1;
+        ResistanceToSameFactionRate = -1;
 
         all_power = -1;
         all_health = -1;

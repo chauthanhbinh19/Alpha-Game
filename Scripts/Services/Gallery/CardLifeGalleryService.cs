@@ -14,9 +14,9 @@ public class CardLifeGalleryService : ICardLifeGalleryService
         return new CardLifeGalleryService(new CardLifeGalleryRepository());
     }
 
-    public List<CardLife> GetCardLifeCollection(string type, int pageSize, int offset, string rare)
+    public List<CardLives> GetCardLifeCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardLife> list = _cardLifeGalleryRepository.GetCardLifeCollection(type, pageSize, offset, rare);
+        List<CardLives> list = _cardLifeGalleryRepository.GetCardLifeCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class CardLifeGalleryService : ICardLifeGalleryService
         _cardLifeGalleryRepository.UpdateStatusCardLifeGallery(Id);
     }
 
-    public CardLife SumPowerCardLifeGallery()
+    public CardLives SumPowerCardLifeGallery()
     {
         return _cardLifeGalleryRepository.SumPowerCardLifeGallery();
     }

@@ -4,10 +4,10 @@ public interface ISpiritCardService
 {
     List<string> GetUniqueSpiritCardTypes();
     List<string> GetUniqueTitleId();
-    List<SpiritCard> GetSpiritCard(string type, int pageSize, int offset, string rare);
+    List<SpiritCards> GetSpiritCard(string type, int pageSize, int offset, string rare);
     int GetSpiritCardCount(string type, string rare);
-    List<SpiritCard> GetSpiritCardWithPrice(string type, int pageSize, int offset);
+    List<SpiritCards> GetSpiritCardWithPrice(string type, int pageSize, int offset);
     int GetSpiritCardWithPriceCount(string type);
-    SpiritCard GetSpiritCardById(string Id);
-    SpiritCard SumPowerSpiritCardPercent();
+    SpiritCards GetSpiritCardById(string Id);
+    SpiritCards SumPowerSpiritCardPercent();
 }

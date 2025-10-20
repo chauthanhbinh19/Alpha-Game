@@ -21,13 +21,13 @@ public class DailyCheckinRepository : IDailyCheckinRepository
                     ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@id", dailyCheckin.id);
-                command.Parameters.AddWithValue("@day", dailyCheckin.date);
-                command.Parameters.AddWithValue("@month", dailyCheckin.month);
-                command.Parameters.AddWithValue("@year", dailyCheckin.year);
-                command.Parameters.AddWithValue("@type", dailyCheckin.type);
-                command.Parameters.AddWithValue("@object_id", dailyCheckin.object_id);
-                command.Parameters.AddWithValue("@quantity", dailyCheckin.quantity);
+                command.Parameters.AddWithValue("@id", dailyCheckin.Id);
+                command.Parameters.AddWithValue("@day", dailyCheckin.Date);
+                command.Parameters.AddWithValue("@month", dailyCheckin.Month);
+                command.Parameters.AddWithValue("@year", dailyCheckin.Year);
+                command.Parameters.AddWithValue("@type", dailyCheckin.Type);
+                command.Parameters.AddWithValue("@object_id", dailyCheckin.ObjectId);
+                command.Parameters.AddWithValue("@quantity", dailyCheckin.Quantity);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)

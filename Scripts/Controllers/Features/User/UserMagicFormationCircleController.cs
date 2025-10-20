@@ -48,17 +48,17 @@ public class UserMagicFormationCircleController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserMagicFormationCircle(List<MagicFormationCircle> magicFormationCircles, Transform DictionaryContentPanel)
+    public void CreateUserMagicFormationCircle(List<MagicFormationCircles> magicFormationCircles, Transform DictionaryContentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
             GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = magicFormationCircle.name.Replace("_", " ");
+            Title.text = magicFormationCircle.Name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -73,7 +73,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -84,7 +84,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowMagicFormationCircleDetails(MagicFormationCircle magicFormationCircle, GameObject currentObject, int buttonType = 1)
+    public void ShowMagicFormationCircleDetails(MagicFormationCircles magicFormationCircle, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -135,25 +135,25 @@ public class UserMagicFormationCircleController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is MagicFormationCircle magicFormationCircle)
+        if (obj is MagicFormationCircles magicFormationCircle)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = magicFormationCircle.name;
+            name.text = magicFormationCircle.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(magicFormationCircle.power, false);
+            power.text = NumberFormatter.FormatNumber(magicFormationCircle.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -171,7 +171,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is MagicFormationCircle magicFormationCircle)
+        if (obj is MagicFormationCircles magicFormationCircle)
         {
             PropertyInfo[] properties = magicFormationCircle.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, magicFormationCircle, increasePerLevel, currentObject);
@@ -186,17 +186,17 @@ public class UserMagicFormationCircleController : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                MagicFormationCircle currentCard = new MagicFormationCircle();
-                currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                MagicFormationCircles currentCard = new MagicFormationCircles();
+                currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    MagicFormationCircle newCard = new MagicFormationCircle();
+                    MagicFormationCircles newCard = new MagicFormationCircles();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserMagicFormationCircleService.Create().GetNewLevelPower(magicFormationCircle, increasePerLevel);
@@ -213,9 +213,9 @@ public class UserMagicFormationCircleController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                MagicFormationCircle currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                MagicFormationCircles currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -230,7 +230,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    MagicFormationCircle newCard = UserMagicFormationCircleService.Create().GetNewLevelPower(magicFormationCircle, levelsGained * increasePerLevel);
+                    MagicFormationCircles newCard = UserMagicFormationCircleService.Create().GetNewLevelPower(magicFormationCircle, levelsGained * increasePerLevel);
                     UserMagicFormationCircleService.Create().UpdateMagicFormationCircleLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -254,7 +254,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is MagicFormationCircle magicFormationCircle)
+        if (obj is MagicFormationCircles magicFormationCircle)
         {
             PropertyInfo[] properties = magicFormationCircle.GetType().GetProperties();
             foreach (var property in properties)
@@ -272,67 +272,67 @@ public class UserMagicFormationCircleController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (magicFormationCircle.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (magicFormationCircle.Star + 1).ToString();
             }
             GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
             Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             magicFormationImage.texture = magicFormationTexture;
 
             TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = magicFormationCircle.quantity.ToString() + "/" + (magicFormationCircle.star + 1).ToString();
+            magicFormationQuantity.text = magicFormationCircle.Quantity.ToString() + "/" + (magicFormationCircle.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(magicFormationCircle.star, currentObject);
+            UIManager.Instance.CreateStarUI(magicFormationCircle.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = magicFormationCircle.star + 1;
+                int requiredQuantity = magicFormationCircle.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = magicFormationCircle.quantity >= requiredQuantity;
+                bool hasEnoughMagicFormation = magicFormationCircle.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + magicFormationCircle.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + magicFormationCircle.Quantity >= requiredQuantity;
 
                 if (hasEnoughMagicFormation || hasEnoughItems)
                 {
                     // Giảm số lượng vòng phép trước
-                    if (magicFormationCircle.quantity >= requiredQuantity)
+                    if (magicFormationCircle.Quantity >= requiredQuantity)
                     {
-                        magicFormationCircle.quantity -= requiredQuantity;
+                        magicFormationCircle.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - magicFormationCircle.quantity;
-                        magicFormationCircle.quantity = 0; // Dùng hết vòng phép
+                        int remainingRequired = requiredQuantity - magicFormationCircle.Quantity;
+                        magicFormationCircle.Quantity = 0; // Dùng hết vòng phép
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -342,21 +342,21 @@ public class UserMagicFormationCircleController : MonoBehaviour
                         userItemsService.UpdateUserItemsQuantity(items1);
                     }
                     // Cập nhật cấp sao (Star)
-                    MagicFormationCircle newMagicFormationCircle = new MagicFormationCircle();
+                    MagicFormationCircles newMagicFormationCircle = new MagicFormationCircles();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newMagicFormationCircle = UserMagicFormationCircleService.Create().GetNewBreakthroughPower(magicFormationCircle, increasePerUpgrade);
-                    UserMagicFormationCircleService.Create().UpdateMagicFormationCircleBreakthrough(newMagicFormationCircle, magicFormationCircle.star + 1, magicFormationCircle.quantity);
+                    UserMagicFormationCircleService.Create().UpdateMagicFormationCircleBreakthrough(newMagicFormationCircle, magicFormationCircle.Star + 1, magicFormationCircle.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    MagicFormationCircleGalleryService.Create().UpdateStarMagicFormationCircleGallery(magicFormationCircle.id, magicFormationCircle.star + 1);
+                    MagicFormationCircleGalleryService.Create().UpdateStarMagicFormationCircleGallery(magicFormationCircle.Id, magicFormationCircle.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(magicFormationCircle.star, currentObject);
+                    UIManager.Instance.CreateStarUI(magicFormationCircle.Star, currentObject);
                 }
                 else
                 {

@@ -14,17 +14,17 @@ public class UserCurrencyService : IUserCurrencyService
         return new UserCurrencyService(new UserCurrencyRepository());
     }
 
-    public List<Currency> GetUserCurrency()
+    public List<Currencies> GetUserCurrency()
     {
         return _userCurrencyRepository.GetUserCurrency();
     }
 
-    public Currency GetUserCurrencyById(string Id)
+    public Currencies GetUserCurrencyById(string Id)
     {
         return _userCurrencyRepository.GetUserCurrencyById(Id);
     }
 
-    public Currency GetUserCurrencyByName(string currencyName)
+    public Currencies GetUserCurrencyByName(string currencyName)
     {
         return _userCurrencyRepository.GetUserCurrencyByName(currencyName);
     }
@@ -34,308 +34,308 @@ public class UserCurrencyService : IUserCurrencyService
         _userCurrencyRepository.UpdateUserCurrency(currency_id, price);
     }
 
-    public List<Currency> GetEquipmentsCurrency(string type)
+    public List<Currencies> GetEquipmentsCurrency(string type)
     {
         return _userCurrencyRepository.GetEquipmentsCurrency(type);
     }
 
-    public Currency GetEquipmentsPrice(string type, string equipment_id)
+    public Currencies GetEquipmentsPrice(string type, string equipment_id)
     {
         return _userCurrencyRepository.GetEquipmentsPrice(type, equipment_id);
     }
 
-    public Currency GetUserEquipmentsPrice(string type, string equipment_id)
+    public Currencies GetUserEquipmentsPrice(string type, string equipment_id)
     {
         return _userCurrencyRepository.GetUserEquipmentsPrice(type, equipment_id);
     }
 
-    public Currency GetUserCardHeroesPrice(string Id)
+    public Currencies GetUserCardHeroesPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardHeroesPrice(Id);
     }
 
-    public Currency GetUserCardCaptainsPrice(string Id)
+    public Currencies GetUserCardCaptainsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardCaptainsPrice(Id);
     }
 
-    public Currency GetUserCardColonelsPrice(string Id)
+    public Currencies GetUserCardColonelsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardColonelsPrice(Id);
     }
 
-    public Currency GetUserCardGeneralsPrice(string Id)
+    public Currencies GetUserCardGeneralsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardGeneralsPrice(Id);
     }
 
-    public Currency GetUserCardAdmiralsPrice(string Id)
+    public Currencies GetUserCardAdmiralsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardAdmiralsPrice(Id);
     }
 
-    public Currency GetUserCardMonstersPrice(string Id)
+    public Currencies GetUserCardMonstersPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardMonstersPrice(Id);
     }
 
-    public Currency GetUserCardMilitaryPrice(string Id)
+    public Currencies GetUserCardMilitaryPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardMilitaryPrice(Id);
     }
 
-    public Currency GetUserCardSpellPrice(string Id)
+    public Currencies GetUserCardSpellPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardSpellPrice(Id);
     }
 
-    public Currency GetUserBooksPrice(string Id)
+    public Currencies GetUserBooksPrice(string Id)
     {
         return _userCurrencyRepository.GetUserBooksPrice(Id);
     }
 
-    public Currency GetUserAchievementsPrice(string Id)
+    public Currencies GetUserAchievementsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserAchievementsPrice(Id);
     }
 
-    public Currency GetUserBordersPrice(string Id)
+    public Currencies GetUserBordersPrice(string Id)
     {
         return _userCurrencyRepository.GetUserBordersPrice(Id);
     }
 
-    public Currency GetUserCollaborationsPrice(string Id)
+    public Currencies GetUserCollaborationsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCollaborationsPrice(Id);
     }
 
-    public Currency GetUserCollaborationEquipmentsPrice(string Id)
+    public Currencies GetUserCollaborationEquipmentsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserCollaborationEquipmentsPrice(Id);
     }
 
-    public Currency GetUserItemsPrice(string Id)
+    public Currencies GetUserItemsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserItemsPrice(Id);
     }
 
-    public Currency GetUserMagicFormationCirclePrice(string Id)
+    public Currencies GetUserMagicFormationCirclePrice(string Id)
     {
         return _userCurrencyRepository.GetUserMagicFormationCirclePrice(Id);
     }
 
-    public Currency GetUserMedalsPrice(string Id)
+    public Currencies GetUserMedalsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserMedalsPrice(Id);
     }
 
-    public Currency GetUserPetsPrice(string Id)
+    public Currencies GetUserPetsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserPetsPrice(Id);
     }
 
-    public Currency GetUserRelicsPrice(string Id)
+    public Currencies GetUserRelicsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserRelicsPrice(Id);
     }
 
-    public Currency GetUserSkillsPrice(string Id)
+    public Currencies GetUserSkillsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserSkillsPrice(Id);
     }
 
-    public Currency GetUserSymbolsPrice(string Id)
+    public Currencies GetUserSymbolsPrice(string Id)
     {
         return _userCurrencyRepository.GetUserSymbolsPrice(Id);
     }
 
-    public Currency GetUserTitlesPrice(string Id)
+    public Currencies GetUserTitlesPrice(string Id)
     {
         return _userCurrencyRepository.GetUserTitlesPrice(Id);
     }
 
-    public Currency GetUserTalismanPrice(string Id)
+    public Currencies GetUserTalismanPrice(string Id)
     {
         return _userCurrencyRepository.GetUserTalismanPrice(Id);
     }
 
-    public Currency GetUserPuppetPrice(string Id)
+    public Currencies GetUserPuppetPrice(string Id)
     {
         return _userCurrencyRepository.GetUserPuppetPrice(Id);
     }
 
-    public Currency GetUserAlchemyPrice(string Id)
+    public Currencies GetUserAlchemyPrice(string Id)
     {
         return _userCurrencyRepository.GetUserAlchemyPrice(Id);
     }
 
-    public Currency GetUserForgePrice(string Id)
+    public Currencies GetUserForgePrice(string Id)
     {
         return _userCurrencyRepository.GetUserForgePrice(Id);
     }
 
-    public Currency GetUserCardLifePrice(string Id)
+    public Currencies GetUserCardLifePrice(string Id)
     {
         return _userCurrencyRepository.GetUserCardLifePrice(Id);
     }
 
-    public Currency GetUserArtworkPrice(string Id)
+    public Currencies GetUserArtworkPrice(string Id)
     {
         return _userCurrencyRepository.GetUserArtworkPrice(Id);
     }
 
-    public Currency GetUserSpiritBeastPrice(string Id)
+    public Currencies GetUserSpiritBeastPrice(string Id)
     {
         return _userCurrencyRepository.GetUserSpiritBeastPrice(Id);
     }
 
-    public Currency GetUserSpiritCardPrice(string Id)
+    public Currencies GetUserSpiritCardPrice(string Id)
     {
         return _userCurrencyRepository.GetUserSpiritCardPrice(Id);
     }
 
 
-    public List<Currency> GetAchievementsCurrency()
+    public List<Currencies> GetAchievementsCurrency()
     {
         return _userCurrencyRepository.GetAchievementsCurrency();
     }
 
-    public List<Currency> GetBooksCurrency(string type)
+    public List<Currencies> GetBooksCurrency(string type)
     {
         return _userCurrencyRepository.GetBooksCurrency(type);
     }
 
-    public List<Currency> GetCardHeroesCurrency(string type)
+    public List<Currencies> GetCardHeroesCurrency(string type)
     {
         return _userCurrencyRepository.GetCardHeroesCurrency(type);
     }
 
-    public List<Currency> GetCardCaptainsCurrency(string type)
+    public List<Currencies> GetCardCaptainsCurrency(string type)
     {
         return _userCurrencyRepository.GetCardCaptainsCurrency(type);
     }
 
-    public List<Currency> GetCardColonelsCurrency(string type)
+    public List<Currencies> GetCardColonelsCurrency(string type)
     {
         return _userCurrencyRepository.GetCardColonelsCurrency(type);
     }
 
-    public List<Currency> GetCardGeneralsCurrency(string type)
+    public List<Currencies> GetCardGeneralsCurrency(string type)
     {
         return _userCurrencyRepository.GetCardGeneralsCurrency(type);
     }
 
-    public List<Currency> GetCardAdmiralsCurrency(string type)
+    public List<Currencies> GetCardAdmiralsCurrency(string type)
     {
         return _userCurrencyRepository.GetCardAdmiralsCurrency(type);
     }
 
-    public List<Currency> GetCardMonstersCurrency(string type)
+    public List<Currencies> GetCardMonstersCurrency(string type)
     {
         return _userCurrencyRepository.GetCardMonstersCurrency(type);
     }
 
-    public List<Currency> GetCardMilitaryCurrency(string type)
+    public List<Currencies> GetCardMilitaryCurrency(string type)
     {
         return _userCurrencyRepository.GetCardMilitaryCurrency(type);
     }
 
-    public List<Currency> GetCardSpellCurrency(string type)
+    public List<Currencies> GetCardSpellCurrency(string type)
     {
         return _userCurrencyRepository.GetCardSpellCurrency(type);
     }
 
-    public List<Currency> GetCollaborationsCurrency(string type)
+    public List<Currencies> GetCollaborationsCurrency(string type)
     {
         return _userCurrencyRepository.GetCollaborationsCurrency(type);
     }
 
-    public List<Currency> GetCollaborationEquipmentsCurrency(string type)
+    public List<Currencies> GetCollaborationEquipmentsCurrency(string type)
     {
         return _userCurrencyRepository.GetCollaborationEquipmentsCurrency(type);
     }
 
-    public List<Currency> GetBordersCurrency(string type)
+    public List<Currencies> GetBordersCurrency(string type)
     {
         return _userCurrencyRepository.GetBordersCurrency(type);
     }
 
-    public List<Currency> GetItemsCurrency(string type)
+    public List<Currencies> GetItemsCurrency(string type)
     {
         return _userCurrencyRepository.GetItemsCurrency(type);
     }
 
-    public List<Currency> GetMagicFormationCircleCurrency(string type)
+    public List<Currencies> GetMagicFormationCircleCurrency(string type)
     {
         return _userCurrencyRepository.GetMagicFormationCircleCurrency(type);
     }
 
-    public List<Currency> GetMedalsCurrency(string type)
+    public List<Currencies> GetMedalsCurrency(string type)
     {
         return _userCurrencyRepository.GetMedalsCurrency(type);
     }
 
-    public List<Currency> GetPetsCurrency(string type)
+    public List<Currencies> GetPetsCurrency(string type)
     {
         return _userCurrencyRepository.GetPetsCurrency(type);
     }
 
-    public List<Currency> GetRelicsCurrency(string type)
+    public List<Currencies> GetRelicsCurrency(string type)
     {
         return _userCurrencyRepository.GetRelicsCurrency(type);
     }
 
-    public List<Currency> GetSkillsCurrency(string type)
+    public List<Currencies> GetSkillsCurrency(string type)
     {
         return _userCurrencyRepository.GetSkillsCurrency(type);
     }
 
-    public List<Currency> GetSymbolsCurrency(string type)
+    public List<Currencies> GetSymbolsCurrency(string type)
     {
         return _userCurrencyRepository.GetSymbolsCurrency(type);
     }
 
-    public List<Currency> GetTitlesCurrency(string type)
+    public List<Currencies> GetTitlesCurrency(string type)
     {
         return _userCurrencyRepository.GetTitlesCurrency(type);
     }
 
-    public List<Currency> GetTalismanCurrency(string type)
+    public List<Currencies> GetTalismanCurrency(string type)
     {
         return _userCurrencyRepository.GetTalismanCurrency(type);
     }
 
-    public List<Currency> GetPuppetCurrency(string type)
+    public List<Currencies> GetPuppetCurrency(string type)
     {
         return _userCurrencyRepository.GetPuppetCurrency(type);
     }
 
-    public List<Currency> GetAlchemyCurrency(string type)
+    public List<Currencies> GetAlchemyCurrency(string type)
     {
         return _userCurrencyRepository.GetAlchemyCurrency(type);
     }
 
-    public List<Currency> GetForgeCurrency(string type)
+    public List<Currencies> GetForgeCurrency(string type)
     {
         return _userCurrencyRepository.GetForgeCurrency(type);
     }
 
-    public List<Currency> GetCardLifeCurrency(string type)
+    public List<Currencies> GetCardLifeCurrency(string type)
     {
         return _userCurrencyRepository.GetCardLifeCurrency(type);
     }
 
-    public List<Currency> GetArtworkCurrency(string type)
+    public List<Currencies> GetArtworkCurrency(string type)
     {
         return _userCurrencyRepository.GetArtworkCurrency(type);
     }
 
-    public List<Currency> GetSpiritBeastCurrency(string type)
+    public List<Currencies> GetSpiritBeastCurrency(string type)
     {
         return _userCurrencyRepository.GetSpiritBeastCurrency(type);
     }
 
-    public List<Currency> GetSpiritCardCurrency(string type)
+    public List<Currencies> GetSpiritCardCurrency(string type)
     {
         return _userCurrencyRepository.GetSpiritCardCurrency(type);
     }

@@ -53,10 +53,10 @@ public class AchievementsController : MonoBehaviour
             GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = achievementObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = achievement.name.Replace("_", " ");
+            Title.text = achievement.Name.Replace("_", " ");
 
             RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -73,12 +73,12 @@ public class AchievementsController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(achievement.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(achievement.Currency.Quantity, false);
 
             Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -86,11 +86,11 @@ public class AchievementsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(achievement.currency.quantity, achievement, popupPanel, currencyPanel);
+                GetQuantity(achievement.Currency.Quantity, achievement, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetAchievementsCurrency();
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
@@ -204,14 +204,14 @@ public class AchievementsController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is Achievements achievements)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(achievements.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(achievements.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -237,8 +237,8 @@ public class AchievementsController : MonoBehaviour
 
             if (obj is Achievements achievements)
             {
-                achievements.quantity = achievements.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(achievements.currency.id, price);
+                achievements.Quantity = achievements.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(achievements.Currency.Id, price);
                 bool success = UserAchievementsService.Create().InsertUserAchievements(achievements);
                 if (!success)
                 {
@@ -250,11 +250,11 @@ public class AchievementsController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
                     // achievements.InsertUserAchievements(achievements);
                     currencies = UserCurrencyService.Create().GetAchievementsCurrency();
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

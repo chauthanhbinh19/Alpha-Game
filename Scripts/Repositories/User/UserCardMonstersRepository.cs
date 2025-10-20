@@ -35,71 +35,71 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 {
                     CardMonsters CardMonsters = new CardMonsters
                     {
-                        id = reader.GetString("card_monster_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        type = reader.GetString("type"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        block = reader.GetBoolean("block"),
-                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
-                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
+                        Id = reader.GetString("card_monster_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Type = reader.GetString("type"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Block = reader.GetBoolean("block"),
+                        TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
+                        Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
 
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
-                        description = reader.GetString("description"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                        Description = reader.GetString("description"),
                     };
 
                     CardMonstersList.Add(CardMonsters);
@@ -137,70 +137,70 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 {
                     CardMonsters CardMonsters = new CardMonsters
                     {
-                        id = reader.GetString("monster_id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        type = reader.GetString("type"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        block = reader.GetBoolean("block"),
-                        team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
-                        position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
-                        description = reader.GetString("description"),
+                        Id = reader.GetString("monster_id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Type = reader.GetString("type"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Block = reader.GetBoolean("block"),
+                        TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
+                        Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                        Description = reader.GetString("description"),
                     };
 
                     CardMonstersList.Add(CardMonsters);
@@ -337,7 +337,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@card_monster_id", CardMonsters.id);
+                checkCommand.Parameters.AddWithValue("@card_monster_id", CardMonsters.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -380,64 +380,64 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@card_monster_id", CardMonsters.id);
-                    command.Parameters.AddWithValue("@rare", CardMonsters.rare);
+                    command.Parameters.AddWithValue("@card_monster_id", CardMonsters.Id);
+                    command.Parameters.AddWithValue("@rare", CardMonsters.Rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(CardMonsters.rare));
+                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(CardMonsters.Rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", CardMonsters.quantity);
-                    command.Parameters.AddWithValue("@power", CardMonsters.power);
-                    command.Parameters.AddWithValue("@health", CardMonsters.health);
-                    command.Parameters.AddWithValue("@physical_attack", CardMonsters.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", CardMonsters.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", CardMonsters.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", CardMonsters.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", CardMonsters.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", CardMonsters.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", CardMonsters.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", CardMonsters.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", CardMonsters.mental_attack);
-                    command.Parameters.AddWithValue("@mental_defense", CardMonsters.mental_defense);
-                    command.Parameters.AddWithValue("@speed", CardMonsters.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", CardMonsters.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", CardMonsters.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", CardMonsters.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", CardMonsters.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", CardMonsters.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", CardMonsters.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", CardMonsters.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", CardMonsters.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardMonsters.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", CardMonsters.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", CardMonsters.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardMonsters.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", CardMonsters.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", CardMonsters.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", CardMonsters.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", CardMonsters.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", CardMonsters.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", CardMonsters.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", CardMonsters.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", CardMonsters.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", CardMonsters.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", CardMonsters.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", CardMonsters.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", CardMonsters.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", CardMonsters.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", CardMonsters.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", CardMonsters.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", CardMonsters.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", CardMonsters.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardMonsters.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardMonsters.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardMonsters.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardMonsters.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", CardMonsters.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", CardMonsters.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", CardMonsters.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", CardMonsters.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@quantity", CardMonsters.Quantity);
+                    command.Parameters.AddWithValue("@power", CardMonsters.Power);
+                    command.Parameters.AddWithValue("@health", CardMonsters.Health);
+                    command.Parameters.AddWithValue("@physical_attack", CardMonsters.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", CardMonsters.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", CardMonsters.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", CardMonsters.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", CardMonsters.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", CardMonsters.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", CardMonsters.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", CardMonsters.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", CardMonsters.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", CardMonsters.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", CardMonsters.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", CardMonsters.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", CardMonsters.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", CardMonsters.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", CardMonsters.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", CardMonsters.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", CardMonsters.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", CardMonsters.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", CardMonsters.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardMonsters.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", CardMonsters.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", CardMonsters.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardMonsters.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", CardMonsters.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", CardMonsters.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", CardMonsters.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", CardMonsters.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", CardMonsters.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", CardMonsters.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", CardMonsters.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", CardMonsters.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", CardMonsters.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", CardMonsters.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", CardMonsters.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", CardMonsters.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", CardMonsters.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", CardMonsters.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", CardMonsters.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", CardMonsters.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", CardMonsters.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardMonsters.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardMonsters.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardMonsters.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardMonsters.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", CardMonsters.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", CardMonsters.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", CardMonsters.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", CardMonsters.SkillResistanceRate);
                     MySqlDataReader reader = command.ExecuteReader();
                 }
                 else
@@ -450,8 +450,8 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@card_monster_id", CardMonsters.id);
-                    updateCommand.Parameters.AddWithValue("@quantity", CardMonsters.quantity);
+                    updateCommand.Parameters.AddWithValue("@card_monster_id", CardMonsters.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", CardMonsters.Quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -505,58 +505,58 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 WHERE user_id = @user_id AND card_monster_id = @card_monster_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_monster_id", cardMonsters.id);
+                command.Parameters.AddWithValue("@card_monster_id", cardMonsters.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", cardMonsters.power);
-                command.Parameters.AddWithValue("@health", cardMonsters.health);
-                command.Parameters.AddWithValue("@physical_attack", cardMonsters.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", cardMonsters.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", cardMonsters.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", cardMonsters.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", cardMonsters.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", cardMonsters.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", cardMonsters.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", cardMonsters.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", cardMonsters.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", cardMonsters.mental_defense);
-                command.Parameters.AddWithValue("@speed", cardMonsters.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", cardMonsters.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", cardMonsters.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", cardMonsters.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", cardMonsters.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", cardMonsters.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", cardMonsters.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", cardMonsters.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", cardMonsters.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonsters.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", cardMonsters.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonsters.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonsters.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", cardMonsters.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", cardMonsters.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", cardMonsters.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", cardMonsters.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", cardMonsters.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", cardMonsters.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", cardMonsters.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", cardMonsters.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", cardMonsters.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", cardMonsters.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", cardMonsters.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", cardMonsters.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", cardMonsters.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", cardMonsters.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", cardMonsters.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", cardMonsters.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", cardMonsters.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonsters.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonsters.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonsters.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonsters.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", cardMonsters.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", cardMonsters.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", cardMonsters.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", cardMonsters.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", cardMonsters.Power);
+                command.Parameters.AddWithValue("@health", cardMonsters.Health);
+                command.Parameters.AddWithValue("@physical_attack", cardMonsters.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", cardMonsters.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", cardMonsters.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", cardMonsters.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", cardMonsters.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", cardMonsters.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", cardMonsters.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", cardMonsters.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", cardMonsters.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", cardMonsters.MentalDefense);
+                command.Parameters.AddWithValue("@speed", cardMonsters.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", cardMonsters.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", cardMonsters.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", cardMonsters.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", cardMonsters.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", cardMonsters.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", cardMonsters.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", cardMonsters.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", cardMonsters.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonsters.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", cardMonsters.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonsters.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonsters.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", cardMonsters.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", cardMonsters.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", cardMonsters.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", cardMonsters.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", cardMonsters.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", cardMonsters.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", cardMonsters.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", cardMonsters.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", cardMonsters.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", cardMonsters.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", cardMonsters.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", cardMonsters.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", cardMonsters.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", cardMonsters.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", cardMonsters.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", cardMonsters.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", cardMonsters.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonsters.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonsters.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonsters.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonsters.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", cardMonsters.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", cardMonsters.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", cardMonsters.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", cardMonsters.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -606,59 +606,59 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 WHERE user_id = @user_id AND card_monster_id = @card_monster_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_monster_id", cardMonsters.id);
+                command.Parameters.AddWithValue("@card_monster_id", cardMonsters.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", cardMonsters.power);
-                command.Parameters.AddWithValue("@health", cardMonsters.health);
-                command.Parameters.AddWithValue("@physical_attack", cardMonsters.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", cardMonsters.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", cardMonsters.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", cardMonsters.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", cardMonsters.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", cardMonsters.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", cardMonsters.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", cardMonsters.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", cardMonsters.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", cardMonsters.mental_defense);
-                command.Parameters.AddWithValue("@speed", cardMonsters.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", cardMonsters.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", cardMonsters.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", cardMonsters.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", cardMonsters.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", cardMonsters.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", cardMonsters.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", cardMonsters.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", cardMonsters.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonsters.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", cardMonsters.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonsters.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonsters.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", cardMonsters.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", cardMonsters.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", cardMonsters.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", cardMonsters.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", cardMonsters.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", cardMonsters.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", cardMonsters.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", cardMonsters.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", cardMonsters.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", cardMonsters.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", cardMonsters.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", cardMonsters.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", cardMonsters.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", cardMonsters.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", cardMonsters.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", cardMonsters.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", cardMonsters.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonsters.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonsters.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonsters.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonsters.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", cardMonsters.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", cardMonsters.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", cardMonsters.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", cardMonsters.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", cardMonsters.Power);
+                command.Parameters.AddWithValue("@health", cardMonsters.Health);
+                command.Parameters.AddWithValue("@physical_attack", cardMonsters.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", cardMonsters.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", cardMonsters.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", cardMonsters.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", cardMonsters.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", cardMonsters.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", cardMonsters.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", cardMonsters.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", cardMonsters.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", cardMonsters.MentalDefense);
+                command.Parameters.AddWithValue("@speed", cardMonsters.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", cardMonsters.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", cardMonsters.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", cardMonsters.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", cardMonsters.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", cardMonsters.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", cardMonsters.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", cardMonsters.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", cardMonsters.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonsters.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", cardMonsters.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonsters.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonsters.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", cardMonsters.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", cardMonsters.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", cardMonsters.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", cardMonsters.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", cardMonsters.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", cardMonsters.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", cardMonsters.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", cardMonsters.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", cardMonsters.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", cardMonsters.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", cardMonsters.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", cardMonsters.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", cardMonsters.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", cardMonsters.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", cardMonsters.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", cardMonsters.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", cardMonsters.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonsters.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonsters.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonsters.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonsters.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", cardMonsters.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", cardMonsters.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", cardMonsters.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", cardMonsters.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -718,62 +718,62 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 {
                     card = new CardMonsters
                     {
-                        id = reader.GetString("card_monster_id"),
-                        image = reader.GetString("image"),
-                        level = reader.GetInt32("level"),
-                        quality = reader.GetInt32("quality"),
-                        experiment = reader.GetInt32("experiment"),
-                        star = reader.GetInt32("star"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("card_monster_id"),
+                        Image = reader.GetString("image"),
+                        Level = reader.GetInt32("level"),
+                        Quality = reader.GetInt32("quality"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Star = reader.GetInt32("star"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                     };
                 }
             }
@@ -803,70 +803,70 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             {
                 CardMonsters monsters = new CardMonsters
                 {
-                    id = reader.GetString("card_monster_id"),
-                    name = reader.GetString("name"),
-                    image = reader.GetString("image"),
-                    rare = reader.GetString("rare"),
-                    quality = reader.GetInt32("quality"),
-                    type = reader.GetString("type"),
-                    star = reader.GetInt32("star"),
-                    level = reader.GetInt32("level"),
-                    experiment = reader.GetInt32("experiment"),
-                    quantity = reader.GetInt32("quantity"),
-                    block = reader.GetBoolean("block"),
-                    team_id = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
-                    position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
-                    power = reader.GetDouble("power"),
-                    health = reader.GetDouble("health"),
-                    physical_attack = reader.GetDouble("physical_attack"),
-                    physical_defense = reader.GetDouble("physical_defense"),
-                    magical_attack = reader.GetDouble("magical_attack"),
-                    magical_defense = reader.GetDouble("magical_defense"),
-                    chemical_attack = reader.GetDouble("chemical_attack"),
-                    chemical_defense = reader.GetDouble("chemical_defense"),
-                    atomic_attack = reader.GetDouble("atomic_attack"),
-                    atomic_defense = reader.GetDouble("atomic_defense"),
-                    mental_attack = reader.GetDouble("mental_attack"),
-                    mental_defense = reader.GetDouble("mental_defense"),
-                    speed = reader.GetDouble("speed"),
-                    critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                    critical_rate = reader.GetDouble("critical_rate"),
-                    critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                    ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                    penetration_rate = reader.GetDouble("penetration_rate"),
-                    penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                    evasion_rate = reader.GetDouble("evasion_rate"),
-                    damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                    ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                    absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                    vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                    vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                    accuracy_rate = reader.GetDouble("accuracy_rate"),
-                    lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                    shield_strength = reader.GetDouble("shield_strength"),
-                    tenacity = reader.GetDouble("tenacity"),
-                    resistance_rate = reader.GetDouble("resistance_rate"),
-                    combo_rate = reader.GetDouble("combo_rate"),
-                    ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                    combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                    combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                    stun_rate = reader.GetDouble("stun_rate"),
-                    ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                    reflection_rate = reader.GetDouble("reflection_rate"),
-                    ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                    reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                    reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                    mana = reader.GetFloat("mana"),
-                    mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                    damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                    resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                    damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                    resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                    normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                    normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                    skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                    skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
-                    description = reader.GetString("description"),
+                    Id = reader.GetString("card_monster_id"),
+                    Name = reader.GetString("name"),
+                    Image = reader.GetString("image"),
+                    Rare = reader.GetString("rare"),
+                    Quality = reader.GetInt32("quality"),
+                    Type = reader.GetString("type"),
+                    Star = reader.GetInt32("star"),
+                    Level = reader.GetInt32("level"),
+                    Experiment = reader.GetInt32("experiment"),
+                    Quantity = reader.GetInt32("quantity"),
+                    Block = reader.GetBoolean("block"),
+                    TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
+                    Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
+                    Power = reader.GetDouble("power"),
+                    Health = reader.GetDouble("health"),
+                    PhysicalAttack = reader.GetDouble("physical_attack"),
+                    PhysicalDefense = reader.GetDouble("physical_defense"),
+                    MagicalAttack = reader.GetDouble("magical_attack"),
+                    MagicalDefense = reader.GetDouble("magical_defense"),
+                    ChemicalAttack = reader.GetDouble("chemical_attack"),
+                    ChemicalDefense = reader.GetDouble("chemical_defense"),
+                    AtomicAttack = reader.GetDouble("atomic_attack"),
+                    AtomicDefense = reader.GetDouble("atomic_defense"),
+                    MentalAttack = reader.GetDouble("mental_attack"),
+                    MentalDefense = reader.GetDouble("mental_defense"),
+                    Speed = reader.GetDouble("speed"),
+                    CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                    CriticalRate = reader.GetDouble("critical_rate"),
+                    CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                    IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                    PenetrationRate = reader.GetDouble("penetration_rate"),
+                    PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                    EvasionRate = reader.GetDouble("evasion_rate"),
+                    DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                    IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                    AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                    VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                    VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                    AccuracyRate = reader.GetDouble("accuracy_rate"),
+                    LifestealRate = reader.GetDouble("lifesteal_rate"),
+                    ShieldStrength = reader.GetDouble("shield_strength"),
+                    Tenacity = reader.GetDouble("tenacity"),
+                    ResistanceRate = reader.GetDouble("resistance_rate"),
+                    ComboRate = reader.GetDouble("combo_rate"),
+                    IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                    ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                    ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                    StunRate = reader.GetDouble("stun_rate"),
+                    IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                    ReflectionRate = reader.GetDouble("reflection_rate"),
+                    IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                    ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                    ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                    Mana = reader.GetFloat("mana"),
+                    ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                    DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                    ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                    DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                    ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                    NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                    NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                    SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                    SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                    Description = reader.GetString("description"),
                 };
 
                 cardMonsters.Add(monsters);

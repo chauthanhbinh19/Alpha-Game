@@ -57,15 +57,15 @@ public class UserBooksController : MonoBehaviour
             GameObject bookObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = book.name.Replace("_", " ");
+            Title.text = book.Name.Replace("_", " ");
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
             rareImage.texture = rareTexture;
 
             Button button = bookObject.GetComponent<Button>();
@@ -118,7 +118,7 @@ public class UserBooksController : MonoBehaviour
             GameObject bookObject = Instantiate(PositionPrefab, PositionPanel);
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -221,23 +221,23 @@ public class UserBooksController : MonoBehaviour
         if (obj is Books book)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
 
             ImageManager.Instance.ChangeSizeImage(Image, texture, 700f);
             Image.texture = texture;
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = book.name;
+            name.text = book.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(book.power, false);
+            power.text = NumberFormatter.FormatNumber(book.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -271,9 +271,9 @@ public class UserBooksController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Books currentCard = new Books();
-                currentCard = UserBooksService.Create().GetUserBooksById(User.CurrentUserId, book.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                currentCard = UserBooksService.Create().GetUserBooksById(User.CurrentUserId, book.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
@@ -297,9 +297,9 @@ public class UserBooksController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Books currentCard = UserBooksService.Create().GetUserBooksById(User.CurrentUserId, book.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Books currentCard = UserBooksService.Create().GetUserBooksById(User.CurrentUserId, book.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -356,67 +356,67 @@ public class UserBooksController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (book.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (book.Star + 1).ToString();
             }
             GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture cardTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             cardImage.texture = cardTexture;
 
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = book.quantity.ToString() + "/" + (book.star + 1).ToString();
+            cardQuantity.text = book.Quantity.ToString() + "/" + (book.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(book.star, currentObject);
+            UIManager.Instance.CreateStarUI(book.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = book.star + 1;
+                int requiredQuantity = book.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = book.quantity >= requiredQuantity;
+                bool hasEnoughCards = book.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + book.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + book.Quantity >= requiredQuantity;
 
                 if (hasEnoughCards || hasEnoughItems)
                 {
                     // Giảm số lượng thẻ bài trước
-                    if (book.quantity >= requiredQuantity)
+                    if (book.Quantity >= requiredQuantity)
                     {
-                        book.quantity -= requiredQuantity;
+                        book.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - book.quantity;
-                        book.quantity = 0; // Dùng hết thẻ bài
+                        int remainingRequired = requiredQuantity - book.Quantity;
+                        book.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -430,17 +430,17 @@ public class UserBooksController : MonoBehaviour
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserBooksService.Create().GetNewBreakthroughPower(book, increasePerUpgrade);
-                    UserBooksService.Create().UpdateBooksBreakthrough(newCard, book.star + 1, book.quantity);
+                    UserBooksService.Create().UpdateBooksBreakthrough(newCard, book.Star + 1, book.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    BooksGalleryService.Create().UpdateStarBooksGallery(book.id, book.star + 1);
+                    BooksGalleryService.Create().UpdateStarBooksGallery(book.Id, book.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(book.star, currentObject);
+                    UIManager.Instance.CreateStarUI(book.Star, currentObject);
                 }
                 else
                 {

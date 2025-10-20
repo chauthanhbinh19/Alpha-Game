@@ -14,9 +14,9 @@ public class PuppetGalleryService : IPuppetGalleryService
         return new PuppetGalleryService(new PuppetGalleryRepository());
     }
 
-    public List<Puppet> GetPuppetCollection(string type, int pageSize, int offset, string rare)
+    public List<Puppets> GetPuppetCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Puppet> list = _puppetGalleryRepository.GetPuppetCollection(type, pageSize, offset, rare);
+        List<Puppets> list = _puppetGalleryRepository.GetPuppetCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class PuppetGalleryService : IPuppetGalleryService
         _puppetGalleryRepository.UpdateStatusPuppetGallery(Id);
     }
 
-    public Puppet SumPowerPuppetGallery()
+    public Puppets SumPowerPuppetGallery()
     {
         return _puppetGalleryRepository.SumPowerPuppetGallery();
     }

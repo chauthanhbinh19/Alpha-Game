@@ -4,11 +4,11 @@ public interface ICardSpellService
 {
     List<string> GetUniqueCardSpellTypes();
     List<string> GetUniqueCardSpellId();
-    List<CardSpell> GetCardSpell(string type, int pageSize, int offset, string rare);
+    List<CardSpells> GetCardSpell(string type, int pageSize, int offset, string rare);
     int GetCardSpellCount(string type, string rare);
-    List<CardSpell> GetCardSpellRandom(string type, int pageSize);
-    List<CardSpell> GetAllCardSpell(string type);
-    CardSpell GetCardSpellById(string Id);
-    List<CardSpell> GetCardSpellWithPrice(string type, int pageSize, int offset);
+    List<CardSpells> GetCardSpellRandom(string type, int pageSize);
+    List<CardSpells> GetAllCardSpell(string type);
+    CardSpells GetCardSpellById(string Id);
+    List<CardSpells> GetCardSpellWithPrice(string type, int pageSize, int offset);
     int GetCardSpellWithPriceCount(string type);
 }

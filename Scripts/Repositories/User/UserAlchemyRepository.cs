@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class UserAlchemyRepository : IUserAlchemyRepository
 {
-    public List<Alchemy> GetUserAlchemy(string user_id, string type, int pageSize, int offset, string rare)
+    public List<Alchemies> GetUserAlchemy(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Alchemy> Alchemys = new List<Alchemy>();
+        List<Alchemies> Alchemys = new List<Alchemies>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -29,67 +29,67 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Alchemy Alchemy = new Alchemy
+                    Alchemies Alchemy = new Alchemies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        rare = reader.GetString("rare"),
-                        quality = reader.GetInt32("quality"),
-                        star = reader.GetInt32("star"),
-                        level = reader.GetInt32("level"),
-                        experiment = reader.GetInt32("experiment"),
-                        quantity = reader.GetInt32("quantity"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Rare = reader.GetString("rare"),
+                        Quality = reader.GetInt32("quality"),
+                        Star = reader.GetInt32("star"),
+                        Level = reader.GetInt32("level"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         // percent_all_health = reader.GetDouble("percent_all_health"),
                         // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
                         // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
@@ -101,7 +101,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                         // percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
                         // percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
                         // percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        description = reader.GetString("description")
+                        Description = reader.GetString("description")
                     };
 
                     Alchemys.Add(Alchemy);
@@ -142,7 +142,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
         }
         return count;
     }
-    public bool InsertUserAlchemy(Alchemy Alchemy)
+    public bool InsertUserAlchemy(Alchemies Alchemy)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -158,7 +158,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@alchemy_id", Alchemy.id);
+                checkCommand.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -202,64 +202,64 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 ";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@alchemy_id", Alchemy.id);
-                    command.Parameters.AddWithValue("@rare", Alchemy.rare);
+                    command.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
+                    command.Parameters.AddWithValue("@rare", Alchemy.Rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Alchemy.rare));
+                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Alchemy.Rare));
                     command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", Alchemy.quantity);
-                    command.Parameters.AddWithValue("@power", Alchemy.power);
-                    command.Parameters.AddWithValue("@health", Alchemy.health);
-                    command.Parameters.AddWithValue("@physical_attack", Alchemy.physical_attack);
-                    command.Parameters.AddWithValue("@physical_defense", Alchemy.physical_defense);
-                    command.Parameters.AddWithValue("@magical_attack", Alchemy.magical_attack);
-                    command.Parameters.AddWithValue("@magical_defense", Alchemy.magical_defense);
-                    command.Parameters.AddWithValue("@chemical_attack", Alchemy.chemical_attack);
-                    command.Parameters.AddWithValue("@chemical_defense", Alchemy.chemical_defense);
-                    command.Parameters.AddWithValue("@atomic_attack", Alchemy.atomic_attack);
-                    command.Parameters.AddWithValue("@atomic_defense", Alchemy.atomic_defense);
-                    command.Parameters.AddWithValue("@mental_attack", Alchemy.mental_attack);
-                    command.Parameters.AddWithValue("@mental_defense", Alchemy.mental_defense);
-                    command.Parameters.AddWithValue("@speed", Alchemy.speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Alchemy.critical_damage_rate);
-                    command.Parameters.AddWithValue("@critical_rate", Alchemy.critical_rate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Alchemy.critical_resistance_rate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Alchemy.ignore_critical_rate);
-                    command.Parameters.AddWithValue("@penetration_rate", Alchemy.penetration_rate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Alchemy.penetration_resistance_rate);
-                    command.Parameters.AddWithValue("@evasion_rate", Alchemy.evasion_rate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Alchemy.damage_absorption_rate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Alchemy.ignore_damage_absorption_rate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Alchemy.absorbed_damage_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Alchemy.vitality_regeneration_rate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Alchemy.vitality_regeneration_resistance_rate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Alchemy.accuracy_rate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Alchemy.lifesteal_rate);
-                    command.Parameters.AddWithValue("@shield_strength", Alchemy.shield_strength);
-                    command.Parameters.AddWithValue("@tenacity", Alchemy.tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Alchemy.resistance_rate);
-                    command.Parameters.AddWithValue("@combo_rate", Alchemy.combo_rate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Alchemy.ignore_combo_rate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Alchemy.combo_damage_rate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Alchemy.combo_resistance_rate);
-                    command.Parameters.AddWithValue("@stun_rate", Alchemy.stun_rate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Alchemy.ignore_stun_rate);
-                    command.Parameters.AddWithValue("@reflection_rate", Alchemy.reflection_rate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Alchemy.ignore_reflection_rate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Alchemy.reflection_damage_rate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Alchemy.reflection_resistance_rate);
-                    command.Parameters.AddWithValue("@mana", Alchemy.mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Alchemy.mana_regeneration_rate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Alchemy.damage_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Alchemy.resistance_to_different_faction_rate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Alchemy.damage_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Alchemy.resistance_to_same_faction_rate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Alchemy.normal_damage_rate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Alchemy.normal_resistance_rate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Alchemy.skill_damage_rate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Alchemy.skill_resistance_rate);
+                    command.Parameters.AddWithValue("@quantity", Alchemy.Quantity);
+                    command.Parameters.AddWithValue("@power", Alchemy.Power);
+                    command.Parameters.AddWithValue("@health", Alchemy.Health);
+                    command.Parameters.AddWithValue("@physical_attack", Alchemy.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", Alchemy.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", Alchemy.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", Alchemy.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", Alchemy.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", Alchemy.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", Alchemy.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", Alchemy.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", Alchemy.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", Alchemy.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", Alchemy.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", Alchemy.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", Alchemy.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", Alchemy.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", Alchemy.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", Alchemy.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", Alchemy.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", Alchemy.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", Alchemy.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Alchemy.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", Alchemy.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Alchemy.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Alchemy.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", Alchemy.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", Alchemy.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", Alchemy.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", Alchemy.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", Alchemy.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", Alchemy.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", Alchemy.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", Alchemy.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", Alchemy.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", Alchemy.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", Alchemy.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", Alchemy.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", Alchemy.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", Alchemy.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", Alchemy.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", Alchemy.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", Alchemy.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Alchemy.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Alchemy.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Alchemy.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Alchemy.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", Alchemy.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", Alchemy.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", Alchemy.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", Alchemy.SkillResistanceRate);
 
                     // command.Parameters.AddWithValue("@percent_all_health", Alchemy.percent_all_health);
                     // command.Parameters.AddWithValue("@percent_all_physical_attack", Alchemy.percent_all_physical_attack);
@@ -293,8 +293,8 @@ public class UserAlchemyRepository : IUserAlchemyRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@alchemy_id", Alchemy.id);
-                    updateCommand.Parameters.AddWithValue("@quantity", Alchemy.quantity);
+                    updateCommand.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", Alchemy.Quantity);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -309,7 +309,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
         }
         return true;
     }
-    public bool UpdateAlchemyLevel(Alchemy Alchemy, int cardLevel)
+    public bool UpdateAlchemyLevel(Alchemies Alchemy, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -348,58 +348,58 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 WHERE user_id = @user_id AND alchemy_id = @alchemy_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@alchemy_id", Alchemy.id);
+                command.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", Alchemy.power);
-                command.Parameters.AddWithValue("@health", Alchemy.health);
-                command.Parameters.AddWithValue("@physical_attack", Alchemy.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", Alchemy.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", Alchemy.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", Alchemy.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", Alchemy.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", Alchemy.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", Alchemy.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", Alchemy.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", Alchemy.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", Alchemy.mental_defense);
-                command.Parameters.AddWithValue("@speed", Alchemy.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", Alchemy.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", Alchemy.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", Alchemy.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", Alchemy.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", Alchemy.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", Alchemy.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", Alchemy.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", Alchemy.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Alchemy.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", Alchemy.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", Alchemy.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Alchemy.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", Alchemy.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", Alchemy.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", Alchemy.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", Alchemy.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", Alchemy.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", Alchemy.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", Alchemy.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", Alchemy.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", Alchemy.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", Alchemy.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", Alchemy.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", Alchemy.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", Alchemy.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", Alchemy.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", Alchemy.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", Alchemy.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", Alchemy.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Alchemy.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Alchemy.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Alchemy.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Alchemy.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", Alchemy.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", Alchemy.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", Alchemy.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", Alchemy.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", Alchemy.Power);
+                command.Parameters.AddWithValue("@health", Alchemy.Health);
+                command.Parameters.AddWithValue("@physical_attack", Alchemy.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", Alchemy.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", Alchemy.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", Alchemy.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", Alchemy.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", Alchemy.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", Alchemy.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", Alchemy.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", Alchemy.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", Alchemy.MentalDefense);
+                command.Parameters.AddWithValue("@speed", Alchemy.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", Alchemy.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", Alchemy.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", Alchemy.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", Alchemy.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", Alchemy.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", Alchemy.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", Alchemy.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", Alchemy.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Alchemy.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", Alchemy.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", Alchemy.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Alchemy.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", Alchemy.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", Alchemy.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", Alchemy.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", Alchemy.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", Alchemy.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", Alchemy.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", Alchemy.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", Alchemy.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", Alchemy.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", Alchemy.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", Alchemy.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", Alchemy.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", Alchemy.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", Alchemy.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", Alchemy.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", Alchemy.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", Alchemy.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Alchemy.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Alchemy.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Alchemy.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Alchemy.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", Alchemy.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", Alchemy.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", Alchemy.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", Alchemy.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -410,7 +410,7 @@ public class UserAlchemyRepository : IUserAlchemyRepository
         }
         return true;
     }
-    public bool UpdateAlchemyBreakthrough(Alchemy Alchemy, int star, int quantity)
+    public bool UpdateAlchemyBreakthrough(Alchemies Alchemy, int star, int quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -449,59 +449,59 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 WHERE user_id = @user_id AND alchemy_id = @alchemy_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@alchemy_id", Alchemy.id);
+                command.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", Alchemy.power);
-                command.Parameters.AddWithValue("@health", Alchemy.health);
-                command.Parameters.AddWithValue("@physical_attack", Alchemy.physical_attack);
-                command.Parameters.AddWithValue("@physical_defense", Alchemy.physical_defense);
-                command.Parameters.AddWithValue("@magical_attack", Alchemy.magical_attack);
-                command.Parameters.AddWithValue("@magical_defense", Alchemy.magical_defense);
-                command.Parameters.AddWithValue("@chemical_attack", Alchemy.chemical_attack);
-                command.Parameters.AddWithValue("@chemical_defense", Alchemy.chemical_defense);
-                command.Parameters.AddWithValue("@atomic_attack", Alchemy.atomic_attack);
-                command.Parameters.AddWithValue("@atomic_defense", Alchemy.atomic_defense);
-                command.Parameters.AddWithValue("@mental_attack", Alchemy.mental_attack);
-                command.Parameters.AddWithValue("@mental_defense", Alchemy.mental_defense);
-                command.Parameters.AddWithValue("@speed", Alchemy.speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", Alchemy.critical_damage_rate);
-                command.Parameters.AddWithValue("@critical_rate", Alchemy.critical_rate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", Alchemy.critical_resistance_rate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", Alchemy.ignore_critical_rate);
-                command.Parameters.AddWithValue("@penetration_rate", Alchemy.penetration_rate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", Alchemy.penetration_resistance_rate);
-                command.Parameters.AddWithValue("@evasion_rate", Alchemy.evasion_rate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", Alchemy.damage_absorption_rate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Alchemy.ignore_damage_absorption_rate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", Alchemy.absorbed_damage_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", Alchemy.vitality_regeneration_rate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Alchemy.vitality_regeneration_resistance_rate);
-                command.Parameters.AddWithValue("@accuracy_rate", Alchemy.accuracy_rate);
-                command.Parameters.AddWithValue("@lifesteal_rate", Alchemy.lifesteal_rate);
-                command.Parameters.AddWithValue("@shield_strength", Alchemy.shield_strength);
-                command.Parameters.AddWithValue("@tenacity", Alchemy.tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", Alchemy.resistance_rate);
-                command.Parameters.AddWithValue("@combo_rate", Alchemy.combo_rate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", Alchemy.ignore_combo_rate);
-                command.Parameters.AddWithValue("@combo_damage_rate", Alchemy.combo_damage_rate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", Alchemy.combo_resistance_rate);
-                command.Parameters.AddWithValue("@stun_rate", Alchemy.stun_rate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", Alchemy.ignore_stun_rate);
-                command.Parameters.AddWithValue("@reflection_rate", Alchemy.reflection_rate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", Alchemy.ignore_reflection_rate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", Alchemy.reflection_damage_rate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", Alchemy.reflection_resistance_rate);
-                command.Parameters.AddWithValue("@mana", Alchemy.mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", Alchemy.mana_regeneration_rate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Alchemy.damage_to_different_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Alchemy.resistance_to_different_faction_rate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Alchemy.damage_to_same_faction_rate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Alchemy.resistance_to_same_faction_rate);
-                command.Parameters.AddWithValue("@normal_damage_rate", Alchemy.normal_damage_rate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", Alchemy.normal_resistance_rate);
-                command.Parameters.AddWithValue("@skill_damage_rate", Alchemy.skill_damage_rate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", Alchemy.skill_resistance_rate);
+                command.Parameters.AddWithValue("@power", Alchemy.Power);
+                command.Parameters.AddWithValue("@health", Alchemy.Health);
+                command.Parameters.AddWithValue("@physical_attack", Alchemy.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", Alchemy.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", Alchemy.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", Alchemy.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", Alchemy.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", Alchemy.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", Alchemy.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", Alchemy.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", Alchemy.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", Alchemy.MentalDefense);
+                command.Parameters.AddWithValue("@speed", Alchemy.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", Alchemy.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", Alchemy.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", Alchemy.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", Alchemy.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", Alchemy.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", Alchemy.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", Alchemy.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", Alchemy.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Alchemy.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", Alchemy.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", Alchemy.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Alchemy.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", Alchemy.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", Alchemy.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", Alchemy.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", Alchemy.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", Alchemy.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", Alchemy.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", Alchemy.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", Alchemy.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", Alchemy.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", Alchemy.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", Alchemy.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", Alchemy.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", Alchemy.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", Alchemy.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", Alchemy.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", Alchemy.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", Alchemy.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Alchemy.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Alchemy.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Alchemy.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Alchemy.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", Alchemy.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", Alchemy.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", Alchemy.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", Alchemy.SkillResistanceRate);
                 command.ExecuteNonQuery();
             }
             catch (MySqlException ex)
@@ -512,9 +512,9 @@ public class UserAlchemyRepository : IUserAlchemyRepository
         }
         return true;
     }
-    public Alchemy GetUserAlchemyById(string user_id, string Id)
+    public Alchemies GetUserAlchemyById(string user_id, string Id)
     {
-        Alchemy card = new Alchemy();
+        Alchemies card = new Alchemies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -529,63 +529,63 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    card = new Alchemy
+                    card = new Alchemies
                     {
-                        id = reader.GetString("alchemy_id"),
-                        level = reader.GetInt32("level"),
-                        quality = reader.GetInt32("quality"),
-                        experiment = reader.GetInt32("experiment"),
-                        star = reader.GetInt32("star"),
-                        power = reader.GetDouble("power"),
-                        health = reader.GetDouble("health"),
-                        physical_attack = reader.GetDouble("physical_attack"),
-                        physical_defense = reader.GetDouble("physical_defense"),
-                        magical_attack = reader.GetDouble("magical_attack"),
-                        magical_defense = reader.GetDouble("magical_defense"),
-                        chemical_attack = reader.GetDouble("chemical_attack"),
-                        chemical_defense = reader.GetDouble("chemical_defense"),
-                        atomic_attack = reader.GetDouble("atomic_attack"),
-                        atomic_defense = reader.GetDouble("atomic_defense"),
-                        mental_attack = reader.GetDouble("mental_attack"),
-                        mental_defense = reader.GetDouble("mental_defense"),
-                        speed = reader.GetDouble("speed"),
-                        critical_damage_rate = reader.GetDouble("critical_damage_rate"),
-                        critical_rate = reader.GetDouble("critical_rate"),
-                        critical_resistance_rate = reader.GetDouble("critical_resistance_rate"),
-                        ignore_critical_rate = reader.GetDouble("ignore_critical_rate"),
-                        penetration_rate = reader.GetDouble("penetration_rate"),
-                        penetration_resistance_rate = reader.GetDouble("penetration_resistance_rate"),
-                        evasion_rate = reader.GetDouble("evasion_rate"),
-                        damage_absorption_rate = reader.GetDouble("damage_absorption_rate"),
-                        ignore_damage_absorption_rate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        absorbed_damage_rate = reader.GetDouble("absorbed_damage_rate"),
-                        vitality_regeneration_rate = reader.GetDouble("vitality_regeneration_rate"),
-                        vitality_regeneration_resistance_rate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        accuracy_rate = reader.GetDouble("accuracy_rate"),
-                        lifesteal_rate = reader.GetDouble("lifesteal_rate"),
-                        shield_strength = reader.GetDouble("shield_strength"),
-                        tenacity = reader.GetDouble("tenacity"),
-                        resistance_rate = reader.GetDouble("resistance_rate"),
-                        combo_rate = reader.GetDouble("combo_rate"),
-                        ignore_combo_rate = reader.GetDouble("ignore_combo_rate"),
-                        combo_damage_rate = reader.GetDouble("combo_damage_rate"),
-                        combo_resistance_rate = reader.GetDouble("combo_resistance_rate"),
-                        stun_rate = reader.GetDouble("stun_rate"),
-                        ignore_stun_rate = reader.GetDouble("ignore_stun_rate"),
-                        reflection_rate = reader.GetDouble("reflection_rate"),
-                        ignore_reflection_rate = reader.GetDouble("ignore_reflection_rate"),
-                        reflection_damage_rate = reader.GetDouble("reflection_damage_rate"),
-                        reflection_resistance_rate = reader.GetDouble("reflection_resistance_rate"),
-                        mana = reader.GetFloat("mana"),
-                        mana_regeneration_rate = reader.GetDouble("mana_regeneration_rate"),
-                        damage_to_different_faction_rate = reader.GetDouble("damage_to_different_faction_rate"),
-                        resistance_to_different_faction_rate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        damage_to_same_faction_rate = reader.GetDouble("damage_to_same_faction_rate"),
-                        resistance_to_same_faction_rate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        normal_damage_rate = reader.GetDouble("normal_damage_rate"),
-                        normal_resistance_rate = reader.GetDouble("normal_resistance_rate"),
-                        skill_damage_rate = reader.GetDouble("skill_damage_rate"),
-                        skill_resistance_rate = reader.GetDouble("skill_resistance_rate"),
+                        Id = reader.GetString("alchemy_id"),
+                        Level = reader.GetInt32("level"),
+                        Quality = reader.GetInt32("quality"),
+                        Experiment = reader.GetInt32("experiment"),
+                        Star = reader.GetInt32("star"),
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                     };
                 }
             }
@@ -597,9 +597,9 @@ public class UserAlchemyRepository : IUserAlchemyRepository
         }
         return card;
     }
-    public Alchemy SumPowerUserAlchemy()
+    public Alchemies SumPowerUserAlchemy()
     {
-        Alchemy sumAlchemy = new Alchemy();
+        Alchemies sumAlchemy = new Alchemies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -665,56 +665,56 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 {
                     if (reader.Read())
                     {
-                        sumAlchemy.power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumAlchemy.health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumAlchemy.physical_attack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumAlchemy.physical_defense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumAlchemy.magical_attack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumAlchemy.magical_defense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumAlchemy.chemical_attack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumAlchemy.chemical_defense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumAlchemy.atomic_attack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumAlchemy.atomic_defense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumAlchemy.mental_attack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumAlchemy.mental_defense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumAlchemy.speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumAlchemy.critical_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumAlchemy.critical_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumAlchemy.critical_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumAlchemy.ignore_critical_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumAlchemy.penetration_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumAlchemy.penetration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumAlchemy.evasion_rate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumAlchemy.damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumAlchemy.ignore_damage_absorption_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumAlchemy.absorbed_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumAlchemy.vitality_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumAlchemy.vitality_regeneration_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumAlchemy.accuracy_rate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumAlchemy.lifesteal_rate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumAlchemy.shield_strength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumAlchemy.tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumAlchemy.resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumAlchemy.combo_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumAlchemy.ignore_combo_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumAlchemy.combo_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumAlchemy.combo_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumAlchemy.stun_rate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumAlchemy.ignore_stun_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumAlchemy.reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumAlchemy.ignore_reflection_rate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumAlchemy.reflection_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumAlchemy.reflection_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumAlchemy.mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumAlchemy.mana_regeneration_rate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumAlchemy.damage_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumAlchemy.resistance_to_different_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumAlchemy.damage_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumAlchemy.resistance_to_same_faction_rate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumAlchemy.normal_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumAlchemy.normal_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumAlchemy.skill_damage_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumAlchemy.skill_resistance_rate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        sumAlchemy.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                        sumAlchemy.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                        sumAlchemy.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                        sumAlchemy.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                        sumAlchemy.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                        sumAlchemy.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                        sumAlchemy.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                        sumAlchemy.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                        sumAlchemy.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                        sumAlchemy.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                        sumAlchemy.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                        sumAlchemy.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                        sumAlchemy.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                        sumAlchemy.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                        sumAlchemy.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                        sumAlchemy.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                        sumAlchemy.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                        sumAlchemy.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                        sumAlchemy.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                        sumAlchemy.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                        sumAlchemy.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                        sumAlchemy.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                        sumAlchemy.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                        sumAlchemy.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                        sumAlchemy.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                        sumAlchemy.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                        sumAlchemy.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                        sumAlchemy.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                        sumAlchemy.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                        sumAlchemy.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                        sumAlchemy.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                        sumAlchemy.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                        sumAlchemy.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                        sumAlchemy.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                        sumAlchemy.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                        sumAlchemy.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                        sumAlchemy.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                        sumAlchemy.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                        sumAlchemy.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                        sumAlchemy.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                        sumAlchemy.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                        sumAlchemy.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                        sumAlchemy.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                        sumAlchemy.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                        sumAlchemy.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                        sumAlchemy.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                        sumAlchemy.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                        sumAlchemy.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                        sumAlchemy.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                        sumAlchemy.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
                     }
                 }
 

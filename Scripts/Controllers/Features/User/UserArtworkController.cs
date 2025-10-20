@@ -48,17 +48,17 @@ public class UserArtworkController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserArtwork(List<Artwork> alchemies, Transform DictionaryContentPanel)
+    public void CreateUserArtwork(List<Artworks> alchemies, Transform DictionaryContentPanel)
     {
         foreach (var Artwork in alchemies)
         {
             GameObject ArtworkObject = Instantiate(ArtworkFirstPrefab, DictionaryContentPanel);
 
             Text Title = ArtworkObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = Artwork.name.Replace("_", " ");
+            Title.text = Artwork.Name.Replace("_", " ");
 
             RawImage Image = ArtworkObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -72,7 +72,7 @@ public class UserArtworkController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             RawImage rareImage = ArtworkObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -83,7 +83,7 @@ public class UserArtworkController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowArtworkDetails(Artwork Artwork, GameObject currentObject, int buttonType = 1)
+    public void ShowArtworkDetails(Artworks Artwork, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -134,25 +134,25 @@ public class UserArtworkController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Artwork Artwork)
+        if (obj is Artworks Artwork)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = Artwork.name;
+            name.text = Artwork.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(Artwork.power, false);
+            power.text = NumberFormatter.FormatNumber(Artwork.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -170,7 +170,7 @@ public class UserArtworkController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Artwork Artwork)
+        if (obj is Artworks Artwork)
         {
             PropertyInfo[] properties = Artwork.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, Artwork, increasePerLevel, currentObject);
@@ -185,17 +185,17 @@ public class UserArtworkController : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Artwork currentCard = new Artwork();
-                currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Artworks currentCard = new Artworks();
+                currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Artwork newCard = new Artwork();
+                    Artworks newCard = new Artworks();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserArtworkService.Create().GetNewLevelPower(Artwork, increasePerLevel);
@@ -212,9 +212,9 @@ public class UserArtworkController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Artwork currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Artworks currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -229,7 +229,7 @@ public class UserArtworkController : MonoBehaviour
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    Artwork newCard = UserArtworkService.Create().GetNewLevelPower(Artwork, levelsGained * increasePerLevel);
+                    Artworks newCard = UserArtworkService.Create().GetNewLevelPower(Artwork, levelsGained * increasePerLevel);
                     UserArtworkService.Create().UpdateArtworkLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -253,7 +253,7 @@ public class UserArtworkController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Artwork Artwork)
+        if (obj is Artworks Artwork)
         {
             PropertyInfo[] properties = Artwork.GetType().GetProperties();
             foreach (var property in properties)
@@ -271,67 +271,67 @@ public class UserArtworkController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.image.Replace(".png", "");
+                fileNameWithoutExtension = items1.Image.Replace(".png", "");
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (Artwork.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (Artwork.Star + 1).ToString();
             }
             GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = Artwork.image.Replace(".png", "");
+            fileNameWithoutExtension = Artwork.Image.Replace(".png", "");
             Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             magicFormationImage.texture = magicFormationTexture;
 
             TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = Artwork.quantity.ToString() + "/" + (Artwork.star + 1).ToString();
+            magicFormationQuantity.text = Artwork.Quantity.ToString() + "/" + (Artwork.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(Artwork.star, currentObject);
+            UIManager.Instance.CreateStarUI(Artwork.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = Artwork.star + 1;
+                int requiredQuantity = Artwork.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = Artwork.quantity >= requiredQuantity;
+                bool hasEnoughMagicFormation = Artwork.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + Artwork.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + Artwork.Quantity >= requiredQuantity;
 
                 if (hasEnoughMagicFormation || hasEnoughItems)
                 {
                     // Giảm số lượng vòng phép trước
-                    if (Artwork.quantity >= requiredQuantity)
+                    if (Artwork.Quantity >= requiredQuantity)
                     {
-                        Artwork.quantity -= requiredQuantity;
+                        Artwork.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - Artwork.quantity;
-                        Artwork.quantity = 0; // Dùng hết vòng phép
+                        int remainingRequired = requiredQuantity - Artwork.Quantity;
+                        Artwork.Quantity = 0; // Dùng hết vòng phép
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -341,21 +341,21 @@ public class UserArtworkController : MonoBehaviour
                         userItemsService.UpdateUserItemsQuantity(items1);
                     }
                     // Cập nhật cấp sao (Star)
-                    Artwork newArtwork = new Artwork();
+                    Artworks newArtwork = new Artworks();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newArtwork = UserArtworkService.Create().GetNewBreakthroughPower(Artwork, increasePerUpgrade);
-                    UserArtworkService.Create().UpdateArtworkBreakthrough(newArtwork, Artwork.star + 1, Artwork.quantity);
+                    UserArtworkService.Create().UpdateArtworkBreakthrough(newArtwork, Artwork.Star + 1, Artwork.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    ArtworkGalleryService.Create().UpdateStarArtworkGallery(Artwork.id, Artwork.star + 1);
+                    ArtworkGalleryService.Create().UpdateStarArtworkGallery(Artwork.Id, Artwork.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(Artwork.star, currentObject);
+                    UIManager.Instance.CreateStarUI(Artwork.Star, currentObject);
                 }
                 else
                 {

@@ -38,17 +38,17 @@ public class AlchemyGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateAlchemyGallery(List<Alchemy> alchemies, Transform DictionaryContentPanel)
+    public void CreateAlchemyGallery(List<Alchemies> alchemies, Transform DictionaryContentPanel)
     {
         foreach (var alchemy in alchemies)
         {
             GameObject alchemyObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = alchemy.name.Replace("_", " ");
+            Title.text = alchemy.Name.Replace("_", " ");
 
             RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -63,23 +63,23 @@ public class AlchemyGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = alchemyObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = alchemyObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = alchemyObject.transform.Find("Unlock").GetComponent<Button>();
-            if (alchemy.status.Equals("available"))
+            if (alchemy.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (alchemy.status.Equals("pending"))
+            else if (alchemy.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (alchemy.status.Equals("block"))
+            else if (alchemy.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -89,7 +89,7 @@ public class AlchemyGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var alchemyGalleryService = AlchemyGalleryService.Create();
-                alchemyGalleryService.UpdateStatusAlchemyGallery(alchemy.id);
+                alchemyGalleryService.UpdateStatusAlchemyGallery(alchemy.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -103,7 +103,7 @@ public class AlchemyGalleryController : MonoBehaviour
             });
 
             Button Upgrade = alchemyObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((alchemy.current_star < alchemy.temp_star) && alchemy.status.Equals("available"))
+            if ((alchemy.CurrentStar < alchemy.TempStar) && alchemy.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -115,7 +115,7 @@ public class AlchemyGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                AlchemyGalleryService.Create().UpdateAlchemyGalleryPower(alchemy.id);
+                AlchemyGalleryService.Create().UpdateAlchemyGalleryPower(alchemy.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

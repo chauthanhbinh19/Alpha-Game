@@ -38,17 +38,17 @@ public class SpiritBeastGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateSpiritBeastGallery(List<SpiritBeast> SpiritBeastList, Transform DictionaryContentPanel)
+    public void CreateSpiritBeastGallery(List<SpiritBeasts> SpiritBeastList, Transform DictionaryContentPanel)
     {
         foreach (var title in SpiritBeastList)
         {
             GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.name.Replace("_", " ");
+            Title.text = title.Name.Replace("_", " ");
 
             RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -62,23 +62,23 @@ public class SpiritBeastGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = titleObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = titleObject.transform.Find("Unlock").GetComponent<Button>();
-            if (title.status.Equals("available"))
+            if (title.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (title.status.Equals("pending"))
+            else if (title.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (title.status.Equals("block"))
+            else if (title.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -92,7 +92,7 @@ public class SpiritBeastGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var titleGalleryService = SpiritBeastGalleryService.Create();
-                titleGalleryService.UpdateStatusSpiritBeastGallery(title.id);
+                titleGalleryService.UpdateStatusSpiritBeastGallery(title.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -106,7 +106,7 @@ public class SpiritBeastGalleryController : MonoBehaviour
             });
 
             Button Upgrade = titleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((title.current_star < title.temp_star) && title.status.Equals("available"))
+            if ((title.CurrentStar < title.TempStar) && title.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -118,7 +118,7 @@ public class SpiritBeastGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                TitlesGalleryService.Create().UpdateTitlesGalleryPower(title.id);
+                TitlesGalleryService.Create().UpdateTitlesGalleryPower(title.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

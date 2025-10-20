@@ -47,17 +47,17 @@ public class TalismanController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateTalismanGallery(List<Talisman> talismans, Transform DictionaryContentPanel)
+    public void CreateTalismanGallery(List<Talismans> talismans, Transform DictionaryContentPanel)
     {
         foreach (var talisman in talismans)
         {
             GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = talisman.name.Replace("_", " ");
+            Title.text = talisman.Name.Replace("_", " ");
 
             RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,7 +71,7 @@ public class TalismanController : MonoBehaviour
             });
 
             RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -82,7 +82,7 @@ public class TalismanController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateTalismanTrade(List<Talisman> talismans, string subType, Transform currentContent,
+    public void CreateTalismanTrade(List<Talismans> talismans, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var talisman in talismans)
@@ -90,10 +90,10 @@ public class TalismanController : MonoBehaviour
             GameObject talismanObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = talisman.name.Replace("_", " ");
+            Title.text = talisman.Name.Replace("_", " ");
 
             RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = talismanObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class TalismanController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = talismanObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = talismanObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(talisman.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(talisman.Currency.Quantity, false);
 
             Button buy = talismanObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,12 +123,12 @@ public class TalismanController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(talisman.currency.quantity, talisman, subType, popupPanel, currencyPanel);
+                GetQuantity(talisman.Currency.Quantity, talisman, subType, popupPanel, currencyPanel);
             });
 
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetTalismanCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -243,14 +243,14 @@ public class TalismanController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is Talisman talisman)
+            Currencies userCurrency = new Currencies();
+            if (obj is Talismans talisman)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(talisman.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(talisman.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -274,10 +274,10 @@ public class TalismanController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Talisman talisman)
+            if (obj is Talismans talisman)
             {
-                talisman.quantity = talisman.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(talisman.currency.id, price);
+                talisman.Quantity = talisman.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(talisman.Currency.Id, price);
                 bool success = UserTalismanService.Create().InsertUserTalisman(talisman);
                 if (!success)
                 {
@@ -289,11 +289,11 @@ public class TalismanController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    TalismanGalleryService.Create().InsertTalismanGallery(talisman.id);
+                    TalismanGalleryService.Create().InsertTalismanGallery(talisman.Id);
                     currencies = UserCurrencyService.Create().GetTalismanCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

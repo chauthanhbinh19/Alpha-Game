@@ -14,9 +14,9 @@ public class CardSpellGalleryService : ICardSpellGalleryService
         return new CardSpellGalleryService(new CardSpellGalleryRepository());
     }
 
-    public List<CardSpell> GetCardSpellCollection(string type, int pageSize, int offset, string rare)
+    public List<CardSpells> GetCardSpellCollection(string type, int pageSize, int offset, string rare)
     {
-        List<CardSpell> list = _cardSpellGalleryRepository.GetCardSpellCollection(type, pageSize, offset, rare);
+        List<CardSpells> list = _cardSpellGalleryRepository.GetCardSpellCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class CardSpellGalleryService : ICardSpellGalleryService
         _cardSpellGalleryRepository.UpdateStatusCardSpellGallery(Id);
     }
 
-    public CardSpell SumPowerCardSpellGallery()
+    public CardSpells SumPowerCardSpellGallery()
     {
         return _cardSpellGalleryRepository.SumPowerCardSpellGallery();
     }

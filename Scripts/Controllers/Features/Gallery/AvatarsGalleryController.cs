@@ -45,10 +45,10 @@ public class AvatarsGalleryController : MonoBehaviour
             GameObject AvatarObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = AvatarObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = Avatar.name.Replace("_", " ");
+            Title.text = Avatar.Name.Replace("_", " ");
 
             RawImage Image = AvatarObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Avatar.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Avatar.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -62,7 +62,7 @@ public class AvatarsGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = AvatarObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Avatar.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Avatar.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage rareBackgroundImage = AvatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
@@ -71,18 +71,18 @@ public class AvatarsGalleryController : MonoBehaviour
 
             RawImage blockImage = AvatarObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = AvatarObject.transform.Find("Unlock").GetComponent<Button>();
-            if (Avatar.status.Equals("available"))
+            if (Avatar.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (Avatar.status.Equals("pending"))
+            else if (Avatar.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (Avatar.status.Equals("block"))
+            else if (Avatar.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -92,7 +92,7 @@ public class AvatarsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var AvatarGalleryService = AvatarsGalleryService.Create();
-                AvatarGalleryService.UpdateStatusAvatarsGallery(Avatar.id);
+                AvatarGalleryService.UpdateStatusAvatarsGallery(Avatar.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -106,7 +106,7 @@ public class AvatarsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = AvatarObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((Avatar.current_star < Avatar.temp_star) && Avatar.status.Equals("available"))
+            if ((Avatar.CurrentStar < Avatar.TempStar) && Avatar.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -118,7 +118,7 @@ public class AvatarsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                AvatarsGalleryService.Create().UpdateAvatarsGalleryPower(Avatar.id);
+                AvatarsGalleryService.Create().UpdateAvatarsGalleryPower(Avatar.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

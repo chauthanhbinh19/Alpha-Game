@@ -6,13 +6,13 @@ using System;
 
 public class Items
 {
-    public string id { get; set; }
-    public string name { get; set; }
-    public string image { get; set; }
-    public string type { get; set; }
-    public int price { get; set; }
-    public string description { get; set; }
-    public int quantity { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Image { get; set; }
+    public string Type { get; set; }
+    public int Price { get; set; }
+    public string Description { get; set; }
+    public int Quantity { get; set; }
     public Items()
     {
 

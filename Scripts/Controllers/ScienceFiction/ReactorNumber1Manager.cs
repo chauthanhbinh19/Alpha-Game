@@ -133,11 +133,11 @@ public class ReactorNumber1Manager : MonoBehaviour
 
             if (i == 0)
             {
-                CreateMaterialUI(material1Image, quantity1Text, item.image, scienceFiction.level,item.quantity);
+                CreateMaterialUI(material1Image, quantity1Text, item.Image, scienceFiction.Level,item.Quantity);
             }
             else if (i == 1)
             {
-                CreateMaterialUI(material2Image, quantity2Text, item.image, scienceFiction.level,item.quantity);
+                CreateMaterialUI(material2Image, quantity2Text, item.Image, scienceFiction.Level,item.Quantity);
             }
         }
         UpLevelButton.onClick.RemoveAllListeners();
@@ -146,21 +146,21 @@ public class ReactorNumber1Manager : MonoBehaviour
         UpLevelButton.onClick.AddListener(() =>
         {
             int levelsPerSkill = 1000;
-            int materialQuantity = (scienceFiction.level == 0)
+            int materialQuantity = (scienceFiction.Level == 0)
                 ? 1
-                : (scienceFiction.level % levelsPerSkill == 0 ? levelsPerSkill : scienceFiction.level % levelsPerSkill);
+                : (scienceFiction.Level % levelsPerSkill == 0 ? levelsPerSkill : scienceFiction.Level % levelsPerSkill);
 
             // Check nếu đã max level thì dừng
-            if (scienceFiction.level >= maxLevel) return;
+            if (scienceFiction.Level >= maxLevel) return;
 
             // Kiểm tra xem tất cả items đều đủ số lượng
-            bool hasAllMaterials = items.All(i => i.quantity >= materialQuantity);
+            bool hasAllMaterials = items.All(i => i.Quantity >= materialQuantity);
 
             if (hasAllMaterials)
             {
                 foreach (var i in items)
                 {
-                    i.quantity -= materialQuantity;
+                    i.Quantity -= materialQuantity;
                     userItemsService.UpdateUserItemsQuantity(i);
                 }
 
@@ -186,7 +186,7 @@ public class ReactorNumber1Manager : MonoBehaviour
             // Tính số level tối đa có thể nâng cho tất cả items
             foreach (var i in items)
             {
-                int maxLevelForItem = EvaluateItem.CalculateMaxMaterialLevel(i.quantity, scienceFiction.level);
+                int maxLevelForItem = EvaluateItem.CalculateMaxMaterialLevel(i.Quantity, scienceFiction.Level);
                 finalLevel = Math.Min(finalLevel, maxLevelForItem);
             }
 
@@ -194,23 +194,23 @@ public class ReactorNumber1Manager : MonoBehaviour
             if (finalLevel <= 0) return;
 
             // Giới hạn không vượt quá 10000
-            if (scienceFiction.level + finalLevel > maxLevel)
+            if (scienceFiction.Level + finalLevel > maxLevel)
             {
-                finalLevel = maxLevel - scienceFiction.level;
+                finalLevel = maxLevel - scienceFiction.Level;
             }
 
             // Kiểm tra & trừ nguyên liệu cho finalLevel
             foreach (var i in items)
             {
-                int consume = EvaluateItem.CalculateRequiredQuantityForLevel(scienceFiction.level, finalLevel, levelsPerSkill);
+                int consume = EvaluateItem.CalculateRequiredQuantityForLevel(scienceFiction.Level, finalLevel, levelsPerSkill);
 
-                if (i.quantity < consume)
+                if (i.Quantity < consume)
                 {
                     // Không đủ nguyên liệu thì dừng
                     return;
                 }
 
-                i.quantity -= consume;
+                i.Quantity -= consume;
                 userItemsService.UpdateUserItemsQuantity(i);
             }
 

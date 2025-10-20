@@ -19,9 +19,9 @@ public class CardMilitaryService : ICardMilitaryService
         return _cardMilitaryRepository.GetUniqueCardMilitaryTypes();
     }
 
-    public List<CardMilitary> GetCardMilitary(string type, int pageSize, int offset, string rare)
+    public List<CardMilitaries> GetCardMilitary(string type, int pageSize, int offset, string rare)
     {
-        List<CardMilitary> list = _cardMilitaryRepository.GetCardMilitary(type, pageSize, offset, rare);
+        List<CardMilitaries> list = _cardMilitaryRepository.GetCardMilitary(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -31,24 +31,24 @@ public class CardMilitaryService : ICardMilitaryService
         return _cardMilitaryRepository.GetCardMilitaryCount(type, rare);
     }
 
-    public List<CardMilitary> GetCardMilitaryRandom(string type, int pageSize)
+    public List<CardMilitaries> GetCardMilitaryRandom(string type, int pageSize)
     {
         return _cardMilitaryRepository.GetCardMilitaryRandom(type, pageSize);
     }
 
-    public List<CardMilitary> GetAllCardMilitary(string type)
+    public List<CardMilitaries> GetAllCardMilitary(string type)
     {
         return _cardMilitaryRepository.GetAllCardMilitary(type);
     }
 
-    public CardMilitary GetCardMilitaryById(string Id)
+    public CardMilitaries GetCardMilitaryById(string Id)
     {
         return _cardMilitaryRepository.GetCardMilitaryById(Id);
     }
 
-    public List<CardMilitary> GetCardMilitaryWithPrice(string type, int pageSize, int offset)
+    public List<CardMilitaries> GetCardMilitaryWithPrice(string type, int pageSize, int offset)
     {
-        List<CardMilitary> list = _cardMilitaryRepository.GetCardMilitaryWithPrice(type, pageSize, offset);
+        List<CardMilitaries> list = _cardMilitaryRepository.GetCardMilitaryWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }

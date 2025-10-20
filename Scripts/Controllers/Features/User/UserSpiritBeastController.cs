@@ -48,17 +48,17 @@ public class UserSpiritBeastController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserSpiritBeast(List<SpiritBeast> SpiritBeastList, Transform DictionaryContentPanel)
+    public void CreateUserSpiritBeast(List<SpiritBeasts> SpiritBeastList, Transform DictionaryContentPanel)
     {
         foreach (var title in SpiritBeastList)
         {
             GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.name.Replace("_", " ");
+            Title.text = title.Name.Replace("_", " ");
 
             RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -72,7 +72,7 @@ public class UserSpiritBeastController : MonoBehaviour
             });
 
             RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
@@ -87,7 +87,7 @@ public class UserSpiritBeastController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowSpiritBeastDetails(SpiritBeast SpiritBeast, GameObject currentObject, int buttonType = 1)
+    public void ShowSpiritBeastDetails(SpiritBeasts SpiritBeast, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -138,25 +138,25 @@ public class UserSpiritBeastController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is SpiritBeast title)
+        if (obj is SpiritBeasts title)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture, 450f);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = title.name;
+            name.text = title.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(title.power, false);
+            power.text = NumberFormatter.FormatNumber(title.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -174,7 +174,7 @@ public class UserSpiritBeastController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is SpiritBeast title)
+        if (obj is SpiritBeasts title)
         {
             PropertyInfo[] properties = title.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
@@ -189,17 +189,17 @@ public class UserSpiritBeastController : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                SpiritBeast currentCard = new SpiritBeast();
-                currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                SpiritBeasts currentCard = new SpiritBeasts();
+                currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    SpiritBeast newCard = new SpiritBeast();
+                    SpiritBeasts newCard = new SpiritBeasts();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserSpiritBeastService.Create().GetNewLevelPower(title, increasePerLevel);
@@ -216,9 +216,9 @@ public class UserSpiritBeastController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                SpiritBeast currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                SpiritBeasts currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -233,7 +233,7 @@ public class UserSpiritBeastController : MonoBehaviour
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    SpiritBeast newCard = UserSpiritBeastService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
+                    SpiritBeasts newCard = UserSpiritBeastService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserSpiritBeastService.Create().UpdateSpiritBeastLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -257,7 +257,7 @@ public class UserSpiritBeastController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is SpiritBeast spiritBeast)
+        if (obj is SpiritBeasts spiritBeast)
         {
             PropertyInfo[] properties = spiritBeast.GetType().GetProperties();
             foreach (var property in properties)
@@ -275,67 +275,67 @@ public class UserSpiritBeastController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (spiritBeast.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (spiritBeast.Star + 1).ToString();
             }
             GameObject titleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage titleImage = titleObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image);
             Texture titleTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             titleImage.texture = titleTexture;
 
             TextMeshProUGUI titleQuantity = titleObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            titleQuantity.text = spiritBeast.quantity.ToString() + "/" + (spiritBeast.star + 1).ToString();
+            titleQuantity.text = spiritBeast.Quantity.ToString() + "/" + (spiritBeast.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(spiritBeast.star, currentObject);
+            UIManager.Instance.CreateStarUI(spiritBeast.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = spiritBeast.star + 1;
+                int requiredQuantity = spiritBeast.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
-                bool hasEnoughSpiritBeast = spiritBeast.quantity >= requiredQuantity;
+                bool hasEnoughSpiritBeast = spiritBeast.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + spiritBeast.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + spiritBeast.Quantity >= requiredQuantity;
 
                 if (hasEnoughSpiritBeast || hasEnoughItems)
                 {
                     // Giảm số lượng danh hiệu trước
-                    if (spiritBeast.quantity >= requiredQuantity)
+                    if (spiritBeast.Quantity >= requiredQuantity)
                     {
-                        spiritBeast.quantity -= requiredQuantity;
+                        spiritBeast.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu danh hiệu không đủ, dùng cả danh hiệu + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - spiritBeast.quantity;
-                        spiritBeast.quantity = 0; // Dùng hết danh hiệu
+                        int remainingRequired = requiredQuantity - spiritBeast.Quantity;
+                        spiritBeast.Quantity = 0; // Dùng hết danh hiệu
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -345,21 +345,21 @@ public class UserSpiritBeastController : MonoBehaviour
                         userItemsService.UpdateUserItemsQuantity(items1);
                     }
                     // Cập nhật cấp sao (Star)
-                    SpiritBeast newTitle = new SpiritBeast();
+                    SpiritBeasts newTitle = new SpiritBeasts();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newTitle = UserSpiritBeastService.Create().GetNewBreakthroughPower(spiritBeast, increasePerUpgrade);
-                    UserSpiritBeastService.Create().UpdateSpiritBeastBreakthrough(newTitle, spiritBeast.star + 1, spiritBeast.quantity);
+                    UserSpiritBeastService.Create().UpdateSpiritBeastBreakthrough(newTitle, spiritBeast.Star + 1, spiritBeast.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    SpiritBeastGalleryService.Create().UpdateStarSpiritBeastGallery(spiritBeast.id, spiritBeast.star + 1);
+                    SpiritBeastGalleryService.Create().UpdateStarSpiritBeastGallery(spiritBeast.Id, spiritBeast.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(spiritBeast.star, currentObject);
+                    UIManager.Instance.CreateStarUI(spiritBeast.Star, currentObject);
                 }
                 else
                 {

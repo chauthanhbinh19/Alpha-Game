@@ -48,17 +48,17 @@ public class UserPuppetController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserPuppet(List<Puppet> puppets, Transform DictionaryContentPanel)
+    public void CreateUserPuppet(List<Puppets> puppets, Transform DictionaryContentPanel)
     {
         foreach (var puppet in puppets)
         {
             GameObject puppetObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = puppet.name.Replace("_", " ");
+            Title.text = puppet.Name.Replace("_", " ");
 
             RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -73,7 +73,7 @@ public class UserPuppetController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -84,7 +84,7 @@ public class UserPuppetController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowPuppetDetails(Puppet puppet, GameObject currentObject, int buttonType = 1)
+    public void ShowPuppetDetails(Puppets puppet, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -135,25 +135,25 @@ public class UserPuppetController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Puppet puppet)
+        if (obj is Puppets puppet)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
             TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = puppet.name;
+            name.text = puppet.Name;
 
             TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(puppet.power, false);
+            power.text = NumberFormatter.FormatNumber(puppet.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -171,7 +171,7 @@ public class UserPuppetController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Puppet puppet)
+        if (obj is Puppets puppet)
         {
             PropertyInfo[] properties = puppet.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, puppet, increasePerLevel, currentObject);
@@ -186,17 +186,17 @@ public class UserPuppetController : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Puppet currentCard = new Puppet();
-                currentCard = UserPuppetService.Create().GetUserPuppetById(User.CurrentUserId, puppet.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Puppets currentCard = new Puppets();
+                currentCard = UserPuppetService.Create().GetUserPuppetById(User.CurrentUserId, puppet.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Puppet newCard = new Puppet();
+                    Puppets newCard = new Puppets();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserPuppetService.Create().GetNewLevelPower(puppet, increasePerLevel);
@@ -213,9 +213,9 @@ public class UserPuppetController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Puppet currentCard = UserPuppetService.Create().GetUserPuppetById(User.CurrentUserId, puppet.id);
-                int totalExperiment = currentCard.experiment;
-                int currentLevel = currentCard.level;
+                Puppets currentCard = UserPuppetService.Create().GetUserPuppetById(User.CurrentUserId, puppet.Id);
+                int totalExperiment = currentCard.Experiment;
+                int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -230,7 +230,7 @@ public class UserPuppetController : MonoBehaviour
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    Puppet newCard = UserPuppetService.Create().GetNewLevelPower(puppet, levelsGained * increasePerLevel);
+                    Puppets newCard = UserPuppetService.Create().GetNewLevelPower(puppet, levelsGained * increasePerLevel);
                     UserPuppetService.Create().UpdatePuppetLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -254,7 +254,7 @@ public class UserPuppetController : MonoBehaviour
          Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Puppet puppet)
+        if (obj is Puppets puppet)
         {
             PropertyInfo[] properties = puppet.GetType().GetProperties();
             foreach (var property in properties)
@@ -272,67 +272,67 @@ public class UserPuppetController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
                 Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.quantity.ToString() + "/" + (puppet.star + 1).ToString();
+                eQuantity.text = items1.Quantity.ToString() + "/" + (puppet.Star + 1).ToString();
             }
             GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
             Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             magicFormationImage.texture = magicFormationTexture;
 
             TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = puppet.quantity.ToString() + "/" + (puppet.star + 1).ToString();
+            magicFormationQuantity.text = puppet.Quantity.ToString() + "/" + (puppet.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(puppet.star, currentObject);
+            UIManager.Instance.CreateStarUI(puppet.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = puppet.star + 1;
+                int requiredQuantity = puppet.Star + 1;
                 int totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = puppet.quantity >= requiredQuantity;
+                bool hasEnoughMagicFormation = puppet.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
-                    totalItemQuantity += items1.quantity;
+                    totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + puppet.quantity >= requiredQuantity;
+                bool hasEnoughItems = totalItemQuantity + puppet.Quantity >= requiredQuantity;
 
                 if (hasEnoughMagicFormation || hasEnoughItems)
                 {
                     // Giảm số lượng vòng phép trước
-                    if (puppet.quantity >= requiredQuantity)
+                    if (puppet.Quantity >= requiredQuantity)
                     {
-                        puppet.quantity -= requiredQuantity;
+                        puppet.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - puppet.quantity;
-                        puppet.quantity = 0; // Dùng hết vòng phép
+                        int remainingRequired = requiredQuantity - puppet.Quantity;
+                        puppet.Quantity = 0; // Dùng hết vòng phép
 
                         foreach (Items items1 in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.quantity >= remainingRequired)
+                            if (items1.Quantity >= remainingRequired)
                             {
-                                items1.quantity -= remainingRequired;
+                                items1.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.quantity;
-                                items1.quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= items1.Quantity;
+                                items1.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
@@ -342,21 +342,21 @@ public class UserPuppetController : MonoBehaviour
                         userItemsService.UpdateUserItemsQuantity(items1);
                     }
                     // Cập nhật cấp sao (Star)
-                    Puppet newpuppet = new Puppet();
+                    Puppets newpuppet = new Puppets();
 
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newpuppet = UserPuppetService.Create().GetNewBreakthroughPower(puppet, increasePerUpgrade);
-                    UserPuppetService.Create().UpdatePuppetBreakthrough(newpuppet, puppet.star + 1, puppet.quantity);
+                    UserPuppetService.Create().UpdatePuppetBreakthrough(newpuppet, puppet.Star + 1, puppet.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    PuppetGalleryService.Create().UpdateStarPuppetGallery(puppet.id, puppet.star + 1);
+                    PuppetGalleryService.Create().UpdateStarPuppetGallery(puppet.Id, puppet.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     GetUpgrade(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(puppet.star, currentObject);
+                    UIManager.Instance.CreateStarUI(puppet.Star, currentObject);
                 }
                 else
                 {

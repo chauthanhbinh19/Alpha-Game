@@ -38,17 +38,17 @@ public class TalismanGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateTalismanGallery(List<Talisman> talismans, Transform DictionaryContentPanel)
+    public void CreateTalismanGallery(List<Talismans> talismans, Transform DictionaryContentPanel)
     {
         foreach (var talisman in talismans)
         {
             GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = talisman.name.Replace("_", " ");
+            Title.text = talisman.Name.Replace("_", " ");
 
             RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -63,23 +63,23 @@ public class TalismanGalleryController : MonoBehaviour
             });
 
             RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage blockImage = talismanObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = talismanObject.transform.Find("Unlock").GetComponent<Button>();
-            if (talisman.status.Equals("available"))
+            if (talisman.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (talisman.status.Equals("pending"))
+            else if (talisman.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (talisman.status.Equals("block"))
+            else if (talisman.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -89,7 +89,7 @@ public class TalismanGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var talismanGalleryService = TalismanGalleryService.Create();
-                talismanGalleryService.UpdateStatusTalismanGallery(talisman.id);
+                talismanGalleryService.UpdateStatusTalismanGallery(talisman.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -103,7 +103,7 @@ public class TalismanGalleryController : MonoBehaviour
             });
 
             Button Upgrade = talismanObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((talisman.current_star < talisman.temp_star) && talisman.status.Equals("available"))
+            if ((talisman.CurrentStar < talisman.TempStar) && talisman.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -115,7 +115,7 @@ public class TalismanGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                TalismanGalleryService.Create().UpdateTalismanGalleryPower(talisman.id);
+                TalismanGalleryService.Create().UpdateTalismanGalleryPower(talisman.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

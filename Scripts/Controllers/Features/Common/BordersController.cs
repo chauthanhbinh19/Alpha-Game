@@ -54,10 +54,10 @@ public class BordersController : MonoBehaviour
             GameObject borderObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = borderObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = border.name.Replace("_", " ");
+            Title.text = border.Name.Replace("_", " ");
 
             RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
@@ -71,7 +71,7 @@ public class BordersController : MonoBehaviour
             });
 
             RawImage rareImage = borderObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{border.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{border.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage rareBackgroundImage = borderObject.transform.Find("RareBackground").GetComponent<RawImage>();
@@ -93,10 +93,10 @@ public class BordersController : MonoBehaviour
             GameObject borderObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = borderObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = border.name.Replace("_", " ");
+            Title.text = border.Name.Replace("_", " ");
 
             RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = borderObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -113,12 +113,12 @@ public class BordersController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = borderObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = borderObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(border.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(border.Currency.Quantity, false);
 
             Button buy = borderObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -126,11 +126,11 @@ public class BordersController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(border.currency.quantity, border, subType, popupPanel, currencyPanel);
+                GetQuantity(border.Currency.Quantity, border, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetBordersCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -245,14 +245,14 @@ public class BordersController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is Borders borders)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(borders.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(borders.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -278,8 +278,8 @@ public class BordersController : MonoBehaviour
 
             if (obj is Borders borders)
             {
-                borders.quantity = borders.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(borders.currency.id, price);
+                borders.Quantity = borders.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(borders.Currency.Id, price);
                 bool success = UserBordersService.Create().InsertUserBorders(borders);
                 if (!success)
                 {
@@ -291,11 +291,11 @@ public class BordersController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    BordersGalleryService.Create().InsertBordersGallery(borders.id);
+                    BordersGalleryService.Create().InsertBordersGallery(borders.Id);
                     currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(borders.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(borders.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

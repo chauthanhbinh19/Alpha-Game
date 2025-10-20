@@ -140,7 +140,7 @@ public class GalleryManager : MonoBehaviour
         });
 
         Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetUserCurrency();
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
@@ -212,7 +212,7 @@ public class GalleryManager : MonoBehaviour
             int totalRecord = 0;
             if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
-                List<Collaboration> collaborations = CollaborationService.Create().GetCollaboration(pageSize, offset, rare);
+                List<Collaborations> collaborations = CollaborationService.Create().GetCollaboration(pageSize, offset, rare);
                 CollaborationController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
 
                 totalRecord = CollaborationService.Create().GetCollaborationCount(rare);
@@ -240,7 +240,7 @@ public class GalleryManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
-                List<SpiritBeast> spiritBeasts = SpiritBeastService.Create().GetSpiritBeast(pageSize, offset, rare);
+                List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeast(pageSize, offset, rare);
                 SpiritBeastController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
 
                 totalRecord = SpiritBeastService.Create().GetSpiritBeastCount(rare);
@@ -350,7 +350,7 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
 
-            List<CollaborationEquipment> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipments(type, pageSize, offset, rare);
+            List<CollaborationEquipments> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipments(type, pageSize, offset, rare);
             CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
 
             totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentCount(type, rare);
@@ -390,7 +390,7 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
 
-            List<CardMilitary> cardMilitaries = CardMilitaryService.Create().GetCardMilitary(type, pageSize, offset, rare);
+            List<CardMilitaries> cardMilitaries = CardMilitaryService.Create().GetCardMilitary(type, pageSize, offset, rare);
             CardMilitaryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
 
             totalRecord = CardMilitaryService.Create().GetCardMilitaryCount(type, rare);
@@ -398,14 +398,14 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
 
-            List<CardSpell> cardSpells = CardSpellService.Create().GetCardSpell(type, pageSize, offset, rare);
+            List<CardSpells> cardSpells = CardSpellService.Create().GetCardSpell(type, pageSize, offset, rare);
             CardSpellController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
 
             totalRecord = CardSpellService.Create().GetCardSpellCount(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
         {
-            List<Collaboration> collaborations = CollaborationService.Create().GetCollaboration(pageSize, offset, rare);
+            List<Collaborations> collaborations = CollaborationService.Create().GetCollaboration(pageSize, offset, rare);
             CollaborationController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
 
             totalRecord = CollaborationService.Create().GetCollaborationCount(rare);
@@ -434,7 +434,7 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
 
-            List<MagicFormationCircle> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircle(type, pageSize, offset, rare);
+            List<MagicFormationCircles> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircle(type, pageSize, offset, rare);
             MagicFormationCircleController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
 
             totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleCount(type, rare);
@@ -481,49 +481,49 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
-            List<Talisman> talismans = TalismanService.Create().GetTalisman(type, pageSize, offset, rare);
+            List<Talismans> talismans = TalismanService.Create().GetTalisman(type, pageSize, offset, rare);
             TalismanController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
 
             totalRecord = TalismanService.Create().GetTalismanCount(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
-            List<Puppet> puppets = PuppetService.Create().GetPuppet(type, pageSize, offset, rare);
+            List<Puppets> puppets = PuppetService.Create().GetPuppet(type, pageSize, offset, rare);
             PuppetController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
 
             totalRecord = PuppetService.Create().GetPuppetCount(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
-            List<Alchemy> alchemies = AlchemyService.Create().GetAlchemy(type, pageSize, offset, rare);
+            List<Alchemies> alchemies = AlchemyService.Create().GetAlchemy(type, pageSize, offset, rare);
             AlchemyController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
 
             totalRecord = AlchemyService.Create().GetAlchemyCount(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
-            List<Forge> forges = ForgeService.Create().GetForge(type, pageSize, offset, rare);
+            List<Forges> forges = ForgeService.Create().GetForge(type, pageSize, offset, rare);
             ForgeController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
 
             totalRecord = ForgeService.Create().GetForgeCount(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
-            List<CardLife> cardLives = CardLifeService.Create().GetCardLife(type, pageSize, offset, rare);
+            List<CardLives> cardLives = CardLifeService.Create().GetCardLife(type, pageSize, offset, rare);
             CardLifeController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
 
             totalRecord = CardLifeService.Create().GetCardLifeCount(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
-            List<Artwork> artworks = ArtworkService.Create().GetArtwork(type, pageSize, offset, rare);
+            List<Artworks> artworks = ArtworkService.Create().GetArtwork(type, pageSize, offset, rare);
             ArtworkController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
 
             totalRecord = ArtworkService.Create().GetArtworkCount(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
-            List<SpiritBeast> spiritBeasts = SpiritBeastService.Create().GetSpiritBeast(pageSize, offset, rare);
+            List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeast(pageSize, offset, rare);
             SpiritBeastController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
 
             totalRecord = SpiritBeastService.Create().GetSpiritBeastCount(rare);
@@ -537,7 +537,7 @@ public class GalleryManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
-            List<SpiritCard> spiritCards = SpiritCardService.Create().GetSpiritCard(type, pageSize, offset, rare);
+            List<SpiritCards> spiritCards = SpiritCardService.Create().GetSpiritCard(type, pageSize, offset, rare);
             SpiritCardController.Instance.CreateSpiritCardGallery(spiritCards, DictionaryContentPanel);
 
             totalRecord = SpiritCardService.Create().GetSpiritCardCount(type, rare);

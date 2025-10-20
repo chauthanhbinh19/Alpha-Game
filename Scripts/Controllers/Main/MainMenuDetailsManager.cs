@@ -116,7 +116,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             mainType = "CardHeroes";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardHero);
             UserCardHeroesController.Instance.ShowCardHeroesDetails(cardHeroes, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardHeroes.type}");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardHeroes.Type}");
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -147,7 +147,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             mainType = "CardCaptains";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardCaptain);
             UserCardCaptainsController.Instance.ShowCardCaptainsDetails(cardCaptains, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardCaptains.type}");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardCaptains.Type}");
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -172,7 +172,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.PET);
             });
         }
-        else if (data is CollaborationEquipment collaborationEquipmentsequipment)
+        else if (data is CollaborationEquipments collaborationEquipmentsequipment)
         {
             // Xử lý đối tượng CollaborationEquipment
             mainType = "CollaborationEquipments";
@@ -187,13 +187,13 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT);
             });
         }
-        else if (data is CardMilitary cardMilitary)
+        else if (data is CardMilitaries cardMilitary)
         {
             // Xử lý đối tượng Military
             mainType = "CardMilitary";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardMilitary);
             UserCardMilitaryController.Instance.ShowCardMilitaryDetails(cardMilitary, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardMilitary.type}");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardMilitary.Type}");
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -203,7 +203,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_MILITARY);
             });
         }
-        else if (data is CardSpell cardSpell)
+        else if (data is CardSpells cardSpell)
         {
             // Xử lý đối tượng Spell
             mainType = "CardSpell";
@@ -218,7 +218,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_SPELL);
             });
         }
-        else if (data is Collaboration collaboration)
+        else if (data is Collaborations collaboration)
         {
             // Xử lý đối tượng Collaboration
             mainType = "Collaborations";
@@ -323,7 +323,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.TITLE);
             });
         }
-        else if (data is MagicFormationCircle magicFormationCircle)
+        else if (data is MagicFormationCircles magicFormationCircle)
         {
             // Xử lý đối tượng Title
             mainType = "MagicFormationCircle";
@@ -359,7 +359,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             mainType = "CardColonels";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardColonel);
             UserCardColonelsController.Instance.ShowCardColonelsDetails(cardColonels, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardColonels.type}");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardColonels.Type}");
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -375,7 +375,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             mainType = "CardGenerals";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardGeneral);
             UserCardGeneralsController.Instance.ShowCardGeneralsDetails(cardGenerals, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardGenerals.type}");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardGenerals.Type}");
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -391,7 +391,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             mainType = "CardAdmirals";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardAdmiral);
             UserCardAdmiralsController.Instance.ShowCardAdmiralsDetails(cardAdmirals, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardAdmirals.type}");
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardAdmirals.Type}");
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -421,7 +421,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ACHIEVEMENT);
             });
         }
-        else if (data is Talisman talisman)
+        else if (data is Talismans talisman)
         {
             // Xử lý đối tượng achievements
             mainType = "Talisman";
@@ -436,7 +436,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.TALISMAN);
             });
         }
-        else if (data is Puppet puppet)
+        else if (data is Puppets puppet)
         {
             // Xử lý đối tượng achievements
             mainType = "Puppet";
@@ -451,7 +451,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.PUPPET);
             });
         }
-        else if (data is Alchemy alchemy)
+        else if (data is Alchemies alchemy)
         {
             // Xử lý đối tượng achievements
             mainType = "Alchemy";
@@ -466,7 +466,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ALCHEMY);
             });
         }
-        else if (data is Forge forge)
+        else if (data is Forges forge)
         {
             // Xử lý đối tượng achievements
             mainType = "Forge";
@@ -481,7 +481,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.FORGE);
             });
         }
-        else if (data is CardLife cardLife)
+        else if (data is CardLives cardLife)
         {
             // Xử lý đối tượng achievements
             mainType = "CardLife";
@@ -496,7 +496,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_LIFE);
             });
         }
-        else if (data is Artwork artwork)
+        else if (data is Artworks artwork)
         {
             // Xử lý đối tượng achievements
             mainType = "Artwork";
@@ -511,7 +511,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ARTWORK);
             });
         }
-        else if (data is SpiritBeast spiritBeast)
+        else if (data is SpiritBeasts spiritBeast)
         {
             // Xử lý đối tượng achievements
             mainType = "SpiritBeast";
@@ -542,23 +542,23 @@ public class MainMenuDetailsManager : MonoBehaviour
 
             foreach (Items items1 in items)
             {
-                int expPerBottle = EvaluateExperiment.GetItemExp(items1.name);
+                int expPerBottle = EvaluateExperiment.GetItemExp(items1.Name);
 
-                if (expPerBottle > 0 && items1.quantity > 0) // Điều kiện 2: Phải có item hợp lệ
+                if (expPerBottle > 0 && items1.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                 {
-                    int totalExpFromThisItem = expPerBottle * items1.quantity;
+                    int totalExpFromThisItem = expPerBottle * items1.Quantity;
 
                     if (requiredExp <= totalExpFromThisItem)
                     {
                         totalExperiment += requiredExp;
-                        items1.quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
+                        items1.Quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
                         canLevelUp = true;
                         break;
                     }
                     else
                     {
                         totalExperiment += totalExpFromThisItem;
-                        items1.quantity = 0;
+                        items1.Quantity = 0;
                     }
                 }
             }
@@ -590,23 +590,23 @@ public class MainMenuDetailsManager : MonoBehaviour
 
             foreach (Items items1 in items)
             {
-                int expPerBottle = EvaluateExperiment.GetItemExp(items1.name);
+                int expPerBottle = EvaluateExperiment.GetItemExp(items1.Name);
 
-                if (expPerBottle > 0 && items1.quantity > 0) // Điều kiện 2: Phải có item hợp lệ
+                if (expPerBottle > 0 && items1.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                 {
-                    int totalExpFromThisItem = expPerBottle * items1.quantity;
+                    int totalExpFromThisItem = expPerBottle * items1.Quantity;
 
                     if (requiredExp <= totalExpFromThisItem)
                     {
                         totalExperiment += requiredExp;
-                        items1.quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
+                        items1.Quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
                         canLevelUp = true;
                         break;
                     }
                     else
                     {
                         totalExperiment += totalExpFromThisItem;
-                        items1.quantity = 0;
+                        items1.Quantity = 0;
                     }
                 }
             }

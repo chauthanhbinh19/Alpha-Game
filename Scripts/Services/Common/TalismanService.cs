@@ -14,9 +14,9 @@ public class TalismanService : ITalismanService
         return new TalismanService(new TalismanRepository());
     }
 
-    public List<Talisman> GetTalisman(string type, int pageSize, int offset, string rare)
+    public List<Talismans> GetTalisman(string type, int pageSize, int offset, string rare)
     {
-        List<Talisman> list = _talismanRepository.GetTalisman(type, pageSize, offset, rare);
+        List<Talismans> list = _talismanRepository.GetTalisman(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -26,9 +26,9 @@ public class TalismanService : ITalismanService
         return _talismanRepository.GetTalismanCount(type, rare);
     }
 
-    public List<Talisman> GetTalismanWithPrice(string type, int pageSize, int offset)
+    public List<Talismans> GetTalismanWithPrice(string type, int pageSize, int offset)
     {
-        List<Talisman> list = _talismanRepository.GetTalismanWithPrice(type, pageSize, offset);
+        List<Talismans> list = _talismanRepository.GetTalismanWithPrice(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,12 +38,12 @@ public class TalismanService : ITalismanService
         return _talismanRepository.GetTalismanWithPriceCount(type);
     }
 
-    public Talisman GetTalismanById(string Id)
+    public Talismans GetTalismanById(string Id)
     {
         return _talismanRepository.GetTalismanById(Id);
     }
 
-    public Talisman SumPowerTalismanPercent()
+    public Talismans SumPowerTalismanPercent()
     {
         return _talismanRepository.SumPowerTalismanPercent();
     }

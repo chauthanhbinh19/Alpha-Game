@@ -54,10 +54,10 @@ public class BooksController : MonoBehaviour
             GameObject bookObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = book.name.Replace("_", " ");
+            Title.text = book.Name.Replace("_", " ");
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -69,7 +69,7 @@ public class BooksController : MonoBehaviour
             });
 
             RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
             rareImage.texture = rareTexture;
             // Đặt kích thước gốc
             Image.SetNativeSize();
@@ -115,10 +115,10 @@ public class BooksController : MonoBehaviour
             GameObject bookObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = book.name.Replace("_", " ");
+            Title.text = book.Name.Replace("_", " ");
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -135,12 +135,12 @@ public class BooksController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = bookObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = bookObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(book.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(book.Currency.Quantity, false);
 
             Button buy = bookObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -148,11 +148,11 @@ public class BooksController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(book.currency.quantity, book, subType, popupPanel, currencyPanel);
+                GetQuantity(book.Currency.Quantity, book, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -267,14 +267,14 @@ public class BooksController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is Books books)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(books.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(books.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -300,8 +300,8 @@ public class BooksController : MonoBehaviour
 
             if (obj is Books books)
             {
-                books.quantity = books.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(books.currency.id, price);
+                books.Quantity = books.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(books.Currency.Id, price);
                 bool success = UserBooksService.Create().InsertUserBooks(books);
                 if (!success)
                 {
@@ -313,11 +313,11 @@ public class BooksController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    BooksGalleryService.Create().InsertBooksGallery(books.id);
+                    BooksGalleryService.Create().InsertBooksGallery(books.Id);
                     currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(books.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(books.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

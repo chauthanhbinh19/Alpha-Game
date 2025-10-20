@@ -54,10 +54,10 @@ public class SkillsController : MonoBehaviour
             GameObject skillObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = skillObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = skill.name.Replace("_", " ");
+            Title.text = skill.Name.Replace("_", " ");
 
             RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,7 +71,7 @@ public class SkillsController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = skillObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
@@ -89,10 +89,10 @@ public class SkillsController : MonoBehaviour
             GameObject skillObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = skillObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = skill.name.Replace("_", " ");
+            Title.text = skill.Name.Replace("_", " ");
 
             RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = skillObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class SkillsController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = skillObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = skillObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(skill.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(skill.Currency.Quantity, false);
 
             Button buy = skillObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,11 +123,11 @@ public class SkillsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(skill.currency.quantity, skill, subType, popupPanel, currencyPanel);
+                GetQuantity(skill.Currency.Quantity, skill, subType, popupPanel, currencyPanel);
             });
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -242,14 +242,14 @@ public class SkillsController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
+            Currencies userCurrency = new Currencies();
             if (obj is Skills skill)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(skill.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(skill.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -275,8 +275,8 @@ public class SkillsController : MonoBehaviour
 
             if (obj is Skills skill)
             {
-                skill.quantity = skill.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(skill.currency.id, price);
+                skill.Quantity = skill.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(skill.Currency.Id, price);
                 bool success = UserSkillsService.Create().InsertUserSkills(skill);
                 if (!success)
                 {
@@ -288,11 +288,11 @@ public class SkillsController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    SkillsGalleryService.Create().InsertSkillsGallery(skill.id);
+                    SkillsGalleryService.Create().InsertSkillsGallery(skill.Id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

@@ -14,9 +14,9 @@ public class AlchemyGalleryService : IAlchemyGalleryService
         return new AlchemyGalleryService(new AlchemyGalleryRepository());
     }
 
-    public List<Alchemy> GetAlchemyCollection(string type, int pageSize, int offset, string rare)
+    public List<Alchemies> GetAlchemyCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Alchemy> list = _alchemyGalleryRepository.GetAlchemyCollection(type, pageSize, offset, rare);
+        List<Alchemies> list = _alchemyGalleryRepository.GetAlchemyCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class AlchemyGalleryService : IAlchemyGalleryService
         _alchemyGalleryRepository.UpdateStatusAlchemyGallery(Id);
     }
 
-    public Alchemy SumPowerAlchemyGallery()
+    public Alchemies SumPowerAlchemyGallery()
     {
         return _alchemyGalleryRepository.SumPowerAlchemyGallery();
     }

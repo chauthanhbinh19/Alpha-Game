@@ -14,176 +14,176 @@ public class UserCollaborationEquipmentService : IUserCollaborationEquipmentServ
         return new UserCollaborationEquipmentService(new UserCollaborationEquipmentRepository());
     }
 
-    public CollaborationEquipment GetNewLevelPower(CollaborationEquipment c, double coefficient)
+    public CollaborationEquipments GetNewLevelPower(CollaborationEquipments c, double coefficient)
     {
         ICollaborationEquipmentRepository _repository = new CollaborationEquipmentRepository();
         CollaborationEquipmentService _service = new CollaborationEquipmentService(_repository);
-        CollaborationEquipment orginCard = _service.GetCollaborationEquipmentsById(c.id);
-        CollaborationEquipment collaborationEquipment = new CollaborationEquipment
+        CollaborationEquipments orginCard = _service.GetCollaborationEquipmentsById(c.Id);
+        CollaborationEquipments collaborationEquipment = new CollaborationEquipments
         {
-            id = c.id,
-            health = c.health + orginCard.health * coefficient,
-            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
-            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
-            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
-            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
-            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
-            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
-            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
-            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
-            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
-            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
-            speed = c.speed + orginCard.speed * coefficient,
-            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
-            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            critical_resistance_rate = c.critical_resistance_rate + orginCard.critical_resistance_rate * coefficient,
-            ignore_critical_rate = c.ignore_critical_rate + orginCard.ignore_critical_rate * coefficient,
-            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
-            penetration_resistance_rate = c.penetration_resistance_rate + orginCard.penetration_resistance_rate * coefficient,
-            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
-            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
-            ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + orginCard.ignore_damage_absorption_rate * coefficient,
-            absorbed_damage_rate = c.absorbed_damage_rate + orginCard.absorbed_damage_rate * coefficient,
-            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
-            vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + orginCard.vitality_regeneration_resistance_rate * coefficient,
-            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
-            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
-            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
-            tenacity = c.tenacity + orginCard.tenacity * coefficient,
-            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
-            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
-            ignore_combo_rate = c.ignore_combo_rate + orginCard.ignore_combo_rate * coefficient,
-            combo_damage_rate = c.combo_damage_rate + orginCard.combo_damage_rate * coefficient,
-            combo_resistance_rate = c.combo_resistance_rate + orginCard.combo_resistance_rate * coefficient,
-            stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
-            ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
-            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
-            reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
-            reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient,
-            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
-            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
-            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
-            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
-            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
-            normal_damage_rate = c.normal_damage_rate + orginCard.normal_damage_rate * coefficient,
-            normal_resistance_rate = c.normal_resistance_rate + orginCard.normal_resistance_rate * coefficient,
-            skill_damage_rate = c.skill_damage_rate + orginCard.skill_damage_rate * coefficient,
-            skill_resistance_rate = c.skill_resistance_rate + orginCard.skill_resistance_rate * coefficient
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        collaborationEquipment.power = EvaluatePower.CalculatePower(
-            collaborationEquipment.health,
-            collaborationEquipment.physical_attack, collaborationEquipment.physical_defense,
-            collaborationEquipment.magical_attack, collaborationEquipment.magical_defense,
-            collaborationEquipment.chemical_attack, collaborationEquipment.chemical_defense,
-            collaborationEquipment.atomic_attack, collaborationEquipment.atomic_defense,
-            collaborationEquipment.mental_attack, collaborationEquipment.mental_defense,
-            collaborationEquipment.speed,
-            collaborationEquipment.critical_damage_rate, collaborationEquipment.critical_rate, collaborationEquipment.critical_resistance_rate, collaborationEquipment.ignore_critical_rate,
-            collaborationEquipment.penetration_rate, collaborationEquipment.penetration_resistance_rate, collaborationEquipment.evasion_rate,
-            collaborationEquipment.damage_absorption_rate, collaborationEquipment.ignore_damage_absorption_rate, collaborationEquipment.absorbed_damage_rate,
-            collaborationEquipment.vitality_regeneration_rate, collaborationEquipment.vitality_regeneration_resistance_rate,
-            collaborationEquipment.accuracy_rate, collaborationEquipment.lifesteal_rate,
-            collaborationEquipment.shield_strength, collaborationEquipment.tenacity, collaborationEquipment.resistance_rate,
-            collaborationEquipment.combo_rate, collaborationEquipment.ignore_combo_rate, collaborationEquipment.combo_damage_rate, collaborationEquipment.combo_resistance_rate,
-            collaborationEquipment.stun_rate, collaborationEquipment.ignore_stun_rate,
-            collaborationEquipment.reflection_rate, collaborationEquipment.ignore_reflection_rate, collaborationEquipment.reflection_damage_rate, collaborationEquipment.reflection_resistance_rate,
-            collaborationEquipment.mana, collaborationEquipment.mana_regeneration_rate,
-            collaborationEquipment.damage_to_different_faction_rate, collaborationEquipment.resistance_to_different_faction_rate,
-            collaborationEquipment.damage_to_same_faction_rate, collaborationEquipment.resistance_to_same_faction_rate,
-            collaborationEquipment.normal_damage_rate, collaborationEquipment.normal_resistance_rate,
-            collaborationEquipment.skill_damage_rate, collaborationEquipment.skill_resistance_rate
+        collaborationEquipment.Power = EvaluatePower.CalculatePower(
+            collaborationEquipment.Health,
+            collaborationEquipment.PhysicalAttack, collaborationEquipment.PhysicalDefense,
+            collaborationEquipment.MagicalAttack, collaborationEquipment.MagicalDefense,
+            collaborationEquipment.ChemicalAttack, collaborationEquipment.ChemicalDefense,
+            collaborationEquipment.AtomicAttack, collaborationEquipment.AtomicDefense,
+            collaborationEquipment.MentalAttack, collaborationEquipment.MentalDefense,
+            collaborationEquipment.Speed,
+            collaborationEquipment.CriticalDamageRate, collaborationEquipment.CriticalRate, collaborationEquipment.CriticalResistanceRate, collaborationEquipment.IgnoreCriticalRate,
+            collaborationEquipment.PenetrationRate, collaborationEquipment.PenetrationResistanceRate, collaborationEquipment.EvasionRate,
+            collaborationEquipment.DamageAbsorptionRate, collaborationEquipment.IgnoreDamageAbsorptionRate, collaborationEquipment.AbsorbedDamageRate,
+            collaborationEquipment.VitalityRegenerationRate, collaborationEquipment.VitalityRegenerationResistanceRate,
+            collaborationEquipment.AccuracyRate, collaborationEquipment.LifestealRate,
+            collaborationEquipment.ShieldStrength, collaborationEquipment.Tenacity, collaborationEquipment.ResistanceRate,
+            collaborationEquipment.ComboRate, collaborationEquipment.IgnoreComboRate, collaborationEquipment.ComboDamageRate, collaborationEquipment.ComboResistanceRate,
+            collaborationEquipment.StunRate, collaborationEquipment.IgnoreStunRate,
+            collaborationEquipment.ReflectionRate, collaborationEquipment.IgnoreReflectionRate, collaborationEquipment.ReflectionDamageRate, collaborationEquipment.ReflectionResistanceRate,
+            collaborationEquipment.Mana, collaborationEquipment.ManaRegenerationRate,
+            collaborationEquipment.DamageToDifferentFactionRate, collaborationEquipment.ResistanceToDifferentFactionRate,
+            collaborationEquipment.DamageToSameFactionRate, collaborationEquipment.ResistanceToSameFactionRate,
+            collaborationEquipment.NormalDamageRate, collaborationEquipment.NormalResistanceRate,
+            collaborationEquipment.SkillDamageRate, collaborationEquipment.SkillResistanceRate
         );
         return collaborationEquipment;
     }
-    public CollaborationEquipment GetNewBreakthroughPower(CollaborationEquipment c, double coefficient)
+    public CollaborationEquipments GetNewBreakthroughPower(CollaborationEquipments c, double coefficient)
     {
         ICollaborationEquipmentRepository _repository = new CollaborationEquipmentRepository();
         CollaborationEquipmentService _service = new CollaborationEquipmentService(_repository);
-        CollaborationEquipment orginCard = _service.GetCollaborationEquipmentsById(c.id);
-        CollaborationEquipment collaborationEquipment = new CollaborationEquipment
+        CollaborationEquipments orginCard = _service.GetCollaborationEquipmentsById(c.Id);
+        CollaborationEquipments collaborationEquipment = new CollaborationEquipments
         {
-            id = c.id,
-            health = c.health + orginCard.health * coefficient,
-            physical_attack = c.physical_attack + orginCard.physical_attack * coefficient,
-            physical_defense = c.physical_defense + orginCard.physical_defense * coefficient,
-            magical_attack = c.magical_attack + orginCard.magical_attack * coefficient,
-            magical_defense = c.magical_defense + orginCard.magical_defense * coefficient,
-            chemical_attack = c.chemical_attack + orginCard.chemical_attack * coefficient,
-            chemical_defense = c.chemical_defense + orginCard.chemical_defense * coefficient,
-            atomic_attack = c.atomic_attack + orginCard.atomic_attack * coefficient,
-            atomic_defense = c.atomic_defense + orginCard.atomic_defense * coefficient,
-            mental_attack = c.mental_attack + orginCard.mental_attack * coefficient,
-            mental_defense = c.mental_defense + orginCard.mental_defense * coefficient,
-            speed = c.speed + orginCard.speed * coefficient,
-            critical_damage_rate = c.critical_damage_rate + orginCard.critical_damage_rate * coefficient,
-            critical_rate = c.critical_rate + orginCard.critical_rate * coefficient,
-            critical_resistance_rate = c.critical_resistance_rate + orginCard.critical_resistance_rate * coefficient,
-            ignore_critical_rate = c.ignore_critical_rate + orginCard.ignore_critical_rate * coefficient,
-            penetration_rate = c.penetration_rate + orginCard.penetration_rate * coefficient,
-            penetration_resistance_rate = c.penetration_resistance_rate + orginCard.penetration_resistance_rate * coefficient,
-            evasion_rate = c.evasion_rate + orginCard.evasion_rate * coefficient,
-            damage_absorption_rate = c.damage_absorption_rate + orginCard.damage_absorption_rate * coefficient,
-            ignore_damage_absorption_rate = c.ignore_damage_absorption_rate + orginCard.ignore_damage_absorption_rate * coefficient,
-            absorbed_damage_rate = c.absorbed_damage_rate + orginCard.absorbed_damage_rate * coefficient,
-            vitality_regeneration_rate = c.vitality_regeneration_rate + orginCard.vitality_regeneration_rate * coefficient,
-            vitality_regeneration_resistance_rate = c.vitality_regeneration_resistance_rate + orginCard.vitality_regeneration_resistance_rate * coefficient,
-            accuracy_rate = c.accuracy_rate + orginCard.accuracy_rate * coefficient,
-            lifesteal_rate = c.lifesteal_rate + orginCard.lifesteal_rate * coefficient,
-            shield_strength = c.shield_strength + orginCard.shield_strength * coefficient,
-            tenacity = c.tenacity + orginCard.tenacity * coefficient,
-            resistance_rate = c.resistance_rate + orginCard.resistance_rate * coefficient,
-            combo_rate = c.combo_rate + orginCard.combo_rate * coefficient,
-            ignore_combo_rate = c.ignore_combo_rate + orginCard.ignore_combo_rate * coefficient,
-            combo_damage_rate = c.combo_damage_rate + orginCard.combo_damage_rate * coefficient,
-            combo_resistance_rate = c.combo_resistance_rate + orginCard.combo_resistance_rate * coefficient,
-            stun_rate = c.stun_rate + orginCard.stun_rate * coefficient,
-            ignore_stun_rate = c.ignore_stun_rate + orginCard.ignore_stun_rate * coefficient,
-            reflection_rate = c.reflection_rate + orginCard.reflection_rate * coefficient,
-            ignore_reflection_rate  = c.ignore_reflection_rate + orginCard.ignore_reflection_rate * coefficient,
-            reflection_damage_rate = c.reflection_damage_rate + orginCard.reflection_damage_rate * coefficient,
-            reflection_resistance_rate = c.reflection_resistance_rate + orginCard.reflection_resistance_rate * coefficient,
-            mana = c.mana + orginCard.mana * (float)coefficient,
-            mana_regeneration_rate = c.mana_regeneration_rate + orginCard.mana_regeneration_rate * coefficient,
-            damage_to_different_faction_rate = c.damage_to_different_faction_rate + orginCard.damage_to_different_faction_rate * coefficient,
-            resistance_to_different_faction_rate = c.resistance_to_different_faction_rate + orginCard.resistance_to_different_faction_rate * coefficient,
-            damage_to_same_faction_rate = c.damage_to_same_faction_rate + orginCard.damage_to_same_faction_rate * coefficient,
-            resistance_to_same_faction_rate = c.resistance_to_same_faction_rate + orginCard.resistance_to_same_faction_rate * coefficient,
-            normal_damage_rate = c.normal_damage_rate + orginCard.normal_damage_rate * coefficient,
-            normal_resistance_rate = c.normal_resistance_rate + orginCard.normal_resistance_rate * coefficient,
-            skill_damage_rate = c.skill_damage_rate + orginCard.skill_damage_rate * coefficient,
-            skill_resistance_rate = c.skill_resistance_rate + orginCard.skill_resistance_rate * coefficient
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        collaborationEquipment.power = EvaluatePower.CalculatePower(
-            collaborationEquipment.health,
-            collaborationEquipment.physical_attack, collaborationEquipment.physical_defense,
-            collaborationEquipment.magical_attack, collaborationEquipment.magical_defense,
-            collaborationEquipment.chemical_attack, collaborationEquipment.chemical_defense,
-            collaborationEquipment.atomic_attack, collaborationEquipment.atomic_defense,
-            collaborationEquipment.mental_attack, collaborationEquipment.mental_defense,
-            collaborationEquipment.speed,
-            collaborationEquipment.critical_damage_rate, collaborationEquipment.critical_rate, collaborationEquipment.critical_resistance_rate, collaborationEquipment.ignore_critical_rate,
-            collaborationEquipment.penetration_rate, collaborationEquipment.penetration_resistance_rate, collaborationEquipment.evasion_rate,
-            collaborationEquipment.damage_absorption_rate, collaborationEquipment.ignore_damage_absorption_rate, collaborationEquipment.absorbed_damage_rate,
-            collaborationEquipment.vitality_regeneration_rate, collaborationEquipment.vitality_regeneration_resistance_rate,
-            collaborationEquipment.accuracy_rate, collaborationEquipment.lifesteal_rate,
-            collaborationEquipment.shield_strength, collaborationEquipment.tenacity, collaborationEquipment.resistance_rate,
-            collaborationEquipment.combo_rate, collaborationEquipment.ignore_combo_rate, collaborationEquipment.combo_damage_rate, collaborationEquipment.combo_resistance_rate,
-            collaborationEquipment.stun_rate, collaborationEquipment.ignore_stun_rate,
-            collaborationEquipment.reflection_rate, collaborationEquipment.ignore_reflection_rate, collaborationEquipment.reflection_damage_rate, collaborationEquipment.reflection_resistance_rate,
-            collaborationEquipment.mana, collaborationEquipment.mana_regeneration_rate,
-            collaborationEquipment.damage_to_different_faction_rate, collaborationEquipment.resistance_to_different_faction_rate,
-            collaborationEquipment.damage_to_same_faction_rate, collaborationEquipment.resistance_to_same_faction_rate,
-            collaborationEquipment.normal_damage_rate, collaborationEquipment.normal_resistance_rate,
-            collaborationEquipment.skill_damage_rate, collaborationEquipment.skill_resistance_rate
+        collaborationEquipment.Power = EvaluatePower.CalculatePower(
+            collaborationEquipment.Health,
+            collaborationEquipment.PhysicalAttack, collaborationEquipment.PhysicalDefense,
+            collaborationEquipment.MagicalAttack, collaborationEquipment.MagicalDefense,
+            collaborationEquipment.ChemicalAttack, collaborationEquipment.ChemicalDefense,
+            collaborationEquipment.AtomicAttack, collaborationEquipment.AtomicDefense,
+            collaborationEquipment.MentalAttack, collaborationEquipment.MentalDefense,
+            collaborationEquipment.Speed,
+            collaborationEquipment.CriticalDamageRate, collaborationEquipment.CriticalRate, collaborationEquipment.CriticalResistanceRate, collaborationEquipment.IgnoreCriticalRate,
+            collaborationEquipment.PenetrationRate, collaborationEquipment.PenetrationResistanceRate, collaborationEquipment.EvasionRate,
+            collaborationEquipment.DamageAbsorptionRate, collaborationEquipment.IgnoreDamageAbsorptionRate, collaborationEquipment.AbsorbedDamageRate,
+            collaborationEquipment.VitalityRegenerationRate, collaborationEquipment.VitalityRegenerationResistanceRate,
+            collaborationEquipment.AccuracyRate, collaborationEquipment.LifestealRate,
+            collaborationEquipment.ShieldStrength, collaborationEquipment.Tenacity, collaborationEquipment.ResistanceRate,
+            collaborationEquipment.ComboRate, collaborationEquipment.IgnoreComboRate, collaborationEquipment.ComboDamageRate, collaborationEquipment.ComboResistanceRate,
+            collaborationEquipment.StunRate, collaborationEquipment.IgnoreStunRate,
+            collaborationEquipment.ReflectionRate, collaborationEquipment.IgnoreReflectionRate, collaborationEquipment.ReflectionDamageRate, collaborationEquipment.ReflectionResistanceRate,
+            collaborationEquipment.Mana, collaborationEquipment.ManaRegenerationRate,
+            collaborationEquipment.DamageToDifferentFactionRate, collaborationEquipment.ResistanceToDifferentFactionRate,
+            collaborationEquipment.DamageToSameFactionRate, collaborationEquipment.ResistanceToSameFactionRate,
+            collaborationEquipment.NormalDamageRate, collaborationEquipment.NormalResistanceRate,
+            collaborationEquipment.SkillDamageRate, collaborationEquipment.SkillResistanceRate
         );
         return collaborationEquipment;
     }
 
-    public List<CollaborationEquipment> GetUserCollaborationEquipments(string user_id, string type, int pageSize, int offset, string rare)
+    public List<CollaborationEquipments> GetUserCollaborationEquipments(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipment> list = _userCollabEquipmentsRepo.GetUserCollaborationEquipments(user_id, type, pageSize, offset, rare);
+        List<CollaborationEquipments> list = _userCollabEquipmentsRepo.GetUserCollaborationEquipments(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -193,27 +193,27 @@ public class UserCollaborationEquipmentService : IUserCollaborationEquipmentServ
         return _userCollabEquipmentsRepo.GetUserCollaborationEquipmentCount(user_id, type, rare);
     }
 
-    public bool InsertUserCollaborationEquipments(CollaborationEquipment collaborationEquipment)
+    public bool InsertUserCollaborationEquipments(CollaborationEquipments collaborationEquipment)
     {
         return _userCollabEquipmentsRepo.InsertUserCollaborationEquipments(collaborationEquipment);
     }
 
-    public bool UpdateCollaborationEquipmentsLevel(CollaborationEquipment collaborationEquipment, int cardLevel)
+    public bool UpdateCollaborationEquipmentsLevel(CollaborationEquipments collaborationEquipment, int cardLevel)
     {
         return _userCollabEquipmentsRepo.UpdateCollaborationEquipmentsLevel(collaborationEquipment, cardLevel);
     }
 
-    public bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipment collaborationEquipment, int star, int quantity)
+    public bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipments collaborationEquipment, int star, int quantity)
     {
         return _userCollabEquipmentsRepo.UpdateCollaborationEquipmentsBreakthrough(collaborationEquipment, star, quantity);
     }
 
-    public CollaborationEquipment GetUserCollaborationEquipmentsById(string user_id, string Id)
+    public CollaborationEquipments GetUserCollaborationEquipmentsById(string user_id, string Id)
     {
         return _userCollabEquipmentsRepo.GetUserCollaborationEquipmentsById(user_id, Id);
     }
 
-    public CollaborationEquipment SumPowerUserCollaborationEquipments()
+    public CollaborationEquipments SumPowerUserCollaborationEquipments()
     {
         return _userCollabEquipmentsRepo.SumPowerUserCollaborationEquipments();
     }

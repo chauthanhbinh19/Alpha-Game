@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class UserCurrencyRepository : IUserCurrencyRepository
 {
-    public List<Currency> GetUserCurrency()
+    public List<Currencies> GetUserCurrency()
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -27,12 +27,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                     string name = currencyReader.GetString("name");
                     string currencyId = currencyReader.GetString("currency_id");
                     int quantity = currencyReader.GetInt32("quantity");
-                    currencies.Add(new Currency
+                    currencies.Add(new Currencies
                     {
-                        id = currencyId,
-                        name = name,
-                        image = image,
-                        quantity = quantity
+                        Id = currencyId,
+                        Name = name,
+                        Image = image,
+                        Quantity = quantity
                     });
                 }
             }
@@ -43,9 +43,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public Currency GetUserCurrencyById(string Id)
+    public Currencies GetUserCurrencyById(string Id)
     {
-        Currency currencies = new Currency();
+        Currencies currencies = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -65,12 +65,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                     string name = currencyReader.GetString("name");
                     string currencyId = currencyReader.GetString("currency_id");
                     int quantity = currencyReader.GetInt32("quantity");
-                    currencies = new Currency
+                    currencies = new Currencies
                     {
-                        id = currencyId,
-                        name = name,
-                        image = image,
-                        quantity = quantity
+                        Id = currencyId,
+                        Name = name,
+                        Image = image,
+                        Quantity = quantity
                     };
                 }
             }
@@ -81,9 +81,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public Currency GetUserCurrencyByName(string currencyName)
+    public Currencies GetUserCurrencyByName(string currencyName)
     {
-        Currency currencies = new Currency();
+        Currencies currencies = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -103,12 +103,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                     string name = currencyReader.GetString("name");
                     string currencyId = currencyReader.GetString("currency_id");
                     int quantity = currencyReader.GetInt32("quantity");
-                    currencies = new Currency
+                    currencies = new Currencies
                     {
-                        id = currencyId,
-                        name = name,
-                        image = image,
-                        quantity = quantity
+                        Id = currencyId,
+                        Name = name,
+                        Image = image,
+                        Quantity = quantity
                     };
                 }
             }
@@ -152,9 +152,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             }
         }
     }
-    public List<Currency> GetEquipmentsCurrency(string type)
+    public List<Currencies> GetEquipmentsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -169,12 +169,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -189,9 +189,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public Currency GetEquipmentsPrice(string type, string equipment_id)
+    public Currencies GetEquipmentsPrice(string type, string equipment_id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -208,12 +208,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("price"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("price"),
                     };
                 }
                 ;
@@ -227,9 +227,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserEquipmentsPrice(string type, string equipment_id)
+    public Currencies GetUserEquipmentsPrice(string type, string equipment_id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -246,12 +246,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                 }
                 ;
@@ -265,9 +265,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardHeroesPrice(string Id)
+    public Currencies GetUserCardHeroesPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -285,12 +285,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -304,9 +304,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardCaptainsPrice(string Id)
+    public Currencies GetUserCardCaptainsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -324,12 +324,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -343,9 +343,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardColonelsPrice(string Id)
+    public Currencies GetUserCardColonelsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -363,12 +363,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -382,9 +382,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardGeneralsPrice(string Id)
+    public Currencies GetUserCardGeneralsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -402,12 +402,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -421,9 +421,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardAdmiralsPrice(string Id)
+    public Currencies GetUserCardAdmiralsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -441,12 +441,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -460,9 +460,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardMonstersPrice(string Id)
+    public Currencies GetUserCardMonstersPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -480,12 +480,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -499,9 +499,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardMilitaryPrice(string Id)
+    public Currencies GetUserCardMilitaryPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -519,12 +519,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -538,9 +538,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardSpellPrice(string Id)
+    public Currencies GetUserCardSpellPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -558,12 +558,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -577,9 +577,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserBooksPrice(string Id)
+    public Currencies GetUserBooksPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -597,12 +597,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -616,9 +616,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserAchievementsPrice(string Id)
+    public Currencies GetUserAchievementsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -636,12 +636,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -655,9 +655,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserBordersPrice(string Id)
+    public Currencies GetUserBordersPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -675,12 +675,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -694,9 +694,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCollaborationsPrice(string Id)
+    public Currencies GetUserCollaborationsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -714,12 +714,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -733,9 +733,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCollaborationEquipmentsPrice(string Id)
+    public Currencies GetUserCollaborationEquipmentsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -753,12 +753,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -772,9 +772,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserItemsPrice(string Id)
+    public Currencies GetUserItemsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -792,12 +792,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -811,9 +811,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserMagicFormationCirclePrice(string Id)
+    public Currencies GetUserMagicFormationCirclePrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -831,12 +831,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -850,9 +850,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserMedalsPrice(string Id)
+    public Currencies GetUserMedalsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -870,12 +870,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -889,9 +889,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserPetsPrice(string Id)
+    public Currencies GetUserPetsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -909,12 +909,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -928,9 +928,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserRelicsPrice(string Id)
+    public Currencies GetUserRelicsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -948,12 +948,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -967,9 +967,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserSkillsPrice(string Id)
+    public Currencies GetUserSkillsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -987,12 +987,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1006,9 +1006,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserSymbolsPrice(string Id)
+    public Currencies GetUserSymbolsPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1026,12 +1026,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1045,9 +1045,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserTitlesPrice(string Id)
+    public Currencies GetUserTitlesPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1065,12 +1065,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1084,9 +1084,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserTalismanPrice(string Id)
+    public Currencies GetUserTalismanPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1104,12 +1104,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1123,9 +1123,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserPuppetPrice(string Id)
+    public Currencies GetUserPuppetPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1143,12 +1143,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1162,9 +1162,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserAlchemyPrice(string Id)
+    public Currencies GetUserAlchemyPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1182,12 +1182,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1201,9 +1201,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserForgePrice(string Id)
+    public Currencies GetUserForgePrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1221,12 +1221,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1240,9 +1240,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserCardLifePrice(string Id)
+    public Currencies GetUserCardLifePrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1260,12 +1260,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1279,9 +1279,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserArtworkPrice(string Id)
+    public Currencies GetUserArtworkPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1299,12 +1299,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1318,9 +1318,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserSpiritBeastPrice(string Id)
+    public Currencies GetUserSpiritBeastPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1338,12 +1338,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1357,9 +1357,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public Currency GetUserSpiritCardPrice(string Id)
+    public Currencies GetUserSpiritCardPrice(string Id)
     {
-        Currency currency = new Currency();
+        Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1377,12 +1377,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    currency = new Currency
+                    currency = new Currencies
                     {
-                        id = reader.GetString("currency_id"),
-                        name = reader.GetString("currency_name"),
-                        image = reader.GetString("currency_image"),
-                        quantity = reader.GetInt32("trade_price"),
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetInt32("trade_price"),
                     };
                 }
                 ;
@@ -1396,9 +1396,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
-    public List<Currency> GetAchievementsCurrency()
+    public List<Currencies> GetAchievementsCurrency()
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1413,12 +1413,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1431,9 +1431,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetBooksCurrency(string type)
+    public List<Currencies> GetBooksCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1449,12 +1449,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1467,9 +1467,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardHeroesCurrency(string type)
+    public List<Currencies> GetCardHeroesCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1485,12 +1485,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1503,9 +1503,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardCaptainsCurrency(string type)
+    public List<Currencies> GetCardCaptainsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1521,12 +1521,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1539,9 +1539,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardColonelsCurrency(string type)
+    public List<Currencies> GetCardColonelsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1557,12 +1557,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1575,9 +1575,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardGeneralsCurrency(string type)
+    public List<Currencies> GetCardGeneralsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1593,12 +1593,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1611,9 +1611,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardAdmiralsCurrency(string type)
+    public List<Currencies> GetCardAdmiralsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1629,12 +1629,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1647,9 +1647,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardMonstersCurrency(string type)
+    public List<Currencies> GetCardMonstersCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1664,12 +1664,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1682,9 +1682,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardMilitaryCurrency(string type)
+    public List<Currencies> GetCardMilitaryCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1700,12 +1700,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1718,9 +1718,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardSpellCurrency(string type)
+    public List<Currencies> GetCardSpellCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1736,12 +1736,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1754,9 +1754,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCollaborationsCurrency(string type)
+    public List<Currencies> GetCollaborationsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1771,12 +1771,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1789,9 +1789,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCollaborationEquipmentsCurrency(string type)
+    public List<Currencies> GetCollaborationEquipmentsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1807,12 +1807,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1825,9 +1825,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetBordersCurrency(string type)
+    public List<Currencies> GetBordersCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1842,12 +1842,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1860,9 +1860,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetItemsCurrency(string type)
+    public List<Currencies> GetItemsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1878,12 +1878,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1896,9 +1896,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetMagicFormationCircleCurrency(string type)
+    public List<Currencies> GetMagicFormationCircleCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1914,12 +1914,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1932,9 +1932,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetMedalsCurrency(string type)
+    public List<Currencies> GetMedalsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1949,12 +1949,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -1967,9 +1967,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetPetsCurrency(string type)
+    public List<Currencies> GetPetsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -1985,12 +1985,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2003,9 +2003,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetRelicsCurrency(string type)
+    public List<Currencies> GetRelicsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2021,12 +2021,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2039,9 +2039,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetSkillsCurrency(string type)
+    public List<Currencies> GetSkillsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2057,12 +2057,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2075,9 +2075,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetSymbolsCurrency(string type)
+    public List<Currencies> GetSymbolsCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2093,12 +2093,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2111,9 +2111,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetTitlesCurrency(string type)
+    public List<Currencies> GetTitlesCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2128,12 +2128,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2146,9 +2146,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetTalismanCurrency(string type)
+    public List<Currencies> GetTalismanCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2164,12 +2164,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2182,9 +2182,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetPuppetCurrency(string type)
+    public List<Currencies> GetPuppetCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2200,12 +2200,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2218,9 +2218,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetAlchemyCurrency(string type)
+    public List<Currencies> GetAlchemyCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2236,12 +2236,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2254,9 +2254,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetForgeCurrency(string type)
+    public List<Currencies> GetForgeCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2272,12 +2272,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2290,9 +2290,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetCardLifeCurrency(string type)
+    public List<Currencies> GetCardLifeCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2308,12 +2308,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2326,9 +2326,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetArtworkCurrency(string type)
+    public List<Currencies> GetArtworkCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2344,12 +2344,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2362,9 +2362,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetSpiritBeastCurrency(string type)
+    public List<Currencies> GetSpiritBeastCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2379,12 +2379,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 }
@@ -2397,9 +2397,9 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currencies;
     }
-    public List<Currency> GetSpiritCardCurrency(string type)
+    public List<Currencies> GetSpiritCardCurrency(string type)
     {
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -2414,12 +2414,12 @@ public class UserCurrencyRepository : IUserCurrencyRepository
 
                 while (reader.Read())
                 {
-                    Currency currency = new Currency
+                    Currencies currency = new Currencies
                     {
-                        id = reader.GetString("id"),
-                        name = reader.GetString("name"),
-                        image = reader.GetString("image"),
-                        quantity = reader.GetInt32("quantity"),
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
                 };

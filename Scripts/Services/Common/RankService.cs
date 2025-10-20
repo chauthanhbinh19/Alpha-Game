@@ -4,7 +4,7 @@ public class RankService : IRankService
 {
     public Rank EnhanceRank(Rank rank, int level, int multiplier = 1)
     {
-        int startLevel = rank.level;
+        int startLevel = rank.Level;
         int endLevel = startLevel + level;
 
         for (int lvl = startLevel; lvl < endLevel; lvl++)
@@ -13,159 +13,159 @@ public class RankService : IRankService
 
             if (lvl >= 0 && lvl <= 500)
             {
-                rank.health += 10000000 * statMultiplier;
+                rank.Health += 10000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                rank.physical_attack += 1500000 * statMultiplier;
-                rank.physical_defense += 1500000 * statMultiplier;
+                rank.PhysicalAttack += 1500000 * statMultiplier;
+                rank.PhysicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                rank.magical_attack += 1500000 * statMultiplier;
-                rank.magical_defense += 1500000 * statMultiplier;
+                rank.MagicalAttack += 1500000 * statMultiplier;
+                rank.MagicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                rank.chemical_attack += 1500000 * statMultiplier;
-                rank.chemical_defense += 1500000 * statMultiplier;
+                rank.ChemicalAttack += 1500000 * statMultiplier;
+                rank.ChemicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                rank.atomic_attack += 1500000 * statMultiplier;
-                rank.atomic_defense += 1500000 * statMultiplier;
+                rank.AtomicAttack += 1500000 * statMultiplier;
+                rank.AtomicDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                rank.mental_attack += 1500000 * statMultiplier;
-                rank.mental_defense += 1500000 * statMultiplier;
+                rank.MentalAttack += 1500000 * statMultiplier;
+                rank.MentalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                rank.speed += 1500000 * statMultiplier;
-                rank.critical_damage_rate += 0.1 * statMultiplier;
-                rank.critical_rate += 0.1 * statMultiplier;
-                rank.critical_resistance_rate += 0.1 * statMultiplier;
-                rank.ignore_critical_rate += 0.1 * statMultiplier;
-                rank.penetration_rate += 0.1 * statMultiplier;
-                rank.penetration_resistance_rate += 0.1 * statMultiplier;
+                rank.Speed += 1500000 * statMultiplier;
+                rank.CriticalDamageRate += 0.1 * statMultiplier;
+                rank.CriticalRate += 0.1 * statMultiplier;
+                rank.CriticalResistanceRate += 0.1 * statMultiplier;
+                rank.IgnoreCriticalRate += 0.1 * statMultiplier;
+                rank.PenetrationRate += 0.1 * statMultiplier;
+                rank.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                rank.evasion_rate += 0.1 * statMultiplier;
-                rank.damage_absorption_rate += 0.1 * statMultiplier;
-                rank.ignore_damage_absorption_rate += 0.1 * statMultiplier;
-                rank.absorbed_damage_rate += 0.1 * statMultiplier;
-                rank.vitality_regeneration_rate += 0.1 * statMultiplier;
-                rank.vitality_regeneration_resistance_rate += 0.1 * statMultiplier;
-                rank.accuracy_rate += 0.1 * statMultiplier;
+                rank.EvasionRate += 0.1 * statMultiplier;
+                rank.DamageAbsorptionRate += 0.1 * statMultiplier;
+                rank.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                rank.AbsorbedDamageRate += 0.1 * statMultiplier;
+                rank.VitalityRegenerationRate += 0.1 * statMultiplier;
+                rank.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                rank.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                rank.lifesteal_rate += 0.1 * statMultiplier;
-                rank.mana += 1500000 * statMultiplier;
-                rank.mana_regeneration_rate += 0.1 * statMultiplier;
-                rank.shield_strength += 1500000 * statMultiplier;
+                rank.LifestealRate += 0.1 * statMultiplier;
+                rank.Mana += 1500000 * statMultiplier;
+                rank.ManaRegenerationRate += 0.1 * statMultiplier;
+                rank.ShieldStrength += 1500000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                rank.tenacity += 0.5 * statMultiplier;
-                rank.resistance_rate += 0.1 * statMultiplier;
-                rank.combo_rate += 0.1 * statMultiplier;
-                rank.ignore_combo_rate += 0.1 * statMultiplier;
-                rank.combo_damage_rate += 0.1 * statMultiplier;
-                rank.combo_resistance_rate += 0.1 * statMultiplier;
-                rank.stun_rate += 0.1 * statMultiplier;
-                rank.ignore_stun_rate += 0.1 * statMultiplier;
+                rank.Tenacity += 0.5 * statMultiplier;
+                rank.ResistanceRate += 0.1 * statMultiplier;
+                rank.ComboRate += 0.1 * statMultiplier;
+                rank.IgnoreComboRate += 0.1 * statMultiplier;
+                rank.ComboDamageRate += 0.1 * statMultiplier;
+                rank.ComboResistanceRate += 0.1 * statMultiplier;
+                rank.StunRate += 0.1 * statMultiplier;
+                rank.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                rank.reflection_rate += 0.1 * statMultiplier;
-                rank.ignore_reflection_rate += 0.1 * statMultiplier;
-                rank.reflection_damage_rate += 0.1 * statMultiplier;
-                rank.reflection_resistance_rate += 0.1 * statMultiplier;
-                rank.damage_to_different_faction_rate += 0.1 * statMultiplier;
-                rank.resistance_to_different_faction_rate += 0.1 * statMultiplier;
-                rank.damage_to_same_faction_rate += 0.1 * statMultiplier;
-                rank.resistance_to_same_faction_rate += 0.1 * statMultiplier;
+                rank.ReflectionRate += 0.1 * statMultiplier;
+                rank.IgnoreReflectionRate += 0.1 * statMultiplier;
+                rank.ReflectionDamageRate += 0.1 * statMultiplier;
+                rank.ReflectionResistanceRate += 0.1 * statMultiplier;
+                rank.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                rank.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                rank.DamageToSameFactionRate += 0.1 * statMultiplier;
+                rank.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                rank.normal_damage_rate += 0.1 * statMultiplier;
-                rank.normal_resistance_rate += 0.1 * statMultiplier;
-                rank.skill_damage_rate += 0.1 * statMultiplier;
-                rank.skill_resistance_rate += 0.1 * statMultiplier;
-                rank.percent_all_health += 5 * statMultiplier;
-                rank.percent_all_physical_attack += 5 * statMultiplier;
-                rank.percent_all_physical_defense += 5 * statMultiplier;
+                rank.NormalDamageRate += 0.1 * statMultiplier;
+                rank.NormalResistanceRate += 0.1 * statMultiplier;
+                rank.SkillDamageRate += 0.1 * statMultiplier;
+                rank.SkillResistanceRate += 0.1 * statMultiplier;
+                rank.PercentAllHealth += 5 * statMultiplier;
+                rank.PercentAllPhysicalAttack += 5 * statMultiplier;
+                rank.PercentAllPhysicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 6500 && lvl <= 7000)
             {
-                rank.percent_all_magical_attack += 5 * statMultiplier;
-                rank.percent_all_magical_defense += 5 * statMultiplier;
+                rank.PercentAllMagicalAttack += 5 * statMultiplier;
+                rank.PercentAllMagicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 7000 && lvl <= 7500)
             {
-                rank.percent_all_chemical_attack += 5 * statMultiplier;
-                rank.percent_all_chemical_defense += 5 * statMultiplier;
+                rank.PercentAllChemicalAttack += 5 * statMultiplier;
+                rank.PercentAllChemicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 7500 && lvl <= 8000)
             {
-                rank.percent_all_atomic_attack += 5 * statMultiplier;
-                rank.percent_all_atomic_defense += 5 * statMultiplier;
+                rank.PercentAllAtomicAttack += 5 * statMultiplier;
+                rank.PercentAllAtomicDefense += 5 * statMultiplier;
             }
             else if (lvl > 8000 && lvl <= 8500)
             {
-                rank.percent_all_mental_attack += 5 * statMultiplier;
-                rank.percent_all_mental_defense += 5 * statMultiplier;
+                rank.PercentAllMentalAttack += 5 * statMultiplier;
+                rank.PercentAllMentalDefense += 5 * statMultiplier;
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                rank.physical_attack += 1500000 * statMultiplier;
-                rank.magical_attack += 1500000 * statMultiplier;
-                rank.chemical_attack += 1500000 * statMultiplier;
-                rank.atomic_attack += 1500000 * statMultiplier;
-                rank.mental_attack += 1500000 * statMultiplier;
+                rank.PhysicalAttack += 1500000 * statMultiplier;
+                rank.MagicalAttack += 1500000 * statMultiplier;
+                rank.ChemicalAttack += 1500000 * statMultiplier;
+                rank.AtomicAttack += 1500000 * statMultiplier;
+                rank.MentalAttack += 1500000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                rank.physical_defense += 1500000 * statMultiplier;
-                rank.magical_defense += 1500000 * statMultiplier;
-                rank.chemical_defense += 1500000 * statMultiplier;
-                rank.atomic_defense += 1500000 * statMultiplier;
-                rank.mental_defense += 1500000 * statMultiplier;
+                rank.PhysicalDefense += 1500000 * statMultiplier;
+                rank.MagicalDefense += 1500000 * statMultiplier;
+                rank.ChemicalDefense += 1500000 * statMultiplier;
+                rank.AtomicDefense += 1500000 * statMultiplier;
+                rank.MentalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                rank.speed += 1500000 * statMultiplier;
-                rank.critical_damage_rate += 0.1 * statMultiplier;
-                rank.critical_rate += 0.1 * statMultiplier;
-                rank.penetration_rate += 0.1 * statMultiplier;
-                rank.evasion_rate += 0.1 * statMultiplier;
-                rank.damage_absorption_rate += 0.1 * statMultiplier;
-                rank.vitality_regeneration_rate += 0.1 * statMultiplier;
-                rank.accuracy_rate += 0.1 * statMultiplier;
-                rank.lifesteal_rate += 0.1 * statMultiplier;
-                rank.mana += 1500000 * statMultiplier;
-                rank.mana_regeneration_rate += 0.1 * statMultiplier;
-                rank.shield_strength += 1500000 * statMultiplier;
-                rank.tenacity += 0.5 * statMultiplier;
-                rank.resistance_rate += 0.1 * statMultiplier;
-                rank.combo_rate += 0.1 * statMultiplier;
-                rank.reflection_rate += 0.1 * statMultiplier;
-                rank.damage_to_different_faction_rate += 0.1 * statMultiplier;
-                rank.resistance_to_different_faction_rate += 0.1 * statMultiplier;
-                rank.damage_to_same_faction_rate += 0.1 * statMultiplier;
-                rank.resistance_to_same_faction_rate += 0.1 * statMultiplier;
+                rank.Speed += 1500000 * statMultiplier;
+                rank.CriticalDamageRate += 0.1 * statMultiplier;
+                rank.CriticalRate += 0.1 * statMultiplier;
+                rank.PenetrationRate += 0.1 * statMultiplier;
+                rank.EvasionRate += 0.1 * statMultiplier;
+                rank.DamageAbsorptionRate += 0.1 * statMultiplier;
+                rank.VitalityRegenerationRate += 0.1 * statMultiplier;
+                rank.AccuracyRate += 0.1 * statMultiplier;
+                rank.LifestealRate += 0.1 * statMultiplier;
+                rank.Mana += 1500000 * statMultiplier;
+                rank.ManaRegenerationRate += 0.1 * statMultiplier;
+                rank.ShieldStrength += 1500000 * statMultiplier;
+                rank.Tenacity += 0.5 * statMultiplier;
+                rank.ResistanceRate += 0.1 * statMultiplier;
+                rank.ComboRate += 0.1 * statMultiplier;
+                rank.ReflectionRate += 0.1 * statMultiplier;
+                rank.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                rank.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                rank.DamageToSameFactionRate += 0.1 * statMultiplier;
+                rank.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
-        rank.level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
+        rank.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return rank;
     }
     public ScienceFiction EnhanceScienceFiction(ScienceFiction scienceFiction, int level, int multiplier = 1)
     {
-        int startLevel = scienceFiction.level;
+        int startLevel = scienceFiction.Level;
         int endLevel = startLevel + level;
 
         for (int lvl = startLevel; lvl < endLevel; lvl++)
@@ -174,197 +174,197 @@ public class RankService : IRankService
 
             if (lvl >= 0 && lvl <= 500)
             {
-                scienceFiction.health += 10000000 * statMultiplier;
+                scienceFiction.Health += 10000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                scienceFiction.physical_attack += 1500000 * statMultiplier;
-                scienceFiction.physical_defense += 1500000 * statMultiplier;
+                scienceFiction.PhysicalAttack += 1500000 * statMultiplier;
+                scienceFiction.PhysicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                scienceFiction.magical_attack += 1500000 * statMultiplier;
-                scienceFiction.magical_defense += 1500000 * statMultiplier;
+                scienceFiction.MagicalAttack += 1500000 * statMultiplier;
+                scienceFiction.MagicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                scienceFiction.chemical_attack += 1500000 * statMultiplier;
-                scienceFiction.chemical_defense += 1500000 * statMultiplier;
+                scienceFiction.ChemicalAttack += 1500000 * statMultiplier;
+                scienceFiction.ChemicalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                scienceFiction.atomic_attack += 1500000 * statMultiplier;
-                scienceFiction.atomic_defense += 1500000 * statMultiplier;
+                scienceFiction.AtomicAttack += 1500000 * statMultiplier;
+                scienceFiction.AtomicDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                scienceFiction.mental_attack += 1500000 * statMultiplier;
-                scienceFiction.mental_defense += 1500000 * statMultiplier;
+                scienceFiction.MentalAttack += 1500000 * statMultiplier;
+                scienceFiction.MentalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                scienceFiction.speed += 1500000 * statMultiplier;
-                scienceFiction.critical_damage_rate += 0.1 * statMultiplier;
-                scienceFiction.critical_rate += 0.1 * statMultiplier;
-                scienceFiction.critical_resistance_rate += 0.1 * statMultiplier;
-                scienceFiction.ignore_critical_rate += 0.1 * statMultiplier;
-                scienceFiction.penetration_rate += 0.1 * statMultiplier;
-                scienceFiction.penetration_resistance_rate += 0.1 * statMultiplier;
+                scienceFiction.Speed += 1500000 * statMultiplier;
+                scienceFiction.CriticalDamageRate += 0.1 * statMultiplier;
+                scienceFiction.CriticalRate += 0.1 * statMultiplier;
+                scienceFiction.CriticalResistanceRate += 0.1 * statMultiplier;
+                scienceFiction.IgnoreCriticalRate += 0.1 * statMultiplier;
+                scienceFiction.PenetrationRate += 0.1 * statMultiplier;
+                scienceFiction.PenetrationResistanceRate += 0.1 * statMultiplier;
             }
             else if (lvl > 3500 && lvl <= 4000)
             {
-                scienceFiction.evasion_rate += 0.1 * statMultiplier;
-                scienceFiction.damage_absorption_rate += 0.1 * statMultiplier;
-                scienceFiction.ignore_damage_absorption_rate += 0.1 * statMultiplier;
-                scienceFiction.absorbed_damage_rate += 0.1 * statMultiplier;
-                scienceFiction.vitality_regeneration_rate += 0.1 * statMultiplier;
-                scienceFiction.vitality_regeneration_resistance_rate += 0.1 * statMultiplier;
-                scienceFiction.accuracy_rate += 0.1 * statMultiplier;
+                scienceFiction.EvasionRate += 0.1 * statMultiplier;
+                scienceFiction.DamageAbsorptionRate += 0.1 * statMultiplier;
+                scienceFiction.IgnoreDamageAbsorptionRate += 0.1 * statMultiplier;
+                scienceFiction.AbsorbedDamageRate += 0.1 * statMultiplier;
+                scienceFiction.VitalityRegenerationRate += 0.1 * statMultiplier;
+                scienceFiction.VitalityRegenerationResistanceRate += 0.1 * statMultiplier;
+                scienceFiction.AccuracyRate += 0.1 * statMultiplier;
             }
             else if (lvl > 4000 && lvl <= 4500)
             {
-                scienceFiction.lifesteal_rate += 0.1 * statMultiplier;
-                scienceFiction.mana += 1500000 * statMultiplier;
-                scienceFiction.mana_regeneration_rate += 0.1 * statMultiplier;
-                scienceFiction.shield_strength += 1500000 * statMultiplier;
+                scienceFiction.LifestealRate += 0.1 * statMultiplier;
+                scienceFiction.Mana += 1500000 * statMultiplier;
+                scienceFiction.ManaRegenerationRate += 0.1 * statMultiplier;
+                scienceFiction.ShieldStrength += 1500000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
-                scienceFiction.tenacity += 0.5 * statMultiplier;
-                scienceFiction.resistance_rate += 0.1 * statMultiplier;
-                scienceFiction.combo_rate += 0.1 * statMultiplier;
-                scienceFiction.ignore_combo_rate += 0.1 * statMultiplier;
-                scienceFiction.combo_damage_rate += 0.1 * statMultiplier;
-                scienceFiction.combo_resistance_rate += 0.1 * statMultiplier;
-                scienceFiction.stun_rate += 0.1 * statMultiplier;
-                scienceFiction.ignore_stun_rate += 0.1 * statMultiplier;
+                scienceFiction.Tenacity += 0.5 * statMultiplier;
+                scienceFiction.ResistanceRate += 0.1 * statMultiplier;
+                scienceFiction.ComboRate += 0.1 * statMultiplier;
+                scienceFiction.IgnoreComboRate += 0.1 * statMultiplier;
+                scienceFiction.ComboDamageRate += 0.1 * statMultiplier;
+                scienceFiction.ComboResistanceRate += 0.1 * statMultiplier;
+                scienceFiction.StunRate += 0.1 * statMultiplier;
+                scienceFiction.IgnoreStunRate += 0.1 * statMultiplier;
             }
             else if (lvl > 5000 && lvl <= 5500)
             {
-                scienceFiction.reflection_rate += 0.1 * statMultiplier;
-                scienceFiction.ignore_reflection_rate += 0.1 * statMultiplier;
-                scienceFiction.reflection_damage_rate += 0.1 * statMultiplier;
-                scienceFiction.reflection_resistance_rate += 0.1 * statMultiplier;
-                scienceFiction.damage_to_different_faction_rate += 0.1 * statMultiplier;
-                scienceFiction.resistance_to_different_faction_rate += 0.1 * statMultiplier;
-                scienceFiction.damage_to_same_faction_rate += 0.1 * statMultiplier;
-                scienceFiction.resistance_to_same_faction_rate += 0.1 * statMultiplier;
+                scienceFiction.ReflectionRate += 0.1 * statMultiplier;
+                scienceFiction.IgnoreReflectionRate += 0.1 * statMultiplier;
+                scienceFiction.ReflectionDamageRate += 0.1 * statMultiplier;
+                scienceFiction.ReflectionResistanceRate += 0.1 * statMultiplier;
+                scienceFiction.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                scienceFiction.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                scienceFiction.DamageToSameFactionRate += 0.1 * statMultiplier;
+                scienceFiction.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
             else if (lvl > 6000 && lvl <= 6500)
             {
-                scienceFiction.normal_damage_rate += 0.1 * statMultiplier;
-                scienceFiction.normal_resistance_rate += 0.1 * statMultiplier;
-                scienceFiction.skill_damage_rate += 0.1 * statMultiplier;
-                scienceFiction.skill_resistance_rate += 0.1 * statMultiplier;
-                scienceFiction.percent_all_health += 5 * statMultiplier;
-                scienceFiction.percent_all_physical_attack += 5 * statMultiplier;
-                scienceFiction.percent_all_physical_defense += 5 * statMultiplier;
+                scienceFiction.NormalDamageRate += 0.1 * statMultiplier;
+                scienceFiction.NormalResistanceRate += 0.1 * statMultiplier;
+                scienceFiction.SkillDamageRate += 0.1 * statMultiplier;
+                scienceFiction.SkillResistanceRate += 0.1 * statMultiplier;
+                scienceFiction.PercentAllHealth += 5 * statMultiplier;
+                scienceFiction.PercentAllPhysicalAttack += 5 * statMultiplier;
+                scienceFiction.PercentAllPhysicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 6500 && lvl <= 7000)
             {
-                scienceFiction.percent_all_magical_attack += 5 * statMultiplier;
-                scienceFiction.percent_all_magical_defense += 5 * statMultiplier;
+                scienceFiction.PercentAllMagicalAttack += 5 * statMultiplier;
+                scienceFiction.PercentAllMagicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 7000 && lvl <= 7500)
             {
-                scienceFiction.percent_all_chemical_attack += 5 * statMultiplier;
-                scienceFiction.percent_all_chemical_defense += 5 * statMultiplier;
+                scienceFiction.PercentAllChemicalAttack += 5 * statMultiplier;
+                scienceFiction.PercentAllChemicalDefense += 5 * statMultiplier;
             }
             else if (lvl > 7500 && lvl <= 8000)
             {
-                scienceFiction.percent_all_atomic_attack += 5 * statMultiplier;
-                scienceFiction.percent_all_atomic_defense += 5 * statMultiplier;
+                scienceFiction.PercentAllAtomicAttack += 5 * statMultiplier;
+                scienceFiction.PercentAllAtomicDefense += 5 * statMultiplier;
             }
             else if (lvl > 8000 && lvl <= 8500)
             {
-                scienceFiction.percent_all_mental_attack += 5 * statMultiplier;
-                scienceFiction.percent_all_mental_defense += 5 * statMultiplier;
+                scienceFiction.PercentAllMentalAttack += 5 * statMultiplier;
+                scienceFiction.PercentAllMentalDefense += 5 * statMultiplier;
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                scienceFiction.physical_attack += 1500000 * statMultiplier;
-                scienceFiction.magical_attack += 1500000 * statMultiplier;
-                scienceFiction.chemical_attack += 1500000 * statMultiplier;
-                scienceFiction.atomic_attack += 1500000 * statMultiplier;
-                scienceFiction.mental_attack += 1500000 * statMultiplier;
+                scienceFiction.PhysicalAttack += 1500000 * statMultiplier;
+                scienceFiction.MagicalAttack += 1500000 * statMultiplier;
+                scienceFiction.ChemicalAttack += 1500000 * statMultiplier;
+                scienceFiction.AtomicAttack += 1500000 * statMultiplier;
+                scienceFiction.MentalAttack += 1500000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                scienceFiction.physical_defense += 1500000 * statMultiplier;
-                scienceFiction.magical_defense += 1500000 * statMultiplier;
-                scienceFiction.chemical_defense += 1500000 * statMultiplier;
-                scienceFiction.atomic_defense += 1500000 * statMultiplier;
-                scienceFiction.mental_defense += 1500000 * statMultiplier;
+                scienceFiction.PhysicalDefense += 1500000 * statMultiplier;
+                scienceFiction.MagicalDefense += 1500000 * statMultiplier;
+                scienceFiction.ChemicalDefense += 1500000 * statMultiplier;
+                scienceFiction.AtomicDefense += 1500000 * statMultiplier;
+                scienceFiction.MentalDefense += 1500000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                scienceFiction.speed += 1500000 * statMultiplier;
-                scienceFiction.critical_damage_rate += 0.1 * statMultiplier;
-                scienceFiction.critical_rate += 0.1 * statMultiplier;
-                scienceFiction.penetration_rate += 0.1 * statMultiplier;
-                scienceFiction.evasion_rate += 0.1 * statMultiplier;
-                scienceFiction.damage_absorption_rate += 0.1 * statMultiplier;
-                scienceFiction.vitality_regeneration_rate += 0.1 * statMultiplier;
-                scienceFiction.accuracy_rate += 0.1 * statMultiplier;
-                scienceFiction.lifesteal_rate += 0.1 * statMultiplier;
-                scienceFiction.mana += 1500000 * statMultiplier;
-                scienceFiction.mana_regeneration_rate += 0.1 * statMultiplier;
-                scienceFiction.shield_strength += 1500000 * statMultiplier;
-                scienceFiction.tenacity += 0.5 * statMultiplier;
-                scienceFiction.resistance_rate += 0.1 * statMultiplier;
-                scienceFiction.combo_rate += 0.1 * statMultiplier;
-                scienceFiction.reflection_rate += 0.1 * statMultiplier;
-                scienceFiction.damage_to_different_faction_rate += 0.1 * statMultiplier;
-                scienceFiction.resistance_to_different_faction_rate += 0.1 * statMultiplier;
-                scienceFiction.damage_to_same_faction_rate += 0.1 * statMultiplier;
-                scienceFiction.resistance_to_same_faction_rate += 0.1 * statMultiplier;
+                scienceFiction.Speed += 1500000 * statMultiplier;
+                scienceFiction.CriticalDamageRate += 0.1 * statMultiplier;
+                scienceFiction.CriticalRate += 0.1 * statMultiplier;
+                scienceFiction.PenetrationRate += 0.1 * statMultiplier;
+                scienceFiction.EvasionRate += 0.1 * statMultiplier;
+                scienceFiction.DamageAbsorptionRate += 0.1 * statMultiplier;
+                scienceFiction.VitalityRegenerationRate += 0.1 * statMultiplier;
+                scienceFiction.AccuracyRate += 0.1 * statMultiplier;
+                scienceFiction.LifestealRate += 0.1 * statMultiplier;
+                scienceFiction.Mana += 1500000 * statMultiplier;
+                scienceFiction.ManaRegenerationRate += 0.1 * statMultiplier;
+                scienceFiction.ShieldStrength += 1500000 * statMultiplier;
+                scienceFiction.Tenacity += 0.5 * statMultiplier;
+                scienceFiction.ResistanceRate += 0.1 * statMultiplier;
+                scienceFiction.ComboRate += 0.1 * statMultiplier;
+                scienceFiction.ReflectionRate += 0.1 * statMultiplier;
+                scienceFiction.DamageToDifferentFactionRate += 0.1 * statMultiplier;
+                scienceFiction.ResistanceToDifferentFactionRate += 0.1 * statMultiplier;
+                scienceFiction.DamageToSameFactionRate += 0.1 * statMultiplier;
+                scienceFiction.ResistanceToSameFactionRate += 0.1 * statMultiplier;
             }
         }
 
-        scienceFiction.level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
+        scienceFiction.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return scienceFiction;
     }
     public void UpLevel(object data, Rank rank, string type)
     {
         if (data is CardHeroes cardHeroes)
         {
-            UserCardHeroesRankService.Create().InsertOrUpdateCardHeroesRank(rank, type, cardHeroes.id);
+            UserCardHeroesRankService.Create().InsertOrUpdateCardHeroesRank(rank, type, cardHeroes.Id);
         }
         else if (data is Books books)
         {
-            UserBooksRankService.Create().InsertOrUpdateBooksRank(rank, type, books.id);
+            UserBooksRankService.Create().InsertOrUpdateBooksRank(rank, type, books.Id);
         }
         else if (data is CardCaptains cardCaptains)
         {
-            UserCardCaptainsRankService.Create().InsertOrUpdateCardCaptainsRank(rank, type, cardCaptains.id);
+            UserCardCaptainsRankService.Create().InsertOrUpdateCardCaptainsRank(rank, type, cardCaptains.Id);
         }
         else if (data is Pets pets)
         {
-            UserPetsRankService.Create().InsertOrUpdatePetsRank(rank, type, pets.id);
+            UserPetsRankService.Create().InsertOrUpdatePetsRank(rank, type, pets.Id);
         }
-        else if (data is CardMilitary cardMilitary)
+        else if (data is CardMilitaries cardMilitary)
         {
-            UserCardMilitaryRankService.Create().InsertOrUpdateCardMilitaryRank(rank, type, cardMilitary.id);
+            UserCardMilitaryRankService.Create().InsertOrUpdateCardMilitaryRank(rank, type, cardMilitary.Id);
         }
-        else if (data is CardSpell cardSpell)
+        else if (data is CardSpells cardSpell)
         {
-            UserCardSpellRankService.Create().InsertOrUpdateCardSpellRank(rank, type, cardSpell.id);
+            UserCardSpellRankService.Create().InsertOrUpdateCardSpellRank(rank, type, cardSpell.Id);
         }
         else if (data is CardMonsters cardMonsters)
         {
-            UserCardMonstersRankService.Create().InsertOrUpdateCardMonstersRank(rank, type, cardMonsters.id);
+            UserCardMonstersRankService.Create().InsertOrUpdateCardMonstersRank(rank, type, cardMonsters.Id);
         }
         else if (data is CardColonels cardColonels)
         {
-            UserCardColonelsRankService.Create().InsertOrUpdateCardColonelsRank(rank, type, cardColonels.id);
+            UserCardColonelsRankService.Create().InsertOrUpdateCardColonelsRank(rank, type, cardColonels.Id);
         }
         else if (data is CardGenerals cardGenerals)
         {
-            UserCardGeneralsRankService.Create().InsertOrUpdateCardGeneralsRank(rank, type, cardGenerals.id);
+            UserCardGeneralsRankService.Create().InsertOrUpdateCardGeneralsRank(rank, type, cardGenerals.Id);
         }
         else if (data is CardAdmirals cardAdmirals)
         {
-            UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralsRank(rank, type, cardAdmirals.id);
+            UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralsRank(rank, type, cardAdmirals.Id);
         }
     }
 }

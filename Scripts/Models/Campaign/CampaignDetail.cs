@@ -62,7 +62,7 @@ public class CampaignDetail
         List<CardHeroes> result = new List<CardHeroes>();
         foreach (var detailCard in campaignDetailCards)
         {
-            var card = allCards.Find(c => c.id.Equals(detailCard.cardId));
+            var card = allCards.Find(c => c.Id.Equals(detailCard.cardId));
             if (card != null)
                 result.Add(card);
         }

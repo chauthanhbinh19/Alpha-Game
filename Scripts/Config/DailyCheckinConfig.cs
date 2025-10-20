@@ -47,13 +47,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_HEROES,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_HEROES,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -68,13 +68,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.ALCHEMY,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.ALCHEMY,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -89,13 +89,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.AVATAR,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.AVATAR,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -110,13 +110,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.BORDER,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.BORDER,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -131,13 +131,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.BOOK,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.BOOK,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -152,13 +152,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_ADMIRAL,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_ADMIRAL,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -173,13 +173,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_CAPTAIN,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_CAPTAIN,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -194,13 +194,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_COLONEL,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_COLONEL,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -215,13 +215,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_GENERAL,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_GENERAL,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -236,13 +236,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_LIFE,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_LIFE,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -257,13 +257,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_MILITARY,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_MILITARY,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -278,13 +278,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_MONSTER,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_MONSTER,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -299,13 +299,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.CARD_SPELL,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.CARD_SPELL,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -320,13 +320,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.COLLABORATION_EQUIPMENT,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.COLLABORATION_EQUIPMENT,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -341,13 +341,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.COLLABORATION,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.COLLABORATION,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -362,13 +362,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.EQUIPMENT,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.EQUIPMENT,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -383,13 +383,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.FORGE,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.FORGE,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -404,13 +404,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.MAGIC_FORMATION_CIRCLE,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.MAGIC_FORMATION_CIRCLE,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -425,13 +425,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.MEDAL,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.MEDAL,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -446,13 +446,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.PET,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.PET,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -467,13 +467,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.PUPPET,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.PUPPET,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -488,13 +488,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.RELIC,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.RELIC,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -509,13 +509,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.SKILL,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.SKILL,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -530,13 +530,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.SYMBOL,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.SYMBOL,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -551,13 +551,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.TALISMAN,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.TALISMAN,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -572,13 +572,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.TITLE,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.TITLE,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -593,13 +593,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.ITEM,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.ITEM,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -614,13 +614,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.ITEM,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.ITEM,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -635,13 +635,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.ITEM,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.ITEM,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -656,13 +656,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.ITEM,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.ITEM,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
@@ -677,13 +677,13 @@ public class DailyCheckinConfig : MonoBehaviour
 
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        id = day.ToString(),
-                        date = currentDate,
-                        month = currentDate.Month,
-                        year = currentDate.Year,
-                        type = AppConstants.MainType.ITEM,
-                        object_id = randomItem,
-                        quantity = 5000
+                        Id = day.ToString(),
+                        Date = currentDate,
+                        Month = currentDate.Month,
+                        Year = currentDate.Year,
+                        Type = AppConstants.MainType.ITEM,
+                        ObjectId = randomItem,
+                        Quantity = 5000
                     };
 
                     DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);

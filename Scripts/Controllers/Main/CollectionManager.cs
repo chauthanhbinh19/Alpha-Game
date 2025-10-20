@@ -146,7 +146,7 @@ public class CollectionManager : MonoBehaviour
         Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
         IUserCurrencyRepository userCurrencyRepository = new UserCurrencyRepository();
         UserCurrencyService userCurrencyService = new UserCurrencyService(userCurrencyRepository);
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = userCurrencyService.GetUserCurrency();
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
@@ -218,7 +218,7 @@ public class CollectionManager : MonoBehaviour
             if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
                 var collaborationGalleryService = CollaborationGalleryService.Create();
-                List<Collaboration> collaborations = collaborationGalleryService.GetCollaborationCollection(pageSize, offset, rare);
+                List<Collaborations> collaborations = collaborationGalleryService.GetCollaborationCollection(pageSize, offset, rare);
                 CollaborationGalleryController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
 
                 totalRecord = collaborationGalleryService.GetCollaborationCount(rare);
@@ -250,7 +250,7 @@ public class CollectionManager : MonoBehaviour
             else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
                 var spiritBeastGalleryService = SpiritBeastGalleryService.Create();
-                List<SpiritBeast> spiritBeasts = spiritBeastGalleryService.GetSpiritBeastCollection(pageSize, offset, rare);
+                List<SpiritBeasts> spiritBeasts = spiritBeastGalleryService.GetSpiritBeastCollection(pageSize, offset, rare);
                 SpiritBeastGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
 
                 totalRecord = spiritBeastGalleryService.GetSpiritBeastCount(rare);
@@ -358,7 +358,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
             var collaborationEquipmentGalleryService = CollaborationEquipmentGalleryService.Create();
-            List<CollaborationEquipment> collaborationEquipments = collaborationEquipmentGalleryService.GetCollaborationEquipmentsCollection(type, pageSize, offset, rare);
+            List<CollaborationEquipments> collaborationEquipments = collaborationEquipmentGalleryService.GetCollaborationEquipmentsCollection(type, pageSize, offset, rare);
             CollaborationEquipmentGalleryController.Instance.CreateCollaborationEquipmentsGallery(collaborationEquipments, DictionaryContentPanel);
 
             totalRecord = collaborationEquipmentGalleryService.GetCollaborationEquipmentCount(type, rare);
@@ -398,7 +398,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
             var cardMilitaryGalleryService = CardMilitaryGalleryService.Create();
-            List<CardMilitary> cardMilitaries = cardMilitaryGalleryService.GetCardMilitaryCollection(type, pageSize, offset, rare);
+            List<CardMilitaries> cardMilitaries = cardMilitaryGalleryService.GetCardMilitaryCollection(type, pageSize, offset, rare);
             CardMilitaryGalleryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
 
             totalRecord = cardMilitaryGalleryService.GetCardMilitaryCount(type, rare);
@@ -406,7 +406,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
             var cardSpellGalleryService = CardSpellGalleryService.Create();
-            List<CardSpell> cardSpells = cardSpellGalleryService.GetCardSpellCollection(type, pageSize, offset, rare);
+            List<CardSpells> cardSpells = cardSpellGalleryService.GetCardSpellCollection(type, pageSize, offset, rare);
             CardSpellGalleryController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
 
             totalRecord = cardSpellGalleryService.GetCardSpellCount(type, rare);
@@ -414,7 +414,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
         {
             var collaborationGalleryService = CollaborationGalleryService.Create();
-            List<Collaboration> collaborations = collaborationGalleryService.GetCollaborationCollection(pageSize, offset, rare);
+            List<Collaborations> collaborations = collaborationGalleryService.GetCollaborationCollection(pageSize, offset, rare);
             CollaborationGalleryController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
 
             totalRecord = collaborationGalleryService.GetCollaborationCount(rare);
@@ -446,7 +446,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
             var magicFormationCircleGalleryService = MagicFormationCircleGalleryService.Create();
-            List<MagicFormationCircle> magicFormationCircles = magicFormationCircleGalleryService.GetMagicFormationCircleCollection(type, pageSize, offset, rare);
+            List<MagicFormationCircles> magicFormationCircles = magicFormationCircleGalleryService.GetMagicFormationCircleCollection(type, pageSize, offset, rare);
             MagicFormationCircleGalleryController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
 
             totalRecord = magicFormationCircleGalleryService.GetMagicFormationCircleCount(type, rare);
@@ -494,7 +494,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
             var talismanGalleryService = TalismanGalleryService.Create();
-            List<Talisman> talismans = talismanGalleryService.GetTalismanCollection(type, pageSize, offset, rare);
+            List<Talismans> talismans = talismanGalleryService.GetTalismanCollection(type, pageSize, offset, rare);
             TalismanGalleryController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
 
             totalRecord = talismanGalleryService.GetTalismanCount(type, rare);
@@ -502,7 +502,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
             var puppetGalleryService = PuppetGalleryService.Create();
-            List<Puppet> puppets = puppetGalleryService.GetPuppetCollection(type, pageSize, offset, rare);
+            List<Puppets> puppets = puppetGalleryService.GetPuppetCollection(type, pageSize, offset, rare);
             PuppetGalleryController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
 
             totalRecord = puppetGalleryService.GetPuppetCount(type, rare);
@@ -510,7 +510,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
             var alchemyGalleryService = AlchemyGalleryService.Create();
-            List<Alchemy> alchemies = alchemyGalleryService.GetAlchemyCollection(type, pageSize, offset, rare);
+            List<Alchemies> alchemies = alchemyGalleryService.GetAlchemyCollection(type, pageSize, offset, rare);
             AlchemyGalleryController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
 
             totalRecord = alchemyGalleryService.GetAlchemyCount(type, rare);
@@ -518,7 +518,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
             var forgeGalleryService = ForgeGalleryService.Create();
-            List<Forge> forges = forgeGalleryService.GetForgeCollection(type, pageSize, offset, rare);
+            List<Forges> forges = forgeGalleryService.GetForgeCollection(type, pageSize, offset, rare);
             ForgeGalleryController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
 
             totalRecord = forgeGalleryService.GetForgeCount(type, rare);
@@ -526,7 +526,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
             var cardLifeGalleryService = CardLifeGalleryService.Create();
-            List<CardLife> cardLives = cardLifeGalleryService.GetCardLifeCollection(type, pageSize, offset, rare);
+            List<CardLives> cardLives = cardLifeGalleryService.GetCardLifeCollection(type, pageSize, offset, rare);
             CardLifeGalleryController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
 
             totalRecord = cardLifeGalleryService.GetCardLifeCount(type, rare);
@@ -534,7 +534,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
             var artworkGalleryService = ArtworkGalleryService.Create();
-            List<Artwork> artworks = artworkGalleryService.GetArtworkCollection(type, pageSize, offset, rare);
+            List<Artworks> artworks = artworkGalleryService.GetArtworkCollection(type, pageSize, offset, rare);
             ArtworkGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
 
             totalRecord = artworkGalleryService.GetArtworkCount(type, rare);
@@ -542,7 +542,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
             var spiritBeastGalleryService = SpiritBeastGalleryService.Create();
-            List<SpiritBeast> spiritBeasts = spiritBeastGalleryService.GetSpiritBeastCollection(pageSize, offset, rare);
+            List<SpiritBeasts> spiritBeasts = spiritBeastGalleryService.GetSpiritBeastCollection(pageSize, offset, rare);
             SpiritBeastGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
 
             totalRecord = spiritBeastGalleryService.GetSpiritBeastCount(rare);
@@ -558,7 +558,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
             var spiritCardGalleryService = SpiritCardGalleryService.Create();
-            List<SpiritCard> spiritCards = spiritCardGalleryService.GetSpiritCardCollection(type, pageSize, offset, rare);
+            List<SpiritCards> spiritCards = spiritCardGalleryService.GetSpiritCardCollection(type, pageSize, offset, rare);
             SpiritCardGalleryController.Instance.CreateSpiritCardGallery(spiritCards, DictionaryContentPanel);
 
             totalRecord = spiritCardGalleryService.GetSpiritCardCount(type, rare);

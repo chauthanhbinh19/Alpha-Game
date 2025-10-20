@@ -47,17 +47,17 @@ public class AlchemyController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateAlchemyGallery(List<Alchemy> alchemies, Transform DictionaryContentPanel)
+    public void CreateAlchemyGallery(List<Alchemies> alchemies, Transform DictionaryContentPanel)
     {
         foreach (var alchemy in alchemies)
         {
             GameObject alchemyObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
             Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = alchemy.name.Replace("_", " ");
+            Title.text = alchemy.Name.Replace("_", " ");
 
             RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -71,7 +71,7 @@ public class AlchemyController : MonoBehaviour
             });
 
             RawImage rareImage = alchemyObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.Rare}");
             rareImage.texture = rareTexture;
 
         }
@@ -82,7 +82,7 @@ public class AlchemyController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateAlchemyTrade(List<Alchemy> alchemies, string subType, Transform currentContent,
+    public void CreateAlchemyTrade(List<Alchemies> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var alchemy in alchemies)
@@ -90,10 +90,10 @@ public class AlchemyController : MonoBehaviour
             GameObject alchemyObject = Instantiate(equipmentsShopPrefab, currentContent);
 
             Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = alchemy.name.Replace("_", " ");
+            Title.text = alchemy.Name.Replace("_", " ");
 
             RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = alchemyObject.transform.Find("Frame").GetComponent<RawImage>();
@@ -110,12 +110,12 @@ public class AlchemyController : MonoBehaviour
             // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");
             // rareImage.texture = rareTexture;
             RawImage currencyImage = alchemyObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.currency.image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Text currencyText = alchemyObject.transform.Find("CurrencyText").GetComponent<Text>();
-            currencyText.text = NumberFormatter.FormatNumber(alchemy.currency.quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(alchemy.Currency.Quantity, false);
 
             Button buy = alchemyObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -123,12 +123,12 @@ public class AlchemyController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                GetQuantity(alchemy.currency.quantity, alchemy, subType, popupPanel, currencyPanel);
+                GetQuantity(alchemy.Currency.Quantity, alchemy, subType, popupPanel, currencyPanel);
             });
 
         }
 
-        List<Currency> currencies = new List<Currency>();
+        List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetAlchemyCurrency(subType);
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -243,14 +243,14 @@ public class AlchemyController : MonoBehaviour
         });
         maxButton.onClick.AddListener(() =>
         {
-            Currency userCurrency = new Currency();
-            if (obj is Alchemy alchemy)
+            Currencies userCurrency = new Currencies();
+            if (obj is Alchemies alchemy)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(alchemy.currency.id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(alchemy.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
-            int max = (int)(userCurrency.quantity / price);
+            int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
@@ -274,10 +274,10 @@ public class AlchemyController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Alchemy alchemy)
+            if (obj is Alchemies alchemy)
             {
-                alchemy.quantity = alchemy.quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(alchemy.currency.id, price);
+                alchemy.Quantity = alchemy.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(alchemy.Currency.Id, price);
                 bool success = UserAlchemyService.Create().InsertUserAlchemy(alchemy);
                 if (!success)
                 {
@@ -289,11 +289,11 @@ public class AlchemyController : MonoBehaviour
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-                    List<Currency> currencies = new List<Currency>();
+                    List<Currencies> currencies = new List<Currencies>();
 
-                    AlchemyGalleryService.Create().InsertAlchemyGallery(alchemy.id);
+                    AlchemyGalleryService.Create().InsertAlchemyGallery(alchemy.Id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);

@@ -14,9 +14,9 @@ public class CollaborationService : ICollaborationService
         return new CollaborationService(new CollaborationRepository());
     }
 
-    public List<Collaboration> GetCollaboration(int pageSize, int offset, string rare)
+    public List<Collaborations> GetCollaboration(int pageSize, int offset, string rare)
     {
-        List<Collaboration> list = _collaborationRepository.GetCollaboration(pageSize, offset, rare);
+        List<Collaborations> list = _collaborationRepository.GetCollaboration(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -26,9 +26,9 @@ public class CollaborationService : ICollaborationService
         return _collaborationRepository.GetCollaborationCount(rare);
     }
 
-    public List<Collaboration> GetCollaborationWithPrice(int pageSize, int offset)
+    public List<Collaborations> GetCollaborationWithPrice(int pageSize, int offset)
     {
-        List<Collaboration> list = _collaborationRepository.GetCollaborationWithPrice(pageSize, offset);
+        List<Collaborations> list = _collaborationRepository.GetCollaborationWithPrice(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,12 +38,12 @@ public class CollaborationService : ICollaborationService
         return _collaborationRepository.GetCollaborationWithPriceCount();
     }
 
-    public Collaboration GetCollaborationsById(string Id)
+    public Collaborations GetCollaborationsById(string Id)
     {
         return _collaborationRepository.GetCollaborationsById(Id);
     }
 
-    public Collaboration SumPowerCollaborationsPercent()
+    public Collaborations SumPowerCollaborationsPercent()
     {
         return _collaborationRepository.SumPowerCollaborationsPercent();
     }

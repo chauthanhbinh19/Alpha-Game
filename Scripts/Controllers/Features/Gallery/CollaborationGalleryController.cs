@@ -38,17 +38,17 @@ public class CollaborationGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
     }
-    public void CreateCollaborationGallery(List<Collaboration> collaborationList, Transform DictionaryContentPanel)
+    public void CreateCollaborationGallery(List<Collaborations> collaborationList, Transform DictionaryContentPanel)
     {
         foreach (var collaboration in collaborationList)
         {
             GameObject collaborationObject = Instantiate(cardsPrefab, DictionaryContentPanel);
 
             Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = collaboration.name.Replace("_", " ");
+            Title.text = collaboration.Name.Replace("_", " ");
 
             RawImage Image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
@@ -68,18 +68,18 @@ public class CollaborationGalleryController : MonoBehaviour
 
             RawImage blockImage = collaborationObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = collaborationObject.transform.Find("Unlock").GetComponent<Button>();
-            if (collaboration.status.Equals("available"))
+            if (collaboration.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (collaboration.status.Equals("pending"))
+            else if (collaboration.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (collaboration.status.Equals("block"))
+            else if (collaboration.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -88,7 +88,7 @@ public class CollaborationGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 var collaborationGalleryService = CollaborationGalleryService.Create();
-                collaborationGalleryService.UpdateStatusCollaborationsGallery(collaboration.id);
+                collaborationGalleryService.UpdateStatusCollaborationsGallery(collaboration.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -102,7 +102,7 @@ public class CollaborationGalleryController : MonoBehaviour
             });
 
             Button Upgrade = collaborationObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((collaboration.current_star < collaboration.temp_star) && collaboration.status.Equals("available"))
+            if ((collaboration.CurrentStar < collaboration.TempStar) && collaboration.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -114,7 +114,7 @@ public class CollaborationGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                CollaborationGalleryService.Create().UpdateCollaborationsGalleryPower(collaboration.id);
+                CollaborationGalleryService.Create().UpdateCollaborationsGalleryPower(collaboration.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

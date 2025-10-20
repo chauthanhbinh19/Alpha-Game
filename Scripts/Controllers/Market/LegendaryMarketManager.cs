@@ -28,7 +28,7 @@ public class LegendaryMarketManager : MonoBehaviour
     private Button PreviousButton;
     private Text titleText;
     private List<Items> items;
-    private Currency currentCurrency;
+    private Currencies currentCurrency;
 
     private void Awake()
     {
@@ -82,16 +82,16 @@ public class LegendaryMarketManager : MonoBehaviour
 
         var currencies = CurrencyService.Create()
             .GetCurrencyList()
-            .Where(c => c.name != "Diamond" && c.name != "Gold" && c.name != "Silver")
+            .Where(c => c.Name != "Diamond" && c.Name != "Gold" && c.Name != "Silver")
             .ToList();
         foreach (var currency in currencies)
         {
             GameObject currencyObject = Instantiate(LegendaryMarketButtonPrefab, LegendaryMarketTransform);
             TextMeshProUGUI currencyText = currencyObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = currency.name.Replace("_", " ");
+            currencyText.text = currency.Name.Replace("_", " ");
 
             RawImage currencyImage = currencyObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.image);
+            string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
@@ -103,7 +103,7 @@ public class LegendaryMarketManager : MonoBehaviour
             });
         }
     }
-    public void CreateLegendaryMarketItemUI(Currency currency)
+    public void CreateLegendaryMarketItemUI(Currencies currency)
     {
         currentCurrency = currency;
         GameObject LegendaryMarketObject = Instantiate(LegendaryMarketPrefab, MainPanel);
@@ -140,7 +140,7 @@ public class LegendaryMarketManager : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LegendaryMarket);
 
         items = ItemsService.Create().GetItems()
-            .Where(item => item.type.Equals(AppConstants.Market.LEGENDARY_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
+            .Where(item => item.Type.Equals(AppConstants.Market.LEGENDARY_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         totalPage = Mathf.CeilToInt((float)items.Count / pageSize);
@@ -148,7 +148,7 @@ public class LegendaryMarketManager : MonoBehaviour
 
         LoadCurrentPage(currency);
     }
-    private void LoadCurrentPage(Currency currency)
+    private void LoadCurrentPage(Currencies currency)
     {
         ClearAllPrefabs();
 

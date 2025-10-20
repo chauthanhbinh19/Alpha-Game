@@ -140,19 +140,19 @@ public class UserRepository : IUserRepository
 
                 MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
 
-                List<Currency> currencies = new List<Currency>();
+                List<Currencies> currencies = new List<Currencies>();
                 while (currencyReader.Read())
                 {
                     string image = currencyReader.GetString("image");
                     string name = currencyReader.GetString("name");
                     string currencyId = currencyReader.GetString("currency_id");
                     int quantity = currencyReader.GetInt32("quantity");
-                    currencies.Add(new Currency
+                    currencies.Add(new Currencies
                     {
-                        id = currencyId,
-                        name = name,
-                        image = image,
-                        quantity = quantity
+                        Id = currencyId,
+                        Name = name,
+                        Image = image,
+                        Quantity = quantity
                     });
                 }
                 currencyReader.Close();
@@ -212,19 +212,19 @@ public class UserRepository : IUserRepository
 
                 MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
 
-                List<Currency> currencies = new List<Currency>();
+                List<Currencies> currencies = new List<Currencies>();
                 while (currencyReader.Read())
                 {
                     string image = currencyReader.GetString("image");
                     string name = currencyReader.GetString("name");
                     string currencyId = currencyReader.GetString("currency_id");
                     int quantity = currencyReader.GetInt32("quantity");
-                    currencies.Add(new Currency
+                    currencies.Add(new Currencies
                     {
-                        id = currencyId,
-                        name = name,
-                        image = image,
-                        quantity = quantity
+                        Id = currencyId,
+                        Name = name,
+                        Image = image,
+                        Quantity = quantity
                     });
                 }
                 currencyReader.Close();
