@@ -38,7 +38,7 @@ public class MainMenuQuantumManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet2.Quantum);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet2.QUANTUM);
         parentType = AppConstants.MainMenuSet2.QUANTUM;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();

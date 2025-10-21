@@ -39,7 +39,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.Omnivory);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.OMNIVORY);
         parentType = AppConstants.MainMenuSet1.OMNIVORY;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();

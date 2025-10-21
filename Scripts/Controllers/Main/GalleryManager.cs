@@ -37,7 +37,7 @@ public class GalleryManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        rare = AppConstants.Rare.All;
+        rare = AppConstants.Rare.ALL;
         galleryMenuPanel = GalleryMenuPanel;
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");

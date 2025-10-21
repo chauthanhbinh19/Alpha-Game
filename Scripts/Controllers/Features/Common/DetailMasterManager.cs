@@ -56,12 +56,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -127,12 +127,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -198,12 +198,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -269,12 +269,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -340,12 +340,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -411,12 +411,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -482,12 +482,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -553,12 +553,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -624,12 +624,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
@@ -695,12 +695,12 @@ public class DetailMasterManager : MonoBehaviour
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UpOneLevel);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();

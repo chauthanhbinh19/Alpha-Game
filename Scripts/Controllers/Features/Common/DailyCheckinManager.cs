@@ -172,7 +172,7 @@ public class DailyCheckinManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             ButtonEvent.Instance.Close(MainPanel);
         });
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.DailyCheckin);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.DAILY_CHECKIN);
         DailyCheckinPanel = popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         // Features features = new Features();

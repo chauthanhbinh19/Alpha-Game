@@ -85,7 +85,7 @@ public class MainMenuManager : MonoBehaviour
         currentPage = 1;
         pageSize = 100;
         buttonType = "";
-        rare = AppConstants.Rare.All;
+        rare = AppConstants.Rare.ALL;
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         MainPanelPrefab = UIManager.Instance.GetGameObject("MainPanelPrefab");
         // mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
@@ -255,12 +255,12 @@ public class MainMenuManager : MonoBehaviour
             SummonOneButtonText.font = EuroStyleNormalFont;
             SummonOneButtonText.fontSize = fontSize;
             SummonOneButtonText.fontStyle = FontStyles.Bold;
-            SummonOneButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SummonOne);
+            SummonOneButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SUMMON_ONE);
             TextMeshProUGUI SummonTenButtonText = Summon10Button.GetComponentInChildren<TextMeshProUGUI>();
             SummonTenButtonText.font = EuroStyleNormalFont;
             SummonTenButtonText.fontSize = fontSize;
             SummonTenButtonText.fontStyle = FontStyles.Bold;
-            SummonTenButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SummonTen);
+            SummonTenButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SUMMON_TEN);
 
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
             RawImage rawImage1 = summonObject.transform.Find("DictionaryCards/RawImage1").GetComponent<RawImage>();

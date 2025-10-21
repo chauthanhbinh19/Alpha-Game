@@ -799,6 +799,20 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         return list;
     }
 
+    public List<CardGenerals> GetUserCardGeneralsTeamWithoutPosition(string user_id, string teamId)
+    {
+        List<CardGenerals> list = _userCardGeneralsRepository.GetUserCardGeneralsTeamWithoutPosition(user_id, teamId);
+        list = GetAllSpiritBeastPower(user_id, list);
+        list = QualityEvaluator.GetQualityPower(list);
+        list = GetFinalPower(user_id, list);
+        list = GetAllEquipmentPower(user_id, list);
+        list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
+        list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
+        return list;
+    }
+
     public int GetUserCardGeneralsTeamsPositionCount(string user_id, string team_id, string position)
     {
         return _userCardGeneralsRepository.GetUserCardGeneralsTeamsPositionCount(user_id, team_id, position);

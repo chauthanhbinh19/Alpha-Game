@@ -78,7 +78,7 @@ public class LegendaryMarketManager : MonoBehaviour
             Close(MainPanel);
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LegendaryMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LEGENDARY_MARKET);
 
         var currencies = CurrencyService.Create()
             .GetCurrencyList()
@@ -137,7 +137,7 @@ public class LegendaryMarketManager : MonoBehaviour
             ChangePreviousPage();
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LegendaryMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LEGENDARY_MARKET);
 
         items = ItemsService.Create().GetItems()
             .Where(item => item.Type.Equals(AppConstants.Market.LEGENDARY_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))

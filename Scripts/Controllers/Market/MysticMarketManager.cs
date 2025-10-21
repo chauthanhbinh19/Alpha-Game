@@ -77,7 +77,7 @@ public class MysticMarketManager : MonoBehaviour
             Close(MainPanel);
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MysticMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MYSTIC_MARKET);
 
         var currencies = CurrencyService.Create()
             .GetCurrencyList()
@@ -136,7 +136,7 @@ public class MysticMarketManager : MonoBehaviour
             ChangePreviousPage();
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MysticMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MYSTIC_MARKET);
 
         items = ItemsService.Create().GetItems()
             .Where(item => item.Type.Equals(AppConstants.Market.MYSTIC_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))

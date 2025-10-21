@@ -78,7 +78,7 @@ public class RareMarketManager : MonoBehaviour
             Close(MainPanel);
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RareMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RARE_MARKET);
 
         var currencies = CurrencyService.Create()
             .GetCurrencyList()
@@ -137,7 +137,7 @@ public class RareMarketManager : MonoBehaviour
             ChangePreviousPage();
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RareMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RARE_MARKET);
 
         items = ItemsService.Create().GetItems()
             .Where(item => item.Type.Equals(AppConstants.Market.RARE_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))

@@ -38,7 +38,7 @@ public class MainMenuSpearManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.Spear);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.SPEAR);
         parentType = AppConstants.MainMenuSet1.SPEAR;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();

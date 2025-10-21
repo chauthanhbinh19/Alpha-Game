@@ -800,6 +800,20 @@ public class UserCardColonelsService : IUseCardColonelsService
         return list;
     }
 
+    public List<CardColonels> GetUserCardColonelsTeamWithoutPosition(string user_id, string teamId)
+    {
+        List<CardColonels> list = _userCardColonelsRepository.GetUserCardColonelsTeamWithoutPosition(user_id, teamId);
+        list = GetAllSpiritBeastPower(user_id, list);
+        list = QualityEvaluator.GetQualityPower(list);
+        list = GetFinalPower(user_id, list);
+        list = GetAllEquipmentPower(user_id, list);
+        list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
+        list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
+        return list;
+    }
+
     public Dictionary<string, int> GetUniqueCardColonelTypesTeam(string teamId)
     {
         return _userCardColonelsRepository.GetUniqueCardColonelTypesTeam(teamId);

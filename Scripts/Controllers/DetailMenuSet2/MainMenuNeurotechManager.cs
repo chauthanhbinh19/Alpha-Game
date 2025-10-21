@@ -38,7 +38,7 @@ public class MainMenuNeurotechManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet2.Neurotech);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet2.NEUROTECH);
         parentType = AppConstants.MainMenuSet2.NEUROTECH;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();

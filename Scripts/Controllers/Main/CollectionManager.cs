@@ -42,7 +42,7 @@ public class CollectionManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        rare = AppConstants.Rare.All;
+        rare = AppConstants.Rare.ALL;
         collectionMenuPanel = CollectionMenuPanel;
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");

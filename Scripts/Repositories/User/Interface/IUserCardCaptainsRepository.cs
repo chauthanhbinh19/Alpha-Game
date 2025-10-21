@@ -4,6 +4,7 @@ public interface IUserCardCaptainsRepository
 {
     List<CardCaptains> GetUserCardCaptains(string user_id, string type, int pageSize, int offset, string rare);
     List<CardCaptains> GetUserCardCaptainsTeam(string user_id, string teamId, string position);
+    List<CardCaptains> GetUserCardCaptainsTeamWithoutPosition(string user_id, string teamId);
     Dictionary<string, int> GetUniqueCardCaptainTypesTeam(string teamId);
     bool UpdateTeamCardCaptains(string team_id, string position, string card_id);
     int GetUserCardCaptainsCount(string user_id, string type, string rare);

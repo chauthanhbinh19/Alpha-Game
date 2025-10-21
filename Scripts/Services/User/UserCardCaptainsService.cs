@@ -796,6 +796,19 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         return list;
     }
 
+    public List<CardCaptains> GetUserCardCaptainsTeamWithoutPosition(string user_id, string teamId)
+    {
+        List<CardCaptains> list = _userCardCaptainsRepository.GetUserCardCaptainsTeamWithoutPosition(user_id, teamId);
+        list = GetAllSpiritBeastPower(user_id, list);
+        list = QualityEvaluator.GetQualityPower(list);
+        list = GetFinalPower(user_id, list);
+        list = GetAllEquipmentPower(user_id, list);
+        list = GetAllRankPower(user_id, list);
+        list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
+        return list;
+    }
+
     public Dictionary<string, int> GetUniqueCardCaptainTypesTeam(string teamId)
     {
         return _userCardCaptainsRepository.GetUniqueCardCaptainTypesTeam(teamId);

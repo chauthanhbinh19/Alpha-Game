@@ -10,6 +10,7 @@ public interface IUserCardMilitaryService
     CardMilitaries GetNewBreakthroughPower(CardMilitaries c, double coefficient);
     List<CardMilitaries> GetUserCardMilitary(string user_id, string type, int pageSize, int offset, string rare);
     List<CardMilitaries> GetUserCardMilitaryTeam(string user_id, string teamId, string position);
+    List<CardMilitaries> GetUserCardMilitaryTeamWithoutPosition(string user_id, string teamId);
     Dictionary<string, int> GetUniqueCardMilitaryTypesTeam(string teamId);
     bool UpdateTeamCardMilitary(string team_id, string position, string card_id);
     int GetUserCardMilitaryCount(string user_id, string type, string rare);

@@ -10,6 +10,7 @@ public interface IUserCardSpellService
     CardSpells GetNewBreakthroughPower(CardSpells c, double coefficient);
     List<CardSpells> GetUserCardSpell(string user_id, string type, int pageSize, int offset, string rare);
     List<CardSpells> GetUserCardSpellTeam(string user_id, string teamId, string position);
+    List<CardSpells> GetUserCardSpellTeamWithoutPosition(string user_id, string teamId);
     Dictionary<string, int> GetUniqueCardSpellTypesTeam(string teamId);
     bool UpdateTeamCardSpell(string team_id, string position, string card_id);
     int GetUserCardSpellCount(string user_id, string type, string rare);

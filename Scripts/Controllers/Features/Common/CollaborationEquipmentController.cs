@@ -115,7 +115,7 @@ public class CollaborationEquipmentController : MonoBehaviour
 
             Button buy = collaborationEquipmentObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Buy);
+            buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
@@ -146,7 +146,7 @@ public class CollaborationEquipmentController : MonoBehaviour
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
         TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Buy);
+        buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty("id");
         var imageProperty = obj.GetType().GetProperty("image");

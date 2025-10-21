@@ -198,9 +198,9 @@ public class AuthenticationManager : MonoBehaviour
         });
 
         TextMeshProUGUI signInButtonText = SI_signInButton.GetComponentInChildren<TextMeshProUGUI>();
-        signInButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SignIn);
+        signInButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SIGN_IN);
         TextMeshProUGUI signUpButtonText = SI_signUpButton.GetComponentInChildren<TextMeshProUGUI>();
-        signUpButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SignUp);
+        signUpButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SIGN_UP);
     }
     public void createSignUpPanel()
     {
@@ -231,9 +231,9 @@ public class AuthenticationManager : MonoBehaviour
         });
 
         TextMeshProUGUI signInButtonText = SI_signInButton.GetComponentInChildren<TextMeshProUGUI>();
-        signInButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Back);
+        signInButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BACK);
         TextMeshProUGUI signUpButtonText = SI_signUpButton.GetComponentInChildren<TextMeshProUGUI>();
-        signUpButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SignUp);
+        signUpButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SIGN_UP);
     }
     public void createCreateNamePanel(string username, string password)
     {

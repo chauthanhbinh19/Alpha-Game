@@ -38,7 +38,7 @@ public class MainMenuBlessingManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.Blessing);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.BLESSING);
         parentType = AppConstants.MainMenuSet1.BLESSING;
         UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();

@@ -108,5 +108,13 @@ public class CardMonster : CardBase
         this.CurrentNormalResistanceRate = cardMonsters.NormalResistanceRate;
         this.CurrentSkillDamageRate = cardMonsters.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardMonsters.SkillResistanceRate;
+
+        // Parse position code "x-y"
+        string[] parts = cardMonsters.Position.Split('-');
+        if (parts.Length == 2)
+        {
+            this.MainPosition = int.Parse(parts[0]);
+            this.SubIndex = int.Parse(parts[1]);
+        }
     }
 }

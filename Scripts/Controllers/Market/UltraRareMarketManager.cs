@@ -79,7 +79,7 @@ public class UltraRareMarketManager : MonoBehaviour
             Close(MainPanel);
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.UltraRareMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.ULTRA_RARE_MARKET);
 
         var currencies = CurrencyService.Create()
             .GetCurrencyList()
@@ -138,7 +138,7 @@ public class UltraRareMarketManager : MonoBehaviour
             ChangePreviousPage();
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.UltraRareMarket);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.ULTRA_RARE_MARKET);
 
         items = ItemsService.Create().GetItems()
             .Where(item => item.Type.Equals(AppConstants.Market.ULTRA_RARE_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))

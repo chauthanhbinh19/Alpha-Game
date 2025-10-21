@@ -108,5 +108,13 @@ public class CardGeneral : CardBase
         this.CurrentNormalResistanceRate = cardGenerals.NormalResistanceRate;
         this.CurrentSkillDamageRate = cardGenerals.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardGenerals.SkillResistanceRate;
+
+        // Parse position code "x-y"
+        string[] parts = cardGenerals.Position.Split('-');
+        if (parts.Length == 2)
+        {
+            this.MainPosition = int.Parse(parts[0]);
+            this.SubIndex = int.Parse(parts[1]);
+        }
     }
 }

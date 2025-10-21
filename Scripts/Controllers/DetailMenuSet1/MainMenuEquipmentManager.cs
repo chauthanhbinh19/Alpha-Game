@@ -50,7 +50,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         set = "set1";
-        rare = AppConstants.Rare.All;
+        rare = AppConstants.Rare.ALL;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuEquipmentPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuEquipmentPanelPrefab");
         PopupEquipmentsPanelPrefab = UIManager.Instance.GetGameObject("PopupEquipmentsPanelPrefab");
@@ -75,7 +75,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.Equipments);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.EQUIPMENTS);
         SetPanel = currentObject.transform.Find("DictionaryCards/SetGroup/Viewport/Content");
         mainImage = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();

@@ -882,6 +882,20 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         return list;
     }
 
+    public List<CardAdmirals> GetUserCardAdmiralsTeamWithoutPosition(string user_id, string teamId)
+    {
+        List<CardAdmirals> list = _userCardAdmiralsRepository.GetUserCardAdmiralsTeamWithoutPosition(user_id, teamId);
+        list = GetAllSpiritBeastPower(user_id, list);
+        list = QualityEvaluator.GetQualityPower(list);
+        list = GetFinalPower(user_id, list);
+        list = GetAllEquipmentPower(user_id, list);
+        list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
+        list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
+        return list;
+    }
+
     public Dictionary<string, int> GetUniqueCardAdmiralTypesTeam(string teamId)
     {
         return _userCardAdmiralsRepository.GetUniqueCardAdmiralTypesTeam(teamId);

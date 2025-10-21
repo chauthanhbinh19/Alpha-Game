@@ -108,5 +108,13 @@ public class CardSpell : CardBase
         this.CurrentNormalResistanceRate = cardSpell.NormalResistanceRate;
         this.CurrentSkillDamageRate = cardSpell.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardSpell.SkillResistanceRate;
+
+        // Parse position code "x-y"
+        string[] parts = cardSpell.Position.Split('-');
+        if (parts.Length == 2)
+        {
+            this.MainPosition = int.Parse(parts[0]);
+            this.SubIndex = int.Parse(parts[1]);
+        }
     }
 }

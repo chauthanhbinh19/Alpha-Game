@@ -799,6 +799,20 @@ public class UserCardMonstersService : IUserCardMonstersService
         return list;
     }
 
+    public List<CardMonsters> GetUserCardMonstersTeamWithoutPosition(string user_id, string teamId)
+    {
+        List<CardMonsters> list = _userCardMonstersRepository.GetUserCardMonstersTeamWithoutPosition(user_id, teamId);
+        list = GetAllSpiritBeastPower(user_id, list);
+        list = QualityEvaluator.GetQualityPower(list);
+        list = GetFinalPower(user_id, list);
+        list = GetAllEquipmentPower(user_id, list);
+        list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
+        list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
+        return list;
+    }
+
     public Dictionary<string, int> GetUniqueCardMonsterTypesTeam(string teamId)
     {
         return _userCardMonstersRepository.GetUniqueCardMonsterTypesTeam(teamId);

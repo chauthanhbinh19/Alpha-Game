@@ -114,7 +114,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Card
             mainType = "CardHeroes";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardHero);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
             UserCardHeroesController.Instance.ShowCardHeroesDetails(cardHeroes, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{cardHeroes.Type}");
             CardBackground.texture = texture;
@@ -130,7 +130,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Book
             mainType = "Books";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Book);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BOOK);
             UserBooksController.Instance.ShowBooksDetails(book, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -145,7 +145,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Captain
             mainType = "CardCaptains";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardCaptain);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
             UserCardCaptainsController.Instance.ShowCardCaptainsDetails(cardCaptains, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{cardCaptains.Type}");
             CardBackground.texture = texture;
@@ -161,7 +161,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Pet
             mainType = "Pets";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Pet);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PET);
             UserPetsController.Instance.ShowPetsDetails(pet, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -176,7 +176,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng CollaborationEquipment
             mainType = "CollaborationEquipments";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CollaborationEquipment);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION_EQUIPMENT);
             UserCollaborationEquipmentController.Instance.ShowCollaborationEquipmentsDetails(collaborationEquipmentsequipment, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -191,7 +191,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Military
             mainType = "CardMilitary";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardMilitary);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
             UserCardMilitaryController.Instance.ShowCardMilitaryDetails(cardMilitary, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{cardMilitary.Type}");
             CardBackground.texture = texture;
@@ -207,7 +207,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Spell
             mainType = "CardSpell";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardSpell);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
             UserCardSpellController.Instance.ShowCardSpellDetails(cardSpell, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -222,7 +222,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Collaboration
             mainType = "Collaborations";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Collaboration);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION);
             UserCollaborationController.Instance.ShowCollaborationsDetails(collaboration, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -237,7 +237,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Monster
             mainType = "CardMonsters";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardMonster);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
             UserCardMonstersController.Instance.ShowCardMonstersDetails(cardMonsters, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -252,7 +252,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Equipment
             mainType = "Equipments";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Equipment);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EQUIPMENT);
             UserEquipmentsController.Instance.ShowEquipmentsDetails(equipment, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -267,7 +267,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Medal
             mainType = "Medals";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Medal);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MEDAL);
             UserMedalsController.Instance.ShowMedalsDetails(medal, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -282,7 +282,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Skill
             mainType = "Skills";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Skill);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SKILL);
             UserSkillsController.Instance.ShowSkillsDetails(skill, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -297,7 +297,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Symbol
             mainType = "Symbols";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Symbol);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SYMBOL);
             UserSymbolsController.Instance.ShowSymbolsDetails(symbol, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -312,7 +312,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Title
             mainType = "Titles";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Title);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TITLE);
             UserTitlesController.Instance.ShowTitlesDetails(title, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -327,7 +327,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Title
             mainType = "MagicFormationCircle";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MagicFormationCircle);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MAGIC_FORMATION_CIRCLE);
             UserMagicFormationCircleController.Instance.ShowMagicFormationCircleDetails(magicFormationCircle, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -342,7 +342,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Title
             mainType = "Relics";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Relic);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RELIC);
             UserRelicsController.Instance.ShowRelicsDetails(relics, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -357,7 +357,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng colonels
             mainType = "CardColonels";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardColonel);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
             UserCardColonelsController.Instance.ShowCardColonelsDetails(cardColonels, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{cardColonels.Type}");
             CardBackground.texture = texture;
@@ -373,7 +373,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng Generals
             mainType = "CardGenerals";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardGeneral);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
             UserCardGeneralsController.Instance.ShowCardGeneralsDetails(cardGenerals, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{cardGenerals.Type}");
             CardBackground.texture = texture;
@@ -389,7 +389,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng admirals
             mainType = "CardAdmirals";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardAdmiral);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
             UserCardAdmiralsController.Instance.ShowCardAdmiralsDetails(cardAdmirals, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{cardAdmirals.Type}");
             CardBackground.texture = texture;
@@ -410,7 +410,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng achievements
             mainType = "Achievements";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Alchievement);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ACHIEVEMENT);
             UserAchievementsController.Instance.ShowAchievementsDetails(achievements, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -425,7 +425,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng achievements
             mainType = "Talisman";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Talisman);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TALISMAN);
             UserTalismanController.Instance.ShowTalismanDetails(talisman, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -440,7 +440,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng achievements
             mainType = "Puppet";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Puppet);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PUPPET);
             UserPuppetController.Instance.ShowPuppetDetails(puppet, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -455,7 +455,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng achievements
             mainType = "Alchemy";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Alchemy);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ALCHEMY);
             UserAlchemyController.Instance.ShowAlchemyDetails(alchemy, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -470,7 +470,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng achievements
             mainType = "Forge";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Forge);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FORGE);
             UserForgeController.Instance.ShowForgeDetails(forge, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -485,7 +485,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng achievements
             mainType = "CardLife";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CardLife);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_LIFE);
             UserCardLifeController.Instance.ShowCardLifeDetails(cardLife, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -500,7 +500,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng achievements
             mainType = "Artwork";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.Artwork);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARTWORK);
             UserArtworkController.Instance.ShowArtworkDetails(artwork, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;
@@ -515,7 +515,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             // Xử lý đối tượng achievements
             mainType = "SpiritBeast";
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SpiritBeast);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SPIRIT_BEAST);
             UserSpiritBeastController.Instance.ShowSpiritBeastDetails(spiritBeast, currentObject);
             Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
             CardBackground.texture = texture;

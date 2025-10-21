@@ -10,6 +10,7 @@ public interface IUserCardGeneralsService
     CardGenerals GetNewBreakthroughPower(CardGenerals c, double coefficient);
     List<CardGenerals> GetUserCardGenerals(string user_id, string type, int pageSize, int offset, string rare);
     List<CardGenerals> GetUserCardGeneralsTeam(string user_id, string teamId, string position);
+    List<CardGenerals> GetUserCardGeneralsTeamWithoutPosition(string user_id, string teamId);
     int GetUserCardGeneralsTeamsPositionCount(string user_id, string team_id, string position);
     Dictionary<string, int> GetUniqueCardGeneralTypesTeam(string teamId);
     bool UpdateTeamCardGenerals(string team_id, string position, string card_id);

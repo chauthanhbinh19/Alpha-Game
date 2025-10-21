@@ -4,6 +4,7 @@ public interface IUserCardColonelsRepository
 {
     List<CardColonels> GetUserCardColonels(string user_id, string type, int pageSize, int offset, string rare);
     List<CardColonels> GetUserCardColonelsTeam(string user_id, string teamId, string position);
+    List<CardColonels> GetUserCardColonelsTeamWithoutPosition(string user_id, string teamId);
     Dictionary<string, int> GetUniqueCardColonelTypesTeam(string teamId);
     int GetUserCardColonelsCount(string user_id, string type, string rare);
     int GetUserCardColonelsTeamsPositionCount(string user_id, string team_id, string position);

@@ -4,6 +4,7 @@ public interface IUserCardMonstersRepository
 {
     List<CardMonsters> GetUserCardMonsters(string user_id, string type, int pageSize, int offset, string rare);
     List<CardMonsters> GetUserCardMonstersTeam(string user_id, string teamId, string position);
+    List<CardMonsters> GetUserCardMonstersTeamWithoutPosition(string user_id, string teamId);
     Dictionary<string, int> GetUniqueCardMonsterTypesTeam(string teamId);
     int GetUserCardMonstersCount(string user_id, string type, string rare);
     int GetUserCardMonstersTeamsPositionCount(string user_id, string team_id, string position);

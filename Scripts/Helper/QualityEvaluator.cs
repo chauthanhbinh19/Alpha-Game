@@ -65,7 +65,7 @@ public static class QualityEvaluator
     };
     public static List<string> rarities = new List<string>
     {
-        AppConstants.Rare.All,
+        AppConstants.Rare.ALL,
         AppConstants.Rare.SR,
         AppConstants.Rare.SSR,
         AppConstants.Rare.UR,

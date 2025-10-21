@@ -108,6 +108,14 @@ public class CardHero : CardBase
         this.CurrentNormalResistanceRate = cardHeroes.NormalResistanceRate;
         this.CurrentSkillDamageRate = cardHeroes.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardHeroes.SkillResistanceRate;
+
+        // Parse position code "x-y"
+        string[] parts = cardHeroes.Position.Split('-');
+        if (parts.Length == 2)
+        {
+            this.MainPosition = int.Parse(parts[0]);
+            this.SubIndex = int.Parse(parts[1]);
+        }
     }
 
     // public void Attack(CardBase target)

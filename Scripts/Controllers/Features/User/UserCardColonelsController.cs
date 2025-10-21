@@ -732,7 +732,7 @@ public class UserCardColonelsController : MonoBehaviour
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardColonelsSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
 
-        int totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.All);
+        int totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.ALL);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -818,7 +818,7 @@ public class UserCardColonelsController : MonoBehaviour
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.All);
+            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.ALL);
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage + 1;
             offset = offset + pageSize;
@@ -836,7 +836,7 @@ public class UserCardColonelsController : MonoBehaviour
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.All);
+            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.ALL);
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage - 1;
             offset = offset - pageSize;

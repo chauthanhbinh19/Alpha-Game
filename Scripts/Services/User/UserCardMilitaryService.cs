@@ -801,6 +801,20 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         return list;
     }
 
+    public List<CardMilitaries> GetUserCardMilitaryTeamWithoutPosition(string user_id, string teamId)
+    {
+        List<CardMilitaries> list = _userCardMilitaryRepository.GetUserCardMilitaryTeamWithoutPosition(user_id, teamId);
+        list = GetAllSpiritBeastPower(user_id, list);
+        list = QualityEvaluator.GetQualityPower(list);
+        list = GetFinalPower(user_id, list);
+        list = GetAllEquipmentPower(user_id, list);
+        list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
+        list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
+        return list;
+    }
+
     public Dictionary<string, int> GetUniqueCardMilitaryTypesTeam(string teamId)
     {
         return _userCardMilitaryRepository.GetUniqueCardMilitaryTypesTeam(teamId);

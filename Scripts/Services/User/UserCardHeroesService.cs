@@ -801,6 +801,20 @@ public class UserCardHeroesService : IUserCardHeroesService
         return list;
     }
 
+    public List<CardHeroes> GetUserCardHeroesTeamWithoutPosition(string user_id, string teamId)
+    {
+        List<CardHeroes> list = _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPosition(user_id, teamId);
+        list = GetAllSpiritBeastPower(user_id, list);
+        list = QualityEvaluator.GetQualityPower(list);
+        list = GetFinalPower(user_id, list);
+        list = GetAllEquipmentPower(user_id, list);
+        list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
+        list = GetAllAnimeStatsPower(user_id, list);
+        list = GetScienceFictionPower(user_id, list);
+        return list;
+    }
+
     public Dictionary<string, int> GetUniqueCardHeroTypesTeam(string teamId)
     {
         return _userCardHeroesRepository.GetUniqueCardHeroTypesTeam(teamId);
