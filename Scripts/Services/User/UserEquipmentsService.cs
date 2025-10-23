@@ -16,23 +16,20 @@ public class UserEquipmentsService : IUserEquipmentsService
 
     public List<Equipments> GetAllRankPower(string user_id, List<Equipments> EquipmentsList)
     {
-        IUserEquipmentsRankRepository userEquipmentsRankRepository = new UserEquipmentsRankRepository();
-        UserEquipmentsRankService userEquipmentsService = new UserEquipmentsRankService(userEquipmentsRankRepository);
         foreach (var c in EquipmentsList)
         {
-            Equipments card = _userEquipmentsRepository.GetUserEquipmentsById(user_id, c.Id);
-            Rank rank = userEquipmentsService.GetSumEquipmentsRank(user_id, c.Id);
-            c.Health = c.Health + rank.Health + card.Health * rank.PercentAllHealth / 100;
-            c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + card.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
-            c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + card.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
-            c.MagicalAttack = c.MagicalAttack + rank.MagicalAttack + card.MagicalAttack * rank.PercentAllMagicalAttack / 100;
-            c.MagicalDefense = c.MagicalDefense + rank.MagicalDefense + card.MagicalDefense * rank.PercentAllMagicalDefense / 100;
-            c.ChemicalAttack = c.ChemicalAttack + rank.ChemicalAttack + card.ChemicalAttack * rank.PercentAllChemicalAttack / 100;
-            c.ChemicalDefense = c.ChemicalDefense + rank.ChemicalDefense + card.ChemicalDefense * rank.PercentAllChemicalDefense / 100;
-            c.AtomicAttack = c.AtomicAttack + rank.AtomicAttack + card.AtomicAttack * rank.PercentAllAtomicAttack / 100;
-            c.AtomicDefense = c.AtomicDefense + rank.AtomicDefense + card.AtomicDefense * rank.PercentAllAtomicDefense / 100;
-            c.MentalAttack = c.MentalAttack + rank.MentalAttack + card.MentalAttack * rank.PercentAllMentalAttack / 100;
-            c.MentalDefense = c.MentalDefense + rank.MentalDefense + card.MentalDefense * rank.PercentAllMentalDefense / 100;
+            Rank rank = UserEquipmentsRankService.Create().GetSumEquipmentsRank(user_id, c.Id);
+            c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + rank.MagicalAttack + c.BaseStats.MagicalAttack * rank.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + rank.MagicalDefense + c.BaseStats.MagicalDefense * rank.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + rank.ChemicalAttack + c.BaseStats.ChemicalAttack * rank.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + rank.ChemicalDefense + c.BaseStats.ChemicalDefense * rank.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + rank.AtomicAttack + c.BaseStats.AtomicAttack * rank.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + rank.AtomicDefense + c.BaseStats.AtomicDefense * rank.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + rank.MentalAttack + c.BaseStats.MentalAttack * rank.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + rank.MentalDefense + c.BaseStats.MentalDefense * rank.PercentAllMentalDefense / 100;
             c.Speed = c.Speed + rank.Speed;
             c.CriticalDamageRate = c.CriticalDamageRate + rank.CriticalDamageRate;
             c.CriticalRate = c.CriticalRate + rank.CriticalRate;

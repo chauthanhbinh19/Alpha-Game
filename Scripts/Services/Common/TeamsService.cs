@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using MySql.Data.MySqlClient;
 
 public class TeamsService : ITeamsService
@@ -26,58 +27,22 @@ public class TeamsService : ITeamsService
 
     public double GetTeamsPower(string user_id)
     {
-        double totalPower = 0;
         List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetAllUserCardHeroesInTeam(user_id);
-        List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetAllUserCardCaptainsInTeam(user_id);
-        List<CardColonels> cardColonels = UserCardColonelsService.Create().GetAllUserCardColonelsInTeam(user_id);
-        List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetAllUserCardGeneralsInTeam(user_id);
-        List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetAllUserCardAdmiralsInTeam(user_id);
-        List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetAllUserCardMonstersInTeam(user_id);
-        List<CardMilitaries> cardMilitaries = UserCardMilitaryService.Create().GetAllUserCardMilitaryInTeam(user_id);
-        List<CardSpells> cardSpells = UserCardSpellService.Create().GetAllUserCardSpellInTeam(user_id);
-        List<Books> books = UserBooksService.Create().GetAllUserBooksInTeam(user_id);
-        List<Pets> pets = UserPetsService.Create().GetAllUserPetsInTeam(user_id);
 
-        foreach (CardHeroes c in cardHeroes)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (CardCaptains c in cardCaptains)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (CardColonels c in cardColonels)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (CardGenerals c in cardGenerals)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (CardAdmirals c in cardAdmirals)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (CardMonsters c in cardMonsters)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (CardMilitaries c in cardMilitaries)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (CardSpells c in cardSpells)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (Books c in books)
-        {
-            totalPower = totalPower + c.Power;
-        }
-        foreach (Pets c in pets)
-        {
-            totalPower = totalPower + c.Power;
-        }
+        double totalPower = 0;
+
+        // Sử dụng Sum() của LINQ
+        totalPower += cardHeroes.Sum(c => c.Power);
+        totalPower += UserCardCaptainsService.Create().GetAllUserCardCaptainsInTeam(user_id).Sum(c => c.Power);
+        totalPower += UserCardColonelsService.Create().GetAllUserCardColonelsInTeam(user_id).Sum(c => c.Power);
+        totalPower += UserCardGeneralsService.Create().GetAllUserCardGeneralsInTeam(user_id).Sum(c => c.Power);
+        totalPower += UserCardAdmiralsService.Create().GetAllUserCardAdmiralsInTeam(user_id).Sum(c => c.Power);
+        totalPower += UserCardMonstersService.Create().GetAllUserCardMonstersInTeam(user_id).Sum(c => c.Power);
+        totalPower += UserCardMilitaryService.Create().GetAllUserCardMilitaryInTeam(user_id).Sum(c => c.Power);
+        totalPower += UserCardSpellService.Create().GetAllUserCardSpellInTeam(user_id).Sum(c => c.Power);
+        totalPower += UserBooksService.Create().GetAllUserBooksInTeam(user_id).Sum(c => c.Power);
+        totalPower += UserPetsService.Create().GetAllUserPetsInTeam(user_id).Sum(c => c.Power);
+
         return totalPower;
     }
 }

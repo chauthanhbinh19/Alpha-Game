@@ -396,10 +396,10 @@ public static class AppDisplayConstants
     }
     public static class Equipment
     {
-        public const string Amnitus = "Equipment.AmnitusEquipment";
-        public const string Angelis = "Equipment.AngelisEquipment";
-        public const string Bellion = "Equipment.BellionEquipment";
-        public const string Benzamin = "Equipment.BenzaminEquipment";
+        public const string AMNITUS = "Equipment.AmnitusEquipment";
+        public const string ANGELIS = "Equipment.AngelisEquipment";
+        public const string BELLION = "Equipment.BellionEquipment";
+        public const string BENZAMIN = "Equipment.BenzaminEquipment";
         public const string Celestial = "Equipment.CelestialEquipment";
         public const string Ceverus = "Equipment.CeverusEquipment";
         public const string Delius = "Equipment.DeliusEquipment";

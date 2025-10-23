@@ -5,6 +5,7 @@ public class CardSpell : CardBase
     {
         // copy thuộc tính từ CardBase
         this.CardName = cardSpell.Name;
+        this.Image = cardSpell.Image;
         this.Type = cardSpell.Type;
         this.Rare = cardSpell.Rare;
         this.Power = cardSpell.Power;

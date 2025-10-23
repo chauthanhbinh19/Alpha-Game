@@ -5,6 +5,7 @@ public class CardColonel : CardBase
     {
         // copy thuộc tính từ CardBase
         this.CardName = cardColonels.Name;
+        this.Image = cardColonels.Image;
         this.Type = cardColonels.Type;
         this.Rare = cardColonels.Rare;
         this.Power = cardColonels.Power;

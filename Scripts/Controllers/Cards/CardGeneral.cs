@@ -5,6 +5,7 @@ public class CardGeneral : CardBase
     {
         // copy thuộc tính từ CardBase
         this.CardName = cardGenerals.Name;
+        this.Image = cardGenerals.Image;
         this.Type = cardGenerals.Type;
         this.Rare = cardGenerals.Rare;
         this.Power = cardGenerals.Power;

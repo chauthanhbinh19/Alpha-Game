@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public abstract class CardBase : MonoBehaviour
 {
     [SerializeField] public string CardName { get; set; }
+    [SerializeField] public string Image { get; set; }
     [SerializeField] public string Type { get; set; }
     [SerializeField] public string Rare { get; set; }
     [SerializeField] public double Power { get; set; } = 0;

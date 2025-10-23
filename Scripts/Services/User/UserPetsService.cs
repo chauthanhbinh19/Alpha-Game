@@ -16,25 +16,20 @@ public class UserPetsService : IUserPetsService
 
     public List<Pets> GetFinalPower(string user_id, List<Pets> PetsList)
     {
-        // PowerManager powerManager = new PowerManager();
-        IPowerManagerRepository powerManagerRepository = new PowerManagerRepository();
-        PowerManagerService powerManagerService = new PowerManagerService(powerManagerRepository);
-        PowerManager powerManager = powerManagerService.GetUserStats(user_id);
+        PowerManager powerManager = PowerManagerService.Create().GetUserStats(user_id);
         foreach (var c in PetsList)
         {
-            // Pets card = new Pets();
-            Pets card = _userPetsRepository.GetUserPetsById(user_id, c.Id);
-            c.Health = c.Health + powerManager.Health + card.Health * powerManager.PercentAllHealth / 100;
-            c.PhysicalAttack = c.PhysicalAttack + powerManager.PhysicalAttack + card.PhysicalAttack * powerManager.PercentAllPhysicalAttack / 100;
-            c.PhysicalDefense = c.PhysicalDefense + powerManager.PhysicalDefense + card.PhysicalDefense * powerManager.PercentAllPhysicalDefense / 100;
-            c.MagicalAttack = c.MagicalAttack + powerManager.MagicalAttack + card.MagicalAttack * powerManager.PercentAllMagicalAttack / 100;
-            c.MagicalDefense = c.MagicalDefense + powerManager.MagicalDefense + card.MagicalDefense * powerManager.PercentAllMagicalDefense / 100;
-            c.ChemicalAttack = c.ChemicalAttack + powerManager.ChemicalAttack + card.ChemicalAttack * powerManager.PercentAllChemicalAttack / 100;
-            c.ChemicalDefense = c.ChemicalDefense + powerManager.ChemicalDefense + card.ChemicalDefense * powerManager.PercentAllChemicalDefense / 100;
-            c.AtomicAttack = c.AtomicAttack + powerManager.AtomicAttack + card.AtomicAttack * powerManager.PercentAllAtomicAttack / 100;
-            c.AtomicDefense = c.AtomicDefense + powerManager.AtomicDefense + card.AtomicDefense * powerManager.PercentAllAtomicDefense / 100;
-            c.MentalAttack = c.MentalAttack + powerManager.MentalAttack + card.MentalAttack * powerManager.PercentAllMentalAttack / 100;
-            c.MentalDefense = c.MentalDefense + powerManager.MentalDefense + card.MentalDefense * powerManager.PercentAllMentalDefense / 100;
+            c.Health = c.Health + powerManager.Health + c.BaseStats.Health * powerManager.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + powerManager.PhysicalAttack + c.BaseStats.PhysicalAttack * powerManager.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + powerManager.PhysicalDefense + c.BaseStats.PhysicalDefense * powerManager.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + powerManager.MagicalAttack + c.BaseStats.MagicalAttack * powerManager.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + powerManager.MagicalDefense + c.BaseStats.MagicalDefense * powerManager.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + powerManager.ChemicalAttack + c.BaseStats.ChemicalAttack * powerManager.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + powerManager.ChemicalDefense + c.BaseStats.ChemicalDefense * powerManager.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + powerManager.AtomicAttack + c.BaseStats.AtomicAttack * powerManager.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + powerManager.AtomicDefense + c.BaseStats.AtomicDefense * powerManager.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + powerManager.MentalAttack + c.BaseStats.MentalAttack * powerManager.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + powerManager.MentalDefense + c.BaseStats.MentalDefense * powerManager.PercentAllMentalDefense / 100;
             c.Speed = c.Speed + powerManager.Speed;
             c.CriticalDamageRate = c.CriticalDamageRate + powerManager.CriticalDamageRate;
             c.CriticalRate = c.CriticalRate + powerManager.CriticalRate;
@@ -105,19 +100,17 @@ public class UserPetsService : IUserPetsService
         ScienceFiction scienceFiction = ScienceFictionService.Create().GetSumScienceFiction(user_id);
         foreach (var c in PetsList)
         {
-            // Pets card = new Pets();
-            Pets card = _userPetsRepository.GetUserPetsById(user_id, c.Id);
-            c.Health = c.Health + scienceFiction.Health + card.Health * scienceFiction.PercentAllHealth / 100;
-            c.PhysicalAttack = c.PhysicalAttack + scienceFiction.PhysicalAttack + card.PhysicalAttack * scienceFiction.PercentAllPhysicalAttack / 100;
-            c.PhysicalDefense = c.PhysicalDefense + scienceFiction.PhysicalDefense + card.PhysicalDefense * scienceFiction.PercentAllPhysicalDefense / 100;
-            c.MagicalAttack = c.MagicalAttack + scienceFiction.MagicalAttack + card.MagicalAttack * scienceFiction.PercentAllMagicalAttack / 100;
-            c.MagicalDefense = c.MagicalDefense + scienceFiction.MagicalDefense + card.MagicalDefense * scienceFiction.PercentAllMagicalDefense / 100;
-            c.ChemicalAttack = c.ChemicalAttack + scienceFiction.ChemicalAttack + card.ChemicalAttack * scienceFiction.PercentAllChemicalAttack / 100;
-            c.ChemicalDefense = c.ChemicalDefense + scienceFiction.ChemicalDefense + card.ChemicalDefense * scienceFiction.PercentAllChemicalDefense / 100;
-            c.AtomicAttack = c.AtomicAttack + scienceFiction.AtomicAttack + card.AtomicAttack * scienceFiction.PercentAllAtomicAttack / 100;
-            c.AtomicDefense = c.AtomicDefense + scienceFiction.AtomicDefense + card.AtomicDefense * scienceFiction.PercentAllAtomicDefense / 100;
-            c.MentalAttack = c.MentalAttack + scienceFiction.MentalAttack + card.MentalAttack * scienceFiction.PercentAllMentalAttack / 100;
-            c.MentalDefense = c.MentalDefense + scienceFiction.MentalDefense + card.MentalDefense * scienceFiction.PercentAllMentalDefense / 100;
+            c.Health = c.Health + scienceFiction.Health + c.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + scienceFiction.PhysicalAttack + c.BaseStats.PhysicalAttack * scienceFiction.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + scienceFiction.PhysicalDefense + c.BaseStats.PhysicalDefense * scienceFiction.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + scienceFiction.MagicalAttack + c.BaseStats.MagicalAttack * scienceFiction.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + scienceFiction.MagicalDefense + c.BaseStats.MagicalDefense * scienceFiction.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + scienceFiction.ChemicalAttack + c.BaseStats.ChemicalAttack * scienceFiction.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + scienceFiction.ChemicalDefense + c.BaseStats.ChemicalDefense * scienceFiction.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + scienceFiction.AtomicAttack + c.BaseStats.AtomicAttack * scienceFiction.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + scienceFiction.AtomicDefense + c.BaseStats.AtomicDefense * scienceFiction.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + scienceFiction.MentalAttack + c.BaseStats.MentalAttack * scienceFiction.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + scienceFiction.MentalDefense + c.BaseStats.MentalDefense * scienceFiction.PercentAllMentalDefense / 100;
             c.Speed = c.Speed + scienceFiction.Speed;
             c.CriticalDamageRate = c.CriticalDamageRate + scienceFiction.CriticalDamageRate;
             c.CriticalRate = c.CriticalRate + scienceFiction.CriticalRate;
@@ -185,12 +178,9 @@ public class UserPetsService : IUserPetsService
     }
     public List<Pets> GetAllEquipmentPower(string user_id, List<Pets> PetsList)
     {
-        Equipments equipments = new Equipments();
-        IUserEquipmentsRepository userEquipmentsRepository = new UserEquipmentsRepository();
-        UserEquipmentsService userEquipmentsService = new UserEquipmentsService(userEquipmentsRepository);
         foreach (var c in PetsList)
         {
-            equipments = userEquipmentsService.GetAllEquipmentsByPetsId(user_id, c.Id);
+            Equipments equipments = UserEquipmentsService.Create().GetAllEquipmentsByPetsId(user_id, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
@@ -269,23 +259,20 @@ public class UserPetsService : IUserPetsService
     }
     public List<Pets> GetAllRankPower(string user_id, List<Pets> PetsList)
     {
-        IUserPetsRankRepository userPetsRankRepository = new UserPetsRankRepository();
-        UserPetsRankService userPetsRankService = new UserPetsRankService(userPetsRankRepository);
         foreach (var c in PetsList)
         {
-            Pets card = _userPetsRepository.GetUserPetsById(user_id, c.Id);
-            Rank rank = userPetsRankService.GetSumPetsRank(user_id, c.Id);
-            c.Health = c.Health + rank.Health + card.Health * rank.PercentAllHealth / 100;
-            c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + card.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
-            c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + card.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
-            c.MagicalAttack = c.MagicalAttack + rank.MagicalAttack + card.MagicalAttack * rank.PercentAllMagicalAttack / 100;
-            c.MagicalDefense = c.MagicalDefense + rank.MagicalDefense + card.MagicalDefense * rank.PercentAllMagicalDefense / 100;
-            c.ChemicalAttack = c.ChemicalAttack + rank.ChemicalAttack + card.ChemicalAttack * rank.PercentAllChemicalAttack / 100;
-            c.ChemicalDefense = c.ChemicalDefense + rank.ChemicalDefense + card.ChemicalDefense * rank.PercentAllChemicalDefense / 100;
-            c.AtomicAttack = c.AtomicAttack + rank.AtomicAttack + card.AtomicAttack * rank.PercentAllAtomicAttack / 100;
-            c.AtomicDefense = c.AtomicDefense + rank.AtomicDefense + card.AtomicDefense * rank.PercentAllAtomicDefense / 100;
-            c.MentalAttack = c.MentalAttack + rank.MentalAttack + card.MentalAttack * rank.PercentAllMentalAttack / 100;
-            c.MentalDefense = c.MentalDefense + rank.MentalDefense + card.MentalDefense * rank.PercentAllMentalDefense / 100;
+            Rank rank = UserPetsRankService.Create().GetSumPetsRank(user_id, c.Id);
+            c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + rank.MagicalAttack + c.BaseStats.MagicalAttack * rank.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + rank.MagicalDefense + c.BaseStats.MagicalDefense * rank.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + rank.ChemicalAttack + c.BaseStats.ChemicalAttack * rank.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + rank.ChemicalDefense + c.BaseStats.ChemicalDefense * rank.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + rank.AtomicAttack + c.BaseStats.AtomicAttack * rank.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + rank.AtomicDefense + c.BaseStats.AtomicDefense * rank.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + rank.MentalAttack + c.BaseStats.MentalAttack * rank.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + rank.MentalDefense + c.BaseStats.MentalDefense * rank.PercentAllMentalDefense / 100;
             c.Speed = c.Speed + rank.Speed;
             c.CriticalDamageRate = c.CriticalDamageRate + rank.CriticalDamageRate;
             c.CriticalRate = c.CriticalRate + rank.CriticalRate;
@@ -353,23 +340,20 @@ public class UserPetsService : IUserPetsService
     }
     public List<Pets> GetAllMasterPower(string user_id, List<Pets> PetsList)
     {
-        IUserPetsMasterRepository userPetsMasterRepository = new UserPetsMasterRepository();
-        UserPetsMasterService userPetsMasterService = new UserPetsMasterService(userPetsMasterRepository);
         foreach (var c in PetsList)
         {
-            Pets card = _userPetsRepository.GetUserPetsById(user_id, c.Id);
-            Master master = userPetsMasterService.GetSumPetsMaster(user_id, c.Id);
-            c.Health = c.Health + master.Health + card.Health * master.PercentAllHealth / 100;
-            c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + card.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
-            c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + card.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
-            c.MagicalAttack = c.MagicalAttack + master.MagicalAttack + card.MagicalAttack * master.PercentAllMagicalAttack / 100;
-            c.MagicalDefense = c.MagicalDefense + master.MagicalDefense + card.MagicalDefense * master.PercentAllMagicalDefense / 100;
-            c.ChemicalAttack = c.ChemicalAttack + master.ChemicalAttack + card.ChemicalAttack * master.PercentAllChemicalAttack / 100;
-            c.ChemicalDefense = c.ChemicalDefense + master.ChemicalDefense + card.ChemicalDefense * master.PercentAllChemicalDefense / 100;
-            c.AtomicAttack = c.AtomicAttack + master.AtomicAttack + card.AtomicAttack * master.PercentAllAtomicAttack / 100;
-            c.AtomicDefense = c.AtomicDefense + master.AtomicDefense + card.AtomicDefense * master.PercentAllAtomicDefense / 100;
-            c.MentalAttack = c.MentalAttack + master.MentalAttack + card.MentalAttack * master.PercentAllMentalAttack / 100;
-            c.MentalDefense = c.MentalDefense + master.MentalDefense + card.MentalDefense * master.PercentAllMentalDefense / 100;
+            Master master = UserPetsMasterService.Create().GetSumPetsMaster(user_id, c.Id);
+            c.Health = c.Health + master.Health + c.BaseStats.Health * master.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + c.BaseStats.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + c.BaseStats.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + master.MagicalAttack + c.BaseStats.MagicalAttack * master.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + master.MagicalDefense + c.BaseStats.MagicalDefense * master.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + master.ChemicalAttack + c.BaseStats.ChemicalAttack * master.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + master.ChemicalDefense + c.BaseStats.ChemicalDefense * master.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + master.AtomicAttack + c.BaseStats.AtomicAttack * master.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + master.AtomicDefense + c.BaseStats.AtomicDefense * master.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + master.MentalAttack + c.BaseStats.MentalAttack * master.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + master.MentalDefense + c.BaseStats.MentalDefense * master.PercentAllMentalDefense / 100;
             c.Speed = c.Speed + master.Speed;
             c.CriticalDamageRate = c.CriticalDamageRate + master.CriticalDamageRate;
             c.CriticalRate = c.CriticalRate + master.CriticalRate;
@@ -437,23 +421,20 @@ public class UserPetsService : IUserPetsService
     }
     public List<Pets> GetAllAnimeStatsPower(string user_id, List<Pets> PetsList)
     {
-        IAnimeStatsRepository animeStatsRepository = new AnimeStatsRepository();
-        AnimeStatsService animeStatsService = new AnimeStatsService(animeStatsRepository);
         foreach (var c in PetsList)
         {
-            Pets card = _userPetsRepository.GetUserPetsById(user_id, c.Id);
-            AnimeStats animeStats = animeStatsService.GetSumAnimeStats(user_id);
-            c.Health = c.Health + animeStats.Health + card.Health * animeStats.PercentAllHealth / 100;
-            c.PhysicalAttack = c.PhysicalAttack + animeStats.PhysicalAttack + card.PhysicalAttack * animeStats.PercentAllPhysicalAttack / 100;
-            c.PhysicalDefense = c.PhysicalDefense + animeStats.PhysicalDefense + card.PhysicalDefense * animeStats.PercentAllPhysicalDefense / 100;
-            c.MagicalAttack = c.MagicalAttack + animeStats.MagicalAttack + card.MagicalAttack * animeStats.PercentAllMagicalAttack / 100;
-            c.MagicalDefense = c.MagicalDefense + animeStats.MagicalDefense + card.MagicalDefense * animeStats.PercentAllMagicalDefense / 100;
-            c.ChemicalAttack = c.ChemicalAttack + animeStats.ChemicalAttack + card.ChemicalAttack * animeStats.PercentAllChemicalAttack / 100;
-            c.ChemicalDefense = c.ChemicalDefense + animeStats.ChemicalDefense + card.ChemicalDefense * animeStats.PercentAllChemicalDefense / 100;
-            c.AtomicAttack = c.AtomicAttack + animeStats.AtomicAttack + card.AtomicAttack * animeStats.PercentAllAtomicAttack / 100;
-            c.AtomicDefense = c.AtomicDefense + animeStats.AtomicDefense + card.AtomicDefense * animeStats.PercentAllAtomicDefense / 100;
-            c.MentalAttack = c.MentalAttack + animeStats.MentalAttack + card.MentalAttack * animeStats.PercentAllMentalAttack / 100;
-            c.MentalDefense = c.MentalDefense + animeStats.MentalDefense + card.MentalDefense * animeStats.PercentAllMentalDefense / 100;
+            AnimeStats animeStats = AnimeStatsService.Create().GetSumAnimeStats(user_id);
+            c.Health = c.Health + animeStats.Health + c.BaseStats.Health * animeStats.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + animeStats.PhysicalAttack + c.BaseStats.PhysicalAttack * animeStats.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + animeStats.PhysicalDefense + c.BaseStats.PhysicalDefense * animeStats.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + animeStats.MagicalAttack + c.BaseStats.MagicalAttack * animeStats.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + animeStats.MagicalDefense + c.BaseStats.MagicalDefense * animeStats.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + animeStats.ChemicalAttack + c.BaseStats.ChemicalAttack * animeStats.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + animeStats.ChemicalDefense + c.BaseStats.ChemicalDefense * animeStats.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + animeStats.AtomicAttack + c.BaseStats.AtomicAttack * animeStats.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + animeStats.AtomicDefense + c.BaseStats.AtomicDefense * animeStats.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + animeStats.MentalAttack + c.BaseStats.MentalAttack * animeStats.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + animeStats.MentalDefense + c.BaseStats.MentalDefense * animeStats.PercentAllMentalDefense / 100;
             c.Speed = c.Speed + animeStats.Speed;
             c.CriticalDamageRate = c.CriticalDamageRate + animeStats.CriticalDamageRate;
             c.CriticalRate = c.CriticalRate + animeStats.CriticalRate;

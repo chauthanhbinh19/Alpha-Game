@@ -288,9 +288,6 @@ public class TeamsManager : MonoBehaviour
 
         TextMeshProUGUI typeText = teamsObject.transform.Find("DictionaryCards/TypeText").GetComponent<TextMeshProUGUI>();
 
-        User user = new User();
-        user = UserService.Create().GetUserById(User.CurrentUserId);
-
         CreateButton(1, AppConstants.MainType.CARD_HERO, tempLeftContent);
         CreateButton(2, AppConstants.MainType.CARD_CAPTAIN, tempLeftContent);
         CreateButton(3, AppConstants.MainType.CARD_COLONEL, tempLeftContent);
@@ -302,110 +299,53 @@ public class TeamsManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_1", tempLeftContent, () =>
         {
             mainType = AppConstants.MainType.CARD_HERO;
-            // CreatePosition(positionPanel, user.level, teamsObject);
-            CretaeSlot(teamSlotPanel);
+            CreateSlot(teamSlotPanel);
             typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
-
-            // List<CardHeroes> cardHeroesList = userCardHeroesService.GetUserCardHeroesTeamWithoutPosition(User.CurrentUserId, teamId);
-
-            // List<object> cardObjects = cardHeroesList.Cast<object>().ToList();
-            // CreateCardTeams(cardObjects, choseTeam);
-            // int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName, rare);
-            // totalPage = CalculateTotalPages(totalRecord, team_limit);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", tempLeftContent, () =>
         {
             mainType = AppConstants.MainType.CARD_CAPTAIN;
-            // CreatePosition(positionPanel, user.level, teamsObject);
-            CretaeSlot(teamSlotPanel);
+            CreateSlot(teamSlotPanel);
             typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
-
-            // List<CardCaptains> cardCaptainsList = userCardCaptainsService.GetUserCardCaptains(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
-            // List<object> cardObjects = cardCaptainsList.Cast<object>().ToList();
-            // CreateCardTeams(cardObjects, choseTeam);
-            // int totalRecord = userCardCaptainsService.GetUserCardCaptainsCount(User.CurrentUserId, selectedOptionName, rare);
-            // totalPage = CalculateTotalPages(totalRecord, team_limit);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", tempLeftContent, () =>
         {
             mainType = AppConstants.MainType.CARD_COLONEL;
-            // CreatePosition(positionPanel, user.level, teamsObject);
-            CretaeSlot(teamSlotPanel);
+            CreateSlot(teamSlotPanel);
             typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
-
-            // List<CardColonels> cardColonelsList = userCardColonelsService.GetUserCardColonels(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
-            // List<object> cardObjects = cardColonelsList.Cast<object>().ToList();
-            // CreateCardTeams(cardObjects, choseTeam);
-            // int totalRecord = userCardColonelsService.GetUserCardColonelsCount(User.CurrentUserId, selectedOptionName, rare);
-            // totalPage = CalculateTotalPages(totalRecord, team_limit);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", tempLeftContent, () =>
         {
             mainType = AppConstants.MainType.CARD_GENERAL;
-            // CreatePosition(positionPanel, user.level, teamsObject);
-            CretaeSlot(teamSlotPanel);
+            CreateSlot(teamSlotPanel);
             typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
-
-            // List<CardGenerals> cardGeneralsList = userCardGeneralsService.GetUserCardGenerals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
-            // List<object> cardObjects = cardGeneralsList.Cast<object>().ToList();
-            // CreateCardTeams(cardObjects, choseTeam);
-            // int totalRecord = userCardGeneralsService.GetUserCardGeneralsCount(User.CurrentUserId, selectedOptionName, rare);
-            // totalPage = CalculateTotalPages(totalRecord, team_limit);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_5", tempLeftContent, () =>
         {
             mainType = AppConstants.MainType.CARD_ADMIRAL;
-            // CreatePosition(positionPanel, user.level, teamsObject);
-            CretaeSlot(teamSlotPanel);
+            CreateSlot(teamSlotPanel);
             typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
-
-            // List<CardAdmirals> cardAdmiralsList = userCardAdmiralsService.GetUserCardAdmirals(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
-            // List<object> cardObjects = cardAdmiralsList.Cast<object>().ToList();
-            // CreateCardTeams(cardObjects, choseTeam);
-            // int totalRecord = userCardAdmiralsService.GetUserCardAdmiralsCount(User.CurrentUserId, selectedOptionName, rare);
-            // totalPage = CalculateTotalPages(totalRecord, team_limit);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_6", tempLeftContent, () =>
         {
             mainType = AppConstants.MainType.CARD_MONSTER;
-            // CreatePosition(positionPanel, user.level, teamsObject);
-            CretaeSlot(teamSlotPanel);
+            CreateSlot(teamSlotPanel);
             typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
-
-            // List<CardMonsters> cardMonstersList = userCardMonstersService.GetUserCardMonsters(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
-            // List<object> cardObjects = cardMonstersList.Cast<object>().ToList();
-            // CreateCardTeams(cardObjects, choseTeam);
-            // int totalRecord = userCardMonstersService.GetUserCardMonstersCount(User.CurrentUserId, selectedOptionName, rare);
-            // totalPage = CalculateTotalPages(totalRecord, team_limit);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_7", tempLeftContent, () =>
         {
             mainType = AppConstants.MainType.CARD_MILITARY;
-            // CreatePosition(positionPanel, user.level, teamsObject);
-            CretaeSlot(teamSlotPanel);
+            CreateSlot(teamSlotPanel);
             typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
-
-            // List<CardMilitary> cardMilitaryList = userCardMilitaryService.GetUserCardMilitary(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
-            // List<object> cardObjects = cardMilitaryList.Cast<object>().ToList();
-            // CreateCardTeams(cardObjects, choseTeam);
-            // int totalRecord = userCardMilitaryService.GetUserCardMilitaryCount(User.CurrentUserId, selectedOptionName, rare);
-            // totalPage = CalculateTotalPages(totalRecord, team_limit);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_8", tempLeftContent, () =>
         {
             mainType = AppConstants.MainType.CARD_SPELL;
-            // CreatePosition(positionPanel, user.level, teamsObject);
-            CretaeSlot(teamSlotPanel);
+            CreateSlot(teamSlotPanel);
             typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
-
-            // List<CardSpell> cardSpellList = userCardSpellService.GetUserCardSpell(User.CurrentUserId, selectedOptionName, team_limit, team_offset, rare);
-            // List<object> cardObjects = cardSpellList.Cast<object>().ToList();
-            // CreateCardTeams(cardObjects, choseTeam);
-            // int totalRecord = userCardSpellService.GetUserCardSpellCount(User.CurrentUserId, selectedOptionName, rare);
-            // totalPage = CalculateTotalPages(totalRecord, team_limit);
         });
 
-        CretaeSlot(teamSlotPanel);
+        CreateSlot(teamSlotPanel);
     }
     public void CreatePopupTeamSecondPanel()
     {
@@ -442,8 +382,8 @@ public class TeamsManager : MonoBehaviour
         teamLimit = 10;
         teamOffset = 0;
         int page = 1;
-        User user = new User();
-        user = UserService.Create().GetUserById(User.CurrentUserId);
+        // User user = new User();
+        // user = UserService.Create().GetUserById(User.CurrentUserId);
 
         List<object> cardObjects = new List<object>();
 
@@ -508,7 +448,7 @@ public class TeamsManager : MonoBehaviour
         });
         typeText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
 
-        CreatePosition(positionPanel, user.Level, teamsObject);
+        CreatePosition(positionPanel, teamsObject);
         CreateCardTeams(cardObjects, choseTeam);
         selectedOptionName = dropdownType.options[dropdownType.value].text;
         int totalRecord = userCardHeroesService.GetUserCardHeroesCount(User.CurrentUserId, selectedOptionName, rare);
@@ -701,7 +641,7 @@ public class TeamsManager : MonoBehaviour
             CreateCardTeams(cardObjects, choseTeam);
         }
     }
-    public void CretaeSlot(Transform slotPanel)
+    public void CreateSlot(Transform slotPanel)
     {
         ButtonEvent.Instance.Close(slotPanel);
 
@@ -896,7 +836,7 @@ public class TeamsManager : MonoBehaviour
             }
         }
     }
-    public void CreatePosition(Transform positionPanel, int level, GameObject teamsObject)
+    public void CreatePosition(Transform positionPanel, GameObject teamsObject)
     {
         foreach (Transform child in positionPanel)
         {
@@ -961,7 +901,7 @@ public class TeamsManager : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardHeroesService.UpdateTeamCardHeroes(null, null, matchingCardHero.Id);
                     FindObjectOfType<Power>().ShowPower(currentPower, matchingCardHero.Power, 0);
-                    CreatePosition(positionPanel, level, teamsObject);
+                    CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
 
@@ -979,7 +919,7 @@ public class TeamsManager : MonoBehaviour
                     }
                     dropHandler.OnDropEnd = () =>
                     {
-                        CreatePosition(positionPanel, level, teamsObject);
+                        CreatePosition(positionPanel, teamsObject);
                     };
                 }
             }
@@ -1043,7 +983,7 @@ public class TeamsManager : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardCaptainsService.UpdateTeamCardCaptains(null, null, matchingCardCaptain.Id);
                     FindObjectOfType<Power>().ShowPower(currentPower, matchingCardCaptain.Power, 0);
-                    CreatePosition(positionPanel, level, teamsObject);
+                    CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
 
@@ -1061,7 +1001,7 @@ public class TeamsManager : MonoBehaviour
                     }
                     dropHandler.OnDropEnd = () =>
                     {
-                        CreatePosition(positionPanel, level, teamsObject);
+                        CreatePosition(positionPanel, teamsObject);
                     };
                 }
             }
@@ -1125,7 +1065,7 @@ public class TeamsManager : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardColonelsService.UpdateTeamCardColonels(null, null, matchingCardColonel.Id);
                     FindObjectOfType<Power>().ShowPower(currentPower, matchingCardColonel.Power, 0);
-                    CreatePosition(positionPanel, level, teamsObject);
+                    CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
 
@@ -1143,7 +1083,7 @@ public class TeamsManager : MonoBehaviour
                     }
                     dropHandler.OnDropEnd = () =>
                     {
-                        CreatePosition(positionPanel, level, teamsObject);
+                        CreatePosition(positionPanel, teamsObject);
                     };
                 }
             }
@@ -1207,7 +1147,7 @@ public class TeamsManager : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardGeneralsService.UpdateTeamCardGenerals(null, null, matchingCardGeneral.Id);
                     FindObjectOfType<Power>().ShowPower(currentPower, matchingCardGeneral.Power, 0);
-                    CreatePosition(positionPanel, level, teamsObject);
+                    CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
 
@@ -1225,7 +1165,7 @@ public class TeamsManager : MonoBehaviour
                     }
                     dropHandler.OnDropEnd = () =>
                     {
-                        CreatePosition(positionPanel, level, teamsObject);
+                        CreatePosition(positionPanel, teamsObject);
                     };
                 }
             }
@@ -1289,7 +1229,7 @@ public class TeamsManager : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, matchingCardAdmiral.Id);
                     FindObjectOfType<Power>().ShowPower(currentPower, matchingCardAdmiral.Power, 0);
-                    CreatePosition(positionPanel, level, teamsObject);
+                    CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
 
@@ -1307,7 +1247,7 @@ public class TeamsManager : MonoBehaviour
                     }
                     dropHandler.OnDropEnd = () =>
                     {
-                        CreatePosition(positionPanel, level, teamsObject);
+                        CreatePosition(positionPanel, teamsObject);
                     };
                 }
             }
@@ -1371,7 +1311,7 @@ public class TeamsManager : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardMonstersService.UpdateTeamCardMonsters(null, null, matchingCardMonster.Id);
                     FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMonster.Power, 0);
-                    CreatePosition(positionPanel, level, teamsObject);
+                    CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
 
@@ -1389,7 +1329,7 @@ public class TeamsManager : MonoBehaviour
                     }
                     dropHandler.OnDropEnd = () =>
                     {
-                        CreatePosition(positionPanel, level, teamsObject);
+                        CreatePosition(positionPanel, teamsObject);
                     };
                 }
             }
@@ -1453,7 +1393,7 @@ public class TeamsManager : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardMilitaryService.UpdateTeamCardMilitary(null, null, matchingCardMilitary.Id);
                     FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMilitary.Power, 0);
-                    CreatePosition(positionPanel, level, teamsObject);
+                    CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
 
@@ -1471,7 +1411,7 @@ public class TeamsManager : MonoBehaviour
                     }
                     dropHandler.OnDropEnd = () =>
                     {
-                        CreatePosition(positionPanel, level, teamsObject);
+                        CreatePosition(positionPanel, teamsObject);
                     };
                 }
             }
@@ -1535,7 +1475,7 @@ public class TeamsManager : MonoBehaviour
                     double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     userCardSpellService.UpdateTeamCardSpell(null, null, matchingCardSpell.Id);
                     FindObjectOfType<Power>().ShowPower(currentPower, matchingCardSpell.Power, 0);
-                    CreatePosition(positionPanel, level, teamsObject);
+                    CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
 
@@ -1553,7 +1493,7 @@ public class TeamsManager : MonoBehaviour
                     }
                     dropHandler.OnDropEnd = () =>
                     {
-                        CreatePosition(positionPanel, level, teamsObject);
+                        CreatePosition(positionPanel, teamsObject);
                     };
                 }
             }

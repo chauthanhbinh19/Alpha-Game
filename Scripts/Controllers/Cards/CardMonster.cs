@@ -5,6 +5,7 @@ public class CardMonster : CardBase
     {
         // copy thuộc tính từ CardBase
         this.CardName = cardMonsters.Name;
+        this.Image = cardMonsters.Image;
         this.Type = cardMonsters.Type;
         this.Rare = cardMonsters.Rare;
         this.Power = cardMonsters.Power;

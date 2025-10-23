@@ -50,6 +50,7 @@ public class Equipments : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public int Position { get; set; }
+    public BaseStats BaseStats { get; set; } = new BaseStats();
     public Equipments()
     {
         PercentAllHealth = -1;

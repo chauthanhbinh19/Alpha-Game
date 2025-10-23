@@ -499,6 +499,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Close(MainPanel);
             });
+            Transform scrollView = popupObject.transform.Find("Scroll View");
+            scrollView.gameObject.SetActive(false);
             ButtonLoader.Instance.CreateMoreButton(popupObject.transform.Find("Content"));
             GetMoreButtonEvent(popupObject.transform.Find("Content"));
         }
@@ -1820,6 +1822,15 @@ public class MainMenuManager : MonoBehaviour
                 List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
                 UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
             }
+            else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
+            {
+                totalRecord = UserSpiritCardService.Create().GetUserSpiritCardCount(User.CurrentUserId, subType, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<SpiritCards> spiritCards = UserSpiritCardService.Create().GetUserSpiritCard(User.CurrentUserId, subType, pageSize, offset, rare);
+                UserSpiritCardController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
+            }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -2065,6 +2076,15 @@ public class MainMenuManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
                 UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
+            {
+                totalRecord = UserSpiritCardService.Create().GetUserSpiritCardCount(User.CurrentUserId, subType, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<SpiritCards> spiritCards = UserSpiritCardService.Create().GetUserSpiritCard(User.CurrentUserId, subType, pageSize, offset, rare);
+                UserSpiritCardController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

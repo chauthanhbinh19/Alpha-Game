@@ -36,6 +36,7 @@ public class CardCaptains : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    public BaseStats BaseStats { get; set; } = new BaseStats();
     public CardCaptains()
     {
         Power = -1;

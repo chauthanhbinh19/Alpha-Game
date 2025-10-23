@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class LoadTeams
 {
-    public List<CardBase> LoadPlayerTeamCard(string team_id)
+    public List<CardBase> LoadPlayerTeamCard(string userId, string teamId)
     {
-        var cardHeroesList = UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPosition(User.CurrentUserId, team_id);
-        var cardCaptainsList = UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPosition(User.CurrentUserId, team_id);
-        var cardColonelsList = UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPosition(User.CurrentUserId, team_id);
-        var cardGeneralsList = UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPosition(User.CurrentUserId, team_id);
-        var cardAdmiralsList = UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPosition(User.CurrentUserId, team_id);
-        var cardMonstersList = UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPosition(User.CurrentUserId, team_id);
-        var cardMilitaryList = UserCardMilitaryService.Create().GetUserCardMilitaryTeamWithoutPosition(User.CurrentUserId, team_id);
-        var cardSpellList = UserCardSpellService.Create().GetUserCardSpellTeamWithoutPosition(User.CurrentUserId, team_id);
+        var cardHeroesList = UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPosition(userId, teamId);
+        var cardCaptainsList = UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPosition(userId, teamId);
+        var cardColonelsList = UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPosition(userId, teamId);
+        var cardGeneralsList = UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPosition(userId, teamId);
+        var cardAdmiralsList = UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPosition(userId, teamId);
+        var cardMonstersList = UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPosition(userId, teamId);
+        var cardMilitaryList = UserCardMilitaryService.Create().GetUserCardMilitaryTeamWithoutPosition(userId, teamId);
+        var cardSpellList = UserCardSpellService.Create().GetUserCardSpellTeamWithoutPosition(userId, teamId);
 
         List<CardBase> allCards = new List<CardBase>();
 

@@ -48,7 +48,6 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             object obj = draggedCard.obj;
             string position = draggedCard.mainPosition + "-" + position_id;
-            Teams teams = new Teams();
             if (obj is CardHeroes cardHeroes)
             {
                 double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);

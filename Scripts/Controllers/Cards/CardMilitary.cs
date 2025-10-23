@@ -5,6 +5,7 @@ public class CardMilitary : CardBase
     {
         // copy thuộc tính từ CardBase
         this.CardName = cardMilitary.Name;
+        this.Image = cardMilitary.Image;
         this.Type = cardMilitary.Type;
         this.Rare = cardMilitary.Rare;
         this.Power = cardMilitary.Power;
